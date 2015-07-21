@@ -1,0 +1,102 @@
+# Copyright 2014 The Chromium Authors. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#    * Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above
+# copyright notice, this list of conditions and the following disclaimer
+# in the documentation and/or other materials provided with the
+# distribution.
+#    * Neither the name of Google Inc. nor the names of its
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+cmake_minimum_required(VERSION 2.8)
+
+################################
+# Core Library
+################################
+project(RadarLove)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+file(GLOB RADARLOVE_SRC
+  "Headers/*.h"
+  "Headers/Core/*.h"
+  "Headers/Shell/*.h"
+  "Headers/Host/*.h"
+  "Headers/Compositor/*.h"
+  "Headers/Interface/*.h"
+  "Headers/Geometry/*.h"
+  "Source/*.h"
+  "Source/*.cpp"
+  "Source/Core/*.h"
+  "Source/Core/*.cpp"
+  "Source/Shell/*.h"
+  "Source/Shell/*.cpp"
+  "Source/Host/*.h"
+  "Source/Host/*.cpp"
+  "Source/Compositor/*.h"
+  "Source/Compositor/*.cpp"
+  "Source/Interface/*.h"
+  "Source/Interface/*.cpp"
+  "Source/Geometry/*.h"
+  "Source/Geometry/*.cpp"
+)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  file(GLOB RADARLOVE_SRC_PLATFORM
+    "Source/Core/Apple/*.h"
+    "Source/Core/Apple/*.cpp"
+  )
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  file(GLOB RADARLOVE_SRC_PLATFORM
+    "Source/Core/Linux/*.h"
+    "Source/Core/Linux/*.cpp"
+  )
+endif()
+
+include_directories ("Headers")
+include_directories ("Headers/Core")
+
+add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})
+
+if(UNIX AND NOT APPLE)
+  target_link_libraries(RadarLove rt)
+endif()
+
+################################
+# Google Test
+################################
+
+add_subdirectory (Test/GoogleTest)
+enable_testing ()
+include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+################################
+# Unit Tests
+################################
+
+file(GLOB RADARLOVE_TEST_SRC
+  "Test/*.h"
+  "Test/*.cpp"
+)
+
+include_directories ( Source )
+add_executable( RadarLoveTest ${RADARLOVE_TEST_SRC} )
+target_link_libraries( RadarLoveTest RadarLove gtest gtest_main)
+add_test( RadarLoveTestAll RadarLoveTest )
