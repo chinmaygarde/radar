@@ -6,11 +6,14 @@
 
 using namespace rl;
 
-void Interface::run() {
+void Interface::run(Latch& readyLatch) {
+  auto ready = [&readyLatch]() { readyLatch.countDown(); };
+
   if (_looper != nullptr) {
+    ready();
     return;
   }
 
   _looper = Looper::Current();
-  _looper->loop();
+  _looper->loop(ready);
 }

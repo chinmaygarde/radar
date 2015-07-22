@@ -8,6 +8,7 @@
 #include "Core/Base.h"
 #include "Core/Looper.h"
 #include "Core/Lock.h"
+#include "Core/Latch.h"
 
 #include "Compositor/RenderSurface.h"
 
@@ -17,7 +18,7 @@ class Compositor : RenderSurfaceObserver {
   Compositor(std::shared_ptr<RenderSurface> surface);
   ~Compositor();
 
-  void run();
+  void run(Latch& readyLatch);
 
   bool isRunning() { return _looper != nullptr; }
 

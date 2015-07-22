@@ -8,12 +8,13 @@
 #include "Core/Base.h"
 #include "Core/Looper.h"
 #include "Core/Lock.h"
+#include "Core/Latch.h"
 
 namespace rl {
 class Interface {
  public:
   Interface() : _looper(nullptr), _lock() {}
-  void run();
+  void run(Latch& readyLatch);
 
   bool isRunning() { return _looper != nullptr; }
 

@@ -6,13 +6,14 @@
 #define __RADARLOVE_HOST_HOST__
 
 #include "Core/Base.h"
+#include "Core/Latch.h"
 
 namespace rl {
 class Host {
  public:
   Host() {}
 
-  void run();
+  void run(Latch& readyLatch);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Host);

@@ -11,6 +11,8 @@
 // For setname_np. Can be made portable.
 #include <pthread/pthread.h>
 
+#include <cassert>
+
 using namespace rl;
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface)
@@ -30,16 +32,20 @@ void Shell::attachHostOnCurrentThread() {
 
   _attached = true;
 
+  Latch readyLatch(3);
+
   pthread_setname_np("rl.host");
-  _host->run();
+  _host->run(readyLatch);
 
   _compositorThread = std::move(std::thread([&]() {
     pthread_setname_np("rl.compositor");
-    _compositor->run();
+    _compositor->run(readyLatch);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
     pthread_setname_np("rl.interface");
-    _interface->run();
+    _interface->run(readyLatch);
   }));
+
+  readyLatch.wait();
 }

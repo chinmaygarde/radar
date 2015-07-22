@@ -4,6 +4,8 @@
 
 #include "Compositor/Compositor.h"
 #include "Core/AutoLock.h"
+#include "Core/Guard.h"
+
 #include <cassert>
 
 using namespace rl;
@@ -18,29 +20,27 @@ Compositor::~Compositor() {
   _surface->setObserver(nullptr);
 }
 
-void Compositor::run() {
+void Compositor::run(Latch& readyLatch) {
+  auto ready = [&readyLatch]() { readyLatch.countDown(); };
+
   if (_looper != nullptr) {
+    ready();
     return;
   }
 
   _looper = Looper::Current();
-  _looper->loop();
+
+  _looper->loop(ready);
 }
 
 void Compositor::surfaceWasCreated() {
-  // Needs to be dispatched to the compositors looper
-  assert(_looper && "Looper must be ready");
-  _looper->dispatchAsync([] { printf("Hello 1"); });
+  _looper->dispatchAsync([] {});
 }
 
 void Compositor::surfaceSizeUpdated(double width, double height) {
-  // Needs to be dispatched to the compositors looper
-  assert(_looper && "Looper must be ready");
-  _looper->dispatchAsync([] { printf("Hello 2"); });
+  _looper->dispatchAsync([] {});
 }
 
 void Compositor::surfaceWasDestroyed() {
-  // Needs to be dispatched to the compositors looper
-  assert(_looper && "Looper must be ready");
-  _looper->dispatchAsync([] { printf("Hello 3"); });
+  _looper->dispatchAsync([] {});
 }

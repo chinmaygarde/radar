@@ -50,7 +50,7 @@ bool Looper::removeSource(std::shared_ptr<LooperSource> source) {
   return _waitSet.removeSource(source);
 }
 
-void Looper::loop() {
+void Looper::loop(std::function<void(void)> onReady) {
   if (_trivialSource.get() == nullptr) {
     /*
      *  A trivial source needs to be added to keep the loop idle
@@ -58,6 +58,10 @@ void Looper::loop() {
      */
     _trivialSource = LooperSource::AsTrivial();
     addSource(_trivialSource);
+  }
+
+  if (onReady) {
+    onReady();
   }
 
   while (!_shouldTerminate) {
@@ -122,6 +126,8 @@ void Looper::flushPendingDispatches() {
 }
 
 void Looper::dispatchAsync(std::function<void()> block) {
+  assert(_trivialSource && "A trivial source must be present");
+
   AutoLock lock(_lock);
   _pendingDispatches->push_back(block);
   _trivialSource->writer()(_trivialSource->writeHandle());

@@ -20,7 +20,7 @@ class Looper {
   using Block = std::function<void(void)>;
   using PendingBlocks = std::list<Block>;
 
-  void loop();
+  void loop(std::function<void(void)> onReady = nullptr);
 
   void terminate();
 
