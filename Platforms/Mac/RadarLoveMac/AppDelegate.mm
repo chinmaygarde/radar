@@ -9,11 +9,21 @@
 namespace rl {
 class RenderSurfaceMac : public RenderSurface {
  public:
-  RenderSurfaceMac() : RenderSurface() {}
-  bool makeCurrent() { return false; }
-  bool present() { return false; }
+  RenderSurfaceMac(NSOpenGLContext* context)
+      : RenderSurface(), _context(context) {}
+
+  bool makeCurrent() {
+    [_context makeCurrentContext];
+    return true;
+  }
+
+  bool present() {
+    [_context flushBuffer];
+    return false;
+  }
 
  private:
+  NSOpenGLContext* _context;
   DISALLOW_COPY_AND_ASSIGN(RenderSurfaceMac);
 };
 }
@@ -31,7 +41,8 @@ class RenderSurfaceMac : public RenderSurface {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
-  _renderSurface = std::make_shared<rl::RenderSurfaceMac>();
+  _renderSurface =
+      std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = std::make_shared<rl::Shell>(_renderSurface);
   _shell->attachHostOnCurrentThread();
 

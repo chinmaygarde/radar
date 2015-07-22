@@ -11,12 +11,18 @@
 using namespace rl;
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
-    : _surface(surface), _looper(nullptr), _lock() {
+    : _surface(surface),
+      _looper(nullptr),
+      _lock(),
+      _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
+
   _surface->setObserver(this);
+  _vsyncSource->setWakeFunction([&] { onVsync(); });
 }
 
 Compositor::~Compositor() {
+  _vsyncSource->setWakeFunction(nullptr);
   _surface->setObserver(nullptr);
 }
 
@@ -34,7 +40,7 @@ void Compositor::run(Latch& readyLatch) {
 }
 
 void Compositor::surfaceWasCreated() {
-  _looper->dispatchAsync([] {});
+  _looper->dispatchAsync([&] { startComposition(); });
 }
 
 void Compositor::surfaceSizeUpdated(double width, double height) {
@@ -42,5 +48,19 @@ void Compositor::surfaceSizeUpdated(double width, double height) {
 }
 
 void Compositor::surfaceWasDestroyed() {
-  _looper->dispatchAsync([] {});
+  _looper->dispatchAsync([&] { stopComposition(); });
+}
+
+void Compositor::startComposition() {
+  _looper->addSource(_vsyncSource);
+}
+
+void Compositor::stopComposition() {
+  _looper->removeSource(_vsyncSource);
+}
+
+void Compositor::onVsync() {
+  _surface->makeCurrent();
+
+  _surface->present();
 }

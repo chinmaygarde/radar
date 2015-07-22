@@ -27,12 +27,19 @@ class Compositor : RenderSurfaceObserver {
   Looper* _looper;
   Lock _lock;
 
-  /**
+  std::shared_ptr<LooperSource> _vsyncSource;
+
+  /*
    *  Render surface observer overrides
    */
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(double width, double height) override;
   virtual void surfaceWasDestroyed() override;
+
+  void startComposition();
+  void stopComposition();
+
+  void onVsync();
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };
