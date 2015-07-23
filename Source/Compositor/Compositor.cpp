@@ -14,7 +14,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
     : _surface(surface),
       _looper(nullptr),
       _lock(),
-      _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))) {
+      _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))),
+      _surfaceSize(SizeZero) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
 
   _surface->setObserver(this);
@@ -44,7 +45,8 @@ void Compositor::surfaceWasCreated() {
 }
 
 void Compositor::surfaceSizeUpdated(double width, double height) {
-  _looper->dispatchAsync([] {});
+  _looper->dispatchAsync(
+      [&, width, height] { commitCompositionSizeUpdate(width, height); });
 }
 
 void Compositor::surfaceWasDestroyed() {
@@ -55,12 +57,24 @@ void Compositor::startComposition() {
   _looper->addSource(_vsyncSource);
 }
 
+void Compositor::commitCompositionSizeUpdate(double width, double height) {
+  Size size(width, height);
+
+  if (size == _surfaceSize) {
+    return;
+  }
+
+  // Commit size update
+}
+
 void Compositor::stopComposition() {
   _looper->removeSource(_vsyncSource);
 }
 
 void Compositor::onVsync() {
-  _surface->makeCurrent();
+  bool res = _surface->makeCurrent();
+  assert(res && "Must be able to make the current context current");
 
-  _surface->present();
+  res = _surface->present();
+  assert(res && "Must be able to present the current context");
 }

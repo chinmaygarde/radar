@@ -10,6 +10,8 @@
 #include "Core/Lock.h"
 #include "Core/Latch.h"
 
+#include "Geometry/Size.h"
+
 #include "Compositor/RenderSurface.h"
 
 namespace rl {
@@ -26,8 +28,8 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
   Lock _lock;
-
   std::shared_ptr<LooperSource> _vsyncSource;
+  Size _surfaceSize;
 
   /*
    *  Render surface observer overrides
@@ -37,6 +39,7 @@ class Compositor : RenderSurfaceObserver {
   virtual void surfaceWasDestroyed() override;
 
   void startComposition();
+  void commitCompositionSizeUpdate(double width, double height);
   void stopComposition();
 
   void onVsync();

@@ -19,7 +19,7 @@ class RenderSurfaceMac : public RenderSurface {
 
   bool present() {
     [_context flushBuffer];
-    return false;
+    return true;
   }
 
  private:

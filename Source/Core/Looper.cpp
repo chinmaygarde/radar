@@ -64,6 +64,8 @@ void Looper::loop(std::function<void(void)> onReady) {
     onReady();
   }
 
+  beforeSleep();
+
   while (!_shouldTerminate) {
     LooperSource* source = _waitSet.wait();
 
