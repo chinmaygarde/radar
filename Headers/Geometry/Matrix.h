@@ -28,6 +28,11 @@ struct Matrix {
            vec[3] == m.vec[3];
   }
 
+  bool operator!=(const Matrix& m) const {
+    return vec[0] != m.vec[0] || vec[1] != m.vec[1] || vec[2] != m.vec[2] ||
+           vec[3] != m.vec[3];
+  }
+
   static Matrix Orthographic(double left,
                              double right,
                              double bottom,

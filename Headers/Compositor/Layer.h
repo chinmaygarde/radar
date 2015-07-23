@@ -155,7 +155,8 @@ class Layer {
   double _opacity;
   std::list<LayerRef> _sublayers;
   Layer* _superlayer;
-  std::vector<Primitive> _primitives;
+  std::unique_ptr<Primitive> _backgroundPrimitive;
+  std::unique_ptr<Primitive> _foregroundPrimitive;
 
   DISALLOW_COPY_AND_ASSIGN(Layer);
 };

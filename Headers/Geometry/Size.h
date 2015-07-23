@@ -19,6 +19,10 @@ struct Size {
     return s.width == width && s.height == height;
   }
 
+  bool operator!=(const Size& s) const {
+    return s.width != width || s.height != height;
+  }
+
   Size operator+(const Size& s) const {
     return Size(width + s.width, height + s.height);
   }

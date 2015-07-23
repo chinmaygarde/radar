@@ -22,11 +22,19 @@ struct Color {
 
 static const Color ColorWhite(1.0, 1.0, 1.0, 1.0);
 static const Color ColorBlack(0.0, 0.0, 0.0, 1.0);
+
 static const Color ColorWhiteTransparent(1.0, 1.0, 1.0, 0.0);
 static const Color ColorBlackTransparent(0.0, 0.0, 0.0, 0.0);
+
 static const Color ColorRed(1.0, 0.0, 0.0, 1.0);
 static const Color ColorGreen(0.0, 1.0, 0.0, 1.0);
 static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
+
+/**
+ *  The alpha at which we decide the layer or primitive if transparent for
+ *  rendering purposes.
+ */
+static const double TransparencyAlphaThreshold = 0.01;
 }
 
 #endif /* defined(__RADARLOVE_GEOMETRY_COLOR__) */

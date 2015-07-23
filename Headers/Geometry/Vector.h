@@ -18,6 +18,10 @@ struct Vector {
     return a == v.a && b == v.b && c == v.c && d == v.d;
   }
 
+  bool operator!=(const Vector& v) const {
+    return a != v.a || b != v.b || c != v.c || d != v.d;
+  }
+
   Vector operator+(const Vector& v) const {
     return Vector(a + v.a, b + v.b, c + v.c, d + v.d);
   }

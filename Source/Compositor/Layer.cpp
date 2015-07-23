@@ -17,7 +17,8 @@ Layer::Layer()
       _opacity(1.0),
       _sublayers(),
       _superlayer(nullptr),
-      _primitives() {
+      _backgroundPrimitive(),
+      _foregroundPrimitive() {
 }
 
 Rect Layer::frame() const {
@@ -124,6 +125,15 @@ void Layer::setBackgroundColor(const Color& backgroundColor) {
   }
 
   _backgroundColor = backgroundColor;
+
+  if (backgroundColor.a < TransparencyAlphaThreshold) {
+    _backgroundPrimitive = nullptr;
+  } else {
+    if (!_backgroundPrimitive) {
+      _backgroundPrimitive = Utils::make_unique<Primitive>();
+    }
+    _backgroundPrimitive->setContentColor(_backgroundColor);
+  }
 }
 
 double Layer::opacity() const {
@@ -139,7 +149,19 @@ void Layer::setOpacity(double opacity) {
 }
 
 void Layer::drawInFrame(const Frame& frame) {
-  for (auto& primitive : _primitives) {
-    primitive.render(frame);
+  if (_backgroundPrimitive) {
+    _backgroundPrimitive->setSizeAndModelViewMatrix(_bounds.size,
+                                                    MatrixIdentity);
+    _backgroundPrimitive->render(frame);
+  }
+
+  if (_foregroundPrimitive) {
+    _backgroundPrimitive->setSizeAndModelViewMatrix(_bounds.size,
+                                                    MatrixIdentity);
+    _foregroundPrimitive->render(frame);
+  }
+
+  for (const auto& layer : _sublayers) {
+    layer->drawInFrame(frame);
   }
 }
