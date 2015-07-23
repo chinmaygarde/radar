@@ -10,6 +10,8 @@
 #include "Geometry/Matrix.h"
 
 #include "Compositor/Color.h"
+#include "Compositor/Frame.h"
+#include "Compositor/Primitive.h"
 
 #include <list>
 
@@ -30,14 +32,14 @@ class Layer {
    *
    *  @return the frame of the layer
    */
-  inline Rect frame() const;
+  Rect frame() const;
 
   /**
    *  Set the frame of the layer
    *
    *  @param frame the new frame
    */
-  inline void setFrame(const Rect& frame);
+  void setFrame(const Rect& frame);
 
   /**
    *  The bounds specifies the origin and size of the layer in its own
@@ -45,14 +47,14 @@ class Layer {
    *
    *  @return the bounds of the layer
    */
-  inline const Rect& bounds() const;
+  const Rect& bounds() const;
 
   /**
    *  Set the bounds of the layer
    *
    *  @param bounds the new bounds
    */
-  inline void setBounds(const Rect& bounds);
+  void setBounds(const Rect& bounds);
 
   /**
    *  The position specifies the coordinates of the anchor position of the layer
@@ -60,42 +62,42 @@ class Layer {
    *
    *  @return the position of the layer
    */
-  inline const Point& position() const;
+  const Point& position() const;
 
   /**
    *  Sets the position of the layer
    *
    *  @param point the new position
    */
-  inline void setPosition(const Point& point);
+  void setPosition(const Point& point);
 
   /**
    *  The position of the anchor point within this node in unit space
    *
    *  @return the anchor point
    */
-  inline const Point& anchorPoint() const;
+  const Point& anchorPoint() const;
 
   /**
    *  Sets the new anchor point of this node
    *
    *  @param anchorPoint the new anchor point
    */
-  inline void setAnchorPoint(const Point& anchorPoint);
+  void setAnchorPoint(const Point& anchorPoint);
 
   /**
    *  The transformation that is applied to the layer about its anchor point
    *
    *  @return the transformation applied to the node
    */
-  inline const Matrix& transformation() const;
+  const Matrix& transformation() const;
 
   /**
    *  Sets the transformation of the layer
    *
    *  @param transformation the new transformation
    */
-  inline void setTransformation(const Matrix& transformation);
+  void setTransformation(const Matrix& transformation);
 
 #pragma mark - Layer Hierarchy
   /**
@@ -118,14 +120,14 @@ class Layer {
    *
    *  @return the background color
    */
-  inline const Color& backgroundColor() const;
+  const Color& backgroundColor() const;
 
   /**
    *  Set the new background color of the layer
    *
    *  @param backgroundColor the new background color
    */
-  inline void setBackgroundColor(const Color& backgroundColor);
+  void setBackgroundColor(const Color& backgroundColor);
 
   /**
    *  The opacity of the layer. 0.0 is fully transparent and 1.0 is fully
@@ -133,26 +135,27 @@ class Layer {
    *
    *  @return the opacity of the layer
    */
-  inline double opacity() const;
+  double opacity() const;
 
   /**
    *  Set the new opacity of the layer
    *
    *  @param opacity the new opacity
    */
-  inline void setOpacity(double opacity);
+  void setOpacity(double opacity);
+
+  void drawInFrame(const Frame& frame);
 
  private:
   Rect _bounds;
   Point _position;
   Point _anchorPoint;
   Matrix _transformation;
-
   Color _backgroundColor;
   double _opacity;
-
   std::list<LayerRef> _sublayers;
   Layer* _superlayer;
+  std::vector<Primitive> _primitives;
 
   DISALLOW_COPY_AND_ASSIGN(Layer);
 };

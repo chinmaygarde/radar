@@ -33,3 +33,6 @@ void Primitive::setSize(const Size& size) {
 const Size& Primitive::size() const {
   return _size;
 }
+
+void Primitive::render(const Frame& frame) {
+}

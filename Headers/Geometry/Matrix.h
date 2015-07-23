@@ -6,6 +6,7 @@
 #define __RADARLOVE_GEOMETRY_MATRIX__
 
 #include "Geometry/Vector.h"
+#include "Geometry/Size.h"
 
 namespace rl {
 struct Matrix {
@@ -26,6 +27,14 @@ struct Matrix {
     return vec[0] == m.vec[0] && vec[1] == m.vec[1] && vec[2] == m.vec[2] &&
            vec[3] == m.vec[3];
   }
+
+  static Matrix Orthographic(double left,
+                             double right,
+                             double bottom,
+                             double top,
+                             double nearZ,
+                             double farZ);
+  static Matrix Orthographic(const Size& size);
 };
 
 // clang-format off

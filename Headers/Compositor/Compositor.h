@@ -13,6 +13,8 @@
 #include "Geometry/Size.h"
 
 #include "Compositor/RenderSurface.h"
+#include "Compositor/Layer.h"
+#include "Compositor/ProgramCatalog.h"
 
 namespace rl {
 class Compositor : RenderSurfaceObserver {
@@ -30,6 +32,8 @@ class Compositor : RenderSurfaceObserver {
   Lock _lock;
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
+  Layer::LayerRef _rootLayer;
+  std::shared_ptr<ProgramCatalog> _programCatalog;
 
   /*
    *  Render surface observer overrides
@@ -42,6 +46,9 @@ class Compositor : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(double width, double height);
   void stopComposition();
 
+  std::shared_ptr<const ProgramCatalog> accessCatalog();
+
+  void drawFrame();
   void onVsync();
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);

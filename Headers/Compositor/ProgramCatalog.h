@@ -10,6 +10,8 @@
 namespace rl {
 class ProgramCatalog {
  public:
+  ProgramCatalog() {}
+
  private:
   DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
 };

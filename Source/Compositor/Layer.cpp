@@ -16,27 +16,28 @@ Layer::Layer()
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _sublayers(),
-      _superlayer(nullptr) {
+      _superlayer(nullptr),
+      _primitives() {
 }
 
-inline Rect Layer::frame() const {
+Rect Layer::frame() const {
   Point origin(_position.x - (_bounds.size.width * _anchorPoint.x),
                _position.y - (_bounds.size.height * _anchorPoint.y));
 
   return Rect(origin, _bounds.size);
 }
 
-inline void Layer::setFrame(const Rect& frame) {
+void Layer::setFrame(const Rect& frame) {
   setBounds(Rect(_bounds.origin, frame.size));
   setPosition(Point(frame.origin.x + (_anchorPoint.x * frame.size.width),
                     frame.origin.y + (_anchorPoint.y * frame.size.height)));
 }
 
-inline const Rect& Layer::bounds() const {
+const Rect& Layer::bounds() const {
   return _bounds;
 }
 
-inline void Layer::setBounds(const Rect& bounds) {
+void Layer::setBounds(const Rect& bounds) {
   if (_bounds == bounds) {
     return;
   }
@@ -44,11 +45,11 @@ inline void Layer::setBounds(const Rect& bounds) {
   _bounds = bounds;
 }
 
-inline const Point& Layer::position() const {
+const Point& Layer::position() const {
   return _position;
 }
 
-inline void Layer::setPosition(const Point& position) {
+void Layer::setPosition(const Point& position) {
   if (_position == position) {
     return;
   }
@@ -56,11 +57,11 @@ inline void Layer::setPosition(const Point& position) {
   _position = position;
 }
 
-inline const Point& Layer::anchorPoint() const {
+const Point& Layer::anchorPoint() const {
   return _anchorPoint;
 }
 
-inline void Layer::setAnchorPoint(const Point& anchorPoint) {
+void Layer::setAnchorPoint(const Point& anchorPoint) {
   if (_anchorPoint == anchorPoint) {
     return;
   }
@@ -68,11 +69,11 @@ inline void Layer::setAnchorPoint(const Point& anchorPoint) {
   _anchorPoint = anchorPoint;
 }
 
-inline const Matrix& Layer::transformation() const {
+const Matrix& Layer::transformation() const {
   return _transformation;
 }
 
-inline void Layer::setTransformation(const Matrix& transformation) {
+void Layer::setTransformation(const Matrix& transformation) {
   if (_transformation == transformation) {
     return;
   }
@@ -113,11 +114,11 @@ void Layer::removeSublayer(Layer::LayerRef layer) {
   }
 }
 
-inline const Color& Layer::backgroundColor() const {
+const Color& Layer::backgroundColor() const {
   return _backgroundColor;
 }
 
-inline void Layer::setBackgroundColor(const Color& backgroundColor) {
+void Layer::setBackgroundColor(const Color& backgroundColor) {
   if (_backgroundColor == backgroundColor) {
     return;
   }
@@ -125,14 +126,20 @@ inline void Layer::setBackgroundColor(const Color& backgroundColor) {
   _backgroundColor = backgroundColor;
 }
 
-inline double Layer::opacity() const {
+double Layer::opacity() const {
   return _opacity;
 }
 
-inline void Layer::setOpacity(double opacity) {
+void Layer::setOpacity(double opacity) {
   if (_opacity == opacity) {
     return;
   }
 
   _opacity = opacity;
+}
+
+void Layer::drawInFrame(const Frame& frame) {
+  for (auto& primitive : _primitives) {
+    primitive.render(frame);
+  }
 }

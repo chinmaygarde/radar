@@ -14,6 +14,8 @@ struct Rect {
   Size size;
 
   Rect(Point origin, Size size) : origin(origin), size(size) {}
+  Rect(double x, double y, double width, double height)
+      : origin(x, y), size(width, height) {}
 
   /*
    *  Operator overloads
