@@ -6,8 +6,11 @@
 
 using namespace rl;
 
-Primitive::Primitive(Size size, Matrix modelViewMatrix)
-    : _size(size), _modelViewMatrix(modelViewMatrix) {
+Primitive::Primitive()
+    : _size(SizeZero),
+      _modelViewMatrix(MatrixIdentity),
+      _contentColor(ColorWhiteTransparent),
+      _verticesDirty(true) {
 }
 
 void Primitive::setModelViewMatrix(const Matrix& modelViewMatrix) {
@@ -15,7 +18,7 @@ void Primitive::setModelViewMatrix(const Matrix& modelViewMatrix) {
     return;
   }
 
-  // Commit update
+  _verticesDirty = true;
 }
 
 const Matrix& Primitive::modelViewMatrix() const {
@@ -27,12 +30,50 @@ void Primitive::setSize(const Size& size) {
     return;
   }
 
-  // Commit update
+  _verticesDirty = true;
 }
 
 const Size& Primitive::size() const {
   return _size;
 }
 
+void Primitive::setSizeAndModelViewMatrix(const Size& size,
+                                          const Matrix& modelViewMatrix) {
+  if (_size != size) {
+    _size = size;
+    _verticesDirty = true;
+  }
+
+  if (_modelViewMatrix != modelViewMatrix) {
+    _modelViewMatrix = modelViewMatrix;
+    _verticesDirty = true;
+  }
+}
+
+const Color& Primitive::contentColor() const {
+  return _contentColor;
+}
+
+void Primitive::setContentColor(const Color& color) {
+  if (_contentColor == color) {
+    return;
+  }
+
+  _contentColor = color;
+}
+
+void Primitive::updateVerticesIfNecessary() {
+  if (!_verticesDirty) {
+    return;
+  }
+
+  _verticesDirty = false;
+
+  // Update Vertices
+}
+
 void Primitive::render(const Frame& frame) {
+  updateVerticesIfNecessary();
+
+  // Render
 }
