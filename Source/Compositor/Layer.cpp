@@ -165,3 +165,26 @@ void Layer::drawInFrame(const Frame& frame) {
     layer->drawInFrame(frame);
   }
 }
+
+Matrix Layer::modelViewMatrix(const Matrix& viewMatrix) const {
+  /*
+   *  Apply transformation about the anchor point
+   */
+  const Matrix transformed = _transformation - (_anchorPoint * _bounds.size);
+
+  /*
+   *  Apply the offset supplied in the bounds
+   */
+  const Matrix positioned =
+      Matrix::Translation(_position - _bounds.origin) * transformed;
+
+  /*
+   *  Apply the view matrix to the transformed and positioned matrix
+   */
+  const Matrix resultant = viewMatrix * positioned;
+
+  /*
+   *  Generate the model view matrix
+   */
+  return resultant + _bounds.origin;
+}

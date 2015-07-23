@@ -144,6 +144,11 @@ class Layer {
    */
   void setOpacity(double opacity);
 
+  /**
+   *  Renders the layer primitives in the specified frame
+   *
+   *  @param frame the frame to render the layer primitives into
+   */
   void drawInFrame(const Frame& frame);
 
  private:
@@ -157,6 +162,8 @@ class Layer {
   Layer* _superlayer;
   std::unique_ptr<Primitive> _backgroundPrimitive;
   std::unique_ptr<Primitive> _foregroundPrimitive;
+
+  Matrix modelViewMatrix(const Matrix& viewMatrix) const;
 
   DISALLOW_COPY_AND_ASSIGN(Layer);
 };
