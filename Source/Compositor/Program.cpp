@@ -109,6 +109,10 @@ void Program::linkIfNecessary() {
   RL_GLAssert("There must be no errors post shader setup");
 
   _linkingComplete = true;
+
+  onLinkSuccess();
+
+  RL_GLAssert("Subclasses must not introduce program errors");
 }
 
 unsigned int Program::indexForAttribute(const std::string& attribute) {
@@ -121,7 +125,12 @@ unsigned int Program::indexForAttribute(const std::string& attribute) {
 unsigned int Program::indexForUniform(const std::string& uniform) {
   assert(_linkingComplete &&
          "May only access uniforms after linking is complete");
-  return glGetUniformLocation(_program, uniform.c_str());
+  GLint result = glGetUniformLocation(_program, uniform.c_str());
+  assert(result != -1 && "The unform must be found in the program");
+  return result;
+}
+
+void Program::onLinkSuccess() {
 }
 
 Program::~Program() {

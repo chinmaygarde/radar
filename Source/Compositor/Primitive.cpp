@@ -79,8 +79,9 @@ void Primitive::render(Frame& frame) {
   updateVerticesIfNecessary();
 
   /*
-   *  Use the correct program
+   *  Select the program to use
    */
-  frame.programCatalog()->useProgramType(
-      ProgramCatalog::ProgramTypeBasicPrimitve);
+  auto program = static_cast<const BasicPrimitiveProgram*>(
+      frame.programCatalog()->useProgramType(
+          ProgramCatalog::Type::BasicPrimitve));
 }

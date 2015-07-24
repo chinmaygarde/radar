@@ -7,16 +7,17 @@
 
 #include "Compositor/Program.h"
 
+#include <algorithm>
 #include <map>
 #include <memory>
 
 namespace rl {
 class ProgramCatalog {
  public:
-  enum ProgramType {
-    ProgramTypeNone = 0,
-    ProgramTypeBasicPrimitve,
-    ProgramTypeTexturedPrimitive,
+  enum Type {
+    None = 0,
+    BasicPrimitve,
+    TexturedPrimitive,
   };
 
   ProgramCatalog();
@@ -26,13 +27,15 @@ class ProgramCatalog {
    */
   void startUsing();
 
+  typedef Program const* ProgramRef;
   /**
    *  Switches the current program to the one specified. If the same program is
    *  specified consecutively, this operation is a no-op.
    *
    *  @param type the new program type
+   *  @return the selected program
    */
-  bool useProgramType(ProgramType type);
+  ProgramRef useProgramType(Type type);
 
   /**
    *  Must be called after items in the catalog have been used
@@ -41,19 +44,33 @@ class ProgramCatalog {
 
  private:
   bool _prepared;
-  ProgramType _currentProgramType;
-  std::map<ProgramType, std::unique_ptr<Program>> _catalog;
+  std::pair<Type, ProgramRef> _current;
+  std::map<Type, std::unique_ptr<Program>> _catalog;
 
   void prepareIfNecessary();
 
   DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
 };
 
+/*
+ *  The program to be used for drawing basic colored primitives
+ */
 class BasicPrimitiveProgram : public Program {
  public:
   BasicPrimitiveProgram();
 
+  unsigned int modelUniform() const { return _modelUniform; }
+  unsigned int viewUniform() const { return _viewUniform; }
+  unsigned int projectionUniform() const { return _projectionUniform; }
+
+ protected:
+  virtual void onLinkSuccess() override;
+
  private:
+  unsigned int _modelUniform;
+  unsigned int _viewUniform;
+  unsigned int _projectionUniform;
+
   DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
 }

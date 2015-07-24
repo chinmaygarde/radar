@@ -14,50 +14,14 @@
 #include <cassert>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
-inline void RLAssertGLError(const char* file, int line, const char* fmt...) {
-  GLenum res = glGetError();
-  if (res == GL_NO_ERROR) {
-    return;
-  }
-
-  std::string message = "";
-  switch (res) {
-    case GL_INVALID_ENUM:
-      message = "GL_INVALID_ENUM";
-      break;
-    case GL_INVALID_VALUE:
-      message = "GL_INVALID_VALUE";
-      break;
-    case GL_INVALID_OPERATION:
-      message = "GL_INVALID_OPERATION";
-      break;
-    case GL_OUT_OF_MEMORY:
-      message = "GL_OUT_OF_MEMORY";
-      break;
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      message = "GL_INVALID_FRAMEBUFFER_OPERATION";
-      break;
-    default:
-      message = "Unknown";
-      break;
-  }
-
-  char userMessage[128] = {0};
-
-  va_list args;
-  va_start(args, fmt);
-  vsnprintf(userMessage, 128, fmt, args);
-  va_end(args);
-
-  const char* basename = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
-
-  printf("OpenGL Error (%s:%d): %s (%x) '%s'\n", basename, line,
-         message.c_str(), res, userMessage);
-  assert(false);
+namespace rl {
+void GLAssertError(const char* file, int line, const char* fmt...);
+void GLDescribeFramebuffer(void);
 }
 
 #define RL_GLAssert(x, ...) \
-  RLAssertGLError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
+  rl::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
 #endif /* defined(__RADARLOVE_COMPOSITOR_OPENGL__) */

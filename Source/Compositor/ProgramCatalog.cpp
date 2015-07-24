@@ -38,38 +38,37 @@ void main() {
 using namespace rl;
 
 ProgramCatalog::ProgramCatalog()
-    : _prepared(false), _currentProgramType(ProgramTypeNone), _catalog() {
+    : _prepared(false), _current(None, nullptr), _catalog() {
 }
 
 void ProgramCatalog::startUsing() {
   prepareIfNecessary();
-  _currentProgramType = ProgramTypeNone;
+
+  stopUsing();
 }
 
 void ProgramCatalog::stopUsing() {
-  _currentProgramType = ProgramTypeNone;
+  _current = std::make_pair(None, nullptr);
 }
 
-bool ProgramCatalog::useProgramType(ProgramType type) {
+ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
   assert(_prepared &&
          "Catalog must be prepared and in use before using a program");
 
-  if (_currentProgramType == type) {
-    return true;
+  if (_current.first == type) {
+    return _current.second;
   }
 
   const auto& program = _catalog[type];
 
-  if (program == nullptr) {
-    return false;
-  }
+  assert(program && "A valid program must be found in the catalog");
 
-  if (program->use()) {
-    _currentProgramType = type;
-    return true;
-  }
+  bool result = program->use();
 
-  return false;
+  assert(result && "The selected program must be usable by the catalog");
+  _current = std::make_pair(type, program.get());
+
+  return _current.second;
 }
 
 void ProgramCatalog::prepareIfNecessary() {
@@ -80,12 +79,18 @@ void ProgramCatalog::prepareIfNecessary() {
   _prepared = true;
 
   // Prepare Simple Primitive Program
-  _catalog[ProgramTypeBasicPrimitve] = Utils::make_unique<Program>(
-      DefaultUniforms, BasicVertexShader, BasicFragmentShader);
+  _catalog[BasicPrimitve] = Utils::make_unique<BasicPrimitiveProgram>();
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()
-    : Program::Program(DefaultUniforms,
-                       BasicVertexShader,
-                       BasicFragmentShader) {
+    : Program::Program(DefaultUniforms, BasicVertexShader, BasicFragmentShader),
+      _modelUniform(0),
+      _viewUniform(0),
+      _projectionUniform(0) {
+}
+
+void BasicPrimitiveProgram::onLinkSuccess() {
+  _modelUniform = indexForUniform("U_Model");
+  _viewUniform = indexForUniform("U_View");
+  _projectionUniform = indexForUniform("U_Projection");
 }
