@@ -15,8 +15,9 @@ namespace rl {
 class Program {
  public:
   Program(std::vector<std::string> attributes,
-          std::shared_ptr<std::string> vertexShader,
-          std::shared_ptr<std::string> fragmentShader);
+          std::string vertexShader,
+          std::string fragmentShader);
+  virtual ~Program();
 
   void linkIfNecessary();
   bool use();
@@ -25,14 +26,9 @@ class Program {
   unsigned int indexForUniform(const std::string& uniform);
 
  private:
-  /*
-   *  Programs need to be collected on an active context else they leak.
-   */
-  ~Program();
-
   std::vector<std::string> _knownAttributes;
-  std::shared_ptr<std::string> _vertexShader;
-  std::shared_ptr<std::string> _fragmentShader;
+  std::string _vertexShader;
+  std::string _fragmentShader;
 
   bool _linkingComplete;
   unsigned int _program;

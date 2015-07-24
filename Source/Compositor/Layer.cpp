@@ -148,7 +148,7 @@ void Layer::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
-void Layer::drawInFrame(const Frame& frame) {
+void Layer::drawInFrame(Frame& frame) {
   if (_backgroundPrimitive) {
     _backgroundPrimitive->setSizeAndModelViewMatrix(_bounds.size,
                                                     MatrixIdentity);

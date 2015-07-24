@@ -75,7 +75,7 @@ class Primitive {
    *
    *  @param frame the frame to render this primitive into
    */
-  void render(const Frame& frame);
+  void render(Frame& frame);
 
  private:
   Size _size;

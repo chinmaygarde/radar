@@ -4,6 +4,9 @@
 
 #include "Compositor/Primitive.h"
 
+#define RL_OPENGL_ALLOWED 1
+#include "Compositor/OpenGL.h"
+
 using namespace rl;
 
 Primitive::Primitive()
@@ -72,8 +75,12 @@ void Primitive::updateVerticesIfNecessary() {
   // Update Vertices
 }
 
-void Primitive::render(const Frame& frame) {
+void Primitive::render(Frame& frame) {
   updateVerticesIfNecessary();
 
-  // Render
+  /*
+   *  Use the correct program
+   */
+  frame.programCatalog()->useProgramType(
+      ProgramCatalog::ProgramTypeBasicPrimitve);
 }

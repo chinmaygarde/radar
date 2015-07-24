@@ -7,13 +7,54 @@
 
 #include "Compositor/Program.h"
 
+#include <map>
+#include <memory>
+
 namespace rl {
 class ProgramCatalog {
  public:
-  ProgramCatalog() {}
+  enum ProgramType {
+    ProgramTypeNone = 0,
+    ProgramTypeBasicPrimitve,
+    ProgramTypeTexturedPrimitive,
+  };
+
+  ProgramCatalog();
+
+  /**
+   *  Must be called before catalog items are about to be used
+   */
+  void startUsing();
+
+  /**
+   *  Switches the current program to the one specified. If the same program is
+   *  specified consecutively, this operation is a no-op.
+   *
+   *  @param type the new program type
+   */
+  bool useProgramType(ProgramType type);
+
+  /**
+   *  Must be called after items in the catalog have been used
+   */
+  void stopUsing();
 
  private:
+  bool _prepared;
+  ProgramType _currentProgramType;
+  std::map<ProgramType, std::unique_ptr<Program>> _catalog;
+
+  void prepareIfNecessary();
+
   DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
+};
+
+class BasicPrimitiveProgram : public Program {
+ public:
+  BasicPrimitiveProgram();
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
 }
 

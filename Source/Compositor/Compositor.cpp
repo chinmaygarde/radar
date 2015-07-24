@@ -86,7 +86,7 @@ void Compositor::stopComposition() {
  *
  *  @return the program catalog
  */
-std::shared_ptr<const ProgramCatalog> Compositor::accessCatalog() {
+std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
   if (_programCatalog != nullptr) {
     return _programCatalog;
   }

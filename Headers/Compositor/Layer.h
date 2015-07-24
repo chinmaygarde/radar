@@ -149,7 +149,7 @@ class Layer {
    *
    *  @param frame the frame to render the layer primitives into
    */
-  void drawInFrame(const Frame& frame);
+  void drawInFrame(Frame& frame);
 
  private:
   Rect _bounds;

@@ -11,15 +11,13 @@
 using namespace rl;
 
 Program::Program(std::vector<std::string> attributes,
-                 std::shared_ptr<std::string> vertexShader,
-                 std::shared_ptr<std::string> fragmentShader)
+                 std::string vertexShader,
+                 std::string fragmentShader)
     : _knownAttributes(attributes),
       _vertexShader(vertexShader),
       _fragmentShader(fragmentShader),
       _linkingComplete(false),
       _program(0) {
-  assert(vertexShader != nullptr);
-  assert(fragmentShader != nullptr);
 }
 
 bool Program::use() {
@@ -29,6 +27,20 @@ bool Program::use() {
   glUseProgram(_program);
 
   return true;
+}
+
+static std::string Program_LogShaderInfo(GLuint shader) {
+  GLint logSize = 0;
+  glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+
+  if (logSize == 0) {
+    return "";
+  }
+
+  char log[logSize];
+  glGetShaderInfoLog(shader, logSize, &logSize, log);
+
+  return std::string(log);
 }
 
 void Program::linkIfNecessary() {
@@ -48,8 +60,8 @@ void Program::linkIfNecessary() {
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   assert(fragmentShader != 0 && "Must be able to create a fragment shader");
 
-  auto vertexString = _vertexShader->c_str();
-  auto fragmentString = _fragmentShader->c_str();
+  auto vertexString = _vertexShader.c_str();
+  auto fragmentString = _fragmentShader.c_str();
 
   glShaderSource(vertexShader, 1, &vertexString, nullptr);
   glShaderSource(fragmentShader, 1, &fragmentString, nullptr);
@@ -59,10 +71,19 @@ void Program::linkIfNecessary() {
 
   GLint status = GL_FALSE;
   glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-  assert(status == GL_TRUE && "Vertex shader compilation must be successful");
+
+  if (status != GL_TRUE) {
+    printf("Vertex Shader Compilation Failed:\n%s\n",
+           Program_LogShaderInfo(vertexShader).c_str());
+    assert(false && "Vertex shader compilation must be successful");
+  }
 
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-  assert(status == GL_TRUE && "Fragment shader compilation must be successful");
+  if (status != GL_TRUE) {
+    printf("Fragment Shader Compilation Failed:\n%s\n",
+           Program_LogShaderInfo(fragmentShader).c_str());
+    assert(false && "Fragment shader compilation must be successful");
+  }
 
   glAttachShader(_program, vertexShader);
   glAttachShader(_program, fragmentShader);

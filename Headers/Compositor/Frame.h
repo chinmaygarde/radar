@@ -14,7 +14,7 @@
 namespace rl {
 class Frame {
  public:
-  Frame(Matrix projectionMatrix, std::shared_ptr<const ProgramCatalog> catalog);
+  Frame(Matrix projectionMatrix, std::shared_ptr<ProgramCatalog> catalog);
 
   /**
    *  Get the projection matrix of the current frame
@@ -28,9 +28,7 @@ class Frame {
    *
    *  @return the program catalog
    */
-  std::shared_ptr<const ProgramCatalog> programCatalog() {
-    return _programCatalog;
-  }
+  std::shared_ptr<ProgramCatalog> programCatalog() { return _programCatalog; }
 
   /**
    *  Indicate that the frame has begun rendering. This allows the frame
@@ -46,7 +44,9 @@ class Frame {
 
  private:
   Matrix _projectionMatrix;
-  std::shared_ptr<const ProgramCatalog> _programCatalog;
+  std::shared_ptr<ProgramCatalog> _programCatalog;
+
+  void startNewFrame();
 
   DISALLOW_COPY_AND_ASSIGN(Frame);
 };

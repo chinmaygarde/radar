@@ -46,7 +46,7 @@ class Compositor : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(double width, double height);
   void stopComposition();
 
-  std::shared_ptr<const ProgramCatalog> accessCatalog();
+  std::shared_ptr<ProgramCatalog> accessCatalog();
 
   void drawFrame();
   void onVsync();
