@@ -55,17 +55,10 @@ void Primitive::render(Frame& frame) {
   /**
    *  Setup Uniform Data
    */
-  GLMatrix model = _modelMatrix;
-  glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
-                     reinterpret_cast<const GLfloat*>(&model));
-
-  GLMatrix view = frame.viewMatrix();
-  glUniformMatrix4fv(program->viewUniform(), 1, GL_FALSE,
-                     reinterpret_cast<const GLfloat*>(&view));
-
-  GLMatrix projection = frame.projectionMatrix();
-  glUniformMatrix4fv(program->projectionUniform(), 1, GL_FALSE,
-                     reinterpret_cast<const GLfloat*>(&projection));
+  GLMatrix modelViewProjection =
+      frame.projectionMatrix() * frame.viewMatrix() * _modelMatrix;
+  glUniformMatrix4fv(program->modelViewProjectionUniform(), 1, GL_FALSE,
+                     reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
               _contentColor.b, _contentColor.a);

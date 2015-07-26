@@ -9,12 +9,10 @@ static const std::string BasicVertexShader = R"--(
 
 attribute vec3 position;
 
-uniform mat4 U_Model;
-uniform mat4 U_View;
-uniform mat4 U_Projection;
+uniform mat4 U_MVP;
 
 void main() {
-  gl_Position = U_Projection * U_View * U_Model * vec4(position, 1.0);
+  gl_Position = U_MVP * vec4(position, 1.0);
 }
 
 )--";
@@ -81,18 +79,13 @@ void ProgramCatalog::prepareIfNecessary() {
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()
-    : Program::Program({"U_Model", "U_View", "U_Projection", "U_ContentColor"},
+    : Program::Program({"U_MVP", "U_ContentColor"},
                        BasicVertexShader,
                        BasicFragmentShader),
-      _modelUniform(0),
-      _viewUniform(0),
-      _projectionUniform(0),
-      _contentColorUniform(0) {
+      _modelViewProjectionUniform(-1) {
 }
 
 void BasicPrimitiveProgram::onLinkSuccess() {
-  _modelUniform = indexForUniform("U_Model");
-  _viewUniform = indexForUniform("U_View");
-  _projectionUniform = indexForUniform("U_Projection");
+  _modelViewProjectionUniform = indexForUniform("U_MVP");
   _contentColorUniform = indexForUniform("U_ContentColor");
 }
