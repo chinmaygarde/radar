@@ -52,6 +52,8 @@ struct GLMatrix {
 };
 }
 
+static_assert(sizeof(rl::GLMatrix) == 16 * sizeof(GLfloat));
+
 #define RL_GLAssert(x, ...) \
   rl::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 

@@ -161,10 +161,12 @@ const Matrix& Layer::modelMatrix() {
 
   _modelMatrixDirty = false;
 
+  const auto translated = Matrix::Translation({_position.x, _position.y, 0.0});
+
   const auto sized =
       Matrix::Scale({_bounds.size.width, _bounds.size.height, 1.0});
 
-  _modelMatrix = transformation() * sized;
+  _modelMatrix = translated * transformation() * sized;
 
   return _modelMatrix;
 }
