@@ -13,6 +13,7 @@ Layer::Layer()
       _position(PointZero),
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
+      _modelMatrix(MatrixIdentity),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _sublayers(),
@@ -44,6 +45,7 @@ void Layer::setBounds(const Rect& bounds) {
   }
 
   _bounds = bounds;
+  updateModelMatrix();
 }
 
 const Point& Layer::position() const {
@@ -56,6 +58,7 @@ void Layer::setPosition(const Point& position) {
   }
 
   _position = position;
+  updateModelMatrix();
 }
 
 const Point& Layer::anchorPoint() const {
@@ -68,6 +71,7 @@ void Layer::setAnchorPoint(const Point& anchorPoint) {
   }
 
   _anchorPoint = anchorPoint;
+  updateModelMatrix();
 }
 
 const Matrix& Layer::transformation() const {
@@ -80,6 +84,7 @@ void Layer::setTransformation(const Matrix& transformation) {
   }
 
   _transformation = transformation;
+  updateModelMatrix();
 }
 
 void Layer::addSublayer(Layer::LayerRef layer) {
@@ -148,43 +153,29 @@ void Layer::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
+void Layer::updateModelMatrix() {
+  /*
+   *  Investigate if this can be lazily evaluated. For now, it seems like a
+   *  premature optimization. One trivial to implement later.
+   */
+  const auto size =
+      Matrix::Scale({_bounds.size.width, _bounds.size.height, 1.0});
+
+  _modelMatrix = _transformation * size;
+}
+
 void Layer::drawInFrame(Frame& frame) {
   if (_backgroundPrimitive) {
-    _backgroundPrimitive->setSizeAndModelViewMatrix(_bounds.size,
-                                                    MatrixIdentity);
+    _backgroundPrimitive->setModelMatrix(_modelMatrix);
     _backgroundPrimitive->render(frame);
   }
 
   if (_foregroundPrimitive) {
-    _backgroundPrimitive->setSizeAndModelViewMatrix(_bounds.size,
-                                                    MatrixIdentity);
+    _foregroundPrimitive->setModelMatrix(_modelMatrix);
     _foregroundPrimitive->render(frame);
   }
 
   for (const auto& layer : _sublayers) {
     layer->drawInFrame(frame);
   }
-}
-
-Matrix Layer::modelViewMatrix(const Matrix& viewMatrix) const {
-  /*
-   *  Apply transformation about the anchor point
-   */
-  const Matrix transformed = _transformation - (_anchorPoint * _bounds.size);
-
-  /*
-   *  Apply the offset supplied in the bounds
-   */
-  const Matrix positioned =
-      Matrix::Translation(_position - _bounds.origin) * transformed;
-
-  /*
-   *  Apply the view matrix to the transformed and positioned matrix
-   */
-  const Matrix resultant = viewMatrix * positioned;
-
-  /*
-   *  Generate the model view matrix
-   */
-  return resultant + _bounds.origin;
 }

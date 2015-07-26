@@ -10,47 +10,15 @@
 using namespace rl;
 
 Primitive::Primitive()
-    : _size(SizeZero),
-      _modelViewMatrix(MatrixIdentity),
-      _contentColor(ColorWhiteTransparent),
-      _verticesDirty(true) {
+    : _modelMatrix(MatrixIdentity), _contentColor(ColorWhiteTransparent) {
 }
 
-void Primitive::setModelViewMatrix(const Matrix& modelViewMatrix) {
-  if (modelViewMatrix == _modelViewMatrix) {
-    return;
-  }
-
-  _verticesDirty = true;
+const Matrix& Primitive::modelMatrix() const {
+  return _modelMatrix;
 }
 
-const Matrix& Primitive::modelViewMatrix() const {
-  return _modelViewMatrix;
-}
-
-void Primitive::setSize(const Size& size) {
-  if (size == _size) {
-    return;
-  }
-
-  _verticesDirty = true;
-}
-
-const Size& Primitive::size() const {
-  return _size;
-}
-
-void Primitive::setSizeAndModelViewMatrix(const Size& size,
-                                          const Matrix& modelViewMatrix) {
-  if (_size != size) {
-    _size = size;
-    _verticesDirty = true;
-  }
-
-  if (_modelViewMatrix != modelViewMatrix) {
-    _modelViewMatrix = modelViewMatrix;
-    _verticesDirty = true;
-  }
+void Primitive::setModelMatrix(const Matrix& matrix) {
+  _modelMatrix = matrix;
 }
 
 const Color& Primitive::contentColor() const {
@@ -58,26 +26,10 @@ const Color& Primitive::contentColor() const {
 }
 
 void Primitive::setContentColor(const Color& color) {
-  if (_contentColor == color) {
-    return;
-  }
-
   _contentColor = color;
 }
 
-void Primitive::updateVerticesIfNecessary() {
-  if (!_verticesDirty) {
-    return;
-  }
-
-  _verticesDirty = false;
-
-  // Update Vertices
-}
-
 void Primitive::render(Frame& frame) {
-  updateVerticesIfNecessary();
-
   /*
    *  Select the program to use
    */
@@ -107,7 +59,7 @@ void Primitive::render(Frame& frame) {
   foo += 0.01;
   auto rotation = Matrix::RotationZ(foo);
 
-  GLMatrix model = rotation * MatrixIdentity.scale({_size.width, _size.height});
+  GLMatrix model = rotation * _modelMatrix;
   glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&model));
 

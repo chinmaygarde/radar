@@ -19,52 +19,28 @@ class Primitive {
   Primitive();
 
   /**
-   *  Update the model view matrix of this node
+   *  The model matrix of this primitive
    *
-   *  @param modelViewMatrix the model view matrix
+   *  @return the model matrix
    */
-  void setModelViewMatrix(const Matrix& modelViewMatrix);
+  const Matrix& modelMatrix() const;
 
   /**
-   *  Returns the current model view matrix
+   *  Sets the model matrix of this primitive
    *
-   *  @return the model view matrix
+   *  @param matrix the new model matrix
    */
-  const Matrix& modelViewMatrix() const;
+  void setModelMatrix(const Matrix& matrix);
 
   /**
-   *  Update the size of the rendering primitive
-   *
-   *  @param size the size of the primitive
-   */
-  void setSize(const Size& size);
-
-  /**
-   *  Update the size and model view matrix of the primitive
-   *  TODO: Remove this and make updates consistent
-   *
-   *  @param size            the new size
-   *  @param modelViewMatrix the new model view matrix
-   */
-  void setSizeAndModelViewMatrix(const Size& size,
-                                 const Matrix& modelViewMatrix);
-
-  /**
-   *  Returns the size of the rendering primitive
-   *
-   *  @return the size of the primitive
-   */
-  const Size& size() const;
-
-  /**
-   *  The solid color of the contents of this node
+   *  The solid color of the contents of this primitive
    *
    *  @return the content color
    */
   const Color& contentColor() const;
 
   /**
-   *  Sets the content color of this node
+   *  Sets the content color of this primitve
    *
    *  @param color the new content color
    */
@@ -78,12 +54,8 @@ class Primitive {
   void render(Frame& frame);
 
  private:
-  Size _size;
-  Matrix _modelViewMatrix;
+  Matrix _modelMatrix;
   Color _contentColor;
-  bool _verticesDirty;
-
-  void updateVerticesIfNecessary();
 
   DISALLOW_COPY_AND_ASSIGN(Primitive);
 };
