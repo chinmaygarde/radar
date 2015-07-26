@@ -161,10 +161,10 @@ const Matrix& Layer::modelMatrix() {
 
   _modelMatrixDirty = false;
 
-  const auto size =
+  const auto sized =
       Matrix::Scale({_bounds.size.width, _bounds.size.height, 1.0});
 
-  _modelMatrix = _transformation * size;
+  _modelMatrix = transformation() * sized;
 
   return _modelMatrix;
 }

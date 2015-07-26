@@ -55,11 +55,7 @@ void Primitive::render(Frame& frame) {
   /**
    *  Setup Uniform Data
    */
-  static double foo = 0.0;
-  foo += 0.01;
-  auto rotation = Matrix::RotationZ(foo);
-
-  GLMatrix model = rotation * _modelMatrix;
+  GLMatrix model = _modelMatrix;
   glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&model));
 
