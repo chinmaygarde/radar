@@ -157,13 +157,15 @@ class Layer {
   Point _anchorPoint;
   Matrix _transformation;
   Matrix _modelMatrix;
+  bool _modelMatrixDirty;
   Color _backgroundColor;
   double _opacity;
   std::list<LayerRef> _sublayers;
   Layer* _superlayer;
   std::unique_ptr<Primitive> _backgroundPrimitive;
   std::unique_ptr<Primitive> _foregroundPrimitive;
-  void updateModelMatrix();
+
+  const Matrix& modelMatrix();
 
   DISALLOW_COPY_AND_ASSIGN(Layer);
 };

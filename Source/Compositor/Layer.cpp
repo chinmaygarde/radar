@@ -14,6 +14,7 @@ Layer::Layer()
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
       _modelMatrix(MatrixIdentity),
+      _modelMatrixDirty(true),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _sublayers(),
@@ -45,7 +46,7 @@ void Layer::setBounds(const Rect& bounds) {
   }
 
   _bounds = bounds;
-  updateModelMatrix();
+  _modelMatrixDirty = true;
 }
 
 const Point& Layer::position() const {
@@ -58,7 +59,7 @@ void Layer::setPosition(const Point& position) {
   }
 
   _position = position;
-  updateModelMatrix();
+  _modelMatrixDirty = true;
 }
 
 const Point& Layer::anchorPoint() const {
@@ -71,7 +72,7 @@ void Layer::setAnchorPoint(const Point& anchorPoint) {
   }
 
   _anchorPoint = anchorPoint;
-  updateModelMatrix();
+  _modelMatrixDirty = true;
 }
 
 const Matrix& Layer::transformation() const {
@@ -84,7 +85,7 @@ void Layer::setTransformation(const Matrix& transformation) {
   }
 
   _transformation = transformation;
-  updateModelMatrix();
+  _modelMatrixDirty = true;
 }
 
 void Layer::addSublayer(Layer::LayerRef layer) {
@@ -153,25 +154,29 @@ void Layer::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
-void Layer::updateModelMatrix() {
-  /*
-   *  Investigate if this can be lazily evaluated. For now, it seems like a
-   *  premature optimization. One trivial to implement later.
-   */
+const Matrix& Layer::modelMatrix() {
+  if (!_modelMatrixDirty) {
+    return _modelMatrix;
+  }
+
+  _modelMatrixDirty = false;
+
   const auto size =
       Matrix::Scale({_bounds.size.width, _bounds.size.height, 1.0});
 
   _modelMatrix = _transformation * size;
+
+  return _modelMatrix;
 }
 
 void Layer::drawInFrame(Frame& frame) {
   if (_backgroundPrimitive) {
-    _backgroundPrimitive->setModelMatrix(_modelMatrix);
+    _backgroundPrimitive->setModelMatrix(modelMatrix());
     _backgroundPrimitive->render(frame);
   }
 
   if (_foregroundPrimitive) {
-    _foregroundPrimitive->setModelMatrix(_modelMatrix);
+    _foregroundPrimitive->setModelMatrix(modelMatrix());
     _foregroundPrimitive->render(frame);
   }
 
