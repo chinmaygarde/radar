@@ -157,6 +157,7 @@ class Layer {
   Point _anchorPoint;
   Matrix _transformation;
   Matrix _modelMatrix;
+  Matrix _viewMatrix;
   bool _modelMatrixDirty;
   Color _backgroundColor;
   double _opacity;

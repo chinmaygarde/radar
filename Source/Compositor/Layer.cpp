@@ -14,6 +14,7 @@ Layer::Layer()
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
       _modelMatrix(MatrixIdentity),
+      _viewMatrix(MatrixIdentity),
       _modelMatrixDirty(true),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
@@ -182,7 +183,11 @@ void Layer::drawInFrame(Frame& frame) {
     _foregroundPrimitive->render(frame);
   }
 
+  frame.pushViewMatrix(_viewMatrix);
+
   for (const auto& layer : _sublayers) {
     layer->drawInFrame(frame);
   }
+
+  frame.popViewMatrix();
 }

@@ -11,6 +11,7 @@
 #include "Compositor/ProgramCatalog.h"
 
 #include <mutex>
+#include <stack>
 
 namespace rl {
 class Frame {
@@ -22,14 +23,36 @@ class Frame {
    *
    *  @return the projection matrix
    */
-  const Matrix& projectionMatrix() { return _projectionMatrix; }
+  const Matrix& projectionMatrix() const;
+
+  /**
+   *  Get the current view matrix of the frame. As the frame visits different
+   *  parts of the layer hierarchy, this matrix stack is updated to point to
+   *  the matrix at the currently visited level
+   *
+   *  @return the view matrix
+   */
+  const Matrix& viewMatrix() const;
+
+  /**
+   *  Push a new view matrix onto the matrix stack as the depth of the layer in
+   *  the hierarchy deepens
+   *
+   *  @param matrix the new
+   */
+  void pushViewMatrix(const Matrix& matrix);
+
+  /**
+   *  Pop the view matrix from the matrix stack as the visitor backs out
+   */
+  void popViewMatrix();
 
   /**
    *  Access the preconfigured catalog of programs for this frame
    *
    *  @return the program catalog
    */
-  std::shared_ptr<ProgramCatalog> programCatalog() { return _programCatalog; }
+  std::shared_ptr<ProgramCatalog> programCatalog() const;
 
   /**
    *  Indicate that the frame has begun rendering. This allows the frame
@@ -47,6 +70,7 @@ class Frame {
   Size _size;
   Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  std::stack<Matrix> _viewMatrixStack;
 
   void startNewFrame();
 

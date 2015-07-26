@@ -59,7 +59,7 @@ void Primitive::render(Frame& frame) {
   glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&model));
 
-  GLMatrix view = MatrixIdentity;
+  GLMatrix view = frame.viewMatrix();
   glUniformMatrix4fv(program->viewUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&view));
 
