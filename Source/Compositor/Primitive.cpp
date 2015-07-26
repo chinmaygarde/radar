@@ -87,23 +87,27 @@ void Primitive::render(Frame& frame) {
 
   // clang-format off
   GLCoord coords[] = {
-    {   10,   10,  0.0,  },
-    {   10,  100,  0.0,  },
-    {   100,  100,  0.0,  },
+    { -0.5,  0.5, 0.0 },
+    { -0.5, -0.5, 0.0 },
+    {  0.5,  0.5, 0.0 },
+    {  0.5, -0.5, 0.0 },
   };
   // clang-format on
 
   /**
-   *  Upload Vertex Data. FIXME: Needs to be VBO backed. Just a stub
+   *  Upload Vertex Data.
    */
+  glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, coords);
 
   /**
    *  Setup Uniform Data
    */
   static double foo = 0.0;
-  foo += 0.1;
-  GLMatrix model = MatrixIdentity;
+  foo += 0.01;
+  auto rotation = Matrix::RotationZ(foo);
+
+  GLMatrix model = rotation * MatrixIdentity.scale({_size.width, _size.height});
   glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&model));
 
@@ -118,8 +122,7 @@ void Primitive::render(Frame& frame) {
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
               _contentColor.b, _contentColor.a);
 
-  glEnableVertexAttribArray(0);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 
   RL_GLAssert("No errors while rendering");
 }

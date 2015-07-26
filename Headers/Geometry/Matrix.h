@@ -78,6 +78,47 @@ struct Matrix {
     // clang-format on
   }
 
+  static Matrix RotationX(double radians) {
+    double cosine = cos(radians);
+    double sine = sin(radians);
+    // clang-format off
+    return Matrix(
+      1.0,  0.0,    0.0,    0.0,
+      0.0,  cosine, sine,   0.0,
+      0.0, -sine,   cosine, 0.0,
+      0.0,  0.0,    0.0,    1.0
+    );
+    // clang-format on
+  }
+
+  static Matrix RotationY(double radians) {
+    double cosine = cos(radians);
+    double sine = sin(radians);
+
+    // clang-format off
+    return Matrix(
+      cosine, 0.0, -sine,   0.0,
+      0.0,    1.0,  0.0,    0.0,
+      sine,   0.0,  cosine, 0.0,
+      0.0,    0.0,  0.0,    1.0
+    );
+    // clang-format on
+  }
+
+  static Matrix RotationZ(double radians) {
+    double cosine = cos(radians);
+    double sine = sin(radians);
+
+    // clang-format off
+    return Matrix (
+      cosine, sine,   0.0, 0.0,
+      -sine,  cosine, 0.0, 0.0,
+      0.0,    0.0,    1.0, 0.0,
+      0.0,    0.0,    0.0, 1.0
+    );
+    // clang-format on
+  }
+
   Matrix translate(const Vector3& t) const {
     // clang-format off
     return Matrix(m[0], m[1], m[2], m[3],
