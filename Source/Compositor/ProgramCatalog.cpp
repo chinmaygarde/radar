@@ -5,10 +5,6 @@
 #include "Compositor/ProgramCatalog.h"
 #include <cassert>
 
-static const std::vector<std::string> DefaultUniforms = {"U_Model",
-                                                         "U_View",
-                                                         "U_Projection"};
-
 static const std::string BasicVertexShader = R"--(
 
 attribute vec3 position;
@@ -29,8 +25,10 @@ static const std::string BasicFragmentShader = R"--(
 precision mediump float;
 #endif
 
+uniform vec4 U_ContentColor;
+
 void main() {
-  gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+  gl_FragColor = U_ContentColor;
 }
 
 )--";
@@ -83,14 +81,18 @@ void ProgramCatalog::prepareIfNecessary() {
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()
-    : Program::Program(DefaultUniforms, BasicVertexShader, BasicFragmentShader),
+    : Program::Program({"U_Model", "U_View", "U_Projection", "U_ContentColor"},
+                       BasicVertexShader,
+                       BasicFragmentShader),
       _modelUniform(0),
       _viewUniform(0),
-      _projectionUniform(0) {
+      _projectionUniform(0),
+      _contentColorUniform(0) {
 }
 
 void BasicPrimitiveProgram::onLinkSuccess() {
   _modelUniform = indexForUniform("U_Model");
   _viewUniform = indexForUniform("U_View");
   _projectionUniform = indexForUniform("U_Projection");
+  _contentColorUniform = indexForUniform("U_ContentColor");
 }

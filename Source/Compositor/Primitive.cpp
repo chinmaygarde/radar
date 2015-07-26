@@ -115,6 +115,9 @@ void Primitive::render(Frame& frame) {
   glUniformMatrix4fv(program->projectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&projection));
 
+  glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
+              _contentColor.b, _contentColor.a);
+
   glEnableVertexAttribArray(0);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
