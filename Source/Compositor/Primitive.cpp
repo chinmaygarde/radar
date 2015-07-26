@@ -84,4 +84,39 @@ void Primitive::render(Frame& frame) {
   auto program = static_cast<const BasicPrimitiveProgram*>(
       frame.programCatalog()->useProgramType(
           ProgramCatalog::Type::BasicPrimitve));
+
+  // clang-format off
+  GLCoord coords[] = {
+    {   10,   10,  0.0,  },
+    {   10,  100,  0.0,  },
+    {   100,  100,  0.0,  },
+  };
+  // clang-format on
+
+  /**
+   *  Upload Vertex Data. FIXME: Needs to be VBO backed. Just a stub
+   */
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, coords);
+
+  /**
+   *  Setup Uniform Data
+   */
+  static double foo = 0.0;
+  foo += 0.1;
+  GLMatrix model = MatrixIdentity;
+  glUniformMatrix4fv(program->modelUniform(), 1, GL_FALSE,
+                     reinterpret_cast<const GLfloat*>(&model));
+
+  GLMatrix view = MatrixIdentity;
+  glUniformMatrix4fv(program->viewUniform(), 1, GL_FALSE,
+                     reinterpret_cast<const GLfloat*>(&view));
+
+  GLMatrix projection = frame.projectionMatrix();
+  glUniformMatrix4fv(program->projectionUniform(), 1, GL_FALSE,
+                     reinterpret_cast<const GLfloat*>(&projection));
+
+  glEnableVertexAttribArray(0);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+
+  RL_GLAssert("No errors while rendering");
 }

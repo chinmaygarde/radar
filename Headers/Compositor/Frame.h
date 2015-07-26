@@ -7,6 +7,7 @@
 
 #include "Core/Base.h"
 #include "Geometry/Matrix.h"
+#include "Geometry/Size.h"
 #include "Compositor/ProgramCatalog.h"
 
 #include <mutex>
@@ -14,7 +15,7 @@
 namespace rl {
 class Frame {
  public:
-  Frame(Matrix projectionMatrix, std::shared_ptr<ProgramCatalog> catalog);
+  Frame(Size size, std::shared_ptr<ProgramCatalog> catalog);
 
   /**
    *  Get the projection matrix of the current frame
@@ -43,6 +44,7 @@ class Frame {
   void end();
 
  private:
+  Size _size;
   Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
 

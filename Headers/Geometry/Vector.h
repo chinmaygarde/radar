@@ -7,32 +7,9 @@
 
 #include "Geometry/Point.h"
 
+#include <cmath>
+
 namespace rl {
-struct Vector4 {
-  double a;
-  double b;
-  double c;
-  double d;
-
-  Vector4(double a, double b, double c, double d) : a(a), b(b), c(c), d(d) {}
-
-  bool operator==(const Vector4& v) const {
-    return a == v.a && b == v.b && c == v.c && d == v.d;
-  }
-
-  bool operator!=(const Vector4& v) const {
-    return a != v.a || b != v.b || c != v.c || d != v.d;
-  }
-
-  Vector4 operator+(const Vector4& v) const {
-    return Vector4(a + v.a, b + v.b, c + v.c, d + v.d);
-  }
-
-  Vector4 operator-(const Vector4& v) const {
-    return Vector4(a - v.a, b - v.b, c - v.c, d - v.d);
-  }
-};
-
 struct Vector3 {
   double x;
   double y;
@@ -60,6 +37,37 @@ struct Vector3 {
 
   Vector3 operator-(const Vector3& v) const {
     return Vector3(x - v.x, y - v.y, z - v.z);
+  }
+};
+
+struct Vector4 {
+  double a;
+  double b;
+  double c;
+  double d;
+
+  Vector4(double a, double b, double c, double d) : a(a), b(b), c(c), d(d) {}
+  Vector4(const Vector3& v) : a(v.x), b(v.y), c(v.z), d(1.0) {}
+
+  Vector4 normalize() const {
+    const double inverse = 1.0 / sqrt(a * a + b * b + c * c + d * d);
+    return Vector4(a * inverse, b * inverse, c * inverse, d * inverse);
+  }
+
+  bool operator==(const Vector4& v) const {
+    return a == v.a && b == v.b && c == v.c && d == v.d;
+  }
+
+  bool operator!=(const Vector4& v) const {
+    return a != v.a || b != v.b || c != v.c || d != v.d;
+  }
+
+  Vector4 operator+(const Vector4& v) const {
+    return Vector4(a + v.a, b + v.b, c + v.c, d + v.d);
+  }
+
+  Vector4 operator-(const Vector4& v) const {
+    return Vector4(a - v.a, b - v.b, c - v.c, d - v.d);
   }
 };
 }

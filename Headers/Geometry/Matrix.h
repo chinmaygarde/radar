@@ -9,6 +9,8 @@
 #include "Geometry/Size.h"
 #include "Geometry/Point.h"
 
+#include <cmath>
+
 namespace rl {
 struct Matrix {
   union {
@@ -27,15 +29,6 @@ struct Matrix {
             Vector4(m12, m13, m14, m15)} {}
   // clang-format on
 
-  static Matrix Translation(const Point& p) {
-    // clang-format off
-    return Matrix(1.0, 0.0, 0.0, 0.0,
-                  0.0, 1.0, 0.0, 0.0,
-                  0.0, 0.0, 1.0, 0.0,
-                  p.x, p.y, 0.0, 1.0);
-    // clang-format on
-  }
-
   static Matrix Translation(const Vector3& t) {
     // clang-format off
     return Matrix(1.0, 0.0, 0.0, 0.0,
@@ -51,6 +44,37 @@ struct Matrix {
                   0.0, s.y, 0.0, 0.0,
                   0.0, 0.0, s.z, 0.0,
                   0.0, 0.0, 0.0, 1.0);
+    // clang-format on
+  }
+
+  static Matrix Rotation(double radians, const Vector4& r) {
+    const Vector4 v = r.normalize();
+
+    const double cosine = cos(radians);
+    const double cosp = 1.0f - cosine;
+    const double sine = sin(radians);
+
+    // clang-format off
+    return Matrix(
+      cosine + cosp * v.a * v.a,
+      cosp * v.a * v.b + v.c * sine,
+      cosp * v.a * v.c - v.b * sine,
+      0.0,
+
+      cosp * v.a * v.b - v.c * sine,
+      cosine + cosp * v.b * v.b,
+      cosp * v.b * v.c + v.a * sine,
+      0.0,
+
+      cosp * v.a * v.c + v.b * sine,
+      cosp * v.b * v.c - v.a * sine,
+      cosine + cosp * v.c * v.c,
+      0.0,
+
+      0.0,
+      0.0,
+      0.0,
+      1.0);
     // clang-format on
   }
 

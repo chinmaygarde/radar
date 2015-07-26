@@ -74,6 +74,7 @@ void Compositor::commitCompositionSizeUpdate(double width, double height) {
   }
 
   // Commit size update
+  _surfaceSize = size;
 }
 
 void Compositor::stopComposition() {
@@ -103,7 +104,7 @@ void Compositor::drawFrame() {
     return;
   }
 
-  Frame frame(Matrix::Orthographic(_surfaceSize), accessCatalog());
+  Frame frame(_surfaceSize, accessCatalog());
 
   frame.begin();
 

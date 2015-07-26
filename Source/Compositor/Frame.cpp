@@ -11,8 +11,10 @@
 
 using namespace rl;
 
-Frame::Frame(Matrix projectionMatrix, std::shared_ptr<ProgramCatalog> catalog)
-    : _projectionMatrix(projectionMatrix), _programCatalog(catalog) {
+Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
+    : _size(size),
+      _projectionMatrix(Matrix::Orthographic(size)),
+      _programCatalog(catalog) {
   assert(catalog != nullptr && "The program catalog must be valid");
 }
 
@@ -26,8 +28,10 @@ void Frame::end() {
 }
 
 void Frame::startNewFrame() {
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClearColor(1.0, 1.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+  glViewport(0.0, 0.0, _size.width, _size.height);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

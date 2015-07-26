@@ -11,14 +11,14 @@ static const std::vector<std::string> DefaultUniforms = {"U_Model",
 
 static const std::string BasicVertexShader = R"--(
 
-attribute vec4 position;
+attribute vec3 position;
 
 uniform mat4 U_Model;
 uniform mat4 U_View;
 uniform mat4 U_Projection;
 
 void main() {
-  gl_Position = U_Projection * U_View * U_Model * position;
+  gl_Position = U_Projection * U_View * U_Model * vec4(position, 1.0);
 }
 
 )--";
@@ -30,7 +30,7 @@ precision mediump float;
 #endif
 
 void main() {
-  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+  gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
 }
 
 )--";
