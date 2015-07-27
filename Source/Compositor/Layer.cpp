@@ -89,7 +89,7 @@ void Layer::setTransformation(const Matrix& transformation) {
   _modelMatrixDirty = true;
 }
 
-void Layer::addSublayer(Layer::LayerRef layer) {
+void Layer::addSublayer(Layer::Ref layer) {
   if (layer == nullptr) {
     return;
   }
@@ -109,7 +109,7 @@ void Layer::addSublayer(Layer::LayerRef layer) {
   _sublayers.push_back(layer);
 }
 
-void Layer::removeSublayer(Layer::LayerRef layer) {
+void Layer::removeSublayer(Layer::Ref layer) {
   if (layer == nullptr) {
     return;
   }

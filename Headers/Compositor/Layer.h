@@ -18,7 +18,7 @@
 namespace rl {
 class Layer {
  public:
-  using LayerRef = std::shared_ptr<Layer>;
+  using Ref = std::shared_ptr<Layer>;
 
 #pragma mark - Construction
 
@@ -104,14 +104,14 @@ class Layer {
    *  Adds the layer as a sublayer of the current layer. If the layer already
    *  has a parent, it is removed from the same.
    */
-  void addSublayer(LayerRef layer);
+  void addSublayer(Ref layer);
 
   /**
    *  Removes the layer from the collection of sublayers
    *
    *  @param layer the sublayer to remove
    */
-  void removeSublayer(LayerRef layer);
+  void removeSublayer(Ref layer);
 
 #pragma mark - Display Properties
 
@@ -161,7 +161,7 @@ class Layer {
   bool _modelMatrixDirty;
   Color _backgroundColor;
   double _opacity;
-  std::list<LayerRef> _sublayers;
+  std::list<Ref> _sublayers;
   Layer* _superlayer;
   std::unique_ptr<Primitive> _backgroundPrimitive;
   std::unique_ptr<Primitive> _foregroundPrimitive;

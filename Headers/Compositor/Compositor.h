@@ -32,7 +32,7 @@ class Compositor : RenderSurfaceObserver {
   Lock _lock;
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
-  Layer::LayerRef _rootLayer;
+  Layer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
 
   /*

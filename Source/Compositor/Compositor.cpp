@@ -30,7 +30,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
   _rootLayer->setBackgroundColor(ColorRed);
   _rootLayer->setFrame(Rect(10, 10, 100, 100));
 
-  auto sublayer = Layer::LayerRef::make_shared();
+  auto sublayer = Layer::Ref::make_shared();
   sublayer->setFrame({0, 0, 50, 50});
   sublayer->setBackgroundColor(ColorBlack);
   _rootLayer->addSublayer(sublayer);
