@@ -162,12 +162,13 @@ const Matrix& Layer::modelMatrix() {
 
   _modelMatrixDirty = false;
 
-  const auto translated = Matrix::Translation({_position.x, _position.y, 0.0});
+  const auto translated = Matrix::Translation(_position);
 
-  const auto sized =
-      Matrix::Scale({_bounds.size.width, _bounds.size.height, 1.0});
+  const auto anchored = Matrix::Translation(-_anchorPoint);
 
-  _modelMatrix = translated * transformation() * sized;
+  const auto sized = Matrix::Scale(_bounds.size);
+
+  _modelMatrix = translated * transformation() * sized * anchored;
 
   return _modelMatrix;
 }

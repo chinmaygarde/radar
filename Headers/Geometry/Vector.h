@@ -6,6 +6,7 @@
 #define __RADARLOVE_GEOMETRY_VECTOR__
 
 #include "Geometry/Point.h"
+#include "Geometry/Size.h"
 
 #include <cmath>
 
@@ -15,7 +16,9 @@ struct Vector3 {
   double y;
   double z;
 
-  Vector3(const Point& p) : x(p.x), y(p.y) {}
+  Vector3(const Point& p) : x(p.x), y(p.y), z(0.0) {}
+
+  Vector3(const Size& s) : x(s.width), y(s.height), z(0.0) {}
 
   Vector3(double x, double y) : x(x), y(y), z(0.0) {}
 
