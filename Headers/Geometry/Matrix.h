@@ -195,6 +195,11 @@ struct Matrix {
   // clang-format on
 
   static Matrix Orthographic(const Size& size);
+
+  // clang-format off
+  static Matrix Perspective(double fov,   double aspect,
+                            double nearZ, double farZ);
+  // clang-format on
 };
 
 // clang-format off
