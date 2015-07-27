@@ -61,7 +61,7 @@ void Primitive::render(Frame& frame) {
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
-              _contentColor.b, _contentColor.a);
+              _contentColor.b, _contentColor.a * frame.opacity());
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 

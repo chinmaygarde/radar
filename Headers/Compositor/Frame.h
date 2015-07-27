@@ -11,7 +11,7 @@
 #include "Compositor/ProgramCatalog.h"
 
 #include <mutex>
-#include <stack>
+#include <deque>
 
 namespace rl {
 class Frame {
@@ -48,6 +48,28 @@ class Frame {
   void popViewMatrix();
 
   /**
+   *  Get the effective opacity of the frame at the current level in the layer
+   *  hierarchy
+   *
+   *  @return current opacity
+   */
+  double opacity() const;
+
+  /**
+   *  Push a new opacity onto the opacity stack as layers deeper in the
+   *  hierarchy are visited
+   *
+   *  @param opacity the new opacity
+   */
+  void pushOpacity(double opacity);
+
+  /**
+   *  Pop the last item off the opacity stack as the visitor backs out of the
+   *  layer hierarchy.
+   */
+  void popOpacity();
+
+  /**
    *  Access the preconfigured catalog of programs for this frame
    *
    *  @return the program catalog
@@ -70,9 +92,10 @@ class Frame {
   Size _size;
   Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::stack<Matrix> _viewMatrixStack;
+  std::deque<Matrix> _viewMatrixStack;
+  std::deque<double> _opacityStack;
 
-  void startNewFrame();
+  void setupFreshFrame();
 
   DISALLOW_COPY_AND_ASSIGN(Frame);
 };

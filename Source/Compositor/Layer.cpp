@@ -174,6 +174,12 @@ const Matrix& Layer::modelMatrix() {
 }
 
 void Layer::drawInFrame(Frame& frame) {
+  frame.pushOpacity(_opacity);
+
+  /*
+   *  Step 1:
+   *  Render all primitives that are a part of this layer
+   */
   if (_backgroundPrimitive) {
     _backgroundPrimitive->setModelMatrix(modelMatrix());
     _backgroundPrimitive->render(frame);
@@ -184,6 +190,11 @@ void Layer::drawInFrame(Frame& frame) {
     _foregroundPrimitive->render(frame);
   }
 
+  /*
+   *  Step 2:
+   *  Recursively visit sublayers and render as needed
+   */
+
   frame.pushViewMatrix(_viewMatrix);
 
   for (const auto& layer : _sublayers) {
@@ -191,4 +202,5 @@ void Layer::drawInFrame(Frame& frame) {
   }
 
   frame.popViewMatrix();
+  frame.popOpacity();
 }
