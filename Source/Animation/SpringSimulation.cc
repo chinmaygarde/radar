@@ -3,5 +3,29 @@
 // found in the LICENSE file.
 
 #include "Animation/SpringSimulation.h"
+#include "Animation/Utilities.h"
+#include "Animation/SpringSolution.h"
 
 using namespace rl;
+
+SpringSimulation::SpringSimulation(SpringDescription desc,
+                                   double start,
+                                   double end,
+                                   double velocity)
+    : _endPosition(end),
+      _solution(SpringSolution::Create(desc, start - end, velocity)) {
+}
+
+double SpringSimulation::x(double time) {
+  return _endPosition + _solution->x(time);
+}
+
+double SpringSimulation::dx(double time) {
+  return _solution->dx(time);
+}
+
+bool SpringSimulation::isDone(double time) {
+  return Animation::NearEqual(x(time), _endPosition,
+                              Animation::DistanceTolerance) &&
+         Animation::NearZero(dx(time), Animation::VelocityTolerance);
+}

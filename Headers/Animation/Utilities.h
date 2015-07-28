@@ -19,6 +19,27 @@ extern const float DistanceTolerance;
  *  Acceptable tolerance for changes to time intervals
  */
 extern const float TimeTolerance;
+
+/**
+ *  Check equality within the specified tolerance
+ *
+ *  @param a       first value
+ *  @param b       second value
+ *  @param epsilon tolerance
+ *
+ *  @return if equal within the tolerance
+ */
+bool NearEqual(double a, double b, double epsilon);
+
+/**
+ *  Check equality to zero within the specified tolerance
+ *
+ *  @param a       the value
+ *  @param epsilon tolerance
+ *
+ *  @return if equal to zero within the tolerance
+ */
+bool NearZero(double a, double epsilon);
 }
 }
 
