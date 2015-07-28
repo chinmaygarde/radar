@@ -24,7 +24,7 @@ class SimulationGroup : public Simulation {
    *
    *  @return the active simulation
    */
-  virtual Simulation& currentSimulation() = 0;
+  virtual Simulation* currentSimulation() = 0;
 
   /**
    *  The time offset applied to the currently active simulation
@@ -38,34 +38,18 @@ class SimulationGroup : public Simulation {
    *  must decide if the the current simulation must be switched (or updated).
    *  The result is whether the simulation was switched in this step.
    */
-  virtual double step(double time) = 0;
+  virtual bool step(double time) = 0;
 
-  virtual double x(double time) override {
-    stepIfNecessary(time);
-    return currentSimulation().x(time - currentIntervalOffset());
-  }
+  virtual double x(double time) override;
 
-  virtual double dx(double time) override {
-    stepIfNecessary(time);
-    return currentSimulation().dx(time - currentIntervalOffset());
-  }
+  virtual double dx(double time) override;
 
-  virtual bool isDone(double time) override {
-    stepIfNecessary(time);
-    return currentSimulation().isDone(time);
-  }
+  virtual bool isDone(double time) override;
 
  private:
   double _lastStep = -1.0;
 
-  void stepIfNecessary(double time) {
-    if (Animation::NearEqual(_lastStep, time, Animation::TimeTolerance)) {
-      return;
-    }
-
-    _lastStep = time;
-    step(time);
-  }
+  void stepIfNecessary(double time);
 };
 }
 
