@@ -37,6 +37,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 file(GLOB RADARLOVE_SRC
   "Headers/*.h"
+  "Headers/Animation/*.h"
   "Headers/Core/*.h"
   "Headers/Shell/*.h"
   "Headers/Host/*.h"
@@ -45,6 +46,8 @@ file(GLOB RADARLOVE_SRC
   "Headers/Geometry/*.h"
   "Source/*.h"
   "Source/*.cc"
+  "Source/Animation/*.h"
+  "Source/Animation/*.cc"
   "Source/Core/*.h"
   "Source/Core/*.cc"
   "Source/Shell/*.h"
