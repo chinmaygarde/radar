@@ -44,29 +44,29 @@ file(GLOB RADARLOVE_SRC
   "Headers/Interface/*.h"
   "Headers/Geometry/*.h"
   "Source/*.h"
-  "Source/*.cpp"
+  "Source/*.cc"
   "Source/Core/*.h"
-  "Source/Core/*.cpp"
+  "Source/Core/*.cc"
   "Source/Shell/*.h"
-  "Source/Shell/*.cpp"
+  "Source/Shell/*.cc"
   "Source/Host/*.h"
-  "Source/Host/*.cpp"
+  "Source/Host/*.cc"
   "Source/Compositor/*.h"
-  "Source/Compositor/*.cpp"
+  "Source/Compositor/*.cc"
   "Source/Interface/*.h"
-  "Source/Interface/*.cpp"
+  "Source/Interface/*.cc"
   "Source/Geometry/*.h"
-  "Source/Geometry/*.cpp"
+  "Source/Geometry/*.cc"
 )
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(GLOB RADARLOVE_SRC_PLATFORM
     "Source/Core/Apple/*.h"
-    "Source/Core/Apple/*.cpp"
+    "Source/Core/Apple/*.cc"
   )
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(GLOB RADARLOVE_SRC_PLATFORM
     "Source/Core/Linux/*.h"
-    "Source/Core/Linux/*.cpp"
+    "Source/Core/Linux/*.cc"
   )
 endif()
 
@@ -93,7 +93,7 @@ include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 file(GLOB RADARLOVE_TEST_SRC
   "Test/*.h"
-  "Test/*.cpp"
+  "Test/*.cc"
 )
 
 include_directories ( Source )
