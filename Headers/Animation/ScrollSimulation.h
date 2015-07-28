@@ -6,6 +6,11 @@
 #define __RADARLOVE_ANIMATION_SCROLLSIMULATION__
 
 namespace rl {
+/**
+ *  Simulates kinetic scrolling behavior between a leading and trailing
+ *  boundary. Friction is applied within the extends and a spring action applied
+ *  at the boundaries. This simulation can only step forward.
+ */
 class ScrollSimulation {};
 }
 
