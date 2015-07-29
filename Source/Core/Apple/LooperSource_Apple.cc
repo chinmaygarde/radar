@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "LooperSource.h"
-#include "Utilities.h"
-#include "Base.h"
+#include "Core/LooperSource.h"
+#include "Core/Utilities.h"
+#include "Core/Base.h"
 
 #include <sys/event.h>
 

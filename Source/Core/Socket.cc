@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Socket.h"
-#include "Utilities.h"
-#include "Attachment.h"
-#include "Message.h"
+#include "Core/Socket.h"
+#include "Core/Utilities.h"
+#include "Core/Attachment.h"
+#include "Core/Message.h"
 
 #if __APPLE__
 // For Single Unix Standard v3 (SUSv3) conformance

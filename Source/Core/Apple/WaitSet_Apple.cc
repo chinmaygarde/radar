@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "WaitSet.h"
-#include "Utilities.h"
+#include "Core/WaitSet.h"
+#include "Core/Utilities.h"
 
 #include <sys/event.h>
 #include <unistd.h>

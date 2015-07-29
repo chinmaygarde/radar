@@ -11,44 +11,23 @@
 		9E26F1BB1B59CBB50016A899 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1BA1B59CBB50016A899 /* main.m */; };
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
-		EA1F413D1B5C073600CFD25B /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA69B84C1B5C062500323F1D /* libRadarLove.a */; };
+		9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EA1F413B1B5C073000CFD25B /* PBXContainerItemProxy */ = {
+		9EAECEF21B685554000FA38A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
+			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9EAECE271B68543F000FA38A;
+			remoteInfo = RadarLove;
+		};
+		9EAECEF41B68555D000FA38A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = A23570683D314D568CE9F305;
+			remoteGlobalIDString = 9EAECE261B68543F000FA38A;
 			remoteInfo = RadarLove;
-		};
-		EA69B84B1B5C062500323F1D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 78B04261F71347ECB9201576;
-			remoteInfo = RadarLove;
-		};
-		EA69B84D1B5C062500323F1D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7A4268345E534441AE4D1293;
-			remoteInfo = RadarLoveTest;
-		};
-		EA69B84F1B5C062500323F1D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 22C1946862874DBCA270D59F;
-			remoteInfo = gtest;
-		};
-		EA69B8511B5C062500323F1D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 35349FEE66A643F786EA122B;
-			remoteInfo = gtest_main;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -60,7 +39,7 @@
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../build/RadarLove.xcodeproj; sourceTree = "<group>"; };
+		9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../RadarLove.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA1F413D1B5C073600CFD25B /* libRadarLove.a in Frameworks */,
+				9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,23 +92,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9EAECEEF1B685554000FA38A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9EAECEF31B685554000FA38A /* libRadarLove.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		EA69B8401B5C061D00323F1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */,
+				9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EA69B8421B5C062500323F1D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EA69B84C1B5C062500323F1D /* libRadarLove.a */,
-				EA69B84E1B5C062500323F1D /* RadarLoveTest */,
-				EA69B8501B5C062500323F1D /* libgtest.a */,
-				EA69B8521B5C062500323F1D /* libgtest_main.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,7 +122,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				EA1F413C1B5C073000CFD25B /* PBXTargetDependency */,
+				9EAECEF51B68555D000FA38A /* PBXTargetDependency */,
 			);
 			name = RadarLoveMac;
 			productName = RadarLoveMac;
@@ -180,8 +156,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EA69B8421B5C062500323F1D /* Products */;
-					ProjectRef = EA69B8411B5C062500323F1D /* RadarLove.xcodeproj */;
+					ProductGroup = 9EAECEEF1B685554000FA38A /* Products */;
+					ProjectRef = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -192,32 +168,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EA69B84C1B5C062500323F1D /* libRadarLove.a */ = {
+		9EAECEF31B685554000FA38A /* libRadarLove.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRadarLove.a;
-			remoteRef = EA69B84B1B5C062500323F1D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA69B84E1B5C062500323F1D /* RadarLoveTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = RadarLoveTest;
-			remoteRef = EA69B84D1B5C062500323F1D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA69B8501B5C062500323F1D /* libgtest.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libgtest.a;
-			remoteRef = EA69B84F1B5C062500323F1D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA69B8521B5C062500323F1D /* libgtest_main.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libgtest_main.a;
-			remoteRef = EA69B8511B5C062500323F1D /* PBXContainerItemProxy */;
+			remoteRef = 9EAECEF21B685554000FA38A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -247,10 +202,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EA1F413C1B5C073000CFD25B /* PBXTargetDependency */ = {
+		9EAECEF51B68555D000FA38A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RadarLove;
-			targetProxy = EA1F413B1B5C073000CFD25B /* PBXContainerItemProxy */;
+			targetProxy = 9EAECEF41B68555D000FA38A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
