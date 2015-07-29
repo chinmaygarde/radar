@@ -89,6 +89,8 @@
 		9EAECEEA1B685469000FA38A /* Host.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEBE1B685469000FA38A /* Host.cc */; };
 		9EAECEEB1B685469000FA38A /* Interface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC01B685469000FA38A /* Interface.cc */; };
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
+		9EAECEF91B694E15000FA38A /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECEF81B694E15000FA38A /* Entity.h */; };
+		9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEFA1B694E26000FA38A /* Entity.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -177,6 +179,8 @@
 		9EAECEBE1B685469000FA38A /* Host.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Host.cc; sourceTree = "<group>"; };
 		9EAECEC01B685469000FA38A /* Interface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cc; sourceTree = "<group>"; };
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
+		9EAECEF81B694E15000FA38A /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		9EAECEFA1B694E26000FA38A /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +243,7 @@
 		9EAECE3D1B685460000FA38A /* Compositor */ = {
 			isa = PBXGroup;
 			children = (
+				9EAECEF81B694E15000FA38A /* Entity.h */,
 				9EAECE3E1B685460000FA38A /* Color.h */,
 				9EAECE3F1B685460000FA38A /* Compositor.h */,
 				9EAECE401B685460000FA38A /* Frame.h */,
@@ -344,6 +349,7 @@
 		9EAECE991B685469000FA38A /* Compositor */ = {
 			isa = PBXGroup;
 			children = (
+				9EAECEFA1B694E26000FA38A /* Entity.cc */,
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
 				9EAECE9C1B685469000FA38A /* Frame.cc */,
@@ -448,6 +454,7 @@
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EAECE841B685460000FA38A /* Socket.h in Headers */,
+				9EAECEF91B694E15000FA38A /* Entity.h in Headers */,
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
@@ -570,6 +577,7 @@
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
+				9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */,
 				9EAECED61B685469000FA38A /* Attachment.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
