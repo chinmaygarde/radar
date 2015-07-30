@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* LooperObserver.cc */; };
 		9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* LooperObserver.h */; };
+		9E222CDD1B6A9387005D02EE /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDB1B6A9387005D02EE /* Action.cc */; };
+		9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */; };
+		9E222CE11B6A9394005D02EE /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CDF1B6A9394005D02EE /* Action.h */; };
+		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
 		9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE361B685460000FA38A /* GravitySimulation.h */; };
 		9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE371B685460000FA38A /* ScrollSimulation.h */; };
@@ -98,6 +102,10 @@
 /* Begin PBXFileReference section */
 		9E222CD71B69ABCF005D02EE /* LooperObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperObserver.cc; sourceTree = "<group>"; };
 		9E222CD91B69ABEC005D02EE /* LooperObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperObserver.h; sourceTree = "<group>"; };
+		9E222CDB1B6A9387005D02EE /* Action.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
+		9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceTransaction.cc; sourceTree = "<group>"; };
+		9E222CDF1B6A9394005D02EE /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
+		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EAECE351B685460000FA38A /* FrictionSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictionSimulation.h; sourceTree = "<group>"; };
 		9EAECE361B685460000FA38A /* GravitySimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySimulation.h; sourceTree = "<group>"; };
@@ -309,6 +317,8 @@
 		9EAECE611B685460000FA38A /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				9E222CDF1B6A9394005D02EE /* Action.h */,
+				9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */,
 				9EAECE621B685460000FA38A /* Interface.h */,
 			);
 			path = Interface;
@@ -432,6 +442,8 @@
 		9EAECEBF1B685469000FA38A /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				9E222CDB1B6A9387005D02EE /* Action.cc */,
+				9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */,
 				9EAECEC01B685469000FA38A /* Interface.cc */,
 			);
 			path = Interface;
@@ -469,9 +481,11 @@
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
+				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9EAECE7D1B685460000FA38A /* Lock.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
+				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EAECE701B685460000FA38A /* Layer.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
@@ -561,6 +575,7 @@
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */,
 				9EAECECE1B685469000FA38A /* Layer.cc in Sources */,
+				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
@@ -574,6 +589,7 @@
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
+				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
