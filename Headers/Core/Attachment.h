@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__ATTACHMENT__
 #define __RADARLOVE__ATTACHMENT__
 
-#include "Base.h"
+#include "Core/Base.h"
 
 namespace rl {
 class Attachment {

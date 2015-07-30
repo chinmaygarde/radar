@@ -36,7 +36,9 @@ Looper::Looper()
       _trivialSource(nullptr),
       _shouldTerminate(false),
       _lock(),
-      _pendingDispatches(Utils::make_unique<PendingBlocks>()) {
+      _pendingDispatches(Utils::make_unique<PendingBlocks>()),
+      _beforeSleepObservers(),
+      _afterSleepObservers() {
 }
 
 Looper::~Looper() {
@@ -96,10 +98,12 @@ void Looper::terminate() {
 
 void Looper::beforeSleep() {
   flushPendingDispatches();
+  _beforeSleepObservers.invokeAll();
 }
 
 void Looper::afterSleep() {
   flushPendingDispatches();
+  _afterSleepObservers.invokeAll();
 }
 
 void Looper::flushPendingDispatches() {
@@ -133,4 +137,28 @@ void Looper::dispatchAsync(std::function<void()> block) {
   AutoLock lock(_lock);
   _pendingDispatches->push_back(block);
   _trivialSource->writer()(_trivialSource->writeHandle());
+}
+
+void Looper::addObserver(std::shared_ptr<LooperObserver> observer,
+                         LooperObserver::Activity activity) {
+  switch (activity) {
+    case LooperObserver::Activity::BeforeSleep:
+      _beforeSleepObservers.addObserver(observer);
+      break;
+    case LooperObserver::Activity::AfterSleep:
+      _afterSleepObservers.addObserver(observer);
+      break;
+  }
+}
+
+void Looper::removeObserver(std::shared_ptr<LooperObserver> observer,
+                            LooperObserver::Activity activity) {
+  switch (activity) {
+    case LooperObserver::Activity::BeforeSleep:
+      _beforeSleepObservers.removeObserver(observer);
+      break;
+    case LooperObserver::Activity::AfterSleep:
+      _afterSleepObservers.removeObserver(observer);
+      break;
+  }
 }

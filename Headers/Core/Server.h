@@ -5,13 +5,13 @@
 #ifndef __RADARLOVE__SERVER__
 #define __RADARLOVE__SERVER__
 
-#include "Base.h"
+#include "Core/Base.h"
 
 #include <string>
 #include <functional>
 
-#include "LooperSource.h"
-#include "Channel.h"
+#include "Core/LooperSource.h"
+#include "Core/Channel.h"
 
 namespace rl {
 

@@ -5,8 +5,8 @@
 #ifndef __RADARLOVE__SOCKETACCESSOR__
 #define __RADARLOVE__SOCKETACCESSOR__
 
-#include "Base.h"
-#include "AutoLock.h"
+#include "Core/Base.h"
+#include "Core/AutoLock.h"
 
 #include <utility>
 #include <string>

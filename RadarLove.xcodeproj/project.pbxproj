@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* LooperObserver.cc */; };
+		9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* LooperObserver.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
 		9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE361B685460000FA38A /* GravitySimulation.h */; };
 		9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE371B685460000FA38A /* ScrollSimulation.h */; };
@@ -94,6 +96,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E222CD71B69ABCF005D02EE /* LooperObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperObserver.cc; sourceTree = "<group>"; };
+		9E222CD91B69ABEC005D02EE /* LooperObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperObserver.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EAECE351B685460000FA38A /* FrictionSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictionSimulation.h; sourceTree = "<group>"; };
 		9EAECE361B685460000FA38A /* GravitySimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySimulation.h; sourceTree = "<group>"; };
@@ -270,6 +274,7 @@
 				9EAECE4F1B685460000FA38A /* Lock.h */,
 				9EAECE501B685460000FA38A /* Looper.h */,
 				9EAECE511B685460000FA38A /* LooperSource.h */,
+				9E222CD91B69ABEC005D02EE /* LooperObserver.h */,
 				9EAECE521B685460000FA38A /* Message.h */,
 				9EAECE531B685460000FA38A /* RingBuffer.h */,
 				9EAECE541B685460000FA38A /* Server.h */,
@@ -366,14 +371,15 @@
 		9EAECEA31B685469000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				9EAECEAB1B685469000FA38A /* Linux */,
 				9EAECEA41B685469000FA38A /* Apple */,
 				9EAECEA71B685469000FA38A /* Attachment.cc */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
-				9EAECEAB1B685469000FA38A /* Linux */,
 				9EAECEAE1B685469000FA38A /* Looper.cc */,
 				9EAECEAF1B685469000FA38A /* LooperSource.cc */,
+				9E222CD71B69ABCF005D02EE /* LooperObserver.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
 				9EAECEB11B685469000FA38A /* RingBuffer.cc */,
 				9EAECEB21B685469000FA38A /* Server.cc */,
@@ -473,6 +479,7 @@
 				9EAECE811B685460000FA38A /* RingBuffer.h in Headers */,
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
+				9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
@@ -582,6 +589,7 @@
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
+				9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EAECEE01B685469000FA38A /* Server.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,

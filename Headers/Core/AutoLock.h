@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__AUTOLOCK__
 #define __RADARLOVE__AUTOLOCK__
 
-#include "Lock.h"
+#include "Core/Lock.h"
 
 namespace rl {
 class AutoLock {

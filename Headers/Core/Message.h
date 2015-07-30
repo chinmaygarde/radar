@@ -5,8 +5,8 @@
 #ifndef __RADARLOVE__MESSAGE__
 #define __RADARLOVE__MESSAGE__
 
-#include "Channel.h"
-#include "Attachment.h"
+#include "Core/Channel.h"
+#include "Core/Attachment.h"
 
 #include <vector>
 #include <utility>

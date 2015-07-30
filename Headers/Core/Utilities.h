@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__UTILITIES__
 #define __RADARLOVE__UTILITIES__
 
-#include "Config.h"
+#include "Core/Config.h"
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>

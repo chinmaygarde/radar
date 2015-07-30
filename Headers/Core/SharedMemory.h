@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__SHAREDMEMORY__
 #define __RADARLOVE__SHAREDMEMORY__
 
-#include "Base.h"
+#include "Core/Base.h"
 #include <string>
 
 namespace rl {

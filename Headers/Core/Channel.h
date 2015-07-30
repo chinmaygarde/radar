@@ -5,9 +5,9 @@
 #ifndef __RADARLOVE__CHANNEL__
 #define __RADARLOVE__CHANNEL__
 
-#include "Base.h"
-#include "Looper.h"
-#include "Socket.h"
+#include "Core/Base.h"
+#include "Core/Looper.h"
+#include "Core/Socket.h"
 
 #include <string>
 #include <memory>
