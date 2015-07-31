@@ -42,9 +42,18 @@ void LooperObserverCollection::removeObserver(
 }
 
 void LooperObserverCollection::invokeAll() {
-  AutoLock lock(_lock);
+  _lock.lock();
 
-  for (const auto& observer : _observers) {
+  if (_observers.size() == 0) {
+    _lock.unlock();
+    return;
+  }
+
+  LooperObserversSet copied(_observers);
+
+  _lock.unlock();
+
+  for (const auto& observer : copied) {
     observer->invoke();
   }
 }
