@@ -11,8 +11,8 @@ using namespace rl;
 Interface::Interface() : _looper(nullptr), _lock(), _transactionStack() {
   _autoFlushObserver = std::make_shared<LooperObserver>(
       std::numeric_limits<uint64_t>::max(), [&] {
-        armAutoFlushTransactions(false);
         flushTransactions();
+        armAutoFlushTransactions(false);
       });
 }
 
@@ -75,4 +75,10 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
+  AutoLock lock(_lock);
+
+  while (_transactionStack.size() != 0) {
+    _transactionStack.top().commit();
+    _transactionStack.pop();
+  }
 }
