@@ -88,7 +88,9 @@ class LooperObserverCollection {
 
  private:
   Lock _lock;
-  std::set<std::shared_ptr<LooperObserver>, LooperObserverComparer> _observers;
+  using LooperObserversSet =
+      std::set<std::shared_ptr<LooperObserver>, LooperObserverComparer>;
+  LooperObserversSet _observers;
 
   DISALLOW_COPY_AND_ASSIGN(LooperObserverCollection);
 };
