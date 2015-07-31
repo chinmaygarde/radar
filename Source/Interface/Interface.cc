@@ -4,9 +4,16 @@
 
 #include "Interface/Interface.h"
 
+#include <limits>
+
 using namespace rl;
 
 Interface::Interface() : _looper(nullptr), _lock(), _transactionStack() {
+  _autoFlushObserver = std::make_shared<LooperObserver>(
+      std::numeric_limits<uint64_t>::max(), [&] {
+        armAutoFlushTransactions(false);
+        flushTransactions();
+      });
 }
 
 void Interface::run(Latch& readyLatch) {
@@ -34,6 +41,7 @@ const InterfaceTransaction& Interface::transaction() {
      *  are already holding the lock, so update the stack manually.
      */
     _transactionStack.emplace();
+    armAutoFlushTransactions(true);
   }
 
   return _transactionStack.top();
@@ -54,4 +62,17 @@ void Interface::popTransaction() {
 
   _transactionStack.top().commit();
   _transactionStack.pop();
+}
+
+void Interface::armAutoFlushTransactions(bool arm) {
+  const auto activity = LooperObserver::Activity::BeforeSleep;
+
+  if (arm) {
+    _looper->addObserver(_autoFlushObserver, activity);
+  } else {
+    _looper->removeObserver(_autoFlushObserver, activity);
+  }
+}
+
+void Interface::flushTransactions() {
 }

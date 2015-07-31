@@ -35,7 +35,7 @@ class LooperObserver {
   /**
    *  Create a looper observer at the specified absolute priority
    */
-  LooperObserver(Callback callback, uint64_t priority = PriorityDefault);
+  LooperObserver(uint64_t priority, Callback callback);
 
   /*
    *  Invoke the looper observer callback

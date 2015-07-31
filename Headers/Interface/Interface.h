@@ -55,6 +55,10 @@ class Interface {
   Looper* _looper;
   Lock _lock;
   std::stack<InterfaceTransaction> _transactionStack;
+  std::shared_ptr<LooperObserver> _autoFlushObserver;
+
+  void armAutoFlushTransactions(bool arm);
+  void flushTransactions();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
 };

@@ -8,8 +8,8 @@
 
 using namespace rl;
 
-LooperObserver::LooperObserver(Callback callback, uint64_t priority)
-    : _callback(callback), _priority(priority) {
+LooperObserver::LooperObserver(uint64_t priority, Callback callback)
+    : _priority(priority), _callback(callback) {
   assert(_callback && "A callback must be provided to the looper observer");
 }
 

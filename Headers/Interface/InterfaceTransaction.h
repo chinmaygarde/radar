@@ -19,8 +19,7 @@ class InterfaceTransaction {
   void commit();
 
  private:
-  InterfaceTransaction(InterfaceTransaction&) = delete;
-  void operator=(InterfaceTransaction) = delete;
+  DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
 }
 
