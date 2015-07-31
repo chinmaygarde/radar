@@ -21,7 +21,7 @@ static inline void LooperSource_UpdateKeventSource(int queue,
 
   EV_SET(&event, ident, filter, flags, fflags, data, udata);
 
-  RL_TEMP_FAILURE_RETRY(::kevent(queue, &event, 1, nullptr, 0, NULL));
+  RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(queue, &event, 1, nullptr, 0, NULL));
 }
 
 void LooperSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
@@ -47,8 +47,13 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
 
   };
 
-  auto timer =
-      std::make_shared<LooperSource>(nullptr, nullptr, nullptr, nullptr);
+  static uintptr_t KQueueTimerIdent = 1;
+
+  IOHandlesAllocator handlesAllocator =
+      [] { return Handles(KQueueTimerIdent++, -1); };
+
+  auto timer = std::make_shared<LooperSource>(handlesAllocator, nullptr,
+                                              nullptr, nullptr);
 
   timer->setCustomWaitSetUpdateHandler(updateHandler);
 
