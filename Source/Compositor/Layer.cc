@@ -92,12 +92,12 @@ void Layer::drawInFrame(Frame& frame) {
    *  Render all primitives that are a part of this layer
    */
   if (_backgroundPrimitive) {
-    _backgroundPrimitive->setModelMatrix(modelMatrix());
+    _backgroundPrimitive->setModelMatrixAndSize(modelMatrix(), bounds().size);
     _backgroundPrimitive->render(frame);
   }
 
   if (_foregroundPrimitive) {
-    _foregroundPrimitive->setModelMatrix(modelMatrix());
+    _foregroundPrimitive->setModelMatrixAndSize(modelMatrix(), bounds().size);
     _foregroundPrimitive->render(frame);
   }
 
@@ -106,9 +106,13 @@ void Layer::drawInFrame(Frame& frame) {
    *  Recursively visit sublayers and render as needed
    */
 
+  frame.pushViewMatrix(frame.viewMatrix() * modelMatrix());
+
   for (const auto& layer : _sublayers) {
     layer->drawInFrame(frame);
   }
+
+  frame.popViewMatrix();
 
   frame.popOpacity();
 }

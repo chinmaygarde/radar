@@ -10,7 +10,9 @@
 using namespace rl;
 
 Primitive::Primitive()
-    : _modelMatrix(MatrixIdentity), _contentColor(ColorWhiteTransparent) {
+    : _modelMatrix(MatrixIdentity),
+      _contentColor(ColorWhiteTransparent),
+      _size(SizeZero) {
 }
 
 const Matrix& Primitive::modelMatrix() const {
@@ -18,6 +20,19 @@ const Matrix& Primitive::modelMatrix() const {
 }
 
 void Primitive::setModelMatrix(const Matrix& matrix) {
+  _modelMatrix = matrix;
+}
+
+const Size& Primitive::size() const {
+  return _size;
+}
+
+void Primitive::setSize(const Size& size) {
+  _size = size;
+}
+
+void Primitive::setModelMatrixAndSize(const Matrix& matrix, const Size& size) {
+  _size = size;
   _modelMatrix = matrix;
 }
 
@@ -46,22 +61,25 @@ void Primitive::render(Frame& frame) {
   };
   // clang-format on
 
-  /**
+  /*
    *  Upload Vertex Data.
    */
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, coords);
 
-  /**
+  /*
    *  Setup Uniform Data
    */
   GLMatrix modelViewProjection =
       frame.projectionMatrix() * frame.viewMatrix() * _modelMatrix;
+
   glUniformMatrix4fv(program->modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
               _contentColor.b, _contentColor.a * frame.opacity());
+
+  glUniform2f(program->sizeUniform(), _size.width, _size.height);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 

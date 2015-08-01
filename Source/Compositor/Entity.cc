@@ -12,7 +12,6 @@ Entity::Entity()
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
       _modelMatrix(MatrixIdentity),
-      _viewMatrix(MatrixIdentity),
       _modelMatrixDirty(true){};
 
 Rect Entity::frame() const {
@@ -87,13 +86,17 @@ const Matrix& Entity::modelMatrix() {
 
   _modelMatrixDirty = false;
 
-  const auto translated = Matrix::Translation(_position);
+  const Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
+                  _position.y - _anchorPoint.y * _bounds.size.height);
 
-  const auto anchored = Matrix::Translation(-_anchorPoint);
+  // clang-format off
+  Matrix translation(1.0,   0.0,   0.0, 0.0,
+                     0.0,   1.0,   0.0, 0.0,
+                     0.0,   0.0,   1.0, 0.0,
+                     pos.x, pos.y, 0.0, 1.0);
+  // clang-format on
 
-  const auto sized = Matrix::Scale(_bounds.size);
-
-  _modelMatrix = translated * transformation() * sized * anchored;
+  _modelMatrix = translation * transformation();
 
   return _modelMatrix;
 }

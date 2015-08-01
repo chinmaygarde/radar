@@ -9,6 +9,7 @@
 #include "Geometry/Matrix.h"
 #include "Geometry/Size.h"
 #include "Compositor/ProgramCatalog.h"
+#include "Compositor/Entity.h"
 
 #include <mutex>
 #include <deque>

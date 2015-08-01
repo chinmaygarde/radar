@@ -25,15 +25,20 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
   _surface->setObserver(this);
   _vsyncSource->setWakeFunction([&] { onVsync(); });
 
-  // Test Layer
+  // Test Layers
   _rootLayer = std::make_shared<Layer>();
   _rootLayer->setBackgroundColor(ColorRed);
-  _rootLayer->setFrame(Rect(10, 10, 100, 100));
+  _rootLayer->setFrame(Rect(200, 200, 300, 200));
 
   auto sublayer = Layer::Ref::make_shared();
-  sublayer->setFrame({0, 0, 50, 50});
-  sublayer->setBackgroundColor(ColorBlack);
+  sublayer->setFrame({10, 10, 100, 300});
+  sublayer->setBackgroundColor(ColorGreen);
   _rootLayer->addSublayer(sublayer);
+
+  auto sublayer2 = Layer::Ref::make_shared();
+  sublayer2->setFrame({10, 10, 75, 75});
+  sublayer2->setBackgroundColor(ColorBlue);
+  sublayer->addSublayer(sublayer2);
 }
 
 Compositor::~Compositor() {

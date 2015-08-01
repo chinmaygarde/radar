@@ -65,12 +65,15 @@ class BasicPrimitiveProgram : public Program {
 
   unsigned int contentColorUniform() const { return _contentColorUniform; };
 
+  unsigned int sizeUniform() const { return _sizeUniform; };
+
  protected:
   virtual void onLinkSuccess() override;
 
  private:
   unsigned int _modelViewProjectionUniform;
   unsigned int _contentColorUniform;
+  unsigned int _sizeUniform;
 
   DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };

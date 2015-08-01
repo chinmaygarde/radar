@@ -45,8 +45,8 @@ class Entity {
   void setBounds(const Rect& bounds);
 
   /**
-   *  The position specifies the coordinates of the anchor position of the entity
-   *  relative to its parent
+   *  The position specifies the coordinates of the anchor position of the
+   *  entity relative to its parent
    *
    *  @return the position of the entity
    */
@@ -100,7 +100,6 @@ class Entity {
   Point _anchorPoint;
   Matrix _transformation;
   Matrix _modelMatrix;
-  Matrix _viewMatrix;
   bool _modelMatrixDirty;
 
   DISALLOW_COPY_AND_ASSIGN(Entity);

@@ -119,7 +119,8 @@ unsigned int Program::indexForAttribute(const std::string& attribute) {
   auto found =
       std::find(_knownAttributes.begin(), _knownAttributes.end(), attribute);
   assert(found != _knownAttributes.end() && "Unknown attribute queried");
-  return std::distance(_knownAttributes.begin(), found);
+  return static_cast<unsigned int>(
+      std::distance(_knownAttributes.begin(), found));
 }
 
 unsigned int Program::indexForUniform(const std::string& uniform) {
