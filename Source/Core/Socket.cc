@@ -145,7 +145,8 @@ Socket::ReadResult Socket::ReadMessages() {
         .msg_flags = 0,
     };
 
-    int received = RL_TEMP_FAILURE_RETRY(::recvmsg(_handle, &messageHeader, 0));
+    long received =
+        RL_TEMP_FAILURE_RETRY(::recvmsg(_handle, &messageHeader, 0));
 
     if (received > 0) {
       auto message = rl::Utils::make_unique<Message>(_buffer, received);
@@ -256,20 +257,20 @@ Socket::Status Socket::WriteMessage(Message& message) {
 
     char buffer[controlLength];
     messageHeader.msg_control = buffer;
-    messageHeader.msg_controllen = controlLength;
+    messageHeader.msg_controllen = static_cast<socklen_t>(controlLength);
 
     struct cmsghdr* cmsgh = CMSG_FIRSTHDR(&messageHeader);
 
     cmsgh->cmsg_level = SOL_SOCKET;
     cmsgh->cmsg_type = SCM_RIGHTS;
-    cmsgh->cmsg_len = CMSG_LEN(sizeof(descriptors));
+    cmsgh->cmsg_len = static_cast<socklen_t>(CMSG_LEN(sizeof(descriptors)));
 
     memcpy((int*)CMSG_DATA(cmsgh), descriptors, sizeof(descriptors));
 
     messageHeader.msg_controllen = cmsgh->cmsg_len;
   }
 
-  int sent = 0;
+  long sent = 0;
 
   while (true) {
     sent = RL_TEMP_FAILURE_RETRY(::sendmsg(_handle, &messageHeader, 0));
