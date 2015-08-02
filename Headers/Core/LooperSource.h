@@ -17,132 +17,80 @@ namespace rl {
 
 class LooperSource {
  public:
-  typedef int Handle;
-  typedef std::pair<Handle, Handle> Handles;
-
-  typedef std::function<void(Handle)> IOHandler;
-
-  typedef std::function<void(void)> WakeFunction;
-
-  typedef std::function<Handles(void)> IOHandlesAllocator;
-  typedef std::function<void(Handles)> IOHandlesDeallocator;
-
-  typedef std::function<void(LooperSource* source,
-                             WaitSet::Handle waitsetHandle,
-                             Handle readHandle,
-                             bool adding)> WaitSetUpdateHandler;
+  using Handle = int;
+  using Handles = std::pair<Handle, Handle>;
+  using IOHandler = std::function<void(Handle)>;
+  using WakeFunction = std::function<void(void)>;
+  using IOHandlesAllocator = std::function<Handles(void)>;
+  using IOHandlesDeallocator = std::function<void(Handles)>;
+  using WaitSetUpdateHandler = std::function<void(LooperSource* source,
+                                                  WaitSet::Handle waitsetHandle,
+                                                  Handle readHandle,
+                                                  bool adding)>;
 
   LooperSource(IOHandlesAllocator handleAllocator,
                IOHandlesDeallocator handleDeallocator,
                IOHandler readHandler,
-               IOHandler writeHandler) {
-    _handlesAllocator = handleAllocator;
-    _handlesDeallocator = handleDeallocator;
+               IOHandler writeHandler);
 
-    _customWaitSetUpdateHandler = nullptr;
+  ~LooperSource();
 
-    _readHandler = readHandler;
-    _writeHandler = writeHandler;
+  void onAwoken();
 
-    _wakeFunction = nullptr;
-    _handles = Handles(-1, -1);
-    _handlesAllocated = false;
-  }
+#pragma mark - Accessing the wait function
 
-  ~LooperSource() {
-    if (_handlesAllocated && _handlesDeallocator != nullptr) {
-      _handlesDeallocator(_handles);
-    }
-  }
+  WakeFunction wakeFunction() const;
+  void setWakeFunction(WakeFunction wakeFunction);
 
-  void onAwoken() {
-    if (_wakeFunction != nullptr) {
-      _wakeFunction();
-    }
-  }
+#pragma mark - Accessing the underlying handles
 
-  /*
-   *  Wait Function
-   */
+  Handles handles();
 
-  void setWakeFunction(WakeFunction wakeFunction) {
-    _wakeFunction = wakeFunction;
-  }
+  Handle readHandle();
 
-  WakeFunction wakeFunction() const { return _wakeFunction; }
+  Handle writeHandle();
 
-  /*
-   *  Accessing the handles
-   */
+#pragma mark - Accessing the reader and writer procs
 
-  Handles handles() {
-    /*
-     *  Handles are allocated lazily
-     */
-    if (!_handlesAllocated) {
-      auto allocator = _handlesAllocator;
+  IOHandler reader();
 
-      if (allocator != nullptr) {
-        _handles = _handlesAllocator();
-      }
+  IOHandler writer();
 
-      _handlesAllocated = true;
-    }
+#pragma mark - Interacting with a WaitSet
 
-    return _handles;
-  }
-
-  /*
-   *  Reading the Signalled Source
-   */
-
-  Handle readHandle() { return handles().first; }
-
-  IOHandler reader() { return _readHandler; }
-
-  /*
-   *  Writing to the Source for Signalling
-   */
-
-  Handle writeHandle() { return handles().second; }
-
-  IOHandler writer() { return _writeHandler; }
-
-  /*
-   *  Interacting with a WaitSet
-   */
   void updateInWaitSetHandle(WaitSet::Handle handle, bool shouldAdd);
 
-  void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler handler) {
-    _customWaitSetUpdateHandler = handler;
-  }
+  void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler handler);
 
-  WaitSetUpdateHandler customWaitSetUpdateHandler() const {
-    return _customWaitSetUpdateHandler;
-  }
+  WaitSetUpdateHandler customWaitSetUpdateHandler() const;
 
-  /*
-   *  Utility methods for creating commonly used sources
+#pragma mark - Common Looper Sources
+
+  /**
+   *  Create a repeating timer source that fires at the given interval
+   *
+   *  @param repeatInterval the repeat interval
+   *
+   *  @return the timer source
    */
-
   static std::shared_ptr<LooperSource> AsTimer(
       std::chrono::nanoseconds repeatInterval);
 
+  /**
+   *  Create a trivial looper source
+   *
+   *  @return the trivial source
+   */
   static std::shared_ptr<LooperSource> AsTrivial();
 
  private:
   IOHandlesAllocator _handlesAllocator;
   IOHandlesDeallocator _handlesDeallocator;
-
   Handles _handles;
-
   IOHandler _readHandler;
   IOHandler _writeHandler;
-
   WaitSetUpdateHandler _customWaitSetUpdateHandler;
-
   WakeFunction _wakeFunction;
-
   bool _handlesAllocated;
 
   DISALLOW_COPY_AND_ASSIGN(LooperSource);

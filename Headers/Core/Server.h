@@ -17,10 +17,10 @@ namespace rl {
 
 class Server {
  public:
-  typedef int Handle;
+  using Handle = int;
 
-  typedef std::function<void(std::shared_ptr<Channel>)>
-      ChannelAvailabilityCallback;
+  using ChannelAvailabilityCallback =
+      std::function<void(std::shared_ptr<Channel>)>;
 
   explicit Server(std::string name);
   ~Server();

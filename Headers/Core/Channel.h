@@ -17,12 +17,11 @@ namespace rl {
 class Message;
 class Channel {
  public:
-  typedef int Handle;
-
-  typedef std::function<void(Message&)> MessageReceivedCallback;
-  typedef std::function<void(void)> TerminationCallback;
-  typedef std::pair<std::shared_ptr<Channel>, std::shared_ptr<Channel>>
-      ConnectedChannels;
+  using Handle = int;
+  using MessageReceivedCallback = std::function<void(Message&)>;
+  using TerminationCallback = std::function<void(void)>;
+  using ConnectedChannels =
+      std::pair<std::shared_ptr<Channel>, std::shared_ptr<Channel>>;
 
   /**
    *  Create a channel to a named endpoint. Connection
@@ -76,39 +75,62 @@ class Channel {
    */
   void unscheduleFromLooper(Looper* looper);
 
-  /*
-   *  Sending and receiving messages
+  /**
+   *  Sends the specified message down the channel
+   *
+   *  @param message the message to send
+   *
+   *  @return if the message was successfully sent
    */
-
   bool sendMessage(Message& message);
 
-  void messageReceivedCallback(MessageReceivedCallback callback) {
-    _messageReceivedCallback = callback;
-  }
-
-  MessageReceivedCallback messageReceivedCallback() const {
+  const MessageReceivedCallback& messageReceivedCallback() const {
     return _messageReceivedCallback;
   }
 
-  /*
-   *  Introspecting connection status
-   */
+  void setMessageReceivedCallback(MessageReceivedCallback callback) {
+    _messageReceivedCallback = callback;
+  }
 
+  /**
+   *  Try to establish the channel connection if not already setup
+   *
+   *  @return if the connection was made
+   */
   bool tryConnect();
 
-  bool isConnected() const { return _connected; }
+  /**
+   *  If the connection was already made
+   *
+   *  @return if the connection was made
+   */
+  bool isConnected() const;
 
-  bool isReady() const { return _ready; }
+  /**
+   *  If the channel is ready for a connection
+   *
+   *  @return if the channel is ready for connection
+   */
+  bool isReady() const;
 
+  /**
+   *  Terminate the channel connection and cleanup underlying resources
+   */
   void terminate();
 
-  void terminationCallback(TerminationCallback callback) {
-    _terminationCallback = callback;
-  }
+  /**
+   *  Get the termination callback
+   *
+   *  @return the termination callback
+   */
+  TerminationCallback terminationCallback() const;
 
-  TerminationCallback terminationCallback() const {
-    return _terminationCallback;
-  }
+  /**
+   *  Set the termination callback
+   *
+   *  @param callback the termination callback
+   */
+  void setTerminationCallback(TerminationCallback callback);
 
  private:
   std::shared_ptr<LooperSource> source();

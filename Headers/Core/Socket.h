@@ -25,16 +25,16 @@ class Socket {
   static const size_t ControlBufferItemSize;
   static const size_t MaxControlBufferSize;
 
-  typedef int Handle;
+  using Handle = int;
 
-  typedef enum {
+  enum Status {
     Success = 0,
     TemporaryFailure,
     PermanentFailure,
-  } Status;
+  };
 
-  typedef std::pair<Status, std::vector<std::unique_ptr<Message>>> ReadResult;
-  typedef std::pair<std::unique_ptr<Socket>, std::unique_ptr<Socket>> Pair;
+  using ReadResult = std::pair<Status, std::vector<std::unique_ptr<Message>>>;
+  using Pair = std::pair<std::unique_ptr<Socket>, std::unique_ptr<Socket>>;
 
   /*
    *  Creating a socket

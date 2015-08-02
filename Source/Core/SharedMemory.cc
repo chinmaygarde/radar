@@ -26,7 +26,8 @@ static std::string SharedMemory_RandomFileName() {
   return stream.str();
 }
 
-static Handle SharedMemory_CreateBackingIfNecessary(Handle handle) {
+static SharedMemory::Handle SharedMemory_CreateBackingIfNecessary(
+    SharedMemory::Handle handle) {
   /*
    *  A valid handle is already present. Nothing to do.
    */
@@ -34,7 +35,7 @@ static Handle SharedMemory_CreateBackingIfNecessary(Handle handle) {
     return handle;
   }
 
-  Handle newHandle = -1;
+  SharedMemory::Handle newHandle = -1;
 
   auto tempFile = SharedMemory_RandomFileName();
 

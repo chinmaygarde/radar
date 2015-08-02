@@ -10,10 +10,9 @@
 
 namespace rl {
 
-typedef int Handle;
-
 class SharedMemory {
  public:
+  using Handle = int;
   explicit SharedMemory(size_t size);
   ~SharedMemory();
 

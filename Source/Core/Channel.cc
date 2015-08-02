@@ -54,6 +54,14 @@ bool Channel::tryConnect() {
   return _connected;
 }
 
+bool Channel::isConnected() const {
+  return _connected;
+}
+
+bool Channel::isReady() const {
+  return _ready;
+}
+
 std::shared_ptr<LooperSource> Channel::source() {
   if (_source.get() != nullptr) {
     return _source;
@@ -142,4 +150,17 @@ void Channel::unscheduleFromLooper(Looper* looper) {
   /* don't invoke the accessor which implicitly constructs a
    source */
   looper->removeSource(_source);
+}
+
+Channel::TerminationCallback Channel::terminationCallback() const {
+  return _terminationCallback;
+}
+
+/**
+ *  Set the termination callback
+ *
+ *  @param callback the termination callback
+ */
+void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
+  _terminationCallback = callback;
 }

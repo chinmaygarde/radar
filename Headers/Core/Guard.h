@@ -10,15 +10,25 @@
 #include <functional>
 
 namespace rl {
+/**
+ *  A guard that invokes the block when the variable goes out of scope
+ */
 class Guard {
  public:
   using Block = std::function<void(void)>;
 
-  Guard(const Block& block) : _block(block) {}
-  ~Guard() { _block(); };
+  /**
+   *  Create a guard with given block.
+   *
+   *  @param block the block to invoke when the variable is collected
+   */
+  Guard(const Block& block);
+
+  ~Guard();
 
  private:
   const Block& _block;
+
   DISALLOW_COPY_AND_ASSIGN(Guard);
 };
 }

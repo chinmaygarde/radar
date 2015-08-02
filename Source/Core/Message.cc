@@ -76,3 +76,40 @@ bool Message::resizeBuffer(size_t size) {
 
   return success;
 }
+
+template <typename T>
+bool Message::encode(T value) {
+  bool success = reserve(_dataLength + sizeof(T));
+
+  if (success) {
+    memcpy(_buffer + _dataLength, &value, sizeof(T));
+    _dataLength += sizeof(T);
+  }
+
+  return success;
+}
+
+template <typename T>
+bool Message::decode(T& t) {
+  if ((sizeof(T) + _sizeRead) > _bufferLength) {
+    return false;
+  }
+
+  memcpy(&t, _buffer + _sizeRead, sizeof(T));
+
+  _sizeRead += sizeof(T);
+
+  return true;
+}
+
+const uint8_t* Message::data() const {
+  return _buffer;
+}
+
+size_t Message::size() const {
+  return _dataLength;
+}
+
+size_t Message::sizeRead() const {
+  return _sizeRead;
+}

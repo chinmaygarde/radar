@@ -15,7 +15,7 @@ class LooperSource;
 
 class WaitSet {
  public:
-  typedef int Handle;
+  using Handle = int;
 
   WaitSet();
   ~WaitSet();

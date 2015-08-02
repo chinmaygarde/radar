@@ -10,16 +10,32 @@
 #include <condition_variable>
 
 namespace rl {
+/**
+ *  A simple countdown latch used as a thread synchronization primitive
+ */
 class Latch {
  public:
+  /**
+   *  Create a latch with the specified count
+   */
   Latch(unsigned int count);
+
+  /**
+   *  Blocks the current thread till the count reaches zero. If the count is
+   *  already zero, this opertation is a no-op
+   */
   void wait();
+
+  /**
+   *  Decrement the count of the latch
+   */
   void countDown();
 
  private:
   std::atomic_int _count;
   std::condition_variable _condition;
   std::mutex _lock;
+
   DISALLOW_COPY_AND_ASSIGN(Latch);
 };
 }

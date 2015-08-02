@@ -27,7 +27,7 @@ class ProgramCatalog {
    */
   void startUsing();
 
-  typedef Program const* ProgramRef;
+  using ProgramRef = Program const*;
   /**
    *  Switches the current program to the one specified. If the same program is
    *  specified consecutively, this operation is a no-op.

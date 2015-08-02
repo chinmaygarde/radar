@@ -5,3 +5,10 @@
 #include "Core/Guard.h"
 
 using namespace rl;
+
+Guard::Guard(const Block& block) : _block(block) {
+}
+
+Guard::~Guard() {
+  _block();
+}
