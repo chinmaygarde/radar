@@ -30,7 +30,6 @@
 		9EAECE731B685460000FA38A /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE441B685460000FA38A /* Program.h */; };
 		9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE451B685460000FA38A /* ProgramCatalog.h */; };
 		9EAECE751B685460000FA38A /* RenderSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE461B685460000FA38A /* RenderSurface.h */; };
-		9EAECE761B685460000FA38A /* Attachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE481B685460000FA38A /* Attachment.h */; };
 		9EAECE771B685460000FA38A /* AutoLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE491B685460000FA38A /* AutoLock.h */; };
 		9EAECE781B685460000FA38A /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4A1B685460000FA38A /* Base.h */; };
 		9EAECE791B685460000FA38A /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4B1B685460000FA38A /* Channel.h */; };
@@ -41,7 +40,6 @@
 		9EAECE7E1B685460000FA38A /* Looper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE501B685460000FA38A /* Looper.h */; };
 		9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE511B685460000FA38A /* LooperSource.h */; };
 		9EAECE801B685460000FA38A /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE521B685460000FA38A /* Message.h */; };
-		9EAECE811B685460000FA38A /* RingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE531B685460000FA38A /* RingBuffer.h */; };
 		9EAECE821B685460000FA38A /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE541B685460000FA38A /* Server.h */; };
 		9EAECE831B685460000FA38A /* SharedMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE551B685460000FA38A /* SharedMemory.h */; };
 		9EAECE841B685460000FA38A /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE561B685460000FA38A /* Socket.h */; };
@@ -74,14 +72,12 @@
 		9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA21B685469000FA38A /* RenderSurface.cc */; };
 		9EAECED41B685469000FA38A /* LooperSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA51B685469000FA38A /* LooperSource_Apple.cc */; };
 		9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */; };
-		9EAECED61B685469000FA38A /* Attachment.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA71B685469000FA38A /* Attachment.cc */; };
 		9EAECED71B685469000FA38A /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA81B685469000FA38A /* Channel.cc */; };
 		9EAECED81B685469000FA38A /* Guard.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA91B685469000FA38A /* Guard.cc */; };
 		9EAECED91B685469000FA38A /* Latch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAA1B685469000FA38A /* Latch.cc */; };
 		9EAECEDC1B685469000FA38A /* Looper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAE1B685469000FA38A /* Looper.cc */; };
 		9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAF1B685469000FA38A /* LooperSource.cc */; };
 		9EAECEDE1B685469000FA38A /* Message.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB01B685469000FA38A /* Message.cc */; };
-		9EAECEDF1B685469000FA38A /* RingBuffer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB11B685469000FA38A /* RingBuffer.cc */; };
 		9EAECEE01B685469000FA38A /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB21B685469000FA38A /* Server.cc */; };
 		9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB31B685469000FA38A /* SharedMemory.cc */; };
 		9EAECEE21B685469000FA38A /* Socket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB41B685469000FA38A /* Socket.cc */; };
@@ -128,7 +124,6 @@
 		9EAECE441B685460000FA38A /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		9EAECE451B685460000FA38A /* ProgramCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramCatalog.h; sourceTree = "<group>"; };
 		9EAECE461B685460000FA38A /* RenderSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSurface.h; sourceTree = "<group>"; };
-		9EAECE481B685460000FA38A /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attachment.h; sourceTree = "<group>"; };
 		9EAECE491B685460000FA38A /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
 		9EAECE4A1B685460000FA38A /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		9EAECE4B1B685460000FA38A /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
@@ -139,7 +134,6 @@
 		9EAECE501B685460000FA38A /* Looper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Looper.h; sourceTree = "<group>"; };
 		9EAECE511B685460000FA38A /* LooperSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperSource.h; sourceTree = "<group>"; };
 		9EAECE521B685460000FA38A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		9EAECE531B685460000FA38A /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
 		9EAECE541B685460000FA38A /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		9EAECE551B685460000FA38A /* SharedMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemory.h; sourceTree = "<group>"; };
 		9EAECE561B685460000FA38A /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
@@ -172,7 +166,6 @@
 		9EAECEA21B685469000FA38A /* RenderSurface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSurface.cc; sourceTree = "<group>"; };
 		9EAECEA51B685469000FA38A /* LooperSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperSource_Apple.cc; sourceTree = "<group>"; };
 		9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Apple.cc; sourceTree = "<group>"; };
-		9EAECEA71B685469000FA38A /* Attachment.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Attachment.cc; sourceTree = "<group>"; };
 		9EAECEA81B685469000FA38A /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9EAECEA91B685469000FA38A /* Guard.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cc; sourceTree = "<group>"; };
 		9EAECEAA1B685469000FA38A /* Latch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Latch.cc; sourceTree = "<group>"; };
@@ -181,7 +174,6 @@
 		9EAECEAE1B685469000FA38A /* Looper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Looper.cc; sourceTree = "<group>"; };
 		9EAECEAF1B685469000FA38A /* LooperSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperSource.cc; sourceTree = "<group>"; };
 		9EAECEB01B685469000FA38A /* Message.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cc; sourceTree = "<group>"; };
-		9EAECEB11B685469000FA38A /* RingBuffer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RingBuffer.cc; sourceTree = "<group>"; };
 		9EAECEB21B685469000FA38A /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		9EAECEB31B685469000FA38A /* SharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory.cc; sourceTree = "<group>"; };
 		9EAECEB41B685469000FA38A /* Socket.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Socket.cc; sourceTree = "<group>"; };
@@ -282,7 +274,6 @@
 		9EAECE471B685460000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECE481B685460000FA38A /* Attachment.h */,
 				9EAECE491B685460000FA38A /* AutoLock.h */,
 				9EAECE4A1B685460000FA38A /* Base.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
@@ -294,7 +285,6 @@
 				9EAECE511B685460000FA38A /* LooperSource.h */,
 				9E222CD91B69ABEC005D02EE /* LooperObserver.h */,
 				9EAECE521B685460000FA38A /* Message.h */,
-				9EAECE531B685460000FA38A /* RingBuffer.h */,
 				9EAECE541B685460000FA38A /* Server.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
 				9EAECE561B685460000FA38A /* Socket.h */,
@@ -395,7 +385,6 @@
 			children = (
 				9EAECEAB1B685469000FA38A /* Linux */,
 				9EAECEA41B685469000FA38A /* Apple */,
-				9EAECEA71B685469000FA38A /* Attachment.cc */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
@@ -403,7 +392,6 @@
 				9EAECEAF1B685469000FA38A /* LooperSource.cc */,
 				9E222CD71B69ABCF005D02EE /* LooperObserver.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
-				9EAECEB11B685469000FA38A /* RingBuffer.cc */,
 				9EAECEB21B685469000FA38A /* Server.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
 				9EAECEB41B685469000FA38A /* Socket.cc */,
@@ -479,7 +467,6 @@
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
 				9EAECE771B685460000FA38A /* AutoLock.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
-				9EAECE761B685460000FA38A /* Attachment.h in Headers */,
 				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
@@ -503,7 +490,6 @@
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
-				9EAECE811B685460000FA38A /* RingBuffer.h in Headers */,
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */,
@@ -616,7 +602,6 @@
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
 				9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */,
-				9EAECED61B685469000FA38A /* Attachment.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
@@ -625,7 +610,6 @@
 				9EAECEE01B685469000FA38A /* Server.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
-				9EAECEDF1B685469000FA38A /* RingBuffer.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,

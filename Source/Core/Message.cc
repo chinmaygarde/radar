@@ -76,9 +76,3 @@ bool Message::resizeBuffer(size_t size) {
 
   return success;
 }
-
-void Message::addAttachment(Attachment attachment) {
-  RL_ASSERT(_attachments.size() <= Socket::MaxControlBufferItemCount);
-
-  _attachments.push_back(attachment);
-}

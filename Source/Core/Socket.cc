@@ -4,7 +4,6 @@
 
 #include "Core/Socket.h"
 #include "Core/Utilities.h"
-#include "Core/Attachment.h"
 #include "Core/Message.h"
 
 #if __APPLE__
@@ -152,26 +151,9 @@ Socket::ReadResult Socket::ReadMessages() {
       auto message = rl::Utils::make_unique<Message>(_buffer, received);
 
       /*
-       *  Check if the message contains descriptors.
-       *  Read all descriptors in one go
+       *  We do not support sending message attachments yet. Assert the same.
        */
-      if (messageHeader.msg_controllen != 0) {
-        struct cmsghdr* cmsgh = nullptr;
-
-        while ((cmsgh = CMSG_NXTHDR(&messageHeader, cmsgh)) != nullptr) {
-          RL_ASSERT(cmsgh->cmsg_level == SOL_SOCKET);
-          RL_ASSERT(cmsgh->cmsg_type == SCM_RIGHTS);
-          RL_ASSERT(cmsgh->cmsg_len == CMSG_LEN(ControlBufferItemSize));
-
-          int descriptor = -1;
-          memcpy(&descriptor, CMSG_DATA(cmsgh), ControlBufferItemSize);
-
-          RL_ASSERT(descriptor != -1);
-
-          Attachment attachment(descriptor);
-          message->addAttachment(attachment);
-        }
-      }
+      RL_ASSERT(messageHeader.msg_controllen == 0);
 
       /*
        *  Since we dont handle partial writes of the control messages,
@@ -181,7 +163,7 @@ Socket::ReadResult Socket::ReadMessages() {
 
       /*
        *  Finally! We have the message and possible attachments. Try for
-       * more.
+       *  more.
        */
       messages.push_back(std::move(message));
 
@@ -236,39 +218,6 @@ Socket::Status Socket::WriteMessage(Message& message) {
       .msg_controllen = 0,
       .msg_flags = 0,
   };
-
-  const auto range = message.attachmentRange();
-
-  const size_t descriptorCount = range.second - range.first;
-
-  if (descriptorCount > 0) {
-    /*
-     *  Create an array of file descriptors
-     */
-
-    int descriptors[descriptorCount];
-
-    size_t index = 0;
-    for (auto i = range.first; i != range.second; i++) {
-      descriptors[index++] = (*i).handle();
-    }
-
-    auto controlLength = CMSG_SPACE(sizeof(descriptors));
-
-    char buffer[controlLength];
-    messageHeader.msg_control = buffer;
-    messageHeader.msg_controllen = static_cast<socklen_t>(controlLength);
-
-    struct cmsghdr* cmsgh = CMSG_FIRSTHDR(&messageHeader);
-
-    cmsgh->cmsg_level = SOL_SOCKET;
-    cmsgh->cmsg_type = SCM_RIGHTS;
-    cmsgh->cmsg_len = static_cast<socklen_t>(CMSG_LEN(sizeof(descriptors)));
-
-    memcpy((int*)CMSG_DATA(cmsgh), descriptors, sizeof(descriptors));
-
-    messageHeader.msg_controllen = cmsgh->cmsg_len;
-  }
 
   long sent = 0;
 

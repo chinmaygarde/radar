@@ -6,7 +6,6 @@
 #define __RADARLOVE__MESSAGE__
 
 #include "Core/Channel.h"
-#include "Core/Attachment.h"
 
 #include <vector>
 #include <utility>
@@ -53,19 +52,6 @@ class Message {
     return true;
   }
 
-  /*
-   *  Encoding and decoding special attachments
-   */
-
-  void addAttachment(Attachment attachment);
-
-  typedef std::vector<Attachment>::const_iterator AttachmentIterator;
-  typedef std::pair<AttachmentIterator, AttachmentIterator> AttachmentRange;
-
-  AttachmentRange attachmentRange() const {
-    return std::make_pair(_attachments.begin(), _attachments.end());
-  }
-
   const uint8_t* data() const { return _buffer; }
 
   size_t size() const { return _dataLength; }
@@ -80,8 +66,6 @@ class Message {
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
-
-  std::vector<Attachment> _attachments;
 
   DISALLOW_COPY_AND_ASSIGN(Message);
 };
