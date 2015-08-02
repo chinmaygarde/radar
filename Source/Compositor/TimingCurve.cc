@@ -106,10 +106,10 @@ static inline double TimingCurve_SolveX(double ax,
 
 const TimingCurve& TimingCurve::SystemTimingCurve(Type type) {
   // clang-format off
-  static TimingCurve linear        ( { 0.0,  0.0 }, { 1.0,  1.0 } );
-  static TimingCurve easeIn        ( { 0.42, 0.0 }, { 1.0,  1.0 } );
-  static TimingCurve easeOut       ( { 0.0,  0.0 }, { 0.58, 1.0 } );
-  static TimingCurve easeInEaseOut ( { 0.42, 0.0 }, { 0.58, 1.0 } );
+  static const TimingCurve linear        ( { 0.0,  0.0 }, { 1.0,  1.0 } );
+  static const TimingCurve easeIn        ( { 0.42, 0.0 }, { 1.0,  1.0 } );
+  static const TimingCurve easeOut       ( { 0.0,  0.0 }, { 0.58, 1.0 } );
+  static const TimingCurve easeInEaseOut ( { 0.42, 0.0 }, { 0.58, 1.0 } );
   // clang-format on
 
   switch (type) {
