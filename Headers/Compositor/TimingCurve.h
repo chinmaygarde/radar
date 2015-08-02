@@ -6,11 +6,32 @@
 #define __RADARLOVE_COMPOSITOR_TIMINGCURVE__
 
 #include "Core/Base.h"
+#include "Geometry/Point.h"
 
 namespace rl {
 class TimingCurve {
- private:
  public:
+  enum Type {
+    Linear,
+    EaseIn,
+    EaseOut,
+    EaseInEaseOut,
+  };
+
+  TimingCurve(const Point& c1, const Point& c2);
+
+  static const TimingCurve& SystemTimingCurve(Type type);
+
+  double x(double t) const;
+
+ private:
+  double _ax;
+  double _bx;
+  double _cx;
+
+  double _ay;
+  double _by;
+  double _cy;
   DISALLOW_COPY_AND_ASSIGN(TimingCurve);
 };
 }
