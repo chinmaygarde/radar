@@ -93,6 +93,10 @@
 		9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEFA1B694E26000FA38A /* Entity.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
+		EA62B31B1B6F2554009F197F /* Time.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B31A1B6F2554009F197F /* Time.h */; };
+		EA62B31D1B6F2563009F197F /* Time.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31C1B6F2563009F197F /* Time.cc */; };
+		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
+		EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3201B6F28F7009F197F /* TouchEvent.h */; };
 		EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314361B6C89510026B6BB /* Interpolator.cc */; };
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
@@ -189,6 +193,10 @@
 		9EAECEFA1B694E26000FA38A /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
+		EA62B31A1B6F2554009F197F /* Time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		EA62B31C1B6F2563009F197F /* Time.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cc; sourceTree = "<group>"; };
+		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
+		EA62B3201B6F28F7009F197F /* TouchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEvent.h; sourceTree = "<group>"; };
 		EA6314361B6C89510026B6BB /* Interpolator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cc; sourceTree = "<group>"; };
 		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
 		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
@@ -287,6 +295,7 @@
 				9EAECE541B685460000FA38A /* Server.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
 				9EAECE561B685460000FA38A /* Socket.h */,
+				EA62B31A1B6F2554009F197F /* Time.h */,
 				9EAECE571B685460000FA38A /* Utilities.h */,
 				9EAECE581B685460000FA38A /* WaitSet.h */,
 			);
@@ -395,6 +404,7 @@
 				9EAECEB21B685469000FA38A /* Server.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
 				9EAECEB41B685469000FA38A /* Socket.cc */,
+				EA62B31C1B6F2563009F197F /* Time.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
 			);
@@ -461,6 +471,7 @@
 			isa = PBXGroup;
 			children = (
 				EA62B3151B6F2402009F197F /* Event.h */,
+				EA62B3201B6F28F7009F197F /* TouchEvent.h */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -469,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				EA62B3181B6F241A009F197F /* Event.cc */,
+				EA62B31E1B6F28ED009F197F /* TouchEvent.cc */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -498,7 +510,9 @@
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
+				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
+				EA62B31B1B6F2554009F197F /* Time.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EAECE701B685460000FA38A /* Layer.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
@@ -595,6 +609,7 @@
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
+				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9EAECEE21B685469000FA38A /* Socket.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
@@ -628,6 +643,7 @@
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
+				EA62B31D1B6F2563009F197F /* Time.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

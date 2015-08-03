@@ -4,4 +4,9 @@
 
 #include "Event/Event.h"
 
-namespace rl {}  // namespace rl
+namespace rl {
+
+Event::Event(double timestamp) : _timestamp(timestamp) {
+}
+
+}  // namespace rl
