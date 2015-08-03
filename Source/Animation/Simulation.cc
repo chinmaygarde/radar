@@ -4,4 +4,4 @@
 
 #include "Animation/Simulation.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

@@ -5,7 +5,7 @@
 #include "Animation/GravitySimulation.h"
 #include <cmath>
 
-using namespace rl;
+namespace rl {
 
 GravitySimulation::GravitySimulation(double acceleration,
                                      double distance,
@@ -25,3 +25,5 @@ double GravitySimulation::dx(double time) {
 bool GravitySimulation::isDone(double time) {
   return fabs(x(time)) >= _end;
 }
+
+}  // namespace rl

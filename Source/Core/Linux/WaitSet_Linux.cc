@@ -8,7 +8,7 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 
-using namespace rl;
+namespace rl {
 
 WaitSet::Handle WaitSet::platformHandleCreate() {
   WaitSet::Handle handle =
@@ -32,3 +32,5 @@ LooperSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
 void WaitSet::platformHandleDestory(WaitSet::Handle handle) {
   RL_CHECK(::close(handle));
 }
+
+}  // namespace rl

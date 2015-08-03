@@ -4,8 +4,10 @@
 
 #include "Host/Host.h"
 
-using namespace rl;
+namespace rl {
 
 void Host::run(Latch& readyLatch) {
   readyLatch.countDown();
 }
+
+}  // namespace rl

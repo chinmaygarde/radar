@@ -4,7 +4,7 @@
 
 #include "Core/Latch.h"
 
-using namespace rl;
+namespace rl {
 
 Latch::Latch(unsigned int count) : _count(count), _condition(), _lock() {
 }
@@ -22,3 +22,5 @@ void Latch::countDown() {
     _condition.notify_all();
   }
 }
+
+}  // namespace rl

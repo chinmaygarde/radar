@@ -8,7 +8,7 @@
 #include <pthread.h>
 #include <mutex>
 
-using namespace rl;
+namespace rl {
 
 Looper* Looper::Current() {
   static std::once_flag once;
@@ -161,3 +161,5 @@ void Looper::removeObserver(std::shared_ptr<LooperObserver> observer,
       break;
   }
 }
+
+}  // namespace rl

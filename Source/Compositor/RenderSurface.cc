@@ -5,7 +5,7 @@
 #include "Compositor/RenderSurface.h"
 #include <cassert>
 
-using namespace rl;
+namespace rl {
 
 void RenderSurface::surfaceWasCreated() {
   if (_observer != nullptr) {
@@ -28,3 +28,5 @@ void RenderSurface::surfaceWasDestroyed() {
 void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
   _observer = observer;
 }
+
+}  // namespace rl

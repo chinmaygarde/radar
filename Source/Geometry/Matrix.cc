@@ -6,7 +6,7 @@
 
 #include <climits>
 
-using namespace rl;
+namespace rl {
 
 Matrix Matrix::Orthographic(double left,
                             double right,
@@ -61,3 +61,5 @@ Matrix Matrix::Perspective(double fov,
                 0.0);
   // clang-format on
 }
+
+}  // namespace rl

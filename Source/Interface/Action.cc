@@ -4,7 +4,7 @@
 
 #include "Interface/Action.h"
 
-using namespace rl;
+namespace rl {
 
 Action::Action()
     : _duration(0.125), _repeatCount(1), _autoReverses(false), _beginTime(0.0) {
@@ -41,3 +41,5 @@ double Action::beginTime() const {
 void Action::setBeginTime(double beginTime) {
   _beginTime = beginTime;
 }
+
+}  // namespace rl

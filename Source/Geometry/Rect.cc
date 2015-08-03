@@ -4,4 +4,4 @@
 
 #include "Geometry/Rect.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

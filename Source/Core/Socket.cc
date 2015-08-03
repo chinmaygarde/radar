@@ -24,7 +24,7 @@
 
 #include <poll.h>
 
-using namespace rl;
+namespace rl {
 
 static const size_t MaxBufferSize = 4096;
 static const size_t MaxControlBufferItemCount = 8;
@@ -243,3 +243,5 @@ Socket::Result Socket::WriteMessage(Message& message) {
 Socket::Handle Socket::handle() const {
   return _handle;
 }
+
+}  // namespace rl

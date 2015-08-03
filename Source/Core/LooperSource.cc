@@ -8,7 +8,7 @@
 
 #include <unistd.h>
 
-using namespace rl;
+namespace rl {
 
 LooperSource::LooperSource(IOHandlesAllocator handleAllocator,
                            IOHandlesDeallocator handleDeallocator,
@@ -128,3 +128,5 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
 
   return std::make_shared<LooperSource>(allocator, deallocator, reader, writer);
 }
+
+}  // namespace rl

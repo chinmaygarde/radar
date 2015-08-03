@@ -6,7 +6,7 @@
 #include "Core/Message.h"
 #include "Core/Utilities.h"
 
-using namespace rl;
+namespace rl {
 
 Channel::Channel(std::string name) : _connected(false), _name(name) {
   _socket = Utils::make_unique<Socket>();
@@ -164,3 +164,5 @@ Channel::TerminationCallback Channel::terminationCallback() const {
 void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
   _terminationCallback = callback;
 }
+
+}  // namespace rl

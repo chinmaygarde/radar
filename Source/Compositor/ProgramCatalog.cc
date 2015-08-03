@@ -34,7 +34,7 @@ void main() {
 
 )--";
 
-using namespace rl;
+namespace rl {
 
 ProgramCatalog::ProgramCatalog()
     : _prepared(false), _current(None, nullptr), _catalog() {
@@ -95,3 +95,5 @@ void BasicPrimitiveProgram::onLinkSuccess() {
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
 }
+
+}  // namespace rl

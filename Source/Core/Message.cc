@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-using namespace rl;
+namespace rl {
 
 Message::Message(size_t length)
     : _buffer(nullptr), _bufferLength(0), _dataLength(0), _sizeRead(0) {
@@ -113,3 +113,5 @@ size_t Message::size() const {
 size_t Message::sizeRead() const {
   return _sizeRead;
 }
+
+}  // namespace rl

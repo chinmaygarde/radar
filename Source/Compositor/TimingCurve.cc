@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-using namespace rl;
+namespace rl {
 
 static inline double TimingCurve_SampleCurve(double a,
                                              double b,
@@ -139,3 +139,5 @@ TimingCurve::TimingCurve(const Point& c1, const Point& c2) {
 double TimingCurve::x(double t) const {
   return TimingCurve_SolveX(_ax, _bx, _cx, _ay, _by, _cy, t, 1e-3);
 }
+
+}  // namespace rl

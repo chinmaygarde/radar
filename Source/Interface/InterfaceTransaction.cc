@@ -4,10 +4,12 @@
 
 #include "Interface/InterfaceTransaction.h"
 
-using namespace rl;
+namespace rl {
 
 InterfaceTransaction::InterfaceTransaction() {
 }
 
 void InterfaceTransaction::commit() {
 }
+
+}  // namespace rl

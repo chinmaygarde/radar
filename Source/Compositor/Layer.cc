@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-using namespace rl;
+namespace rl {
 
 Layer::Layer()
     : Entity(),
@@ -116,3 +116,5 @@ void Layer::drawInFrame(Frame& frame) {
 
   frame.popOpacity();
 }
+
+}  // namespace rl

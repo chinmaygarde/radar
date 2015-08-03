@@ -9,7 +9,7 @@
 
 #include <cassert>
 
-using namespace rl;
+namespace rl {
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
     : _surface(surface),
@@ -131,3 +131,5 @@ void Compositor::onVsync() {
   res = _surface->present();
   assert(res && "Must be able to present the current context");
 }
+
+}  // namespace rl

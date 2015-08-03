@@ -6,7 +6,7 @@
 
 #include <limits>
 
-using namespace rl;
+namespace rl {
 
 Interface::Interface() : _looper(nullptr), _lock(), _transactionStack() {
   _autoFlushObserver = std::make_shared<LooperObserver>(
@@ -82,3 +82,5 @@ void Interface::flushTransactions() {
     _transactionStack.pop();
   }
 }
+
+}  // namespace rl

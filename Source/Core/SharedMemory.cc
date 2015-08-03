@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <sstream>
 
-using namespace rl;
+namespace rl {
 
 static const int SharedMemoryTempHandleMaxRetries = 25;
 
@@ -160,3 +160,5 @@ size_t SharedMemory::size() const {
 SharedMemory::Handle SharedMemory::handle() const {
   return _handle;
 }
+
+}  // namespace rl

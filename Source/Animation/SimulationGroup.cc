@@ -4,7 +4,7 @@
 
 #include "Animation/SimulationGroup.h"
 
-using namespace rl;
+namespace rl {
 
 double SimulationGroup::x(double time) {
   stepIfNecessary(time);
@@ -29,3 +29,5 @@ void SimulationGroup::stepIfNecessary(double time) {
   _lastStep = time;
   step(time);
 }
+
+}  // namespace rl

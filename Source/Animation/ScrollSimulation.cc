@@ -5,7 +5,7 @@
 #include "Animation/ScrollSimulation.h"
 #include "Animation/FrictionSimulation.h"
 
-using namespace rl;
+namespace rl {
 
 ScrollSimulation::ScrollSimulation(double position,
                                    double velocity,
@@ -70,3 +70,5 @@ bool ScrollSimulation::chooseSimulation(double position,
 
   return false;
 }
+
+}  // namespace rl

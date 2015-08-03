@@ -4,4 +4,4 @@
 
 #include "Compositor/Color.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

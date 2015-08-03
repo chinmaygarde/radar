@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-using namespace rl;
+namespace rl {
 
 LooperObserver::LooperObserver(uint64_t priority, Callback callback)
     : _priority(priority), _callback(callback) {
@@ -57,3 +57,5 @@ void LooperObserverCollection::invokeAll() {
     observer->invoke();
   }
 }
+
+}  // namespace rl

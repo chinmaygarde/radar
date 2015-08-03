@@ -6,7 +6,7 @@
 #include "Animation/Utilities.h"
 #include "Animation/SpringSolution.h"
 
-using namespace rl;
+namespace rl {
 
 SpringSimulation::SpringSimulation(SpringDescription desc,
                                    double start,
@@ -29,3 +29,5 @@ bool SpringSimulation::isDone(double time) {
                               Animation::DistanceTolerance) &&
          Animation::NearZero(dx(time), Animation::VelocityTolerance);
 }
+
+}  // namespace rl

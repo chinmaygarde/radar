@@ -14,7 +14,7 @@
 #define NSEC_PER_SEC 1000000000 /* nanoseconds per second */
 #endif
 
-using namespace rl;
+namespace rl {
 
 static inline void LooperSource_UpdateEpollSource(int eventsMask,
                                                   void* data,
@@ -84,3 +84,5 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
   return std::make_shared<LooperSource>(allocator, deallocator, reader,
                                         nullptr);
 }
+
+}  // namespace rl

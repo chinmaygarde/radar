@@ -7,7 +7,7 @@
 #define RL_OPENGL_ALLOWED 1
 #include "Compositor/OpenGL.h"
 
-using namespace rl;
+namespace rl {
 
 Primitive::Primitive()
     : _modelMatrix(MatrixIdentity),
@@ -85,3 +85,5 @@ void Primitive::render(Frame& frame) {
 
   RL_GLAssert("No errors while rendering");
 }
+
+}  // namespace rl

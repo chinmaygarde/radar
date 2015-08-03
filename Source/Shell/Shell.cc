@@ -13,7 +13,7 @@
 
 #include <cassert>
 
-using namespace rl;
+namespace rl {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface)
     : _attached(false),
@@ -49,3 +49,5 @@ void Shell::attachHostOnCurrentThread() {
 
   readyLatch.wait();
 }
+
+}  // namespace rl

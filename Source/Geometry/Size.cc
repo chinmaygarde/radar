@@ -4,4 +4,4 @@
 
 #include "Geometry/Size.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

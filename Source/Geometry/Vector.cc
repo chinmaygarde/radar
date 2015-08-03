@@ -4,4 +4,4 @@
 
 #include "Geometry/Vector.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

@@ -4,4 +4,4 @@
 
 #include "Compositor/Interpolator.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

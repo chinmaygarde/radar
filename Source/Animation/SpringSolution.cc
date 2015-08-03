@@ -121,7 +121,7 @@ class UnderdampedSolution : public SpringSolution {
 };
 }
 
-using namespace rl;
+namespace rl {
 
 std::unique_ptr<SpringSolution> SpringSolution::Create(SpringDescription desc,
                                                        double initialPosition,
@@ -140,3 +140,5 @@ std::unique_ptr<SpringSolution> SpringSolution::Create(SpringDescription desc,
   assert(false && "Could not create a spring solution");
   return nullptr;
 }
+
+}  // namespace rl

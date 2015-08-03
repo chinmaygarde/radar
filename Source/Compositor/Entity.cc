@@ -4,7 +4,7 @@
 
 #include "Compositor/Entity.h"
 
-using namespace rl;
+namespace rl {
 
 Entity::Entity()
     : _bounds(RectZero),
@@ -100,3 +100,5 @@ const Matrix& Entity::modelMatrix() {
 
   return _modelMatrix;
 }
+
+}  // namespace rl

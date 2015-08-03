@@ -8,7 +8,7 @@
 
 #include <sys/event.h>
 
-using namespace rl;
+namespace rl {
 
 static inline void LooperSource_UpdateKeventSource(int queue,
                                                    uintptr_t ident,
@@ -59,3 +59,5 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
 
   return timer;
 }
+
+}  // namespace rl

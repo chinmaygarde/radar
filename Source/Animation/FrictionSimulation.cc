@@ -6,7 +6,7 @@
 #include "Animation/Utilities.h"
 #include <cmath>
 
-using namespace rl;
+namespace rl {
 
 FrictionSimulation::FrictionSimulation(double drag,
                                        double position,
@@ -25,3 +25,5 @@ double FrictionSimulation::dx(double time) {
 bool FrictionSimulation::isDone(double time) {
   return fabs(dx(time)) < Animation::VelocityTolerance;
 }
+
+}  // namespace rl

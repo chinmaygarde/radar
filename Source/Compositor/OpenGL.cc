@@ -5,9 +5,9 @@
 #define RL_OPENGL_ALLOWED 1
 #include "Compositor/OpenGL.h"
 
-using namespace rl;
+namespace rl {
 
-void rl::GLAssertError(const char* file, int line, const char* fmt...) {
+void GLAssertError(const char* file, int line, const char* fmt...) {
   GLenum res = glGetError();
   if (res == GL_NO_ERROR) {
     return;
@@ -105,7 +105,7 @@ static std::string RL_GLDescribeFramebufferAttachment(GLenum attachment) {
   return "No Attachment";
 }
 
-void rl::GLDescribeFramebuffer(void) {
+void GLDescribeFramebuffer(void) {
   if (glGetError() != GL_NO_ERROR) {
     printf("WARNING: There were already GL errors at this point...\n");
   }
@@ -138,3 +138,5 @@ void rl::GLDescribeFramebuffer(void) {
   // Clear any GL errors that we introduced as part of logging
   glGetError();
 }
+
+}  // namespace rl

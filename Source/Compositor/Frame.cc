@@ -9,7 +9,7 @@
 #define RL_OPENGL_ALLOWED 1
 #include "Compositor/OpenGL.h"
 
-using namespace rl;
+namespace rl {
 
 Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
     : _size(size),
@@ -77,3 +77,5 @@ void Frame::pushOpacity(double opacity) {
 void Frame::popOpacity() {
   _opacityStack.pop_back();
 }
+
+}  // namespace rl

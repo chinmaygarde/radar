@@ -4,4 +4,4 @@
 
 #include "Geometry/Point.h"
 
-using namespace rl;
+namespace rl {}  // namespace rl

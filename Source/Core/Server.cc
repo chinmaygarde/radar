@@ -9,7 +9,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-using namespace rl;
+namespace rl {
 
 Server::Server(std::string name)
     : _name(name), _socketHandle(-1), _listening(false) {
@@ -131,3 +131,5 @@ std::shared_ptr<LooperSource> Server::clientConnectionsSource() {
 
   return _clientConnectionsSource;
 }
+
+}  // namespace rl

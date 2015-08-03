@@ -8,7 +8,7 @@
 
 #include "Compositor/OpenGL.h"
 
-using namespace rl;
+namespace rl {
 
 Program::Program(std::vector<std::string> attributes,
                  std::string vertexShader,
@@ -140,3 +140,5 @@ Program::~Program() {
    */
   glDeleteProgram(_program);
 }
+
+}  // namespace rl

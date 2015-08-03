@@ -6,7 +6,7 @@
 #include "Core/Utilities.h"
 #include "Core/LooperSource.h"
 
-using namespace rl;
+namespace rl {
 
 WaitSet::WaitSet() : _handle(platformHandleCreate()) {
 }
@@ -44,3 +44,5 @@ WaitSet::~WaitSet() {
 
   platformHandleDestory(_handle);
 }
+
+}  // namespace rl
