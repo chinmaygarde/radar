@@ -20,7 +20,7 @@ class Channel {
   using Handle = int;
   using MessageReceivedCallback = std::function<void(Message&)>;
   using TerminationCallback = std::function<void(void)>;
-  using ConnectedChannels =
+  using ConnectedPair =
       std::pair<std::shared_ptr<Channel>, std::shared_ptr<Channel>>;
 
   /**
@@ -59,7 +59,7 @@ class Channel {
    *
    *  @return the connected channel pair
    */
-  static ConnectedChannels CreateConnectedChannels();
+  static ConnectedPair CreateConnectedChannels();
 
   ~Channel();
 

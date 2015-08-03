@@ -17,15 +17,20 @@ Interface::Interface() : _looper(nullptr), _lock(), _transactionStack() {
 }
 
 void Interface::run(Latch& readyLatch) {
-  auto ready = [&readyLatch]() { readyLatch.countDown(); };
-
   if (_looper != nullptr) {
-    ready();
+    readyLatch.countDown();
     return;
   }
 
   _looper = Looper::Current();
-  _looper->loop(ready);
+  _looper->loop([&]() {
+    /*
+     *  Event channels might need to interact with the looper. So wait to setup
+     *  channel connections till after the looper says its ready.
+     */
+    setupEventChannels();
+    readyLatch.countDown();
+  });
 }
 
 bool Interface::isRunning() const {
@@ -81,6 +86,14 @@ void Interface::flushTransactions() {
     _transactionStack.top().commit();
     _transactionStack.pop();
   }
+}
+
+void Interface::setupEventChannels() {
+  // TODO
+}
+
+std::shared_ptr<Channel> Interface::sendEventChannel() const {
+  return nullptr;
 }
 
 }  // namespace rl

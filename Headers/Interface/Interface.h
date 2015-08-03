@@ -8,6 +8,8 @@
 #include "Core/Base.h"
 #include "Core/Looper.h"
 #include "Core/Latch.h"
+#include "Core/Channel.h"
+
 #include "Interface/InterfaceTransaction.h"
 
 #include <stack>
@@ -17,6 +19,8 @@ namespace rl {
 class Interface {
  public:
   Interface();
+
+#pragma mark - Bootstrapping the interface
 
   /**
    *  Setup the interface context and count down on the latch when ready
@@ -29,6 +33,8 @@ class Interface {
    *  @return if the interface context running
    */
   bool isRunning() const;
+
+#pragma mark - Transaction Management
 
   /**
    *  Get the transaction on top of the interface transaction stack
@@ -51,14 +57,25 @@ class Interface {
    */
   void popTransaction();
 
+#pragma mark - Accessing Event Channels
+
+  /**
+   *  Get the channel send channel used to send input events to the interface
+   *
+   *  @return the send channel for input events
+   */
+  std::shared_ptr<Channel> sendEventChannel() const;
+
  private:
   Looper* _looper;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
+  Channel::ConnectedPair _eventsChannel;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
+  void setupEventChannels();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
 };

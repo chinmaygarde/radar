@@ -21,12 +21,11 @@ Channel::Channel(std::unique_ptr<Socket> socket)
     : _socket(std::move(socket)), _ready(true), _connected(true) {
 }
 
-Channel::ConnectedChannels Channel::CreateConnectedChannels() {
+Channel::ConnectedPair Channel::CreateConnectedChannels() {
   auto socketPair = Socket::CreatePair();
 
-  return ConnectedChannels(
-      std::make_shared<Channel>(std::move(socketPair.first)),
-      std::make_shared<Channel>(std::move(socketPair.second)));
+  return ConnectedPair(std::make_shared<Channel>(std::move(socketPair.first)),
+                       std::make_shared<Channel>(std::move(socketPair.second)));
 }
 
 void Channel::terminate() {
