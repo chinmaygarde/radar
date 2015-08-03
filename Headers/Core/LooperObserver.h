@@ -30,8 +30,6 @@ class LooperObserver {
     AfterSleep,
   };
 
-  static const uint64_t PriorityDefault = 100000;
-
   /**
    *  Create a looper observer at the specified absolute priority
    */
