@@ -85,9 +85,9 @@ class LooperObserverCollection {
   void invokeAll();
 
  private:
-  std::mutex _lock;
   using LooperObserversSet =
       std::set<std::shared_ptr<LooperObserver>, LooperObserverComparer>;
+  std::mutex _lock;
   LooperObserversSet _observers;
 
   DISALLOW_COPY_AND_ASSIGN(LooperObserverCollection);

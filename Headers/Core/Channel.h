@@ -135,15 +135,11 @@ class Channel {
  private:
   std::shared_ptr<LooperSource> source();
   std::shared_ptr<LooperSource> _source;
-
   MessageReceivedCallback _messageReceivedCallback;
   TerminationCallback _terminationCallback;
-
   std::unique_ptr<Socket> _socket;
-
   bool _ready;
   bool _connected;
-
   std::string _name;
 
   void readMessageOnHandle(Handle handle);

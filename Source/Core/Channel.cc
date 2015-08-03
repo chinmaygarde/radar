@@ -147,8 +147,9 @@ void Channel::unscheduleFromLooper(Looper* looper) {
     return;
   }
 
-  /* don't invoke the accessor which implicitly constructs a
-   source */
+  /*
+   * don't invoke the accessor which implicitly constructs a source
+   */
   looper->removeSource(_source);
 }
 

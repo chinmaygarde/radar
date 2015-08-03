@@ -91,6 +91,8 @@
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
 		9EAECEF91B694E15000FA38A /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECEF81B694E15000FA38A /* Entity.h */; };
 		9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEFA1B694E26000FA38A /* Entity.cc */; };
+		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
+		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314361B6C89510026B6BB /* Interpolator.cc */; };
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
@@ -185,6 +187,8 @@
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
 		9EAECEF81B694E15000FA38A /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		9EAECEFA1B694E26000FA38A /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
+		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA6314361B6C89510026B6BB /* Interpolator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cc; sourceTree = "<group>"; };
 		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
 		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				9EAECE341B685460000FA38A /* Animation */,
 				9EAECE3D1B685460000FA38A /* Compositor */,
 				9EAECE471B685460000FA38A /* Core */,
+				EA62B3141B6F2402009F197F /* Event */,
 				9EAECE591B685460000FA38A /* Geometry */,
 				9EAECE5F1B685460000FA38A /* Host */,
 				9EAECE611B685460000FA38A /* Interface */,
@@ -332,6 +337,7 @@
 				9EAECE901B685469000FA38A /* Animation */,
 				9EAECE991B685469000FA38A /* Compositor */,
 				9EAECEA31B685469000FA38A /* Core */,
+				EA62B3171B6F241A009F197F /* Event */,
 				9EAECEB71B685469000FA38A /* Geometry */,
 				9EAECEBD1B685469000FA38A /* Host */,
 				9EAECEBF1B685469000FA38A /* Interface */,
@@ -451,6 +457,22 @@
 			path = Shell;
 			sourceTree = "<group>";
 		};
+		EA62B3141B6F2402009F197F /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				EA62B3151B6F2402009F197F /* Event.h */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		EA62B3171B6F241A009F197F /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				EA62B3181B6F241A009F197F /* Event.cc */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -500,6 +522,7 @@
 				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
 				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
+				EA62B3161B6F2402009F197F /* Event.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 			);
@@ -603,6 +626,7 @@
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
+				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);
