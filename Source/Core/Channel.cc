@@ -110,6 +110,15 @@ bool Channel::sendMessage(Message& message) {
   return writeStatus == Socket::Result::Success;
 }
 
+const Channel::MessageReceivedCallback& Channel::messageReceivedCallback()
+    const {
+  return _messageReceivedCallback;
+}
+
+void Channel::setMessageReceivedCallback(MessageReceivedCallback callback) {
+  _messageReceivedCallback = callback;
+}
+
 void Channel::readMessageOnHandle(Handle handle) {
   Socket::Result status;
   std::vector<std::unique_ptr<Message>> messages;

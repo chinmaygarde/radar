@@ -54,6 +54,11 @@ class Channel {
    */
   explicit Channel(std::unique_ptr<Socket> socket);
 
+  /**
+   *  Create a pair of connected channels
+   *
+   *  @return the connected channel pair
+   */
   static ConnectedChannels CreateConnectedChannels();
 
   ~Channel();
@@ -84,13 +89,21 @@ class Channel {
    */
   bool sendMessage(Message& message);
 
-  const MessageReceivedCallback& messageReceivedCallback() const {
-    return _messageReceivedCallback;
-  }
+  /**
+   *  When messages arrive on this channel, a callback may be invoked on the
+   *  looper where this channel is scheduled. Get this callback
+   *
+   *  @return the message received callback
+   */
+  const MessageReceivedCallback& messageReceivedCallback() const;
 
-  void setMessageReceivedCallback(MessageReceivedCallback callback) {
-    _messageReceivedCallback = callback;
-  }
+  /**
+   *  Update the callback that will be invoked when messages arrive on this
+   *  channel. The channel must be scheduled in a looper
+   *
+   *  @param callback the new messages received callback
+   */
+  void setMessageReceivedCallback(MessageReceivedCallback callback);
 
   /**
    *  Try to establish the channel connection if not already setup
