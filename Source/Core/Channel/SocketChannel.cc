@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/Socket.h"
+#include "Core/Channel/SocketChannel.h"
 #include "Core/Utilities.h"
 #include "Core/Message.h"
 
@@ -12,16 +12,12 @@
 #endif
 
 #include <mutex>
-
 #include <fcntl.h>
 #include <unistd.h>
-
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
-
 #include <errno.h>
-
 #include <poll.h>
 
 namespace rl {
@@ -31,19 +27,24 @@ static const size_t MaxControlBufferItemCount = 8;
 static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
     CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
+static const std::string DefaultConnectedPairName = "rl.connected";
 
-Socket::Pair Socket::CreatePair() {
+Channel::ConnectedPair SocketChannel::CreateConnectedPair() {
   int socketHandles[2] = {0};
 
   RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
 
-  return Pair(Utils::make_unique<Socket>(socketHandles[0]),
-              Utils::make_unique<Socket>(socketHandles[1]));
+  return ConnectedPair(Shared(DefaultConnectedPairName, socketHandles[0]),
+                       Shared(DefaultConnectedPairName, socketHandles[1]));
 }
 
-Socket::Socket(Handle handle) {
+SocketChannel::SocketChannel(const std::string& name) : SocketChannel(name, 0) {
+}
+
+SocketChannel::SocketChannel(const std::string& name, Handle handle)
+    : Channel(name) {
   /*
-   *  Create a socket if one is not provided
+   *  Create a socket handle if one is not provided
    */
 
   if (handle == 0) {
@@ -51,7 +52,8 @@ Socket::Socket(Handle handle) {
     RL_ASSERT(handle != -1);
   }
 
-  RL_ASSERT(handle > 0);
+  RL_ASSERT(_handle > 0);
+  _handle = handle;
 
   /*
    *  Limit the socket send and receive buffer sizes since we dont need large
@@ -59,29 +61,64 @@ Socket::Socket(Handle handle) {
    */
   const int size = MaxBufferSize;
 
-  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
+  RL_CHECK(::setsockopt(_handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
 
-  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
+  RL_CHECK(::setsockopt(_handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
 
   /*
    *  Make the sockets non blocking since we plan to receive all messages
    *  instead of hitting the waitset for each message in the queue. This is
    *  important since reads will block if we dont.
    */
-  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
+  RL_CHECK(::fcntl(_handle, F_SETFL, O_NONBLOCK));
 
-  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
+  RL_CHECK(::fcntl(_handle, F_SETFL, O_NONBLOCK));
 
   /*
    *  Setup the channel buffer
    */
   _buffer = static_cast<uint8_t*>(malloc(MaxBufferSize));
   _controlBuffer = static_cast<uint8_t*>(malloc(MaxControlBufferSize));
+}
 
-  _handle = handle;
-};
+SocketChannel::~SocketChannel() {
+  free(_buffer);
+  free(_controlBuffer);
 
-bool Socket::connect(std::string endpoint) {
+  _buffer = nullptr;
+  _controlBuffer = nullptr;
+}
+
+std::shared_ptr<LooperSource> SocketChannel::source() {
+  if (_source.get() != nullptr) {
+    return _source;
+  }
+
+  RL_ASSERT(isConnected() == true);
+
+  using LS = LooperSource;
+
+  LS::IOHandlesAllocator allocator = [&]() {
+    return LS::Handles(_handle, _handle); /* bi-di connection */
+  };
+
+  LS::IOHandler readHandler =
+      [this](LS::Handle handle) { readPendingMessageNow(); };
+
+  /**
+   *  We are specifying a null write handler since we will
+   *  never directly signal this source. Instead, we will write
+   *  to the handle directly.
+   *
+   *  The channel own the socket handle, so there is no deallocation
+   *  callback either.
+   */
+  _source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
+
+  return _source;
+}
+
+bool SocketChannel::doConnect(const std::string& endpoint) {
   /*
    *  Connect
    */
@@ -101,7 +138,7 @@ bool Socket::connect(std::string endpoint) {
   return (result == 0);
 }
 
-bool Socket::close() {
+bool SocketChannel::doTerminate() {
   if (_handle != -1) {
     RL_CHECK(::close(_handle));
     _handle = -1;
@@ -112,14 +149,54 @@ bool Socket::close() {
   return false;
 }
 
-Socket::~Socket() {
-  close();
+SocketChannel::Result SocketChannel::WriteMessage(Message& message) {
+  std::lock_guard<std::mutex> lock(_lock);
 
-  free(_buffer);
-  free(_controlBuffer);
+  if (message.size() > MaxBufferSize) {
+    return Result::TemporaryFailure;
+  }
+
+  struct iovec vec[1] = {{0}};
+
+  vec[0].iov_base = (void*)message.data();
+  vec[0].iov_len = message.size();
+
+  struct msghdr messageHeader = {
+      .msg_name = nullptr,
+      .msg_namelen = 0,
+      .msg_iov = vec,
+      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
+      .msg_control = nullptr,
+      .msg_controllen = 0,
+      .msg_flags = 0,
+  };
+
+  long sent = 0;
+
+  while (true) {
+    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(_handle, &messageHeader, 0));
+
+    if (sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+      struct pollfd pollFd = {
+          .fd = _handle, .events = POLLOUT, .revents = 0,
+      };
+
+      int res = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, -1 /* timeout */));
+
+      RL_ASSERT(res == 1);
+    } else {
+      break;
+    }
+  }
+
+  if (sent != message.size()) {
+    return errno == EPIPE ? Result::PermanentFailure : Result::TemporaryFailure;
+  }
+
+  return Result::Success;
 }
 
-Socket::ReadResult Socket::ReadMessages() {
+SocketChannel::ReadResult SocketChannel::ReadMessages() {
   std::lock_guard<std::mutex> lock(_lock);
 
   struct iovec vec[1] = {{0}};
@@ -193,55 +270,13 @@ Socket::ReadResult Socket::ReadMessages() {
   return ReadResult(Result::Success, std::move(messages));
 }
 
-Socket::Result Socket::WriteMessage(Message& message) {
-  std::lock_guard<std::mutex> lock(_lock);
-
-  if (message.size() > MaxBufferSize) {
-    return Result::TemporaryFailure;
-  }
-
-  struct iovec vec[1] = {{0}};
-
-  vec[0].iov_base = (void*)message.data();
-  vec[0].iov_len = message.size();
-
-  struct msghdr messageHeader = {
-      .msg_name = nullptr,
-      .msg_namelen = 0,
-      .msg_iov = vec,
-      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
-      .msg_control = nullptr,
-      .msg_controllen = 0,
-      .msg_flags = 0,
+template <typename... T>
+std::shared_ptr<SocketChannel> SocketChannel::Shared(T&&... args) {
+  struct SharedSocketChannel : public SocketChannel {
+    SharedSocketChannel(T&&... args)
+        : SocketChannel(std::forward<T>(args)...) {}
   };
-
-  long sent = 0;
-
-  while (true) {
-    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(_handle, &messageHeader, 0));
-
-    if (sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-      struct pollfd pollFd = {
-          .fd = _handle, .events = POLLOUT, .revents = 0,
-      };
-
-      int res = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, -1 /* timeout */));
-
-      RL_ASSERT(res == 1);
-    } else {
-      break;
-    }
-  }
-
-  if (sent != message.size()) {
-    return errno == EPIPE ? Result::PermanentFailure : Result::TemporaryFailure;
-  }
-
-  return Result::Success;
-}
-
-Socket::Handle Socket::handle() const {
-  return _handle;
+  return std::make_shared<SharedSocketChannel>(std::forward<T>(args)...);
 }
 
 }  // namespace rl

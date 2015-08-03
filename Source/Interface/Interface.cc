@@ -91,7 +91,7 @@ void Interface::flushTransactions() {
 
 void Interface::setupEventChannels() {
   assert(_looper == Looper::Current());
-  _eventsChannel = Channel::CreateConnectedChannels();
+  _eventsChannel = Channel::CreateConnectedPair();
   bool result = _looper->addSource(_eventsChannel.second->source());
   assert(result == true);
 }

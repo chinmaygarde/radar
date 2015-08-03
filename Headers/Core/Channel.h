@@ -7,17 +7,16 @@
 
 #include "Core/Base.h"
 #include "Core/Looper.h"
-#include "Core/Socket.h"
 
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace rl {
 
 class Message;
 class Channel {
  public:
-  using Handle = int;
   using MessageReceivedCallback = std::function<void(Message&)>;
   using TerminationCallback = std::function<void(void)>;
   using ConnectedPair =
@@ -35,34 +34,13 @@ class Channel {
   explicit Channel(std::string name);
 
   /**
-   *  Create a channel using a raw channel handle
-   *  Ownership of the handle is assumed by the channel
-   *  object
-   *
-   *  @param socketHandle the socket handle
-   *
-   *  @return the channel
-   */
-  explicit Channel(Handle socketHandle);
-
-  /**
-   *  Create a channel using a preallocated socket
-   *  that is already connected
-   *
-   *  @param socket the socket object
-   *
-   *  @return the channel
-   */
-  explicit Channel(std::unique_ptr<Socket> socket);
-
-  /**
    *  Create a pair of connected channels
    *
    *  @return the connected channel pair
    */
-  static ConnectedPair CreateConnectedChannels();
+  static ConnectedPair CreateConnectedPair();
 
-  ~Channel();
+  virtual ~Channel();
 
 #pragma mark - Sending and receiving messages on channels
 
@@ -98,7 +76,7 @@ class Channel {
    *
    *  @return if the connection was made
    */
-  bool tryConnect();
+  bool connect();
 
   /**
    *  If the connection was already made
@@ -106,13 +84,6 @@ class Channel {
    *  @return if the connection was made
    */
   bool isConnected() const;
-
-  /**
-   *  If the channel is ready for a connection
-   *
-   *  @return if the channel is ready for connection
-   */
-  bool isReady() const;
 
   /**
    *  Terminate the channel connection and cleanup underlying resources
@@ -141,20 +112,60 @@ class Channel {
    *
    *  @return the looper source for this channel
    */
-  std::shared_ptr<LooperSource> source();
+  virtual std::shared_ptr<LooperSource> source() = 0;
+
+ protected:
+  enum Result {
+    Success = 0,
+    TemporaryFailure,
+    PermanentFailure,
+  };
+
+  using ReadResult = std::pair<Result, std::vector<std::unique_ptr<Message>>>;
+
+  /**
+   *  Write a message on the underlying channel implementation
+   *
+   *  @param message the message to write
+   *
+   *  @return the write result
+   */
+  virtual Result WriteMessage(Message& message) = 0;
+
+  /**
+   *  Read a message on the underlying channel implementation
+   *
+   *  @return the read result
+   */
+  virtual ReadResult ReadMessages() = 0;
+
+  /**
+   *  Perform actual channel connection
+   *
+   *  @return if the connection was successful
+   */
+  virtual bool doConnect(const std::string& endpoint) = 0;
+
+  /**
+   *  Perform the actual channel connection termination
+   *
+   *  @return if the termination was successful
+   */
+  virtual bool doTerminate() = 0;
+
+  /**
+   *  After the availability of messages on the underlying implementation is
+   *  detected, this the base class calls this method so that the underlying
+   *  implementation may perform the actual reads.
+   */
+  void readPendingMessageNow();
 
  private:
-  std::shared_ptr<LooperSource> _source;
   MessageReceivedCallback _messageReceivedCallback;
   TerminationCallback _terminationCallback;
-  std::unique_ptr<Socket> _socket;
-  bool _ready;
+  bool _terminated;
   bool _connected;
   std::string _name;
-
-  void readMessageOnHandle(Handle handle);
-
-  DISALLOW_COPY_AND_ASSIGN(Channel);
 };
 }
 

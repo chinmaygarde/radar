@@ -40,7 +40,6 @@
 		9EAECE801B685460000FA38A /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE521B685460000FA38A /* Message.h */; };
 		9EAECE821B685460000FA38A /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE541B685460000FA38A /* Server.h */; };
 		9EAECE831B685460000FA38A /* SharedMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE551B685460000FA38A /* SharedMemory.h */; };
-		9EAECE841B685460000FA38A /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE561B685460000FA38A /* Socket.h */; };
 		9EAECE851B685460000FA38A /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE571B685460000FA38A /* Utilities.h */; };
 		9EAECE861B685460000FA38A /* WaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE581B685460000FA38A /* WaitSet.h */; };
 		9EAECE871B685460000FA38A /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE5A1B685460000FA38A /* Matrix.h */; };
@@ -76,9 +75,7 @@
 		9EAECEDC1B685469000FA38A /* Looper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAE1B685469000FA38A /* Looper.cc */; };
 		9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAF1B685469000FA38A /* LooperSource.cc */; };
 		9EAECEDE1B685469000FA38A /* Message.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB01B685469000FA38A /* Message.cc */; };
-		9EAECEE01B685469000FA38A /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB21B685469000FA38A /* Server.cc */; };
 		9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB31B685469000FA38A /* SharedMemory.cc */; };
-		9EAECEE21B685469000FA38A /* Socket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB41B685469000FA38A /* Socket.cc */; };
 		9EAECEE31B685469000FA38A /* Utilities.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB51B685469000FA38A /* Utilities.cc */; };
 		9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB61B685469000FA38A /* WaitSet.cc */; };
 		9EAECEE51B685469000FA38A /* Matrix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB81B685469000FA38A /* Matrix.cc */; };
@@ -91,6 +88,9 @@
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
 		9EAECEF91B694E15000FA38A /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECEF81B694E15000FA38A /* Entity.h */; };
 		9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEFA1B694E26000FA38A /* Entity.cc */; };
+		9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */; };
+		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
+		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -138,7 +138,6 @@
 		9EAECE521B685460000FA38A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		9EAECE541B685460000FA38A /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		9EAECE551B685460000FA38A /* SharedMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemory.h; sourceTree = "<group>"; };
-		9EAECE561B685460000FA38A /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
 		9EAECE571B685460000FA38A /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		9EAECE581B685460000FA38A /* WaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitSet.h; sourceTree = "<group>"; };
 		9EAECE5A1B685460000FA38A /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -178,7 +177,6 @@
 		9EAECEB01B685469000FA38A /* Message.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cc; sourceTree = "<group>"; };
 		9EAECEB21B685469000FA38A /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		9EAECEB31B685469000FA38A /* SharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory.cc; sourceTree = "<group>"; };
-		9EAECEB41B685469000FA38A /* Socket.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Socket.cc; sourceTree = "<group>"; };
 		9EAECEB51B685469000FA38A /* Utilities.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cc; sourceTree = "<group>"; };
 		9EAECEB61B685469000FA38A /* WaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet.cc; sourceTree = "<group>"; };
 		9EAECEB81B685469000FA38A /* Matrix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cc; sourceTree = "<group>"; };
@@ -191,6 +189,10 @@
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
 		9EAECEF81B694E15000FA38A /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		9EAECEFA1B694E26000FA38A /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
+		9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
+		9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
+		9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
+		9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
@@ -294,7 +296,6 @@
 				9EAECE521B685460000FA38A /* Message.h */,
 				9EAECE541B685460000FA38A /* Server.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
-				9EAECE561B685460000FA38A /* Socket.h */,
 				EA62B3221B6F2F31009F197F /* Timing.h */,
 				9EAECE571B685460000FA38A /* Utilities.h */,
 				9EAECE581B685460000FA38A /* WaitSet.h */,
@@ -394,6 +395,7 @@
 			children = (
 				9EAECEAB1B685469000FA38A /* Linux */,
 				9EAECEA41B685469000FA38A /* Apple */,
+				9EC1A9861B6FEF2900795DB1 /* Channel */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
@@ -403,7 +405,6 @@
 				9EAECEB01B685469000FA38A /* Message.cc */,
 				9EAECEB21B685469000FA38A /* Server.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
-				9EAECEB41B685469000FA38A /* Socket.cc */,
 				EA62B3241B6F2F41009F197F /* Timing.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
@@ -467,6 +468,17 @@
 			path = Shell;
 			sourceTree = "<group>";
 		};
+		9EC1A9861B6FEF2900795DB1 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */,
+				9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */,
+				9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */,
+				9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */,
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
 		EA62B3141B6F2402009F197F /* Event */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,8 +509,8 @@
 				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
-				9EAECE841B685460000FA38A /* Socket.h in Headers */,
 				9EAECEF91B694E15000FA38A /* Entity.h in Headers */,
+				9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */,
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
@@ -514,6 +526,7 @@
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
+				9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */,
 				9EAECE701B685460000FA38A /* Layer.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
@@ -611,7 +624,6 @@
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
-				9EAECEE21B685469000FA38A /* Socket.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
@@ -638,7 +650,7 @@
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
-				9EAECEE01B685469000FA38A /* Server.cc in Sources */,
+				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,

@@ -5,50 +5,32 @@
 #include "Core/Channel.h"
 #include "Core/Message.h"
 #include "Core/Utilities.h"
+#include "Core/Channel/SocketChannel.h"
 
 namespace rl {
 
-Channel::Channel(std::string name) : _connected(false), _name(name) {
-  _socket = Utils::make_unique<Socket>();
-  _ready = true;
+Channel::ConnectedPair Channel::CreateConnectedPair() {
+  return SocketChannel::CreateConnectedPair();
 }
 
-Channel::Channel(Handle handle) : _ready(true), _connected(true) {
-  _socket = Utils::make_unique<Socket>(handle);
-}
-
-Channel::Channel(std::unique_ptr<Socket> socket)
-    : _socket(std::move(socket)), _ready(true), _connected(true) {
-}
-
-Channel::ConnectedPair Channel::CreateConnectedChannels() {
-  auto socketPair = Socket::CreatePair();
-
-  return ConnectedPair(std::make_shared<Channel>(std::move(socketPair.first)),
-                       std::make_shared<Channel>(std::move(socketPair.second)));
-}
-
-void Channel::terminate() {
-  bool closed = _socket->close();
-
-  _connected = false;
-  _ready = false;
-
-  if (closed && _terminationCallback) {
-    _terminationCallback();
-  }
+Channel::Channel(std::string name)
+    : _terminated(false), _connected(false), _name(name) {
 }
 
 Channel::~Channel() {
   terminate();
 }
 
-bool Channel::tryConnect() {
+bool Channel::connect() {
+  if (_terminated) {
+    return false;
+  }
+
   if (_connected) {
     return true;
   }
 
-  _connected = _socket->connect(_name);
+  _connected = doConnect(_name);
 
   return _connected;
 }
@@ -57,47 +39,28 @@ bool Channel::isConnected() const {
   return _connected;
 }
 
-bool Channel::isReady() const {
-  return _ready;
-}
-
-std::shared_ptr<LooperSource> Channel::source() {
-  if (_source.get() != nullptr) {
-    return _source;
+void Channel::terminate() {
+  if (_terminated) {
+    assert(_connected == false);
+    return;
   }
 
-  RL_ASSERT(_connected == true);
+  bool closed = doTerminate();
 
-  Handle handle = _socket->handle();
+  _connected = false;
+  _terminated = true;
 
-  using LS = LooperSource;
-
-  LS::IOHandlesAllocator allocator = [handle]() {
-    return LS::Handles(handle, handle); /* bi-di connection */
-  };
-
-  LS::IOHandler readHandler =
-      [this](LS::Handle handle) { this->readMessageOnHandle(handle); };
-
-  /**
-   *  We are specifying a null write handler since we will
-   *  never directly signal this source. Instead, we will write
-   *  to the handle directly.
-   *
-   *  The channel own the socket handle, so there is no deallocation
-   *  callback either.
-   */
-  _source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
-
-  return _source;
+  if (closed && _terminationCallback) {
+    _terminationCallback();
+  }
 }
 
 bool Channel::sendMessage(Message& message) {
   RL_ASSERT(message.size() <= 1024);
 
-  auto writeStatus = _socket->WriteMessage(message);
+  auto writeStatus = WriteMessage(message);
 
-  if (writeStatus == Socket::Result::PermanentFailure) {
+  if (writeStatus == Channel::Result::PermanentFailure) {
     /*
      *  If the channel is unrecoverable, we need to get rid of our
      *  reference to the descriptor and warn the user of the failure.
@@ -106,7 +69,7 @@ bool Channel::sendMessage(Message& message) {
     return false;
   }
 
-  return writeStatus == Socket::Result::Success;
+  return writeStatus == Channel::Result::Success;
 }
 
 const Channel::MessageReceivedCallback& Channel::messageReceivedCallback()
@@ -118,11 +81,11 @@ void Channel::setMessageReceivedCallback(MessageReceivedCallback callback) {
   _messageReceivedCallback = callback;
 }
 
-void Channel::readMessageOnHandle(Handle handle) {
-  Socket::Result status;
+void Channel::readPendingMessageNow() {
+  Channel::Result status;
   std::vector<std::unique_ptr<Message>> messages;
 
-  std::tie(status, messages) = _socket->ReadMessages();
+  std::tie(status, messages) = ReadMessages();
 
   /*
    *  Dispatch all successfully read messages
@@ -136,7 +99,7 @@ void Channel::readMessageOnHandle(Handle handle) {
   /*
    *  On fatal errors, terminate the channel
    */
-  if (status == Socket::Result::PermanentFailure) {
+  if (status == Channel::Result::PermanentFailure) {
     terminate();
     return;
   }
@@ -146,11 +109,6 @@ Channel::TerminationCallback Channel::terminationCallback() const {
   return _terminationCallback;
 }
 
-/**
- *  Set the termination callback
- *
- *  @param callback the termination callback
- */
 void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
   _terminationCallback = callback;
 }
