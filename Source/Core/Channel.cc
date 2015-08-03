@@ -142,25 +142,6 @@ void Channel::readMessageOnHandle(Handle handle) {
   }
 }
 
-void Channel::scheduleInLooper(Looper* looper) {
-  if (looper == nullptr || !_connected) {
-    return;
-  }
-
-  looper->addSource(source());
-}
-
-void Channel::unscheduleFromLooper(Looper* looper) {
-  if (looper == nullptr) {
-    return;
-  }
-
-  /*
-   * don't invoke the accessor which implicitly constructs a source
-   */
-  looper->removeSource(_source);
-}
-
 Channel::TerminationCallback Channel::terminationCallback() const {
   return _terminationCallback;
 }

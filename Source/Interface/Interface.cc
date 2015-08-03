@@ -5,6 +5,7 @@
 #include "Interface/Interface.h"
 
 #include <limits>
+#include <cassert>
 
 namespace rl {
 
@@ -89,11 +90,15 @@ void Interface::flushTransactions() {
 }
 
 void Interface::setupEventChannels() {
-  // TODO
+  assert(_looper == Looper::Current());
+  _eventsChannel = Channel::CreateConnectedChannels();
+  bool result = _looper->addSource(_eventsChannel.second->source());
+  assert(result == true);
 }
 
 std::shared_ptr<Channel> Interface::sendEventChannel() const {
-  return nullptr;
+  assert(_eventsChannel.first != nullptr);
+  return _eventsChannel.first;
 }
 
 }  // namespace rl

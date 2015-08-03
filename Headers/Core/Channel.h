@@ -23,6 +23,7 @@ class Channel {
   using ConnectedPair =
       std::pair<std::shared_ptr<Channel>, std::shared_ptr<Channel>>;
 
+#pragma mark - Creating Channels
   /**
    *  Create a channel to a named endpoint. Connection
    *  must be explicitly setup by the caller
@@ -63,22 +64,7 @@ class Channel {
 
   ~Channel();
 
-  /**
-   *  Adds the channel to the specified looper.
-   *  It is programmer error to collect the channel
-   *  before it is unscheduled from all loopers via
-   *  `unscheduleFromLooper`
-   *
-   *  @param looper the looper
-   */
-  void scheduleInLooper(Looper* looper);
-
-  /**
-   *  Unschedule the channel from the specified looper.
-   *
-   *  @param looper the looper
-   */
-  void unscheduleFromLooper(Looper* looper);
+#pragma mark - Sending and receiving messages on channels
 
   /**
    *  Sends the specified message down the channel
@@ -104,6 +90,8 @@ class Channel {
    *  @param callback the new messages received callback
    */
   void setMessageReceivedCallback(MessageReceivedCallback callback);
+
+#pragma mark - Manual channel connection status management
 
   /**
    *  Try to establish the channel connection if not already setup
@@ -145,8 +133,17 @@ class Channel {
    */
   void setTerminationCallback(TerminationCallback callback);
 
- private:
+#pragma mark - Interacting with loopers
+
+  /**
+   *  Get a looper source for this channel. Channels need to be scheduled on
+   *  loopers to get message and lifecycle callbacks
+   *
+   *  @return the looper source for this channel
+   */
   std::shared_ptr<LooperSource> source();
+
+ private:
   std::shared_ptr<LooperSource> _source;
   MessageReceivedCallback _messageReceivedCallback;
   TerminationCallback _terminationCallback;
