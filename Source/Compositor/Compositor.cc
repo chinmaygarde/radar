@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "Compositor/Compositor.h"
-#include "Core/AutoLock.h"
 #include "Core/Guard.h"
 
 #include "Compositor/Frame.h"

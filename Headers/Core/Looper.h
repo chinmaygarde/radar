@@ -8,11 +8,11 @@
 #include "Core/Base.h"
 #include "Core/LooperSource.h"
 #include "Core/WaitSet.h"
-#include "Core/Lock.h"
 #include "Core/LooperObserver.h"
 
 #include <functional>
 #include <list>
+#include <mutex>
 
 namespace rl {
 
@@ -86,19 +86,19 @@ class Looper {
                       LooperObserver::Activity activity);
 
  private:
+  WaitSet _waitSet;
+  std::shared_ptr<LooperSource> _trivialSource;
+  bool _shouldTerminate;
+  std::mutex _lock;
+  std::unique_ptr<PendingBlocks> _pendingDispatches;
+  LooperObserverCollection _beforeSleepObservers;
+  LooperObserverCollection _afterSleepObservers;
+
   Looper();
   ~Looper();
   void beforeSleep();
   void afterSleep();
   void flushPendingDispatches();
-
-  WaitSet _waitSet;
-  std::shared_ptr<LooperSource> _trivialSource;
-  bool _shouldTerminate;
-  Lock _lock;
-  std::unique_ptr<PendingBlocks> _pendingDispatches;
-  LooperObserverCollection _beforeSleepObservers;
-  LooperObserverCollection _afterSleepObservers;
 
   DISALLOW_COPY_AND_ASSIGN(Looper);
 };

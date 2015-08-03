@@ -33,7 +33,7 @@ bool Interface::isRunning() const {
 }
 
 const InterfaceTransaction& Interface::transaction() {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
 
   if (_transactionStack.size() == 0) {
     /**
@@ -49,12 +49,12 @@ const InterfaceTransaction& Interface::transaction() {
 
 template <typename... T>
 void Interface::pushTransaction(T&&... args) {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
   _transactionStack.emplace(args...);
 }
 
 void Interface::popTransaction() {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
 
   if (_transactionStack.size() == 0) {
     return;
@@ -75,7 +75,7 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
 
   while (_transactionStack.size() != 0) {
     _transactionStack.top().commit();

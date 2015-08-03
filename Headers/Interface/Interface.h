@@ -7,11 +7,11 @@
 
 #include "Core/Base.h"
 #include "Core/Looper.h"
-#include "Core/Lock.h"
 #include "Core/Latch.h"
 #include "Interface/InterfaceTransaction.h"
 
 #include <stack>
+#include <mutex>
 
 namespace rl {
 class Interface {
@@ -53,7 +53,7 @@ class Interface {
 
  private:
   Looper* _looper;
-  Lock _lock;
+  std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
 

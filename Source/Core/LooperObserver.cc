@@ -31,13 +31,13 @@ LooperObserverCollection::LooperObserverCollection() : _observers(){};
 
 void LooperObserverCollection::addObserver(
     std::shared_ptr<LooperObserver> observer) {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
   _observers.insert(observer);
 }
 
 void LooperObserverCollection::removeObserver(
     std::shared_ptr<LooperObserver> observer) {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
   _observers.erase(observer);
 }
 

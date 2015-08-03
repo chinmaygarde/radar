@@ -7,7 +7,6 @@
 
 #include "Core/Base.h"
 #include "Core/Looper.h"
-#include "Core/Lock.h"
 #include "Core/Latch.h"
 
 #include "Geometry/Size.h"
@@ -15,6 +14,8 @@
 #include "Compositor/RenderSurface.h"
 #include "Compositor/Layer.h"
 #include "Compositor/ProgramCatalog.h"
+
+#include <mutex>
 
 namespace rl {
 class Compositor : RenderSurfaceObserver {
@@ -29,7 +30,7 @@ class Compositor : RenderSurfaceObserver {
  private:
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
-  Lock _lock;
+  std::mutex _lock;
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
   Layer::Ref _rootLayer;

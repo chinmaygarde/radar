@@ -4,7 +4,6 @@
 
 #include "Core/Looper.h"
 #include "Core/Utilities.h"
-#include "Core/AutoLock.h"
 
 #include <pthread.h>
 #include <mutex>
@@ -114,7 +113,7 @@ void Looper::flushPendingDispatches() {
      *  Hold the lock for as short of a time as possible. Release the lock while
      *  flushing dispatches
      */
-    AutoLock lock(_lock);
+    std::lock_guard<std::mutex> lock(_lock);
     if (_pendingDispatches->size() != 0) {
       pending.swap(_pendingDispatches);
       _pendingDispatches = Utils::make_unique<PendingBlocks>();
@@ -134,7 +133,7 @@ void Looper::flushPendingDispatches() {
 void Looper::dispatchAsync(std::function<void()> block) {
   assert(_trivialSource && "A trivial source must be present");
 
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
   _pendingDispatches->push_back(block);
   _trivialSource->writer()(_trivialSource->writeHandle());
 }

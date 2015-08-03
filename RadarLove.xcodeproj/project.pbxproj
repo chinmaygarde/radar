@@ -30,13 +30,11 @@
 		9EAECE731B685460000FA38A /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE441B685460000FA38A /* Program.h */; };
 		9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE451B685460000FA38A /* ProgramCatalog.h */; };
 		9EAECE751B685460000FA38A /* RenderSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE461B685460000FA38A /* RenderSurface.h */; };
-		9EAECE771B685460000FA38A /* AutoLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE491B685460000FA38A /* AutoLock.h */; };
 		9EAECE781B685460000FA38A /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4A1B685460000FA38A /* Base.h */; };
 		9EAECE791B685460000FA38A /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4B1B685460000FA38A /* Channel.h */; };
 		9EAECE7A1B685460000FA38A /* Config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4C1B685460000FA38A /* Config.h */; };
 		9EAECE7B1B685460000FA38A /* Guard.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4D1B685460000FA38A /* Guard.h */; };
 		9EAECE7C1B685460000FA38A /* Latch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4E1B685460000FA38A /* Latch.h */; };
-		9EAECE7D1B685460000FA38A /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4F1B685460000FA38A /* Lock.h */; };
 		9EAECE7E1B685460000FA38A /* Looper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE501B685460000FA38A /* Looper.h */; };
 		9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE511B685460000FA38A /* LooperSource.h */; };
 		9EAECE801B685460000FA38A /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE521B685460000FA38A /* Message.h */; };
@@ -124,13 +122,11 @@
 		9EAECE441B685460000FA38A /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		9EAECE451B685460000FA38A /* ProgramCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramCatalog.h; sourceTree = "<group>"; };
 		9EAECE461B685460000FA38A /* RenderSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSurface.h; sourceTree = "<group>"; };
-		9EAECE491B685460000FA38A /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
 		9EAECE4A1B685460000FA38A /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		9EAECE4B1B685460000FA38A /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9EAECE4C1B685460000FA38A /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		9EAECE4D1B685460000FA38A /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
 		9EAECE4E1B685460000FA38A /* Latch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Latch.h; sourceTree = "<group>"; };
-		9EAECE4F1B685460000FA38A /* Lock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		9EAECE501B685460000FA38A /* Looper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Looper.h; sourceTree = "<group>"; };
 		9EAECE511B685460000FA38A /* LooperSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperSource.h; sourceTree = "<group>"; };
 		9EAECE521B685460000FA38A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -274,13 +270,11 @@
 		9EAECE471B685460000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECE491B685460000FA38A /* AutoLock.h */,
 				9EAECE4A1B685460000FA38A /* Base.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
 				9EAECE4C1B685460000FA38A /* Config.h */,
 				9EAECE4D1B685460000FA38A /* Guard.h */,
 				9EAECE4E1B685460000FA38A /* Latch.h */,
-				9EAECE4F1B685460000FA38A /* Lock.h */,
 				9EAECE501B685460000FA38A /* Looper.h */,
 				9EAECE511B685460000FA38A /* LooperSource.h */,
 				9E222CD91B69ABEC005D02EE /* LooperObserver.h */,
@@ -465,7 +459,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
-				9EAECE771B685460000FA38A /* AutoLock.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
 				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
@@ -482,7 +475,6 @@
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
-				9EAECE7D1B685460000FA38A /* Lock.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,

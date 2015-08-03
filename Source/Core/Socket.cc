@@ -120,7 +120,7 @@ Socket::~Socket() {
 }
 
 Socket::ReadResult Socket::ReadMessages() {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
 
   struct iovec vec[1] = {{0}};
 
@@ -194,7 +194,7 @@ Socket::ReadResult Socket::ReadMessages() {
 }
 
 Socket::Result Socket::WriteMessage(Message& message) {
-  AutoLock lock(_lock);
+  std::lock_guard<std::mutex> lock(_lock);
 
   if (message.size() > MaxBufferSize) {
     return Result::TemporaryFailure;

@@ -6,10 +6,10 @@
 #define __RADARLOVER_CORE_LOOPEROBSERVER__
 
 #include "Core/Base.h"
-#include "Core/AutoLock.h"
 
 #include <functional>
 #include <set>
+#include <mutex>
 
 namespace rl {
 class LooperObserver {
@@ -87,7 +87,7 @@ class LooperObserverCollection {
   void invokeAll();
 
  private:
-  Lock _lock;
+  std::mutex _lock;
   using LooperObserversSet =
       std::set<std::shared_ptr<LooperObserver>, LooperObserverComparer>;
   LooperObserversSet _observers;

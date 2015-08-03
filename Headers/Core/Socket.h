@@ -6,11 +6,11 @@
 #define __RADARLOVE__SOCKETACCESSOR__
 
 #include "Core/Base.h"
-#include "Core/AutoLock.h"
 
 #include <utility>
 #include <string>
 #include <vector>
+#include <mutex>
 #include <sys/socket.h>
 #include <stdint.h>
 
@@ -92,7 +92,7 @@ class Socket {
   Handle handle() const;
 
  protected:
-  Lock _lock;
+  std::mutex _lock;
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
   Handle _handle;
