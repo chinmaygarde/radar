@@ -26,23 +26,19 @@
 
 using namespace rl;
 
-const size_t Socket::MaxBufferSize = 4096;
-const size_t Socket::MaxControlBufferItemCount = 8;
-const size_t Socket::ControlBufferItemSize = sizeof(int);
-const size_t Socket::MaxControlBufferSize =
+static const size_t MaxBufferSize = 4096;
+static const size_t MaxControlBufferItemCount = 8;
+static const size_t ControlBufferItemSize = sizeof(int);
+static const size_t MaxControlBufferSize =
     CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
-
-std::unique_ptr<Socket> Socket::Create(Socket::Handle handle) {
-  return rl::Utils::make_unique<Socket>(handle);
-}
 
 Socket::Pair Socket::CreatePair() {
   int socketHandles[2] = {0};
 
   RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
 
-  return Pair(Socket::Create(socketHandles[0]),
-              Socket::Create(socketHandles[1]));
+  return Pair(Utils::make_unique<Socket>(socketHandles[0]),
+              Utils::make_unique<Socket>(socketHandles[1]));
 }
 
 Socket::Socket(Handle handle) {
@@ -182,7 +178,7 @@ Socket::ReadResult Socket::ReadMessages() {
         break;
       }
 
-      return ReadResult(Status::TemporaryFailure, std::move(messages));
+      return ReadResult(Result::TemporaryFailure, std::move(messages));
     }
 
     if (received == 0) {
@@ -190,18 +186,18 @@ Socket::ReadResult Socket::ReadMessages() {
        *  if no messages are available to be received and the peer
        *  has performed an orderly shutdown, recvmsg() returns 0
        */
-      return ReadResult(Status::PermanentFailure, std::move(messages));
+      return ReadResult(Result::PermanentFailure, std::move(messages));
     }
   }
 
-  return ReadResult(Status::Success, std::move(messages));
+  return ReadResult(Result::Success, std::move(messages));
 }
 
-Socket::Status Socket::WriteMessage(Message& message) {
+Socket::Result Socket::WriteMessage(Message& message) {
   AutoLock lock(_lock);
 
   if (message.size() > MaxBufferSize) {
-    return Status::TemporaryFailure;
+    return Result::TemporaryFailure;
   }
 
   struct iovec vec[1] = {{0}};
@@ -238,8 +234,12 @@ Socket::Status Socket::WriteMessage(Message& message) {
   }
 
   if (sent != message.size()) {
-    return errno == EPIPE ? Status::PermanentFailure : Status::TemporaryFailure;
+    return errno == EPIPE ? Result::PermanentFailure : Result::TemporaryFailure;
   }
 
-  return Status::Success;
+  return Result::Success;
+}
+
+Socket::Handle Socket::handle() const {
+  return _handle;
 }

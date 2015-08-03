@@ -13,24 +13,53 @@ namespace rl {
 class SharedMemory {
  public:
   using Handle = int;
+
+  /**
+   *  Create a reference to shared memory of the given size
+   *
+   *  @param size the size of the shared memory
+   */
   explicit SharedMemory(size_t size);
+
   ~SharedMemory();
 
+  /**
+   *  Cleanup the shared memory reference
+   */
   void cleanup();
 
-  bool isReady() const { return _ready; }
+  /**
+   *  Returns if the shared memory reference is ready for use
+   *
+   *  @return ready status of the shared memory
+   */
+  bool isReady() const;
 
-  void* address() const { return _address; }
+  /**
+   *  Returns the address of the shared memory reference
+   *
+   *  @return the shared memory reference address
+   */
+  void* address() const;
 
-  size_t size() const { return _size; }
+  /**
+   *  Returns the size of the shared memory reference
+   *
+   *  @return the size of the shared memory reference
+   */
+  size_t size() const;
 
-  Handle handle() const { return _handle; }
+  /**
+   *  Return the raw handle to the shared memory reference
+   *
+   *  @return the shared memory handle
+   */
+  Handle handle() const;
 
  private:
   Handle _handle;
   size_t _size;
   void* _address;
-
   bool _ready;
 
   DISALLOW_COPY_AND_ASSIGN(SharedMemory);

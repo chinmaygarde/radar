@@ -98,7 +98,7 @@ void Server::onConnectionAvailableForAccept(Handle handle) {
     return;
   }
 
-  if (!_channelAvailablilityCallback) {
+  if (!_clientAvailablilityCallback) {
     /*
      *  If the channel availability handler is not set, the server
      *  is listening for connections but won't actually do anything
@@ -109,7 +109,7 @@ void Server::onConnectionAvailableForAccept(Handle handle) {
     return;
   }
 
-  _channelAvailablilityCallback(std::make_shared<Channel>(connectionHandle));
+  _clientAvailablilityCallback(std::make_shared<Channel>(connectionHandle));
 }
 
 std::shared_ptr<LooperSource> Server::clientConnectionsSource() {

@@ -20,58 +20,84 @@ class Message;
 
 class Socket {
  public:
-  static const size_t MaxBufferSize;
-  static const size_t MaxControlBufferItemCount;
-  static const size_t ControlBufferItemSize;
-  static const size_t MaxControlBufferSize;
-
-  using Handle = int;
-
-  enum Status {
+  enum Result {
     Success = 0,
     TemporaryFailure,
     PermanentFailure,
   };
 
-  using ReadResult = std::pair<Status, std::vector<std::unique_ptr<Message>>>;
+  using Handle = int;
+  using ReadResult = std::pair<Result, std::vector<std::unique_ptr<Message>>>;
   using Pair = std::pair<std::unique_ptr<Socket>, std::unique_ptr<Socket>>;
 
-  /*
-   *  Creating a socket
+#pragma mark - Creating a Socket
+
+  /**
+   *  Create a socket from a raw socket handle if necessary. Connecting two
+   *  sockets manually is usually a pain in the ass. So if you just need a
+   *  pair of connected sockets, use the `CreatePair` method instead.
+   *
+   *  @param handle the raw socket handle if available. Otherwise, a handle is
+   *                created for you.
    */
-
-  static std::unique_ptr<Socket> Create(Handle Handle = 0);
-  static Pair CreatePair();
-
-  Socket() = delete;
   explicit Socket(Handle handle = 0);
+
+  /**
+   *  Create a connected pair of sockets
+   *
+   *  @return pair the pair of connected sockets
+   */
+  static Pair CreatePair();
 
   virtual ~Socket();
 
-  /*
-   *  Connecting and disconnecting sockets
-   */
+#pragma mark - Manually connecting sockets
 
+  /**
+   *  Connect the socket to a named endpoint
+   *
+   *  @param endpoint the name of the endpoint to connect to
+   *
+   *  @return if the socket connection was successful
+   */
   bool connect(std::string endpoint);
 
+  /**
+   *  Close the socket
+   *
+   *  @return if the socket was successfully closed
+   */
   bool close();
 
-  /*
-   *  Reading and writing messages on sockets
-   */
+#pragma mark - Reading and writing messages on a socket
 
-  Status WriteMessage(Message& message);
+  /**
+   *  Write a message on the socket
+   *
+   *  @param message the message to write
+   *
+   *  @return the write result
+   */
+  Result WriteMessage(Message& message);
+
+  /**
+   *  Read a message on the socket
+   *
+   *  @return the read result
+   */
   ReadResult ReadMessages();
 
-  Handle handle() const { return _handle; }
+#pragma mark - Misc.
+
+  Handle handle() const;
 
  protected:
   Lock _lock;
-
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
-
   Handle _handle;
+
+  DISALLOW_COPY_AND_ASSIGN(Socket);
 };
 }
 

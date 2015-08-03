@@ -9,12 +9,12 @@
 using namespace rl;
 
 Channel::Channel(std::string name) : _connected(false), _name(name) {
-  _socket = Socket::Create();
+  _socket = Utils::make_unique<Socket>();
   _ready = true;
 }
 
 Channel::Channel(Handle handle) : _ready(true), _connected(true) {
-  _socket = Socket::Create(handle);
+  _socket = Utils::make_unique<Socket>(handle);
 }
 
 Channel::Channel(std::unique_ptr<Socket> socket)
@@ -96,9 +96,9 @@ std::shared_ptr<LooperSource> Channel::source() {
 bool Channel::sendMessage(Message& message) {
   RL_ASSERT(message.size() <= 1024);
 
-  Socket::Status writeStatus = _socket->WriteMessage(message);
+  auto writeStatus = _socket->WriteMessage(message);
 
-  if (writeStatus == Socket::Status::PermanentFailure) {
+  if (writeStatus == Socket::Result::PermanentFailure) {
     /*
      *  If the channel is unrecoverable, we need to get rid of our
      *  reference to the descriptor and warn the user of the failure.
@@ -107,11 +107,11 @@ bool Channel::sendMessage(Message& message) {
     return false;
   }
 
-  return writeStatus == Socket::Status::Success;
+  return writeStatus == Socket::Result::Success;
 }
 
 void Channel::readMessageOnHandle(Handle handle) {
-  Socket::Status status;
+  Socket::Result status;
   std::vector<std::unique_ptr<Message>> messages;
 
   std::tie(status, messages) = _socket->ReadMessages();
@@ -128,7 +128,7 @@ void Channel::readMessageOnHandle(Handle handle) {
   /*
    *  On fatal errors, terminate the channel
    */
-  if (status == Socket::Status::PermanentFailure) {
+  if (status == Socket::Result::PermanentFailure) {
     terminate();
     return;
   }

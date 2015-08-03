@@ -144,3 +144,19 @@ void SharedMemory::cleanup() {
 SharedMemory::~SharedMemory() {
   cleanup();
 }
+
+bool SharedMemory::isReady() const {
+  return _ready;
+}
+
+void* SharedMemory::address() const {
+  return _address;
+}
+
+size_t SharedMemory::size() const {
+  return _size;
+}
+
+SharedMemory::Handle SharedMemory::handle() const {
+  return _handle;
+}
