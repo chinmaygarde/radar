@@ -20,28 +20,27 @@ class Shell {
   /**
    *  Perform initialization of the shell on the current host thread.
    */
-  void attachHostOnCurrentThread();
 
   /**
    *  Get a reference to the compositor
    *
    *  @return the compositor
    */
-  Compositor& compositor() const;
+  Compositor& compositor();
 
   /**
    *  Get a reference to the interface
    *
    *  @return the interface
    */
-  Interface& interface() const;
+  Interface& interface();
 
   /**
    *  Get a reference to the host
    *
    *  @return the host
    */
-  Host& host() const;
+  Host& host();
 
  private:
   bool _attached;
@@ -50,19 +49,21 @@ class Shell {
    *  Host variables
    */
   std::thread _hostThread;
-  std::unique_ptr<Host> _host;
+  Host _host;
 
   /**
    *  Compositor variables
    */
   std::thread _compositorThread;
-  std::unique_ptr<Compositor> _compositor;
+  Compositor _compositor;
 
   /*
    *  Interface variables
    */
   std::thread _interfaceThread;
-  std::unique_ptr<Interface> _interface;
+  Interface _interface;
+
+  void attachHostOnCurrentThread();
 
   DISALLOW_COPY_AND_ASSIGN(Shell);
 };

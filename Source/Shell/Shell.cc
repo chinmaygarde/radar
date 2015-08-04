@@ -18,11 +18,12 @@ namespace rl {
 Shell::Shell(std::shared_ptr<RenderSurface> surface)
     : _attached(false),
       _hostThread(),
-      _host(Utils::make_unique<Host>()),
+      _host(),
       _compositorThread(),
-      _compositor(Utils::make_unique<Compositor>(surface)),
+      _compositor(surface),
       _interfaceThread(),
-      _interface(Utils::make_unique<Interface>()) {
+      _interface() {
+  attachHostOnCurrentThread();
 }
 
 void Shell::attachHostOnCurrentThread() {
@@ -35,34 +36,34 @@ void Shell::attachHostOnCurrentThread() {
   Latch readyLatch(3);
 
   pthread_setname_np("rl.host");
-  _host->run(readyLatch);
+  _host.run(readyLatch);
 
   _compositorThread = std::move(std::thread([&]() {
     pthread_setname_np("rl.compositor");
-    _compositor->run(readyLatch);
+    _compositor.run(readyLatch);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
     pthread_setname_np("rl.interface");
-    _interface->run(readyLatch);
+    _interface.run(readyLatch);
   }));
 
   readyLatch.wait();
 }
 
-Compositor& Shell::compositor() const {
+Compositor& Shell::compositor() {
   assert(_attached);
-  return *_compositor;
+  return _compositor;
 }
 
-Interface& Shell::interface() const {
+Interface& Shell::interface() {
   assert(_attached);
-  return *_interface;
+  return _interface;
 }
 
-Host& Shell::host() const {
+Host& Shell::host() {
   assert(_attached);
-  return *_host;
+  return _host;
 }
 
 }  // namespace rl
