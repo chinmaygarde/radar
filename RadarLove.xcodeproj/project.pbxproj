@@ -91,6 +91,7 @@
 		9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */; };
 		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
 		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
+		9EC1A9901B70131D00795DB1 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -644,6 +645,7 @@
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
+				9EC1A9901B70131D00795DB1 /* MachPortChannel.cc in Sources */,
 				9EAECEFB1B694E26000FA38A /* Entity.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,

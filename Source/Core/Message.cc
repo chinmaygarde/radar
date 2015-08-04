@@ -14,6 +14,11 @@ Message::Message(size_t length)
   reserve(length);
 }
 
+Message::Message(size_t reservedHeader, size_t reservedLength)
+    : Message(reservedHeader + reservedLength) {
+  _reservedHeaderSize = _dataLength = reservedHeader;
+}
+
 Message::Message(const uint8_t* buffer, size_t bufferSize)
     : _bufferLength(bufferSize), _dataLength(bufferSize), _sizeRead(0) {
   void* allocation = malloc(bufferSize);
@@ -102,7 +107,7 @@ bool Message::decode(T& t) {
   return true;
 }
 
-const uint8_t* Message::data() const {
+uint8_t* Message::data() const {
   return _buffer;
 }
 
@@ -112,6 +117,10 @@ size_t Message::size() const {
 
 size_t Message::sizeRead() const {
   return _sizeRead;
+}
+
+size_t Message::reservedHeaderSize() const {
+  return _reservedHeaderSize;
 }
 
 }  // namespace rl

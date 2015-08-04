@@ -50,4 +50,19 @@ void Shell::attachHostOnCurrentThread() {
   readyLatch.wait();
 }
 
+Compositor& Shell::compositor() const {
+  assert(_attached);
+  return *_compositor;
+}
+
+Interface& Shell::interface() const {
+  assert(_attached);
+  return *_interface;
+}
+
+Host& Shell::host() const {
+  assert(_attached);
+  return *_host;
+}
+
 }  // namespace rl

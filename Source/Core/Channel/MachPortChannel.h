@@ -10,7 +10,25 @@
 namespace rl {
 class MachPortChannel : public Channel {
  public:
+  MachPortChannel(const std::string& name);
+
+  static ConnectedPair CreateConnectedPair();
+
+  virtual ~MachPortChannel() override;
+
+  virtual std::shared_ptr<LooperSource> source() override;
+
  private:
+  using Handle = uint32_t;
+
+  Handle _handle;
+  std::shared_ptr<LooperSource> _source;
+
+  virtual Result WriteMessage(Message& message) override;
+  virtual ReadResult ReadMessages() override;
+  virtual bool doConnect(const std::string& endpoint) override;
+  virtual bool doTerminate() override;
+
   DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
 };
 }  // namespace rl

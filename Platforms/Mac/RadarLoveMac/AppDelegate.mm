@@ -45,11 +45,9 @@ class RenderSurfaceMac : public RenderSurface {
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = std::make_shared<rl::Shell>(_renderSurface);
   _shell->attachHostOnCurrentThread();
-
   _renderSurface->surfaceWasCreated();
 
   self.window.delegate = self;
-
   [self windowWasResized];
 }
 

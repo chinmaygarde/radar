@@ -16,7 +16,32 @@ namespace rl {
 class Shell {
  public:
   Shell(std::shared_ptr<RenderSurface> surface);
+
+  /**
+   *  Perform initialization of the shell on the current host thread.
+   */
   void attachHostOnCurrentThread();
+
+  /**
+   *  Get a reference to the compositor
+   *
+   *  @return the compositor
+   */
+  Compositor& compositor() const;
+
+  /**
+   *  Get a reference to the interface
+   *
+   *  @return the interface
+   */
+  Interface& interface() const;
+
+  /**
+   *  Get a reference to the host
+   *
+   *  @return the host
+   */
+  Host& host() const;
 
  private:
   bool _attached;

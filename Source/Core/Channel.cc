@@ -6,11 +6,16 @@
 #include "Core/Message.h"
 #include "Core/Utilities.h"
 #include "Core/Channel/SocketChannel.h"
+#include "Core/Channel/MachPortChannel.h"
 
 namespace rl {
 
 Channel::ConnectedPair Channel::CreateConnectedPair() {
+#if __APPLE__
+  return MachPortChannel::CreateConnectedPair();
+#else
   return SocketChannel::CreateConnectedPair();
+#endif
 }
 
 Channel::Channel(std::string name)

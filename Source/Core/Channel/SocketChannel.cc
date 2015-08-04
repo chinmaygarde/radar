@@ -110,7 +110,7 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
    *  never directly signal this source. Instead, we will write
    *  to the handle directly.
    *
-   *  The channel own the socket handle, so there is no deallocation
+   *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
   _source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
