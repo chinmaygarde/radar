@@ -55,10 +55,11 @@ class RenderSurfaceMac : public RenderSurface {
   /*
    *  Test message
    */
-  auto m = _shell->interface().sendEventChannel()->createMessage(0);
+  auto channel = _shell->interface().sendEventChannel();
+  rl::Message m;
   m.encode(12);
   m.encode('c');
-  _shell->interface().sendEventChannel()->sendMessage(m);
+  channel->sendMessage(m);
 }
 
 - (void)windowDidResize:(NSNotification*)notification {

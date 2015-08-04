@@ -23,17 +23,7 @@ class Message {
    *                        the initial size of the buffer used for the message.
    *                        This may be resized as needed.
    */
-  explicit Message(size_t reservedLength);
-
-  /**
-   *  Create an uninitialized message with a given reserved buffer length as
-   *  well as space for a framing header. This allows channels to minimize
-   *  copies as messages are sent down the wire
-   *
-   *  @param reservedHeader the space reserved for the framing header
-   *  @param reservedLength the space reserved for subsequent `encode` calls
-   */
-  explicit Message(size_t reservedHeader, size_t reservedLength);
+  explicit Message(size_t reservedLength = 0);
 
   /**
    *  Create a message with pre-initialized message data
@@ -108,8 +98,7 @@ class Message {
   uint8_t* data() const;
 
   /**
-   *  The size of the underlying encoded data. Does NOT include the size of the
-   *  framing header (if one is present).
+   *  The size of the underlying encoded data
    *
    *  @return the data size
    */
@@ -131,7 +120,6 @@ class Message {
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
-  size_t _reservedHeaderSize;
 
   bool resizeBuffer(size_t size);
 

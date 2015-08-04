@@ -15,13 +15,19 @@ namespace rl {
 MachPortChannel::MachPortChannel(const std::string& name)
     : Channel(name), _source() {
   /*
-   *  Step 1: Allocate the port
+   *  Step 1: Allocate the port set that will be used as the observer in the
+   *          waitset
    */
-  kern_return_t res =
-      mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_PORT_SET, &_handle);
+  kern_return_t res = mach_port_allocate(mach_task_self(),
+                                         MACH_PORT_RIGHT_PORT_SET, &_setHandle);
+  assert(res == KERN_SUCCESS && _setHandle != MACH_PORT_NULL);
+
+  /*
+   *  Step 2: Allocate the port that will be used to send and receive messages
+   */
+  res = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &_handle);
   assert(res == KERN_SUCCESS && _handle != MACH_PORT_NULL);
 
-#if 0
   /*
    *  Step 2: Insert the send port right
    */
@@ -40,7 +46,12 @@ MachPortChannel::MachPortChannel(const std::string& name)
       mach_task_self(), _handle, MACH_PORT_LIMITS_INFO,
       (mach_port_info_t)&limits, MACH_PORT_LIMITS_INFO_COUNT);
   assert(res == KERN_SUCCESS);
-#endif
+
+  /*
+   *  Step 4: Insert the port into the port set. And we are all done.
+   */
+  res = mach_port_insert_member(mach_task_self(), _handle, _setHandle);
+  assert(res == KERN_SUCCESS);
 }
 
 MachPortChannel::~MachPortChannel() {
@@ -54,7 +65,7 @@ Channel::ConnectedPair MachPortChannel::CreateConnectedPair() {
 std::shared_ptr<LooperSource> MachPortChannel::source() {
   using LS = LooperSource;
 
-  auto allocator = [&]() { return LS::Handles(_handle, _handle); };
+  auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };
   auto readHandler = [](Handle handle) { assert(false); };
 
   auto source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
@@ -83,25 +94,30 @@ std::shared_ptr<LooperSource> MachPortChannel::source() {
   return source;
 }
 
+struct MachMessage {
+  const mach_msg_header_t header;
+  const mach_msg_body_t body;
+  const mach_msg_ool_descriptor_t mem;
+
+  MachMessage(const Message& message, mach_port_t target)
+      : header({
+            .msgh_size = sizeof(MachMessage),
+            .msgh_remote_port = target,
+            .msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0),
+        }),
+        body({.msgh_descriptor_count = 1}),
+        mem({
+            .address = message.data(),
+            .size = static_cast<mach_msg_size_t>(message.size()),
+            .deallocate = false,
+            .copy = MACH_MSG_VIRTUAL_COPY,
+        }) {}
+};
+
 Channel::Result MachPortChannel::WriteMessage(Message& message) {
-  /*
-   *  Since there is no scatter/gather equivalent to the mach_msg API, we depend
-   *  on the caller to allocate the appropriate framing header for us. This
-   *  avoids a stupid copy but adds some complexity to the API :/
-   */
-  assert(message.reservedHeaderSize() == sizeof(mach_msg_header_t));
-
-  mach_msg_header_t* msg = reinterpret_cast<mach_msg_header_t*>(message.data());
-  msg->msgh_size =
-      sizeof(mach_msg_header_t) + static_cast<mach_msg_size_t>(message.size());
-  msg->msgh_remote_port = _handle;
-  msg->msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
-
+  MachMessage machMessage(message, _handle);
   kern_return_t res =
-      mach_msg(msg, MACH_SEND_MSG, msg->msgh_size, 0, MACH_PORT_NULL,
-               MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
-
-  assert(res == MACH_MSG_SUCCESS);
+      mach_msg_send(reinterpret_cast<mach_msg_header_t*>(&machMessage));
 
   return res == MACH_MSG_SUCCESS ? Channel::Result::Success
                                  : Channel::Result::PermanentFailure;
@@ -120,10 +136,6 @@ bool MachPortChannel::doConnect(const std::string& endpoint) {
 bool MachPortChannel::doTerminate() {
   kern_return_t res = mach_port_destroy(mach_task_self(), _handle);
   return res == KERN_SUCCESS;
-}
-
-Message MachPortChannel::createMessage(size_t reserved) const {
-  return Message(sizeof(mach_msg_header_t), reserved);
 }
 
 }  // namespace rl

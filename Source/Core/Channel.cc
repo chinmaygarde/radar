@@ -118,8 +118,4 @@ void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
   _terminationCallback = callback;
 }
 
-Message Channel::createMessage(size_t reserved) const {
-  return Message(reserved);
-}
-
 }  // namespace rl
