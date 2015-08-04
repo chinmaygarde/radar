@@ -14,13 +14,15 @@ Message::Message(size_t length)
   reserve(length);
 }
 
-Message::Message(const uint8_t* buffer, size_t bufferSize)
+Message::Message(uint8_t* buffer, size_t bufferSize, bool noCopy)
     : _bufferLength(bufferSize), _dataLength(bufferSize), _sizeRead(0) {
-  void* allocation = malloc(bufferSize);
-
-  memcpy(allocation, buffer, bufferSize);
-
-  _buffer = static_cast<uint8_t*>(allocation);
+  if (noCopy) {
+    _buffer = buffer;
+  } else {
+    void* allocation = malloc(bufferSize);
+    memcpy(allocation, buffer, bufferSize);
+    _buffer = static_cast<uint8_t*>(allocation);
+  }
 }
 
 Message::~Message() {

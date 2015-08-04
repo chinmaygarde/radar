@@ -30,8 +30,10 @@ class Message {
    *
    *  @param buffer       the message data
    *  @param bufferLength the message data length
+   *  @param noCopy       if the data is not meant to be copied. Ownership of
+   *                      data is assumed directly
    */
-  explicit Message(const uint8_t* buffer, size_t bufferLength);
+  explicit Message(uint8_t* buffer, size_t bufferLength, bool noCopy = false);
 
   Message(Message&& message) noexcept = default;
 

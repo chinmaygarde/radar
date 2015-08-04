@@ -12,6 +12,48 @@
 
 namespace rl {
 
+struct MachPayload {
+  mach_msg_header_t header;
+  mach_msg_body_t body;
+  mach_msg_ool_descriptor_t mem;
+  mach_msg_trailer_info_t trailer;
+
+  MachPayload(const Message& message, mach_port_t remote)
+      : header({
+            .msgh_size = sizeof(MachPayload) - sizeof(mach_msg_trailer_info_t),
+            .msgh_remote_port = remote,
+            .msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0),
+        }),
+        body({.msgh_descriptor_count = 1}),
+        mem({
+            .address = message.data(),
+            .size = static_cast<mach_msg_size_t>(message.size()),
+            .deallocate = false,
+            .copy = MACH_MSG_VIRTUAL_COPY,
+        }),
+        trailer() {}
+
+  MachPayload(mach_port_t local)
+      : header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
+        body(),
+        mem(),
+        trailer() {}
+
+  bool send() {
+    return mach_msg_send(reinterpret_cast<mach_msg_header_t*>(this)) ==
+           MACH_MSG_SUCCESS;
+  }
+
+  bool receive() {
+    return mach_msg_receive(reinterpret_cast<mach_msg_header_t*>(this)) ==
+           KERN_SUCCESS;
+  }
+
+  Message asMessage() const {
+    return Message(static_cast<uint8_t*>(mem.address), mem.size, true);
+  }
+};
+
 MachPortChannel::MachPortChannel(const std::string& name)
     : Channel(name), _source() {
   /*
@@ -55,6 +97,9 @@ MachPortChannel::MachPortChannel(const std::string& name)
 }
 
 MachPortChannel::~MachPortChannel() {
+  /*
+   *  `doTerminate()` should have already collected the port
+   */
 }
 
 Channel::ConnectedPair MachPortChannel::CreateConnectedPair() {
@@ -66,7 +111,7 @@ std::shared_ptr<LooperSource> MachPortChannel::source() {
   using LS = LooperSource;
 
   auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };
-  auto readHandler = [](Handle handle) { assert(false); };
+  auto readHandler = [&](Handle handle) { readPendingMessageNow(); };
 
   auto source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
 
@@ -80,7 +125,7 @@ std::shared_ptr<LooperSource> MachPortChannel::source() {
                readHandle,                  /* ident */
                EVFILT_MACHPORT,             /* filter */
                adding ? EV_ADD : EV_DELETE, /* flags */
-               MACH_RCV_MSG,                /* fflags */
+               0,                           /* fflags */
                0,                           /* data */
                source                       /* udata */);
         // clang-format on
@@ -94,36 +139,22 @@ std::shared_ptr<LooperSource> MachPortChannel::source() {
   return source;
 }
 
-struct MachMessage {
-  const mach_msg_header_t header;
-  const mach_msg_body_t body;
-  const mach_msg_ool_descriptor_t mem;
-
-  MachMessage(const Message& message, mach_port_t target)
-      : header({
-            .msgh_size = sizeof(MachMessage),
-            .msgh_remote_port = target,
-            .msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0),
-        }),
-        body({.msgh_descriptor_count = 1}),
-        mem({
-            .address = message.data(),
-            .size = static_cast<mach_msg_size_t>(message.size()),
-            .deallocate = false,
-            .copy = MACH_MSG_VIRTUAL_COPY,
-        }) {}
-};
-
 Channel::Result MachPortChannel::WriteMessage(Message& message) {
-  MachMessage machMessage(message, _handle);
-  kern_return_t res =
-      mach_msg_send(reinterpret_cast<mach_msg_header_t*>(&machMessage));
+  MachPayload payload(message, _handle);
 
-  return res == MACH_MSG_SUCCESS ? Channel::Result::Success
-                                 : Channel::Result::PermanentFailure;
+  return payload.send() ? Channel::Result::Success
+                        : Channel::Result::PermanentFailure;
 }
 
 Channel::ReadResult MachPortChannel::ReadMessages() {
+  MachPayload payload(_handle);
+  std::vector<std::unique_ptr<Message>> messages;
+
+  if (payload.receive()) {
+    Message m = payload.asMessage();
+    printf("M");
+  }
+
   return Channel::ReadResult(Result::PermanentFailure,
                              std::vector<std::unique_ptr<Message>>());
 }
