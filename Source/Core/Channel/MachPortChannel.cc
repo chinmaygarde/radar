@@ -49,8 +49,9 @@ struct MachPayload {
            KERN_SUCCESS;
   }
 
-  Message asMessage() const {
-    return Message(static_cast<uint8_t*>(mem.address), mem.size, true);
+  std::unique_ptr<Message> asMessage() const {
+    return Utils::make_unique<Message>(static_cast<uint8_t*>(mem.address),
+                                       mem.size);
   }
 };
 
@@ -151,12 +152,12 @@ Channel::ReadResult MachPortChannel::ReadMessages() {
   std::vector<std::unique_ptr<Message>> messages;
 
   if (payload.receive()) {
-    Message m = payload.asMessage();
-    printf("M");
+    messages.push_back(payload.asMessage());
   }
 
-  return Channel::ReadResult(Result::PermanentFailure,
-                             std::vector<std::unique_ptr<Message>>());
+  return Channel::ReadResult(
+      messages.size() == 0 ? Result::TemporaryFailure : Result::Success,
+      std::move(messages));
 }
 
 bool MachPortChannel::doConnect(const std::string& endpoint) {
