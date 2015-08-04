@@ -49,11 +49,11 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
 
   static uintptr_t KQueueTimerIdent = 1;
 
-  IOHandlesAllocator handlesAllocator =
+  RWHandlesProvider handlesProvider =
       [] { return Handles(KQueueTimerIdent++, -1); };
 
-  auto timer = std::make_shared<LooperSource>(handlesAllocator, nullptr,
-                                              nullptr, nullptr);
+  auto timer = std::make_shared<LooperSource>(handlesProvider, nullptr, nullptr,
+                                              nullptr);
 
   timer->setCustomWaitSetUpdateHandler(updateHandler);
 

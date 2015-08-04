@@ -10,12 +10,12 @@
 
 namespace rl {
 
-LooperSource::LooperSource(IOHandlesAllocator handleAllocator,
-                           IOHandlesDeallocator handleDeallocator,
+LooperSource::LooperSource(RWHandlesProvider handleProvider,
+                           RWHandlesCollector handleCollector,
                            IOHandler readHandler,
                            IOHandler writeHandler) {
-  _handlesAllocator = handleAllocator;
-  _handlesDeallocator = handleDeallocator;
+  _handlesProvider = handleProvider;
+  _handlesCollector = handleCollector;
 
   _customWaitSetUpdateHandler = nullptr;
 
@@ -28,8 +28,8 @@ LooperSource::LooperSource(IOHandlesAllocator handleAllocator,
 }
 
 LooperSource::~LooperSource() {
-  if (_handlesAllocated && _handlesDeallocator != nullptr) {
-    _handlesDeallocator(_handles);
+  if (_handlesAllocated && _handlesCollector != nullptr) {
+    _handlesCollector(_handles);
   }
 }
 
@@ -52,10 +52,10 @@ LooperSource::Handles LooperSource::handles() {
    *  Handles are allocated lazily
    */
   if (!_handlesAllocated) {
-    auto allocator = _handlesAllocator;
+    auto provider = _handlesProvider;
 
-    if (allocator != nullptr) {
-      _handles = _handlesAllocator();
+    if (provider != nullptr) {
+      _handles = _handlesProvider();
     }
 
     _handlesAllocated = true;
@@ -95,7 +95,7 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
    *  that coalesces multiple writes. Something like an event_fd on Linux
    */
 
-  IOHandlesAllocator allocator = [] {
+  RWHandlesProvider provider = [] {
     int descriptors[2] = {0};
 
     RL_CHECK(::pipe(descriptors));
@@ -103,7 +103,7 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
     return Handles(descriptors[0], descriptors[1]);
   };
 
-  IOHandlesDeallocator deallocator = [](Handles h) {
+  RWHandlesCollector collector = [](Handles h) {
     RL_CHECK(::close(h.first));
     RL_CHECK(::close(h.second));
   };
@@ -126,7 +126,7 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
     RL_ASSERT(size == sizeof(LooperWakeMessage));
   };
 
-  return std::make_shared<LooperSource>(allocator, deallocator, reader, writer);
+  return std::make_shared<LooperSource>(provider, collector, reader, writer);
 }
 
 }  // namespace rl

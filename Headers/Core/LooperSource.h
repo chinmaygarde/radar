@@ -21,15 +21,15 @@ class LooperSource {
   using Handles = std::pair<Handle, Handle>;
   using IOHandler = std::function<void(Handle)>;
   using WakeFunction = std::function<void(void)>;
-  using IOHandlesAllocator = std::function<Handles(void)>;
-  using IOHandlesDeallocator = std::function<void(Handles)>;
+  using RWHandlesProvider = std::function<Handles(void)>;
+  using RWHandlesCollector = std::function<void(Handles)>;
   using WaitSetUpdateHandler = std::function<void(LooperSource* source,
                                                   WaitSet::Handle waitsetHandle,
                                                   Handle readHandle,
                                                   bool adding)>;
 
-  LooperSource(IOHandlesAllocator handleAllocator,
-               IOHandlesDeallocator handleDeallocator,
+  LooperSource(RWHandlesProvider handleProvider,
+               RWHandlesCollector handleCollector,
                IOHandler readHandler,
                IOHandler writeHandler);
 
@@ -84,8 +84,8 @@ class LooperSource {
   static std::shared_ptr<LooperSource> AsTrivial();
 
  private:
-  IOHandlesAllocator _handlesAllocator;
-  IOHandlesDeallocator _handlesDeallocator;
+  RWHandlesProvider _handlesProvider;
+  RWHandlesCollector _handlesCollector;
   Handles _handles;
   IOHandler _readHandler;
   IOHandler _writeHandler;

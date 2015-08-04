@@ -98,7 +98,7 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
 
   using LS = LooperSource;
 
-  LS::IOHandlesAllocator allocator = [&]() {
+  LS::RWHandlesProvider provider = [&]() {
     return LS::Handles(_handle, _handle); /* bi-di connection */
   };
 
@@ -113,7 +113,7 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
    *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
-  _source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
+  _source = std::make_shared<LS>(provider, nullptr, readHandler, nullptr);
 
   return _source;
 }
