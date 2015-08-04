@@ -96,9 +96,9 @@ void Interface::setupEventChannels() {
   assert(result == true);
 }
 
-std::shared_ptr<Channel> Interface::sendEventChannel() const {
+Channel& Interface::sendEventChannel() const {
   assert(_eventsChannel.first != nullptr);
-  return _eventsChannel.first;
+  return *_eventsChannel.first;
 }
 
 }  // namespace rl

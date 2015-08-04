@@ -64,7 +64,7 @@ class Interface {
    *
    *  @return the send channel for input events
    */
-  std::shared_ptr<Channel> sendEventChannel() const;
+  Channel& sendEventChannel() const;
 
  private:
   Looper* _looper;
