@@ -43,6 +43,8 @@ class Message {
    */
   explicit Message(const uint8_t* buffer, size_t bufferLength);
 
+  Message(Message&& message) noexcept = default;
+
   ~Message();
 
   /**
@@ -65,7 +67,16 @@ class Message {
    *  @return if the encode operation was successful
    */
   template <typename T>
-  bool encode(T value);
+  bool encode(T value) {
+    bool success = reserve(_dataLength + sizeof(T));
+
+    if (success) {
+      memcpy(_buffer + _dataLength, &value, sizeof(T));
+      _dataLength += sizeof(T);
+    }
+
+    return success;
+  }
 
   /**
    *  Decode the given value from the message
@@ -75,7 +86,17 @@ class Message {
    *  @return if the value was successfully decoded
    */
   template <typename T>
-  bool decode(T& value);
+  bool decode(T& t) {
+    if ((sizeof(T) + _sizeRead) > _bufferLength) {
+      return false;
+    }
+
+    memcpy(&t, _buffer + _sizeRead, sizeof(T));
+
+    _sizeRead += sizeof(T);
+
+    return true;
+  }
 
 #pragma mark - Message Information Accessors
 

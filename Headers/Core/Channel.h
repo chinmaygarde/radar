@@ -114,6 +114,10 @@ class Channel {
    */
   virtual std::shared_ptr<LooperSource> source() = 0;
 
+#pragma mark - Message Containers
+
+  virtual Message createMessage(size_t reserved) const;
+
  protected:
   enum Result {
     Success = 0,

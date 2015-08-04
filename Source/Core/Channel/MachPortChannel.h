@@ -18,6 +18,8 @@ class MachPortChannel : public Channel {
 
   virtual std::shared_ptr<LooperSource> source() override;
 
+  virtual Message createMessage(size_t reserved) const override;
+
  private:
   using Handle = uint32_t;
 

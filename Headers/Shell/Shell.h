@@ -18,10 +18,6 @@ class Shell {
   Shell(std::shared_ptr<RenderSurface> surface);
 
   /**
-   *  Perform initialization of the shell on the current host thread.
-   */
-
-  /**
    *  Get a reference to the compositor
    *
    *  @return the compositor

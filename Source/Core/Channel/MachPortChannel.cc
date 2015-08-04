@@ -101,6 +101,8 @@ Channel::Result MachPortChannel::WriteMessage(Message& message) {
       mach_msg(msg, MACH_SEND_MSG, msg->msgh_size, 0, MACH_PORT_NULL,
                MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
 
+  assert(res == MACH_MSG_SUCCESS);
+
   return res == MACH_MSG_SUCCESS ? Channel::Result::Success
                                  : Channel::Result::PermanentFailure;
 }
@@ -118,6 +120,10 @@ bool MachPortChannel::doConnect(const std::string& endpoint) {
 bool MachPortChannel::doTerminate() {
   kern_return_t res = mach_port_destroy(mach_task_self(), _handle);
   return res == KERN_SUCCESS;
+}
+
+Message MachPortChannel::createMessage(size_t reserved) const {
+  return Message(sizeof(mach_msg_header_t), reserved);
 }
 
 }  // namespace rl

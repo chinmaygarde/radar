@@ -3,8 +3,11 @@
 // found in the LICENSE file.
 
 #import "AppDelegate.h"
+
+#include "Core/Utilities.h"
 #include "Shell/Shell.h"
 #include "Compositor/RenderSurface.h"
+#include "Core/Message.h"
 
 namespace rl {
 class RenderSurfaceMac : public RenderSurface {
@@ -36,18 +39,26 @@ class RenderSurfaceMac : public RenderSurface {
 @end
 
 @implementation AppDelegate {
-  std::shared_ptr<rl::Shell> _shell;
+  std::unique_ptr<rl::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  _shell = std::make_shared<rl::Shell>(_renderSurface);
+  _shell = rl::Utils::make_unique<rl::Shell>(_renderSurface);
   _renderSurface->surfaceWasCreated();
 
   self.window.delegate = self;
   [self windowWasResized];
+
+  /*
+   *  Test message
+   */
+  auto m = _shell->interface().sendEventChannel()->createMessage(0);
+  m.encode(12);
+  m.encode('c');
+  _shell->interface().sendEventChannel()->sendMessage(m);
 }
 
 - (void)windowDidResize:(NSNotification*)notification {
