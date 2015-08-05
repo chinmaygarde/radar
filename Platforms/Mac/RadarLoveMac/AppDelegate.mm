@@ -55,7 +55,7 @@ class RenderSurfaceMac : public RenderSurface {
   /*
    *  Test message
    */
-  auto& channel = _shell->interface().sendEventChannel();
+  auto& channel = _shell->interface().touchEventChannel();
   rl::Message m;
   m.encode(12);
   m.encode('c');

@@ -55,8 +55,8 @@ struct MachPayload {
   }
 };
 
-MachPortChannel::MachPortChannel(const std::string& name)
-    : Channel(name), _source() {
+MachPortChannel::MachPortChannel(Channel& channel)
+    : _source(), _channel(channel) {
   /*
    *  Step 1: Allocate the port set that will be used as the observer in the
    *          waitset
@@ -103,51 +103,44 @@ MachPortChannel::~MachPortChannel() {
    */
 }
 
-Channel::ConnectedPair MachPortChannel::CreateConnectedPair() {
-  auto port = std::make_shared<MachPortChannel>("rl.connected");
-  return ConnectedPair(port, port);
-}
-
 std::shared_ptr<LooperSource> MachPortChannel::source() {
   using LS = LooperSource;
 
   auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };
-  auto readHandler = [&](Handle handle) { readPendingMessageNow(); };
+  auto readHandler = [&](Handle handle) { _channel.readPendingMessageNow(); };
 
   auto source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
 
-  auto updateHandler =
-      [source](LooperSource* source, WaitSet::Handle waitsetHandle,
-               Handle readHandle, bool adding) {
+  auto updateHandler = [source](LooperSource* source, WaitSet::Handle kev,
+                                Handle ident, bool adding) {
 
-        struct kevent event = {0};
-        // clang-format off
+    struct kevent event = {0};
+    // clang-format off
         EV_SET(&event,                      /* &kev */
-               readHandle,                  /* ident */
+               ident,                       /* ident */
                EVFILT_MACHPORT,             /* filter */
                adding ? EV_ADD : EV_DELETE, /* flags */
                0,                           /* fflags */
                0,                           /* data */
                source                       /* udata */);
-        // clang-format on
+    // clang-format on
 
-        RL_TEMP_FAILURE_RETRY_AND_CHECK(
-            ::kevent(waitsetHandle, &event, 1, nullptr, 0, NULL));
-      };
+    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(kev, &event, 1, nullptr, 0, NULL));
+  };
 
   source->setCustomWaitSetUpdateHandler(updateHandler);
 
   return source;
 }
 
-Channel::Result MachPortChannel::WriteMessage(Message& message) {
+ChannelProvider::Result MachPortChannel::WriteMessage(Message& message) {
   MachPayload payload(message, _handle);
 
-  return payload.send() ? Channel::Result::Success
-                        : Channel::Result::PermanentFailure;
+  return payload.send() ? ChannelProvider::Result::Success
+                        : ChannelProvider::Result::PermanentFailure;
 }
 
-Channel::ReadResult MachPortChannel::ReadMessages() {
+ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
   MachPayload payload(_handle);
   std::vector<std::unique_ptr<Message>> messages;
 
@@ -155,14 +148,9 @@ Channel::ReadResult MachPortChannel::ReadMessages() {
     messages.push_back(payload.asMessage());
   }
 
-  return Channel::ReadResult(
+  return ChannelProvider::ReadResult(
       messages.size() == 0 ? Result::TemporaryFailure : Result::Success,
       std::move(messages));
-}
-
-bool MachPortChannel::doConnect(const std::string& endpoint) {
-  assert(false && "Unimplemented");
-  return false;
 }
 
 bool MachPortChannel::doTerminate() {

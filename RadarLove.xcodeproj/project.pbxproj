@@ -13,6 +13,9 @@
 		9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */; };
 		9E222CE11B6A9394005D02EE /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CDF1B6A9394005D02EE /* Action.h */; };
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
+		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
+		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
+		9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB71B71506D0037A431 /* ChannelProvider.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
 		9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE361B685460000FA38A /* GravitySimulation.h */; };
 		9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE371B685460000FA38A /* ScrollSimulation.h */; };
@@ -111,6 +114,9 @@
 		9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceTransaction.cc; sourceTree = "<group>"; };
 		9E222CDF1B6A9394005D02EE /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
+		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
+		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
+		9E293DB71B71506D0037A431 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EAECE351B685460000FA38A /* FrictionSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictionSimulation.h; sourceTree = "<group>"; };
 		9EAECE361B685460000FA38A /* GravitySimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySimulation.h; sourceTree = "<group>"; };
@@ -287,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECE4A1B685460000FA38A /* Base.h */,
+				9E293DB71B71506D0037A431 /* ChannelProvider.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
 				9EAECE4C1B685460000FA38A /* Config.h */,
 				9EAECE4D1B685460000FA38A /* Guard.h */,
@@ -485,6 +492,7 @@
 			children = (
 				EA62B3151B6F2402009F197F /* Event.h */,
 				EA62B3201B6F28F7009F197F /* TouchEvent.h */,
+				9E293DB51B714DBF0037A431 /* TouchEventChannel.h */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -494,6 +502,7 @@
 			children = (
 				EA62B3181B6F241A009F197F /* Event.cc */,
 				EA62B31E1B6F28ED009F197F /* TouchEvent.cc */,
+				9E293DB31B714DB10037A431 /* TouchEventChannel.cc */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -544,6 +553,7 @@
 				EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
+				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
 				9EAECE781B685460000FA38A /* Base.h in Headers */,
@@ -553,6 +563,7 @@
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
+				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +661,7 @@
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
+				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,

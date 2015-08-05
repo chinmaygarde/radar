@@ -8,27 +8,22 @@
 #include "Core/Channel.h"
 
 namespace rl {
-class MachPortChannel : public Channel {
+class MachPortChannel : public ChannelProvider {
  public:
-  MachPortChannel(const std::string& name);
-
-  static ConnectedPair CreateConnectedPair();
-
-  virtual ~MachPortChannel() override;
-
-  virtual std::shared_ptr<LooperSource> source() override;
-
- private:
   using Handle = uint32_t;
 
+  MachPortChannel(Channel& owner);
+  ~MachPortChannel();
+  virtual std::shared_ptr<LooperSource> source() override;
+  virtual Result WriteMessage(Message& message) override;
+  virtual ReadResult ReadMessages() override;
+  virtual bool doTerminate() override;
+
+ private:
   Handle _setHandle;
   Handle _handle;
   std::shared_ptr<LooperSource> _source;
-
-  virtual Result WriteMessage(Message& message) override;
-  virtual ReadResult ReadMessages() override;
-  virtual bool doConnect(const std::string& endpoint) override;
-  virtual bool doTerminate() override;
+  Channel& _channel;
 
   DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
 };

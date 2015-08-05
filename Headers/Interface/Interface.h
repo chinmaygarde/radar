@@ -60,18 +60,18 @@ class Interface {
 #pragma mark - Accessing Event Channels
 
   /**
-   *  Get the channel send channel used to send input events to the interface
+   *  Get the channel used for sending touch events to the interface
    *
-   *  @return the send channel for input events
+   *  @return the touch event channel
    */
-  Channel& sendEventChannel() const;
+  Channel& touchEventChannel();
 
  private:
   Looper* _looper;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
-  Channel::ConnectedPair _eventsChannel;
+  Channel _touchEventChannel;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();

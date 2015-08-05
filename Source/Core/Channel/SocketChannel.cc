@@ -27,33 +27,9 @@ static const size_t MaxControlBufferItemCount = 8;
 static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
     CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
-static const std::string DefaultConnectedPairName = "rl.connected";
 
-Channel::ConnectedPair SocketChannel::CreateConnectedPair() {
-  int socketHandles[2] = {0};
-
-  RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
-
-  return ConnectedPair(Shared(DefaultConnectedPairName, socketHandles[0]),
-                       Shared(DefaultConnectedPairName, socketHandles[1]));
-}
-
-SocketChannel::SocketChannel(const std::string& name) : SocketChannel(name, 0) {
-}
-
-SocketChannel::SocketChannel(const std::string& name, Handle handle)
-    : Channel(name) {
-  /*
-   *  Create a socket handle if one is not provided
-   */
-
-  if (handle == 0) {
-    handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
-    RL_ASSERT(handle != -1);
-  }
-
-  RL_ASSERT(_handle > 0);
-  _handle = handle;
+static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
+  RL_ASSERT(handle > 0);
 
   /*
    *  Limit the socket send and receive buffer sizes since we dont need large
@@ -61,18 +37,37 @@ SocketChannel::SocketChannel(const std::string& name, Handle handle)
    */
   const int size = MaxBufferSize;
 
-  RL_CHECK(::setsockopt(_handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
+  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
 
-  RL_CHECK(::setsockopt(_handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
+  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
 
   /*
    *  Make the sockets non blocking since we plan to receive all messages
    *  instead of hitting the waitset for each message in the queue. This is
    *  important since reads will block if we dont.
    */
-  RL_CHECK(::fcntl(_handle, F_SETFL, O_NONBLOCK));
+  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
 
-  RL_CHECK(::fcntl(_handle, F_SETFL, O_NONBLOCK));
+  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
+}
+
+static bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
+  if (handle != -1) {
+    RL_CHECK(::close(handle));
+    return true;
+  }
+  return false;
+}
+
+SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
+  int socketHandles[2] = {0};
+
+  RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
+
+  SocketChannel_ConfigureHandle(socketHandles[0]);
+  SocketChannel_ConfigureHandle(socketHandles[1]);
+
+  _handles = std::make_pair(socketHandles[0], socketHandles[1]);
 
   /*
    *  Setup the channel buffer
@@ -94,16 +89,14 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
     return _source;
   }
 
-  RL_ASSERT(isConnected() == true);
-
   using LS = LooperSource;
 
   LS::RWHandlesProvider provider = [&]() {
-    return LS::Handles(_handle, _handle); /* bi-di connection */
+    return LS::Handles(readHandle(), writeHandle()); /* bi-di connection */
   };
 
   LS::IOHandler readHandler =
-      [this](LS::Handle handle) { readPendingMessageNow(); };
+      [this](LS::Handle handle) { _channel.readPendingMessageNow(); };
 
   /**
    *  We are specifying a null write handler since we will
@@ -118,34 +111,9 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
   return _source;
 }
 
-bool SocketChannel::doConnect(const std::string& endpoint) {
-  /*
-   *  Connect
-   */
-  RL_ASSERT(endpoint.length() <= 96);
-
-  struct sockaddr_un addr = {0};
-  addr.sun_family = AF_UNIX;
-  strcpy(addr.sun_path, endpoint.c_str());
-
-#if __APPLE__
-  addr.sun_len = SUN_LEN(&addr);
-#endif
-
-  int result = ::connect(_handle, (const struct sockaddr*)&addr,
-                         (socklen_t)SUN_LEN(&addr));
-
-  return (result == 0);
-}
-
 bool SocketChannel::doTerminate() {
-  if (_handle != -1) {
-    RL_CHECK(::close(_handle));
-    _handle = -1;
-
-    return true;
-  }
-
+  SocketChannel_CloseHandle(readHandle());
+  SocketChannel_CloseHandle(writeHandle());
   return false;
 }
 
@@ -173,12 +141,14 @@ SocketChannel::Result SocketChannel::WriteMessage(Message& message) {
 
   long sent = 0;
 
+  const Handle writer = writeHandle();
+
   while (true) {
-    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(_handle, &messageHeader, 0));
+    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, &messageHeader, 0));
 
     if (sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
       struct pollfd pollFd = {
-          .fd = _handle, .events = POLLOUT, .revents = 0,
+          .fd = writer, .events = POLLOUT, .revents = 0,
       };
 
       int res = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, -1 /* timeout */));
@@ -218,7 +188,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
     };
 
     long received =
-        RL_TEMP_FAILURE_RETRY(::recvmsg(_handle, &messageHeader, 0));
+        RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
     if (received > 0) {
       auto message = rl::Utils::make_unique<Message>(_buffer, received);
@@ -270,13 +240,12 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
   return ReadResult(Result::Success, std::move(messages));
 }
 
-template <typename... T>
-std::shared_ptr<SocketChannel> SocketChannel::Shared(T&&... args) {
-  struct SharedSocketChannel : public SocketChannel {
-    SharedSocketChannel(T&&... args)
-        : SocketChannel(std::forward<T>(args)...) {}
-  };
-  return std::make_shared<SharedSocketChannel>(std::forward<T>(args)...);
+SocketChannel::Handle SocketChannel::readHandle() const {
+  return _handles.first;
+}
+
+SocketChannel::Handle SocketChannel::writeHandle() const {
+  return _handles.second;
 }
 
 }  // namespace rl

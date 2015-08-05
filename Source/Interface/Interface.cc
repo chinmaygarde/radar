@@ -91,14 +91,12 @@ void Interface::flushTransactions() {
 
 void Interface::setupEventChannels() {
   assert(_looper == Looper::Current());
-  _eventsChannel = Channel::CreateConnectedPair();
-  bool result = _looper->addSource(_eventsChannel.second->source());
+  bool result = _looper->addSource(_touchEventChannel.source());
   assert(result == true);
 }
 
-Channel& Interface::sendEventChannel() const {
-  assert(_eventsChannel.first != nullptr);
-  return *_eventsChannel.first;
+Channel& Interface::touchEventChannel() {
+  return _touchEventChannel;
 }
 
 }  // namespace rl

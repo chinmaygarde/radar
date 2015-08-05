@@ -6,34 +6,33 @@
 #define __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 
 #include "Core/Channel.h"
+#include "Core/ChannelProvider.h"
+
+#include <mutex>
 
 namespace rl {
-class SocketChannel : public Channel {
+class SocketChannel : public ChannelProvider {
  public:
-  SocketChannel(const std::string& name);
-
-  static ConnectedPair CreateConnectedPair();
-
-  virtual ~SocketChannel() override;
-
-  virtual std::shared_ptr<LooperSource> source() override;
-
- private:
   using Handle = int;
 
+  SocketChannel(Channel& owner);
+
+  ~SocketChannel();
+  virtual std::shared_ptr<LooperSource> source() override;
+  virtual Result WriteMessage(Message& message) override;
+  virtual ReadResult ReadMessages() override;
+  virtual bool doTerminate() override;
+
+ private:
   std::mutex _lock;
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
-  Handle _handle;
+  std::pair<Handle, Handle> _handles;
   std::shared_ptr<LooperSource> _source;
+  Channel& _channel;
 
-  template <typename... T>
-  static std::shared_ptr<SocketChannel> Shared(T&&... args);
-  SocketChannel(const std::string& name, Handle handleOrZero);
-  virtual Result WriteMessage(Message& message) override;
-  virtual ReadResult ReadMessages() override;
-  virtual bool doConnect(const std::string& endpoint) override;
-  virtual bool doTerminate() override;
+  Handle readHandle() const;
+  Handle writeHandle() const;
 
   DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
