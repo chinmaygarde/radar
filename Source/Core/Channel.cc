@@ -36,7 +36,7 @@ void Channel::terminate() {
   }
 }
 
-bool Channel::sendMessage(Message&& message) {
+bool Channel::sendMessage(Message& message) {
   RL_ASSERT(message.size() <= 1024);
 
   if (message.size() == 0) {

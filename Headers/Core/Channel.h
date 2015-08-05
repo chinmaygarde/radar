@@ -38,7 +38,7 @@ class Channel {
    *
    *  @return if the message was successfully sent
    */
-  bool sendMessage(Message&& message);
+  bool sendMessage(Message& message);
 
   /**
    *  When messages arrive on this channel, a callback may be invoked on the

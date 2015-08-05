@@ -16,10 +16,6 @@ Interface::Interface()
         flushTransactions();
         armAutoFlushTransactions(false);
       });
-
-  auto messages = [](Messages messages) { assert(false); };
-
-  _touchEventChannel.setMessagesReceivedCallback(messages);
 }
 
 void Interface::run(Latch& readyLatch) {

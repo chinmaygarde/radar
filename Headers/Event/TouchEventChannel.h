@@ -17,6 +17,7 @@ class TouchEventChannel : public Channel {
 
  private:
   DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);
+  void processRawTouches(Messages& messages);
 };
 }  // namespace rl
 

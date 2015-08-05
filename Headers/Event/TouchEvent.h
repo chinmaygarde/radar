@@ -24,6 +24,11 @@ class TouchEvent : public Event {
   TouchEvent(uint64_t identifier, const Point& location, Phase phase);
 
   /**
+   *  Create an uninitialized touch event
+   */
+  TouchEvent();
+
+  /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
    *  be unique per distinct touch in a multitouch sequence
    *
@@ -39,7 +44,7 @@ class TouchEvent : public Event {
    */
   const Point& location() const;
 
-  virtual Message serialize() const override;
+  virtual void serialize(Message& m) const override;
   virtual void deserialize(Message& m) override;
 
  private:

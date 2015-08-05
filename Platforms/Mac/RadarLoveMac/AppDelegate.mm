@@ -56,7 +56,7 @@ class RenderSurfaceMac : public RenderSurface {
    *  Test message
    */
   auto& channel = _shell->interface().touchEventChannel();
-  channel.sendTouchEvent({0, {20, 30}, rl::TouchEvent::Phase::Began});
+  channel.sendTouchEvent({0, {123.4, 456.7}, rl::TouchEvent::Phase::Ended});
 }
 
 - (void)windowDidResize:(NSNotification*)notification {

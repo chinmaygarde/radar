@@ -128,7 +128,7 @@ class Message {
 using Messages = std::vector<std::unique_ptr<Message>>;
 
 class Serializable {
-  virtual Message serialize() const = 0;
+  virtual void serialize(Message& message) const = 0;
   virtual void deserialize(Message& message) = 0;
 };
 }

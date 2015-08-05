@@ -5,13 +5,27 @@
 #include "Core/Message.h"
 #include "Event/TouchEventChannel.h"
 
+#include <cassert>
+
 namespace rl {
 
 TouchEventChannel::TouchEventChannel() : Channel() {
+  setMessagesReceivedCallback([&](Messages m) { processRawTouches(m); });
 }
 
 void TouchEventChannel::sendTouchEvent(const TouchEvent&& touch) {
-  sendMessage(touch.serialize());
+  Message m(sizeof(TouchEvent));
+  touch.serialize(m);
+  sendMessage(m);
+}
+
+void TouchEventChannel::processRawTouches(Messages& messages) {
+  std::vector<TouchEvent> touches;
+  for (auto& message : messages) {
+    TouchEvent e;
+    e.deserialize(*message);
+    assert(message->size() == message->sizeRead());
+  }
 }
 
 }  // namespace rl

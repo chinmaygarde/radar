@@ -17,7 +17,7 @@ class Event : public Serializable {
    *
    *  @param timestamp the timestamp of the event
    */
-  Event(double timestamp = Time::Current());
+  explicit Event(double timestamp = Time::Current());
 
   /**
    *  Get the timestamp of the event
@@ -26,8 +26,11 @@ class Event : public Serializable {
    */
   double timestamp() const;
 
+  virtual void serialize(Message& m) const override;
+  virtual void deserialize(Message& m) override;
+
  private:
-  const double _timestamp;
+  double _timestamp;
 };
 }
 
