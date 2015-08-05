@@ -5,11 +5,12 @@
 #ifndef __RADARLOVE_EVENT_EVENT__
 #define __RADARLOVE_EVENT_EVENT__
 
+#include "Core/Message.h"
 #include "Core/Base.h"
 #include "Core/Timing.h"
 
 namespace rl {
-class Event {
+class Event : public Serializable {
  public:
   /**
    *  Create an event with the given timestamp
@@ -27,8 +28,6 @@ class Event {
 
  private:
   const double _timestamp;
-
-  DISALLOW_COPY_AND_ASSIGN(Event);
 };
 }
 

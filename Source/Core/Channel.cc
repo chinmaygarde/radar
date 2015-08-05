@@ -36,8 +36,12 @@ void Channel::terminate() {
   }
 }
 
-bool Channel::sendMessage(Message& message) {
+bool Channel::sendMessage(Message&& message) {
   RL_ASSERT(message.size() <= 1024);
+
+  if (message.size() == 0) {
+    return true;
+  }
 
   auto writeStatus = _provider->WriteMessage(message);
 
@@ -53,28 +57,26 @@ bool Channel::sendMessage(Message& message) {
   return writeStatus == ChannelProvider::Result::Success;
 }
 
-const Channel::MessageReceivedCallback& Channel::messageReceivedCallback()
+const Channel::MessagesReceivedCallback& Channel::messagesReceivedCallback()
     const {
-  return _messageReceivedCallback;
+  return _messagesReceivedCallback;
 }
 
-void Channel::setMessageReceivedCallback(MessageReceivedCallback callback) {
-  _messageReceivedCallback = callback;
+void Channel::setMessagesReceivedCallback(MessagesReceivedCallback callback) {
+  _messagesReceivedCallback = callback;
 }
 
 void Channel::readPendingMessageNow() {
   ChannelProvider::Result status;
-  std::vector<std::unique_ptr<Message>> messages;
+  Messages messages;
 
   std::tie(status, messages) = _provider->ReadMessages();
 
   /*
    *  Dispatch all successfully read messages
    */
-  if (_messageReceivedCallback) {
-    for (auto& message : messages) {
-      _messageReceivedCallback(*message.get());
-    }
+  if (_messagesReceivedCallback) {
+    _messagesReceivedCallback(std::move(messages));
   }
 
   /*

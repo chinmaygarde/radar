@@ -11,10 +11,17 @@
 namespace rl {
 class TouchEvent : public Event {
  public:
+  enum Phase {
+    Began,
+    Moved,
+    Ended,
+    Cancelled,
+  };
+
   /**
    *  Create a touch event with the given identifier and absolute location
    */
-  TouchEvent(uint64_t identifier, const Point& location);
+  TouchEvent(uint64_t identifier, const Point& location, Phase phase);
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
@@ -32,9 +39,13 @@ class TouchEvent : public Event {
    */
   const Point& location() const;
 
+  virtual Message serialize() const override;
+  virtual void deserialize(Message& m) override;
+
  private:
-  const uint64_t _identifier;
-  const Point _location;
+  uint64_t _identifier;
+  Point _location;
+  Phase _phase;
 
   DISALLOW_COPY_AND_ASSIGN(TouchEvent);
 };

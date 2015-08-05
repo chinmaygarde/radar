@@ -9,12 +9,17 @@
 
 namespace rl {
 
-Interface::Interface() : _looper(nullptr), _lock(), _transactionStack() {
+Interface::Interface()
+    : _looper(nullptr), _lock(), _transactionStack(), _touchEventChannel() {
   _autoFlushObserver = std::make_shared<LooperObserver>(
       std::numeric_limits<uint64_t>::max(), [&] {
         flushTransactions();
         armAutoFlushTransactions(false);
       });
+
+  auto messages = [](Messages messages) { assert(false); };
+
+  _touchEventChannel.setMessagesReceivedCallback(messages);
 }
 
 void Interface::run(Latch& readyLatch) {
@@ -95,7 +100,7 @@ void Interface::setupEventChannels() {
   assert(result == true);
 }
 
-Channel& Interface::touchEventChannel() {
+TouchEventChannel& Interface::touchEventChannel() {
   return _touchEventChannel;
 }
 

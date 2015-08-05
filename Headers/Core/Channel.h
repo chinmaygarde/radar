@@ -8,6 +8,7 @@
 #include "Core/Base.h"
 #include "Core/Looper.h"
 #include "Core/ChannelProvider.h"
+#include "Core/Message.h"
 
 #include <string>
 #include <memory>
@@ -15,10 +16,9 @@
 
 namespace rl {
 
-class Message;
 class Channel {
  public:
-  using MessageReceivedCallback = std::function<void(Message&)>;
+  using MessagesReceivedCallback = std::function<void(Messages)>;
   using TerminationCallback = std::function<void(void)>;
 
 #pragma mark - Creating Channels
@@ -38,7 +38,7 @@ class Channel {
    *
    *  @return if the message was successfully sent
    */
-  bool sendMessage(Message& message);
+  bool sendMessage(Message&& message);
 
   /**
    *  When messages arrive on this channel, a callback may be invoked on the
@@ -46,7 +46,7 @@ class Channel {
    *
    *  @return the message received callback
    */
-  const MessageReceivedCallback& messageReceivedCallback() const;
+  const MessagesReceivedCallback& messagesReceivedCallback() const;
 
   /**
    *  Update the callback that will be invoked when messages arrive on this
@@ -54,7 +54,7 @@ class Channel {
    *
    *  @param callback the new messages received callback
    */
-  void setMessageReceivedCallback(MessageReceivedCallback callback);
+  void setMessagesReceivedCallback(MessagesReceivedCallback callback);
 
 #pragma mark - Manual channel connection status management
 
@@ -97,7 +97,7 @@ class Channel {
   void readPendingMessageNow();
 
  private:
-  MessageReceivedCallback _messageReceivedCallback;
+  MessagesReceivedCallback _messagesReceivedCallback;
   TerminationCallback _terminationCallback;
   bool _terminated;
   std::unique_ptr<ChannelProvider> _provider;

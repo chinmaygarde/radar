@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__MESSAGE__
 #define __RADARLOVE__MESSAGE__
 
-#include "Core/Channel.h"
+#include "Core/Base.h"
 
 #include <vector>
 #include <utility>
@@ -13,7 +13,6 @@
 #include <string.h>
 
 namespace rl {
-
 class Message {
  public:
   /**
@@ -124,6 +123,13 @@ class Message {
   bool resizeBuffer(size_t size);
 
   DISALLOW_COPY_AND_ASSIGN(Message);
+};
+
+using Messages = std::vector<std::unique_ptr<Message>>;
+
+class Serializable {
+  virtual Message serialize() const = 0;
+  virtual void deserialize(Message& message) = 0;
 };
 }
 

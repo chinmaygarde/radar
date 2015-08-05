@@ -8,8 +8,7 @@
 #include "Core/Base.h"
 #include "Core/Looper.h"
 #include "Core/Latch.h"
-#include "Core/Channel.h"
-
+#include "Event/TouchEventChannel.h"
 #include "Interface/InterfaceTransaction.h"
 
 #include <stack>
@@ -64,18 +63,19 @@ class Interface {
    *
    *  @return the touch event channel
    */
-  Channel& touchEventChannel();
+  TouchEventChannel& touchEventChannel();
 
  private:
   Looper* _looper;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
-  Channel _touchEventChannel;
+  TouchEventChannel _touchEventChannel;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
   void setupEventChannels();
+  void processTouchEvents();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
 };

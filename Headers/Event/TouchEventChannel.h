@@ -11,6 +11,10 @@
 namespace rl {
 class TouchEventChannel : public Channel {
  public:
+  explicit TouchEventChannel();
+
+  void sendTouchEvent(const TouchEvent&& touch);
+
  private:
   DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);
 };
