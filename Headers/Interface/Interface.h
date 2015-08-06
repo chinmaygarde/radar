@@ -10,6 +10,7 @@
 #include "Core/Latch.h"
 #include "Event/TouchEventChannel.h"
 #include "Interface/InterfaceTransaction.h"
+#include "Infrastructure/StateMachine.h"
 
 #include <stack>
 #include <mutex>
@@ -17,6 +18,13 @@
 namespace rl {
 class Interface {
  public:
+  enum State {
+    NotRunning,
+    Inactive,
+    Active,
+    Background,
+  };
+
   Interface();
 
 #pragma mark - Bootstrapping the interface
@@ -65,17 +73,28 @@ class Interface {
    */
   TouchEventChannel& touchEventChannel();
 
+#pragma mark - Accessing State Information
+
+  State state() const;
+
  private:
   Looper* _looper;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
+  StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
   void setupEventChannels();
   void processTouchEvents();
+
+  void didFinishLaunching();
+  void didEnterBackground();
+  void didTerminate();
+  void didBecomeActive();
+  void didBecomeInactive();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
 };

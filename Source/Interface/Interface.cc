@@ -10,12 +10,30 @@
 namespace rl {
 
 Interface::Interface()
-    : _looper(nullptr), _lock(), _transactionStack(), _touchEventChannel() {
+    : _looper(nullptr),
+      _lock(),
+      _transactionStack(),
+      _touchEventChannel(),
+      _state({
+// clang-format off
+          #define C(x) std::bind(&Interface::x, this)
+          // From        | To          | Callback
+          {  NotRunning,   Inactive,     C(didFinishLaunching)  },
+          {  NotRunning,   Background,   C(didEnterBackground)  },
+          {  Inactive,     NotRunning,   C(didTerminate)        },
+          {  Inactive,     Active,       C(didBecomeActive)     },
+          {  Active,       Inactive,     C(didBecomeInactive)   },
+          {  Background,   NotRunning,   C(didTerminate)        },
+          #undef F
+          // clang-format on
+      }) {
   _autoFlushObserver = std::make_shared<LooperObserver>(
       std::numeric_limits<uint64_t>::max(), [&] {
         flushTransactions();
         armAutoFlushTransactions(false);
       });
+
+  ;
 }
 
 void Interface::run(Latch& readyLatch) {
@@ -32,6 +50,7 @@ void Interface::run(Latch& readyLatch) {
      */
     setupEventChannels();
     readyLatch.countDown();
+    _state.setState(Active, true);
   });
 }
 
@@ -98,6 +117,30 @@ void Interface::setupEventChannels() {
 
 TouchEventChannel& Interface::touchEventChannel() {
   return _touchEventChannel;
+}
+
+Interface::State Interface::state() const {
+  return static_cast<Interface::State>(_state.state());
+}
+
+void Interface::didFinishLaunching() {
+  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::didEnterBackground() {
+  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::didTerminate() {
+  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::didBecomeActive() {
+  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::didBecomeInactive() {
+  printf("%s\n", __FUNCTION__);
 }
 
 }  // namespace rl
