@@ -7,6 +7,8 @@
 
 #include <stdlib.h>
 
+#include <mach/mach.h>
+
 namespace rl {
 
 Message::Message(size_t length)
@@ -21,8 +23,23 @@ Message::Message(uint8_t* buffer, size_t bufferSize)
   _buffer = static_cast<uint8_t*>(allocation);
 }
 
+Message::Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate)
+    : _buffer(buffer),
+      _bufferLength(bufferLength),
+      _dataLength(bufferLength),
+      _sizeRead(0),
+      _vmDeallocate(vmDeallocate) {
+  assert(vmDeallocate);
+}
+
 Message::~Message() {
-  free(_buffer);
+  if (_vmDeallocate) {
+    kern_return_t res =
+        vm_deallocate(mach_task_self(), _bufferLength, _bufferLength);
+    assert(res == KERN_SUCCESS);
+  } else {
+    free(_buffer);
+  }
 }
 
 static inline size_t Message_NextPOTSize(size_t x) {

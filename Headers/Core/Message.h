@@ -32,6 +32,19 @@ class Message {
    */
   explicit Message(uint8_t* buffer, size_t bufferLength);
 
+  /**
+   *  Create a message that is already allocated for you by the mach kernel
+   *  and must be released via a call to `vm_deallocate`
+   *
+   *  TODO: Need to be able to specify custom allocators and deallocators. This
+   *        is BS.
+   *
+   *  @param buffer       the message data
+   *  @param bufferLength the message data length
+   *  @param vmDeallocate must be true, use the other ctor otherwise
+   */
+  explicit Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate);
+
   Message(Message&& message) noexcept = default;
 
   ~Message();
@@ -119,6 +132,7 @@ class Message {
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
+  bool _vmDeallocate = false;
 
   bool resizeBuffer(size_t size);
 

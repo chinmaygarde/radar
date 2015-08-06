@@ -51,7 +51,7 @@ struct MachPayload {
 
   std::unique_ptr<Message> asMessage() const {
     return Utils::make_unique<Message>(static_cast<uint8_t*>(mem.address),
-                                       mem.size);
+                                       mem.size, true);
   }
 };
 
