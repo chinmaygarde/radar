@@ -19,6 +19,10 @@
 		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
+		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
+		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
+		9E67456F1B75737800C1EB34 /* PresentationLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456E1B75737800C1EB34 /* PresentationLayer.h */; };
+		9E6745711B75738B00C1EB34 /* PresentationLayer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745701B75738B00C1EB34 /* PresentationLayer.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
@@ -32,7 +36,6 @@
 		9EAECE6D1B685460000FA38A /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3E1B685460000FA38A /* Color.h */; };
 		9EAECE6E1B685460000FA38A /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3F1B685460000FA38A /* Compositor.h */; };
 		9EAECE6F1B685460000FA38A /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE401B685460000FA38A /* Frame.h */; };
-		9EAECE701B685460000FA38A /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE411B685460000FA38A /* Layer.h */; };
 		9EAECE711B685460000FA38A /* OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE421B685460000FA38A /* OpenGL.h */; };
 		9EAECE721B685460000FA38A /* Primitive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE431B685460000FA38A /* Primitive.h */; };
 		9EAECE731B685460000FA38A /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE441B685460000FA38A /* Program.h */; };
@@ -68,7 +71,6 @@
 		9EAECECB1B685469000FA38A /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9A1B685469000FA38A /* Color.cc */; };
 		9EAECECC1B685469000FA38A /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9B1B685469000FA38A /* Compositor.cc */; };
 		9EAECECD1B685469000FA38A /* Frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9C1B685469000FA38A /* Frame.cc */; };
-		9EAECECE1B685469000FA38A /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9D1B685469000FA38A /* Layer.cc */; };
 		9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9E1B685469000FA38A /* OpenGL.cc */; };
 		9EAECED01B685469000FA38A /* Primitive.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9F1B685469000FA38A /* Primitive.cc */; };
 		9EAECED11B685469000FA38A /* Program.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA01B685469000FA38A /* Program.cc */; };
@@ -124,6 +126,10 @@
 		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
+		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
+		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
+		9E67456E1B75737800C1EB34 /* PresentationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationLayer.h; sourceTree = "<group>"; };
+		9E6745701B75738B00C1EB34 /* PresentationLayer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationLayer.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,7 +144,6 @@
 		9EAECE3E1B685460000FA38A /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		9EAECE3F1B685460000FA38A /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
 		9EAECE401B685460000FA38A /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		9EAECE411B685460000FA38A /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9EAECE421B685460000FA38A /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
 		9EAECE431B685460000FA38A /* Primitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Primitive.h; sourceTree = "<group>"; };
 		9EAECE441B685460000FA38A /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
@@ -174,7 +179,6 @@
 		9EAECE9A1B685469000FA38A /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
 		9EAECE9B1B685469000FA38A /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
 		9EAECE9C1B685469000FA38A /* Frame.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cc; sourceTree = "<group>"; };
-		9EAECE9D1B685469000FA38A /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9EAECE9E1B685469000FA38A /* OpenGL.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cc; sourceTree = "<group>"; };
 		9EAECE9F1B685469000FA38A /* Primitive.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Primitive.cc; sourceTree = "<group>"; };
 		9EAECEA01B685469000FA38A /* Program.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cc; sourceTree = "<group>"; };
@@ -304,8 +308,8 @@
 				9EAECE401B685460000FA38A /* Frame.h */,
 				EA63143A1B6C89630026B6BB /* Interpolator.h */,
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
-				9EAECE411B685460000FA38A /* Layer.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
+				9E67456E1B75737800C1EB34 /* PresentationLayer.h */,
 				9EAECE431B685460000FA38A /* Primitive.h */,
 				9EAECE441B685460000FA38A /* Program.h */,
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
@@ -364,6 +368,7 @@
 				9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */,
 				9EAECE621B685460000FA38A /* Interface.h */,
 				9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */,
+				9E67456A1B756FC200C1EB34 /* Layer.h */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -414,10 +419,10 @@
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
 				9EAECE9C1B685469000FA38A /* Frame.cc */,
-				9EAECE9D1B685469000FA38A /* Layer.cc */,
 				EA6314361B6C89510026B6BB /* Interpolator.cc */,
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
+				9E6745701B75738B00C1EB34 /* PresentationLayer.cc */,
 				9EAECE9F1B685469000FA38A /* Primitive.cc */,
 				9EAECEA01B685469000FA38A /* Program.cc */,
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
@@ -492,6 +497,7 @@
 				9E222CDB1B6A9387005D02EE /* Action.cc */,
 				9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */,
 				9EAECEC01B685469000FA38A /* Interface.cc */,
+				9E67456C1B756FD200C1EB34 /* Layer.cc */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -560,15 +566,16 @@
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
+				9E67456F1B75737800C1EB34 /* PresentationLayer.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				9E293DD51B72EB680037A431 /* StateMachine.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
+				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */,
-				9EAECE701B685460000FA38A /* Layer.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
@@ -659,7 +666,6 @@
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */,
-				9EAECECE1B685469000FA38A /* Layer.cc in Sources */,
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
@@ -672,6 +678,7 @@
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
+				9E6745711B75738B00C1EB34 /* PresentationLayer.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
@@ -701,6 +708,7 @@
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
+				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);

@@ -10,7 +10,7 @@
 #include "Geometry/Size.h"
 
 #include "Compositor/RenderSurface.h"
-#include "Compositor/Layer.h"
+#include "Interface/Layer.h"
 #include "Compositor/ProgramCatalog.h"
 
 #include <mutex>
