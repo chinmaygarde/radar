@@ -31,6 +31,22 @@ class RenderSurfaceMac : public RenderSurface {
 };
 }
 
+static void SendEvent(rl::TouchEventChannel& channel,
+                      NSView* view,
+                      NSEvent* event,
+                      rl::TouchEvent::Phase phase) {
+  NSPoint loc = [view convertPoint:event.locationInWindow fromView:nil];
+  loc.y = view.frame.size.height - loc.y;
+
+  using Event = rl::TouchEvent;
+  auto identifier = reinterpret_cast<uint64_t>(event);
+
+  std::vector<Event> events;
+  Event touchEvent(identifier, {loc.x, loc.y}, phase);
+  events.emplace_back(touchEvent);
+  channel.sendTouchEvents(events);
+}
+
 @interface RadarWindow ()<NSWindowDelegate>
 
 @property(weak) IBOutlet NSOpenGLView* surface;
@@ -67,12 +83,18 @@ class RenderSurfaceMac : public RenderSurface {
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
+  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+            rl::TouchEvent::Phase::Began);
 }
 
 - (void)mouseUp:(NSEvent*)theEvent {
+  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+            rl::TouchEvent::Phase::Ended);
 }
 
-- (void)mouseMoved:(NSEvent*)theEvent {
+- (void)mouseDragged:(nonnull NSEvent*)theEvent {
+  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+            rl::TouchEvent::Phase::Moved);
 }
 
 - (void)windowWillClose:(NSNotification*)notification {

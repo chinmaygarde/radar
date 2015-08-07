@@ -13,7 +13,7 @@ class TouchEventChannel : public Channel {
  public:
   explicit TouchEventChannel();
 
-  void sendTouchEvents(const std::vector<TouchEvent>&& touchEvents);
+  void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);

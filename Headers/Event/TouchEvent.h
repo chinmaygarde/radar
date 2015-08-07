@@ -51,8 +51,6 @@ class TouchEvent : public Event {
   uint64_t _identifier;
   Point _location;
   Phase _phase;
-
-  DISALLOW_COPY_AND_ASSIGN(TouchEvent);
 };
 }  // namespace rl
 

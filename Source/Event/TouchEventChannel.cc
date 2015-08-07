@@ -14,7 +14,7 @@ TouchEventChannel::TouchEventChannel() : Channel() {
 }
 
 void TouchEventChannel::sendTouchEvents(
-    const std::vector<TouchEvent>&& touchEvents) {
+    const std::vector<TouchEvent>& touchEvents) {
   for (const auto& touch : touchEvents) {
     Message m(sizeof(TouchEvent));
     touch.serialize(m);
