@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_SIMULATION__
 #define __RADARLOVE_ANIMATION_SIMULATION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 namespace rl {
 /**

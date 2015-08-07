@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_SPRINGSOLUTION__
 #define __RADARLOVE_ANIMATION_SPRINGSOLUTION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Animation/Simulation.h"
 
 #include <cmath>

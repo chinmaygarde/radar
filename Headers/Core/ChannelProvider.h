@@ -5,12 +5,14 @@
 #ifndef __RADARLOVE_CORE_CHANNELPROVIDER__
 #define __RADARLOVE_CORE_CHANNELPROVIDER__
 
+#include <Core/LooperSource.h>
+#include <Core/Message.h>
+
 #include <vector>
 #include <memory>
 
 namespace rl {
 
-class Message;
 class ChannelProvider {
  public:
   enum Result {

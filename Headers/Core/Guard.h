@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_CORE_GUARD__
 #define __RADARLOVE_CORE_GUARD__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 
 #include <functional>
 

@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
 #define __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
 
-#include "Core/Channel.h"
+#include <Core/Channel.h>
 
 namespace rl {
 class MachPortChannel : public ChannelProvider {

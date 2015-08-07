@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/Looper.h"
-#include "Core/Utilities.h"
+#include <Core/Looper.h>
+#include <Core/Utilities.h>
 
 #include <pthread.h>
 #include <mutex>
@@ -35,7 +35,7 @@ Looper::Looper()
       _trivialSource(nullptr),
       _shouldTerminate(false),
       _lock(),
-      _pendingDispatches(Utils::make_unique<PendingBlocks>()),
+      _pendingDispatches(make_unique<PendingBlocks>()),
       _beforeSleepObservers(),
       _afterSleepObservers() {
 }
@@ -116,7 +116,7 @@ void Looper::flushPendingDispatches() {
     std::lock_guard<std::mutex> lock(_lock);
     if (_pendingDispatches->size() != 0) {
       pending.swap(_pendingDispatches);
-      _pendingDispatches = Utils::make_unique<PendingBlocks>();
+      _pendingDispatches = make_unique<PendingBlocks>();
     }
   }
 

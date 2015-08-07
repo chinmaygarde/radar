@@ -5,7 +5,7 @@
 #ifndef __RADARLOVER_CORE_LOOPEROBSERVER__
 #define __RADARLOVER_CORE_LOOPEROBSERVER__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 
 #include <functional>
 #include <set>

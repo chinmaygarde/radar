@@ -5,10 +5,10 @@
 #ifndef __RADARLOVE__CHANNEL__
 #define __RADARLOVE__CHANNEL__
 
-#include "Core/Base.h"
-#include "Core/Looper.h"
-#include "Core/ChannelProvider.h"
-#include "Core/Message.h"
+#include <Core/Macros.h>
+#include <Core/Looper.h>
+#include <Core/ChannelProvider.h>
+#include <Core/Message.h>
 
 #include <string>
 #include <memory>

@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__MESSAGE__
 #define __RADARLOVE__MESSAGE__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 
 #include <vector>
 #include <utility>

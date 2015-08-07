@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_CORE_LATCH__
 #define __RADARLOVE_CORE_LATCH__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 #include <atomic>
 #include <condition_variable>
 

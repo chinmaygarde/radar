@@ -5,8 +5,7 @@
 #ifndef __RADARLOVE_HOST_HOST__
 #define __RADARLOVE_HOST_HOST__
 
-#include "Core/Base.h"
-#include "Core/Latch.h"
+#include <Core/Core.h>
 
 namespace rl {
 class Host {

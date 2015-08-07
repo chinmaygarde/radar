@@ -5,9 +5,7 @@
 #ifndef __RADARLOVE_EVENT_EVENT__
 #define __RADARLOVE_EVENT_EVENT__
 
-#include "Core/Message.h"
-#include "Core/Base.h"
-#include "Core/Timing.h"
+#include <Core/Core.h>
 
 namespace rl {
 class Event : public Serializable {

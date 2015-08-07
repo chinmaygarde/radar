@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_LAYER__
 #define __RADARLOVE_COMPOSITOR_LAYER__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 #include "Compositor/Color.h"
 #include "Compositor/Frame.h"

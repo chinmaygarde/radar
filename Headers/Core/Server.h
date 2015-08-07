@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__SERVER__
 #define __RADARLOVE__SERVER__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 
 #include <string>
 #include <functional>

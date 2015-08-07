@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_INTERFACE_ACTION__
 #define __RADARLOVE_INTERFACE_ACTION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 namespace rl {
 class Action {

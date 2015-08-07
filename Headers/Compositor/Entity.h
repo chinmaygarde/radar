@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_COMPOSITOR_ENITITY__
 #define __RADARLOVE_ANIMATION_COMPOSITOR_ENITITY__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Geometry/Rect.h"
 #include "Geometry/Matrix.h"
 

@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_SIMULATIONGROUP__
 #define __RADARLOVE_ANIMATION_SIMULATIONGROUP__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Animation/Simulation.h"
 #include "Animation/Utilities.h"
 

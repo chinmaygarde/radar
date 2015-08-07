@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_FRAME__
 #define __RADARLOVE_COMPOSITOR_FRAME__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Geometry/Matrix.h"
 #include "Geometry/Size.h"
 #include "Compositor/ProgramCatalog.h"

@@ -5,8 +5,8 @@
 #ifndef __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 #define __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 
-#include "Core/Channel.h"
-#include "Core/ChannelProvider.h"
+#include <Core/Channel.h>
+#include <Core/ChannelProvider.h>
 
 #include <mutex>
 

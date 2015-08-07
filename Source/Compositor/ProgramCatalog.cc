@@ -78,7 +78,7 @@ void ProgramCatalog::prepareIfNecessary() {
   _prepared = true;
 
   // Prepare Simple Primitive Program
-  _catalog[BasicPrimitve] = Utils::make_unique<BasicPrimitiveProgram>();
+  _catalog[BasicPrimitve] = make_unique<BasicPrimitiveProgram>();
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()

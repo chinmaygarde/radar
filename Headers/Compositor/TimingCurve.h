@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_TIMINGCURVE__
 #define __RADARLOVE_COMPOSITOR_TIMINGCURVE__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Geometry/Point.h"
 
 namespace rl {

@@ -18,6 +18,8 @@
 		9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB71B71506D0037A431 /* ChannelProvider.h */; };
 		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
+		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
+		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
 		9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE361B685460000FA38A /* GravitySimulation.h */; };
 		9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE371B685460000FA38A /* ScrollSimulation.h */; };
@@ -35,7 +37,6 @@
 		9EAECE731B685460000FA38A /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE441B685460000FA38A /* Program.h */; };
 		9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE451B685460000FA38A /* ProgramCatalog.h */; };
 		9EAECE751B685460000FA38A /* RenderSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE461B685460000FA38A /* RenderSurface.h */; };
-		9EAECE781B685460000FA38A /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4A1B685460000FA38A /* Base.h */; };
 		9EAECE791B685460000FA38A /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4B1B685460000FA38A /* Channel.h */; };
 		9EAECE7A1B685460000FA38A /* Config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4C1B685460000FA38A /* Config.h */; };
 		9EAECE7B1B685460000FA38A /* Guard.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4D1B685460000FA38A /* Guard.h */; };
@@ -121,6 +122,8 @@
 		9E293DB71B71506D0037A431 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
 		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
+		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
+		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EAECE351B685460000FA38A /* FrictionSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictionSimulation.h; sourceTree = "<group>"; };
 		9EAECE361B685460000FA38A /* GravitySimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySimulation.h; sourceTree = "<group>"; };
@@ -139,7 +142,6 @@
 		9EAECE441B685460000FA38A /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		9EAECE451B685460000FA38A /* ProgramCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramCatalog.h; sourceTree = "<group>"; };
 		9EAECE461B685460000FA38A /* RenderSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSurface.h; sourceTree = "<group>"; };
-		9EAECE4A1B685460000FA38A /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		9EAECE4B1B685460000FA38A /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9EAECE4C1B685460000FA38A /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		9EAECE4D1B685460000FA38A /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
@@ -313,7 +315,8 @@
 		9EAECE471B685460000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECE4A1B685460000FA38A /* Base.h */,
+				9EA6744E1B753CAD00C8A8B4 /* Core.h */,
+				9EA6744F1B753CAD00C8A8B4 /* Macros.h */,
 				9E293DB71B71506D0037A431 /* ChannelProvider.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
 				9EAECE4C1B685460000FA38A /* Config.h */,
@@ -549,6 +552,7 @@
 				9EAECE821B685460000FA38A /* Server.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
+				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
@@ -572,6 +576,7 @@
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
 				9EAECE851B685460000FA38A /* Utilities.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
+				9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
 				EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
@@ -579,7 +584,6 @@
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
-				9EAECE781B685460000FA38A /* Base.h in Headers */,
 				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
 				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,

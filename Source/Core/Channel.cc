@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/Channel.h"
-#include "Core/Message.h"
-#include "Core/Utilities.h"
-#include "Core/Channel/SocketChannel.h"
-#include "Core/Channel/MachPortChannel.h"
+#include <Core/Channel.h>
+#include <Core/Message.h>
+#include <Core/Utilities.h>
+#include <Core/Channel/SocketChannel.h>
+#include <Core/Channel/MachPortChannel.h>
 
 namespace rl {
 
@@ -17,9 +17,9 @@ Channel::Channel()
       _provider(nullptr),
       _source(nullptr) {
 #if __APPLE__
-  _provider = Utils::make_unique<MachPortChannel>(*this);
+  _provider = make_unique<MachPortChannel>(*this);
 #else
-  _provider = Utils::make_unique<SocketChannel>(*this);
+  _provider = make_unique<SocketChannel>(*this);
 #endif
 }
 

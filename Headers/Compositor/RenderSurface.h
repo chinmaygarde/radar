@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_GEOMETRY_RENDERSURFACE__
 #define __RADARLOVE_GEOMETRY_RENDERSURFACE__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 #include <memory>
 
 namespace rl {

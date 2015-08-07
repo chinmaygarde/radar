@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/LooperSource.h"
-#include "Core/Utilities.h"
-#include "Core/Base.h"
+#include <Core/Macros.h>
+#include <Core/LooperSource.h>
+#include <Core/Utilities.h>
 
 #include <sys/epoll.h>
 #include <sys/timerfd.h>

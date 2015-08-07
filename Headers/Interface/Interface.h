@@ -5,9 +5,7 @@
 #ifndef __RADARLOVE_INTERFACE_INTERFACE__
 #define __RADARLOVE_INTERFACE_INTERFACE__
 
-#include "Core/Base.h"
-#include "Core/Looper.h"
-#include "Core/Latch.h"
+#include <Core/Core.h>
 #include "Event/TouchEventChannel.h"
 #include "Interface/InterfaceTransaction.h"
 #include "Infrastructure/StateMachine.h"

@@ -5,13 +5,12 @@
 #ifndef __RADARLOVE__LOOPERSOURCE__
 #define __RADARLOVE__LOOPERSOURCE__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
+#include <Core/WaitSet.h>
 
 #include <functional>
 #include <utility>
 #include <chrono>
-
-#include "WaitSet.h"
 
 namespace rl {
 

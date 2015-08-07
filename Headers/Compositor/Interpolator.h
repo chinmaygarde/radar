@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_INTERPOLATOR__
 #define __RADARLOVE_COMPOSITOR_INTERPOLATOR__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 namespace rl {
 class Interpolator {

@@ -5,10 +5,10 @@
 #ifndef __RADARLOVE__LOOPER__
 #define __RADARLOVE__LOOPER__
 
-#include "Core/Base.h"
-#include "Core/LooperSource.h"
-#include "Core/WaitSet.h"
-#include "Core/LooperObserver.h"
+#include <Core/Macros.h>
+#include <Core/LooperSource.h>
+#include <Core/WaitSet.h>
+#include <Core/LooperObserver.h>
 
 #include <functional>
 #include <list>

@@ -66,7 +66,7 @@ void Layer::setBackgroundColor(const Color& backgroundColor) {
     _backgroundPrimitive = nullptr;
   } else {
     if (!_backgroundPrimitive) {
-      _backgroundPrimitive = Utils::make_unique<Primitive>();
+      _backgroundPrimitive = make_unique<Primitive>();
     }
     _backgroundPrimitive->setContentColor(_backgroundColor);
   }

@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_PROGRAM__
 #define __RADARLOVE_COMPOSITOR_PROGRAM__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 #include <memory>
 #include <vector>

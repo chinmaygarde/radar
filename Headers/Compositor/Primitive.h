@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_PRIMITIVE__
 #define __RADARLOVE_COMPOSITOR_PRIMITIVE__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 
 #include "Geometry/Size.h"
 #include "Geometry/Matrix.h"

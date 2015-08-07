@@ -5,9 +5,7 @@
 #ifndef __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
 #define __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
 
-#include "Core/Base.h"
-
-#include <memory>
+#include <Core/Core.h>
 
 namespace rl {
 class InterfaceTransaction {

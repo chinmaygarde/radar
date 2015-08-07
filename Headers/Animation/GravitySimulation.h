@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_GRAVITYSIMULATION__
 #define __RADARLOVE_ANIMATION_GRAVITYSIMULATION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Simulation.h"
 
 namespace rl {

@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/Channel/SocketChannel.h"
-#include "Core/Utilities.h"
-#include "Core/Message.h"
+#include <Core/Channel/SocketChannel.h>
+#include <Core/Utilities.h>
+#include <Core/Message.h>
 
 #if __APPLE__
 // For Single Unix Standard v3 (SUSv3) conformance
@@ -185,7 +185,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
         RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
     if (received > 0) {
-      auto message = rl::Utils::make_unique<Message>(_buffer, received);
+      auto message = make_unique<Message>(_buffer, received);
 
       /*
        *  We do not support sending message attachments yet. Assert the same.

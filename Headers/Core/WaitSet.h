@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE__WAITSET__
 #define __RADARLOVE__WAITSET__
 
-#include "Core/Base.h"
+#include <Core/Macros.h>
 
 #include <set>
 

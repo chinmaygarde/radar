@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_SCROLLSIMULATION__
 #define __RADARLOVE_ANIMATION_SCROLLSIMULATION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Animation/SimulationGroup.h"
 #include "Animation/SpringSimulation.h"
 

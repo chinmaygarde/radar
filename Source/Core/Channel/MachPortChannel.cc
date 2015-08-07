@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Core/Channel/MachPortChannel.h"
-#include "Core/Message.h"
-#include "Core/Utilities.h"
+#include <Core/Channel/MachPortChannel.h>
+#include <Core/Message.h>
+#include <Core/Utilities.h>
 
 #include <mach/mach.h>
 #include <sys/event.h>
@@ -50,8 +50,8 @@ struct MachPayload {
   }
 
   std::unique_ptr<Message> asMessage() const {
-    return Utils::make_unique<Message>(static_cast<uint8_t*>(mem.address),
-                                       mem.size, true);
+    return make_unique<Message>(static_cast<uint8_t*>(mem.address), mem.size,
+                                true);
   }
 };
 

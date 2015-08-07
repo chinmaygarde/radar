@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_ANIMATION_FRICTION_SIMULATION__
 #define __RADARLOVE_ANIMATION_FRICTION_SIMULATION__
 
-#include "Core/Base.h"
+#include <Core/Core.h>
 #include "Animation/Simulation.h"
 
 namespace rl {
