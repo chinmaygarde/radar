@@ -8,6 +8,7 @@
 #include "Shell/Shell.h"
 #include "Compositor/RenderSurface.h"
 #include "Core/Message.h"
+#include "Turquoise.h"
 
 namespace rl {
 class RenderSurfaceMac : public RenderSurface {
@@ -56,6 +57,7 @@ static void SendEvent(rl::TouchEventChannel& channel,
 @implementation RadarWindow {
   std::unique_ptr<rl::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
+  std::shared_ptr<tq::TurquoiseApplication> _application;
 }
 
 - (void)awakeFromNib {
@@ -65,9 +67,11 @@ static void SendEvent(rl::TouchEventChannel& channel,
 }
 
 - (void)launchShell {
+  _application = std::make_shared<tq::TurquoiseApplication>();
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  _shell = rl::make_unique<rl::Shell>(_renderSurface);
+  std::weak_ptr<tq::TurquoiseApplication> application = _application;
+  _shell = rl::make_unique<rl::Shell>(_renderSurface, application);
   _renderSurface->surfaceWasCreated();
 
   [self windowWasResized];

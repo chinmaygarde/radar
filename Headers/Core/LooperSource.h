@@ -39,6 +39,7 @@ class LooperSource {
 #pragma mark - Accessing the wait function
 
   WakeFunction wakeFunction() const;
+
   void setWakeFunction(WakeFunction wakeFunction);
 
 #pragma mark - Accessing the underlying handles

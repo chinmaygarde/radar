@@ -9,11 +9,12 @@
 
 namespace rl {
 
-Interface::Interface()
+Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _looper(nullptr),
       _lock(),
       _transactionStack(),
       _touchEventChannel(),
+      _delegate(delegate),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -143,23 +144,33 @@ Interface::State Interface::state() const {
 }
 
 void Interface::didFinishLaunching() {
-  RL_LOG_HERE;
+  if (auto delegate = _delegate.lock()) {
+    delegate->didFinishLaunching(*this);
+  }
 }
 
 void Interface::didBecomeActive() {
-  RL_LOG_HERE;
+  if (auto delegate = _delegate.lock()) {
+    delegate->didBecomeActive(*this);
+  }
 }
 
 void Interface::didBecomeInactive() {
-  RL_LOG_HERE;
+  if (auto delegate = _delegate.lock()) {
+    delegate->didBecomeInactive(*this);
+  }
 }
 
 void Interface::didEnterBackground() {
-  RL_LOG_HERE;
+  if (auto delegate = _delegate.lock()) {
+    delegate->didEnterBackground(*this);
+  }
 }
 
 void Interface::didTerminate() {
-  RL_LOG_HERE;
+  if (auto delegate = _delegate.lock()) {
+    delegate->didTerminate(*this);
+  }
 }
 
 void Interface::performTerminationCleanup() {

@@ -18,6 +18,7 @@
 		9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB71B71506D0037A431 /* ChannelProvider.h */; };
 		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
+		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
@@ -122,6 +123,7 @@
 		9E293DB71B71506D0037A431 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
 		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
+		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,6 +363,7 @@
 				9E222CDF1B6A9394005D02EE /* Action.h */,
 				9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */,
 				9EAECE621B685460000FA38A /* Interface.h */,
+				9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
 				9EAECE821B685460000FA38A /* Server.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
+				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,

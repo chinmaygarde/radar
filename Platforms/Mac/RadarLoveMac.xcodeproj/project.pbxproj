@@ -11,6 +11,8 @@
 		9E26F1BB1B59CBB50016A899 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1BA1B59CBB50016A899 /* main.m */; };
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
+		9E6745661B7567F400C1EB34 /* Turquoise.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745641B7567F400C1EB34 /* Turquoise.cc */; };
+		9E6745691B756C1800C1EB34 /* MainScrollContainer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745671B756C1800C1EB34 /* MainScrollContainer.cc */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */; };
 		9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,10 @@
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E6745641B7567F400C1EB34 /* Turquoise.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Turquoise.cc; sourceTree = "<group>"; };
+		9E6745651B7567F400C1EB34 /* Turquoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Turquoise.h; sourceTree = "<group>"; };
+		9E6745671B756C1800C1EB34 /* MainScrollContainer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScrollContainer.cc; sourceTree = "<group>"; };
+		9E6745681B756C1800C1EB34 /* MainScrollContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScrollContainer.h; sourceTree = "<group>"; };
 		9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
 		9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
 		9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../RadarLove.xcodeproj; sourceTree = "<group>"; };
@@ -77,6 +83,8 @@
 		9E26F1B51B59CBB50016A899 /* RadarLoveMac */ = {
 			isa = PBXGroup;
 			children = (
+				9E6745651B7567F400C1EB34 /* Turquoise.h */,
+				9E6745641B7567F400C1EB34 /* Turquoise.cc */,
 				9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */,
 				9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */,
 				9E26F1B61B59CBB50016A899 /* AppDelegate.h */,
@@ -85,6 +93,8 @@
 				9E26F1BE1B59CBB50016A899 /* MainMenu.xib */,
 				9E26F1C11B59CBB50016A899 /* Info.plist */,
 				9E26F1B91B59CBB50016A899 /* Supporting Files */,
+				9E6745671B756C1800C1EB34 /* MainScrollContainer.cc */,
+				9E6745681B756C1800C1EB34 /* MainScrollContainer.h */,
 			);
 			path = RadarLoveMac;
 			sourceTree = "<group>";
@@ -202,6 +212,8 @@
 				9E26F1BB1B59CBB50016A899 /* main.m in Sources */,
 				9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */,
 				9E26F1B81B59CBB50016A899 /* AppDelegate.m in Sources */,
+				9E6745691B756C1800C1EB34 /* MainScrollContainer.cc in Sources */,
+				9E6745661B7567F400C1EB34 /* Turquoise.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

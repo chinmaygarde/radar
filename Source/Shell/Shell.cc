@@ -15,14 +15,15 @@
 
 namespace rl {
 
-Shell::Shell(std::shared_ptr<RenderSurface> surface)
+Shell::Shell(std::shared_ptr<RenderSurface> surface,
+             std::weak_ptr<InterfaceDelegate> delegate)
     : _attached(false),
       _hostThread(),
       _host(),
       _compositorThread(),
       _compositor(surface),
       _interfaceThread(),
-      _interface() {
+      _interface(delegate) {
   Time::LoggingBootTime();
   attachHostOnCurrentThread();
 }

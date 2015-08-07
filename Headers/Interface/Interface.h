@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 #include "Event/TouchEventChannel.h"
 #include "Interface/InterfaceTransaction.h"
+#include "Interface/InterfaceDelegate.h"
 #include "Infrastructure/StateMachine.h"
 
 #include <stack>
@@ -23,7 +24,7 @@ class Interface {
     Background,
   };
 
-  Interface();
+  Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
 #pragma mark - Bootstrapping the interface
 
@@ -80,12 +81,29 @@ class Interface {
 
   State state() const;
 
+#pragma mark - Accessing the Interface Delgate
+
+  /**
+   *  Get the current interface delegate
+   *
+   *  @return the current interface delegate
+   */
+  std::weak_ptr<InterfaceDelegate> interfaceDelgate() const;
+
+  /**
+   *  Set the current interface delegate
+   *
+   *  @param delegate the current interface delegate
+   */
+  void setInterfaceDelgate(std::weak_ptr<InterfaceDelegate> delegate);
+
  private:
   Looper* _looper;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
+  std::weak_ptr<InterfaceDelegate> _delegate;
   StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);
@@ -96,9 +114,9 @@ class Interface {
   void performTerminationCleanup();
 
   void didFinishLaunching();
+  void didBecomeActive();
   void didEnterBackground();
   void didTerminate();
-  void didBecomeActive();
   void didBecomeInactive();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
