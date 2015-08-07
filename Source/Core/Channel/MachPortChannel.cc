@@ -116,13 +116,13 @@ std::shared_ptr<LooperSource> MachPortChannel::source() {
 
     struct kevent event = {0};
     // clang-format off
-        EV_SET(&event,                      /* &kev */
-               ident,                       /* ident */
-               EVFILT_MACHPORT,             /* filter */
-               adding ? EV_ADD : EV_DELETE, /* flags */
-               0,                           /* fflags */
-               0,                           /* data */
-               source                       /* udata */);
+    EV_SET(&event,                      /* &kev */
+           ident,                       /* ident */
+           EVFILT_MACHPORT,             /* filter */
+           adding ? EV_ADD : EV_DELETE, /* flags */
+           0,                           /* fflags */
+           0,                           /* data */
+           source                       /* udata */);
     // clang-format on
 
     RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(kev, &event, 1, nullptr, 0, NULL));

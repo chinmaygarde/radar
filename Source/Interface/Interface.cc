@@ -124,23 +124,18 @@ Interface::State Interface::state() const {
 }
 
 void Interface::didFinishLaunching() {
-  printf("%s\n", __FUNCTION__);
-}
-
-void Interface::didEnterBackground() {
-  printf("%s\n", __FUNCTION__);
-}
-
-void Interface::didTerminate() {
-  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didBecomeActive() {
-  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didBecomeInactive() {
-  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::didEnterBackground() {
+}
+
+void Interface::didTerminate() {
 }
 
 }  // namespace rl

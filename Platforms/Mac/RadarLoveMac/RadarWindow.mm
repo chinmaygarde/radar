@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "AppDelegate.h"
+#import "RadarWindow.h"
 
 #include "Core/Utilities.h"
 #include "Shell/Shell.h"
@@ -31,32 +31,30 @@ class RenderSurfaceMac : public RenderSurface {
 };
 }
 
-@interface AppDelegate ()<NSWindowDelegate>
+@interface RadarWindow ()<NSWindowDelegate>
 
-@property(weak) IBOutlet NSWindow* window;
 @property(weak) IBOutlet NSOpenGLView* surface;
 
 @end
 
-@implementation AppDelegate {
+@implementation RadarWindow {
   std::unique_ptr<rl::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  self.delegate = self;
+  [self launchShell];
+}
+
+- (void)launchShell {
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = rl::Utils::make_unique<rl::Shell>(_renderSurface);
   _renderSurface->surfaceWasCreated();
 
-  self.window.delegate = self;
   [self windowWasResized];
-
-  /*
-   *  Test message
-   */
-  auto& channel = _shell->interface().touchEventChannel();
-  channel.sendTouchEvent({0, {123.4, 456.7}, rl::TouchEvent::Phase::Ended});
 }
 
 - (void)windowDidResize:(NSNotification*)notification {
@@ -66,6 +64,16 @@ class RenderSurfaceMac : public RenderSurface {
 - (void)windowWasResized {
   const CGSize size = self.surface.bounds.size;
   _renderSurface->surfaceSizeUpdated(size.width, size.height);
+}
+
+- (void)mouseDown:(NSEvent*)theEvent {
+  
+}
+
+- (void)mouseUp:(NSEvent*)theEvent {
+}
+
+- (void)mouseMoved:(NSEvent*)theEvent {
 }
 
 - (void)dealloc {

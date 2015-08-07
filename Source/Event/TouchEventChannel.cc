@@ -13,10 +13,13 @@ TouchEventChannel::TouchEventChannel() : Channel() {
   setMessagesReceivedCallback([&](Messages m) { processRawTouches(m); });
 }
 
-void TouchEventChannel::sendTouchEvent(const TouchEvent&& touch) {
-  Message m(sizeof(TouchEvent));
-  touch.serialize(m);
-  sendMessage(m);
+void TouchEventChannel::sendTouchEvents(
+    const std::vector<TouchEvent>&& touchEvents) {
+  for (const auto& touch : touchEvents) {
+    Message m(sizeof(TouchEvent));
+    touch.serialize(m);
+    sendMessage(m);
+  }
 }
 
 void TouchEventChannel::processRawTouches(Messages& messages) {

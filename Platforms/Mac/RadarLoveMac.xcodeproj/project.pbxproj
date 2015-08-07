@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9E26F1B81B59CBB50016A899 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1B71B59CBB50016A899 /* AppDelegate.mm */; };
+		9E26F1B81B59CBB50016A899 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1B71B59CBB50016A899 /* AppDelegate.m */; };
 		9E26F1BB1B59CBB50016A899 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1BA1B59CBB50016A899 /* main.m */; };
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
+		9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */; };
 		9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
 /* End PBXBuildFile section */
 
@@ -34,11 +35,13 @@
 /* Begin PBXFileReference section */
 		9E26F1B31B59CBB50016A899 /* RadarLoveMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RadarLoveMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E26F1B61B59CBB50016A899 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		9E26F1B71B59CBB50016A899 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		9E26F1B71B59CBB50016A899 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9E26F1BA1B59CBB50016A899 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
+		9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
 		9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../RadarLove.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,8 +77,10 @@
 		9E26F1B51B59CBB50016A899 /* RadarLoveMac */ = {
 			isa = PBXGroup;
 			children = (
+				9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */,
+				9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */,
 				9E26F1B61B59CBB50016A899 /* AppDelegate.h */,
-				9E26F1B71B59CBB50016A899 /* AppDelegate.mm */,
+				9E26F1B71B59CBB50016A899 /* AppDelegate.m */,
 				9E26F1BC1B59CBB50016A899 /* Assets.xcassets */,
 				9E26F1BE1B59CBB50016A899 /* MainMenu.xib */,
 				9E26F1C11B59CBB50016A899 /* Info.plist */,
@@ -195,7 +200,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E26F1BB1B59CBB50016A899 /* main.m in Sources */,
-				9E26F1B81B59CBB50016A899 /* AppDelegate.mm in Sources */,
+				9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */,
+				9E26F1B81B59CBB50016A899 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
