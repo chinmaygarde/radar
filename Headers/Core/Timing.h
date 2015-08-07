@@ -15,6 +15,14 @@ namespace Time {
  */
 double Current(void);
 
+/**
+ *  Get the absolute boot time used for logging purposes (in seconds). Useless
+ *  for any other purpose
+ *
+ *  @return the logging boot time.
+ */
+double LoggingBootTime(void);
+
 }  // namespace Time
 }  // namespace rl
 

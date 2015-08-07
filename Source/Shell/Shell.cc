@@ -23,6 +23,7 @@ Shell::Shell(std::shared_ptr<RenderSurface> surface)
       _compositor(surface),
       _interfaceThread(),
       _interface() {
+  Time::LoggingBootTime();
   attachHostOnCurrentThread();
 }
 

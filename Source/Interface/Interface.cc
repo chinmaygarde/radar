@@ -143,23 +143,23 @@ Interface::State Interface::state() const {
 }
 
 void Interface::didFinishLaunching() {
-  printf("%s\n", __FUNCTION__);
+  RL_LOG_HERE;
 }
 
 void Interface::didBecomeActive() {
-  printf("%s\n", __FUNCTION__);
+  RL_LOG_HERE;
 }
 
 void Interface::didBecomeInactive() {
-  printf("%s\n", __FUNCTION__);
+  RL_LOG_HERE;
 }
 
 void Interface::didEnterBackground() {
-  printf("%s\n", __FUNCTION__);
+  RL_LOG_HERE;
 }
 
 void Interface::didTerminate() {
-  printf("%s\n", __FUNCTION__);
+  RL_LOG_HERE;
 }
 
 void Interface::performTerminationCleanup() {

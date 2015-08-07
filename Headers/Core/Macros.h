@@ -7,6 +7,7 @@
 
 #include <Core/Config.h>
 #include <Core/Utilities.h>
+#include <Core/Timing.h>
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
@@ -18,28 +19,22 @@
 
 #pragma mark - Logging
 
-#if RL_ENABLE_LOGS
-
-#define RL_FILE_LAST_COMPONENT \
+#define _RL_FILE_LAST_COMPONENT \
   (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define RL_LOG_FMT "Radar (in '%s' @ %s:%d): "
-#define RL_LOG_ARG __FUNCTION__, RL_FILE_LAST_COMPONENT, __LINE__
+#define _RL_LOG_FMT "%.3fs %s:%d: "
+#define _RL_LOG_ARG                                    \
+  (rl::Time::Current() - rl::Time::LoggingBootTime()), \
+      _RL_FILE_LAST_COMPONENT, __LINE__
 
 #define RL_LOG(message, ...) \
-  printf(RL_LOG_FMT message "\n", RL_LOG_ARG, ##__VA_ARGS__)
+  printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__)
 #define RL_LOG_ERRNO() RL_LOG("%s (%d)", strerror(errno), errno)
-
-#else
-
-#define RL_LOG(message, ...)
-#define RL_LOG_ERRNO()
-
-#endif
+#define RL_LOG_HERE RL_LOG("%s", __FUNCTION__)
 
 #pragma mark - Error Checking
 
-#define RL_CHECK_EXPECT(call, expected)     \
+#define _RL_CHECK_EXPECT(call, expected)    \
   {                                         \
     if ((call) != (expected)) {             \
       RL_LOG_ERRNO();                       \
@@ -47,7 +42,7 @@
     }                                       \
   }
 
-#define RL_CHECK(call) RL_CHECK_EXPECT(call, 0)
+#define RL_CHECK(call) _RL_CHECK_EXPECT(call, 0)
 
 #pragma mark - POSIX Retry
 
@@ -70,7 +65,7 @@
     do {                                     \
       _rc = (exp);                           \
     } while (_rc == -1 && errno == EINTR);   \
-    RL_CHECK_EXPECT(_rc, 0);                 \
+    _RL_CHECK_EXPECT(_rc, 0);                \
     _rc;                                     \
   })
 

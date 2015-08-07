@@ -16,5 +16,13 @@ double Current(void) {
   return CFAbsoluteTimeGetCurrent();
 }
 
+double LoggingBootTime(void) {
+  static double time = -1;
+  if (time == -1) {
+    time = Current();
+  }
+  return time;
+}
+
 }  // namespace Time
 }  // namespace rl
