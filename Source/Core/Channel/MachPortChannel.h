@@ -14,7 +14,7 @@ class MachPortChannel : public ChannelProvider {
 
   MachPortChannel(Channel& owner);
   ~MachPortChannel();
-  virtual std::shared_ptr<LooperSource> source() override;
+  virtual std::shared_ptr<LooperSource> createSource() const override;
   virtual Result WriteMessage(Message& message) override;
   virtual ReadResult ReadMessages() override;
   virtual bool doTerminate() override;
@@ -22,7 +22,6 @@ class MachPortChannel : public ChannelProvider {
  private:
   Handle _setHandle;
   Handle _handle;
-  std::shared_ptr<LooperSource> _source;
   Channel& _channel;
 
   DISALLOW_COPY_AND_ASSIGN(MachPortChannel);

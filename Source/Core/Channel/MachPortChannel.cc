@@ -55,8 +55,7 @@ struct MachPayload {
   }
 };
 
-MachPortChannel::MachPortChannel(Channel& channel)
-    : _source(), _channel(channel) {
+MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {
   /*
    *  Step 1: Allocate the port set that will be used as the observer in the
    *          waitset
@@ -103,7 +102,7 @@ MachPortChannel::~MachPortChannel() {
    */
 }
 
-std::shared_ptr<LooperSource> MachPortChannel::source() {
+std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
   using LS = LooperSource;
 
   auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };

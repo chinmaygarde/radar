@@ -58,6 +58,23 @@ void Compositor::run(Latch& readyLatch) {
   _looper->loop(ready);
 }
 
+void Compositor::shutdown(Latch& shutdownLatch) {
+  if (_looper == nullptr) {
+    shutdownLatch.countDown();
+    return;
+  }
+
+  _looper->dispatchAsync([&] {
+    stopComposition();
+    _looper->terminate();
+    shutdownLatch.countDown();
+  });
+}
+
+bool Compositor::isRunning() const {
+  return _looper != nullptr;
+}
+
 void Compositor::surfaceWasCreated() {
   _looper->dispatchAsync([&] { startComposition(); });
 }

@@ -84,11 +84,7 @@ SocketChannel::~SocketChannel() {
   _controlBuffer = nullptr;
 }
 
-std::shared_ptr<LooperSource> SocketChannel::source() {
-  if (_source.get() != nullptr) {
-    return _source;
-  }
-
+std::shared_ptr<LooperSource> SocketChannel::createSource() const {
   using LS = LooperSource;
 
   LS::RWHandlesProvider provider = [&]() {
@@ -106,9 +102,7 @@ std::shared_ptr<LooperSource> SocketChannel::source() {
    *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
-  _source = std::make_shared<LS>(provider, nullptr, readHandler, nullptr);
-
-  return _source;
+  return std::make_shared<LS>(provider, nullptr, readHandler, nullptr);
 }
 
 bool SocketChannel::doTerminate() {

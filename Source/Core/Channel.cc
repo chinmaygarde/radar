@@ -10,7 +10,12 @@
 
 namespace rl {
 
-Channel::Channel() : _terminated(false) {
+Channel::Channel()
+    : _messagesReceivedCallback(nullptr),
+      _terminationCallback(nullptr),
+      _terminated(false),
+      _provider(nullptr),
+      _source(nullptr) {
 #if __APPLE__
   _provider = Utils::make_unique<MachPortChannel>(*this);
 #else
@@ -97,7 +102,13 @@ void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
 }
 
 std::shared_ptr<LooperSource> Channel::source() {
-  return _provider->source();
+  if (_source) {
+    return _source;
+  }
+
+  _source = _provider->createSource();
+
+  return _source;
 }
 
 }  // namespace rl

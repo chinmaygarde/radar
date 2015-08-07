@@ -6,8 +6,15 @@
 
 namespace rl {
 
+Host::Host() {
+}
+
 void Host::run(Latch& readyLatch) {
   readyLatch.countDown();
+}
+
+void Host::shutdown(Latch& shutdownLatch) {
+  shutdownLatch.countDown();
 }
 
 }  // namespace rl

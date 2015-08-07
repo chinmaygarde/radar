@@ -11,9 +11,22 @@
 namespace rl {
 class Host {
  public:
-  Host() {}
+  Host();
 
+  /**
+   *  Run the host access subsystem
+   *
+   *  @param readyLatch the latch to count down on when the subsystem has run
+   */
   void run(Latch& readyLatch);
+
+  /**
+   *  Gracefully shutdown the subsystem
+   *
+   *  @param shutdownLatch the latch to cound down on when the subsystem shuts
+   *         down
+   */
+  void shutdown(Latch& shutdownLatch);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Host);

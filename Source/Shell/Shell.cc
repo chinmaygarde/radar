@@ -66,4 +66,29 @@ Host& Shell::host() {
   return _host;
 }
 
+void Shell::shutdown() {
+  /*
+   *  We provide latches to the subsystems to count down on because they may
+   *  be managing their own thread pools. We want those to wind down as well as
+   *  just the threads hosting these subsystems.
+   */
+  Latch shutdownLatch(3);
+
+  _host.shutdown(shutdownLatch);
+  _compositor.shutdown(shutdownLatch);
+  _interface.shutdown(shutdownLatch);
+
+  if (_compositorThread.joinable()) {
+    _compositorThread.join();
+  }
+
+  if (_interfaceThread.joinable()) {
+    _interfaceThread.join();
+  }
+
+  if (_hostThread.joinable()) {
+    _hostThread.join();
+  }
+}
+
 }  // namespace rl

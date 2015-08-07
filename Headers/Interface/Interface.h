@@ -41,6 +41,11 @@ class Interface {
    */
   bool isRunning() const;
 
+  /**
+   *  Gracefully shutdown the interface
+   */
+  void shutdown(Latch& onShutdown);
+
 #pragma mark - Transaction Management
 
   /**
@@ -88,7 +93,9 @@ class Interface {
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
   void setupEventChannels();
+  void cleanupEventChannels();
   void processTouchEvents();
+  void performTerminationCleanup();
 
   void didFinishLaunching();
   void didEnterBackground();

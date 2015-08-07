@@ -38,6 +38,12 @@ class Shell {
    */
   Host& host();
 
+  /**
+   *  Blocking operation that gracefully shuts down all subsystems and makes
+   *  sure all callbacks are sent.
+   */
+  void shutdown();
+
  private:
   bool _attached;
 

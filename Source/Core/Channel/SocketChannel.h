@@ -18,7 +18,7 @@ class SocketChannel : public ChannelProvider {
   SocketChannel(Channel& owner);
 
   ~SocketChannel();
-  virtual std::shared_ptr<LooperSource> source() override;
+  virtual std::shared_ptr<LooperSource> createSource() const override;
   virtual Result WriteMessage(Message& message) override;
   virtual ReadResult ReadMessages() override;
   virtual bool doTerminate() override;
@@ -28,7 +28,6 @@ class SocketChannel : public ChannelProvider {
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
   std::pair<Handle, Handle> _handles;
-  std::shared_ptr<LooperSource> _source;
   Channel& _channel;
 
   Handle readHandle() const;

@@ -58,6 +58,20 @@ bool Interface::isRunning() const {
   return _looper != nullptr;
 }
 
+void Interface::shutdown(rl::Latch& onShutdown) {
+  if (_looper == nullptr) {
+    onShutdown.countDown();
+    return;
+  }
+
+  _looper->dispatchAsync([&]() {
+    performTerminationCleanup();
+    cleanupEventChannels();
+    _looper->terminate();
+    onShutdown.countDown();
+  });
+}
+
 const InterfaceTransaction& Interface::transaction() {
   std::lock_guard<std::mutex> lock(_lock);
 
@@ -115,6 +129,11 @@ void Interface::setupEventChannels() {
   assert(result == true);
 }
 
+void Interface::cleanupEventChannels() {
+  bool result = _looper->removeSource(_touchEventChannel.source());
+  assert(result == true);
+}
+
 TouchEventChannel& Interface::touchEventChannel() {
   return _touchEventChannel;
 }
@@ -124,18 +143,27 @@ Interface::State Interface::state() const {
 }
 
 void Interface::didFinishLaunching() {
+  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didBecomeActive() {
+  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didBecomeInactive() {
+  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didEnterBackground() {
+  printf("%s\n", __FUNCTION__);
 }
 
 void Interface::didTerminate() {
+  printf("%s\n", __FUNCTION__);
+}
+
+void Interface::performTerminationCleanup() {
+  _state.setState(NotRunning, true);
 }
 
 }  // namespace rl

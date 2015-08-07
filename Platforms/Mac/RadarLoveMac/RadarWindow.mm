@@ -67,13 +67,17 @@ class RenderSurfaceMac : public RenderSurface {
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
-  
 }
 
 - (void)mouseUp:(NSEvent*)theEvent {
 }
 
 - (void)mouseMoved:(NSEvent*)theEvent {
+}
+
+- (void)windowWillClose:(NSNotification*)notification {
+  _shell->shutdown();
+  _shell.reset();
 }
 
 - (void)dealloc {

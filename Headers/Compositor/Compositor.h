@@ -20,12 +20,36 @@
 namespace rl {
 class Compositor : RenderSurfaceObserver {
  public:
+  /**
+   *  Create a compositor instance with the given render surface implementation.
+   *  No operations on the surface are performed till the compositor is run
+   *  however.
+   */
   Compositor(std::shared_ptr<RenderSurface> surface);
+
   ~Compositor();
 
+  /**
+   *  Run the compositor on the current thread. This is a blocking operation and
+   *  the compositor owns its looper.
+   *
+   *  @param readyLatch the latch triggered when the compositor has finished
+   *         starting up and is about to wait for the first time on its looper.
+   */
   void run(Latch& readyLatch);
 
-  bool isRunning() { return _looper != nullptr; }
+  /**
+   *  @return if the compositor is currently running
+   */
+  bool isRunning() const;
+
+  /**
+   *  Gracefully shutdown the compositor
+   *
+   *  @param shutdownLatch the latch triggered when the compositor is done
+   *  shutting down.
+   */
+  void shutdown(Latch& shutdownLatch);
 
  private:
   std::shared_ptr<RenderSurface> _surface;
@@ -36,19 +60,13 @@ class Compositor : RenderSurfaceObserver {
   Layer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
 
-  /*
-   *  Render surface observer overrides
-   */
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(double width, double height) override;
   virtual void surfaceWasDestroyed() override;
-
   void startComposition();
   void commitCompositionSizeUpdate(double width, double height);
   void stopComposition();
-
   std::shared_ptr<ProgramCatalog> accessCatalog();
-
   void drawFrame();
   void onVsync();
 

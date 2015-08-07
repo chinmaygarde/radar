@@ -101,6 +101,7 @@ class Channel {
   TerminationCallback _terminationCallback;
   bool _terminated;
   std::unique_ptr<ChannelProvider> _provider;
+  std::shared_ptr<LooperSource> _source;
 
   DISALLOW_COPY_AND_ASSIGN(Channel);
 };

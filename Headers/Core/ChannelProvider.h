@@ -26,7 +26,7 @@ class ChannelProvider {
    *
    *  @return the looper source for this channel provider
    */
-  virtual std::shared_ptr<LooperSource> source() = 0;
+  virtual std::shared_ptr<LooperSource> createSource() const = 0;
 
   /**
    *  Write a message on the channel provider
