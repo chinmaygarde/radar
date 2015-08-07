@@ -38,6 +38,18 @@ class Latch {
 
   DISALLOW_COPY_AND_ASSIGN(Latch);
 };
+
+/**
+ *  A scoped latch. Performs an implicit wait when it goes out of scope.
+ */
+class AutoLatch : public Latch {
+ public:
+  AutoLatch(unsigned int count);
+  ~AutoLatch();
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(AutoLatch);
+};
 }
 
 #endif /* defined(__RADARLOVE_CORE_LATCH__) */

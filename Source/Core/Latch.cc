@@ -23,4 +23,11 @@ void Latch::countDown() {
   }
 }
 
+AutoLatch::AutoLatch(unsigned int count) : Latch(count) {
+}
+
+AutoLatch::~AutoLatch() {
+  wait();
+}
+
 }  // namespace rl
