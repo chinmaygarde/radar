@@ -10,7 +10,7 @@
 #include "Geometry/Size.h"
 
 #include "Compositor/RenderSurface.h"
-#include "Interface/Layer.h"
+#include "Compositor/PresentationLayer.h"
 #include "Compositor/ProgramCatalog.h"
 
 #include <mutex>
@@ -66,7 +66,7 @@ class Compositor : RenderSurfaceObserver {
   std::mutex _lock;
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
-  Layer::Ref _rootLayer;
+  PresentationLayer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::shared_ptr<Channel> _patchChannel;
 

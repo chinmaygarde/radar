@@ -22,9 +22,7 @@ Layer::Layer()
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _sublayers(),
-      _superlayer(nullptr),
-      _backgroundPrimitive(),
-      _foregroundPrimitive() {
+      _superlayer(nullptr) {
   MarkPatch(PatchChunk::Command::Created);
 }
 
@@ -156,6 +154,10 @@ void Layer::removeSublayer(Layer::Ref layer) {
   }
 }
 
+std::list<Layer::Ref> Layer::sublayers() const {
+  return _sublayers;
+}
+
 const Color& Layer::backgroundColor() const {
   return _backgroundColor;
 }
@@ -168,15 +170,6 @@ void Layer::setBackgroundColor(const Color& backgroundColor) {
   _backgroundColor = backgroundColor;
 
   MarkPatch(PatchChunk::Command::Color);
-
-  if (backgroundColor.a < TransparencyAlphaThreshold) {
-    _backgroundPrimitive = nullptr;
-  } else {
-    if (!_backgroundPrimitive) {
-      _backgroundPrimitive = make_unique<Primitive>();
-    }
-    _backgroundPrimitive->setContentColor(_backgroundColor);
-  }
 }
 
 double Layer::opacity() const {
@@ -190,39 +183,6 @@ void Layer::setOpacity(double opacity) {
 
   MarkPatch(PatchChunk::Command::Opacity);
   _opacity = opacity;
-}
-
-void Layer::drawInFrame(Frame& frame) {
-  frame.pushOpacity(_opacity);
-
-  /*
-   *  Step 1:
-   *  Render all primitives that are a part of this layer
-   */
-  if (_backgroundPrimitive) {
-    _backgroundPrimitive->setModelMatrixAndSize(modelMatrix(), bounds().size);
-    _backgroundPrimitive->render(frame);
-  }
-
-  if (_foregroundPrimitive) {
-    _foregroundPrimitive->setModelMatrixAndSize(modelMatrix(), bounds().size);
-    _foregroundPrimitive->render(frame);
-  }
-
-  /*
-   *  Step 2:
-   *  Recursively visit sublayers and render as needed
-   */
-
-  frame.pushViewMatrix(frame.viewMatrix() * modelMatrix());
-
-  for (const auto& layer : _sublayers) {
-    layer->drawInFrame(frame);
-  }
-
-  frame.popViewMatrix();
-
-  frame.popOpacity();
 }
 
 }  // namespace rl

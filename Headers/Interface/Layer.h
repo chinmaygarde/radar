@@ -122,6 +122,13 @@ class Layer {
    */
   void removeSublayer(Ref layer);
 
+  /**
+   *  The list of references to the sublayers of this layer
+   *
+   *  @return the sublayers of this layer
+   */
+  std::list<Ref> sublayers() const;
+
 #pragma mark - Display Properties
 
   /**
@@ -153,13 +160,6 @@ class Layer {
    */
   void setOpacity(double opacity);
 
-  /**
-   *  Renders the layer primitives in the specified frame
-   *
-   *  @param frame the frame to render the layer primitives into
-   */
-  void drawInFrame(Frame& frame);
-
  private:
   Rect _bounds;
   Point _position;
@@ -171,8 +171,6 @@ class Layer {
   double _opacity;
   std::list<Ref> _sublayers;
   Layer* _superlayer;
-  std::unique_ptr<Primitive> _backgroundPrimitive;
-  std::unique_ptr<Primitive> _foregroundPrimitive;
 
   DISALLOW_COPY_AND_ASSIGN(Layer);
 };
