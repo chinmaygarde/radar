@@ -27,6 +27,8 @@ class Compositor : RenderSurfaceObserver {
 
   ~Compositor();
 
+#pragma mark - Managing Compositor Lifecycle
+
   /**
    *  Run the compositor on the current thread. This is a blocking operation and
    *  the compositor owns its looper.
@@ -49,6 +51,15 @@ class Compositor : RenderSurfaceObserver {
    */
   void shutdown(Latch& shutdownLatch);
 
+#pragma mark - Communicating with the Compositor
+
+  /**
+   *  The channel used by interfaces to submit patches to this compositor
+   *
+   *  @return the patch channel
+   */
+  Channel& patchChannel();
+
  private:
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
@@ -57,6 +68,7 @@ class Compositor : RenderSurfaceObserver {
   Size _surfaceSize;
   Layer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  Channel _patchChannel;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(double width, double height) override;
@@ -67,6 +79,8 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void drawFrame();
   void onVsync();
+  void setupChannels();
+  void teardownChannels();
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

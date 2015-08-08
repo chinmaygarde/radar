@@ -16,7 +16,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))),
       _surfaceSize(SizeZero),
       _rootLayer(nullptr),
-      _programCatalog(nullptr) {
+      _programCatalog(nullptr),
+      _patchChannel() {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
 
   _surface->setObserver(this);
@@ -52,7 +53,7 @@ void Compositor::run(Latch& readyLatch) {
   }
 
   _looper = Looper::Current();
-
+  setupChannels();
   _looper->loop(ready);
 }
 
@@ -63,6 +64,7 @@ void Compositor::shutdown(Latch& shutdownLatch) {
   }
 
   _looper->dispatchAsync([&] {
+    teardownChannels();
     stopComposition();
     _looper->terminate();
     shutdownLatch.countDown();
@@ -138,11 +140,24 @@ void Compositor::drawFrame() {
 void Compositor::onVsync() {
   bool res = _surface->makeCurrent();
   assert(res && "Must be able to make the current context current");
-
   drawFrame();
 
   res = _surface->present();
   assert(res && "Must be able to present the current context");
+}
+
+void Compositor::setupChannels() {
+  bool res = _looper->addSource(_patchChannel.source());
+  assert(res == true);
+}
+
+void Compositor::teardownChannels() {
+  bool res = _looper->removeSource(_patchChannel.source());
+  assert(res == true);
+}
+
+Channel& Compositor::patchChannel() {
+  return _patchChannel;
 }
 
 }  // namespace rl
