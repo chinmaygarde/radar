@@ -124,15 +124,13 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
 }
 
 void Compositor::drawFrame() {
-  if (_rootLayer == nullptr) {
-    return;
-  }
-
   Frame frame(_surfaceSize, accessCatalog());
 
   frame.begin();
 
-  _rootLayer->drawInFrame(frame);
+  if (_rootLayer) {
+    _rootLayer->drawInFrame(frame);
+  }
 
   frame.end();
 }
