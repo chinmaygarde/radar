@@ -56,6 +56,7 @@ void Layer::setBounds(const Rect& bounds) {
 
   _bounds = bounds;
   _modelMatrixDirty = true;
+  MarkPatch(PatchChunk::Command::Bounds);
 }
 
 const Point& Layer::position() const {
@@ -69,6 +70,7 @@ void Layer::setPosition(const Point& position) {
 
   _position = position;
   _modelMatrixDirty = true;
+  MarkPatch(PatchChunk::Command::Position);
 }
 
 const Point& Layer::anchorPoint() const {
@@ -82,6 +84,7 @@ void Layer::setAnchorPoint(const Point& anchorPoint) {
 
   _anchorPoint = anchorPoint;
   _modelMatrixDirty = true;
+  MarkPatch(PatchChunk::Command::AnchorPoint);
 }
 
 const Matrix& Layer::transformation() const {
@@ -95,6 +98,7 @@ void Layer::setTransformation(const Matrix& transformation) {
 
   _transformation = transformation;
   _modelMatrixDirty = true;
+  MarkPatch(PatchChunk::Command::Matrix);
 }
 
 const Matrix& Layer::modelMatrix() {
