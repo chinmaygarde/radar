@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_PRESENTATIONLAYER__
 #define __RADARLOVE_COMPOSITOR_PRESENTATIONLAYER__
 
-#include "Interface/Layer.h"
+#include <Interface/Layer.h>
 
 namespace rl {
 class PresentationLayer : public Layer {

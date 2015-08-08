@@ -6,7 +6,7 @@
 #define __RADARLOVE_ANIMATION_FRICTION_SIMULATION__
 
 #include <Core/Core.h>
-#include "Animation/Simulation.h"
+#include <Animation/Simulation.h>
 
 namespace rl {
 class FrictionSimulation : public Simulation {

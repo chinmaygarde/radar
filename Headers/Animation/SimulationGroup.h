@@ -6,8 +6,8 @@
 #define __RADARLOVE_ANIMATION_SIMULATIONGROUP__
 
 #include <Core/Core.h>
-#include "Animation/Simulation.h"
-#include "Animation/Utilities.h"
+#include <Animation/Simulation.h>
+#include <Animation/Utilities.h>
 
 namespace rl {
 /*

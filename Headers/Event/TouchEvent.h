@@ -5,8 +5,8 @@
 #ifndef __RADARLOVE_EVENT_TOUCHEVENT__
 #define __RADARLOVE_EVENT_TOUCHEVENT__
 
-#include "Event/Event.h"
-#include "Geometry/Point.h"
+#include <Event/Event.h>
+#include <Geometry/Point.h>
 
 namespace rl {
 class TouchEvent : public Event {

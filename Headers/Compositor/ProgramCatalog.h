@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__
 #define __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__
 
-#include "Compositor/Program.h"
+#include <Compositor/Program.h>
 
 #include <algorithm>
 #include <map>

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Animation/FrictionSimulation.h"
-#include "Animation/Utilities.h"
+#include <Animation/FrictionSimulation.h>
+#include <Animation/Utilities.h>
 #include <cmath>
 
 namespace rl {

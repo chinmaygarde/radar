@@ -6,8 +6,8 @@
 #define __RADARLOVE_ANIMATION_SPRINGSIMULATION__
 
 #include <Core/Core.h>
-#include "Animation/Simulation.h"
-#include "Animation/SpringSolution.h"
+#include <Animation/Simulation.h>
+#include <Animation/SpringSolution.h>
 
 #include <cmath>
 

@@ -6,7 +6,7 @@
 #define __RADARLOVE_ANIMATION_GRAVITYSIMULATION__
 
 #include <Core/Core.h>
-#include "Simulation.h"
+#include <Animation/Simulation.h>
 
 namespace rl {
 class GravitySimulation : public Simulation {

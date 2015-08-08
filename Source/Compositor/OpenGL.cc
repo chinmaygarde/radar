@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #define RL_OPENGL_ALLOWED 1
-#include "Compositor/OpenGL.h"
+#include <Compositor/OpenGL.h>
 
 namespace rl {
 

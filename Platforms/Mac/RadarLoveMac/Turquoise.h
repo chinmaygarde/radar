@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_TURQUOISE_H__
 #define __RADARLOVE_TURQUOISE_H__
 
-#include "Interface/Interface.h"
+#include <Interface/Interface.h>
 
 namespace tq {
 class TurquoiseApplication : public rl::InterfaceDelegate {

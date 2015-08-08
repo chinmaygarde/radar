@@ -7,11 +7,11 @@
 
 #include <Core/Core.h>
 
-#include "Geometry/Size.h"
+#include <Geometry/Size.h>
 
-#include "Compositor/RenderSurface.h"
-#include "Compositor/PresentationLayer.h"
-#include "Compositor/ProgramCatalog.h"
+#include <Compositor/RenderSurface.h>
+#include <Compositor/PresentationLayer.h>
+#include <Compositor/ProgramCatalog.h>
 
 #include <mutex>
 

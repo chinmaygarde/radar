@@ -7,10 +7,10 @@
 
 #include <thread>
 #include <Core/Core.h>
-#include "Compositor/Compositor.h"
-#include "Compositor/RenderSurface.h"
-#include "Host/Host.h"
-#include "Interface/Interface.h"
+#include <Compositor/Compositor.h>
+#include <Compositor/RenderSurface.h>
+#include <Host/Host.h>
+#include <Interface/Interface.h>
 
 namespace rl {
 class Shell {

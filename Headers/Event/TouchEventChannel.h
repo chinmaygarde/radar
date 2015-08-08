@@ -5,8 +5,8 @@
 #ifndef __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__
 #define __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__
 
-#include "Core/Channel.h"
-#include "Event/TouchEvent.h"
+#include <Core/Channel.h>
+#include <Event/TouchEvent.h>
 
 namespace rl {
 class TouchEventChannel : public Channel {

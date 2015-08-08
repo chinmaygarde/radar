@@ -6,8 +6,8 @@
 #define __RADARLOVE_ANIMATION_SCROLLSIMULATION__
 
 #include <Core/Core.h>
-#include "Animation/SimulationGroup.h"
-#include "Animation/SpringSimulation.h"
+#include <Animation/SimulationGroup.h>
+#include <Animation/SpringSimulation.h>
 
 namespace rl {
 /**

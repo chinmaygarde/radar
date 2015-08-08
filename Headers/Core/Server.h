@@ -10,8 +10,8 @@
 #include <string>
 #include <functional>
 
-#include "Core/LooperSource.h"
-#include "Core/Channel.h"
+#include <Core/LooperSource.h>
+#include <Core/Channel.h>
 
 namespace rl {
 

@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Compositor/Frame.h"
+#include <Compositor/Frame.h>
 
 #include <cassert>
 
 #define RL_OPENGL_ALLOWED 1
-#include "Compositor/OpenGL.h"
+#include <Compositor/OpenGL.h>
 
 namespace rl {
 

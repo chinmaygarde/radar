@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_GEOMETRY_POINT__
 #define __RADARLOVE_GEOMETRY_POINT__
 
-#include "Geometry/Size.h"
+#include <Geometry/Size.h>
 
 namespace rl {
 struct Point {

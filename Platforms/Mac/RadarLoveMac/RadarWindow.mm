@@ -4,10 +4,10 @@
 
 #import "RadarWindow.h"
 
-#include "Core/Utilities.h"
-#include "Shell/Shell.h"
-#include "Compositor/RenderSurface.h"
-#include "Core/Message.h"
+#include <Core/Utilities.h>
+#include <Shell/Shell.h>
+#include <Compositor/RenderSurface.h>
+#include <Core/Message.h>
 #include "Turquoise.h"
 
 namespace rl {

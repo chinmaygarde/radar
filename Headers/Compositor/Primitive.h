@@ -7,11 +7,11 @@
 
 #include <Core/Core.h>
 
-#include "Geometry/Size.h"
-#include "Geometry/Matrix.h"
+#include <Geometry/Size.h>
+#include <Geometry/Matrix.h>
 
-#include "Compositor/Frame.h"
-#include "Compositor/Color.h"
+#include <Compositor/Frame.h>
+#include <Compositor/Color.h>
 
 namespace rl {
 class Primitive {
