@@ -23,6 +23,8 @@ class Layer : public Entity {
 
   Layer();
 
+  ~Layer();
+
 #pragma mark - Layer Hierarchy
   /**
    *  Adds the layer as a sublayer of the current layer. If the layer already

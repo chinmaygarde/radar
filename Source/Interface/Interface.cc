@@ -81,7 +81,7 @@ void Interface::shutdown(rl::Latch& onShutdown) {
   });
 }
 
-const InterfaceTransaction& Interface::transaction() {
+InterfaceTransaction& Interface::transaction() {
   std::lock_guard<std::mutex> lock(_lock);
 
   if (_transactionStack.size() == 0) {
@@ -158,8 +158,14 @@ Interface::State Interface::state() const {
   return static_cast<Interface::State>(_state.state());
 }
 
-Interface* Interface::currentInterface() {
-  return reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
+Interface& Interface::current() {
+  auto interface =
+      reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
+
+  assert(interface != nullptr &&
+         "Layer modification on a non-interface threads is forbidden");
+
+  return *interface;
 }
 
 void Interface::didFinishLaunching() {

@@ -53,7 +53,7 @@ class Interface {
    *
    *  @return the top transaction
    */
-  const InterfaceTransaction& transaction();
+  InterfaceTransaction& transaction();
 
   /**
    *  Push a new transaction (with the given arguments) onto the transaction
@@ -90,7 +90,7 @@ class Interface {
    *
    *  @return the current interface if one is present
    */
-  static Interface* currentInterface();
+  static Interface& current();
 
  private:
   Looper* _looper;

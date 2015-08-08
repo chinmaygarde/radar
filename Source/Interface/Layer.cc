@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "Interface/Layer.h"
+#include "Interface/Layer.h"
+#include "Interface/Interface.h"
 
 #include <cassert>
 
@@ -16,6 +17,13 @@ Layer::Layer()
       _superlayer(nullptr),
       _backgroundPrimitive(),
       _foregroundPrimitive() {
+  Interface::current().transaction().patch().mark(*this,
+                                                  PatchChunk::Command::Created);
+}
+
+Layer::~Layer() {
+  Interface::current().transaction().patch().mark(
+      *this, PatchChunk::Command::Destroyed);
 }
 
 void Layer::addSublayer(Layer::Ref layer) {
