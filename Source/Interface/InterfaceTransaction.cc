@@ -9,7 +9,15 @@ namespace rl {
 InterfaceTransaction::InterfaceTransaction() : _patch() {
 }
 
-void InterfaceTransaction::commit() {
+Patch& InterfaceTransaction::patch() {
+  return _patch;
+}
+
+void InterfaceTransaction::commit(Channel& channel) {
+  auto message = _patch.flatten();
+  if (message.size() != 0) {
+    channel.sendMessage(message);
+  }
 }
 
 }  // namespace rl

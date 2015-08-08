@@ -24,7 +24,8 @@ class Interface {
     Background,
   };
 
-  Interface(std::weak_ptr<InterfaceDelegate> delegate);
+  Interface(std::weak_ptr<InterfaceDelegate> delegate,
+            std::weak_ptr<Channel> patchChannel);
 
 #pragma mark - Bootstrapping the interface
 
@@ -98,6 +99,7 @@ class Interface {
   std::shared_ptr<LooperObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;
+  std::weak_ptr<Channel> _patchChannel;
   StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);

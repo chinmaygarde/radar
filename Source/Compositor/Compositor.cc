@@ -17,7 +17,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _rootLayer(nullptr),
       _programCatalog(nullptr),
-      _patchChannel() {
+      _patchChannel(std::make_shared<Channel>()) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
 
   _surface->setObserver(this);
@@ -147,16 +147,16 @@ void Compositor::onVsync() {
 }
 
 void Compositor::setupChannels() {
-  bool res = _looper->addSource(_patchChannel.source());
+  bool res = _looper->addSource(_patchChannel->source());
   assert(res == true);
 }
 
 void Compositor::teardownChannels() {
-  bool res = _looper->removeSource(_patchChannel.source());
+  bool res = _looper->removeSource(_patchChannel->source());
   assert(res == true);
 }
 
-Channel& Compositor::patchChannel() {
+std::weak_ptr<Channel> Compositor::patchChannel() {
   return _patchChannel;
 }
 

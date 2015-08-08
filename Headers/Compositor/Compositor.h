@@ -58,7 +58,7 @@ class Compositor : RenderSurfaceObserver {
    *
    *  @return the patch channel
    */
-  Channel& patchChannel();
+  std::weak_ptr<Channel> patchChannel();
 
  private:
   std::shared_ptr<RenderSurface> _surface;
@@ -68,7 +68,7 @@ class Compositor : RenderSurfaceObserver {
   Size _surfaceSize;
   Layer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  Channel _patchChannel;
+  std::shared_ptr<Channel> _patchChannel;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(double width, double height) override;

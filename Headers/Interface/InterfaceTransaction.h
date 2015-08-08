@@ -12,13 +12,18 @@ namespace rl {
 class InterfaceTransaction {
  public:
   InterfaceTransaction();
+
+  Patch& patch();
+
   /**
-   *  Commit the updates made within the current transaction
+   *  Commit the updates made within the current transaction to the specified
+   *  channel
    */
-  void commit();
+  void commit(Channel& channel);
 
  private:
   Patch _patch;
+
   DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
 }
