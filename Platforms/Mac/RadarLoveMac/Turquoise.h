@@ -17,6 +17,7 @@ class TurquoiseApplication : public rl::InterfaceDelegate {
   virtual void didEnterBackground(rl::Interface& interface) override;
   virtual void didTerminate(rl::Interface& interface) override;
   virtual void didBecomeInactive(rl::Interface& interface) override;
+  virtual void didUpdateSize(rl::Interface& interface) override;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(TurquoiseApplication);

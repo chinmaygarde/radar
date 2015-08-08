@@ -64,9 +64,8 @@ void Compositor::surfaceWasCreated() {
   _looper->dispatchAsync([&] { startComposition(); });
 }
 
-void Compositor::surfaceSizeUpdated(double width, double height) {
-  _looper->dispatchAsync(
-      [&, width, height] { commitCompositionSizeUpdate(width, height); });
+void Compositor::surfaceSizeUpdated(const Size& size) {
+  _looper->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
 }
 
 void Compositor::surfaceWasDestroyed() {
@@ -77,9 +76,7 @@ void Compositor::startComposition() {
   _looper->addSource(_vsyncSource);
 }
 
-void Compositor::commitCompositionSizeUpdate(double width, double height) {
-  Size size(width, height);
-
+void Compositor::commitCompositionSizeUpdate(const Size& size) {
   if (size == _surfaceSize) {
     return;
   }

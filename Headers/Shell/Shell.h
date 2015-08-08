@@ -46,8 +46,6 @@ class Shell {
   void shutdown();
 
  private:
-  bool _attached;
-
   /*
    *  Host variables
    */

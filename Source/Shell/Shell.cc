@@ -17,8 +17,7 @@ namespace rl {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface,
              std::weak_ptr<InterfaceDelegate> delegate)
-    : _attached(false),
-      _hostThread(),
+    : _hostThread(),
       _host(),
       _compositorThread(),
       _compositor(surface),
@@ -29,12 +28,6 @@ Shell::Shell(std::shared_ptr<RenderSurface> surface,
 }
 
 void Shell::attachHostOnCurrentThread() {
-  if (_attached) {
-    return;
-  }
-
-  _attached = true;
-
   Latch readyLatch(3);
 
   pthread_setname_np("rl.host");
@@ -54,17 +47,14 @@ void Shell::attachHostOnCurrentThread() {
 }
 
 Compositor& Shell::compositor() {
-  assert(_attached);
   return _compositor;
 }
 
 Interface& Shell::interface() {
-  assert(_attached);
   return _interface;
 }
 
 Host& Shell::host() {
-  assert(_attached);
   return _host;
 }
 

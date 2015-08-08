@@ -13,9 +13,9 @@ void RenderSurface::surfaceWasCreated() {
   }
 }
 
-void RenderSurface::surfaceSizeUpdated(double width, double height) {
+void RenderSurface::surfaceSizeUpdated(const Size& size) {
   if (_observer != nullptr) {
-    _observer->surfaceSizeUpdated(width, height);
+    _observer->surfaceSizeUpdated(size);
   }
 }
 

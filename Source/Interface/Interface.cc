@@ -20,6 +20,7 @@ static pthread_key_t InterfaceTLSKey() {
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
                      std::weak_ptr<Channel> patchChannel)
     : _looper(nullptr),
+      _size(0.0, 0.0),
       _lock(),
       _transactionStack(),
       _touchEventChannel(),
@@ -79,6 +80,22 @@ void Interface::shutdown(rl::Latch& onShutdown) {
     pthread_setspecific(InterfaceTLSKey(), nullptr);
     onShutdown.countDown();
   });
+}
+
+const Size& Interface::size() const {
+  return _size;
+}
+
+void Interface::setSize(const Size& size) {
+  if (_size == size) {
+    return;
+  }
+
+  _size = size;
+
+  if (isRunning()) {
+    _looper->dispatchAsync([&]() { didUpdateSize(); });
+  }
 }
 
 InterfaceTransaction& Interface::transaction() {
@@ -195,6 +212,12 @@ void Interface::didEnterBackground() {
 void Interface::didTerminate() {
   if (auto delegate = _delegate.lock()) {
     delegate->didTerminate(*this);
+  }
+}
+
+void Interface::didUpdateSize() {
+  if (auto delegate = _delegate.lock()) {
+    delegate->didUpdateSize(*this);
   }
 }
 

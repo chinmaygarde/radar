@@ -6,6 +6,8 @@
 #define __RADARLOVE_GEOMETRY_RENDERSURFACE__
 
 #include <Core/Macros.h>
+#include <Geometry/Size.h>
+
 #include <memory>
 
 namespace rl {
@@ -22,10 +24,9 @@ class RenderSurfaceObserver {
   /**
    *  Invoked when the surface size is updated
    *
-   *  @param width  the new width
-   *  @param height the new height
+   *  @param size the new size of the surface
    */
-  virtual void surfaceSizeUpdated(double width, double height) = 0;
+  virtual void surfaceSizeUpdated(const Size& size) = 0;
 
   /**
    *  Invoked after the surface is destroyed
@@ -58,7 +59,7 @@ class RenderSurface : RenderSurfaceObserver {
    *  Invoked by host on changes to underlying surface
    */
   virtual void surfaceWasCreated() override;
-  virtual void surfaceSizeUpdated(double width, double height) override;
+  virtual void surfaceSizeUpdated(const Size& size) override;
   virtual void surfaceWasDestroyed() override;
 
  private:

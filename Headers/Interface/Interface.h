@@ -18,9 +18,23 @@ namespace rl {
 class Interface {
  public:
   enum State {
+    /**
+     *  The is not running and none of the delgate methods or callbacks will be
+     *  hit
+     */
     NotRunning,
+    /**
+     *  The interface is in the inactive state. This may be because it is not
+     *  currently in focus.
+     */
     Inactive,
+    /**
+     *  The interface is in the active state and in the foreground
+     */
     Active,
+    /**
+     *  The interface is in background execution mode.
+     */
     Background,
   };
 
@@ -45,6 +59,22 @@ class Interface {
    *  Gracefully shutdown the interface
    */
   void shutdown(Latch& onShutdown);
+
+#pragma mark - Changing Interface Properties
+
+  /**
+   *  Get the current size of the interface
+   *
+   *  @return the current interface size
+   */
+  const Size& size() const;
+
+  /**
+   *  Update the size of the interface
+   *
+   *  @param size the new interface size
+   */
+  void setSize(const Size& size);
 
 #pragma mark - Transaction Management
 
@@ -94,6 +124,7 @@ class Interface {
 
  private:
   Looper* _looper;
+  Size _size;
   std::mutex _lock;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
@@ -114,6 +145,7 @@ class Interface {
   void didEnterBackground();
   void didTerminate();
   void didBecomeInactive();
+  void didUpdateSize();
 
   DISALLOW_COPY_AND_ASSIGN(Interface);
 };

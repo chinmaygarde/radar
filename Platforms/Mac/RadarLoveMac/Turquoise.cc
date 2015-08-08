@@ -24,4 +24,7 @@ void TurquoiseApplication::didTerminate(rl::Interface& interface) {
 void TurquoiseApplication::didBecomeInactive(rl::Interface& interface) {
 }
 
+void TurquoiseApplication::didUpdateSize(rl::Interface& interface) {
+}
+
 }  // namespace tq

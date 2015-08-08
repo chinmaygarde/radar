@@ -71,10 +71,10 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<Channel> _patchChannel;
 
   virtual void surfaceWasCreated() override;
-  virtual void surfaceSizeUpdated(double width, double height) override;
+  virtual void surfaceSizeUpdated(const Size& size) override;
   virtual void surfaceWasDestroyed() override;
   void startComposition();
-  void commitCompositionSizeUpdate(double width, double height);
+  void commitCompositionSizeUpdate(const Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void drawFrame();

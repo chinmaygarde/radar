@@ -82,8 +82,10 @@ static void SendEvent(rl::TouchEventChannel& channel,
 }
 
 - (void)windowWasResized {
-  const CGSize size = self.surface.bounds.size;
-  _renderSurface->surfaceSizeUpdated(size.width, size.height);
+  const CGSize boundsSize = self.surface.bounds.size;
+  rl::Size size(boundsSize.width, boundsSize.height);
+  _renderSurface->surfaceSizeUpdated(size);
+  _shell->interface().setSize(size);
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
