@@ -81,21 +81,15 @@ class Interface {
 
   State state() const;
 
-#pragma mark - Accessing the Interface Delgate
+#pragma mark - Accessing the thread local interface
 
   /**
-   *  Get the current interface delegate
+   *  If the current thread has an interface attached to it, that interface is
+   *  returned. In not returns nullptr.
    *
-   *  @return the current interface delegate
+   *  @return the current interface if one is present
    */
-  std::weak_ptr<InterfaceDelegate> interfaceDelgate() const;
-
-  /**
-   *  Set the current interface delegate
-   *
-   *  @param delegate the current interface delegate
-   */
-  void setInterfaceDelgate(std::weak_ptr<InterfaceDelegate> delegate);
+  static Interface* currentInterface();
 
  private:
   Looper* _looper;

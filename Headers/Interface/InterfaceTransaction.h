@@ -6,6 +6,7 @@
 #define __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
 
 #include <Core/Core.h>
+#include <Compositor/Patch.h>
 
 namespace rl {
 class InterfaceTransaction {
@@ -17,6 +18,7 @@ class InterfaceTransaction {
   void commit();
 
  private:
+  Patch _patch;
   DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
 }

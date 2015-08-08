@@ -6,8 +6,16 @@
 
 #include <limits>
 #include <cassert>
+#include <pthread.h>
 
 namespace rl {
+
+static pthread_key_t InterfaceTLSKey() {
+  static std::once_flag once;
+  static pthread_key_t interfaceKey;
+  std::call_once(once, []() { pthread_key_create(&interfaceKey, nullptr); });
+  return interfaceKey;
+}
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _looper(nullptr),
@@ -45,13 +53,10 @@ void Interface::run(Latch& readyLatch) {
 
   _looper = Looper::Current();
   _looper->loop([&]() {
-    /*
-     *  Event channels might need to interact with the looper. So wait to setup
-     *  channel connections till after the looper says its ready.
-     */
+    pthread_setspecific(InterfaceTLSKey(), this);
     setupEventChannels();
-    readyLatch.countDown();
     _state.setState(Active, true);
+    readyLatch.countDown();
   });
 }
 
@@ -69,6 +74,7 @@ void Interface::shutdown(rl::Latch& onShutdown) {
     performTerminationCleanup();
     cleanupEventChannels();
     _looper->terminate();
+    pthread_setspecific(InterfaceTLSKey(), nullptr);
     onShutdown.countDown();
   });
 }
@@ -141,6 +147,10 @@ TouchEventChannel& Interface::touchEventChannel() {
 
 Interface::State Interface::state() const {
   return static_cast<Interface::State>(_state.state());
+}
+
+Interface* Interface::currentInterface() {
+  return reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
 }
 
 void Interface::didFinishLaunching() {

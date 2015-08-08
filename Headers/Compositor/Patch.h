@@ -27,6 +27,14 @@ class Patch {
    */
   void mark(const Layer& layer, PatchChunk::Command command);
 
+  /**
+   *  Flatten the patch marks into a message that can be sent over a channel to
+   *  the compositor
+   *
+   *  @return the message to be sent over the channel
+   */
+  Message flatten() const;
+
  private:
   std::map<PatchChunk::Identifier, std::set<PatchChunk::Command>> _marks;
 

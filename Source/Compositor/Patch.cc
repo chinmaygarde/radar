@@ -14,4 +14,10 @@ void Patch::mark(const Layer& layer, PatchChunk::Command command) {
   _marks[identifier].insert(command);
 }
 
+Message Patch::flatten() const {
+  Message m;
+  assert(false);
+  return m;
+}
+
 }  // namespace rl
