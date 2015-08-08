@@ -23,6 +23,10 @@
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
 		9E67456F1B75737800C1EB34 /* PresentationLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456E1B75737800C1EB34 /* PresentationLayer.h */; };
 		9E6745711B75738B00C1EB34 /* PresentationLayer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745701B75738B00C1EB34 /* PresentationLayer.cc */; };
+		9E6745731B75808700C1EB34 /* Patch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745721B75808700C1EB34 /* Patch.cc */; };
+		9E6745751B75809500C1EB34 /* Patch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745741B75809500C1EB34 /* Patch.h */; };
+		9E6745771B75828A00C1EB34 /* PatchChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745761B75828A00C1EB34 /* PatchChunk.h */; };
+		9E6745791B75829400C1EB34 /* PatchChunk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745781B75829400C1EB34 /* PatchChunk.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
@@ -130,6 +134,10 @@
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9E67456E1B75737800C1EB34 /* PresentationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationLayer.h; sourceTree = "<group>"; };
 		9E6745701B75738B00C1EB34 /* PresentationLayer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationLayer.cc; sourceTree = "<group>"; };
+		9E6745721B75808700C1EB34 /* Patch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Patch.cc; sourceTree = "<group>"; };
+		9E6745741B75809500C1EB34 /* Patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patch.h; sourceTree = "<group>"; };
+		9E6745761B75828A00C1EB34 /* PatchChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchChunk.h; sourceTree = "<group>"; };
+		9E6745781B75829400C1EB34 /* PatchChunk.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PatchChunk.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -309,6 +317,8 @@
 				EA63143A1B6C89630026B6BB /* Interpolator.h */,
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
+				9E6745741B75809500C1EB34 /* Patch.h */,
+				9E6745761B75828A00C1EB34 /* PatchChunk.h */,
 				9E67456E1B75737800C1EB34 /* PresentationLayer.h */,
 				9EAECE431B685460000FA38A /* Primitive.h */,
 				9EAECE441B685460000FA38A /* Program.h */,
@@ -422,6 +432,8 @@
 				EA6314361B6C89510026B6BB /* Interpolator.cc */,
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
+				9E6745721B75808700C1EB34 /* Patch.cc */,
+				9E6745781B75829400C1EB34 /* PatchChunk.cc */,
 				9E6745701B75738B00C1EB34 /* PresentationLayer.cc */,
 				9EAECE9F1B685469000FA38A /* Primitive.cc */,
 				9EAECEA01B685469000FA38A /* Program.cc */,
@@ -551,6 +563,7 @@
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
 				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
+				9E6745771B75828A00C1EB34 /* PatchChunk.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EAECEF91B694E15000FA38A /* Entity.h in Headers */,
@@ -594,6 +607,7 @@
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
+				9E6745751B75809500C1EB34 /* Patch.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
 				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
 				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
@@ -671,6 +685,7 @@
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
+				9E6745791B75829400C1EB34 /* PatchChunk.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
@@ -685,6 +700,7 @@
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
+				9E6745731B75808700C1EB34 /* Patch.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
 				9EAECED41B685469000FA38A /* LooperSource_Apple.cc in Sources */,
