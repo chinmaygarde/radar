@@ -7,15 +7,15 @@
 
 #include <Core/Core.h>
 
-#include "Compositor/Color.h"
-#include "Compositor/Frame.h"
-#include "Compositor/Primitive.h"
-#include "Compositor/Entity.h"
+#include <Geometry/Rect.h>
+#include <Compositor/Color.h>
+#include <Compositor/Frame.h>
+#include <Compositor/Primitive.h>
 
 #include <list>
 
 namespace rl {
-class Layer : public Entity {
+class Layer {
  public:
   using Ref = std::shared_ptr<Layer>;
 
@@ -24,6 +24,89 @@ class Layer : public Entity {
   Layer();
 
   ~Layer();
+
+#pragma mark - Layer Geometry
+
+  /**
+   *  The frame specifies the origin and size of the layer in the coordinate
+   *  space of its parent. This is a computed property derived from the bounds
+   *  of the layer and its position.
+   *
+   *  @return the frame of the layer
+   */
+  Rect frame() const;
+
+  /**
+   *  Set the frame of the layer
+   *
+   *  @param frame the new frame
+   */
+  void setFrame(const Rect& frame);
+
+  /**
+   *  The bounds specifies the origin and size of the layer in its own
+   *  coordinate space.
+   *
+   *  @return the bounds of the layer
+   */
+  const Rect& bounds() const;
+
+  /**
+   *  Set the bounds of the layer
+   *
+   *  @param bounds the new bounds
+   */
+  void setBounds(const Rect& bounds);
+
+  /**
+   *  The position specifies the coordinates of the anchor position of the
+   *  layer relative to its parent
+   *
+   *  @return the position of the layer
+   */
+  const Point& position() const;
+
+  /**
+   *  Sets the position of the layer
+   *
+   *  @param point the new position
+   */
+  void setPosition(const Point& point);
+
+  /**
+   *  The position of the anchor point within this node in unit space
+   *
+   *  @return the anchor point
+   */
+  const Point& anchorPoint() const;
+
+  /**
+   *  Sets the new anchor point of this node
+   *
+   *  @param anchorPoint the new anchor point
+   */
+  void setAnchorPoint(const Point& anchorPoint);
+
+  /**
+   *  The transformation that is applied to the layer about its anchor point
+   *
+   *  @return the transformation applied to the node
+   */
+  const Matrix& transformation() const;
+
+  /**
+   *  Sets the transformation of the layer
+   *
+   *  @param transformation the new transformation
+   */
+  void setTransformation(const Matrix& transformation);
+
+  /**
+   *  The effective model matrix of the layer
+   *
+   *  @return the model matrix
+   */
+  const Matrix& modelMatrix();
 
 #pragma mark - Layer Hierarchy
   /**
@@ -78,6 +161,12 @@ class Layer : public Entity {
   void drawInFrame(Frame& frame);
 
  private:
+  Rect _bounds;
+  Point _position;
+  Point _anchorPoint;
+  Matrix _transformation;
+  Matrix _modelMatrix;
+  bool _modelMatrixDirty;
   Color _backgroundColor;
   double _opacity;
   std::list<Ref> _sublayers;
