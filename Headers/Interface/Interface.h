@@ -10,6 +10,7 @@
 #include "Interface/InterfaceTransaction.h"
 #include "Interface/InterfaceDelegate.h"
 #include "Infrastructure/StateMachine.h"
+#include "Interface/Layer.h"
 
 #include <stack>
 #include <mutex>
@@ -59,6 +60,22 @@ class Interface {
    *  Gracefully shutdown the interface
    */
   void shutdown(Latch& onShutdown);
+
+#pragma mark - Managing the Root Layer
+
+  /**
+   *  Return the current root layer for the interface
+   *
+   *  @return the root layer for the interface
+   */
+  const Layer::Ref rootLayer() const;
+
+  /**
+   *  Set the current root layer for the interface
+   *
+   *  @param layer the new root layer
+   */
+  void setRootLayer(Layer::Ref layer);
 
 #pragma mark - Changing Interface Properties
 
@@ -126,6 +143,7 @@ class Interface {
   Looper* _looper;
   Size _size;
   std::mutex _lock;
+  Layer::Ref _rootLayer;
   std::stack<InterfaceTransaction> _transactionStack;
   std::shared_ptr<LooperObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;

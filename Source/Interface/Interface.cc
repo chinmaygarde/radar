@@ -22,6 +22,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
     : _looper(nullptr),
       _size(0.0, 0.0),
       _lock(),
+      _rootLayer(nullptr),
       _transactionStack(),
       _touchEventChannel(),
       _delegate(delegate),
@@ -219,10 +220,22 @@ void Interface::didUpdateSize() {
   if (auto delegate = _delegate.lock()) {
     delegate->didUpdateSize(*this);
   }
+
+  if (_rootLayer) {
+    _rootLayer->setFrame({{0.0, 0.0}, size()});
+  }
 }
 
 void Interface::performTerminationCleanup() {
   _state.setState(NotRunning, true);
+}
+
+const Layer::Ref Interface::rootLayer() const {
+  return _rootLayer;
+}
+
+void Interface::setRootLayer(Layer::Ref layer) {
+  _rootLayer = layer;
 }
 
 }  // namespace rl
