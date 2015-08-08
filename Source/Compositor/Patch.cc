@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Compositor/Patch.h"
+#include <Compositor/Patch.h>
+#include <Interface/Layer.h>
 
 namespace rl {
 
@@ -10,8 +11,7 @@ Patch::Patch() : _marks() {
 }
 
 void Patch::mark(const Layer& layer, PatchChunk::Command command) {
-  auto identifier = reinterpret_cast<PatchChunk::Identifier>(&layer);
-  _marks[identifier].insert(command);
+  _marks[layer.patchIdentifier()].insert(command);
 }
 
 Message Patch::flatten() const {

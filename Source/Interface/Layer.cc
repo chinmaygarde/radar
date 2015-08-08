@@ -9,11 +9,18 @@
 
 namespace rl {
 
-#define MarkPatch(x) \
-  Interface::current().transaction().patch().mark(*this, (x));
+#define MarkPatch(x) Interface::current().transaction().patch().mark(*this, (x))
+
+/*
+ *  TODO: There needs to be a better way to denote layer identity when
+ *  communicating with the compositor. Maybe a good first step would be to make
+ *  this interface local.
+ */
+static PatchChunk::Identifier CurrentPatchIdentifier = 0;
 
 Layer::Layer()
-    : _bounds(RectZero),
+    : _patchIdentifier(++CurrentPatchIdentifier),
+      _bounds(RectZero),
       _position(PointZero),
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
@@ -183,6 +190,10 @@ void Layer::setOpacity(double opacity) {
 
   MarkPatch(PatchChunk::Command::Opacity);
   _opacity = opacity;
+}
+
+PatchChunk::Identifier Layer::patchIdentifier() const {
+  return _patchIdentifier;
 }
 
 }  // namespace rl
