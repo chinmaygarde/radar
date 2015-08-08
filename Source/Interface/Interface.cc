@@ -211,6 +211,8 @@ void Interface::didEnterBackground() {
 }
 
 void Interface::didTerminate() {
+  _rootLayer = nullptr;
+
   if (auto delegate = _delegate.lock()) {
     delegate->didTerminate(*this);
   }

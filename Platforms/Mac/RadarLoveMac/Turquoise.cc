@@ -13,6 +13,9 @@ void TurquoiseApplication::didFinishLaunching(rl::Interface& interface) {
 }
 
 void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
+  auto root = std::make_shared<rl::Layer>();
+  root->setBackgroundColor({0.0, 0.0, 0.0, 0.0});
+  interface.setRootLayer(root);
 }
 
 void TurquoiseApplication::didEnterBackground(rl::Interface& interface) {
