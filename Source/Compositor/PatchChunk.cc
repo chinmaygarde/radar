@@ -3,5 +3,6 @@
 // found in the LICENSE file.
 
 #include <Compositor/PatchChunk.h>
+#include <Interface/Layer.h>
 
 namespace rl {}  // namespace rl

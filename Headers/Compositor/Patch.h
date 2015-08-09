@@ -23,9 +23,9 @@ class Patch {
    *  Mark a layer property as needing update to the compositor
    *
    *  @param layer   the layer to mark dirty
-   *  @param command the patch command used to resolve the update
+   *  @param chunk   the patch chunk used to resolve the update
    */
-  void mark(const Layer& layer, PatchChunk::Command command);
+  void mark(const Layer& layer, PatchChunk chunk);
 
   /**
    *  Determines if this patch produces a valid actionable message.

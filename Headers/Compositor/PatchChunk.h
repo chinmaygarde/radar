@@ -11,6 +11,7 @@
 #include <Compositor/Color.h>
 
 namespace rl {
+class Layer;
 struct PatchChunk {
   using Identifier = uintptr_t;
 
@@ -86,6 +87,7 @@ struct PatchChunk {
   static const size_t MatrixCommandDataSize = sizeof(MatrixCommandData);
   static const size_t OpacityCommandDataSize = sizeof(OpacityCommandData);
 
+  Command command;
   Identifier target;
   union {
     CreatedCommandData createdData;
@@ -99,6 +101,8 @@ struct PatchChunk {
     MatrixCommandData matrixData;
     OpacityCommandData opacityData;
   } data;
+
+  Message encode();
 };
 }  // namespace rl
 

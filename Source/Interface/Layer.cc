@@ -30,11 +30,13 @@ Layer::Layer()
       _opacity(1.0),
       _sublayers(),
       _superlayer(nullptr) {
-  MarkPatch(PatchChunk::Command::Created);
+  PatchChunk chunk{PatchChunk::Created, _patchIdentifier};
+  MarkPatch(chunk);
 }
 
 Layer::~Layer() {
-  MarkPatch(PatchChunk::Command::Destroyed);
+  PatchChunk chunk{PatchChunk::Destroyed, _patchIdentifier};
+  MarkPatch(chunk);
 }
 
 Rect Layer::frame() const {
@@ -61,7 +63,10 @@ void Layer::setBounds(const Rect& bounds) {
 
   _bounds = bounds;
   _modelMatrixDirty = true;
-  MarkPatch(PatchChunk::Command::Bounds);
+
+  PatchChunk chunk{PatchChunk::Bounds, _patchIdentifier};
+  chunk.data.boundsData.bounds = bounds;
+  MarkPatch(chunk);
 }
 
 const Point& Layer::position() const {
@@ -75,7 +80,10 @@ void Layer::setPosition(const Point& position) {
 
   _position = position;
   _modelMatrixDirty = true;
-  MarkPatch(PatchChunk::Command::Position);
+
+  PatchChunk chunk{PatchChunk::Position, _patchIdentifier};
+  chunk.data.positionData.position = position;
+  MarkPatch(chunk);
 }
 
 const Point& Layer::anchorPoint() const {
@@ -89,7 +97,10 @@ void Layer::setAnchorPoint(const Point& anchorPoint) {
 
   _anchorPoint = anchorPoint;
   _modelMatrixDirty = true;
-  MarkPatch(PatchChunk::Command::AnchorPoint);
+
+  PatchChunk chunk{PatchChunk::AnchorPoint, _patchIdentifier};
+  chunk.data.anchorPointData.anchorPoint = anchorPoint;
+  MarkPatch(chunk);
 }
 
 const Matrix& Layer::transformation() const {
@@ -103,7 +114,10 @@ void Layer::setTransformation(const Matrix& transformation) {
 
   _transformation = transformation;
   _modelMatrixDirty = true;
-  MarkPatch(PatchChunk::Command::Matrix);
+
+  PatchChunk chunk{PatchChunk::Matrix, _patchIdentifier};
+  chunk.data.matrixData.matrix = transformation;
+  MarkPatch(chunk);
 }
 
 const Matrix& Layer::modelMatrix() {
@@ -180,7 +194,9 @@ void Layer::setBackgroundColor(const Color& backgroundColor) {
 
   _backgroundColor = backgroundColor;
 
-  MarkPatch(PatchChunk::Command::Color);
+  PatchChunk chunk{PatchChunk::Color, _patchIdentifier};
+  chunk.data.colorData.color = backgroundColor;
+  MarkPatch(chunk);
 }
 
 double Layer::opacity() const {
@@ -192,8 +208,11 @@ void Layer::setOpacity(double opacity) {
     return;
   }
 
-  MarkPatch(PatchChunk::Command::Opacity);
   _opacity = opacity;
+
+  PatchChunk chunk{PatchChunk::Opacity, _patchIdentifier};
+  chunk.data.opacityData.opacity = opacity;
+  MarkPatch(chunk);
 }
 
 PatchChunk::Identifier Layer::patchIdentifier() const {

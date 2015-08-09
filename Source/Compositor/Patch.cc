@@ -10,8 +10,8 @@ namespace rl {
 Patch::Patch() : _marks() {
 }
 
-void Patch::mark(const Layer& layer, PatchChunk::Command command) {
-  _marks[layer.patchIdentifier()].insert(command);
+void Patch::mark(const Layer& layer, PatchChunk chunk) {
+  _marks[layer.patchIdentifier()].insert(chunk.command);
 }
 
 bool Patch::hasMessage() const {
