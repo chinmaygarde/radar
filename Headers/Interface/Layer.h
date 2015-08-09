@@ -130,6 +130,13 @@ class Layer {
    */
   std::list<Ref> sublayers() const;
 
+  /**
+   *  Return the current superlayer of the layer
+   *
+   *  @return the superlayer
+   */
+  const Layer* superlayer() const;
+
 #pragma mark - Display Properties
 
   /**

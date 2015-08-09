@@ -165,6 +165,10 @@ std::list<Layer::Ref> Layer::sublayers() const {
   return _sublayers;
 }
 
+const Layer* Layer::superlayer() const {
+  return _superlayer;
+}
+
 const Color& Layer::backgroundColor() const {
   return _backgroundColor;
 }
