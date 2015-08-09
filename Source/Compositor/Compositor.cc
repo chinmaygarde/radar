@@ -22,6 +22,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
 
   _surface->setObserver(this);
   _vsyncSource->setWakeFunction([&] { onVsync(); });
+  _patchChannel->setMessagesReceivedCallback(
+      [&](Messages messages) { onPatchMessages(std::move(messages)); });
 }
 
 Compositor::~Compositor() {
@@ -140,6 +142,10 @@ void Compositor::teardownChannels() {
 
 std::weak_ptr<Channel> Compositor::patchChannel() {
   return _patchChannel;
+}
+
+void Compositor::onPatchMessages(Messages messages) {
+  assert(false && "TODO");
 }
 
 }  // namespace rl

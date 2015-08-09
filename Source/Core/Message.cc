@@ -32,6 +32,15 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate)
   assert(vmDeallocate);
 }
 
+Message::Message(Message&& message) noexcept
+    : _buffer(message._buffer),
+      _bufferLength(message._bufferLength),
+      _dataLength(message._dataLength),
+      _sizeRead(message._sizeRead),
+      _vmDeallocate(message._vmDeallocate) {
+  message._buffer = nullptr;
+}
+
 Message::~Message() {
   if (_vmDeallocate) {
     kern_return_t res =

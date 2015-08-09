@@ -81,6 +81,7 @@ class Compositor : RenderSurfaceObserver {
   void onVsync();
   void setupChannels();
   void teardownChannels();
+  void onPatchMessages(Messages messages);
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

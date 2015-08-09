@@ -25,7 +25,7 @@ class Patch {
    *  @param layer   the layer to mark dirty
    *  @param chunk   the patch chunk used to resolve the update
    */
-  void mark(const Layer& layer, PatchChunk chunk);
+  void mark(PatchChunk chunk);
 
   /**
    *  Determines if this patch produces a valid actionable message.
@@ -43,7 +43,7 @@ class Patch {
   Message flatten() const;
 
  private:
-  std::map<PatchChunk::Identifier, std::set<PatchChunk::Command>> _marks;
+  std::vector<PatchChunk> _marks;
 
   DISALLOW_COPY_AND_ASSIGN(Patch);
 };

@@ -101,8 +101,6 @@ struct PatchChunk {
     MatrixCommandData matrixData;
     OpacityCommandData opacityData;
   } data;
-
-  Message encode();
 };
 }  // namespace rl
 

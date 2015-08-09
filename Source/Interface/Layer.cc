@@ -9,7 +9,7 @@
 
 namespace rl {
 
-#define MarkPatch(x) Interface::current().transaction().patch().mark(*this, (x))
+#define MarkPatch(x) Interface::current().transaction().patch().mark((x))
 
 /*
  *  TODO: There needs to be a better way to denote layer identity when

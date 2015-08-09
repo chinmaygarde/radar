@@ -10,8 +10,8 @@ namespace rl {
 Patch::Patch() : _marks() {
 }
 
-void Patch::mark(const Layer& layer, PatchChunk chunk) {
-  _marks[layer.patchIdentifier()].insert(chunk.command);
+void Patch::mark(PatchChunk chunk) {
+  _marks.emplace_back(chunk);
 }
 
 bool Patch::hasMessage() const {
@@ -19,9 +19,19 @@ bool Patch::hasMessage() const {
 }
 
 Message Patch::flatten() const {
-  Message m;
-  assert(false);
-  return m;
+  /*
+   *  TODO:
+   *  This form of flattening is extremely inefficient due the the presence of
+   *  union. Since we already know the sizes of the data arguments based on
+   *  command, it is easy to optimize this routine to not waste space.
+   */
+  Message message(_marks.size() * sizeof(PatchChunk));
+
+  for (const auto& chunk : _marks) {
+    message.encode(chunk);
+  }
+
+  return message;
 }
 
 }  // namespace rl

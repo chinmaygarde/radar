@@ -45,7 +45,7 @@ class Message {
    */
   explicit Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate);
 
-  Message(Message&& message) noexcept = default;
+  Message(Message&& message) noexcept;
 
   ~Message();
 
