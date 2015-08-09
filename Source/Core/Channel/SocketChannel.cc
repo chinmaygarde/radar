@@ -111,9 +111,25 @@ bool SocketChannel::doTerminate() {
   return false;
 }
 
-SocketChannel::Result SocketChannel::WriteMessage(Message& message) {
+SocketChannel::Result SocketChannel::WriteMessages(const Messages& messages) {
   std::lock_guard<std::mutex> lock(_lock);
 
+  for (const auto& message : messages) {
+    Result res = writeMessageSingle(message);
+    if (res != Result::Success) {
+      return res;
+    }
+  }
+
+  return Result::Success;
+}
+
+/*
+ *  Temporary workaround till we can optimize sending multiple messages in one
+ *  call. We already use scatter gather arrays, so should stick it in there.
+ */
+ChannelProvider::Result SocketChannel::writeMessageSingle(
+    const Message& message) {
   if (message.size() > MaxBufferSize) {
     return Result::TemporaryFailure;
   }
@@ -168,7 +184,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
   vec[0].iov_base = _buffer;
   vec[0].iov_len = MaxBufferSize;
 
-  std::vector<std::unique_ptr<Message>> messages;
+  Messages messages;
 
   while (true) {
     struct msghdr messageHeader = {
@@ -185,7 +201,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
         RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
     if (received > 0) {
-      auto message = make_unique<Message>(_buffer, received);
+      Message message(_buffer, received);
 
       /*
        *  We do not support sending message attachments yet. Assert the same.

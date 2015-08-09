@@ -14,6 +14,10 @@ void Patch::mark(const Layer& layer, PatchChunk::Command command) {
   _marks[layer.patchIdentifier()].insert(command);
 }
 
+bool Patch::hasMessage() const {
+  return _marks.size() > 0;
+}
+
 Message Patch::flatten() const {
   Message m;
   assert(false);

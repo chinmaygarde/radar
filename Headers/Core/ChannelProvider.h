@@ -21,7 +21,7 @@ class ChannelProvider {
     PermanentFailure,
   };
 
-  using ReadResult = std::pair<Result, std::vector<std::unique_ptr<Message>>>;
+  using ReadResult = std::pair<Result, Messages>;
 
   /**
    *  Get a looper source for this channel provider
@@ -31,13 +31,13 @@ class ChannelProvider {
   virtual std::shared_ptr<LooperSource> createSource() const = 0;
 
   /**
-   *  Write a message on the channel provider
+   *  Write messages on the channel provider
    *
-   *  @param message the message to write
+   *  @param messages the messages to write
    *
    *  @return the write result
    */
-  virtual Result WriteMessage(Message& message) = 0;
+  virtual Result WriteMessages(const Messages& message) = 0;
 
   /**
    *  Read a message on the channel provider

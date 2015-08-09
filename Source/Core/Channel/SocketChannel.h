@@ -19,7 +19,7 @@ class SocketChannel : public ChannelProvider {
 
   ~SocketChannel();
   virtual std::shared_ptr<LooperSource> createSource() const override;
-  virtual Result WriteMessage(Message& message) override;
+  virtual Result WriteMessages(const Messages& message) override;
   virtual ReadResult ReadMessages() override;
   virtual bool doTerminate() override;
 
@@ -32,6 +32,7 @@ class SocketChannel : public ChannelProvider {
 
   Handle readHandle() const;
   Handle writeHandle() const;
+  Result writeMessageSingle(const Message& message);
 
   DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };

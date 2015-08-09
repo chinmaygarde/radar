@@ -28,6 +28,13 @@ class Patch {
   void mark(const Layer& layer, PatchChunk::Command command);
 
   /**
+   *  Determines if this patch produces a valid actionable message.
+   *
+   *  @return if this patch has a valid message
+   */
+  bool hasMessage() const;
+
+  /**
    *  Flatten the patch marks into a message that can be sent over a channel to
    *  the compositor
    *

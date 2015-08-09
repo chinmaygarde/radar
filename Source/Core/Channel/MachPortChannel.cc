@@ -49,9 +49,8 @@ struct MachPayload {
            KERN_SUCCESS;
   }
 
-  std::unique_ptr<Message> asMessage() const {
-    return make_unique<Message>(static_cast<uint8_t*>(mem.address), mem.size,
-                                true);
+  Message asMessage() const {
+    return Message(static_cast<uint8_t*>(mem.address), mem.size, true);
   }
 };
 
@@ -132,19 +131,28 @@ std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
   return source;
 }
 
-ChannelProvider::Result MachPortChannel::WriteMessage(Message& message) {
-  MachPayload payload(message, _handle);
+ChannelProvider::Result MachPortChannel::WriteMessages(
+    const Messages& messages) {
+  bool success = true;
+  for (auto const& message : messages) {
+    MachPayload payload(message, _handle);
 
-  return payload.send() ? ChannelProvider::Result::Success
-                        : ChannelProvider::Result::PermanentFailure;
+    if (!payload.send()) {
+      success = false;
+      break;
+    }
+  }
+
+  return success ? ChannelProvider::Result::Success
+                 : ChannelProvider::Result::PermanentFailure;
 }
 
 ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
   MachPayload payload(_handle);
-  std::vector<std::unique_ptr<Message>> messages;
+  Messages messages;
 
   if (payload.receive()) {
-    messages.push_back(payload.asMessage());
+    messages.emplace_back(std::move(payload.asMessage()));
   }
 
   return ChannelProvider::ReadResult(

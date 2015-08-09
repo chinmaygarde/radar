@@ -14,9 +14,10 @@ Patch& InterfaceTransaction::patch() {
 }
 
 void InterfaceTransaction::commit(Channel& channel) {
-  auto message = _patch.flatten();
-  if (message.size() != 0) {
-    channel.sendMessage(message);
+  if (_patch.hasMessage()) {
+    Messages messages;
+    messages.emplace_back(_patch.flatten());
+    channel.sendMessages(std::move(messages));
   }
 }
 

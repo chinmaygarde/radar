@@ -139,7 +139,7 @@ class Message {
   DISALLOW_COPY_AND_ASSIGN(Message);
 };
 
-using Messages = std::vector<std::unique_ptr<Message>>;
+using Messages = std::vector<Message>;
 
 class Serializable {
   virtual void serialize(Message& message) const = 0;

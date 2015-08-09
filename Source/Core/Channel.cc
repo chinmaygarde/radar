@@ -41,14 +41,12 @@ void Channel::terminate() {
   }
 }
 
-bool Channel::sendMessage(Message& message) {
-  RL_ASSERT(message.size() <= 1024);
-
-  if (message.size() == 0) {
+bool Channel::sendMessages(Messages messages) {
+  if (messages.size() == 0) {
     return true;
   }
 
-  auto writeStatus = _provider->WriteMessage(message);
+  auto writeStatus = _provider->WriteMessages(std::move(messages));
 
   if (writeStatus == ChannelProvider::Result::PermanentFailure) {
     /*

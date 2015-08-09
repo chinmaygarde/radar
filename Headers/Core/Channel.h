@@ -32,13 +32,13 @@ class Channel {
 #pragma mark - Sending and receiving messages on channels
 
   /**
-   *  Sends the specified message down the channel
+   *  Sends the specified messages down the channel
    *
-   *  @param message the message to send
+   *  @param messages the messages to send
    *
-   *  @return if the message was successfully sent
+   *  @return if the messages were successfully sent
    */
-  bool sendMessage(Message& message);
+  bool sendMessages(Messages message);
 
   /**
    *  When messages arrive on this channel, a callback may be invoked on the

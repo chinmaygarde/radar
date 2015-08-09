@@ -14,19 +14,21 @@ TouchEventChannel::TouchEventChannel() : Channel() {
 
 void TouchEventChannel::sendTouchEvents(
     const std::vector<TouchEvent>& touchEvents) {
+  Messages messages;
   for (const auto& touch : touchEvents) {
     Message m(sizeof(TouchEvent));
     touch.serialize(m);
-    sendMessage(m);
+    messages.emplace_back(std::move(m));
   }
+  sendMessages(std::move(messages));
 }
 
 void TouchEventChannel::processRawTouches(Messages& messages) {
   std::vector<TouchEvent> touches;
   for (auto& message : messages) {
     TouchEvent e;
-    e.deserialize(*message);
-    assert(message->size() == message->sizeRead());
+    e.deserialize(message);
+    assert(message.size() == message.sizeRead());
   }
 }
 
