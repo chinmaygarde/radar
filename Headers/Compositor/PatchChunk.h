@@ -82,7 +82,7 @@ struct PatchChunk {
 
   Command command;
   Identifier target;
-  union {
+  union Data {
     CreatedCommandData createdData;
     DestroyedCommandData destroyedData;
     AddedToCommandData addedToData;
@@ -93,6 +93,8 @@ struct PatchChunk {
     ColorCommandData colorData;
     MatrixCommandData matrixData;
     OpacityCommandData opacityData;
+
+    Data() { memset(this, 0, sizeof(Data)); };
   } data;
 };
 }  // namespace rl

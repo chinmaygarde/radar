@@ -12,6 +12,7 @@
 #include <Compositor/RenderSurface.h>
 #include <Compositor/PresentationLayer.h>
 #include <Compositor/ProgramCatalog.h>
+#include <Compositor/PresentationGraph.h>
 
 #include <mutex>
 
@@ -68,7 +69,12 @@ class Compositor : RenderSurfaceObserver {
   Size _surfaceSize;
   PresentationLayer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  /*
+   *  TODO: Decide if the graph should own its own channel so that multiple
+   *  interface can connect to this compositor via their own channel.
+   */
   std::shared_ptr<Channel> _patchChannel;
+  PresentationGraph _presentationGraph;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;

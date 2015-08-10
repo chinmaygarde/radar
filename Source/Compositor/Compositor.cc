@@ -17,7 +17,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _rootLayer(nullptr),
       _programCatalog(nullptr),
-      _patchChannel(std::make_shared<Channel>()) {
+      _patchChannel(std::make_shared<Channel>()),
+      _presentationGraph() {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
 
   _surface->setObserver(this);
@@ -145,7 +146,8 @@ std::weak_ptr<Channel> Compositor::patchChannel() {
 }
 
 void Compositor::onPatchMessages(Messages messages) {
-  assert(false && "TODO");
+  bool result = _presentationGraph.applyPatches(std::move(messages));
+  assert(result);
 }
 
 }  // namespace rl
