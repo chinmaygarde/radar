@@ -237,7 +237,14 @@ const Layer::Ref Interface::rootLayer() const {
 }
 
 void Interface::setRootLayer(Layer::Ref layer) {
+  if (_rootLayer == layer) {
+    return;
+  }
+
   _rootLayer = layer;
+
+  PatchChunk chunk{PatchChunk::MakeRoot, layer->patchIdentifier()};
+  transaction().patch().mark(chunk);
 }
 
 }  // namespace rl

@@ -11,12 +11,12 @@
 #include <Compositor/Color.h>
 
 namespace rl {
-class Layer;
 struct PatchChunk {
   using Identifier = uintptr_t;
 
   enum Command {
     Nothing = 0,
+    MakeRoot,
     Created,
     Destroyed,
     AddedTo,
@@ -28,6 +28,12 @@ struct PatchChunk {
     Matrix,
     Opacity,
     Sentinel,
+  };
+
+  struct MakeRootCommandData {
+    /*
+     *  Nothing
+     */
   };
 
   struct CreatedCommandData {
@@ -73,19 +79,6 @@ struct PatchChunk {
   struct OpacityCommandData {
     double opacity;
   };
-
-  static const size_t CreatedCommandDataSize = sizeof(CreatedCommandData);
-  static const size_t DestroyedCommandDataSize = sizeof(DestroyedCommandData);
-  static const size_t AddedToCommandDataSize = sizeof(AddedToCommandData);
-  static const size_t RemovedFromCommandDataSize =
-      sizeof(RemovedFromCommandData);
-  static const size_t BoundsCommandDataSize = sizeof(BoundsCommandData);
-  static const size_t PositionCommandDataSize = sizeof(PositionCommandData);
-  static const size_t AnchorPointCommandDataSize =
-      sizeof(AnchorPointCommandData);
-  static const size_t ColorCommandDataSize = sizeof(ColorCommandData);
-  static const size_t MatrixCommandDataSize = sizeof(MatrixCommandData);
-  static const size_t OpacityCommandDataSize = sizeof(OpacityCommandData);
 
   Command command;
   Identifier target;
