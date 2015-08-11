@@ -22,7 +22,8 @@ struct MachPayload {
       : header({
             .msgh_size = sizeof(MachPayload) - sizeof(mach_msg_trailer_info_t),
             .msgh_remote_port = remote,
-            .msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0),
+            .msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND) |
+                         MACH_MSGH_BITS_COMPLEX,
         }),
         body({.msgh_descriptor_count = 1}),
         mem({
@@ -30,6 +31,7 @@ struct MachPayload {
             .size = static_cast<mach_msg_size_t>(message.size()),
             .deallocate = false,
             .copy = MACH_MSG_VIRTUAL_COPY,
+            .type = MACH_MSG_OOL_DESCRIPTOR,
         }),
         trailer() {}
 
