@@ -18,6 +18,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9E62F8F71B7972DC008DE08E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9E62F8C71B796E9E008DE08E;
+			remoteInfo = RadarLoveTest;
+		};
 		9EAECEF21B685554000FA38A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
@@ -111,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECEF31B685554000FA38A /* libRadarLove.a */,
+				9E62F8F81B7972DC008DE08E /* RadarLoveTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,6 +191,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9E62F8F81B7972DC008DE08E /* RadarLoveTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = RadarLoveTest;
+			remoteRef = 9E62F8F71B7972DC008DE08E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9EAECEF31B685554000FA38A /* libRadarLove.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -243,7 +258,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -261,7 +276,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
@@ -290,7 +304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -308,7 +322,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
