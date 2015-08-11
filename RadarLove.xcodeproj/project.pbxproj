@@ -29,6 +29,7 @@
 		9E62F8DC1B796EDD008DE08E /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECE271B68543F000FA38A /* libRadarLove.a */; };
 		9E62F8DD1B796EDD008DE08E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8B21B796E10008DE08E /* libgtest.a */; };
 		9E62F8DF1B796FC8008DE08E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */; };
+		9E62F8FA1B7983A2008DE08E /* LatchTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.cpp */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
@@ -229,6 +230,7 @@
 		9E62F8A31B796E10008DE08E /* gtest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gtest.xcodeproj; path = Test/GoogleTest/xcode/gtest.xcodeproj; sourceTree = "<group>"; };
 		9E62F8C71B796E9E008DE08E /* RadarLoveTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RadarLoveTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		9E62F8F91B7983A2008DE08E /* LatchTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LatchTest.cpp; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				9E62F80F1B796D81008DE08E /* ServerTest.cc */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */,
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
+				9E62F8F91B7983A2008DE08E /* LatchTest.cpp */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
+				9E62F8FA1B7983A2008DE08E /* LatchTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
