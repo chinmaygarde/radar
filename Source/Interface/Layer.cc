@@ -15,7 +15,6 @@ Layer::Layer()
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
       _modelMatrix(MatrixIdentity),
-      _modelMatrixDirty(true),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _sublayers(),
@@ -43,12 +42,7 @@ const Rect& Layer::bounds() const {
 }
 
 void Layer::setBounds(const Rect& bounds) {
-  if (_bounds == bounds) {
-    return;
-  }
-
   _bounds = bounds;
-  _modelMatrixDirty = true;
 }
 
 const Point& Layer::position() const {
@@ -56,12 +50,7 @@ const Point& Layer::position() const {
 }
 
 void Layer::setPosition(const Point& position) {
-  if (_position == position) {
-    return;
-  }
-
   _position = position;
-  _modelMatrixDirty = true;
 }
 
 const Point& Layer::anchorPoint() const {
@@ -69,12 +58,7 @@ const Point& Layer::anchorPoint() const {
 }
 
 void Layer::setAnchorPoint(const Point& anchorPoint) {
-  if (_anchorPoint == anchorPoint) {
-    return;
-  }
-
   _anchorPoint = anchorPoint;
-  _modelMatrixDirty = true;
 }
 
 const Matrix& Layer::transformation() const {
@@ -82,21 +66,10 @@ const Matrix& Layer::transformation() const {
 }
 
 void Layer::setTransformation(const Matrix& transformation) {
-  if (_transformation == transformation) {
-    return;
-  }
-
   _transformation = transformation;
-  _modelMatrixDirty = true;
 }
 
-const Matrix& Layer::modelMatrix() {
-  if (!_modelMatrixDirty) {
-    return _modelMatrix;
-  }
-
-  _modelMatrixDirty = false;
-
+Matrix Layer::modelMatrix() const {
   const Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
                   _position.y - _anchorPoint.y * _bounds.size.height);
 
@@ -107,9 +80,7 @@ const Matrix& Layer::modelMatrix() {
                        pos.x, pos.y, 0.0, 1.0);
   // clang-format on
 
-  _modelMatrix = translation * transformation();
-
-  return _modelMatrix;
+  return translation * transformation();
 }
 
 void Layer::addSublayer(Layer::Ref layer) {

@@ -106,7 +106,7 @@ class Layer {
    *
    *  @return the model matrix
    */
-  const Matrix& modelMatrix();
+  Matrix modelMatrix() const;
 
 #pragma mark - Layer Hierarchy
   /**
@@ -173,7 +173,6 @@ class Layer {
   Point _anchorPoint;
   Matrix _transformation;
   Matrix _modelMatrix;
-  bool _modelMatrixDirty;
   Color _backgroundColor;
   double _opacity;
   std::list<Ref> _sublayers;
