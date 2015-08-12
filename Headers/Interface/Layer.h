@@ -11,7 +11,6 @@
 #include <Compositor/Color.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
-#include <Compositor/Patch.h>
 
 #include <list>
 
@@ -168,18 +167,7 @@ class Layer {
    */
   void setOpacity(double opacity);
 
-#pragma mark - Layer identification for patching
-
-  /**
-   *  Patches sent to the compositor use this identifier for uniquely
-   *  identifying this layer
-   *
-   *  @return the patch identifier
-   */
-  PatchChunk::Identifier patchIdentifier() const;
-
  private:
-  PatchChunk::Identifier _patchIdentifier;
   Rect _bounds;
   Point _position;
   Point _anchorPoint;

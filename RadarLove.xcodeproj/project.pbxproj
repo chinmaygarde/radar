@@ -36,12 +36,6 @@
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
-		9E67456F1B75737800C1EB34 /* PresentationLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456E1B75737800C1EB34 /* PresentationLayer.h */; };
-		9E6745711B75738B00C1EB34 /* PresentationLayer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745701B75738B00C1EB34 /* PresentationLayer.cc */; };
-		9E6745731B75808700C1EB34 /* Patch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745721B75808700C1EB34 /* Patch.cc */; };
-		9E6745751B75809500C1EB34 /* Patch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745741B75809500C1EB34 /* Patch.h */; };
-		9E6745771B75828A00C1EB34 /* PatchChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745761B75828A00C1EB34 /* PatchChunk.h */; };
-		9E6745791B75829400C1EB34 /* PatchChunk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745781B75829400C1EB34 /* PatchChunk.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
@@ -128,8 +122,6 @@
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
 		EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143B1B6C89630026B6BB /* TimingCurve.h */; };
-		EA63C5FD1B782B1C001BC8F8 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA63C5FC1B782B1C001BC8F8 /* PresentationGraph.cc */; };
-		EA63C5FF1B782B3D001BC8F8 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63C5FE1B782B3D001BC8F8 /* PresentationGraph.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,12 +232,6 @@
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
-		9E67456E1B75737800C1EB34 /* PresentationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationLayer.h; sourceTree = "<group>"; };
-		9E6745701B75738B00C1EB34 /* PresentationLayer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationLayer.cc; sourceTree = "<group>"; };
-		9E6745721B75808700C1EB34 /* Patch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Patch.cc; sourceTree = "<group>"; };
-		9E6745741B75809500C1EB34 /* Patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patch.h; sourceTree = "<group>"; };
-		9E6745761B75828A00C1EB34 /* PatchChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchChunk.h; sourceTree = "<group>"; };
-		9E6745781B75829400C1EB34 /* PatchChunk.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PatchChunk.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,8 +322,6 @@
 		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
 		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
 		EA63143B1B6C89630026B6BB /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
-		EA63C5FC1B782B1C001BC8F8 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
-		EA63C5FE1B782B3D001BC8F8 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -486,10 +470,6 @@
 				EA63143A1B6C89630026B6BB /* Interpolator.h */,
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
-				9E6745741B75809500C1EB34 /* Patch.h */,
-				9E6745761B75828A00C1EB34 /* PatchChunk.h */,
-				EA63C5FE1B782B3D001BC8F8 /* PresentationGraph.h */,
-				9E67456E1B75737800C1EB34 /* PresentationLayer.h */,
 				9EAECE431B685460000FA38A /* Primitive.h */,
 				9EAECE441B685460000FA38A /* Program.h */,
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
@@ -602,10 +582,6 @@
 				EA6314361B6C89510026B6BB /* Interpolator.cc */,
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
-				9E6745721B75808700C1EB34 /* Patch.cc */,
-				9E6745781B75829400C1EB34 /* PatchChunk.cc */,
-				EA63C5FC1B782B1C001BC8F8 /* PresentationGraph.cc */,
-				9E6745701B75738B00C1EB34 /* PresentationLayer.cc */,
 				9EAECE9F1B685469000FA38A /* Primitive.cc */,
 				9EAECEA01B685469000FA38A /* Program.cc */,
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
@@ -734,7 +710,6 @@
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
 				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
-				9E6745771B75828A00C1EB34 /* PatchChunk.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */,
@@ -749,7 +724,6 @@
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
-				9E67456F1B75737800C1EB34 /* PresentationLayer.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
@@ -778,7 +752,6 @@
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
-				9E6745751B75809500C1EB34 /* Patch.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
 				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
 				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
@@ -787,7 +760,6 @@
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
-				EA63C5FF1B782B3D001BC8F8 /* PresentationGraph.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,16 +927,13 @@
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
-				9E6745791B75829400C1EB34 /* PatchChunk.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
-				EA63C5FD1B782B1C001BC8F8 /* PresentationGraph.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
-				9E6745711B75738B00C1EB34 /* PresentationLayer.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
@@ -972,7 +941,6 @@
 				9E62F8FF1B7BEEA4008DE08E /* InterfaceLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
-				9E6745731B75808700C1EB34 /* Patch.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
 				9EAECED41B685469000FA38A /* LooperSource_Apple.cc in Sources */,

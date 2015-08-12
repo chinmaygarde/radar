@@ -6,19 +6,10 @@
 
 namespace rl {
 
-InterfaceTransaction::InterfaceTransaction() : _patch() {
+InterfaceTransaction::InterfaceTransaction() {
 }
 
-Patch& InterfaceTransaction::patch() {
-  return _patch;
-}
-
-void InterfaceTransaction::commit(Channel& channel) {
-  if (_patch.hasMessage()) {
-    Messages messages;
-    messages.emplace_back(_patch.flatten());
-    channel.sendMessages(std::move(messages));
-  }
+void InterfaceTransaction::commit() {
 }
 
 }  // namespace rl

@@ -10,9 +10,7 @@
 #include <Geometry/Size.h>
 
 #include <Compositor/RenderSurface.h>
-#include <Compositor/PresentationLayer.h>
 #include <Compositor/ProgramCatalog.h>
-#include <Compositor/PresentationGraph.h>
 
 #include <mutex>
 
@@ -52,29 +50,13 @@ class Compositor : RenderSurfaceObserver {
    */
   void shutdown(Latch& shutdownLatch);
 
-#pragma mark - Communicating with the Compositor
-
-  /**
-   *  The channel used by interfaces to submit patches to this compositor
-   *
-   *  @return the patch channel
-   */
-  std::weak_ptr<Channel> patchChannel();
-
  private:
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
   std::mutex _lock;
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
-  PresentationLayer::Ref _rootLayer;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  /*
-   *  TODO: Decide if the graph should own its own channel so that multiple
-   *  interface can connect to this compositor via their own channel.
-   */
-  std::shared_ptr<Channel> _patchChannel;
-  PresentationGraph _presentationGraph;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;
@@ -87,7 +69,6 @@ class Compositor : RenderSurfaceObserver {
   void onVsync();
   void setupChannels();
   void teardownChannels();
-  void onPatchMessages(Messages messages);
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

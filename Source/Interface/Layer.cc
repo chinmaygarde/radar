@@ -9,18 +9,8 @@
 
 namespace rl {
 
-#define MarkPatch(x) Interface::current().transaction().patch().mark((x))
-
-/*
- *  TODO: There needs to be a better way to denote layer identity when
- *  communicating with the compositor. Maybe a good first step would be to make
- *  this interface local.
- */
-static PatchChunk::Identifier CurrentPatchIdentifier = 0;
-
 Layer::Layer()
-    : _patchIdentifier(++CurrentPatchIdentifier),
-      _bounds(RectZero),
+    : _bounds(RectZero),
       _position(PointZero),
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
@@ -30,13 +20,9 @@ Layer::Layer()
       _opacity(1.0),
       _sublayers(),
       _superlayer(nullptr) {
-  PatchChunk chunk{PatchChunk::Created, _patchIdentifier};
-  MarkPatch(chunk);
 }
 
 Layer::~Layer() {
-  PatchChunk chunk{PatchChunk::Destroyed, _patchIdentifier};
-  MarkPatch(chunk);
 }
 
 Rect Layer::frame() const {
@@ -63,10 +49,6 @@ void Layer::setBounds(const Rect& bounds) {
 
   _bounds = bounds;
   _modelMatrixDirty = true;
-
-  PatchChunk chunk{PatchChunk::Bounds, _patchIdentifier};
-  chunk.data.boundsData.bounds = bounds;
-  MarkPatch(chunk);
 }
 
 const Point& Layer::position() const {
@@ -80,10 +62,6 @@ void Layer::setPosition(const Point& position) {
 
   _position = position;
   _modelMatrixDirty = true;
-
-  PatchChunk chunk{PatchChunk::Position, _patchIdentifier};
-  chunk.data.positionData.position = position;
-  MarkPatch(chunk);
 }
 
 const Point& Layer::anchorPoint() const {
@@ -97,10 +75,6 @@ void Layer::setAnchorPoint(const Point& anchorPoint) {
 
   _anchorPoint = anchorPoint;
   _modelMatrixDirty = true;
-
-  PatchChunk chunk{PatchChunk::AnchorPoint, _patchIdentifier};
-  chunk.data.anchorPointData.anchorPoint = anchorPoint;
-  MarkPatch(chunk);
 }
 
 const Matrix& Layer::transformation() const {
@@ -114,10 +88,6 @@ void Layer::setTransformation(const Matrix& transformation) {
 
   _transformation = transformation;
   _modelMatrixDirty = true;
-
-  PatchChunk chunk{PatchChunk::Matrix, _patchIdentifier};
-  chunk.data.matrixData.matrix = transformation;
-  MarkPatch(chunk);
 }
 
 const Matrix& Layer::modelMatrix() {
@@ -193,10 +163,6 @@ void Layer::setBackgroundColor(const Color& backgroundColor) {
   }
 
   _backgroundColor = backgroundColor;
-
-  PatchChunk chunk{PatchChunk::Color, _patchIdentifier};
-  chunk.data.colorData.color = backgroundColor;
-  MarkPatch(chunk);
 }
 
 double Layer::opacity() const {
@@ -209,14 +175,6 @@ void Layer::setOpacity(double opacity) {
   }
 
   _opacity = opacity;
-
-  PatchChunk chunk{PatchChunk::Opacity, _patchIdentifier};
-  chunk.data.opacityData.opacity = opacity;
-  MarkPatch(chunk);
-}
-
-PatchChunk::Identifier Layer::patchIdentifier() const {
-  return _patchIdentifier;
 }
 
 }  // namespace rl

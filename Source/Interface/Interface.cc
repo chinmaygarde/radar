@@ -17,8 +17,7 @@ static pthread_key_t InterfaceTLSKey() {
   return interfaceKey;
 }
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<Channel> patchChannel)
+Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _looper(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -26,7 +25,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _transactionStack(),
       _touchEventChannel(),
       _delegate(delegate),
-      _patchChannel(patchChannel),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -127,10 +125,7 @@ void Interface::popTransaction() {
     return;
   }
 
-  if (auto patchChannel = _patchChannel.lock()) {
-    _transactionStack.top().commit(*patchChannel);
-  }
-
+  _transactionStack.top().commit();
   _transactionStack.pop();
 }
 
@@ -147,12 +142,8 @@ void Interface::armAutoFlushTransactions(bool arm) {
 void Interface::flushTransactions() {
   std::lock_guard<std::mutex> lock(_lock);
 
-  auto patchChannel = _patchChannel.lock();
-
   while (_transactionStack.size() != 0) {
-    if (patchChannel) {
-      _transactionStack.top().commit(*patchChannel);
-    }
+    _transactionStack.top().commit();
     _transactionStack.pop();
   }
 }
@@ -242,9 +233,6 @@ void Interface::setRootLayer(Layer::Ref layer) {
   }
 
   _rootLayer = layer;
-
-  PatchChunk chunk{PatchChunk::MakeRoot, layer->patchIdentifier()};
-  transaction().patch().mark(chunk);
 }
 
 }  // namespace rl

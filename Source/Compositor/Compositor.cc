@@ -15,16 +15,11 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _lock(),
       _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))),
       _surfaceSize(SizeZero),
-      _rootLayer(nullptr),
-      _programCatalog(nullptr),
-      _patchChannel(std::make_shared<Channel>()),
-      _presentationGraph() {
+      _programCatalog(nullptr) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
 
   _surface->setObserver(this);
   _vsyncSource->setWakeFunction([&] { onVsync(); });
-  _patchChannel->setMessagesReceivedCallback(
-      [&](Messages messages) { onPatchMessages(std::move(messages)); });
 }
 
 Compositor::~Compositor() {
@@ -115,10 +110,6 @@ void Compositor::drawFrame() {
 
   frame.begin();
 
-  if (_rootLayer) {
-    _rootLayer->drawInFrame(frame);
-  }
-
   frame.end();
 }
 
@@ -132,22 +123,9 @@ void Compositor::onVsync() {
 }
 
 void Compositor::setupChannels() {
-  bool res = _looper->addSource(_patchChannel->source());
-  assert(res == true);
 }
 
 void Compositor::teardownChannels() {
-  bool res = _looper->removeSource(_patchChannel->source());
-  assert(res == true);
-}
-
-std::weak_ptr<Channel> Compositor::patchChannel() {
-  return _patchChannel;
-}
-
-void Compositor::onPatchMessages(Messages messages) {
-  bool result = _presentationGraph.applyPatches(std::move(messages));
-  assert(result);
 }
 
 }  // namespace rl
