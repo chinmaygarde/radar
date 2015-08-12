@@ -93,8 +93,8 @@ SharedMemory::SharedMemory(size_t size)
    *  Step 3: Memory map a region with the given handle
    */
 
-  _address =
-      ::mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, _handle, 0);
+  _address = static_cast<uint8_t*>(
+      ::mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, _handle, 0));
 
   if (_address == MAP_FAILED) {
     goto failure;
@@ -149,7 +149,7 @@ bool SharedMemory::isReady() const {
   return _ready;
 }
 
-void* SharedMemory::address() const {
+uint8_t* SharedMemory::address() const {
   return _address;
 }
 

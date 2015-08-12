@@ -40,7 +40,7 @@ class SharedMemory {
    *
    *  @return the shared memory reference address
    */
-  void* address() const;
+  uint8_t* address() const;
 
   /**
    *  Returns the size of the shared memory reference
@@ -59,7 +59,7 @@ class SharedMemory {
  private:
   Handle _handle;
   size_t _size;
-  void* _address;
+  uint8_t* _address;
   bool _ready;
 
   DISALLOW_COPY_AND_ASSIGN(SharedMemory);

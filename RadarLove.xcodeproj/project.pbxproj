@@ -29,7 +29,10 @@
 		9E62F8DC1B796EDD008DE08E /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECE271B68543F000FA38A /* libRadarLove.a */; };
 		9E62F8DD1B796EDD008DE08E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8B21B796E10008DE08E /* libgtest.a */; };
 		9E62F8DF1B796FC8008DE08E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */; };
-		9E62F8FA1B7983A2008DE08E /* LatchTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.cpp */; };
+		9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.cc */; };
+		9E62F8FF1B7BEEA4008DE08E /* InterfaceLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8FE1B7BEEA4008DE08E /* InterfaceLease.cc */; };
+		9E62F9091B7BEEB2008DE08E /* InterfaceLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9081B7BEEB2008DE08E /* InterfaceLease.h */; };
+		9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
@@ -230,7 +233,10 @@
 		9E62F8A31B796E10008DE08E /* gtest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gtest.xcodeproj; path = Test/GoogleTest/xcode/gtest.xcodeproj; sourceTree = "<group>"; };
 		9E62F8C71B796E9E008DE08E /* RadarLoveTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RadarLoveTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		9E62F8F91B7983A2008DE08E /* LatchTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LatchTest.cpp; sourceTree = "<group>"; };
+		9E62F8F91B7983A2008DE08E /* LatchTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LatchTest.cc; sourceTree = "<group>"; };
+		9E62F8FE1B7BEEA4008DE08E /* InterfaceLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceLease.cc; sourceTree = "<group>"; };
+		9E62F9081B7BEEB2008DE08E /* InterfaceLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceLease.h; sourceTree = "<group>"; };
+		9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceLeaseTest.cc; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
@@ -382,7 +388,8 @@
 				9E62F80F1B796D81008DE08E /* ServerTest.cc */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */,
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
-				9E62F8F91B7983A2008DE08E /* LatchTest.cpp */,
+				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
+				9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -475,6 +482,7 @@
 				9EAECE3E1B685460000FA38A /* Color.h */,
 				9EAECE3F1B685460000FA38A /* Compositor.h */,
 				9EAECE401B685460000FA38A /* Frame.h */,
+				9E62F9081B7BEEB2008DE08E /* InterfaceLease.h */,
 				EA63143A1B6C89630026B6BB /* Interpolator.h */,
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
@@ -590,6 +598,7 @@
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
 				9EAECE9C1B685469000FA38A /* Frame.cc */,
+				9E62F8FE1B7BEEA4008DE08E /* InterfaceLease.cc */,
 				EA6314361B6C89510026B6BB /* Interpolator.cc */,
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
@@ -748,6 +757,7 @@
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
 				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
+				9E62F9091B7BEEB2008DE08E /* InterfaceLease.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
@@ -922,11 +932,12 @@
 				9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */,
 				9E62F8D51B796ED3008DE08E /* LooperTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
+				9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
 				9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
-				9E62F8FA1B7983A2008DE08E /* LatchTest.cpp in Sources */,
+				9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,6 +969,7 @@
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
+				9E62F8FF1B7BEEA4008DE08E /* InterfaceLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9E6745731B75808700C1EB34 /* Patch.cc in Sources */,
