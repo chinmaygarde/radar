@@ -74,10 +74,10 @@ Matrix Layer::modelMatrix() const {
                   _position.y - _anchorPoint.y * _bounds.size.height);
 
   // clang-format off
-    Matrix translation(1.0,   0.0,   0.0, 0.0,
-                       0.0,   1.0,   0.0, 0.0,
-                       0.0,   0.0,   1.0, 0.0,
-                       pos.x, pos.y, 0.0, 1.0);
+  Matrix translation(1.0,   0.0,   0.0, 0.0,
+                     0.0,   1.0,   0.0, 0.0,
+                     0.0,   0.0,   1.0, 0.0,
+                     pos.x, pos.y, 0.0, 1.0);
   // clang-format on
 
   return translation * transformation();
@@ -129,10 +129,6 @@ const Color& Layer::backgroundColor() const {
 }
 
 void Layer::setBackgroundColor(const Color& backgroundColor) {
-  if (_backgroundColor == backgroundColor) {
-    return;
-  }
-
   _backgroundColor = backgroundColor;
 }
 
@@ -141,10 +137,6 @@ double Layer::opacity() const {
 }
 
 void Layer::setOpacity(double opacity) {
-  if (_opacity == opacity) {
-    return;
-  }
-
   _opacity = opacity;
 }
 
