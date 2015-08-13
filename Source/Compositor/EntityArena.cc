@@ -6,8 +6,20 @@
 
 namespace rl {
 
-EntityArena::EntityArena(uint8_t* base, size_t maxSize)
-    : _maxSize(maxSize), _base(base), _utilization(0) {
+struct EntityArenaHeader {
+  size_t entityCount;
+};
+
+EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
+    : _maxSize(maxSize), _base(base), _decodedEntities(0), _utilization(0) {
+  assert(maxSize > sizeof(EntityArenaHeader));
+
+  if (reader) {
+    auto header = reinterpret_cast<EntityArenaHeader*>(base);
+    _encodedEntities = header->entityCount;
+  } else {
+    _encodedEntities = 0;
+  }
 }
 
 PresentationEntity* EntityArena::emplacePresentationEntity(
@@ -18,10 +30,22 @@ PresentationEntity* EntityArena::emplacePresentationEntity(
     return nullptr;
   }
 
+  reinterpret_cast<EntityArenaHeader*>(_base)->entityCount = ++_encodedEntities;
+
   return (new (allocation) PresentationEntity(entity));
 }
 
+size_t EntityArena::encodedEntities() const {
+  return _encodedEntities;
+}
+
 PresentationEntity* EntityArena::acquireEmplacedEntity() {
+  if (_decodedEntities == _encodedEntities) {
+    return nullptr;
+  }
+
+  _decodedEntities++;
+
   return (
       reinterpret_cast<PresentationEntity*>(alloc(sizeof(PresentationEntity))));
 }

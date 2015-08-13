@@ -12,14 +12,18 @@ namespace rl {
 
 class EntityArena {
  public:
-  EntityArena(uint8_t* base, size_t maxSize);
+  EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
   PresentationEntity* emplacePresentationEntity(const Entity& entity);
   PresentationEntity* acquireEmplacedEntity();
 
+  size_t encodedEntities() const;
+
  private:
-  size_t _maxSize;
   uint8_t* _base;
+  size_t _maxSize;
+  size_t _encodedEntities;
+  size_t _decodedEntities;
   size_t _utilization;
 
   void* alloc(size_t bytes);

@@ -158,7 +158,23 @@ void Interface::finalizeLeaseWrite() {
     return;
   }
 
-  _writeArena.emplacePresentationEntity(*_rootLayer);
+  /*
+   *  Serialize entities to the current write arena in rendering order
+   */
+  std::stack<Layer::Ref> stack;
+  stack.push(_rootLayer);
+
+  while (stack.size() > 0) {
+    auto current = stack.top();
+    _writeArena.emplacePresentationEntity(*current);
+    stack.pop();
+
+    auto& sublayers = current->sublayers();
+    for (auto i = sublayers.rbegin(), end = sublayers.rend(); i != end; ++i) {
+      stack.push(*i);
+    }
+  }
+
   _writeArena = _lease.swapWriteAndNotify();
 }
 

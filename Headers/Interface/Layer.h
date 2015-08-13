@@ -44,7 +44,7 @@ class Layer : public Entity {
    *
    *  @return the sublayers of this layer
    */
-  std::list<Ref> sublayers() const;
+  const std::list<Ref>& sublayers() const;
 
   /**
    *  Return the current superlayer of the layer

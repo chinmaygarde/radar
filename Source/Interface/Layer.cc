@@ -48,7 +48,7 @@ void Layer::removeSublayer(Layer::Ref layer) {
   }
 }
 
-std::list<Layer::Ref> Layer::sublayers() const {
+const std::list<Layer::Ref>& Layer::sublayers() const {
   return _sublayers;
 }
 

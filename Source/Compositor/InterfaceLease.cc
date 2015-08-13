@@ -16,26 +16,26 @@ struct LeaseHeader {
 static_assert(sizeof(std::atomic<uint8_t*>) == sizeof(uint8_t*),
               "Sizes must be consistent");
 
-InterfaceLease::InterfaceLease(size_t layerCount)
-    : _layerCount(layerCount),
+InterfaceLease::InterfaceLease(size_t requested_count)
+    : _layerCount(requested_count + 1),
       _sharedMemory(sizeof(LeaseHeader) +
-                    (3 * layerCount * sizeof(PresentationEntity))),
+                    (3 * _layerCount * sizeof(PresentationEntity))),
       _writeNotificationSource(LooperSource::AsTrivial()) {
   assert(_sharedMemory.isReady());
 
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->readBuffer = _sharedMemory.address() + sizeof(LeaseHeader);
   header->writeBuffer =
-      header->readBuffer + layerCount * sizeof(PresentationEntity);
+      header->readBuffer + _layerCount * sizeof(PresentationEntity);
   header->backBuffer =
-      header->writeBuffer + layerCount * sizeof(PresentationEntity);
+      header->writeBuffer + _layerCount * sizeof(PresentationEntity);
 }
 
 EntityArena InterfaceLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->backBuffer = header->readBuffer.exchange(header->backBuffer);
   return EntityArena(header->readBuffer,
-                     _layerCount * sizeof(PresentationEntity));
+                     _layerCount * sizeof(PresentationEntity), true);
 }
 
 EntityArena InterfaceLease::swapWriteAndNotify(bool notify) {
@@ -43,7 +43,7 @@ EntityArena InterfaceLease::swapWriteAndNotify(bool notify) {
   if (notify) {
     _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
   }
-  return EntityArena(ret, _layerCount * sizeof(PresentationEntity));
+  return EntityArena(ret, _layerCount * sizeof(PresentationEntity), false);
 }
 
 uint8_t* InterfaceLease::swapWrite() {
