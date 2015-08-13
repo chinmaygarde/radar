@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/InterfaceLease.h>
-#include <Interface/Layer.h>
+#include <Compositor/PresentationLayer.h>
 #include <atomic>
 
 namespace rl {
@@ -17,14 +17,17 @@ static_assert(sizeof(std::atomic<uint8_t*>) == sizeof(uint8_t*),
               "Sizes must be consistent");
 
 InterfaceLease::InterfaceLease(size_t layerCount)
-    : _sharedMemory(sizeof(LeaseHeader) + (3 * layerCount * sizeof(Layer))),
+    : _sharedMemory(sizeof(LeaseHeader) +
+                    (3 * layerCount * sizeof(PresentationLayer))),
       _writeNotificationSource(LooperSource::AsTrivial()) {
   assert(_sharedMemory.isReady());
 
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->readBuffer = _sharedMemory.address() + sizeof(LeaseHeader);
-  header->writeBuffer = header->readBuffer + layerCount * sizeof(Layer);
-  header->backBuffer = header->writeBuffer + layerCount * sizeof(Layer);
+  header->writeBuffer =
+      header->readBuffer + layerCount * sizeof(PresentationLayer);
+  header->backBuffer =
+      header->writeBuffer + layerCount * sizeof(PresentationLayer);
 }
 
 uint8_t* InterfaceLease::swapRead() {

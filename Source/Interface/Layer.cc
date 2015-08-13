@@ -9,78 +9,10 @@
 
 namespace rl {
 
-Layer::Layer()
-    : _bounds(RectZero),
-      _position(PointZero),
-      _anchorPoint(Point(0.5, 0.5)),
-      _transformation(MatrixIdentity),
-      _modelMatrix(MatrixIdentity),
-      _backgroundColor(ColorWhiteTransparent),
-      _opacity(1.0),
-      _sublayers(),
-      _superlayer(nullptr) {
+Layer::Layer() : Entity(), _sublayers(), _superlayer(nullptr) {
 }
 
 Layer::~Layer() {
-}
-
-Rect Layer::frame() const {
-  Point origin(_position.x - (_bounds.size.width * _anchorPoint.x),
-               _position.y - (_bounds.size.height * _anchorPoint.y));
-
-  return Rect(origin, _bounds.size);
-}
-
-void Layer::setFrame(const Rect& frame) {
-  setBounds(Rect(_bounds.origin, frame.size));
-  setPosition(Point(frame.origin.x + (_anchorPoint.x * frame.size.width),
-                    frame.origin.y + (_anchorPoint.y * frame.size.height)));
-}
-
-const Rect& Layer::bounds() const {
-  return _bounds;
-}
-
-void Layer::setBounds(const Rect& bounds) {
-  _bounds = bounds;
-}
-
-const Point& Layer::position() const {
-  return _position;
-}
-
-void Layer::setPosition(const Point& position) {
-  _position = position;
-}
-
-const Point& Layer::anchorPoint() const {
-  return _anchorPoint;
-}
-
-void Layer::setAnchorPoint(const Point& anchorPoint) {
-  _anchorPoint = anchorPoint;
-}
-
-const Matrix& Layer::transformation() const {
-  return _transformation;
-}
-
-void Layer::setTransformation(const Matrix& transformation) {
-  _transformation = transformation;
-}
-
-Matrix Layer::modelMatrix() const {
-  const Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
-                  _position.y - _anchorPoint.y * _bounds.size.height);
-
-  // clang-format off
-  Matrix translation(1.0,   0.0,   0.0, 0.0,
-                     0.0,   1.0,   0.0, 0.0,
-                     0.0,   0.0,   1.0, 0.0,
-                     pos.x, pos.y, 0.0, 1.0);
-  // clang-format on
-
-  return translation * transformation();
 }
 
 void Layer::addSublayer(Layer::Ref layer) {
@@ -122,22 +54,6 @@ std::list<Layer::Ref> Layer::sublayers() const {
 
 const Layer* Layer::superlayer() const {
   return _superlayer;
-}
-
-const Color& Layer::backgroundColor() const {
-  return _backgroundColor;
-}
-
-void Layer::setBackgroundColor(const Color& backgroundColor) {
-  _backgroundColor = backgroundColor;
-}
-
-double Layer::opacity() const {
-  return _opacity;
-}
-
-void Layer::setOpacity(double opacity) {
-  _opacity = opacity;
 }
 
 }  // namespace rl

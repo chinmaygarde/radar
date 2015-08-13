@@ -33,6 +33,10 @@
 		9E62F8FF1B7BEEA4008DE08E /* InterfaceLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8FE1B7BEEA4008DE08E /* InterfaceLease.cc */; };
 		9E62F9091B7BEEB2008DE08E /* InterfaceLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9081B7BEEB2008DE08E /* InterfaceLease.h */; };
 		9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */; };
+		9E62F90D1B7C1672008DE08E /* PresentationLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F90C1B7C1672008DE08E /* PresentationLayer.h */; };
+		9E62F90F1B7C1683008DE08E /* PresentationLayer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90E1B7C1683008DE08E /* PresentationLayer.cc */; };
+		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
+		9E62F9131B7C19AF008DE08E /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9121B7C19AF008DE08E /* Entity.h */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
@@ -229,6 +233,10 @@
 		9E62F8FE1B7BEEA4008DE08E /* InterfaceLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceLease.cc; sourceTree = "<group>"; };
 		9E62F9081B7BEEB2008DE08E /* InterfaceLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceLease.h; sourceTree = "<group>"; };
 		9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceLeaseTest.cc; sourceTree = "<group>"; };
+		9E62F90C1B7C1672008DE08E /* PresentationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationLayer.h; sourceTree = "<group>"; };
+		9E62F90E1B7C1683008DE08E /* PresentationLayer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationLayer.cc; sourceTree = "<group>"; };
+		9E62F9101B7C199D008DE08E /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
+		9E62F9121B7C19AF008DE08E /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
@@ -470,6 +478,7 @@
 				EA63143A1B6C89630026B6BB /* Interpolator.h */,
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
+				9E62F90C1B7C1672008DE08E /* PresentationLayer.h */,
 				9EAECE431B685460000FA38A /* Primitive.h */,
 				9EAECE441B685460000FA38A /* Program.h */,
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
@@ -525,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				9E222CDF1B6A9394005D02EE /* Action.h */,
+				9E62F9121B7C19AF008DE08E /* Entity.h */,
 				9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */,
 				9EAECE621B685460000FA38A /* Interface.h */,
 				9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */,
@@ -582,6 +592,7 @@
 				EA6314361B6C89510026B6BB /* Interpolator.cc */,
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
+				9E62F90E1B7C1683008DE08E /* PresentationLayer.cc */,
 				9EAECE9F1B685469000FA38A /* Primitive.cc */,
 				9EAECEA01B685469000FA38A /* Program.cc */,
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
@@ -654,6 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				9E222CDB1B6A9387005D02EE /* Action.cc */,
+				9E62F9101B7C199D008DE08E /* Entity.cc */,
 				9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */,
 				9EAECEC01B685469000FA38A /* Interface.cc */,
 				9E67456C1B756FD200C1EB34 /* Layer.cc */,
@@ -725,6 +737,7 @@
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
+				9E62F90D1B7C1672008DE08E /* PresentationLayer.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				9E293DD51B72EB680037A431 /* StateMachine.h in Headers */,
@@ -751,6 +764,7 @@
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
+				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
 				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
@@ -920,6 +934,7 @@
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
+				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */,
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
@@ -934,6 +949,7 @@
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
+				9E62F90F1B7C1683008DE08E /* PresentationLayer.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,

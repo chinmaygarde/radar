@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 
-#include <Geometry/Rect.h>
+#include <Interface/Entity.h>
 #include <Compositor/Color.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
@@ -15,7 +15,7 @@
 #include <list>
 
 namespace rl {
-class Layer {
+class Layer : public Entity {
  public:
   using Ref = std::shared_ptr<Layer>;
 
@@ -24,89 +24,6 @@ class Layer {
   Layer();
 
   ~Layer();
-
-#pragma mark - Layer Geometry
-
-  /**
-   *  The frame specifies the origin and size of the layer in the coordinate
-   *  space of its parent. This is a computed property derived from the bounds
-   *  of the layer and its position.
-   *
-   *  @return the frame of the layer
-   */
-  Rect frame() const;
-
-  /**
-   *  Set the frame of the layer
-   *
-   *  @param frame the new frame
-   */
-  void setFrame(const Rect& frame);
-
-  /**
-   *  The bounds specifies the origin and size of the layer in its own
-   *  coordinate space.
-   *
-   *  @return the bounds of the layer
-   */
-  const Rect& bounds() const;
-
-  /**
-   *  Set the bounds of the layer
-   *
-   *  @param bounds the new bounds
-   */
-  void setBounds(const Rect& bounds);
-
-  /**
-   *  The position specifies the coordinates of the anchor position of the
-   *  layer relative to its parent
-   *
-   *  @return the position of the layer
-   */
-  const Point& position() const;
-
-  /**
-   *  Sets the position of the layer
-   *
-   *  @param point the new position
-   */
-  void setPosition(const Point& point);
-
-  /**
-   *  The position of the anchor point within this node in unit space
-   *
-   *  @return the anchor point
-   */
-  const Point& anchorPoint() const;
-
-  /**
-   *  Sets the new anchor point of this node
-   *
-   *  @param anchorPoint the new anchor point
-   */
-  void setAnchorPoint(const Point& anchorPoint);
-
-  /**
-   *  The transformation that is applied to the layer about its anchor point
-   *
-   *  @return the transformation applied to the node
-   */
-  const Matrix& transformation() const;
-
-  /**
-   *  Sets the transformation of the layer
-   *
-   *  @param transformation the new transformation
-   */
-  void setTransformation(const Matrix& transformation);
-
-  /**
-   *  The effective model matrix of the layer
-   *
-   *  @return the model matrix
-   */
-  Matrix modelMatrix() const;
 
 #pragma mark - Layer Hierarchy
   /**
@@ -136,45 +53,7 @@ class Layer {
    */
   const Layer* superlayer() const;
 
-#pragma mark - Display Properties
-
-  /**
-   *  The background color of the layer
-   *
-   *  @return the background color
-   */
-  const Color& backgroundColor() const;
-
-  /**
-   *  Set the new background color of the layer
-   *
-   *  @param backgroundColor the new background color
-   */
-  void setBackgroundColor(const Color& backgroundColor);
-
-  /**
-   *  The opacity of the layer. 0.0 is fully transparent and 1.0 is fully
-   *  opaque. Default it 1.0.
-   *
-   *  @return the opacity of the layer
-   */
-  double opacity() const;
-
-  /**
-   *  Set the new opacity of the layer
-   *
-   *  @param opacity the new opacity
-   */
-  void setOpacity(double opacity);
-
  private:
-  Rect _bounds;
-  Point _position;
-  Point _anchorPoint;
-  Matrix _transformation;
-  Matrix _modelMatrix;
-  Color _backgroundColor;
-  double _opacity;
   std::list<Ref> _sublayers;
   Layer* _superlayer;
 
