@@ -22,7 +22,7 @@ Shell::Shell(std::shared_ptr<RenderSurface> surface,
       _compositorThread(),
       _compositor(surface),
       _interfaceThread(),
-      _interface(delegate) {
+      _interface(delegate, _compositor.acquireLease()) {
   Time::LoggingBootTime();
   attachHostOnCurrentThread();
 }

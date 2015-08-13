@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Compositor/PresentationLayer.h>
+#include <Compositor/PresentationEntity.h>
 
 namespace rl {
 
-PresentationLayer::PresentationLayer(const Layer& layer) {
+PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
 }
 
-PresentationLayer::~PresentationLayer() {
+PresentationEntity::~PresentationEntity() {
   assert(false);
 }
 

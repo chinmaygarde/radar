@@ -11,6 +11,7 @@
 
 #include <Compositor/RenderSurface.h>
 #include <Compositor/ProgramCatalog.h>
+#include <Compositor/InterfaceLease.h>
 
 #include <mutex>
 
@@ -50,6 +51,10 @@ class Compositor : RenderSurfaceObserver {
    */
   void shutdown(Latch& shutdownLatch);
 
+#pragma mark - Interface Lease Management
+
+  InterfaceLease& acquireLease(size_t layer = 256);
+
  private:
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
@@ -57,6 +62,7 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  std::unique_ptr<InterfaceLease> _interfaceLease;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;
@@ -67,8 +73,10 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void drawFrame();
   void onVsync();
+  void onInterfaceDidUpdate();
   void setupChannels();
   void teardownChannels();
+  void manageInterfaceUpdates(bool schedule);
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

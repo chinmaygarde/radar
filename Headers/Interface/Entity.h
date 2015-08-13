@@ -18,7 +18,7 @@ class Entity {
   /**
    *  Construct a default entity
    */
-  Entity();
+  Entity(bool notifiesInterfaceOnUpdate = false);
 
   ~Entity();
 
@@ -143,8 +143,11 @@ class Entity {
   Matrix _transformation;
   Color _backgroundColor;
   double _opacity;
+  bool _notifiesInterfaceOnUpdate;
 
-  DISALLOW_COPY_AND_ASSIGN(Entity);
+  void notifyInterfaceIfNecessary();
+
+  void operator=(Entity) = delete;
 };
 
 }  // namespace rl

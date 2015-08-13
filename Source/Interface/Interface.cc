@@ -17,7 +17,8 @@ static pthread_key_t InterfaceTLSKey() {
   return interfaceKey;
 }
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
+Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
+                     InterfaceLease& lease)
     : _looper(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -25,6 +26,8 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
       _transactionStack(),
       _touchEventChannel(),
       _delegate(delegate),
+      _lease(lease),
+      _writeArena(_lease.swapWriteAndNotify(false)),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -146,6 +149,17 @@ void Interface::flushTransactions() {
     _transactionStack.top().commit();
     _transactionStack.pop();
   }
+
+  finalizeLeaseWrite();
+}
+
+void Interface::finalizeLeaseWrite() {
+  if (_rootLayer == nullptr) {
+    return;
+  }
+
+  _writeArena.emplacePresentationEntity(*_rootLayer);
+  _writeArena = _lease.swapWriteAndNotify();
 }
 
 void Interface::setupEventChannels() {
@@ -228,10 +242,6 @@ const Layer::Ref Interface::rootLayer() const {
 }
 
 void Interface::setRootLayer(Layer::Ref layer) {
-  if (_rootLayer == layer) {
-    return;
-  }
-
   _rootLayer = layer;
 }
 

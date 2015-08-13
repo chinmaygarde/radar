@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/InterfaceLease.h>
-#include <Compositor/PresentationLayer.h>
+#include <Compositor/PresentationEntity.h>
 #include <atomic>
 
 namespace rl {
@@ -17,29 +17,33 @@ static_assert(sizeof(std::atomic<uint8_t*>) == sizeof(uint8_t*),
               "Sizes must be consistent");
 
 InterfaceLease::InterfaceLease(size_t layerCount)
-    : _sharedMemory(sizeof(LeaseHeader) +
-                    (3 * layerCount * sizeof(PresentationLayer))),
+    : _layerCount(layerCount),
+      _sharedMemory(sizeof(LeaseHeader) +
+                    (3 * layerCount * sizeof(PresentationEntity))),
       _writeNotificationSource(LooperSource::AsTrivial()) {
   assert(_sharedMemory.isReady());
 
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->readBuffer = _sharedMemory.address() + sizeof(LeaseHeader);
   header->writeBuffer =
-      header->readBuffer + layerCount * sizeof(PresentationLayer);
+      header->readBuffer + layerCount * sizeof(PresentationEntity);
   header->backBuffer =
-      header->writeBuffer + layerCount * sizeof(PresentationLayer);
+      header->writeBuffer + layerCount * sizeof(PresentationEntity);
 }
 
-uint8_t* InterfaceLease::swapRead() {
+EntityArena InterfaceLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->backBuffer = header->readBuffer.exchange(header->backBuffer);
-  return header->readBuffer;
+  return EntityArena(header->readBuffer,
+                     _layerCount * sizeof(PresentationEntity));
 }
 
-uint8_t* InterfaceLease::swapWriteAndNotify() {
+EntityArena InterfaceLease::swapWriteAndNotify(bool notify) {
   auto ret = swapWrite();
-  _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
-  return ret;
+  if (notify) {
+    _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
+  }
+  return EntityArena(ret, _layerCount * sizeof(PresentationEntity));
 }
 
 uint8_t* InterfaceLease::swapWrite() {

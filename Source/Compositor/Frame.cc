@@ -37,7 +37,7 @@ void Frame::end() {
 }
 
 void Frame::setupFreshFrame() {
-  RL_GLAssert("There must be no errors before attempting a fresh frame");
+  glGetError();
 
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

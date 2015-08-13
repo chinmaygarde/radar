@@ -3,16 +3,18 @@
 // found in the LICENSE file.
 
 #include <Interface/Entity.h>
+#include <Interface/Interface.h>
 
 namespace rl {
 
-Entity::Entity()
+Entity::Entity(bool notifiesInterfaceOnUpdate)
     : _bounds(RectZero),
       _position(PointZero),
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
       _backgroundColor(ColorWhiteTransparent),
-      _opacity(1.0) {
+      _opacity(1.0),
+      _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
 }
 
 Entity::~Entity() {
@@ -37,6 +39,7 @@ const Rect& Entity::bounds() const {
 
 void Entity::setBounds(const Rect& bounds) {
   _bounds = bounds;
+  notifyInterfaceIfNecessary();
 }
 
 const Point& Entity::position() const {
@@ -45,6 +48,7 @@ const Point& Entity::position() const {
 
 void Entity::setPosition(const Point& position) {
   _position = position;
+  notifyInterfaceIfNecessary();
 }
 
 const Point& Entity::anchorPoint() const {
@@ -53,6 +57,7 @@ const Point& Entity::anchorPoint() const {
 
 void Entity::setAnchorPoint(const Point& anchorPoint) {
   _anchorPoint = anchorPoint;
+  notifyInterfaceIfNecessary();
 }
 
 const Matrix& Entity::transformation() const {
@@ -61,6 +66,7 @@ const Matrix& Entity::transformation() const {
 
 void Entity::setTransformation(const Matrix& transformation) {
   _transformation = transformation;
+  notifyInterfaceIfNecessary();
 }
 
 Matrix Entity::modelMatrix() const {
@@ -83,6 +89,7 @@ const Color& Entity::backgroundColor() const {
 
 void Entity::setBackgroundColor(const Color& backgroundColor) {
   _backgroundColor = backgroundColor;
+  notifyInterfaceIfNecessary();
 }
 
 double Entity::opacity() const {
@@ -91,6 +98,17 @@ double Entity::opacity() const {
 
 void Entity::setOpacity(double opacity) {
   _opacity = opacity;
+  notifyInterfaceIfNecessary();
+}
+
+void Entity::notifyInterfaceIfNecessary() {
+  if (!_notifiesInterfaceOnUpdate) {
+    return;
+  }
+
+  // TODO: Since no actions may be attached to property updates just yet, we
+  // only ensure a transaction exists on the transaction stack
+  Interface::current().transaction();
 }
 
 }  // namespace rl

@@ -15,9 +15,9 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _lock(),
       _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))),
       _surfaceSize(SizeZero),
-      _programCatalog(nullptr) {
+      _programCatalog(nullptr),
+      _interfaceLease(nullptr) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
-
   _surface->setObserver(this);
   _vsyncSource->setWakeFunction([&] { onVsync(); });
 }
@@ -116,6 +116,7 @@ void Compositor::drawFrame() {
 void Compositor::onVsync() {
   bool res = _surface->makeCurrent();
   assert(res && "Must be able to make the current context current");
+
   drawFrame();
 
   res = _surface->present();
@@ -123,9 +124,47 @@ void Compositor::onVsync() {
 }
 
 void Compositor::setupChannels() {
+  manageInterfaceUpdates(true);
 }
 
 void Compositor::teardownChannels() {
+  manageInterfaceUpdates(false);
+}
+
+InterfaceLease& Compositor::acquireLease(size_t count) {
+  if (_interfaceLease != nullptr) {
+    return *_interfaceLease;
+  }
+
+  _interfaceLease = rl::make_unique<InterfaceLease>(count);
+  manageInterfaceUpdates(true);
+
+  assert(_interfaceLease != nullptr);
+  return *_interfaceLease;
+}
+
+void Compositor::manageInterfaceUpdates(bool schedule) {
+  if (_looper == nullptr || _interfaceLease == nullptr) {
+    return;
+  }
+
+  if (schedule) {
+    auto source = _interfaceLease->writeNotificationSource();
+    source->setWakeFunction(std::bind(&Compositor::onInterfaceDidUpdate, this));
+    _looper->addSource(source);
+  } else {
+    _looper->removeSource(_interfaceLease->writeNotificationSource());
+  }
+}
+
+void Compositor::onInterfaceDidUpdate() {
+  if (_interfaceLease == nullptr) {
+    return;
+  }
+
+  EntityArena readArena = _interfaceLease->swapRead();
+  auto entity = readArena.acquireEmplacedEntity();
+  assert(false);
 }
 
 }  // namespace rl

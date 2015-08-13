@@ -6,6 +6,7 @@
 #define __RADARLOVE_COMPOSITOR_INTERFACELEASE__
 
 #include <Core/Core.h>
+#include <Compositor/EntityArena.h>
 
 namespace rl {
 class InterfaceLease {
@@ -14,10 +15,11 @@ class InterfaceLease {
 
   std::shared_ptr<LooperSource> writeNotificationSource() const;
 
-  uint8_t* swapRead();
-  uint8_t* swapWriteAndNotify();
+  EntityArena swapRead();
+  EntityArena swapWriteAndNotify(bool notify = true);
 
  private:
+  const size_t _layerCount;
   SharedMemory _sharedMemory;
   std::shared_ptr<LooperSource> _writeNotificationSource;
 
