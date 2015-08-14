@@ -113,7 +113,7 @@ void Compositor::drawSingleFrame() {
   /*
    *  Update the read head
    */
-  auto readArena = _interfaceLease->readArena(false);
+  auto readArena = _interfaceLease->accessReadArena(false);
   for (size_t i = 0, size = readArena.encodedEntities(); i < size; i++) {
     auto& entity = readArena[i];
     Primitive p;
@@ -161,7 +161,7 @@ void Compositor::onInterfaceDidUpdate() {
   if (_interfaceLease == nullptr) {
     return;
   }
-  _interfaceLease->readArena(true);
+  _interfaceLease->accessReadArena(true);
   drawSingleFrame();
 }
 

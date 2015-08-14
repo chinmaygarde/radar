@@ -163,7 +163,7 @@ void Interface::finalizeLeaseWrite() {
   std::stack<Layer::Ref> stack;
   stack.push(_rootLayer);
 
-  auto writeArena = _lease.writeArena(false, false);
+  auto writeArena = _lease.accessWriteArena(false, false);
 
   while (stack.size() > 0) {
     auto current = stack.top();
@@ -176,7 +176,7 @@ void Interface::finalizeLeaseWrite() {
     }
   }
 
-  _lease.writeArena(true, true);
+  _lease.accessWriteArena(true, true);
 }
 
 void Interface::setupEventChannels() {

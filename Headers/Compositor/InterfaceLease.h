@@ -15,8 +15,8 @@ class InterfaceLease {
 
   std::shared_ptr<LooperSource> writeNotificationSource() const;
 
-  EntityArena& readArena(bool swap);
-  EntityArena& writeArena(bool swap, bool notify);
+  EntityArena& accessReadArena(bool swap);
+  EntityArena& accessWriteArena(bool swap, bool notify);
 
  private:
   const size_t _entityCount;

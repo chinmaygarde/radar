@@ -47,11 +47,11 @@ InterfaceLease::InterfaceLease(size_t requestedCount)
   header->write = header->read + EntityArena::Size(_entityCount);
   header->back = header->write + EntityArena::Size(_entityCount);
 
-  readArena(true);
-  writeArena(true, false);
+  accessReadArena(true);
+  accessWriteArena(true, false);
 }
 
-EntityArena& InterfaceLease::readArena(bool swap) {
+EntityArena& InterfaceLease::accessReadArena(bool swap) {
   if (!swap) {
     return _readArena;
   }
@@ -60,7 +60,7 @@ EntityArena& InterfaceLease::readArena(bool swap) {
   return _readArena;
 }
 
-EntityArena& InterfaceLease::writeArena(bool swap, bool notify) {
+EntityArena& InterfaceLease::accessWriteArena(bool swap, bool notify) {
   if (!swap) {
     return _writeArena;
   }
