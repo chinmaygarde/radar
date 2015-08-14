@@ -150,7 +150,6 @@ class Interface {
   TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;
   InterfaceLease& _lease;
-  EntityArena _writeArena;
   StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);

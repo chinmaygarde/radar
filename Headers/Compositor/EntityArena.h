@@ -17,13 +17,25 @@ class EntityArena {
   PresentationEntity* emplacePresentationEntity(const Entity& entity);
   PresentationEntity* acquireEmplacedEntity();
 
+  const PresentationEntity& operator[](size_t index) const;
+
   size_t encodedEntities() const;
+
+  /**
+   *  Compute the size of the allocation required to serevice the given number
+   *  of entities and all the necessary book-keeping information about the same.
+   *
+   *  @param entityCount the number of entities to service
+   *
+   *  @return the size of the arena required to service the given
+   *          number of entities
+   */
+  static size_t Size(size_t entityCount);
 
  private:
   uint8_t* _base;
   size_t _maxSize;
   size_t _encodedEntities;
-  size_t _decodedEntities;
   size_t _utilization;
 
   void* alloc(size_t bytes);

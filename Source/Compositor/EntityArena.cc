@@ -11,11 +11,11 @@ struct EntityArenaHeader {
 };
 
 EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
-    : _maxSize(maxSize),
-      _base(base),
-      _decodedEntities(0),
-      _utilization(sizeof(EntityArenaHeader)) {
-  assert(maxSize > sizeof(EntityArenaHeader));
+    : _maxSize(maxSize), _base(base), _utilization(sizeof(EntityArenaHeader)) {
+  if (base == nullptr) {
+    _encodedEntities = 0;
+    return;
+  }
 
   if (reader) {
     auto header = reinterpret_cast<EntityArenaHeader*>(base);
@@ -38,19 +38,15 @@ PresentationEntity* EntityArena::emplacePresentationEntity(
   return (new (allocation) PresentationEntity(entity));
 }
 
-size_t EntityArena::encodedEntities() const {
-  return _encodedEntities;
+const PresentationEntity& EntityArena::operator[](size_t index) const {
+  assert(index < _encodedEntities);
+  auto allocation =
+      _base + sizeof(EntityArenaHeader) + index * sizeof(PresentationEntity);
+  return *reinterpret_cast<PresentationEntity*>(allocation);
 }
 
-PresentationEntity* EntityArena::acquireEmplacedEntity() {
-  if (_decodedEntities == _encodedEntities) {
-    return nullptr;
-  }
-
-  _decodedEntities++;
-
-  return (
-      reinterpret_cast<PresentationEntity*>(alloc(sizeof(PresentationEntity))));
+size_t EntityArena::encodedEntities() const {
+  return _encodedEntities;
 }
 
 void* EntityArena::alloc(size_t bytes) {
@@ -61,6 +57,10 @@ void* EntityArena::alloc(size_t bytes) {
   auto allocated = _base + _utilization;
   _utilization += bytes;
   return allocated;
+}
+
+size_t EntityArena::Size(size_t entityCount) {
+  return sizeof(EntityArenaHeader) + entityCount * sizeof(PresentationEntity);
 }
 
 }  // namespace rl

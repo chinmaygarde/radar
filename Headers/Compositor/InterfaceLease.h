@@ -11,18 +11,22 @@
 namespace rl {
 class InterfaceLease {
  public:
-  InterfaceLease(size_t layerCount);
+  InterfaceLease(size_t entityCount);
 
   std::shared_ptr<LooperSource> writeNotificationSource() const;
 
-  EntityArena swapRead();
-  EntityArena swapWriteAndNotify(bool notify = true);
+  EntityArena& readArena(bool swap);
+  EntityArena& writeArena(bool swap, bool notify);
 
  private:
-  const size_t _layerCount;
+  const size_t _entityCount;
   SharedMemory _sharedMemory;
   std::shared_ptr<LooperSource> _writeNotificationSource;
+  EntityArena _readArena;
+  EntityArena _writeArena;
 
+  EntityArena swapRead();
+  EntityArena swapWrite(bool notify);
   uint8_t* swapWrite();
 
   DISALLOW_COPY_AND_ASSIGN(InterfaceLease);

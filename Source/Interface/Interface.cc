@@ -27,7 +27,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _touchEventChannel(),
       _delegate(delegate),
       _lease(lease),
-      _writeArena(_lease.swapWriteAndNotify(false)),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -164,9 +163,11 @@ void Interface::finalizeLeaseWrite() {
   std::stack<Layer::Ref> stack;
   stack.push(_rootLayer);
 
+  auto writeArena = _lease.writeArena(false, false);
+
   while (stack.size() > 0) {
     auto current = stack.top();
-    _writeArena.emplacePresentationEntity(*current);
+    writeArena.emplacePresentationEntity(*current);
     stack.pop();
 
     auto& sublayers = current->sublayers();
@@ -175,7 +176,7 @@ void Interface::finalizeLeaseWrite() {
     }
   }
 
-  _writeArena = _lease.swapWriteAndNotify();
+  _lease.writeArena(true, true);
 }
 
 void Interface::setupEventChannels() {

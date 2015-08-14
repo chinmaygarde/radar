@@ -29,4 +29,15 @@ void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
   _observer = observer;
 }
 
+ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
+    : _surface(surface) {
+  bool result = _surface.makeCurrent();
+  assert(result);
+}
+
+ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
+  bool result = _surface.present();
+  assert(result);
+}
+
 }  // namespace rl

@@ -59,7 +59,6 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<RenderSurface> _surface;
   Looper* _looper;
   std::mutex _lock;
-  std::shared_ptr<LooperSource> _vsyncSource;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::unique_ptr<InterfaceLease> _interfaceLease;
@@ -71,8 +70,7 @@ class Compositor : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(const Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
-  void drawFrame();
-  void onVsync();
+  void drawSingleFrame();
   void onInterfaceDidUpdate();
   void setupChannels();
   void teardownChannels();

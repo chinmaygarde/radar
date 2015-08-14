@@ -20,6 +20,10 @@ Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
   assert(catalog != nullptr && "The program catalog must be valid");
 }
 
+bool Frame::isReady() const {
+  return glGetError() == GL_NO_ERROR && _size.width * _size.height > 0.0;
+}
+
 void Frame::begin() {
   setupFreshFrame();
 
@@ -37,8 +41,6 @@ void Frame::end() {
 }
 
 void Frame::setupFreshFrame() {
-  glGetError();
-
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -78,6 +80,13 @@ void Frame::pushOpacity(double opacity) {
 
 void Frame::popOpacity() {
   _opacityStack.pop_back();
+}
+
+Frame::~Frame() {
+}
+
+ScopedFrame::~ScopedFrame() {
+  end();
 }
 
 }  // namespace rl

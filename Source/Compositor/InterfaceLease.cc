@@ -8,48 +8,85 @@
 
 namespace rl {
 struct LeaseHeader {
-  std::atomic<uint8_t*> readBuffer;
-  std::atomic<uint8_t*> writeBuffer;
-  std::atomic<uint8_t*> backBuffer;
+  std::atomic<uint8_t*> read;
+  std::atomic<uint8_t*> write;
+  std::atomic<uint8_t*> back;
 };
 
 static_assert(sizeof(std::atomic<uint8_t*>) == sizeof(uint8_t*),
               "Sizes must be consistent");
 
-InterfaceLease::InterfaceLease(size_t requested_count)
-    : _layerCount(requested_count + 1),
-      _sharedMemory(sizeof(LeaseHeader) +
-                    (3 * _layerCount * sizeof(PresentationEntity))),
-      _writeNotificationSource(LooperSource::AsTrivial()) {
+/**
+ *  Returns the size of the shared memory allocation required to service a given
+ *  number of presentation entities
+ *
+ *  @param entityCount the number of entities to service
+ *
+ *  @return the size of the allocation
+ */
+static inline size_t InterfaceLease_SharedMemorySize(size_t entityCount) {
+  /*
+   *  The shared memory allocation is triple buffered. So we need three times
+   *  the size of the expected entity arenas. Also, the pointers to the buffers
+   *  are stored in the lease headers. This header needs space in the
+   *  allocation as well.
+   */
+  return sizeof(LeaseHeader) + (3 * EntityArena::Size(entityCount));
+}
+
+InterfaceLease::InterfaceLease(size_t requestedCount)
+    : _entityCount(requestedCount),
+      _sharedMemory(InterfaceLease_SharedMemorySize(requestedCount)),
+      _writeNotificationSource(LooperSource::AsTrivial()),
+      _readArena(nullptr, 0, true),
+      _writeArena(nullptr, 0, false) {
   assert(_sharedMemory.isReady());
 
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
-  header->readBuffer = _sharedMemory.address() + sizeof(LeaseHeader);
-  header->writeBuffer =
-      header->readBuffer + _layerCount * sizeof(PresentationEntity);
-  header->backBuffer =
-      header->writeBuffer + _layerCount * sizeof(PresentationEntity);
+  header->read = _sharedMemory.address() + sizeof(LeaseHeader);
+  header->write = header->read + EntityArena::Size(_entityCount);
+  header->back = header->write + EntityArena::Size(_entityCount);
+
+  readArena(true);
+  writeArena(true, false);
+}
+
+EntityArena& InterfaceLease::readArena(bool swap) {
+  if (!swap) {
+    return _readArena;
+  }
+
+  _readArena = swapRead();
+  return _readArena;
+}
+
+EntityArena& InterfaceLease::writeArena(bool swap, bool notify) {
+  if (!swap) {
+    return _writeArena;
+  }
+
+  _writeArena = swapWrite(notify);
+  return _writeArena;
 }
 
 EntityArena InterfaceLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
-  header->backBuffer = header->readBuffer.exchange(header->backBuffer);
-  return EntityArena(header->readBuffer,
-                     _layerCount * sizeof(PresentationEntity), true);
+  header->back = header->read.exchange(header->back);
+  return EntityArena(header->read, EntityArena::Size(_entityCount), true);
 }
 
-EntityArena InterfaceLease::swapWriteAndNotify(bool notify) {
+EntityArena InterfaceLease::swapWrite(bool notify) {
   auto ret = swapWrite();
   if (notify) {
     _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
   }
-  return EntityArena(ret, _layerCount * sizeof(PresentationEntity), false);
+  return EntityArena(ret, EntityArena::Size(_entityCount), false);
 }
 
 uint8_t* InterfaceLease::swapWrite() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
-  header->backBuffer = header->writeBuffer.exchange(header->backBuffer);
-  return header->writeBuffer;
+  header->back = header->write.exchange(header->back);
+  return header->write;
 }
 
 std::shared_ptr<LooperSource> InterfaceLease::writeNotificationSource() const {

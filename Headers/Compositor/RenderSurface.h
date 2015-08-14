@@ -65,6 +65,17 @@ class RenderSurface : RenderSurfaceObserver {
  private:
   RenderSurfaceObserver* _observer;
 };
+
+class ScopedRenderSurfaceAccess {
+ public:
+  ScopedRenderSurfaceAccess(RenderSurface& surface);
+  ~ScopedRenderSurfaceAccess();
+
+ private:
+  RenderSurface& _surface;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
+};
 }
 
 #endif /* defined(__RADARLOVE_GEOMETRY_RENDERSURFACE__) */

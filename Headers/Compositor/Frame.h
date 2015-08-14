@@ -18,6 +18,15 @@ class Frame {
  public:
   Frame(Size size, std::shared_ptr<ProgramCatalog> catalog);
 
+  virtual ~Frame();
+
+  /**
+   *  Returns if the frame setup was successful
+   *
+   *  @return if the frame setup was successful
+   */
+  bool isReady() const;
+
   /**
    *  Get the projection matrix of the current frame
    *
@@ -98,6 +107,20 @@ class Frame {
   void setupFreshFrame();
 
   DISALLOW_COPY_AND_ASSIGN(Frame);
+};
+
+class ScopedFrame : public Frame {
+ public:
+  template <class... T>
+  ScopedFrame(T&&... args)
+      : Frame(std::forward<T>(args)...) {
+    begin();
+  }
+
+  ~ScopedFrame();
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
 }
 

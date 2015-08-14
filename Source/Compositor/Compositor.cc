@@ -4,6 +4,7 @@
 
 #include <Compositor/Compositor.h>
 #include <Compositor/Frame.h>
+#include <Compositor/Primitive.h>
 
 #include <cassert>
 
@@ -13,17 +14,14 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
     : _surface(surface),
       _looper(nullptr),
       _lock(),
-      _vsyncSource(LooperSource::AsTimer(std::chrono::milliseconds(16))),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _interfaceLease(nullptr) {
   assert(_surface != nullptr && "A surface must be provided to the compositor");
   _surface->setObserver(this);
-  _vsyncSource->setWakeFunction([&] { onVsync(); });
 }
 
 Compositor::~Compositor() {
-  _vsyncSource->setWakeFunction(nullptr);
   _surface->setObserver(nullptr);
 }
 
@@ -71,7 +69,10 @@ void Compositor::surfaceWasDestroyed() {
 }
 
 void Compositor::startComposition() {
-  _looper->addSource(_vsyncSource);
+  drawSingleFrame();
+}
+
+void Compositor::stopComposition() {
 }
 
 void Compositor::commitCompositionSizeUpdate(const Size& size) {
@@ -81,10 +82,6 @@ void Compositor::commitCompositionSizeUpdate(const Size& size) {
 
   // Commit size update
   _surfaceSize = size;
-}
-
-void Compositor::stopComposition() {
-  _looper->removeSource(_vsyncSource);
 }
 
 /**
@@ -105,22 +102,25 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
   return _programCatalog;
 }
 
-void Compositor::drawFrame() {
-  Frame frame(_surfaceSize, accessCatalog());
+void Compositor::drawSingleFrame() {
+  ScopedRenderSurfaceAccess access(*_surface);
+  ScopedFrame frame(_surfaceSize, accessCatalog());
 
-  frame.begin();
+  if (!frame.isReady()) {
+    return;
+  }
 
-  frame.end();
-}
-
-void Compositor::onVsync() {
-  bool res = _surface->makeCurrent();
-  assert(res && "Must be able to make the current context current");
-
-  drawFrame();
-
-  res = _surface->present();
-  assert(res && "Must be able to present the current context");
+  /*
+   *  Update the read head
+   */
+  auto readArena = _interfaceLease->readArena(false);
+  for (size_t i = 0, size = readArena.encodedEntities(); i < size; i++) {
+    auto& entity = readArena[i];
+    Primitive p;
+    p.setContentColor(entity.backgroundColor());
+    p.setModelMatrixAndSize(entity.modelMatrix(), entity.bounds().size);
+    p.render(frame);
+  }
 }
 
 void Compositor::setupChannels() {
@@ -161,10 +161,8 @@ void Compositor::onInterfaceDidUpdate() {
   if (_interfaceLease == nullptr) {
     return;
   }
-
-  EntityArena readArena = _interfaceLease->swapRead();
-  auto entity = readArena.acquireEmplacedEntity();
-  assert(false);
+  _interfaceLease->readArena(true);
+  drawSingleFrame();
 }
 
 }  // namespace rl

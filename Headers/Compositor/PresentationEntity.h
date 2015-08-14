@@ -10,7 +10,7 @@
 #include <Interface/Entity.h>
 
 namespace rl {
-class PresentationEntity : Entity {
+class PresentationEntity : public Entity {
  public:
   PresentationEntity(const Entity& entity);
 
