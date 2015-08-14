@@ -11,7 +11,10 @@ struct EntityArenaHeader {
 };
 
 EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
-    : _maxSize(maxSize), _base(base), _decodedEntities(0), _utilization(0) {
+    : _maxSize(maxSize),
+      _base(base),
+      _decodedEntities(0),
+      _utilization(sizeof(EntityArenaHeader)) {
   assert(maxSize > sizeof(EntityArenaHeader));
 
   if (reader) {
