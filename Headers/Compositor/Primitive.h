@@ -7,8 +7,7 @@
 
 #include <Core/Core.h>
 
-#include <Geometry/Size.h>
-#include <Geometry/Matrix.h>
+#include <Geometry/Geometry.h>
 
 #include <Compositor/Frame.h>
 #include <Compositor/Color.h>

@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 
-#include <Geometry/Size.h>
+#include <Geometry/Geometry.h>
 
 #include <Compositor/RenderSurface.h>
 #include <Compositor/ProgramCatalog.h>

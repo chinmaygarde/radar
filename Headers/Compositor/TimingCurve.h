@@ -6,7 +6,7 @@
 #define __RADARLOVE_COMPOSITOR_TIMINGCURVE__
 
 #include <Core/Core.h>
-#include <Geometry/Point.h>
+#include <Geometry/Geometry.h>
 
 namespace rl {
 class TimingCurve {

@@ -6,8 +6,7 @@
 #define __RADARLOVE_INTERFACE_ENTITY__
 
 #include <Core/Core.h>
-#include <Geometry/Rect.h>
-#include <Geometry/Matrix.h>
+#include <Geometry/Geometry.h>
 #include <Compositor/Color.h>
 
 namespace rl {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* LooperObserver.cc */; };
 		9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* LooperObserver.h */; };
 		9E222CDD1B6A9387005D02EE /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDB1B6A9387005D02EE /* Action.cc */; };
@@ -209,6 +210,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* LooperObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperObserver.cc; sourceTree = "<group>"; };
 		9E222CD91B69ABEC005D02EE /* LooperObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperObserver.h; sourceTree = "<group>"; };
 		9E222CDB1B6A9387005D02EE /* Action.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 		9EAECE591B685460000FA38A /* Geometry */ = {
 			isa = PBXGroup;
 			children = (
+				9E1609321B7ECDF700DD06FE /* Geometry.h */,
 				9EAECE5A1B685460000FA38A /* Matrix.h */,
 				9EAECE5B1B685460000FA38A /* Point.h */,
 				9EAECE5C1B685460000FA38A /* Rect.h */,
@@ -739,6 +742,7 @@
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
+				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
 				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,

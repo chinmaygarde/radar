@@ -6,7 +6,7 @@
 #define __RADARLOVE_COMPOSITOR_PRESENTATIONENTITY__
 
 #include <Core/Core.h>
-#include <Geometry/Matrix.h>
+#include <Geometry/Geometry.h>
 #include <Interface/Entity.h>
 
 namespace rl {

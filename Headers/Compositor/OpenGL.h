@@ -18,7 +18,7 @@
 
 #import <OpenGL/gl.h>
 
-#include <Geometry/Matrix.h>
+#include <Geometry/Geometry.h>
 
 #include <cassert>
 #include <stdio.h>

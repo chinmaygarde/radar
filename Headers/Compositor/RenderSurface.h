@@ -6,7 +6,7 @@
 #define __RADARLOVE_GEOMETRY_RENDERSURFACE__
 
 #include <Core/Macros.h>
-#include <Geometry/Size.h>
+#include <Geometry/Geometry.h>
 
 #include <memory>
 

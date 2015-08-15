@@ -6,7 +6,7 @@
 #define __RADARLOVE_EVENT_TOUCHEVENT__
 
 #include <Event/Event.h>
-#include <Geometry/Point.h>
+#include <Geometry/Geometry.h>
 
 namespace rl {
 class TouchEvent : public Event {
