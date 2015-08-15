@@ -8,7 +8,6 @@
 
 #include <mach/mach.h>
 #include <sys/event.h>
-#include <cassert>
 
 namespace rl {
 
@@ -63,20 +62,20 @@ MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {
    */
   kern_return_t res = mach_port_allocate(mach_task_self(),
                                          MACH_PORT_RIGHT_PORT_SET, &_setHandle);
-  assert(res == KERN_SUCCESS && _setHandle != MACH_PORT_NULL);
+  RL_ASSERT(res == KERN_SUCCESS && _setHandle != MACH_PORT_NULL);
 
   /*
    *  Step 2: Allocate the port that will be used to send and receive messages
    */
   res = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &_handle);
-  assert(res == KERN_SUCCESS && _handle != MACH_PORT_NULL);
+  RL_ASSERT(res == KERN_SUCCESS && _handle != MACH_PORT_NULL);
 
   /*
    *  Step 2: Insert the send port right
    */
   res = mach_port_insert_right(mach_task_self(), _handle, _handle,
                                MACH_MSG_TYPE_MAKE_SEND);
-  assert(res == KERN_SUCCESS);
+  RL_ASSERT(res == KERN_SUCCESS);
 
   /*
    *  Step 3: Increase the q limit. The default is 5 which is a bit low. This
@@ -88,13 +87,13 @@ MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {
   res = mach_port_set_attributes(
       mach_task_self(), _handle, MACH_PORT_LIMITS_INFO,
       (mach_port_info_t)&limits, MACH_PORT_LIMITS_INFO_COUNT);
-  assert(res == KERN_SUCCESS);
+  RL_ASSERT(res == KERN_SUCCESS);
 
   /*
    *  Step 4: Insert the port into the port set. And we are all done.
    */
   res = mach_port_insert_member(mach_task_self(), _handle, _setHandle);
-  assert(res == KERN_SUCCESS);
+  RL_ASSERT(res == KERN_SUCCESS);
 }
 
 MachPortChannel::~MachPortChannel() {

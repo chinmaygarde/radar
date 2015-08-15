@@ -4,8 +4,6 @@
 
 #include <Compositor/Frame.h>
 
-#include <cassert>
-
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
 
@@ -17,7 +15,7 @@ Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
       _programCatalog(catalog),
       _viewMatrixStack(),
       _opacityStack() {
-  assert(catalog != nullptr && "The program catalog must be valid");
+  RL_ASSERT(catalog != nullptr && "The program catalog must be valid");
 }
 
 bool Frame::isReady() const {

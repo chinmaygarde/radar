@@ -6,8 +6,6 @@
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
 
-#include <cassert>
-
 namespace rl {
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
@@ -17,7 +15,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _interfaceLease(nullptr) {
-  assert(_surface != nullptr && "A surface must be provided to the compositor");
+  RL_ASSERT(_surface != nullptr &&
+            "A surface must be provided to the compositor");
   _surface->setObserver(this);
 }
 
@@ -139,7 +138,7 @@ InterfaceLease& Compositor::acquireLease(size_t count) {
   _interfaceLease = rl::make_unique<InterfaceLease>(count);
   manageInterfaceUpdates(true);
 
-  assert(_interfaceLease != nullptr);
+  RL_ASSERT(_interfaceLease != nullptr);
   return *_interfaceLease;
 }
 

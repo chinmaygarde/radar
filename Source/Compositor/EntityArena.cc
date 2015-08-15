@@ -39,7 +39,7 @@ PresentationEntity* EntityArena::emplacePresentationEntity(
 }
 
 const PresentationEntity& EntityArena::operator[](size_t index) const {
-  assert(index < _encodedEntities);
+  RL_ASSERT(index < _encodedEntities);
   auto allocation =
       _base + sizeof(EntityArenaHeader) + index * sizeof(PresentationEntity);
   return *reinterpret_cast<PresentationEntity*>(allocation);

@@ -11,8 +11,6 @@
 // For setname_np. Can be made portable.
 #include <pthread/pthread.h>
 
-#include <cassert>
-
 namespace rl {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface,

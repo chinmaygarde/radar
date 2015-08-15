@@ -5,8 +5,6 @@
 #include <Interface/Layer.h>
 #include <Interface/Interface.h>
 
-#include <cassert>
-
 namespace rl {
 
 Layer::Layer() : Entity(true), _sublayers(), _superlayer(nullptr) {
@@ -26,7 +24,7 @@ void Layer::addSublayer(Layer::Ref layer) {
   if (layer->_superlayer != nullptr) {
     layer->_superlayer->removeSublayer(layer);
   }
-  assert(layer->_superlayer == nullptr);
+  RL_ASSERT(layer->_superlayer == nullptr);
 
   /*
    *  Assign the parent and add the same to the sublayers collections

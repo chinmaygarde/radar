@@ -132,7 +132,7 @@ void EventLoop::flushPendingDispatches() {
 }
 
 void EventLoop::dispatchAsync(std::function<void()> block) {
-  assert(_trivialSource && "A trivial source must be present");
+  RL_ASSERT(_trivialSource && "A trivial source must be present");
 
   std::lock_guard<std::mutex> lock(_lock);
   _pendingDispatches->push_back(block);

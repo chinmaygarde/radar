@@ -10,7 +10,7 @@ PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
 }
 
 PresentationEntity::~PresentationEntity() {
-  assert(false);
+  RL_ASSERT(false);
 }
 
 }  // namespace rl

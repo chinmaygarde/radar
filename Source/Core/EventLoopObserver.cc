@@ -4,13 +4,11 @@
 
 #include <Core/EventLoopObserver.h>
 
-#include <cassert>
-
 namespace rl {
 
 EventLoopObserver::EventLoopObserver(uint64_t priority, Callback callback)
     : _priority(priority), _callback(callback) {
-  assert(_callback && "A callback must be provided to the loop observer");
+  RL_ASSERT(_callback && "A callback must be provided to the loop observer");
 }
 
 uint64_t EventLoopObserver::priority() const {

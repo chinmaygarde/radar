@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Compositor/RenderSurface.h>
-#include <cassert>
 
 namespace rl {
 
@@ -32,12 +31,12 @@ void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
     : _surface(surface) {
   bool result = _surface.makeCurrent();
-  assert(result);
+  RL_ASSERT(result);
 }
 
 ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
   bool result = _surface.present();
-  assert(result);
+  RL_ASSERT(result);
 }
 
 }  // namespace rl

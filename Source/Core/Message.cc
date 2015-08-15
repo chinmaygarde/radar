@@ -29,7 +29,7 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate)
       _dataLength(bufferLength),
       _sizeRead(0),
       _vmDeallocate(vmDeallocate) {
-  assert(vmDeallocate);
+  RL_ASSERT(vmDeallocate);
 }
 
 Message::Message(Message&& message) noexcept
@@ -45,7 +45,7 @@ Message::~Message() {
   if (_vmDeallocate) {
     kern_return_t res =
         vm_deallocate(mach_task_self(), _bufferLength, _bufferLength);
-    assert(res == KERN_SUCCESS);
+    RL_ASSERT(res == KERN_SUCCESS);
   } else {
     free(_buffer);
   }

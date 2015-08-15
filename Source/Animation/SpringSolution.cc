@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Animation/SpringSolution.h>
-#include <cassert>
 
 namespace rl {
 class CriticalSolution : public SpringSolution {
@@ -137,7 +136,7 @@ std::unique_ptr<SpringSolution> SpringSolution::Create(SpringDescription desc,
     return UnderdampedSolution::Create(desc, initialPosition, initialVelocity);
   }
 
-  assert(false && "Could not create a spring solution");
+  RL_ASSERT(false && "Could not create a spring solution");
   return nullptr;
 }
 

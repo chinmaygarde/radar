@@ -40,7 +40,7 @@ InterfaceLease::InterfaceLease(size_t requestedCount)
       _writeNotificationSource(EventLoopSource::Trivial()),
       _readArena(nullptr, 0, true),
       _writeArena(nullptr, 0, false) {
-  assert(_sharedMemory.isReady());
+  RL_ASSERT(_sharedMemory.isReady());
 
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->read = _sharedMemory.address() + sizeof(LeaseHeader);

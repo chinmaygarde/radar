@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Compositor/ProgramCatalog.h>
-#include <cassert>
 
 static const std::string BasicVertexShader = R"--(
 
@@ -51,8 +50,8 @@ void ProgramCatalog::stopUsing() {
 }
 
 ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
-  assert(_prepared &&
-         "Catalog must be prepared and in use before using a program");
+  RL_ASSERT(_prepared &&
+            "Catalog must be prepared and in use before using a program");
 
   if (_current.first == type) {
     return _current.second;
@@ -60,11 +59,11 @@ ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
 
   const auto& program = _catalog[type];
 
-  assert(program && "A valid program must be found in the catalog");
+  RL_ASSERT(program && "A valid program must be found in the catalog");
 
   bool result = program->use();
 
-  assert(result && "The selected program must be usable by the catalog");
+  RL_ASSERT(result && "The selected program must be usable by the catalog");
   _current = std::make_pair(type, program.get());
 
   return _current.second;

@@ -4,7 +4,6 @@
 
 #include <Infrastructure/StateMachine.h>
 #include <queue>
-#include <cassert>
 
 namespace rl {
 
@@ -34,7 +33,7 @@ bool StateMachine::setState(State state, bool allowMultiple) {
       return false;
     }
 
-    assert(path[0] == _currentState);
+    RL_ASSERT(path[0] == _currentState);
     const auto size = path.size();
 
     for (int i = 1; i < size; i++) {

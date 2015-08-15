@@ -20,7 +20,6 @@
 
 #include <Geometry/Geometry.h>
 
-#include <cassert>
 #include <stdio.h>
 #include <string>
 #include <sstream>

@@ -47,17 +47,17 @@ void Program::linkIfNecessary() {
     return;
   }
 
-  assert(!_linkingComplete && "Shader setup must not already be complete");
+  RL_ASSERT(!_linkingComplete && "Shader setup must not already be complete");
   RL_GLAssert("There must be no errors prior to shader setup");
 
   _program = glCreateProgram();
-  assert(_program != 0 && "Must be able to create a program");
+  RL_ASSERT(_program != 0 && "Must be able to create a program");
 
   GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  assert(vertexShader != 0 && "Must be able to create a vertex shader");
+  RL_ASSERT(vertexShader != 0 && "Must be able to create a vertex shader");
 
   GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  assert(fragmentShader != 0 && "Must be able to create a fragment shader");
+  RL_ASSERT(fragmentShader != 0 && "Must be able to create a fragment shader");
 
   auto vertexString = _vertexShader.c_str();
   auto fragmentString = _fragmentShader.c_str();
@@ -74,14 +74,14 @@ void Program::linkIfNecessary() {
   if (status != GL_TRUE) {
     printf("Vertex Shader Compilation Failed:\n%s\n",
            Program_LogShaderInfo(vertexShader).c_str());
-    assert(false && "Vertex shader compilation must be successful");
+    RL_ASSERT(false && "Vertex shader compilation must be successful");
   }
 
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
   if (status != GL_TRUE) {
     printf("Fragment Shader Compilation Failed:\n%s\n",
            Program_LogShaderInfo(fragmentShader).c_str());
-    assert(false && "Fragment shader compilation must be successful");
+    RL_ASSERT(false && "Fragment shader compilation must be successful");
   }
 
   glAttachShader(_program, vertexShader);
@@ -100,7 +100,7 @@ void Program::linkIfNecessary() {
   glLinkProgram(_program);
 
   glGetProgramiv(_program, GL_LINK_STATUS, &status);
-  assert(status == GL_TRUE && "The program must be successfully linked");
+  RL_ASSERT(status == GL_TRUE && "The program must be successfully linked");
 
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
@@ -117,16 +117,16 @@ void Program::linkIfNecessary() {
 unsigned int Program::indexForAttribute(const std::string& attribute) {
   auto found =
       std::find(_knownAttributes.begin(), _knownAttributes.end(), attribute);
-  assert(found != _knownAttributes.end() && "Unknown attribute queried");
+  RL_ASSERT(found != _knownAttributes.end() && "Unknown attribute queried");
   return static_cast<unsigned int>(
       std::distance(_knownAttributes.begin(), found));
 }
 
 unsigned int Program::indexForUniform(const std::string& uniform) {
-  assert(_linkingComplete &&
-         "May only access uniforms after linking is complete");
+  RL_ASSERT(_linkingComplete &&
+            "May only access uniforms after linking is complete");
   GLint result = glGetUniformLocation(_program, uniform.c_str());
-  assert(result != -1 && "The unform must be found in the program");
+  RL_ASSERT(result != -1 && "The unform must be found in the program");
   return result;
 }
 

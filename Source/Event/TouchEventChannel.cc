@@ -4,8 +4,6 @@
 
 #include <Event/TouchEventChannel.h>
 
-#include <cassert>
-
 namespace rl {
 
 TouchEventChannel::TouchEventChannel() : Channel() {
@@ -28,7 +26,7 @@ void TouchEventChannel::processRawTouches(Messages& messages) {
   for (auto& message : messages) {
     TouchEvent e;
     e.deserialize(message);
-    assert(message.size() == message.sizeRead());
+    RL_ASSERT(message.size() == message.sizeRead());
   }
 }
 

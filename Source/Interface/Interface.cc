@@ -5,7 +5,6 @@
 #include <Interface/Interface.h>
 
 #include <limits>
-#include <cassert>
 #include <pthread.h>
 
 namespace rl {
@@ -180,14 +179,14 @@ void Interface::finalizeLeaseWrite() {
 }
 
 void Interface::setupEventChannels() {
-  assert(_loop == EventLoop::Current());
+  RL_ASSERT(_loop == EventLoop::Current());
   bool result = _loop->addSource(_touchEventChannel.source());
-  assert(result == true);
+  RL_ASSERT(result == true);
 }
 
 void Interface::cleanupEventChannels() {
   bool result = _loop->removeSource(_touchEventChannel.source());
-  assert(result == true);
+  RL_ASSERT(result == true);
 }
 
 TouchEventChannel& Interface::touchEventChannel() {
@@ -202,8 +201,8 @@ Interface& Interface::current() {
   auto interface =
       reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
 
-  assert(interface != nullptr &&
-         "Layer modification on a non-interface threads is forbidden");
+  RL_ASSERT(interface != nullptr &&
+            "Layer modification on a non-interface threads is forbidden");
 
   return *interface;
 }
