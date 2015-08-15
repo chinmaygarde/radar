@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__MESSAGE__
-#define __RADARLOVE__MESSAGE__
+#ifndef __RADARLOVE_CORE_MESSAGE__
+#define __RADARLOVE_CORE_MESSAGE__
 
 #include <Core/Macros.h>
 
@@ -147,4 +147,4 @@ class Serializable {
 };
 }
 
-#endif /* defined(__RADARLOVE__MESSAGE__) */
+#endif /* defined(__RADARLOVE_CORE_MESSAGE__) */

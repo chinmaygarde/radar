@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__SERVER__
-#define __RADARLOVE__SERVER__
+#ifndef __RADARLOVE_CORE_SERVER__
+#define __RADARLOVE_CORE_SERVER__
 
 #include <Core/Macros.h>
 
@@ -76,4 +76,4 @@ class Server {
 };
 }
 
-#endif /* defined(__RADARLOVE__SERVER__) */
+#endif /* defined(__RADARLOVE_CORE_SERVER__) */

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__UTILITIES__
-#define __RADARLOVE__UTILITIES__
+#ifndef __RADARLOVE_CORE_UTILITIES__
+#define __RADARLOVE_CORE_UTILITIES__
 
 #include <memory>
 
@@ -22,4 +22,4 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 }
 }
 
-#endif /* defined(__RADARLOVE__UTILITIES__) */
+#endif /* defined(__RADARLOVE_CORE_UTILITIES__) */

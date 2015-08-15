@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__CHANNEL__
-#define __RADARLOVE__CHANNEL__
+#ifndef __RADARLOVE_CORE_CHANNEL__
+#define __RADARLOVE_CORE_CHANNEL__
 
 #include <Core/Macros.h>
 #include <Core/Looper.h>
@@ -107,4 +107,4 @@ class Channel {
 };
 }
 
-#endif /* defined(__RADARLOVE__CHANNEL__) */
+#endif /* defined(__RADARLOVE_CORE_CHANNEL__) */

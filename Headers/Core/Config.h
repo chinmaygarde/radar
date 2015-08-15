@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __CL_CONFIG_H__
-#define __CL_CONFIG_H__
+#ifndef __RADARLOVE_CORE_CONFIG__
+#define __RADARLOVE_CORE_CONFIG__
 
-#endif /* defined(__CL_CONFIG_H__) */
+#endif /* defined(__RADARLOVE_CORE_CONFIG__) */

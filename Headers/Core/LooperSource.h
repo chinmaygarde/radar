@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__LOOPERSOURCE__
-#define __RADARLOVE__LOOPERSOURCE__
+#ifndef __RADARLOVE_CORE_LOOPERSOURCE__
+#define __RADARLOVE_CORE_LOOPERSOURCE__
 
 #include <Core/Macros.h>
 #include <Core/WaitSet.h>
@@ -94,4 +94,4 @@ class LooperSource {
 };
 }
 
-#endif /* defined(__RADARLOVE__LOOPERSOURCE__) */
+#endif /* defined(__RADARLOVE_CORE_LOOPERSOURCE__) */

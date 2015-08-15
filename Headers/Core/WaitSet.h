@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__WAITSET__
-#define __RADARLOVE__WAITSET__
+#ifndef __RADARLOVE_CORE_WAITSET__
+#define __RADARLOVE_CORE_WAITSET__
 
 #include <Core/Macros.h>
 
@@ -65,4 +65,4 @@ class WaitSet {
 };
 }
 
-#endif /* defined(__RADARLOVE__WAITSET__) */
+#endif /* defined(__RADARLOVE_CORE_WAITSET__) */

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADAR_LOVE_CORE__
-#define __RADAR_LOVE_CORE__
+#ifndef __RADARLOVE_CORE__
+#define __RADARLOVE_CORE__
 
 /*
  *  The umbrella header for the Core library
@@ -45,4 +45,4 @@
 #include <Core/Server.h>
 #include <Core/SharedMemory.h>
 
-#endif /* defined(__RADAR_LOVE_CORE__) */
+#endif /* defined(__RADARLOVE_CORE__) */

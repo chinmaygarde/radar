@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE__SHAREDMEMORY__
-#define __RADARLOVE__SHAREDMEMORY__
+#ifndef __RADARLOVE_CORE_SHAREDMEMORY__
+#define __RADARLOVE_CORE_SHAREDMEMORY__
 
 #include <Core/Macros.h>
 #include <string>
@@ -66,4 +66,4 @@ class SharedMemory {
 };
 }
 
-#endif /* defined(__RADARLOVE__SHAREDMEMORY__) */
+#endif /* defined(__RADARLOVE_CORE_SHAREDMEMORY__) */
