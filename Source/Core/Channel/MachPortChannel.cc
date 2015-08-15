@@ -108,11 +108,8 @@ std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
 
   auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };
   auto readHandler = [&](Handle handle) { _channel.readPendingMessageNow(); };
-
-  auto source = std::make_shared<LS>(allocator, nullptr, readHandler, nullptr);
-
-  auto updateHandler = [source](LooperSource* source, WaitSet::Handle kev,
-                                Handle ident, bool adding) {
+  auto updateHandler = [](LooperSource* source, WaitSet::Handle kev,
+                          Handle ident, bool adding) {
 
     struct kevent event = {0};
     // clang-format off
@@ -128,9 +125,8 @@ std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
     RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(kev, &event, 1, nullptr, 0, NULL));
   };
 
-  source->setCustomWaitSetUpdateHandler(updateHandler);
-
-  return source;
+  return std::make_shared<LS>(allocator, nullptr, readHandler, nullptr,
+                              updateHandler);
 }
 
 ChannelProvider::Result MachPortChannel::WriteMessages(

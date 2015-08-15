@@ -13,7 +13,8 @@ namespace rl {
 LooperSource::LooperSource(RWHandlesProvider handleProvider,
                            RWHandlesCollector handleCollector,
                            IOHandler readHandler,
-                           IOHandler writeHandler) {
+                           IOHandler writeHandler,
+                           WaitSetUpdateHandler waitsetUpdateHandler) {
   _handlesProvider = handleProvider;
   _handlesCollector = handleCollector;
 
@@ -25,6 +26,7 @@ LooperSource::LooperSource(RWHandlesProvider handleProvider,
   _wakeFunction = nullptr;
   _handles = Handles(-1, -1);
   _handlesAllocated = false;
+  _customWaitSetUpdateHandler = waitsetUpdateHandler;
 }
 
 LooperSource::~LooperSource() {
@@ -80,15 +82,6 @@ LooperSource::IOHandler LooperSource::writer() {
   return _writeHandler;
 }
 
-void LooperSource::setCustomWaitSetUpdateHandler(WaitSetUpdateHandler handler) {
-  _customWaitSetUpdateHandler = handler;
-}
-
-LooperSource::WaitSetUpdateHandler LooperSource::customWaitSetUpdateHandler()
-    const {
-  return _customWaitSetUpdateHandler;
-}
-
 std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
   /*
    *  We are using a simple pipe but this should likely be something
@@ -126,7 +119,8 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
     RL_ASSERT(size == sizeof(LooperWakeMessage));
   };
 
-  return std::make_shared<LooperSource>(provider, collector, reader, writer);
+  return std::make_shared<LooperSource>(provider, collector, reader, writer,
+                                        nullptr);
 }
 
 }  // namespace rl

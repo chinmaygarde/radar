@@ -52,12 +52,8 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
   RWHandlesProvider handlesProvider =
       [] { return Handles(KQueueTimerIdent++, -1); };
 
-  auto timer = std::make_shared<LooperSource>(handlesProvider, nullptr, nullptr,
-                                              nullptr);
-
-  timer->setCustomWaitSetUpdateHandler(updateHandler);
-
-  return timer;
+  return std::make_shared<LooperSource>(handlesProvider, nullptr, nullptr,
+                                        nullptr, updateHandler);
 }
 
 }  // namespace rl

@@ -102,7 +102,7 @@ std::shared_ptr<LooperSource> SocketChannel::createSource() const {
    *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
-  return std::make_shared<LS>(provider, nullptr, readHandler, nullptr);
+  return std::make_shared<LS>(provider, nullptr, readHandler, nullptr, nullptr);
 }
 
 bool SocketChannel::doTerminate() {

@@ -30,7 +30,8 @@ class LooperSource {
   LooperSource(RWHandlesProvider handleProvider,
                RWHandlesCollector handleCollector,
                IOHandler readHandler,
-               IOHandler writeHandler);
+               IOHandler writeHandler,
+               WaitSetUpdateHandler waitsetUpdateHandler);
 
   ~LooperSource();
 
@@ -59,10 +60,6 @@ class LooperSource {
 #pragma mark - Interacting with a WaitSet
 
   void updateInWaitSetHandle(WaitSet::Handle handle, bool shouldAdd);
-
-  void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler handler);
-
-  WaitSetUpdateHandler customWaitSetUpdateHandler() const;
 
 #pragma mark - Common Looper Sources
 
