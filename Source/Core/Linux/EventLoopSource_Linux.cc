@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Macros.h>
-#include <Core/LooperSource.h>
+#include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
 
 #include <sys/epoll.h>
@@ -16,11 +16,11 @@
 
 namespace rl {
 
-static inline void LooperSource_UpdateEpollSource(int eventsMask,
-                                                  void* data,
-                                                  int epollDesc,
-                                                  int operation,
-                                                  int desc) {
+static inline void EventLoopSource_UpdateEpollSource(int eventsMask,
+                                                     void* data,
+                                                     int epollDesc,
+                                                     int operation,
+                                                     int desc) {
   struct epoll_event event = {0};
 
   event.events = eventsMask;
@@ -29,19 +29,19 @@ static inline void LooperSource_UpdateEpollSource(int eventsMask,
   RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
 }
 
-void LooperSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
-                                         bool shouldAdd) {
+void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
+                                            bool shouldAdd) {
   if (_customWaitSetUpdateHandler) {
     _customWaitSetUpdateHandler(this, waitsetHandle, readHandle(), shouldAdd);
     return;
   }
 
-  LooperSource_UpdateEpollSource(EPOLLIN, this, waitsetHandle,
-                                 shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,
-                                 readHandle());
+  EventLoopSource_UpdateEpollSource(EPOLLIN, this, waitsetHandle,
+                                    shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,
+                                    readHandle());
 }
 
-std::shared_ptr<LooperSource> LooperSource::AsTimer(
+std::shared_ptr<EventLoopSource> EventLoopSource::AsTimer(
     std::chrono::nanoseconds repeatInterval) {
   IOHandlesAllocator allocator = [repeatInterval]() {
     /*
@@ -81,8 +81,8 @@ std::shared_ptr<LooperSource> LooperSource::AsTimer(
     RL_ASSERT(size == sizeof(uint64_t));
   };
 
-  return std::make_shared<LooperSource>(allocator, deallocator, reader,
-                                        nullptr);
+  return std::make_shared<EventLoopSource>(allocator, deallocator, reader,
+                                           nullptr);
 }
 
 }  // namespace rl

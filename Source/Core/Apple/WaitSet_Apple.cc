@@ -17,7 +17,7 @@ WaitSet::Handle WaitSet::platformHandleCreate() {
   return handle;
 }
 
-LooperSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
+EventLoopSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
   struct kevent event = {0};
 
   int val =
@@ -25,7 +25,7 @@ LooperSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
 
   RL_ASSERT(val == 1);
 
-  return static_cast<LooperSource*>(event.udata);
+  return static_cast<EventLoopSource*>(event.udata);
 }
 
 void WaitSet::platformHandleDestory(WaitSet::Handle handle) {

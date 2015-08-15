@@ -141,12 +141,12 @@ class Interface {
   static Interface& current();
 
  private:
-  Looper* _looper;
+  EventLoop* _loop;
   Size _size;
   std::mutex _lock;
   Layer::Ref _rootLayer;
   std::stack<InterfaceTransaction> _transactionStack;
-  std::shared_ptr<LooperObserver> _autoFlushObserver;
+  std::shared_ptr<EventLoopObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;
   InterfaceLease& _lease;

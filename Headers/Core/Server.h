@@ -10,7 +10,7 @@
 #include <string>
 #include <functional>
 
-#include <Core/LooperSource.h>
+#include <Core/EventLoopSource.h>
 #include <Core/Channel.h>
 
 namespace rl {
@@ -37,14 +37,14 @@ class Server {
 #pragma mark - Listening for clients connections on the server
 
   /**
-   *  Get the looper source that is signalled when new client connections are
+   *  Get the loop source that is signalled when new client connections are
    *  available on the server. Before the client connections source is scheduled
-   *  an active looper however, the `clientAvailabilityCallback` must be set so
+   *  an active loop however, the `clientAvailabilityCallback` must be set so
    *  that client channel connections may be accepted.
    *
-   *  @return the client connections looper source
+   *  @return the client connections loop source
    */
-  std::shared_ptr<LooperSource> clientConnectionsSource();
+  std::shared_ptr<EventLoopSource> clientConnectionsSource();
 
   void clientAvailabilityCallback(ClientAvailabilityCallback callback) {
     _clientAvailablilityCallback = callback;
@@ -67,7 +67,7 @@ class Server {
   std::string _name;
   Handle _socketHandle;
   bool _listening;
-  std::shared_ptr<LooperSource> _clientConnectionsSource;
+  std::shared_ptr<EventLoopSource> _clientConnectionsSource;
   ClientAvailabilityCallback _clientAvailablilityCallback;
 
   void onConnectionAvailableForAccept(Handle handle);

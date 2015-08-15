@@ -84,15 +84,15 @@ SocketChannel::~SocketChannel() {
   _controlBuffer = nullptr;
 }
 
-std::shared_ptr<LooperSource> SocketChannel::createSource() const {
-  using LS = LooperSource;
+std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
+  using ELS = EventLoopSource;
 
-  LS::RWHandlesProvider provider = [&]() {
-    return LS::Handles(readHandle(), writeHandle()); /* bi-di connection */
+  ELS::RWHandlesProvider provider = [&]() {
+    return ELS::Handles(readHandle(), writeHandle()); /* bi-di connection */
   };
 
-  LS::IOHandler readHandler =
-      [this](LS::Handle handle) { _channel.readPendingMessageNow(); };
+  ELS::IOHandler readHandler =
+      [this](ELS::Handle handle) { _channel.readPendingMessageNow(); };
 
   /**
    *  We are specifying a null write handler since we will
@@ -102,7 +102,8 @@ std::shared_ptr<LooperSource> SocketChannel::createSource() const {
    *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
-  return std::make_shared<LS>(provider, nullptr, readHandler, nullptr, nullptr);
+  return std::make_shared<ELS>(provider, nullptr, readHandler, nullptr,
+                               nullptr);
 }
 
 bool SocketChannel::doTerminate() {

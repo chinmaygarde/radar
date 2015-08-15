@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVER_CORE_LOOPEROBSERVER__
-#define __RADARLOVER_CORE_LOOPEROBSERVER__
+#ifndef __RADARLOVER_CORE_EVENT_LOOP_OBSERVER__
+#define __RADARLOVER_CORE_EVENT_LOOP_OBSERVER__
 
 #include <Core/Macros.h>
 
@@ -12,31 +12,31 @@
 #include <mutex>
 
 namespace rl {
-class LooperObserver {
+class EventLoopObserver {
  public:
   using Callback = std::function<void(void)>;
 
   enum Activity {
     /**
-     *  Looper activities that take place just after the looper has processed
+     *  Event loop activities that take place just after the loop has processed
      *  all sources and is about to go to sleep.
      */
     BeforeSleep,
 
     /**
-     *  Looper activities that take place after the looper has woken up but
+     *  Event loop activities that take place after the loop has woken up but
      *  has still to process its sources.
      */
     AfterSleep,
   };
 
   /**
-   *  Create a looper observer at the specified absolute priority
+   *  Create an event loop observer at the specified absolute priority
    */
-  LooperObserver(uint64_t priority, Callback callback);
+  EventLoopObserver(uint64_t priority, Callback callback);
 
   /*
-   *  Invoke the looper observer callback
+   *  Invoke the event loop observer callback
    */
   void invoke() const;
 
@@ -51,17 +51,17 @@ class LooperObserver {
   const Callback _callback;
   const uint64_t _priority;
 
-  DISALLOW_COPY_AND_ASSIGN(LooperObserver);
+  DISALLOW_COPY_AND_ASSIGN(EventLoopObserver);
 };
 
-struct LooperObserverComparer {
-  bool operator()(std::shared_ptr<LooperObserver> a,
-                  std::shared_ptr<LooperObserver> b) const;
+struct EventLoopObserverComparer {
+  bool operator()(std::shared_ptr<EventLoopObserver> a,
+                  std::shared_ptr<EventLoopObserver> b) const;
 };
 
-class LooperObserverCollection {
+class EventLoopObserverCollection {
  public:
-  LooperObserverCollection();
+  EventLoopObserverCollection();
 
   /**
    *  Adds an observer to the collection.
@@ -69,7 +69,7 @@ class LooperObserverCollection {
    *
    *  @param observer the observer to add
    */
-  void addObserver(std::shared_ptr<LooperObserver> observer);
+  void addObserver(std::shared_ptr<EventLoopObserver> observer);
 
   /**
    *  Removes an observer from the collection.
@@ -77,7 +77,7 @@ class LooperObserverCollection {
    *
    *  @param observer the observer to remove
    */
-  void removeObserver(std::shared_ptr<LooperObserver> observer);
+  void removeObserver(std::shared_ptr<EventLoopObserver> observer);
 
   /**
    *  Invokes all member callbacks.
@@ -85,13 +85,13 @@ class LooperObserverCollection {
   void invokeAll();
 
  private:
-  using LooperObserversSet =
-      std::set<std::shared_ptr<LooperObserver>, LooperObserverComparer>;
+  using EventLoopObserversSet =
+      std::set<std::shared_ptr<EventLoopObserver>, EventLoopObserverComparer>;
   std::mutex _lock;
-  LooperObserversSet _observers;
+  EventLoopObserversSet _observers;
 
-  DISALLOW_COPY_AND_ASSIGN(LooperObserverCollection);
+  DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
 };
 }
 
-#endif /* defined(__RADARLOVER_CORE_LOOPEROBSERVER__) */
+#endif /* defined(__RADARLOVER_CORE_EVENT_LOOP_OBSERVER__) */

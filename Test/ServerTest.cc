@@ -3,8 +3,7 @@
 // found in the LICENSE file.
 
 #include <gtest/gtest.h>
-#include "Server.h"
-#include "Looper.h"
+#include <Core/Core.h>
 #include <thread>
 
 #if !__APPLE__

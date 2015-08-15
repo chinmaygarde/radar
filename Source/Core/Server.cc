@@ -112,22 +112,22 @@ void Server::onConnectionAvailableForAccept(Handle handle) {
   _clientAvailablilityCallback(std::make_shared<Channel>(connectionHandle));
 }
 
-std::shared_ptr<LooperSource> Server::clientConnectionsSource() {
+std::shared_ptr<EventLoopSource> Server::clientConnectionsSource() {
   if (_clientConnectionsSource.get() != nullptr) {
     return _clientConnectionsSource;
   }
 
   RL_ASSERT(_socketHandle != -1);
 
-  LooperSource::IOHandlesAllocator allocator =
-      [&]() { return LooperSource::Handles(_socketHandle, -1); };
+  EventLoopSource::IOHandlesAllocator allocator =
+      [&]() { return EventLoopSource::Handles(_socketHandle, -1); };
 
-  LooperSource::IOHandler readHandler = [&](LooperSource::Handle handle) {
+  EventLoopSource::IOHandler readHandler = [&](EventLoopSource::Handle handle) {
     this->onConnectionAvailableForAccept(handle);
   };
 
   _clientConnectionsSource =
-      std::make_shared<LooperSource>(allocator, nullptr, readHandler, nullptr);
+      std::make_shared<EventLoopSource>(allocator, nullptr, readHandler, nullptr);
 
   return _clientConnectionsSource;
 }

@@ -3,18 +3,18 @@
 // found in the LICENSE file.
 
 #include <Core/Macros.h>
-#include <Core/LooperSource.h>
+#include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
 
 #include <unistd.h>
 
 namespace rl {
 
-LooperSource::LooperSource(RWHandlesProvider handleProvider,
-                           RWHandlesCollector handleCollector,
-                           IOHandler readHandler,
-                           IOHandler writeHandler,
-                           WaitSetUpdateHandler waitsetUpdateHandler) {
+EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
+                                 RWHandlesCollector handleCollector,
+                                 IOHandler readHandler,
+                                 IOHandler writeHandler,
+                                 WaitSetUpdateHandler waitsetUpdateHandler) {
   _handlesProvider = handleProvider;
   _handlesCollector = handleCollector;
 
@@ -29,27 +29,27 @@ LooperSource::LooperSource(RWHandlesProvider handleProvider,
   _customWaitSetUpdateHandler = waitsetUpdateHandler;
 }
 
-LooperSource::~LooperSource() {
+EventLoopSource::~EventLoopSource() {
   if (_handlesAllocated && _handlesCollector != nullptr) {
     _handlesCollector(_handles);
   }
 }
 
-void LooperSource::onAwoken() {
+void EventLoopSource::onAwoken() {
   if (_wakeFunction != nullptr) {
     _wakeFunction();
   }
 }
 
-void LooperSource::setWakeFunction(WakeFunction wakeFunction) {
+void EventLoopSource::setWakeFunction(WakeFunction wakeFunction) {
   _wakeFunction = wakeFunction;
 }
 
-LooperSource::WakeFunction LooperSource::wakeFunction() const {
+EventLoopSource::WakeFunction EventLoopSource::wakeFunction() const {
   return _wakeFunction;
 }
 
-LooperSource::Handles LooperSource::handles() {
+EventLoopSource::Handles EventLoopSource::handles() {
   /*
    *  Handles are allocated lazily
    */
@@ -66,23 +66,23 @@ LooperSource::Handles LooperSource::handles() {
   return _handles;
 }
 
-LooperSource::Handle LooperSource::readHandle() {
+EventLoopSource::Handle EventLoopSource::readHandle() {
   return handles().first;
 }
 
-LooperSource::Handle LooperSource::writeHandle() {
+EventLoopSource::Handle EventLoopSource::writeHandle() {
   return handles().second;
 }
 
-LooperSource::IOHandler LooperSource::reader() {
+EventLoopSource::IOHandler EventLoopSource::reader() {
   return _readHandler;
 }
 
-LooperSource::IOHandler LooperSource::writer() {
+EventLoopSource::IOHandler EventLoopSource::writer() {
   return _writeHandler;
 }
 
-std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
+std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   /*
    *  We are using a simple pipe but this should likely be something
    *  that coalesces multiple writes. Something like an event_fd on Linux
@@ -101,10 +101,10 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
     RL_CHECK(::close(h.second));
   };
 
-  static const char LooperWakeMessage[] = "w";
+  static const char EventLoopWakeMessage[] = "w";
 
   IOHandler reader = [](Handle r) {
-    char buffer[sizeof(LooperWakeMessage) / sizeof(char)];
+    char buffer[sizeof(EventLoopWakeMessage) / sizeof(char)];
 
     ssize_t size = RL_TEMP_FAILURE_RETRY(::read(r, &buffer, sizeof(buffer)));
 
@@ -114,13 +114,13 @@ std::shared_ptr<LooperSource> LooperSource::AsTrivial() {
   IOHandler writer = [](Handle w) {
 
     ssize_t size = RL_TEMP_FAILURE_RETRY(
-        ::write(w, LooperWakeMessage, sizeof(LooperWakeMessage)));
+        ::write(w, EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
 
-    RL_ASSERT(size == sizeof(LooperWakeMessage));
+    RL_ASSERT(size == sizeof(EventLoopWakeMessage));
   };
 
-  return std::make_shared<LooperSource>(provider, collector, reader, writer,
-                                        nullptr);
+  return std::make_shared<EventLoopSource>(provider, collector, reader, writer,
+                                           nullptr);
 }
 
 }  // namespace rl

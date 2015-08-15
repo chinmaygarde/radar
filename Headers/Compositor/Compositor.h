@@ -31,10 +31,10 @@ class Compositor : RenderSurfaceObserver {
 
   /**
    *  Run the compositor on the current thread. This is a blocking operation and
-   *  the compositor owns its looper.
+   *  the compositor owns its loop.
    *
    *  @param readyLatch the latch triggered when the compositor has finished
-   *         starting up and is about to wait for the first time on its looper.
+   *         starting up and is about to wait for the first time on its loop.
    */
   void run(Latch& readyLatch);
 
@@ -57,7 +57,7 @@ class Compositor : RenderSurfaceObserver {
 
  private:
   std::shared_ptr<RenderSurface> _surface;
-  Looper* _looper;
+  EventLoop* _loop;
   std::mutex _lock;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;

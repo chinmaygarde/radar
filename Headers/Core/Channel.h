@@ -6,7 +6,7 @@
 #define __RADARLOVE_CORE_CHANNEL__
 
 #include <Core/Macros.h>
-#include <Core/Looper.h>
+#include <Core/EventLoop.h>
 #include <Core/ChannelProvider.h>
 #include <Core/Message.h>
 
@@ -42,7 +42,7 @@ class Channel {
 
   /**
    *  When messages arrive on this channel, a callback may be invoked on the
-   *  looper where this channel is scheduled. Get this callback
+   *  loop where this channel is scheduled. Get this callback
    *
    *  @return the message received callback
    */
@@ -50,7 +50,7 @@ class Channel {
 
   /**
    *  Update the callback that will be invoked when messages arrive on this
-   *  channel. The channel must be scheduled in a looper
+   *  channel. The channel must be scheduled in a loop
    *
    *  @param callback the new messages received callback
    */
@@ -77,15 +77,15 @@ class Channel {
    */
   void setTerminationCallback(TerminationCallback callback);
 
-#pragma mark - Looper interaction
+#pragma mark - Event Loopinteraction
 
   /**
-   *  Get a looper source for this channel. Channels need to be scheduled on
-   *  loopers to get message and lifecycle callbacks
+   *  Get a loop source for this channel. Channels need to be scheduled on
+   *  loops to get message and lifecycle callbacks
    *
-   *  @return the looper source for this channel
+   *  @return the loop source for this channel
    */
-  std::shared_ptr<LooperSource> source();
+  std::shared_ptr<EventLoopSource> source();
 
 #pragma mark - Manually reads
 
@@ -101,7 +101,7 @@ class Channel {
   TerminationCallback _terminationCallback;
   bool _terminated;
   std::unique_ptr<ChannelProvider> _provider;
-  std::shared_ptr<LooperSource> _source;
+  std::shared_ptr<EventLoopSource> _source;
 
   DISALLOW_COPY_AND_ASSIGN(Channel);
 };

@@ -12,7 +12,7 @@ namespace rl {
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
     : _surface(surface),
-      _looper(nullptr),
+      _loop(nullptr),
       _lock(),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
@@ -28,44 +28,44 @@ Compositor::~Compositor() {
 void Compositor::run(Latch& readyLatch) {
   auto ready = [&readyLatch]() { readyLatch.countDown(); };
 
-  if (_looper != nullptr) {
+  if (_loop != nullptr) {
     ready();
     return;
   }
 
-  _looper = Looper::Current();
+  _loop = EventLoop::Current();
   setupChannels();
-  _looper->loop(ready);
+  _loop->loop(ready);
 }
 
 void Compositor::shutdown(Latch& shutdownLatch) {
-  if (_looper == nullptr) {
+  if (_loop == nullptr) {
     shutdownLatch.countDown();
     return;
   }
 
-  _looper->dispatchAsync([&] {
+  _loop->dispatchAsync([&] {
     teardownChannels();
     stopComposition();
-    _looper->terminate();
+    _loop->terminate();
     shutdownLatch.countDown();
   });
 }
 
 bool Compositor::isRunning() const {
-  return _looper != nullptr;
+  return _loop != nullptr;
 }
 
 void Compositor::surfaceWasCreated() {
-  _looper->dispatchAsync([&] { startComposition(); });
+  _loop->dispatchAsync([&] { startComposition(); });
 }
 
 void Compositor::surfaceSizeUpdated(const Size& size) {
-  _looper->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
+  _loop->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
 }
 
 void Compositor::surfaceWasDestroyed() {
-  _looper->dispatchAsync([&] { stopComposition(); });
+  _loop->dispatchAsync([&] { stopComposition(); });
 }
 
 void Compositor::startComposition() {
@@ -144,16 +144,16 @@ InterfaceLease& Compositor::acquireLease(size_t count) {
 }
 
 void Compositor::manageInterfaceUpdates(bool schedule) {
-  if (_looper == nullptr || _interfaceLease == nullptr) {
+  if (_loop == nullptr || _interfaceLease == nullptr) {
     return;
   }
 
   if (schedule) {
     auto source = _interfaceLease->writeNotificationSource();
     source->setWakeFunction(std::bind(&Compositor::onInterfaceDidUpdate, this));
-    _looper->addSource(source);
+    _loop->addSource(source);
   } else {
-    _looper->removeSource(_interfaceLease->writeNotificationSource());
+    _loop->removeSource(_interfaceLease->writeNotificationSource());
   }
 }
 

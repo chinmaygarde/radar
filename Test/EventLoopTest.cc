@@ -4,30 +4,30 @@
 
 #include <stdio.h>
 
-#include "Looper.h"
+#include <Core/Core.h>
 #include <gtest/gtest.h>
 #include <thread>
 
-TEST(LooperTest, CurrentLooperAccess) {
-  rl::Looper* looper = rl::Looper::Current();
-  ASSERT_TRUE(looper != nullptr);
-  ASSERT_TRUE(rl::Looper::Current() == looper);
+TEST(EventLoopTest, CurrentEventLoopAccess) {
+  rl::EventLoop* loop = rl::EventLoop::Current();
+  ASSERT_TRUE(loop != nullptr);
+  ASSERT_TRUE(rl::EventLoop::Current() == loop);
 }
 
-TEST(LooperTest, LooperOnAnotherThread) {
-  rl::Looper* looper1 = rl::Looper::Current();
-  rl::Looper* looper2 = nullptr;
+TEST(EventLoopTest, EventLoopOnAnotherThread) {
+  rl::EventLoop* loop1 = rl::EventLoop::Current();
+  rl::EventLoop* loop2 = nullptr;
 
-  std::thread thread([&] { looper2 = rl::Looper::Current(); });
+  std::thread thread([&] { loop2 = rl::EventLoop::Current(); });
 
   thread.join();
 
-  ASSERT_TRUE(looper1 != looper2);
+  ASSERT_TRUE(loop1 != loop2);
 }
 
-TEST(LooperTest, SimpleLoop) {
+TEST(EventLoopTest, SimpleLoop) {
   std::thread thread([] {
-    auto outer = rl::Looper::Current();
+    auto outer = rl::EventLoop::Current();
 
     bool terminatedFromInner = false;
 
@@ -52,58 +52,58 @@ TEST(LooperTest, SimpleLoop) {
   ASSERT_TRUE(true);
 }
 
-TEST(LooperTest, Timer) {
+TEST(EventLoopTest, Timer) {
   std::thread timerThread([] {
 
-    auto looper = rl::Looper::Current();
+    auto loop = rl::EventLoop::Current();
 
     std::chrono::high_resolution_clock clock;
 
     auto start = clock.now();
 
-    auto timer = rl::LooperSource::AsTimer(std::chrono::milliseconds(10));
+    auto timer = rl::EventLoopSource::AsTimer(std::chrono::milliseconds(10));
 
     timer->setWakeFunction([clock, start]() {
       long long duration =
           std::chrono::duration_cast<std::chrono::milliseconds>(clock.now() -
                                                                 start)
               .count();
-      rl::Looper::Current()->terminate();
+      rl::EventLoop::Current()->terminate();
       ASSERT_TRUE(duration >= 5 &&
                   duration <=
                       15); /* FIXME: brittle, need a better way to check. */
     });
 
-    looper->addSource(timer);
+    loop->addSource(timer);
 
-    looper->loop();
+    loop->loop();
 
   });
 
   timerThread.join();
 }
 
-TEST(LooperTest, TimerRepetition) {
+TEST(EventLoopTest, TimerRepetition) {
   int count = 0;
 
   std::thread timerThread([&count] {
 
-    auto looper = rl::Looper::Current();
+    auto loop = rl::EventLoop::Current();
 
-    auto timer = rl::LooperSource::AsTimer(std::chrono::milliseconds(1));
+    auto timer = rl::EventLoopSource::AsTimer(std::chrono::milliseconds(1));
 
-    timer->setWakeFunction([&count, looper]() {
+    timer->setWakeFunction([&count, loop]() {
 
       count++;
 
       if (count == 10) {
-        looper->terminate();
+        loop->terminate();
       }
     });
 
-    looper->addSource(timer);
+    loop->addSource(timer);
 
-    looper->loop();
+    loop->loop();
 
   });
 

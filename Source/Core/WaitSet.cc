@@ -4,14 +4,14 @@
 
 #include <Core/WaitSet.h>
 #include <Core/Utilities.h>
-#include <Core/LooperSource.h>
+#include <Core/EventLoopSource.h>
 
 namespace rl {
 
 WaitSet::WaitSet() : _handle(platformHandleCreate()) {
 }
 
-bool WaitSet::addSource(std::shared_ptr<LooperSource> source) {
+bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
   if (_sources.find(source) != _sources.end()) {
     return false;
   }
@@ -22,7 +22,7 @@ bool WaitSet::addSource(std::shared_ptr<LooperSource> source) {
   return true;
 }
 
-bool WaitSet::removeSource(std::shared_ptr<LooperSource> source) {
+bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   if (_sources.find(source) == _sources.end()) {
     return false;
   }
@@ -33,7 +33,7 @@ bool WaitSet::removeSource(std::shared_ptr<LooperSource> source) {
   return true;
 }
 
-LooperSource* WaitSet::wait() {
+EventLoopSource* WaitSet::wait() {
   return platformHandleWait(_handle);
 }
 

@@ -5,7 +5,7 @@
 #ifndef __RADARLOVE_CORE_CHANNELPROVIDER__
 #define __RADARLOVE_CORE_CHANNELPROVIDER__
 
-#include <Core/LooperSource.h>
+#include <Core/EventLoopSource.h>
 #include <Core/Message.h>
 
 #include <vector>
@@ -24,11 +24,11 @@ class ChannelProvider {
   using ReadResult = std::pair<Result, Messages>;
 
   /**
-   *  Get a looper source for this channel provider
+   *  Get a loop source for this channel provider
    *
-   *  @return the looper source for this channel provider
+   *  @return the loop source for this channel provider
    */
-  virtual std::shared_ptr<LooperSource> createSource() const = 0;
+  virtual std::shared_ptr<EventLoopSource> createSource() const = 0;
 
   /**
    *  Write messages on the channel provider

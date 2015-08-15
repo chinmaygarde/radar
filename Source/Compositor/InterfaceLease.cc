@@ -37,7 +37,7 @@ static inline size_t InterfaceLease_SharedMemorySize(size_t entityCount) {
 InterfaceLease::InterfaceLease(size_t requestedCount)
     : _entityCount(requestedCount),
       _sharedMemory(InterfaceLease_SharedMemorySize(requestedCount)),
-      _writeNotificationSource(LooperSource::AsTrivial()),
+      _writeNotificationSource(EventLoopSource::Trivial()),
       _readArena(nullptr, 0, true),
       _writeArena(nullptr, 0, false) {
   assert(_sharedMemory.isReady());
@@ -89,7 +89,8 @@ uint8_t* InterfaceLease::swapWrite() {
   return header->write;
 }
 
-std::shared_ptr<LooperSource> InterfaceLease::writeNotificationSource() const {
+std::shared_ptr<EventLoopSource> InterfaceLease::writeNotificationSource()
+    const {
   return _writeNotificationSource;
 }
 

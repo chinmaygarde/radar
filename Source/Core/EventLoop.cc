@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Looper.h>
+#include <Core/EventLoop.h>
 #include <Core/Utilities.h>
 
 #include <pthread.h>
@@ -10,27 +10,28 @@
 
 namespace rl {
 
-Looper* Looper::Current() {
+EventLoop* EventLoop::Current() {
   static std::once_flag once;
-  static pthread_key_t LooperTLSKey;
+  static pthread_key_t EventLoopTLSKey;
 
   std::call_once(once, []() {
-    pthread_key_create(&LooperTLSKey, [](void* looper) {
-      delete static_cast<Looper*>(looper);
+    pthread_key_create(&EventLoopTLSKey, [](void* loop) {
+      delete static_cast<EventLoop*>(loop);
     });
   });
 
-  auto currentLooper = static_cast<Looper*>(pthread_getspecific(LooperTLSKey));
+  auto currentEventLoop =
+      static_cast<EventLoop*>(pthread_getspecific(EventLoopTLSKey));
 
-  if (currentLooper == nullptr) {
-    currentLooper = new Looper();
-    pthread_setspecific(LooperTLSKey, currentLooper);
+  if (currentEventLoop == nullptr) {
+    currentEventLoop = new EventLoop();
+    pthread_setspecific(EventLoopTLSKey, currentEventLoop);
   }
 
-  return currentLooper;
+  return currentEventLoop;
 }
 
-Looper::Looper()
+EventLoop::EventLoop()
     : _waitSet(),
       _trivialSource(nullptr),
       _shouldTerminate(false),
@@ -40,24 +41,24 @@ Looper::Looper()
       _afterSleepObservers() {
 }
 
-Looper::~Looper() {
+EventLoop::~EventLoop() {
 }
 
-bool Looper::addSource(std::shared_ptr<LooperSource> source) {
+bool EventLoop::addSource(std::shared_ptr<EventLoopSource> source) {
   return _waitSet.addSource(source);
 }
 
-bool Looper::removeSource(std::shared_ptr<LooperSource> source) {
+bool EventLoop::removeSource(std::shared_ptr<EventLoopSource> source) {
   return _waitSet.removeSource(source);
 }
 
-void Looper::loop(std::function<void(void)> onReady) {
+void EventLoop::loop(std::function<void(void)> onReady) {
   if (_trivialSource.get() == nullptr) {
     /*
      *  A trivial source needs to be added to keep the loop idle
      *  without any other sources present.
      */
-    _trivialSource = LooperSource::AsTrivial();
+    _trivialSource = EventLoopSource::Trivial();
     addSource(_trivialSource);
   }
 
@@ -68,7 +69,7 @@ void Looper::loop(std::function<void(void)> onReady) {
   beforeSleep();
 
   while (!_shouldTerminate) {
-    LooperSource* source = _waitSet.wait();
+    EventLoopSource* source = _waitSet.wait();
 
     if (source == nullptr) {
       continue;
@@ -90,22 +91,22 @@ void Looper::loop(std::function<void(void)> onReady) {
   _shouldTerminate = false;
 }
 
-void Looper::terminate() {
+void EventLoop::terminate() {
   _shouldTerminate = true;
   _trivialSource->writer()(_trivialSource->writeHandle());
 }
 
-void Looper::beforeSleep() {
+void EventLoop::beforeSleep() {
   flushPendingDispatches();
   _beforeSleepObservers.invokeAll();
 }
 
-void Looper::afterSleep() {
+void EventLoop::afterSleep() {
   flushPendingDispatches();
   _afterSleepObservers.invokeAll();
 }
 
-void Looper::flushPendingDispatches() {
+void EventLoop::flushPendingDispatches() {
   std::unique_ptr<std::list<Block>> pending;
 
   {
@@ -130,7 +131,7 @@ void Looper::flushPendingDispatches() {
   }
 }
 
-void Looper::dispatchAsync(std::function<void()> block) {
+void EventLoop::dispatchAsync(std::function<void()> block) {
   assert(_trivialSource && "A trivial source must be present");
 
   std::lock_guard<std::mutex> lock(_lock);
@@ -138,25 +139,25 @@ void Looper::dispatchAsync(std::function<void()> block) {
   _trivialSource->writer()(_trivialSource->writeHandle());
 }
 
-void Looper::addObserver(std::shared_ptr<LooperObserver> observer,
-                         LooperObserver::Activity activity) {
+void EventLoop::addObserver(std::shared_ptr<EventLoopObserver> observer,
+                            EventLoopObserver::Activity activity) {
   switch (activity) {
-    case LooperObserver::Activity::BeforeSleep:
+    case EventLoopObserver::Activity::BeforeSleep:
       _beforeSleepObservers.addObserver(observer);
       break;
-    case LooperObserver::Activity::AfterSleep:
+    case EventLoopObserver::Activity::AfterSleep:
       _afterSleepObservers.addObserver(observer);
       break;
   }
 }
 
-void Looper::removeObserver(std::shared_ptr<LooperObserver> observer,
-                            LooperObserver::Activity activity) {
+void EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
+                               EventLoopObserver::Activity activity) {
   switch (activity) {
-    case LooperObserver::Activity::BeforeSleep:
+    case EventLoopObserver::Activity::BeforeSleep:
       _beforeSleepObservers.removeObserver(observer);
       break;
-    case LooperObserver::Activity::AfterSleep:
+    case EventLoopObserver::Activity::AfterSleep:
       _afterSleepObservers.removeObserver(observer);
       break;
   }

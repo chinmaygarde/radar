@@ -10,7 +10,7 @@
 #include <set>
 
 namespace rl {
-class LooperSource;
+class EventLoopSource;
 /**
  *  A waitset is an abstraction over a platform specific event multiplexing API
  */
@@ -28,38 +28,38 @@ class WaitSet {
 
 #pragma mark - Managing wait set sources
   /**
-   *  Add a looper source to the wait set
+   *  Add a loop source to the wait set
    *
-   *  @param source the looper source reference to add
+   *  @param source the loop source reference to add
    *
    *  @return if the source was successfully added to the waitset
    */
-  bool addSource(std::shared_ptr<LooperSource> source);
+  bool addSource(std::shared_ptr<EventLoopSource> source);
 
   /**
-   *  Remove a looper source from the wait set
+   *  Remove a loop source from the wait set
    *
-   *  @param source the looper source reference to remove
+   *  @param source the loop source reference to remove
    *
    *  @return if the source was successfully removed from the waitset
    */
-  bool removeSource(std::shared_ptr<LooperSource> source);
+  bool removeSource(std::shared_ptr<EventLoopSource> source);
 
 #pragma mark - Waiting on the waitset
 
   /**
    *  Waits for events to be signalled on the waitset
    *
-   *  @return the first looper source signalled on the waitset
+   *  @return the first loop source signalled on the waitset
    */
-  LooperSource* wait();
+  EventLoopSource* wait();
 
  private:
   Handle _handle;
   static Handle platformHandleCreate();
-  static LooperSource* platformHandleWait(Handle handle);
+  static EventLoopSource* platformHandleWait(Handle handle);
   static void platformHandleDestory(Handle handle);
-  std::set<std::shared_ptr<LooperSource>> _sources;
+  std::set<std::shared_ptr<EventLoopSource>> _sources;
 
   DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };

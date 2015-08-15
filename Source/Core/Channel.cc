@@ -99,7 +99,7 @@ void Channel::setTerminationCallback(Channel::TerminationCallback callback) {
   _terminationCallback = callback;
 }
 
-std::shared_ptr<LooperSource> Channel::source() {
+std::shared_ptr<EventLoopSource> Channel::source() {
   if (_source) {
     return _source;
   }

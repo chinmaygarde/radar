@@ -18,19 +18,19 @@ TEST(ChannelTest, TestSimpleReads) {
   rl::Latch latch(1);
 
   std::thread thread([&] {
-    auto looper = rl::Looper::Current();
-    ASSERT_TRUE(looper != nullptr);
+    auto loop = rl::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
-    ASSERT_TRUE(looper->addSource(source));
+    ASSERT_TRUE(loop->addSource(source));
 
     channel.setMessagesReceivedCallback([&](rl::Messages m) {
       ASSERT_TRUE(m.size() == 1);
-      ASSERT_TRUE(looper == rl::Looper::Current());
-      looper->terminate();
+      ASSERT_TRUE(loop == rl::EventLoop::Current());
+      loop->terminate();
     });
 
-    looper->loop([&] { latch.countDown(); });
+    loop->loop([&] { latch.countDown(); });
   });
 
   latch.wait();
@@ -54,15 +54,15 @@ TEST(ChannelTest, TestSimpleReadContents) {
   size_t sendSize = 0;
 
   std::thread thread([&] {
-    auto looper = rl::Looper::Current();
-    ASSERT_TRUE(looper != nullptr);
+    auto loop = rl::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
-    ASSERT_TRUE(looper->addSource(source));
+    ASSERT_TRUE(loop->addSource(source));
 
     channel.setMessagesReceivedCallback([&](rl::Messages messages) {
       ASSERT_TRUE(messages.size() == 1);
-      ASSERT_TRUE(looper == rl::Looper::Current());
+      ASSERT_TRUE(loop == rl::EventLoop::Current());
 
       auto& m = messages[0];
 
@@ -75,10 +75,10 @@ TEST(ChannelTest, TestSimpleReadContents) {
       ASSERT_TRUE(c == 'c');
       ASSERT_TRUE(d == 222);
 
-      looper->terminate();
+      loop->terminate();
     });
 
-    looper->loop([&] { latch.countDown(); });
+    loop->loop([&] { latch.countDown(); });
   });
 
   latch.wait();

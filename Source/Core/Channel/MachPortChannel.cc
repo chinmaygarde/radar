@@ -103,12 +103,12 @@ MachPortChannel::~MachPortChannel() {
    */
 }
 
-std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
-  using LS = LooperSource;
+std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
+  using ELS = EventLoopSource;
 
-  auto allocator = [&]() { return LS::Handles(_setHandle, _setHandle); };
+  auto allocator = [&]() { return ELS::Handles(_setHandle, _setHandle); };
   auto readHandler = [&](Handle handle) { _channel.readPendingMessageNow(); };
-  auto updateHandler = [](LooperSource* source, WaitSet::Handle kev,
+  auto updateHandler = [](EventLoopSource* source, WaitSet::Handle kev,
                           Handle ident, bool adding) {
 
     struct kevent event = {0};
@@ -125,8 +125,8 @@ std::shared_ptr<LooperSource> MachPortChannel::createSource() const {
     RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(kev, &event, 1, nullptr, 0, NULL));
   };
 
-  return std::make_shared<LS>(allocator, nullptr, readHandler, nullptr,
-                              updateHandler);
+  return std::make_shared<ELS>(allocator, nullptr, readHandler, nullptr,
+                               updateHandler);
 }
 
 ChannelProvider::Result MachPortChannel::WriteMessages(

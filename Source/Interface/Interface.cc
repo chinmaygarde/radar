@@ -19,7 +19,7 @@ static pthread_key_t InterfaceTLSKey() {
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
                      InterfaceLease& lease)
-    : _looper(nullptr),
+    : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
       _rootLayer(nullptr),
@@ -40,7 +40,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
           #undef F
           // clang-format on
       }) {
-  _autoFlushObserver = std::make_shared<LooperObserver>(
+  _autoFlushObserver = std::make_shared<EventLoopObserver>(
       std::numeric_limits<uint64_t>::max(), [&] {
         flushTransactions();
         armAutoFlushTransactions(false);
@@ -50,13 +50,13 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
 }
 
 void Interface::run(Latch& readyLatch) {
-  if (_looper != nullptr) {
+  if (_loop != nullptr) {
     readyLatch.countDown();
     return;
   }
 
-  _looper = Looper::Current();
-  _looper->loop([&]() {
+  _loop = EventLoop::Current();
+  _loop->loop([&]() {
     pthread_setspecific(InterfaceTLSKey(), this);
     setupEventChannels();
     _state.setState(Active, true);
@@ -65,19 +65,19 @@ void Interface::run(Latch& readyLatch) {
 }
 
 bool Interface::isRunning() const {
-  return _looper != nullptr;
+  return _loop != nullptr;
 }
 
 void Interface::shutdown(rl::Latch& onShutdown) {
-  if (_looper == nullptr) {
+  if (_loop == nullptr) {
     onShutdown.countDown();
     return;
   }
 
-  _looper->dispatchAsync([&]() {
+  _loop->dispatchAsync([&]() {
     performTerminationCleanup();
     cleanupEventChannels();
-    _looper->terminate();
+    _loop->terminate();
     pthread_setspecific(InterfaceTLSKey(), nullptr);
     onShutdown.countDown();
   });
@@ -95,7 +95,7 @@ void Interface::setSize(const Size& size) {
   _size = size;
 
   if (isRunning()) {
-    _looper->dispatchAsync([&]() { didUpdateSize(); });
+    _loop->dispatchAsync([&]() { didUpdateSize(); });
   }
 }
 
@@ -132,12 +132,12 @@ void Interface::popTransaction() {
 }
 
 void Interface::armAutoFlushTransactions(bool arm) {
-  const auto activity = LooperObserver::Activity::BeforeSleep;
+  const auto activity = EventLoopObserver::Activity::BeforeSleep;
 
   if (arm) {
-    _looper->addObserver(_autoFlushObserver, activity);
+    _loop->addObserver(_autoFlushObserver, activity);
   } else {
-    _looper->removeObserver(_autoFlushObserver, activity);
+    _loop->removeObserver(_autoFlushObserver, activity);
   }
 }
 
@@ -180,13 +180,13 @@ void Interface::finalizeLeaseWrite() {
 }
 
 void Interface::setupEventChannels() {
-  assert(_looper == Looper::Current());
-  bool result = _looper->addSource(_touchEventChannel.source());
+  assert(_loop == EventLoop::Current());
+  bool result = _loop->addSource(_touchEventChannel.source());
   assert(result == true);
 }
 
 void Interface::cleanupEventChannels() {
-  bool result = _looper->removeSource(_touchEventChannel.source());
+  bool result = _loop->removeSource(_touchEventChannel.source());
   assert(result == true);
 }
 

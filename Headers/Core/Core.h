@@ -27,11 +27,11 @@
 #include <Core/Channel.h>
 
 /*
- *  Loopers
+ *  Event Loops
  */
-#include <Core/Looper.h>
-#include <Core/LooperObserver.h>
-#include <Core/LooperSource.h>
+#include <Core/EventLoop.h>
+#include <Core/EventLoopObserver.h>
+#include <Core/EventLoopSource.h>
 #include <Core/WaitSet.h>
 
 /*

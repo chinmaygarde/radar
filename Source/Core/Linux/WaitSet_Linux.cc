@@ -18,7 +18,7 @@ WaitSet::Handle WaitSet::platformHandleCreate() {
   return handle;
 }
 
-LooperSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
+EventLoopSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
   struct epoll_event event = {0};
 
   int val = RL_TEMP_FAILURE_RETRY(
@@ -26,7 +26,7 @@ LooperSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
 
   RL_ASSERT(val == 1);
 
-  return static_cast<LooperSource*>(event.data.ptr);
+  return static_cast<EventLoopSource*>(event.data.ptr);
 }
 
 void WaitSet::platformHandleDestory(WaitSet::Handle handle) {

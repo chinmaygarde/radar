@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
-		9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* LooperObserver.cc */; };
-		9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* LooperObserver.h */; };
+		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
+		9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */; };
 		9E222CDD1B6A9387005D02EE /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDB1B6A9387005D02EE /* Action.cc */; };
 		9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */; };
 		9E222CE11B6A9394005D02EE /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CDF1B6A9394005D02EE /* Action.h */; };
@@ -22,7 +22,7 @@
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
 		9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.cc */; };
 		9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80B1B796D81008DE08E /* LayerTest.cc */; };
-		9E62F8D51B796ED3008DE08E /* LooperTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* LooperTest.cc */; };
+		9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* EventLoopTest.cc */; };
 		9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */; };
 		9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */; };
 		9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80F1B796D81008DE08E /* ServerTest.cc */; };
@@ -66,8 +66,8 @@
 		9EAECE7A1B685460000FA38A /* Config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4C1B685460000FA38A /* Config.h */; };
 		9EAECE7B1B685460000FA38A /* Guard.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4D1B685460000FA38A /* Guard.h */; };
 		9EAECE7C1B685460000FA38A /* Latch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4E1B685460000FA38A /* Latch.h */; };
-		9EAECE7E1B685460000FA38A /* Looper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE501B685460000FA38A /* Looper.h */; };
-		9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE511B685460000FA38A /* LooperSource.h */; };
+		9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE501B685460000FA38A /* EventLoop.h */; };
+		9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE511B685460000FA38A /* EventLoopSource.h */; };
 		9EAECE801B685460000FA38A /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE521B685460000FA38A /* Message.h */; };
 		9EAECE821B685460000FA38A /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE541B685460000FA38A /* Server.h */; };
 		9EAECE831B685460000FA38A /* SharedMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE551B685460000FA38A /* SharedMemory.h */; };
@@ -97,13 +97,13 @@
 		9EAECED11B685469000FA38A /* Program.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA01B685469000FA38A /* Program.cc */; };
 		9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA11B685469000FA38A /* ProgramCatalog.cc */; };
 		9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA21B685469000FA38A /* RenderSurface.cc */; };
-		9EAECED41B685469000FA38A /* LooperSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA51B685469000FA38A /* LooperSource_Apple.cc */; };
+		9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */; };
 		9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */; };
 		9EAECED71B685469000FA38A /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA81B685469000FA38A /* Channel.cc */; };
 		9EAECED81B685469000FA38A /* Guard.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA91B685469000FA38A /* Guard.cc */; };
 		9EAECED91B685469000FA38A /* Latch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAA1B685469000FA38A /* Latch.cc */; };
-		9EAECEDC1B685469000FA38A /* Looper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAE1B685469000FA38A /* Looper.cc */; };
-		9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAF1B685469000FA38A /* LooperSource.cc */; };
+		9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAE1B685469000FA38A /* EventLoop.cc */; };
+		9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAF1B685469000FA38A /* EventLoopSource.cc */; };
 		9EAECEDE1B685469000FA38A /* Message.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB01B685469000FA38A /* Message.cc */; };
 		9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB31B685469000FA38A /* SharedMemory.cc */; };
 		9EAECEE31B685469000FA38A /* Utilities.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB51B685469000FA38A /* Utilities.cc */; };
@@ -213,8 +213,8 @@
 /* Begin PBXFileReference section */
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
-		9E222CD71B69ABCF005D02EE /* LooperObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperObserver.cc; sourceTree = "<group>"; };
-		9E222CD91B69ABEC005D02EE /* LooperObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperObserver.h; sourceTree = "<group>"; };
+		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
+		9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoopObserver.h; sourceTree = "<group>"; };
 		9E222CDB1B6A9387005D02EE /* Action.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
 		9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceTransaction.cc; sourceTree = "<group>"; };
 		9E222CDF1B6A9394005D02EE /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelTest.cc; sourceTree = "<group>"; };
 		9E62F80B1B796D81008DE08E /* LayerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerTest.cc; sourceTree = "<group>"; };
-		9E62F80C1B796D81008DE08E /* LooperTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperTest.cc; sourceTree = "<group>"; };
+		9E62F80C1B796D81008DE08E /* EventLoopTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopTest.cc; sourceTree = "<group>"; };
 		9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDecoderTest.cc; sourceTree = "<group>"; };
 		9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageEncoderTest.cc; sourceTree = "<group>"; };
 		9E62F80F1B796D81008DE08E /* ServerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerTest.cc; sourceTree = "<group>"; };
@@ -271,8 +271,8 @@
 		9EAECE4C1B685460000FA38A /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		9EAECE4D1B685460000FA38A /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
 		9EAECE4E1B685460000FA38A /* Latch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Latch.h; sourceTree = "<group>"; };
-		9EAECE501B685460000FA38A /* Looper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Looper.h; sourceTree = "<group>"; };
-		9EAECE511B685460000FA38A /* LooperSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LooperSource.h; sourceTree = "<group>"; };
+		9EAECE501B685460000FA38A /* EventLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoop.h; sourceTree = "<group>"; };
+		9EAECE511B685460000FA38A /* EventLoopSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoopSource.h; sourceTree = "<group>"; };
 		9EAECE521B685460000FA38A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		9EAECE541B685460000FA38A /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		9EAECE551B685460000FA38A /* SharedMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemory.h; sourceTree = "<group>"; };
@@ -302,15 +302,15 @@
 		9EAECEA01B685469000FA38A /* Program.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cc; sourceTree = "<group>"; };
 		9EAECEA11B685469000FA38A /* ProgramCatalog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramCatalog.cc; sourceTree = "<group>"; };
 		9EAECEA21B685469000FA38A /* RenderSurface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSurface.cc; sourceTree = "<group>"; };
-		9EAECEA51B685469000FA38A /* LooperSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperSource_Apple.cc; sourceTree = "<group>"; };
+		9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Apple.cc; sourceTree = "<group>"; };
 		9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Apple.cc; sourceTree = "<group>"; };
 		9EAECEA81B685469000FA38A /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9EAECEA91B685469000FA38A /* Guard.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cc; sourceTree = "<group>"; };
 		9EAECEAA1B685469000FA38A /* Latch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Latch.cc; sourceTree = "<group>"; };
-		9EAECEAC1B685469000FA38A /* LooperSource_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperSource_Linux.cc; sourceTree = "<group>"; };
+		9EAECEAC1B685469000FA38A /* EventLoopSource_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Linux.cc; sourceTree = "<group>"; };
 		9EAECEAD1B685469000FA38A /* WaitSet_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Linux.cc; sourceTree = "<group>"; };
-		9EAECEAE1B685469000FA38A /* Looper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Looper.cc; sourceTree = "<group>"; };
-		9EAECEAF1B685469000FA38A /* LooperSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LooperSource.cc; sourceTree = "<group>"; };
+		9EAECEAE1B685469000FA38A /* EventLoop.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoop.cc; sourceTree = "<group>"; };
+		9EAECEAF1B685469000FA38A /* EventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource.cc; sourceTree = "<group>"; };
 		9EAECEB01B685469000FA38A /* Message.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cc; sourceTree = "<group>"; };
 		9EAECEB21B685469000FA38A /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		9EAECEB31B685469000FA38A /* SharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory.cc; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 			children = (
 				9E62F74A1B796D80008DE08E /* ChannelTest.cc */,
 				9E62F80B1B796D81008DE08E /* LayerTest.cc */,
-				9E62F80C1B796D81008DE08E /* LooperTest.cc */,
+				9E62F80C1B796D81008DE08E /* EventLoopTest.cc */,
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */,
 				9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */,
 				9E62F80F1B796D81008DE08E /* ServerTest.cc */,
@@ -507,9 +507,9 @@
 				9EAECE4C1B685460000FA38A /* Config.h */,
 				9EAECE4D1B685460000FA38A /* Guard.h */,
 				9EAECE4E1B685460000FA38A /* Latch.h */,
-				9EAECE501B685460000FA38A /* Looper.h */,
-				9EAECE511B685460000FA38A /* LooperSource.h */,
-				9E222CD91B69ABEC005D02EE /* LooperObserver.h */,
+				9EAECE501B685460000FA38A /* EventLoop.h */,
+				9EAECE511B685460000FA38A /* EventLoopSource.h */,
+				9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */,
 				9EAECE521B685460000FA38A /* Message.h */,
 				9EAECE541B685460000FA38A /* Server.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
@@ -622,9 +622,9 @@
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
-				9EAECEAE1B685469000FA38A /* Looper.cc */,
-				9EAECEAF1B685469000FA38A /* LooperSource.cc */,
-				9E222CD71B69ABCF005D02EE /* LooperObserver.cc */,
+				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
+				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
+				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
 				9EAECEB21B685469000FA38A /* Server.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
@@ -638,7 +638,7 @@
 		9EAECEA41B685469000FA38A /* Apple */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECEA51B685469000FA38A /* LooperSource_Apple.cc */,
+				9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */,
 				9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */,
 			);
 			path = Apple;
@@ -647,7 +647,7 @@
 		9EAECEAB1B685469000FA38A /* Linux */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECEAC1B685469000FA38A /* LooperSource_Linux.cc */,
+				9EAECEAC1B685469000FA38A /* EventLoopSource_Linux.cc */,
 				9EAECEAD1B685469000FA38A /* WaitSet_Linux.cc */,
 			);
 			path = Linux;
@@ -733,7 +733,7 @@
 			files = (
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
-				9EAECE7F1B685460000FA38A /* LooperSource.h in Headers */,
+				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */,
@@ -747,7 +747,7 @@
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
-				9EAECE7E1B685460000FA38A /* Looper.h in Headers */,
+				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
@@ -766,7 +766,7 @@
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
-				9E222CDA1B69ABEC005D02EE /* LooperObserver.h in Headers */,
+				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
@@ -931,7 +931,7 @@
 			files = (
 				9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */,
 				9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */,
-				9E62F8D51B796ED3008DE08E /* LooperTest.cc in Sources */,
+				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
@@ -961,7 +961,7 @@
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */,
-				9EAECEDD1B685469000FA38A /* LooperSource.cc in Sources */,
+				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
@@ -975,10 +975,10 @@
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
-				9EAECED41B685469000FA38A /* LooperSource_Apple.cc in Sources */,
+				9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
-				9EAECEDC1B685469000FA38A /* Looper.cc in Sources */,
+				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
@@ -987,7 +987,7 @@
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
-				9E222CD81B69ABCF005D02EE /* LooperObserver.cc in Sources */,
+				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
 				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,
