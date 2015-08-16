@@ -69,22 +69,31 @@ void EventLoop::loop(std::function<void(void)> onReady) {
   beforeSleep();
 
   while (!_shouldTerminate) {
-    EventLoopSource* source = _waitSet.wait();
+    /*
+     *  Sleep
+     */
+    auto& source = _waitSet.wait();
 
-    if (source == nullptr) {
-      continue;
-    }
-
+    /*
+     *  Flush loop observers (post-sleep)
+     */
     afterSleep();
 
-    auto reader = source->reader();
-
-    if (reader) {
-      reader(source->readHandle());
+    /*
+     *  Read the data for the signalled source
+     */
+    if (auto reader = source.reader()) {
+      reader(source.readHandle());
     }
 
-    source->onAwoken();
+    /*
+     *  Perform on wake callbacks for the source
+     */
+    source.onAwoken();
 
+    /*
+     *  Flush loop observer (pre-sleep)
+     */
     beforeSleep();
   }
 

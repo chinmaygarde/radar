@@ -17,15 +17,16 @@ WaitSet::Handle WaitSet::platformHandleCreate() {
   return handle;
 }
 
-EventLoopSource* WaitSet::platformHandleWait(WaitSet::Handle handle) {
+EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
   struct kevent event = {0};
 
   int val =
       RL_TEMP_FAILURE_RETRY(::kevent(handle, nullptr, 0, &event, 1, nullptr));
 
   RL_ASSERT(val == 1);
+  RL_ASSERT(event.udata != nullptr);
 
-  return static_cast<EventLoopSource*>(event.udata);
+  return *static_cast<EventLoopSource*>(event.udata);
 }
 
 void WaitSet::platformHandleDestory(WaitSet::Handle handle) {

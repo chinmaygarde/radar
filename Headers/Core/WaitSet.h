@@ -52,12 +52,12 @@ class WaitSet {
    *
    *  @return the first loop source signalled on the waitset
    */
-  EventLoopSource* wait();
+  EventLoopSource& wait();
 
  private:
   Handle _handle;
   static Handle platformHandleCreate();
-  static EventLoopSource* platformHandleWait(Handle handle);
+  static EventLoopSource& platformHandleWait(Handle handle);
   static void platformHandleDestory(Handle handle);
   std::set<std::shared_ptr<EventLoopSource>> _sources;
 

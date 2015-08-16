@@ -33,7 +33,7 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   return true;
 }
 
-EventLoopSource* WaitSet::wait() {
+EventLoopSource& WaitSet::wait() {
   return platformHandleWait(_handle);
 }
 
