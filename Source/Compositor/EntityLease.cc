@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Compositor/InterfaceLease.h>
+#include <Compositor/EntityLease.h>
 #include <Compositor/PresentationEntity.h>
 #include <atomic>
 
@@ -24,7 +24,7 @@ static_assert(sizeof(std::atomic<uint8_t*>) == sizeof(uint8_t*),
  *
  *  @return the size of the allocation
  */
-static inline size_t InterfaceLease_SharedMemorySize(size_t entityCount) {
+static inline size_t EntityLease_SharedMemorySize(size_t entityCount) {
   /*
    *  The shared memory allocation is triple buffered. So we need three times
    *  the size of the expected entity arenas. Also, the pointers to the buffers
@@ -34,9 +34,9 @@ static inline size_t InterfaceLease_SharedMemorySize(size_t entityCount) {
   return sizeof(LeaseHeader) + (3 * EntityArena::Size(entityCount));
 }
 
-InterfaceLease::InterfaceLease(size_t requestedCount)
+EntityLease::EntityLease(size_t requestedCount)
     : _entityCount(requestedCount),
-      _sharedMemory(InterfaceLease_SharedMemorySize(requestedCount)),
+      _sharedMemory(EntityLease_SharedMemorySize(requestedCount)),
       _writeNotificationSource(EventLoopSource::Trivial()),
       _readArena(nullptr, 0, true),
       _writeArena(nullptr, 0, false) {
@@ -51,7 +51,7 @@ InterfaceLease::InterfaceLease(size_t requestedCount)
   accessWriteArena(true, false);
 }
 
-EntityArena& InterfaceLease::accessReadArena(bool swap) {
+EntityArena& EntityLease::accessReadArena(bool swap) {
   if (!swap) {
     return _readArena;
   }
@@ -60,7 +60,7 @@ EntityArena& InterfaceLease::accessReadArena(bool swap) {
   return _readArena;
 }
 
-EntityArena& InterfaceLease::accessWriteArena(bool swap, bool notify) {
+EntityArena& EntityLease::accessWriteArena(bool swap, bool notify) {
   if (!swap) {
     return _writeArena;
   }
@@ -69,13 +69,13 @@ EntityArena& InterfaceLease::accessWriteArena(bool swap, bool notify) {
   return _writeArena;
 }
 
-EntityArena InterfaceLease::swapRead() {
+EntityArena EntityLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->read.exchange(header->back);
   return EntityArena(header->read, EntityArena::Size(_entityCount), true);
 }
 
-EntityArena InterfaceLease::swapWrite(bool notify) {
+EntityArena EntityLease::swapWrite(bool notify) {
   auto ret = swapWrite();
   if (notify) {
     _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
@@ -83,14 +83,13 @@ EntityArena InterfaceLease::swapWrite(bool notify) {
   return EntityArena(ret, EntityArena::Size(_entityCount), false);
 }
 
-uint8_t* InterfaceLease::swapWrite() {
+uint8_t* EntityLease::swapWrite() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->write.exchange(header->back);
   return header->write;
 }
 
-std::shared_ptr<EventLoopSource> InterfaceLease::writeNotificationSource()
-    const {
+std::shared_ptr<EventLoopSource> EntityLease::writeNotificationSource() const {
   return _writeNotificationSource;
 }
 

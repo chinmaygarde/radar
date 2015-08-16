@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_INTERFACELEASE__
-#define __RADARLOVE_COMPOSITOR_INTERFACELEASE__
+#ifndef __RADARLOVE_COMPOSITOR_ENTITY_LEASE__
+#define __RADARLOVE_COMPOSITOR_ENTITY_LEASE__
 
 #include <Core/Core.h>
 #include <Compositor/EntityArena.h>
 
 namespace rl {
-class InterfaceLease {
+class EntityLease {
  public:
-  InterfaceLease(size_t entityCount);
+  EntityLease(size_t entityCount);
 
   std::shared_ptr<EventLoopSource> writeNotificationSource() const;
 
@@ -29,8 +29,8 @@ class InterfaceLease {
   EntityArena swapWrite(bool notify);
   uint8_t* swapWrite();
 
-  DISALLOW_COPY_AND_ASSIGN(InterfaceLease);
+  DISALLOW_COPY_AND_ASSIGN(EntityLease);
 };
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_INTERFACELEASE__) */
+#endif /* defined(__RADARLOVE_COMPOSITOR_ENTITY_LEASE__) */

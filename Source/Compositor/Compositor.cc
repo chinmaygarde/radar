@@ -14,7 +14,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _lock(),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
-      _interfaceLease(nullptr) {
+      _lease(nullptr) {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);
@@ -112,7 +112,7 @@ void Compositor::drawSingleFrame() {
   /*
    *  Update the read head
    */
-  auto readArena = _interfaceLease->accessReadArena(false);
+  auto readArena = _lease->accessReadArena(false);
   for (size_t i = 0, size = readArena.encodedEntities(); i < size; i++) {
     auto& entity = readArena[i];
     Primitive p;
@@ -130,37 +130,37 @@ void Compositor::teardownChannels() {
   manageInterfaceUpdates(false);
 }
 
-InterfaceLease& Compositor::acquireLease(size_t count) {
-  if (_interfaceLease != nullptr) {
-    return *_interfaceLease;
+EntityLease& Compositor::acquireLease(size_t count) {
+  if (_lease != nullptr) {
+    return *_lease;
   }
 
-  _interfaceLease = rl::make_unique<InterfaceLease>(count);
+  _lease = rl::make_unique<EntityLease>(count);
   manageInterfaceUpdates(true);
 
-  RL_ASSERT(_interfaceLease != nullptr);
-  return *_interfaceLease;
+  RL_ASSERT(_lease != nullptr);
+  return *_lease;
 }
 
 void Compositor::manageInterfaceUpdates(bool schedule) {
-  if (_loop == nullptr || _interfaceLease == nullptr) {
+  if (_loop == nullptr || _lease == nullptr) {
     return;
   }
 
   if (schedule) {
-    auto source = _interfaceLease->writeNotificationSource();
+    auto source = _lease->writeNotificationSource();
     source->setWakeFunction(std::bind(&Compositor::onInterfaceDidUpdate, this));
     _loop->addSource(source);
   } else {
-    _loop->removeSource(_interfaceLease->writeNotificationSource());
+    _loop->removeSource(_lease->writeNotificationSource());
   }
 }
 
 void Compositor::onInterfaceDidUpdate() {
-  if (_interfaceLease == nullptr) {
+  if (_lease == nullptr) {
     return;
   }
-  _interfaceLease->accessReadArena(true);
+  _lease->accessReadArena(true);
   drawSingleFrame();
 }
 

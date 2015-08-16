@@ -11,7 +11,7 @@
 
 #include <Compositor/RenderSurface.h>
 #include <Compositor/ProgramCatalog.h>
-#include <Compositor/InterfaceLease.h>
+#include <Compositor/EntityLease.h>
 
 #include <mutex>
 
@@ -53,7 +53,7 @@ class Compositor : RenderSurfaceObserver {
 
 #pragma mark - Interface Lease Management
 
-  InterfaceLease& acquireLease(size_t layer = 256);
+  EntityLease& acquireLease(size_t layer = 256);
 
  private:
   std::shared_ptr<RenderSurface> _surface;
@@ -61,7 +61,7 @@ class Compositor : RenderSurfaceObserver {
   std::mutex _lock;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::unique_ptr<InterfaceLease> _interfaceLease;
+  std::unique_ptr<EntityLease> _lease;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;

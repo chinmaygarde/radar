@@ -17,7 +17,7 @@ static pthread_key_t InterfaceTLSKey() {
 }
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     InterfaceLease& lease)
+                     EntityLease& lease)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
