@@ -61,7 +61,7 @@ TEST(EventLoopTest, Timer) {
 
     auto start = clock.now();
 
-    auto timer = rl::EventLoopSource::AsTimer(std::chrono::milliseconds(10));
+    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(10));
 
     timer->setWakeFunction([clock, start]() {
       long long duration =
@@ -90,7 +90,7 @@ TEST(EventLoopTest, TimerRepetition) {
 
     auto loop = rl::EventLoop::Current();
 
-    auto timer = rl::EventLoopSource::AsTimer(std::chrono::milliseconds(1));
+    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(1));
 
     timer->setWakeFunction([&count, loop]() {
 

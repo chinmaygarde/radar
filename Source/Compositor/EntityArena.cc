@@ -30,7 +30,7 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
 }
 
 PresentationEntity* EntityArena::emplaceEntity(const Entity& entity,
-                                               size_t parentIndex) {
+                                               int32_t parentIndex) {
   auto allocation = alloc(sizeof(PresentationEntity));
 
   if (allocation == nullptr) {

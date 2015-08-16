@@ -34,7 +34,7 @@
 		9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.cc */; };
 		9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */; };
 		9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9081B7BEEB2008DE08E /* EntityLease.h */; };
-		9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */; };
+		9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */; };
 		9E62F90D1B7C1672008DE08E /* PresentationEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F90C1B7C1672008DE08E /* PresentationEntity.h */; };
 		9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */; };
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
@@ -238,7 +238,7 @@
 		9E62F8F91B7983A2008DE08E /* LatchTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LatchTest.cc; sourceTree = "<group>"; };
 		9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLease.cc; sourceTree = "<group>"; };
 		9E62F9081B7BEEB2008DE08E /* EntityLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityLease.h; sourceTree = "<group>"; };
-		9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceLeaseTest.cc; sourceTree = "<group>"; };
+		9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLeaseTest.cc; sourceTree = "<group>"; };
 		9E62F90C1B7C1672008DE08E /* PresentationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationEntity.h; sourceTree = "<group>"; };
 		9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationEntity.cc; sourceTree = "<group>"; };
 		9E62F9101B7C199D008DE08E /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
@@ -389,7 +389,7 @@
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */,
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
-				9E62F90A1B7BFA49008DE08E /* InterfaceLeaseTest.cc */,
+				9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -933,7 +933,7 @@
 				9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */,
 				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
-				9E62F90B1B7BFA49008DE08E /* InterfaceLeaseTest.cc in Sources */,
+				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
 				9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
