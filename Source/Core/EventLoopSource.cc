@@ -82,6 +82,15 @@ EventLoopSource::IOHandler EventLoopSource::writer() {
   return _writeHandler;
 }
 
+void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
+                                            bool shouldAdd) {
+  if (_customWaitSetUpdateHandler) {
+    _customWaitSetUpdateHandler(this, waitsetHandle, readHandle(), shouldAdd);
+  } else {
+    updateInWaitSetHandleForSimpleRead(waitsetHandle, shouldAdd);
+  }
+}
+
 std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   /*
    *  We are using a simple pipe but this should likely be something

@@ -139,6 +139,18 @@ class EventLoopSource {
   WakeFunction _wakeFunction;
   bool _handlesAllocated;
 
+  /**
+   *  If this event loop source can be waitied on for simple reads by the
+   *  platform waitset, no custom wait set update handler is needed and this
+   *  function is invoked to add the handle for waiting on a read.
+   *
+   *  @param handle    the wait set handle
+   *  @param shouldAdd if this source is being added or removed from the wait
+   *                   set
+   */
+  void updateInWaitSetHandleForSimpleRead(WaitSet::Handle handle,
+                                          bool shouldAdd);
+
   DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
 };
 }

@@ -24,13 +24,9 @@ static inline void EventLoopSource_UpdateKeventSource(int queue,
   RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(queue, &event, 1, nullptr, 0, NULL));
 }
 
-void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
-                                            bool shouldAdd) {
-  if (_customWaitSetUpdateHandler) {
-    _customWaitSetUpdateHandler(this, waitsetHandle, readHandle(), shouldAdd);
-    return;
-  }
-
+void EventLoopSource::updateInWaitSetHandleForSimpleRead(
+    WaitSet::Handle waitsetHandle,
+    bool shouldAdd) {
   EventLoopSource_UpdateKeventSource(waitsetHandle, readHandle(), EVFILT_READ,
                                      shouldAdd ? EV_ADD : EV_DELETE, 0, 0,
                                      this);
