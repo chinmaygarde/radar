@@ -91,12 +91,26 @@ class EventLoopSource {
    *  @return the function that is invoked to read data from the raw read handle
    *          when the wait set detects that there is data to be read
    */
-  IOHandler reader();
+  IOHandler reader() const;
+
+  /**
+   *  Set the reader for this source
+   *
+   *  @param reader the new reader for this source
+   */
+  void setReader(const IOHandler& reader);
 
   /**
    *  @return the function that is invoked to write data on the raw write handle
    */
-  IOHandler writer();
+  IOHandler writer() const;
+
+  /**
+   *  Set the writer for this source
+   *
+   *  @param writer the new writer for this source
+   */
+  void setWriter(const IOHandler& writer);
 
 #pragma mark - Interacting with a WaitSet
 

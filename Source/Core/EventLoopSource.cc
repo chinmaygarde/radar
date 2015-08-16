@@ -14,29 +14,25 @@ EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
                                  RWHandlesCollector handleCollector,
                                  IOHandler readHandler,
                                  IOHandler writeHandler,
-                                 WaitSetUpdateHandler waitsetUpdateHandler) {
-  _handlesProvider = handleProvider;
-  _handlesCollector = handleCollector;
-
-  _customWaitSetUpdateHandler = nullptr;
-
-  _readHandler = readHandler;
-  _writeHandler = writeHandler;
-
-  _wakeFunction = nullptr;
-  _handles = Handles(-1, -1);
-  _handlesAllocated = false;
-  _customWaitSetUpdateHandler = waitsetUpdateHandler;
+                                 WaitSetUpdateHandler waitsetUpdateHandler)
+    : _handlesProvider(handleProvider),
+      _handlesCollector(handleCollector),
+      _readHandler(readHandler),
+      _writeHandler(writeHandler),
+      _customWaitSetUpdateHandler(waitsetUpdateHandler),
+      _wakeFunction(nullptr),
+      _handles(Handles(-1, -1)),
+      _handlesAllocated(false) {
 }
 
 EventLoopSource::~EventLoopSource() {
-  if (_handlesAllocated && _handlesCollector != nullptr) {
+  if (_handlesAllocated && _handlesCollector) {
     _handlesCollector(_handles);
   }
 }
 
 void EventLoopSource::onAwoken() {
-  if (_wakeFunction != nullptr) {
+  if (_wakeFunction) {
     _wakeFunction();
   }
 }
@@ -54,12 +50,9 @@ EventLoopSource::Handles EventLoopSource::handles() {
    *  Handles are allocated lazily
    */
   if (!_handlesAllocated) {
-    auto provider = _handlesProvider;
-
-    if (provider != nullptr) {
+    if (_handlesProvider) {
       _handles = _handlesProvider();
     }
-
     _handlesAllocated = true;
   }
 
@@ -74,12 +67,20 @@ EventLoopSource::Handle EventLoopSource::writeHandle() {
   return handles().second;
 }
 
-EventLoopSource::IOHandler EventLoopSource::reader() {
+EventLoopSource::IOHandler EventLoopSource::reader() const {
   return _readHandler;
 }
 
-EventLoopSource::IOHandler EventLoopSource::writer() {
+void EventLoopSource::setReader(const IOHandler& reader) {
+  _readHandler = reader;
+}
+
+EventLoopSource::IOHandler EventLoopSource::writer() const {
   return _writeHandler;
+}
+
+void EventLoopSource::setWriter(const IOHandler& writer) {
+  _writeHandler = writer;
 }
 
 void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
@@ -96,7 +97,6 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
    *  We are using a simple pipe but this should likely be something
    *  that coalesces multiple writes. Something like an event_fd on Linux
    */
-
   RWHandlesProvider provider = [] {
     int descriptors[2] = {0};
 

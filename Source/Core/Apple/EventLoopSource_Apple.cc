@@ -10,39 +10,34 @@
 
 namespace rl {
 
-static inline void EventLoopSource_UpdateKeventSource(int queue,
-                                                      uintptr_t ident,
-                                                      int16_t filter,
-                                                      uint16_t flags,
-                                                      uint32_t fflags,
-                                                      intptr_t data,
-                                                      void* udata) {
+static inline void KEventInvoke(int queue,
+                                uintptr_t ident,
+                                int16_t filter,
+                                uint16_t flags,
+                                uint32_t fflags,
+                                intptr_t data,
+                                void* udata) {
   struct kevent event = {0};
-
   EV_SET(&event, ident, filter, flags, fflags, data, udata);
-
   RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(queue, &event, 1, nullptr, 0, NULL));
 }
 
 void EventLoopSource::updateInWaitSetHandleForSimpleRead(
     WaitSet::Handle waitsetHandle,
     bool shouldAdd) {
-  EventLoopSource_UpdateKeventSource(waitsetHandle, readHandle(), EVFILT_READ,
-                                     shouldAdd ? EV_ADD : EV_DELETE, 0, 0,
-                                     this);
+  KEventInvoke(waitsetHandle, readHandle(), EVFILT_READ,
+               shouldAdd ? EV_ADD : EV_DELETE, 0, 0, this);
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     std::chrono::nanoseconds repeatInterval) {
-  WaitSetUpdateHandler updateHandler = [repeatInterval](
-      EventLoopSource* source, WaitSet::Handle waitsetHandle, Handle readHandle,
-      bool adding) {
-
-    EventLoopSource_UpdateKeventSource(
-        waitsetHandle, readHandle, EVFILT_TIMER, adding ? EV_ADD : EV_DELETE,
-        NOTE_NSECONDS, repeatInterval.count(), source);
-
-  };
+  WaitSetUpdateHandler updateHandler =
+      [repeatInterval](EventLoopSource* source, WaitSet::Handle waitsetHandle,
+                       Handle readHandle, bool adding) {
+        KEventInvoke(waitsetHandle, readHandle, EVFILT_TIMER,
+                     adding ? EV_ADD : EV_DELETE, NOTE_NSECONDS,
+                     repeatInterval.count(), source);
+      };
 
   static uintptr_t KQueueTimerIdent = 1;
 

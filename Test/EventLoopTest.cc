@@ -111,3 +111,36 @@ TEST(EventLoopTest, TimerRepetition) {
 
   ASSERT_TRUE(count == 10);
 }
+
+#if 0
+
+TEST(EventLoopTest, TrivialTriggerFiresOnces) {
+  int count = 0;
+  std::thread trivialThread([&count] {
+    auto loop = rl::EventLoop::Current();
+    auto trivial = rl::EventLoopSource::Trivial();
+    trivial->setWakeFunction([&count]() { count++; });
+
+    /**
+     *  Fire the trivial source multiple times. We need to assert that the
+     *  callback is only triggered once. Admittedly, this is a bit tricky to
+     *  test in a non brittle manner.
+     */
+    trivial->writer()(trivial->writeHandle());
+    trivial->writer()(trivial->writeHandle());
+    trivial->writer()(trivial->writeHandle());
+    trivial->writer()(trivial->writeHandle());
+    trivial->writer()(trivial->writeHandle());
+
+    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(250));
+    timer->setWakeFunction([]() { rl::EventLoop::Current()->terminate(); });
+
+    loop->addSource(trivial);
+    loop->addSource(timer);
+    loop->loop();
+  });
+  trivialThread.join();
+  ASSERT_TRUE(count == 1);
+}
+
+#endif
