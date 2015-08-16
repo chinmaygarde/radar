@@ -28,7 +28,7 @@
       _RL_FILE_LAST_COMPONENT, __LINE__
 
 #define RL_LOG(message, ...) \
-  printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__)
+  printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);
 #define RL_LOG_ERRNO() RL_LOG("%s (%d)", strerror(errno), errno)
 #define RL_LOG_HERE RL_LOG("%s", __FUNCTION__)
 

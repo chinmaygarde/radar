@@ -10,6 +10,9 @@ struct EntityArenaHeader {
   size_t entityCount;
 };
 
+#define WRITE_ENTITY_COUNT(x) \
+  reinterpret_cast<EntityArenaHeader*>(_base)->entityCount = (x);
+
 EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
     : _maxSize(maxSize), _base(base), _utilization(sizeof(EntityArenaHeader)) {
   if (base == nullptr) {
@@ -22,20 +25,21 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
     _encodedEntities = header->entityCount;
   } else {
     _encodedEntities = 0;
+    WRITE_ENTITY_COUNT(0);
   }
 }
 
-PresentationEntity* EntityArena::emplacePresentationEntity(
-    const Entity& entity) {
+PresentationEntity* EntityArena::emplaceEntity(const Entity& entity,
+                                               size_t parentIndex) {
   auto allocation = alloc(sizeof(PresentationEntity));
 
   if (allocation == nullptr) {
     return nullptr;
   }
 
-  reinterpret_cast<EntityArenaHeader*>(_base)->entityCount = ++_encodedEntities;
+  WRITE_ENTITY_COUNT(++_encodedEntities);
 
-  return (new (allocation) PresentationEntity(entity));
+  return (new (allocation) PresentationEntity(entity, parentIndex));
 }
 
 const PresentationEntity& EntityArena::operator[](size_t index) const {

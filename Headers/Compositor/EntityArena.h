@@ -14,8 +14,7 @@ class EntityArena {
  public:
   EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
-  PresentationEntity* emplacePresentationEntity(const Entity& entity);
-  PresentationEntity* acquireEmplacedEntity();
+  PresentationEntity* emplaceEntity(const Entity& entity, size_t parentIndex);
 
   const PresentationEntity& operator[](size_t index) const;
 

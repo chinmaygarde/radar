@@ -21,6 +21,16 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});
   sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
   root->addSublayer(sub1);
+
+  auto sub2 = std::make_shared<rl::Layer>();
+  sub2->setFrame({10.0, 10.0, 80.0, 80.0});
+  sub2->setBackgroundColor({0.0, 1.0, 0.0, 1.0});
+  sub1->addSublayer(sub2);
+
+  auto sub3 = std::make_shared<rl::Layer>();
+  sub3->setFrame({10.0, 10.0, 60.0, 60.0});
+  sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
+  sub2->addSublayer(sub3);
 }
 
 void TurquoiseApplication::didEnterBackground(rl::Interface& interface) {

@@ -6,7 +6,13 @@
 
 namespace rl {
 
-PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
+PresentationEntity::PresentationEntity(const Entity& entity,
+                                       int32_t parentIndex)
+    : Entity(entity), _parentIndex(parentIndex) {
+}
+
+size_t PresentationEntity::parentIndex() const {
+  return _parentIndex;
 }
 
 PresentationEntity::~PresentationEntity() {

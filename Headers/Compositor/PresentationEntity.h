@@ -12,9 +12,13 @@
 namespace rl {
 class PresentationEntity : public Entity {
  public:
-  PresentationEntity(const Entity& entity);
+  PresentationEntity(const Entity& entity, int32_t parentIndex);
+
+  size_t parentIndex() const;
 
  private:
+  int32_t _parentIndex;
+
   ~PresentationEntity();
 
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
