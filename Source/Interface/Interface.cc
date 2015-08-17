@@ -161,7 +161,7 @@ void Interface::finalizeLeaseWrite() {
    */
   using LayerDepth = std::pair<Layer::Ref, int32_t>;
   std::stack<LayerDepth> stack;
-  stack.push(LayerDepth(_rootLayer, 0));
+  stack.push(LayerDepth(_rootLayer, -1));
 
   auto writeArena = _lease.accessWriteArena(false, false);
 
@@ -171,9 +171,11 @@ void Interface::finalizeLeaseWrite() {
     writeArena.emplaceEntity(*(current.first), current.second);
     stack.pop();
 
+    const auto encodedCount = writeArena.encodedEntities();
+
     auto& sublayers = (current.first)->sublayers();
     for (auto i = sublayers.rbegin(), end = sublayers.rend(); i != end; ++i) {
-      stack.push(LayerDepth(*i, 0));
+      stack.push(LayerDepth(*i, encodedCount - 1));
     }
   }
 
