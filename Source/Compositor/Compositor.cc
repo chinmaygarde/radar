@@ -4,7 +4,6 @@
 
 #include <Compositor/Compositor.h>
 #include <Compositor/Frame.h>
-#include <Compositor/Primitive.h>
 
 namespace rl {
 
@@ -109,17 +108,7 @@ void Compositor::drawSingleFrame() {
     return;
   }
 
-  /*
-   *  Update the read head
-   */
-  auto readArena = _lease->accessReadArena(false);
-  for (size_t i = 0, size = readArena.encodedEntities(); i < size; i++) {
-    auto& entity = readArena[i];
-    Primitive p;
-    p.setContentColor(entity.backgroundColor());
-    p.setModelMatrixAndSize(entity.modelMatrix(), entity.bounds().size);
-    p.render(frame);
-  }
+  frame.render(_lease->accessReadArena(false));
 }
 
 void Compositor::setupChannels() {

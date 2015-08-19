@@ -6,15 +6,17 @@
 #define __RADARLOVE_COMPOSITOR_PRESENTATIONENTITY__
 
 #include <Core/Core.h>
-#include <Geometry/Geometry.h>
 #include <Interface/Entity.h>
 
 namespace rl {
+class Frame;
 class PresentationEntity : public Entity {
  public:
   PresentationEntity(const Entity& entity, int32_t parentIndex);
 
   size_t parentIndex() const;
+
+  void render(Frame& frame) const;
 
  private:
   int32_t _parentIndex;

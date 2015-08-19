@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/Frame.h>
+#include <Compositor/Primitive.h>
 
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
@@ -78,6 +79,12 @@ void Frame::pushOpacity(double opacity) {
 
 void Frame::popOpacity() {
   _opacityStack.pop_back();
+}
+
+void Frame::render(const EntityArena& arena) {
+  for (size_t i = 0, size = arena.encodedEntities(); i < size; i++) {
+    arena[i].render(*this);
+  }
 }
 
 Frame::~Frame() {

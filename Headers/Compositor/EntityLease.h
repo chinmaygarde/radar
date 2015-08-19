@@ -16,7 +16,7 @@ class EntityLease {
   std::shared_ptr<EventLoopSource> writeNotificationSource() const;
 
   EntityArena& accessReadArena(bool swap);
-  EntityArena& accessWriteArena(bool swap, bool notify);
+  const EntityArena& accessWriteArena(bool swap, bool notify);
 
  private:
   const size_t _entityCount;

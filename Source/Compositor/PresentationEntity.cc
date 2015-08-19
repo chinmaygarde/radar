@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationEntity.h>
+#include <Compositor/Primitive.h>
 
 namespace rl {
 
@@ -13,6 +14,13 @@ PresentationEntity::PresentationEntity(const Entity& entity,
 
 size_t PresentationEntity::parentIndex() const {
   return _parentIndex;
+}
+
+void PresentationEntity::render(Frame& frame) const {
+  Primitive p;
+  p.setContentColor(backgroundColor());
+  p.setModelMatrixAndSize(modelMatrix(), bounds().size);
+  p.render(frame);
 }
 
 PresentationEntity::~PresentationEntity() {

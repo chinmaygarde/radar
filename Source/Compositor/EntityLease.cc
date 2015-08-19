@@ -60,7 +60,7 @@ EntityArena& EntityLease::accessReadArena(bool swap) {
   return _readArena;
 }
 
-EntityArena& EntityLease::accessWriteArena(bool swap, bool notify) {
+const EntityArena& EntityLease::accessWriteArena(bool swap, bool notify) {
   if (!swap) {
     return _writeArena;
   }
