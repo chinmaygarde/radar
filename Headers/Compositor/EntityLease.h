@@ -15,19 +15,21 @@ class EntityLease {
 
   std::shared_ptr<EventLoopSource> writeNotificationSource() const;
 
-  EntityArena& accessReadArena(bool swap);
-  const EntityArena& accessWriteArena(bool swap, bool notify);
+  EntityArena& readArena() const;
+  EntityArena& swapReadArena();
+
+  EntityArena& writeArena() const;
+  EntityArena& swapWriteArena();
 
  private:
   const size_t _entityCount;
   SharedMemory _sharedMemory;
   std::shared_ptr<EventLoopSource> _writeNotificationSource;
-  EntityArena _readArena;
-  EntityArena _writeArena;
+  std::unique_ptr<EntityArena> _readArena;
+  std::unique_ptr<EntityArena> _writeArena;
 
-  EntityArena swapRead();
-  EntityArena swapWrite(bool notify);
-  uint8_t* swapWrite();
+  std::unique_ptr<EntityArena> swapRead();
+  std::unique_ptr<EntityArena> swapWrite();
 
   DISALLOW_COPY_AND_ASSIGN(EntityLease);
 };

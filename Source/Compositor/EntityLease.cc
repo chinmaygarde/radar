@@ -38,55 +38,58 @@ EntityLease::EntityLease(size_t requestedCount)
     : _entityCount(requestedCount),
       _sharedMemory(EntityLease_SharedMemorySize(requestedCount)),
       _writeNotificationSource(EventLoopSource::Trivial()),
-      _readArena(nullptr, 0, true),
-      _writeArena(nullptr, 0, false) {
+      _readArena(nullptr),
+      _writeArena(nullptr) {
   RL_ASSERT(_sharedMemory.isReady());
 
+  /*
+   *  Setup initial pointer offsets in shared memory
+   */
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->read = _sharedMemory.address() + sizeof(LeaseHeader);
   header->write = header->read + EntityArena::Size(_entityCount);
   header->back = header->write + EntityArena::Size(_entityCount);
 
-  accessReadArena(true);
-  accessWriteArena(true, false);
+  /*
+   *  Prepare initial arenas
+   */
+  _readArena = rl::make_unique<EntityArena>(
+      header->read, EntityArena::Size(_entityCount), true);
+  _writeArena = rl::make_unique<EntityArena>(
+      header->write, EntityArena::Size(_entityCount), false);
 }
 
-EntityArena& EntityLease::accessReadArena(bool swap) {
-  if (!swap) {
-    return _readArena;
-  }
+EntityArena& EntityLease::readArena() const {
+  return *_readArena;
+}
 
+EntityArena& EntityLease::swapReadArena() {
   _readArena = swapRead();
-  return _readArena;
+  return *_readArena;
 }
 
-const EntityArena& EntityLease::accessWriteArena(bool swap, bool notify) {
-  if (!swap) {
-    return _writeArena;
-  }
-
-  _writeArena = swapWrite(notify);
-  return _writeArena;
+EntityArena& EntityLease::writeArena() const {
+  return *_writeArena;
 }
 
-EntityArena EntityLease::swapRead() {
+EntityArena& EntityLease::swapWriteArena() {
+  _writeArena = swapWrite();
+  _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
+  return *_writeArena;
+}
+
+std::unique_ptr<EntityArena> EntityLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->read.exchange(header->back);
-  return EntityArena(header->read, EntityArena::Size(_entityCount), true);
+  return rl::make_unique<EntityArena>(header->read,
+                                      EntityArena::Size(_entityCount), true);
 }
 
-EntityArena EntityLease::swapWrite(bool notify) {
-  auto ret = swapWrite();
-  if (notify) {
-    _writeNotificationSource->writer()(_writeNotificationSource->writeHandle());
-  }
-  return EntityArena(ret, EntityArena::Size(_entityCount), false);
-}
-
-uint8_t* EntityLease::swapWrite() {
+std::unique_ptr<EntityArena> EntityLease::swapWrite() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->write.exchange(header->back);
-  return header->write;
+  return rl::make_unique<EntityArena>(header->write,
+                                      EntityArena::Size(_entityCount), false);
 }
 
 std::shared_ptr<EventLoopSource> EntityLease::writeNotificationSource() const {

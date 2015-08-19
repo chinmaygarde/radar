@@ -13,9 +13,7 @@ namespace rl {
 Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
     : _size(size),
       _projectionMatrix(Matrix::Orthographic(size)),
-      _programCatalog(catalog),
-      _viewMatrixStack(),
-      _opacityStack() {
+      _programCatalog(catalog) {
   RL_ASSERT(catalog != nullptr && "The program catalog must be valid");
 }
 
@@ -27,16 +25,10 @@ void Frame::begin() {
   setupFreshFrame();
 
   _programCatalog->startUsing();
-
-  _viewMatrixStack.push_back(MatrixIdentity);
-  _opacityStack.push_back(1.0);
 }
 
 void Frame::end() {
   _programCatalog->stopUsing();
-
-  _viewMatrixStack.clear();
-  _opacityStack.clear();
 }
 
 void Frame::setupFreshFrame() {
@@ -55,30 +47,6 @@ const Matrix& Frame::projectionMatrix() const {
 
 std::shared_ptr<ProgramCatalog> Frame::programCatalog() const {
   return _programCatalog;
-}
-
-const Matrix& Frame::viewMatrix() const {
-  return _viewMatrixStack.back();
-}
-
-void Frame::pushViewMatrix(const Matrix& matrix) {
-  _viewMatrixStack.push_back(matrix);
-}
-
-void Frame::popViewMatrix() {
-  _viewMatrixStack.pop_back();
-}
-
-double Frame::opacity() const {
-  return _opacityStack.back();
-}
-
-void Frame::pushOpacity(double opacity) {
-  _opacityStack.push_back(opacity);
-}
-
-void Frame::popOpacity() {
-  _opacityStack.pop_back();
 }
 
 void Frame::render(const EntityArena& arena) {

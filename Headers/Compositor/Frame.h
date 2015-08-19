@@ -35,44 +35,6 @@ class Frame {
   const Matrix& projectionMatrix() const;
 
   /**
-   *  Get the current view matrix of the frame. As the frame visits different
-   *  parts of the layer hierarchy, this matrix stack is updated to point to
-   *  the matrix at the currently visited level
-   *
-   *  @return the view matrix
-   */
-  const Matrix& viewMatrix() const;
-
-  /**
-   *  Push a new view matrix onto the matrix stack as the depth of the layer in
-   *  the hierarchy deepens
-   *
-   *  @param matrix the new
-   */
-  void pushViewMatrix(const Matrix& matrix);
-
-  /**
-   *  Pop the view matrix from the matrix stack as the visitor backs out
-   */
-  void popViewMatrix();
-
-  /**
-   *  Get the effective opacity of the frame at the current level in the layer
-   *  hierarchy
-   *
-   *  @return current opacity
-   */
-  double opacity() const;
-
-  /**
-   *  Push a new opacity onto the opacity stack as layers deeper in the
-   *  hierarchy are visited
-   *
-   *  @param opacity the new opacity
-   */
-  void pushOpacity(double opacity);
-
-  /**
    *  Pop the last item off the opacity stack as the visitor backs out of the
    *  layer hierarchy.
    */
@@ -108,8 +70,6 @@ class Frame {
   Size _size;
   Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::deque<Matrix> _viewMatrixStack;
-  std::deque<double> _opacityStack;
 
   void setupFreshFrame();
 

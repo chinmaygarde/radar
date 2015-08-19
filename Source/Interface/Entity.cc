@@ -17,6 +17,16 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
 }
 
+Entity::Entity(const Entity& entity, const Matrix& transformation)
+    : _bounds(entity._bounds),
+      _position(entity._position),
+      _anchorPoint(entity._anchorPoint),
+      _transformation(transformation),
+      _backgroundColor(entity._backgroundColor),
+      _opacity(entity._opacity),
+      _notifiesInterfaceOnUpdate(false) {
+}
+
 Entity::~Entity() {
 }
 
@@ -74,10 +84,10 @@ Matrix Entity::modelMatrix() const {
                   _position.y - _anchorPoint.y * _bounds.size.height);
 
   // clang-format off
-    Matrix translation(1.0,   0.0,   0.0, 0.0,
-                       0.0,   1.0,   0.0, 0.0,
-                       0.0,   0.0,   1.0, 0.0,
-                       pos.x, pos.y, 0.0, 1.0);
+  Matrix translation(1.0,   0.0,   0.0, 0.0,
+                     0.0,   1.0,   0.0, 0.0,
+                     0.0,   0.0,   1.0, 0.0,
+                     pos.x, pos.y, 0.0, 1.0);
   // clang-format on
 
   return translation * transformation();

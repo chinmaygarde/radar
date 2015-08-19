@@ -11,6 +11,7 @@
 #include <Compositor/Color.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
+#include <Compositor/EntityArena.h>
 
 #include <list>
 
@@ -52,6 +53,10 @@ class Layer : public Entity {
    *  @return the superlayer
    */
   const Layer* superlayer() const;
+
+#pragma mark - Arena Interactions
+
+  void encodeInArena(EntityArena& arena, const Matrix& viewMatrix) const;
 
  private:
   std::list<Ref> _sublayers;

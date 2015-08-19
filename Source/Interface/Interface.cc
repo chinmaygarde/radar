@@ -155,31 +155,9 @@ void Interface::finalizeLeaseWrite() {
   if (_rootLayer == nullptr) {
     return;
   }
-
-  /*
-   *  Serialize entities to the current write arena in rendering order
-   */
-  using LayerDepth = std::pair<Layer::Ref, int32_t>;
-  std::stack<LayerDepth> stack;
-  stack.push(LayerDepth(_rootLayer, -1));
-
-  auto writeArena = _lease.accessWriteArena(false, false);
-
-  while (stack.size() > 0) {
-    auto current = stack.top();
-
-    writeArena.emplaceEntity(*(current.first), current.second);
-    stack.pop();
-
-    const auto encodedCount = writeArena.encodedEntities();
-
-    auto& sublayers = (current.first)->sublayers();
-    for (auto i = sublayers.rbegin(), end = sublayers.rend(); i != end; ++i) {
-      stack.push(LayerDepth(*i, encodedCount - 1));
-    }
-  }
-
-  _lease.accessWriteArena(true, true);
+  auto& writeArena = _lease.writeArena();
+  _rootLayer->encodeInArena(writeArena, MatrixIdentity);
+  _lease.swapWriteArena();
 }
 
 void Interface::setupEventChannels() {

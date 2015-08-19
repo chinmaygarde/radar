@@ -7,20 +7,17 @@
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
+#include <Geometry/Geometry.h>
 
 namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
-  PresentationEntity(const Entity& entity, int32_t parentIndex);
-
-  size_t parentIndex() const;
+  PresentationEntity(const Entity& entity, const Matrix& transformation);
 
   void render(Frame& frame) const;
 
  private:
-  int32_t _parentIndex;
-
   ~PresentationEntity();
 
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);

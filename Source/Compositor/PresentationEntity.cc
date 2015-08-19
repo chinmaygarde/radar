@@ -8,19 +8,14 @@
 namespace rl {
 
 PresentationEntity::PresentationEntity(const Entity& entity,
-                                       int32_t parentIndex)
-    : Entity(entity), _parentIndex(parentIndex) {
-}
-
-size_t PresentationEntity::parentIndex() const {
-  return _parentIndex;
+                                       const Matrix& transformation)
+    : Entity(entity, transformation) {
 }
 
 void PresentationEntity::render(Frame& frame) const {
   Primitive p;
   p.setContentColor(backgroundColor());
-  p.setModelMatrixAndSize(modelMatrix(), bounds().size);
-  p.render(frame);
+  p.render(frame, transformation(), bounds().size);
 }
 
 PresentationEntity::~PresentationEntity() {

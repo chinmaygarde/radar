@@ -17,7 +17,9 @@ class Entity {
   /**
    *  Construct a default entity
    */
-  Entity(bool notifiesInterfaceOnUpdate = false);
+  Entity(bool notifiesInterfaceOnUpdate);
+
+  Entity(const Entity& entity, const Matrix& transformation);
 
   ~Entity();
 
@@ -146,7 +148,7 @@ class Entity {
 
   void notifyInterfaceIfNecessary();
 
-  void operator=(Entity) = delete;
+  DISALLOW_COPY_AND_ASSIGN(Entity);
 };
 
 }  // namespace rl

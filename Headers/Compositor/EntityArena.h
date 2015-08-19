@@ -7,6 +7,7 @@
 
 #include <Core/Core.h>
 #include <Compositor/PresentationEntity.h>
+#include <Geometry/Geometry.h>
 
 namespace rl {
 
@@ -14,7 +15,8 @@ class EntityArena {
  public:
   EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
-  PresentationEntity* emplaceEntity(const Entity& entity, int32_t parentIndex);
+  PresentationEntity& emplaceEntity(const Entity& entity,
+                                    const Matrix& transformation);
 
   const PresentationEntity& operator[](size_t index) const;
 
@@ -38,7 +40,8 @@ class EntityArena {
   size_t _utilization;
 
   void* alloc(size_t bytes);
-  void dealloc(void* allocation);
+
+  DISALLOW_COPY_AND_ASSIGN(EntityArena);
 };
 
 }  // namespace rl

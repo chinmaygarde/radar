@@ -18,42 +18,6 @@ class Primitive {
   Primitive();
 
   /**
-   *  The model matrix of this primitive
-   *
-   *  @return the model matrix
-   */
-  const Matrix& modelMatrix() const;
-
-  /**
-   *  Sets the model matrix of this primitive
-   *
-   *  @param matrix the new model matrix
-   */
-  void setModelMatrix(const Matrix& matrix);
-
-  /**
-   *  The size of this primitive
-   *
-   *  @return the size
-   */
-  const Size& size() const;
-
-  /**
-   *  Sets the size of this primitive
-   *
-   *  @param size the new size
-   */
-  void setSize(const Size& size);
-
-  /**
-   *  Update the model matrix and size of this primitive
-   *
-   *  @param matrix the new model matrix
-   *  @param size   the new size
-   */
-  void setModelMatrixAndSize(const Matrix& matrix, const Size& size);
-
-  /**
    *  The solid color of the contents of this primitive
    *
    *  @return the content color
@@ -67,16 +31,9 @@ class Primitive {
    */
   void setContentColor(const Color& color);
 
-  /**
-   *  Renders the primitive as part of this frame
-   *
-   *  @param frame the frame to render this primitive into
-   */
-  void render(Frame& frame);
+  void render(Frame& frame, const Matrix& modelViewMatrix, const Size& size);
 
  private:
-  Matrix _modelMatrix;
-  Size _size;
   Color _contentColor;
 
   DISALLOW_COPY_AND_ASSIGN(Primitive);

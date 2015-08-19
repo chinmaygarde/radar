@@ -108,7 +108,7 @@ void Compositor::drawSingleFrame() {
     return;
   }
 
-  frame.render(_lease->accessReadArena(false));
+  frame.render(_lease->readArena());
 }
 
 void Compositor::setupChannels() {
@@ -149,7 +149,7 @@ void Compositor::onInterfaceDidUpdate() {
   if (_lease == nullptr) {
     return;
   }
-  _lease->accessReadArena(true);
+  _lease->swapReadArena();
   drawSingleFrame();
 }
 

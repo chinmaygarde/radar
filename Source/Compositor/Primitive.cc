@@ -9,31 +9,7 @@
 
 namespace rl {
 
-Primitive::Primitive()
-    : _modelMatrix(MatrixIdentity),
-      _contentColor(ColorWhiteTransparent),
-      _size(SizeZero) {
-}
-
-const Matrix& Primitive::modelMatrix() const {
-  return _modelMatrix;
-}
-
-void Primitive::setModelMatrix(const Matrix& matrix) {
-  _modelMatrix = matrix;
-}
-
-const Size& Primitive::size() const {
-  return _size;
-}
-
-void Primitive::setSize(const Size& size) {
-  _size = size;
-}
-
-void Primitive::setModelMatrixAndSize(const Matrix& matrix, const Size& size) {
-  _size = size;
-  _modelMatrix = matrix;
+Primitive::Primitive() : _contentColor(ColorWhiteTransparent) {
 }
 
 const Color& Primitive::contentColor() const {
@@ -44,7 +20,9 @@ void Primitive::setContentColor(const Color& color) {
   _contentColor = color;
 }
 
-void Primitive::render(Frame& frame) {
+void Primitive::render(Frame& frame,
+                       const Matrix& modelViewMatrix,
+                       const Size& size) {
   /*
    *  Select the program to use
    */
@@ -70,16 +48,15 @@ void Primitive::render(Frame& frame) {
   /*
    *  Setup Uniform Data
    */
-  GLMatrix modelViewProjection =
-      frame.projectionMatrix() * frame.viewMatrix() * _modelMatrix;
+  GLMatrix modelViewProjection = frame.projectionMatrix() * modelViewMatrix;
 
   glUniformMatrix4fv(program->modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
-              _contentColor.b, _contentColor.a * frame.opacity());
+              _contentColor.b, _contentColor.a);
 
-  glUniform2f(program->sizeUniform(), _size.width, _size.height);
+  glUniform2f(program->sizeUniform(), size.width, size.height);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 

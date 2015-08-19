@@ -29,17 +29,13 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
   }
 }
 
-PresentationEntity* EntityArena::emplaceEntity(const Entity& entity,
-                                               int32_t parentIndex) {
+PresentationEntity& EntityArena::emplaceEntity(const Entity& entity,
+                                               const Matrix& transformation) {
   auto allocation = alloc(sizeof(PresentationEntity));
-
-  if (allocation == nullptr) {
-    return nullptr;
-  }
-
+  RL_ASSERT(allocation != nullptr &&
+            "Could not emplace entity into this arena");
   WRITE_ENTITY_COUNT(++_encodedEntities);
-
-  return (new (allocation) PresentationEntity(entity, parentIndex));
+  return *(new (allocation) PresentationEntity(entity, transformation));
 }
 
 const PresentationEntity& EntityArena::operator[](size_t index) const {
