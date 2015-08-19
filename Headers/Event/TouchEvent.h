@@ -24,9 +24,9 @@ class TouchEvent : public Event {
   TouchEvent(uint64_t identifier, const Point& location, Phase phase);
 
   /**
-   *  Create an uninitialized touch event
+   *  Create a touch event from a channel message
    */
-  TouchEvent();
+  TouchEvent(Message& message);
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
@@ -43,6 +43,13 @@ class TouchEvent : public Event {
    *  @return the absolute touch location
    */
   const Point& location() const;
+
+  /**
+   *  The phase of the touch
+   *
+   *  @return the touch phase
+   */
+  Phase phase() const;
 
   virtual void serialize(Message& m) const override;
   virtual void deserialize(Message& m) override;

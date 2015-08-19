@@ -10,7 +10,9 @@ TouchEvent::TouchEvent(uint64_t identifier, const Point& location, Phase phase)
     : Event(), _identifier(identifier), _location(location), _phase(phase) {
 }
 
-TouchEvent::TouchEvent() : Event(0.0), _location(0.0, 0.0) {
+TouchEvent::TouchEvent(Message& message) : Event(0.0), _location(0.0, 0.0) {
+  deserialize(message);
+  RL_ASSERT(message.size() == message.sizeRead());
 }
 
 uint64_t TouchEvent::identifier() const {
@@ -19,6 +21,10 @@ uint64_t TouchEvent::identifier() const {
 
 const Point& TouchEvent::location() const {
   return _location;
+}
+
+TouchEvent::Phase TouchEvent::phase() const {
+  return _phase;
 }
 
 void TouchEvent::serialize(Message& m) const {

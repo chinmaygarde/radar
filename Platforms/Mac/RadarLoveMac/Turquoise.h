@@ -20,6 +20,9 @@ class TurquoiseApplication : public rl::InterfaceDelegate {
   virtual void didUpdateSize(rl::Interface& interface) override;
 
  private:
+  void onTouches(const std::vector<rl::TouchEvent>& touches,
+                 rl::TouchEvent::Phase phase);
+
   DISALLOW_COPY_AND_ASSIGN(TurquoiseApplication);
 };
 }

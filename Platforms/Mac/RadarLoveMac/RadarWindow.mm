@@ -43,8 +43,7 @@ static void SendEvent(rl::TouchEventChannel& channel,
   auto identifier = reinterpret_cast<uint64_t>(event);
 
   std::vector<Event> events;
-  Event touchEvent(identifier, {loc.x, loc.y}, phase);
-  events.emplace_back(touchEvent);
+  events.emplace_back(Event(identifier, {loc.x, loc.y}, phase));
   channel.sendTouchEvents(events);
 }
 

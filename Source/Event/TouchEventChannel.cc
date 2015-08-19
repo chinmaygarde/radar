@@ -6,8 +6,24 @@
 
 namespace rl {
 
+static const size_t TouchEventBufferSize = 10;
+
 TouchEventChannel::TouchEventChannel() : Channel() {
+  _pendingTouchesBegan.reserve(TouchEventBufferSize);
+  _pendingTouchesMoved.reserve(TouchEventBufferSize);
+  _pendingTouchesEnded.reserve(TouchEventBufferSize);
+  _pendingTouchesCancelled.reserve(TouchEventBufferSize);
+
   setMessagesReceivedCallback([&](Messages m) { processRawTouches(m); });
+}
+
+TouchEventChannel::TouchEventCallback TouchEventChannel::touchEventCallback()
+    const {
+  return _callback;
+}
+
+void TouchEventChannel::setTouchEventCallback(TouchEventCallback callback) {
+  _callback = callback;
 }
 
 void TouchEventChannel::sendTouchEvents(
@@ -21,13 +37,63 @@ void TouchEventChannel::sendTouchEvents(
   sendMessages(std::move(messages));
 }
 
-void TouchEventChannel::processRawTouches(Messages& messages) {
-  std::vector<TouchEvent> touches;
-  for (auto& message : messages) {
-    TouchEvent e;
-    e.deserialize(message);
-    RL_ASSERT(message.size() == message.sizeRead());
+std::vector<TouchEvent>& TouchEventChannel::bufferForPhase(
+    TouchEvent::Phase phase) {
+  switch (phase) {
+    case TouchEvent::Began:
+      return _pendingTouchesBegan;
+    case TouchEvent::Moved:
+      return _pendingTouchesMoved;
+    case TouchEvent::Ended:
+      return _pendingTouchesEnded;
+    case TouchEvent::Cancelled:
+      return _pendingTouchesCancelled;
+    default:
+      RL_ASSERT(false);
   }
+
+  return _pendingTouchesCancelled;
+}
+
+void TouchEventChannel::processRawTouches(Messages& messages) {
+  for (auto& message : messages) {
+    TouchEvent event(message);
+    bufferForPhase(event.phase()).emplace_back(std::move(event));
+  }
+
+  /*
+   *  TODO: More thought must be put into discarding un-handled touches and
+   *  and deciding how and when to make the decision to dispatch
+   */
+  dispatchPendingTouches();
+}
+
+void TouchEventChannel::dispatchPendingTouches() {
+  if (!_callback) {
+    goto done;
+  }
+
+  if (_pendingTouchesBegan.size() > 0) {
+    _callback(_pendingTouchesBegan, TouchEvent::Began);
+  }
+
+  if (_pendingTouchesMoved.size() > 0) {
+    _callback(_pendingTouchesMoved, TouchEvent::Moved);
+  }
+
+  if (_pendingTouchesEnded.size() > 0) {
+    _callback(_pendingTouchesEnded, TouchEvent::Ended);
+  }
+
+  if (_pendingTouchesCancelled.size() > 0) {
+    _callback(_pendingTouchesCancelled, TouchEvent::Cancelled);
+  }
+
+done:
+  _pendingTouchesBegan.clear();
+  _pendingTouchesMoved.clear();
+  _pendingTouchesEnded.clear();
+  _pendingTouchesCancelled.clear();
 }
 
 }  // namespace rl

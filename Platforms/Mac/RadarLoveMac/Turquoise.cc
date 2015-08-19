@@ -10,6 +10,9 @@ TurquoiseApplication::TurquoiseApplication() {
 }
 
 void TurquoiseApplication::didFinishLaunching(rl::Interface& interface) {
+  interface.touchEventChannel().setTouchEventCallback(
+      [&](const std::vector<rl::TouchEvent>& touches,
+          rl::TouchEvent::Phase phase) { onTouches(touches, phase); });
 }
 
 void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
@@ -43,6 +46,10 @@ void TurquoiseApplication::didBecomeInactive(rl::Interface& interface) {
 }
 
 void TurquoiseApplication::didUpdateSize(rl::Interface& interface) {
+}
+
+void TurquoiseApplication::onTouches(const std::vector<rl::TouchEvent>& touches,
+                                     rl::TouchEvent::Phase phase) {
 }
 
 }  // namespace tq
