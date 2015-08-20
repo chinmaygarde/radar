@@ -53,7 +53,7 @@ class Compositor : RenderSurfaceObserver {
 
 #pragma mark - Interface Lease Management
 
-  EntityLease& acquireLease(size_t layer = 256);
+  EntityLease& acquireLease(size_t layer = 1024);
 
  private:
   std::shared_ptr<RenderSurface> _surface;
