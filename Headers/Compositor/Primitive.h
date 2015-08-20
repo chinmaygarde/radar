@@ -31,10 +31,15 @@ class Primitive {
    */
   void setContentColor(const Color& color);
 
+  double opacity() const;
+
+  void setOpacity(double opacity);
+
   void render(Frame& frame, const Matrix& modelViewMatrix, const Size& size);
 
  private:
   Color _contentColor;
+  double _opacity;
 
   DISALLOW_COPY_AND_ASSIGN(Primitive);
 };

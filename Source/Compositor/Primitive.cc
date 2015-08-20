@@ -9,7 +9,7 @@
 
 namespace rl {
 
-Primitive::Primitive() : _contentColor(ColorWhiteTransparent) {
+Primitive::Primitive() : _contentColor(ColorWhiteTransparent), _opacity(1.0) {
 }
 
 const Color& Primitive::contentColor() const {
@@ -54,13 +54,21 @@ void Primitive::render(Frame& frame,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
   glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
-              _contentColor.b, _contentColor.a);
+              _contentColor.b, _contentColor.a * _opacity);
 
   glUniform2f(program->sizeUniform(), size.width, size.height);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 
   RL_GLAssert("No errors while rendering");
+}
+
+double Primitive::opacity() const {
+  return _opacity;
+}
+
+void Primitive::setOpacity(double opacity) {
+  _opacity = opacity;
 }
 
 }  // namespace rl

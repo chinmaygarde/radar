@@ -17,7 +17,7 @@ void TurquoiseApplication::didFinishLaunching(rl::Interface& interface) {
 
 void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   auto root = std::make_shared<rl::Layer>();
-  root->setBackgroundColor({0.0, 0.0, 0.0, 1.0});
+  root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
   srand(rl::Time::Current());
@@ -25,8 +25,8 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
     auto layer = std::make_shared<rl::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),
                      static_cast<double>(rand() % 1200),
-                     static_cast<double>(10 + rand() % 90),
-                     static_cast<double>(10 + rand() % 90)});
+                     static_cast<double>(10 + rand() % 120),
+                     static_cast<double>(10 + rand() % 120)});
 #if 0
     layer->setTransformation(
         rl::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
@@ -35,6 +35,7 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
                                (rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
                                1.0});
+    layer->setOpacity(0.5 + ((rand() % 10) / 10.0) * 0.5);
     root->addSublayer(layer);
   }
 

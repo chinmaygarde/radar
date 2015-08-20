@@ -15,6 +15,7 @@ PresentationEntity::PresentationEntity(const Entity& entity,
 void PresentationEntity::render(Frame& frame) const {
   Primitive p;
   p.setContentColor(backgroundColor());
+  p.setOpacity(opacity());
   p.render(frame, transformation(), bounds().size);
 }
 
