@@ -116,6 +116,11 @@
 		9EAECEEA1B685469000FA38A /* Host.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEBE1B685469000FA38A /* Host.cc */; };
 		9EAECEEB1B685469000FA38A /* Interface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC01B685469000FA38A /* Interface.cc */; };
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
+		9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A61B87D856005D84FA /* Instrumentation.h */; };
+		9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A71B87D856005D84FA /* Stopwatch.h */; };
+		9EBA79AB1B87D856005D84FA /* Trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A81B87D856005D84FA /* Trace.h */; };
+		9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79B51B87D864005D84FA /* Stopwatch.cc */; };
+		9EBA79B81B87D864005D84FA /* Trace.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79B61B87D864005D84FA /* Trace.cc */; };
 		9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */; };
 		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
 		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
@@ -324,6 +329,11 @@
 		9EAECEBE1B685469000FA38A /* Host.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Host.cc; sourceTree = "<group>"; };
 		9EAECEC01B685469000FA38A /* Interface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cc; sourceTree = "<group>"; };
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
+		9EBA79A61B87D856005D84FA /* Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrumentation.h; sourceTree = "<group>"; };
+		9EBA79A71B87D856005D84FA /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
+		9EBA79A81B87D856005D84FA /* Trace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trace.h; sourceTree = "<group>"; };
+		9EBA79B51B87D864005D84FA /* Stopwatch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stopwatch.cc; sourceTree = "<group>"; };
+		9EBA79B61B87D864005D84FA /* Trace.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trace.cc; sourceTree = "<group>"; };
 		9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
 		9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
 		9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
@@ -455,6 +465,7 @@
 				9EAECE591B685460000FA38A /* Geometry */,
 				9EAECE5F1B685460000FA38A /* Host */,
 				9E293DD31B72EB680037A431 /* Infrastructure */,
+				9EBA79A51B87D856005D84FA /* Instrumentation */,
 				9EAECE611B685460000FA38A /* Interface */,
 				9EAECE631B685460000FA38A /* Shell */,
 			);
@@ -572,6 +583,7 @@
 				9EAECEB71B685469000FA38A /* Geometry */,
 				9EAECEBD1B685469000FA38A /* Host */,
 				9E293DD61B72EB700037A431 /* Infrastructure */,
+				9EBA79B41B87D864005D84FA /* Instrumentation */,
 				9EAECEBF1B685469000FA38A /* Interface */,
 				9EAECEC11B685469000FA38A /* Shell */,
 			);
@@ -693,6 +705,25 @@
 			path = Shell;
 			sourceTree = "<group>";
 		};
+		9EBA79A51B87D856005D84FA /* Instrumentation */ = {
+			isa = PBXGroup;
+			children = (
+				9EBA79A61B87D856005D84FA /* Instrumentation.h */,
+				9EBA79A71B87D856005D84FA /* Stopwatch.h */,
+				9EBA79A81B87D856005D84FA /* Trace.h */,
+			);
+			path = Instrumentation;
+			sourceTree = "<group>";
+		};
+		9EBA79B41B87D864005D84FA /* Instrumentation */ = {
+			isa = PBXGroup;
+			children = (
+				9EBA79B51B87D864005D84FA /* Stopwatch.cc */,
+				9EBA79B61B87D864005D84FA /* Trace.cc */,
+			);
+			path = Instrumentation;
+			sourceTree = "<group>";
+		};
 		9EC1A9861B6FEF2900795DB1 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +779,8 @@
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
+				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
+				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
@@ -760,6 +793,7 @@
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
+				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,
 				9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
@@ -955,6 +989,7 @@
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
+				9EBA79B81B87D864005D84FA /* Trace.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
@@ -988,6 +1023,7 @@
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
+				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
 				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,

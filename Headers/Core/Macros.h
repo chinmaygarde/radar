@@ -23,8 +23,8 @@
   (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define _RL_LOG_FMT "%.3fs %s:%d: "
-#define _RL_LOG_ARG                                    \
-  (rl::Time::Current() - rl::Time::LoggingBootTime()), \
+#define _RL_LOG_ARG                                                       \
+  rl::Time::ToSeconds(rl::Time::Current() - rl::Time::LoggingBootTime()), \
       _RL_FILE_LAST_COMPONENT, __LINE__
 
 #define RL_LOG(message, ...) \

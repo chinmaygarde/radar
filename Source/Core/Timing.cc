@@ -7,18 +7,30 @@
 /*
  *  TODO: Switch implementation on Linux
  */
-#include <CoreFoundation/CoreFoundation.h>
+#include <mach/mach_time.h>
 
 namespace rl {
 namespace Time {
 
-double Current(void) {
-  return CFAbsoluteTimeGetCurrent();
+static inline uint64_t MachTimeInNanoseconds(void) {
+  static mach_timebase_info_data_t timebaseInfo = {0};
+  static uint32_t ratio = 0;
+
+  if (timebaseInfo.denom == 0) {
+    (void)mach_timebase_info(&timebaseInfo);
+    ratio = timebaseInfo.numer / timebaseInfo.denom;
+  }
+
+  return mach_absolute_time() * ratio;
 }
 
-double LoggingBootTime(void) {
-  static double time = -1;
-  if (time == -1) {
+std::chrono::nanoseconds Current(void) {
+  return std::chrono::nanoseconds(MachTimeInNanoseconds());
+}
+
+std::chrono::nanoseconds LoggingBootTime(void) {
+  static std::chrono::nanoseconds time(0);
+  if (time.count() == 0) {
     time = Current();
   }
   return time;

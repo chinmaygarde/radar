@@ -20,7 +20,6 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
-  srand(rl::Time::Current());
   for (auto i = 0; i < 1000; i++) {
     auto layer = std::make_shared<rl::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),

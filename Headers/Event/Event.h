@@ -15,7 +15,7 @@ class Event : public Serializable {
    *
    *  @param timestamp the timestamp of the event
    */
-  explicit Event(double timestamp = Time::Current());
+  explicit Event(double timestamp);
 
   /**
    *  Get the timestamp of the event
