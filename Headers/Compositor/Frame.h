@@ -9,6 +9,7 @@
 #include <Geometry/Geometry.h>
 #include <Compositor/ProgramCatalog.h>
 #include <Compositor/EntityArena.h>
+#include <Compositor/CompositorStatistics.h>
 
 #include <mutex>
 #include <deque>
@@ -16,7 +17,9 @@
 namespace rl {
 class Frame {
  public:
-  Frame(Size size, std::shared_ptr<ProgramCatalog> catalog);
+  Frame(Size size,
+        std::shared_ptr<ProgramCatalog> catalog,
+        CompositorStatistics& stats);
 
   virtual ~Frame();
 
@@ -66,10 +69,13 @@ class Frame {
    */
   void render(const EntityArena& arena);
 
+  CompositorStatistics& statistics();
+
  private:
   Size _size;
   Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  CompositorStatistics& _stats;
 
   void setupFreshFrame();
 

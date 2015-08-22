@@ -6,12 +6,15 @@
 
 namespace rl {
 
-Stopwatch::Stopwatch() : _last(0) {
-  lap();
+Stopwatch::Stopwatch() : _start(0) {
 }
 
-std::chrono::nanoseconds Stopwatch::lap() {
-  return _last = Time::Current() - _last;
+void Stopwatch::start() {
+  _start = Time::Current();
+}
+
+void Stopwatch::stop() {
+  Time::Current() - _start;
 }
 
 }  // namespace rl

@@ -17,6 +17,7 @@ void PresentationEntity::render(Frame& frame) const {
   p.setContentColor(backgroundColor());
   p.setOpacity(opacity());
   p.render(frame, transformation(), bounds().size);
+  frame.statistics().primitiveCount().increment();
 }
 
 PresentationEntity::~PresentationEntity() {

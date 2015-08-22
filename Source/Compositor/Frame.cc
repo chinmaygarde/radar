@@ -10,10 +10,13 @@
 
 namespace rl {
 
-Frame::Frame(Size size, std::shared_ptr<ProgramCatalog> catalog)
+Frame::Frame(Size size,
+             std::shared_ptr<ProgramCatalog> catalog,
+             CompositorStatistics& stats)
     : _size(size),
       _projectionMatrix(Matrix::Orthographic(size)),
-      _programCatalog(catalog) {
+      _programCatalog(catalog),
+      _stats(stats) {
   RL_ASSERT(catalog != nullptr && "The program catalog must be valid");
 }
 
@@ -49,7 +52,13 @@ std::shared_ptr<ProgramCatalog> Frame::programCatalog() const {
   return _programCatalog;
 }
 
+CompositorStatistics& Frame::statistics() {
+  return _stats;
+}
+
 void Frame::render(const EntityArena& arena) {
+  _stats.entityCount().increment(arena.encodedEntities());
+
   for (size_t i = 0, size = arena.encodedEntities(); i < size; i++) {
     arena[i].render(*this);
   }

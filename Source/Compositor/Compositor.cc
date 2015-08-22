@@ -13,7 +13,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _lock(),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
-      _lease(nullptr) {
+      _lease(nullptr),
+      _stats() {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);
@@ -101,8 +102,10 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
 }
 
 void Compositor::drawSingleFrame() {
+  CompositorStatisticsFrame statistics(_stats);
+
   ScopedRenderSurfaceAccess access(*_surface);
-  ScopedFrame frame(_surfaceSize, accessCatalog());
+  ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
 
   if (!frame.isReady()) {
     return;

@@ -7,5 +7,6 @@
 
 #include <Instrumentation/Trace.h>
 #include <Instrumentation/Stopwatch.h>
+#include <Instrumentation/Counter.h>
 
-#endif // __RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H__
+#endif  // __RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H__
