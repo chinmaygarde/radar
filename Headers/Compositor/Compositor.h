@@ -13,6 +13,7 @@
 #include <Compositor/ProgramCatalog.h>
 #include <Compositor/EntityLease.h>
 #include <Compositor/CompositorStatistics.h>
+#include <Compositor/CompositorStatisticsRenderer.h>
 
 #include <mutex>
 
@@ -64,6 +65,7 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::unique_ptr<EntityLease> _lease;
   CompositorStatistics _stats;
+  CompositorStatisticsRenderer _statsRenderer;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;

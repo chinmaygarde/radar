@@ -127,6 +127,17 @@
 		9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */; };
 		9EBA79C21B87F1F8005D84FA /* Counter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79C11B87F1F8005D84FA /* Counter.h */; };
 		9EBA79C41B87F203005D84FA /* Counter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79C31B87F203005D84FA /* Counter.cc */; };
+		9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */; };
+		9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */; };
+		9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79CB1B87FF57005D84FA /* imconfig.h */; };
+		9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79CC1B87FF57005D84FA /* imgui_demo.cpp */; };
+		9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79CD1B87FF57005D84FA /* imgui_draw.cpp */; };
+		9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79CE1B87FF57005D84FA /* imgui_internal.h */; };
+		9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79CF1B87FF57005D84FA /* imgui.cpp */; };
+		9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D01B87FF57005D84FA /* imgui.h */; };
+		9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */; };
+		9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D41B87FF57005D84FA /* stb_textedit.h */; };
+		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
 		9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */; };
 		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
 		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
@@ -346,6 +357,19 @@
 		9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceStatistics.cc; sourceTree = "<group>"; };
 		9EBA79C11B87F1F8005D84FA /* Counter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counter.h; sourceTree = "<group>"; };
 		9EBA79C31B87F203005D84FA /* Counter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Counter.cc; sourceTree = "<group>"; };
+		9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatisticsRenderer.h; sourceTree = "<group>"; };
+		9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatisticsRenderer.cc; sourceTree = "<group>"; };
+		9EBA79CB1B87FF57005D84FA /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = ThirdParty/imgui/imconfig.h; sourceTree = "<group>"; };
+		9EBA79CC1B87FF57005D84FA /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = ThirdParty/imgui/imgui_demo.cpp; sourceTree = "<group>"; };
+		9EBA79CD1B87FF57005D84FA /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = ThirdParty/imgui/imgui_draw.cpp; sourceTree = "<group>"; };
+		9EBA79CE1B87FF57005D84FA /* imgui_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui_internal.h; path = ThirdParty/imgui/imgui_internal.h; sourceTree = "<group>"; };
+		9EBA79CF1B87FF57005D84FA /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui.cpp; path = ThirdParty/imgui/imgui.cpp; sourceTree = "<group>"; };
+		9EBA79D01B87FF57005D84FA /* imgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui.h; path = ThirdParty/imgui/imgui.h; sourceTree = "<group>"; };
+		9EBA79D11B87FF57005D84FA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ThirdParty/imgui/LICENSE; sourceTree = "<group>"; };
+		9EBA79D21B87FF57005D84FA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ThirdParty/imgui/README.md; sourceTree = "<group>"; };
+		9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = ThirdParty/imgui/stb_rect_pack.h; sourceTree = "<group>"; };
+		9EBA79D41B87FF57005D84FA /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = ThirdParty/imgui/stb_textedit.h; sourceTree = "<group>"; };
+		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
 		9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
 		9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
 		9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
@@ -453,6 +477,7 @@
 				9EAECE331B685460000FA38A /* Headers */,
 				9EAECE8F1B685469000FA38A /* Source */,
 				9E62F7481B796D80008DE08E /* Test */,
+				9EBA79C91B87FEA9005D84FA /* ThirdParty */,
 				9E62F8A11B796DFA008DE08E /* Frameworks */,
 				9EAECE281B68543F000FA38A /* Products */,
 			);
@@ -506,6 +531,7 @@
 				9EAECE3E1B685460000FA38A /* Color.h */,
 				9EAECE3F1B685460000FA38A /* Compositor.h */,
 				9EBA79B91B87EEDF005D84FA /* CompositorStatistics.h */,
+				9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */,
 				9E62F9161B7C1F85008DE08E /* EntityArena.h */,
 				9EAECE401B685460000FA38A /* Frame.h */,
 				9E62F9081B7BEEB2008DE08E /* EntityLease.h */,
@@ -625,6 +651,7 @@
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
 				9EBA79BD1B87EF08005D84FA /* CompositorStatistics.cc */,
+				9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */,
 				9E62F9141B7C1F7A008DE08E /* EntityArena.cc */,
 				9EAECE9C1B685469000FA38A /* Frame.cc */,
 				9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */,
@@ -742,6 +769,32 @@
 			path = Instrumentation;
 			sourceTree = "<group>";
 		};
+		9EBA79C91B87FEA9005D84FA /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				9EBA79CA1B87FEBC005D84FA /* imgui */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
+		9EBA79CA1B87FEBC005D84FA /* imgui */ = {
+			isa = PBXGroup;
+			children = (
+				9EBA79CB1B87FF57005D84FA /* imconfig.h */,
+				9EBA79CC1B87FF57005D84FA /* imgui_demo.cpp */,
+				9EBA79CD1B87FF57005D84FA /* imgui_draw.cpp */,
+				9EBA79CE1B87FF57005D84FA /* imgui_internal.h */,
+				9EBA79CF1B87FF57005D84FA /* imgui.cpp */,
+				9EBA79D01B87FF57005D84FA /* imgui.h */,
+				9EBA79D11B87FF57005D84FA /* LICENSE */,
+				9EBA79D21B87FF57005D84FA /* README.md */,
+				9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */,
+				9EBA79D41B87FF57005D84FA /* stb_textedit.h */,
+				9EBA79D51B87FF57005D84FA /* stb_truetype.h */,
+			);
+			name = imgui;
+			sourceTree = "<group>";
+		};
 		9EC1A9861B6FEF2900795DB1 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,10 +847,14 @@
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
+				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
+				9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */,
+				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
+				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
@@ -820,6 +877,8 @@
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
+				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
+				9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
@@ -839,6 +898,7 @@
 				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
+				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
@@ -1003,6 +1063,8 @@
 			files = (
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
+				9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */,
+				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
@@ -1031,6 +1093,8 @@
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
 				9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
+				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
+				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
@@ -1141,6 +1205,7 @@
 				HEADER_SEARCH_PATHS = (
 					Source,
 					Headers,
+					ThirdParty,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1183,6 +1248,7 @@
 				HEADER_SEARCH_PATHS = (
 					Source,
 					Headers,
+					ThirdParty,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;

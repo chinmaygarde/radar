@@ -16,7 +16,13 @@
 #error Importing OpenGL Header. Are you sure your source file needs this invasive header?
 #endif
 
-#import <OpenGL/gl.h>
+#ifdef __APPLE__
+#ifndef GL3_PROTOTYPES
+#define GL3_PROTOTYPES
+#endif
+#endif
+
+#import <OpenGL/gl3.h>
 
 #include <Geometry/Geometry.h>
 

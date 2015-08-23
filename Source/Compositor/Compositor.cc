@@ -14,7 +14,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _lease(nullptr),
-      _stats() {
+      _stats(),
+      _statsRenderer() {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);
@@ -79,7 +80,9 @@ void Compositor::commitCompositionSizeUpdate(const Size& size) {
     return;
   }
 
-  // Commit size update
+  /*
+   *  Commit size update
+   */
   _surfaceSize = size;
 }
 
@@ -96,8 +99,9 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
 
   _programCatalog = std::make_shared<ProgramCatalog>();
 
-  // Setup catalog
-
+  /*
+   *  Setup catalog
+   */
   return _programCatalog;
 }
 
@@ -112,6 +116,8 @@ void Compositor::drawSingleFrame() {
   }
 
   frame.render(_lease->readArena());
+
+  _statsRenderer.render();
 }
 
 void Compositor::setupChannels() {
