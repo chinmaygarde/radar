@@ -7,7 +7,7 @@
 namespace rl {
 
 CompositorStatistics::CompositorStatistics()
-    : _frameTimer(), _entityCount(), _primitiveCount() {
+    : _frameTimer(), _entityCount(), _primitiveCount(), _frameCount() {
 }
 
 Stopwatch& CompositorStatistics::frameTimer() {
@@ -20,6 +20,10 @@ Counter& CompositorStatistics::entityCount() {
 
 Counter& CompositorStatistics::primitiveCount() {
   return _primitiveCount;
+}
+
+Counter& CompositorStatistics::frameCount() {
+  return _frameCount;
 }
 
 void CompositorStatistics::start() {

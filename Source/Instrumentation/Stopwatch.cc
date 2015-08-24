@@ -14,7 +14,15 @@ void Stopwatch::start() {
 }
 
 void Stopwatch::stop() {
-  Time::Current() - _start;
+  _lastLap = Time::Current() - _start;
+}
+
+std::chrono::nanoseconds Stopwatch::currentLap() const {
+  return Time::Current() - _start;
+}
+
+std::chrono::nanoseconds Stopwatch::lastLap() const {
+  return _lastLap;
 }
 
 }  // namespace rl

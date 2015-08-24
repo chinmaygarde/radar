@@ -20,6 +20,8 @@ class CompositorStatistics {
 
   Counter& primitiveCount();
 
+  Counter& frameCount();
+
   void start();
 
   void stop();
@@ -28,6 +30,7 @@ class CompositorStatistics {
   Stopwatch _frameTimer;
   Counter _entityCount;
   Counter _primitiveCount;
+  Counter _frameCount;
 
   DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
 };

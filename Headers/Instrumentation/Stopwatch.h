@@ -12,12 +12,16 @@ namespace rl {
 class Stopwatch {
  public:
   Stopwatch();
+  
+  std::chrono::nanoseconds lastLap() const;
+  std::chrono::nanoseconds currentLap() const;
 
   void start();
   void stop();
 
  private:
   std::chrono::nanoseconds _start;
+  std::chrono::nanoseconds _lastLap;
 
   DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };

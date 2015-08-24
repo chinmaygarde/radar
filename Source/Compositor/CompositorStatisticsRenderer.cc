@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/CompositorStatisticsRenderer.h>
+#include <Compositor/Program.h>
 #include <imgui/imgui.h>
 
 #define RL_OPENGL_ALLOWED 1
@@ -222,7 +223,8 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void CompositorStatisticsRenderer::render(Frame& frame) {
+void CompositorStatisticsRenderer::render(CompositorStatistics& stats,
+                                          Frame& frame) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -239,11 +241,27 @@ void CompositorStatisticsRenderer::render(Frame& frame) {
 
   ImGui::NewFrame();
 
-  ImGui::ShowTestWindow();
+  ImGui::SetNextWindowSize(ImVec2(240, 160), ImGuiSetCond_FirstUseEver);
+  ImGui::SetNextWindowPos(ImVec2(size.width - 260, 20), ImGuiSetCond_Always);
+
+  buildStatsUI(stats);
 
   ImGui::Render();
 
   _CompositorStatisticsRenderer = nullptr;
+}
+
+void CompositorStatisticsRenderer::buildStatsUI(CompositorStatistics& stats) {
+  if (ImGui::Begin("Compositor Statistics")) {
+    ImGui::Text("Entities: %zu", stats.entityCount().count());
+    ImGui::Text("Primitives: %zu", stats.primitiveCount().count());
+    ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());
+
+    ImGui::Text("Frame Time (minus swap):");
+    auto frameMs = stats.frameTimer().currentLap().count() * 1e-6;
+    ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
+  }
+  ImGui::End();
 }
 
 }  // namespace rl
