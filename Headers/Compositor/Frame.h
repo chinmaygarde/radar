@@ -31,6 +31,13 @@ class Frame {
   bool isReady() const;
 
   /**
+   *  The size of the frame
+   *
+   *  @return the frame size
+   */
+  const Size& size() const;
+
+  /**
    *  Get the projection matrix of the current frame
    *
    *  @return the projection matrix

@@ -24,6 +24,10 @@ bool Frame::isReady() const {
   return glGetError() == GL_NO_ERROR && _size.width * _size.height > 0.0;
 }
 
+const Size& Frame::size() const {
+  return _size;
+}
+
 void Frame::begin() {
   setupFreshFrame();
 
@@ -35,13 +39,17 @@ void Frame::end() {
 }
 
 void Frame::setupFreshFrame() {
+  glDisable(GL_CULL_FACE);
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_SCISSOR_TEST);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
   glViewport(0.0, 0.0, _size.width, _size.height);
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 const Matrix& Frame::projectionMatrix() const {

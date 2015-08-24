@@ -117,7 +117,7 @@ void Compositor::drawSingleFrame() {
 
   frame.render(_lease->readArena());
 
-  _statsRenderer.render();
+  _statsRenderer.render(frame);
 }
 
 void Compositor::setupChannels() {

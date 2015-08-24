@@ -7,6 +7,7 @@
 
 #include <Core/Core.h>
 #include <Compositor/Program.h>
+#include <Compositor/Frame.h>
 
 namespace rl {
 class CompositorStatisticsRendererProgram;
@@ -15,14 +16,12 @@ class CompositorStatisticsRenderer {
   CompositorStatisticsRenderer();
   ~CompositorStatisticsRenderer();
 
-  void render();
+  void render(Frame& frame);
 
  private:
   bool _setupComplete;
   std::unique_ptr<CompositorStatisticsRendererProgram> _program;
   unsigned int _vbo;
-  unsigned int _vboSize;
-  unsigned int _vao;
   unsigned int _fontAtlas;
 
   void performSetupIfNecessary();

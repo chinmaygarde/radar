@@ -86,8 +86,9 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
   /*
    *  Setup orthographic projection matrix
    */
-  const GLfloat width = ImGui::GetIO().DisplaySize.x;
-  const GLfloat height = ImGui::GetIO().DisplaySize.y;
+  auto& io = ImGui::GetIO();
+  const GLfloat width = io.DisplaySize.x;
+  const GLfloat height = io.DisplaySize.y;
 
   // clang-format off
   const GLfloat orthoProjection[4][4] = {
@@ -101,40 +102,34 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
   /*
    *  Setup program and update uniforms and vertices
    */
-  renderer._program->use();
+  auto& program = *renderer._program;
 
-  glUniform1i(renderer._program->textureUniform, 0);
-  glUniformMatrix4fv(renderer._program->projMtxUniform, 1, GL_FALSE,
+  program.use();
+
+  glUniform1i(program.textureUniform, 0);
+  glUniformMatrix4fv(program.projMtxUniform, 1, GL_FALSE,
                      &orthoProjection[0][0]);
-  glBindVertexArray(renderer._vao);
+
+  glBindBuffer(GL_ARRAY_BUFFER, renderer._vbo);
+
+  glEnableVertexAttribArray(program.positionAttribute);
+  glEnableVertexAttribArray(program.uvAttribute);
+  glEnableVertexAttribArray(program.colorAttribute);
+
+  glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, GL_FALSE,
+                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, pos));
+  glVertexAttribPointer(program.uvAttribute, 2, GL_FLOAT, GL_FALSE,
+                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, uv));
+  glVertexAttribPointer(program.colorAttribute, 4, GL_UNSIGNED_BYTE, GL_TRUE,
+                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, col));
 
   for (int n = 0; n < drawData->CmdListsCount; n++) {
     ImDrawList* cmdList = drawData->CmdLists[n];
     ImDrawIdx* idxBuffer = &cmdList->IdxBuffer.front();
 
-    glBindBuffer(GL_ARRAY_BUFFER, renderer._vbo);
-
-    int neededVtxSize = cmdList->VtxBuffer.size() * sizeof(ImDrawVert);
-
-    if (renderer._vboSize < neededVtxSize) {
-      // Grow our buffer if needed
-      renderer._vboSize = neededVtxSize + 2000 * sizeof(ImDrawVert);
-      glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)renderer._vboSize, NULL,
-                   GL_STREAM_DRAW);
-    }
-
-    unsigned char* vtxData = (unsigned char*)glMapBufferRange(
-        GL_ARRAY_BUFFER, 0, neededVtxSize,
-        GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-
-    if (!vtxData) {
-      continue;
-    }
-
-    memcpy(vtxData, &cmdList->VtxBuffer[0],
-           cmdList->VtxBuffer.size() * sizeof(ImDrawVert));
-
-    glUnmapBuffer(GL_ARRAY_BUFFER);
+    glBufferData(GL_ARRAY_BUFFER,
+                 (GLsizeiptr)cmdList->VtxBuffer.size() * sizeof(ImDrawVert),
+                 &cmdList->VtxBuffer[0], GL_STREAM_DRAW);
 
     for (const ImDrawCmd* pCmd = cmdList->CmdBuffer.begin();
          pCmd != cmdList->CmdBuffer.end(); pCmd++) {
@@ -155,25 +150,15 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
     }
   }
 
-  // Restore modified state
-  glBindVertexArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_DEPTH_TEST);
-  glDisable(GL_SCISSOR_TEST);
 }
 
 CompositorStatisticsRenderer::CompositorStatisticsRenderer()
     : _setupComplete(false),
       _program(nullptr),
       _vbo(GL_NONE),
-      _vboSize(0),
-      _vao(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
-  io.DisplaySize.x = 800;
-  io.DisplaySize.y = 600;
-
   io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
       &CompositorStatisticsRenderer::drawLists);
 }
@@ -186,7 +171,6 @@ void CompositorStatisticsRenderer::cleanup() {
   /*
    *  GL_NONEs are ignored
    */
-  glDeleteVertexArrays(1, &_vao);
   glDeleteBuffers(1, &_vbo);
   glDeleteTextures(1, &_fontAtlas);
 }
@@ -196,44 +180,23 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
     return;
   }
 
+  _setupComplete = true;
+
   /*
    *  Create and initialize the shader program
    */
-  _setupComplete = true;
   _program = rl::make_unique<CompositorStatisticsRendererProgram>();
 
-  RL_GLAssert("There must be no errors prior to vertex buffer setup");
+  RL_GLAssert("There must be no errors prior to stat renderer setup");
 
   /*
-   *  Create and initialize the vertex buffers and vertex arrays
+   *  Create the vertex buffer. No VAOs will be used
    */
-  glGenVertexArrays(1, &_vao);
-  glBindVertexArray(_vao);
   glGenBuffers(1, &_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-  glEnableVertexAttribArray(_program->positionAttribute);
-  glEnableVertexAttribArray(_program->uvAttribute);
-  glEnableVertexAttribArray(_program->colorAttribute);
-
-#define OFFSETOF(TYPE, ELEMENT) ((size_t) & (((TYPE*)0)->ELEMENT))
-  glVertexAttribPointer(_program->positionAttribute, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-  glVertexAttribPointer(_program->uvAttribute, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-  glVertexAttribPointer(_program->colorAttribute, 4, GL_UNSIGNED_BYTE, GL_TRUE,
-                        sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
-#undef OFFSETOF
-
-  glBindVertexArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  RL_GLAssert("There must be no error post vertex buffer setup");
 
   /*
-   *  Create and initilize font atlases
+   *  Create and initialize font atlases
    */
-  RL_GLAssert("There must be no GL errors before setting up font atlases");
-
   glGenTextures(1, &_fontAtlas);
   glBindTexture(GL_TEXTURE_2D, _fontAtlas);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -256,11 +219,16 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   io.Fonts->ClearInputData();
   io.Fonts->ClearTexData();
 
-  RL_GLAssert("There must be no errors post compositor stat renderer setup");
+  RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void CompositorStatisticsRenderer::render() {
+void CompositorStatisticsRenderer::render(Frame& frame) {
   performSetupIfNecessary();
+
+  auto& io = ImGui::GetIO();
+  auto& size = frame.size();
+  io.DisplaySize.x = size.width;
+  io.DisplaySize.y = size.height;
 
   /*
    *  The framework does not allow for passing user pointers to the draw
