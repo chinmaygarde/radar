@@ -17,8 +17,8 @@ void PresentationGraph::applyUpdates(EntityArena& arena) {
     auto& updated = arena[i];
     /*
      *  First, we try to directly emplace the entity. If we fail, the compositor
-     *  already knows of the same. And we need to merge it with the previous
-     *  state and actions if necessary.
+     *  already knows of the same and we need to merge it with the previous
+     *  state and add actions if necessary.
      */
     auto result = _entities.emplace(updated.identifier(), updated);
     if (!result.second) {
