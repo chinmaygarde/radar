@@ -69,8 +69,6 @@ class Frame {
    */
   void end();
 
-  void render(const PresentationGraph& graph);
-
   CompositorStatistics& statistics();
 
  private:

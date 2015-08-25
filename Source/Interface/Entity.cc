@@ -7,8 +7,11 @@
 
 namespace rl {
 
+static Entity::Identifer LastEntityIdentifier = 0;
+
 Entity::Entity(bool notifiesInterfaceOnUpdate)
-    : _bounds(RectZero),
+    : _identifier(++LastEntityIdentifier),
+      _bounds(RectZero),
       _position(PointZero),
       _anchorPoint(Point(0.5, 0.5)),
       _transformation(MatrixIdentity),
@@ -19,7 +22,8 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
 }
 
 Entity::Entity(const Entity& entity)
-    : _bounds(entity._bounds),
+    : _identifier(entity._identifier),
+      _bounds(entity._bounds),
       _position(entity._position),
       _anchorPoint(entity._anchorPoint),
       _transformation(entity._transformation),
@@ -28,8 +32,23 @@ Entity::Entity(const Entity& entity)
       _notifiesInterfaceOnUpdate(false) {
 }
 
+void Entity::merge(const rl::Entity& entity) {
+  RL_ASSERT(_identifier == entity._identifier);
+
+  _bounds = entity._bounds;
+  _position = entity._position;
+  _anchorPoint = entity._anchorPoint;
+  _transformation = entity._transformation;
+  _backgroundColor = entity._backgroundColor;
+  _opacity = entity._opacity;
+}
+
 Entity::~Entity() {
   notifyInterfaceIfNecessary(Destroyed);
+}
+
+uint64_t Entity::identifier() const {
+  return _identifier;
 }
 
 Rect Entity::frame() const {

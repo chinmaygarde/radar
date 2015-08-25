@@ -14,14 +14,16 @@ class Frame;
 class PresentationEntity : public Entity {
  public:
   PresentationEntity(const Entity& entity);
+  PresentationEntity(const PresentationEntity& entity);
+
+  ~PresentationEntity();
 
   void render(Frame& frame) const;
 
  private:
-  ~PresentationEntity();
-
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
+
 }  // namespace rl
 
 #endif /* defined(__RADARLOVE_COMPOSITOR_PRESENTATIONENTITY__) */

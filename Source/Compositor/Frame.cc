@@ -64,9 +64,6 @@ CompositorStatistics& Frame::statistics() {
   return _stats;
 }
 
-void Frame::render(const PresentationGraph& graph) {
-}
-
 Frame::~Frame() {
 }
 

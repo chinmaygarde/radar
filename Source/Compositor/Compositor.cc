@@ -118,7 +118,7 @@ void Compositor::drawSingleFrame() {
 
   _stats.frameCount().increment();
 
-  frame.render(_graph);
+  _graph.render(frame);
 
   _statsRenderer.render(_stats, frame);
 }

@@ -7,6 +7,9 @@
 
 #include <Core/Core.h>
 #include <Compositor/EntityArena.h>
+#include <Compositor/Frame.h>
+
+#include <unordered_map>
 
 namespace rl {
 
@@ -17,7 +20,13 @@ class PresentationGraph {
 
   void applyUpdates(EntityArena& arena);
 
+  void render(Frame& frame);
+
  private:
+  std::unordered_map<Entity::Identifer, PresentationEntity> _entities;
+
+  void prepareActionsAndMerge(Entity& currentState, const Entity& updatedState);
+
   DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 

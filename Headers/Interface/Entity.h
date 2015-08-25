@@ -35,6 +35,10 @@ class Entity {
 
   ~Entity();
 
+#pragma mark - Entity Identification
+  using Identifer = uint64_t;
+  Identifer identifier() const;
+
 #pragma mark - Geometry
 
   /**
@@ -149,7 +153,12 @@ class Entity {
    */
   void setOpacity(double opacity);
 
+#pragma mark - Managing Entity Update
+
+  void merge(const Entity& entity);
+
  private:
+  Identifer _identifier;
   Rect _bounds;
   Point _position;
   Point _anchorPoint;

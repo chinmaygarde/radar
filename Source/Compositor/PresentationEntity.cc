@@ -10,16 +10,19 @@ namespace rl {
 PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
 }
 
+PresentationEntity::PresentationEntity(const PresentationEntity& entity)
+    : Entity(entity) {
+}
+
+PresentationEntity::~PresentationEntity() {
+}
+
 void PresentationEntity::render(Frame& frame) const {
   Primitive p;
   p.setContentColor(backgroundColor());
   p.setOpacity(opacity());
   p.render(frame, transformation(), bounds().size);
   frame.statistics().primitiveCount().increment();
-}
-
-PresentationEntity::~PresentationEntity() {
-  RL_ASSERT(false);
 }
 
 }  // namespace rl
