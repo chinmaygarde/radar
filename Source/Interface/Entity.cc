@@ -18,11 +18,11 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
   notifyInterfaceIfNecessary(Created);
 }
 
-Entity::Entity(const Entity& entity, const Matrix& transformation)
+Entity::Entity(const Entity& entity)
     : _bounds(entity._bounds),
       _position(entity._position),
       _anchorPoint(entity._anchorPoint),
-      _transformation(transformation),
+      _transformation(entity._transformation),
       _backgroundColor(entity._backgroundColor),
       _opacity(entity._opacity),
       _notifiesInterfaceOnUpdate(false) {

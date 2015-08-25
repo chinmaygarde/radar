@@ -29,13 +29,12 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
   }
 }
 
-PresentationEntity& EntityArena::emplaceEntity(const Entity& entity,
-                                               const Matrix& transformation) {
+PresentationEntity& EntityArena::emplaceEntity(const Entity& entity) {
   auto allocation = alloc(sizeof(PresentationEntity));
   RL_ASSERT(allocation != nullptr &&
             "Could not emplace entity into this arena");
   WRITE_ENTITY_COUNT(++_encodedEntities);
-  return *(new (allocation) PresentationEntity(entity, transformation));
+  return *(new (allocation) PresentationEntity(entity));
 }
 
 const PresentationEntity& EntityArena::operator[](size_t index) const {

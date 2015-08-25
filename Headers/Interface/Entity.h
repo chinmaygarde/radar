@@ -31,7 +31,7 @@ class Entity {
    */
   Entity(bool notifiesInterfaceOnUpdate);
 
-  Entity(const Entity& entity, const Matrix& transformation);
+  Entity(const Entity& entity);
 
   ~Entity();
 

@@ -13,7 +13,7 @@ namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
-  PresentationEntity(const Entity& entity, const Matrix& transformation);
+  PresentationEntity(const Entity& entity);
 
   void render(Frame& frame) const;
 

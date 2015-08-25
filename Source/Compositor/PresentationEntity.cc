@@ -7,9 +7,7 @@
 
 namespace rl {
 
-PresentationEntity::PresentationEntity(const Entity& entity,
-                                       const Matrix& transformation)
-    : Entity(entity, transformation) {
+PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
 }
 
 void PresentationEntity::render(Frame& frame) const {

@@ -15,7 +15,7 @@ void InterfaceTransaction::mark(Entity& entity, Entity::Property property) {
 
 void InterfaceTransaction::commit(EntityArena& arena) {
   for (const auto& pair : _updates) {
-    arena.emplaceEntity(*pair.first, MatrixIdentity);
+    arena.emplaceEntity(*pair.first);
   }
 }
 
