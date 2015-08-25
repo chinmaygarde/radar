@@ -64,12 +64,7 @@ CompositorStatistics& Frame::statistics() {
   return _stats;
 }
 
-void Frame::render(const EntityArena& arena) {
-  _stats.entityCount().increment(arena.encodedEntities());
-
-  for (size_t i = 0, size = arena.encodedEntities(); i < size; i++) {
-    arena[i].render(*this);
-  }
+void Frame::render(const PresentationGraph& graph) {
 }
 
 Frame::~Frame() {

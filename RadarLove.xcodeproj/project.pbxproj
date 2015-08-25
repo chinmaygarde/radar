@@ -20,6 +20,8 @@
 		9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB71B71506D0037A431 /* ChannelProvider.h */; };
 		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
+		9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */; };
+		9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */; };
 		9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.cc */; };
 		9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80B1B796D81008DE08E /* LayerTest.cc */; };
 		9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* EventLoopTest.cc */; };
@@ -246,6 +248,8 @@
 		9E293DB71B71506D0037A431 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
 		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
+		9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
+		9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelTest.cc; sourceTree = "<group>"; };
 		9E62F80B1B796D81008DE08E /* LayerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerTest.cc; sourceTree = "<group>"; };
 		9E62F80C1B796D81008DE08E /* EventLoopTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopTest.cc; sourceTree = "<group>"; };
@@ -539,6 +543,7 @@
 				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
 				9EAECE421B685460000FA38A /* OpenGL.h */,
 				9E62F90C1B7C1672008DE08E /* PresentationEntity.h */,
+				9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */,
 				9EAECE431B685460000FA38A /* Primitive.h */,
 				9EAECE441B685460000FA38A /* Program.h */,
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
@@ -659,6 +664,7 @@
 				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
 				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
 				9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */,
+				9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */,
 				9EAECE9F1B685469000FA38A /* Primitive.cc */,
 				9EAECEA01B685469000FA38A /* Program.cc */,
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
@@ -856,6 +862,7 @@
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
+				9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
@@ -1063,6 +1070,7 @@
 			files = (
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
+				9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */,
 				9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */,
 				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,

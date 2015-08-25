@@ -8,8 +8,8 @@
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 #include <Compositor/ProgramCatalog.h>
-#include <Compositor/EntityArena.h>
 #include <Compositor/CompositorStatistics.h>
+#include <Compositor/PresentationGraph.h>
 
 #include <mutex>
 #include <deque>
@@ -69,12 +69,7 @@ class Frame {
    */
   void end();
 
-  /**
-   *  Render the entities in the specifed arena
-   *
-   *  @param arena the arena containing the entities to render
-   */
-  void render(const EntityArena& arena);
+  void render(const PresentationGraph& graph);
 
   CompositorStatistics& statistics();
 

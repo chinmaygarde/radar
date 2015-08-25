@@ -14,6 +14,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _lease(nullptr),
+      _graph(),
       _stats(),
       _statsRenderer() {
   RL_ASSERT(_surface != nullptr &&
@@ -117,7 +118,7 @@ void Compositor::drawSingleFrame() {
 
   _stats.frameCount().increment();
 
-  frame.render(_lease->readArena());
+  frame.render(_graph);
 
   _statsRenderer.render(_stats, frame);
 }
@@ -160,7 +161,8 @@ void Compositor::onInterfaceDidUpdate() {
   if (_lease == nullptr) {
     return;
   }
-  _lease->swapReadArena();
+
+  _graph.applyUpdates(_lease->swapReadArena());
   drawSingleFrame();
 }
 

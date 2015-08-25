@@ -14,6 +14,7 @@
 #include <Compositor/EntityLease.h>
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/CompositorStatisticsRenderer.h>
+#include <Compositor/PresentationGraph.h>
 
 #include <mutex>
 
@@ -64,6 +65,7 @@ class Compositor : RenderSurfaceObserver {
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::unique_ptr<EntityLease> _lease;
+  PresentationGraph _graph;
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
 
