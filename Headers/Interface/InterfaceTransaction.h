@@ -6,19 +6,23 @@
 #define __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
 
 #include <Core/Core.h>
+#include <Interface/Entity.h>
+#include <Compositor/EntityArena.h>
+
+#include <map>
 
 namespace rl {
 class InterfaceTransaction {
  public:
   InterfaceTransaction();
 
-  /**
-   *  Commit the updates made within the current transaction to the specified
-   *  channel
-   */
-  void commit();
+  void mark(Entity& entity, Entity::Property property);
+
+  void commit(EntityArena& arena);
 
  private:
+  std::map<Entity*, uint64_t> _updates;
+
   DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
 }

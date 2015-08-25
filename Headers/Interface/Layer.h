@@ -54,10 +54,6 @@ class Layer : public Entity {
    */
   const Layer* superlayer() const;
 
-#pragma mark - Arena Interactions
-
-  void encodeInArena(EntityArena& arena, const Matrix& viewMatrix) const;
-
  private:
   std::list<Ref> _sublayers;
   Layer* _superlayer;

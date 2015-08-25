@@ -15,6 +15,7 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
+  notifyInterfaceIfNecessary(Created);
 }
 
 Entity::Entity(const Entity& entity, const Matrix& transformation)
@@ -28,6 +29,7 @@ Entity::Entity(const Entity& entity, const Matrix& transformation)
 }
 
 Entity::~Entity() {
+  notifyInterfaceIfNecessary(Destroyed);
 }
 
 Rect Entity::frame() const {
@@ -49,7 +51,7 @@ const Rect& Entity::bounds() const {
 
 void Entity::setBounds(const Rect& bounds) {
   _bounds = bounds;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(Bounds);
 }
 
 const Point& Entity::position() const {
@@ -58,7 +60,7 @@ const Point& Entity::position() const {
 
 void Entity::setPosition(const Point& position) {
   _position = position;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(Position);
 }
 
 const Point& Entity::anchorPoint() const {
@@ -67,7 +69,7 @@ const Point& Entity::anchorPoint() const {
 
 void Entity::setAnchorPoint(const Point& anchorPoint) {
   _anchorPoint = anchorPoint;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(AnchorPoint);
 }
 
 const Matrix& Entity::transformation() const {
@@ -76,7 +78,7 @@ const Matrix& Entity::transformation() const {
 
 void Entity::setTransformation(const Matrix& transformation) {
   _transformation = transformation;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(Transformation);
 }
 
 Matrix Entity::modelMatrix() const {
@@ -99,7 +101,7 @@ const Color& Entity::backgroundColor() const {
 
 void Entity::setBackgroundColor(const Color& backgroundColor) {
   _backgroundColor = backgroundColor;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(BackgroundColor);
 }
 
 double Entity::opacity() const {
@@ -108,17 +110,14 @@ double Entity::opacity() const {
 
 void Entity::setOpacity(double opacity) {
   _opacity = opacity;
-  notifyInterfaceIfNecessary();
+  notifyInterfaceIfNecessary(Opacity);
 }
 
-void Entity::notifyInterfaceIfNecessary() {
+void Entity::notifyInterfaceIfNecessary(Property property) {
   if (!_notifiesInterfaceOnUpdate) {
     return;
   }
-
-  // TODO: Since no actions may be attached to property updates just yet, we
-  // only ensure a transaction exists on the transaction stack
-  Interface::current().transaction();
+  Interface::current().transaction().mark(*this, property);
 }
 
 }  // namespace rl

@@ -126,7 +126,7 @@ void Interface::popTransaction() {
     return;
   }
 
-  _transactionStack.top().commit();
+  _transactionStack.top().commit(_lease.writeArena());
   _transactionStack.pop();
 }
 
@@ -141,22 +141,19 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
-  std::lock_guard<std::mutex> lock(_lock);
-
-  while (_transactionStack.size() != 0) {
-    _transactionStack.top().commit();
-    _transactionStack.pop();
-  }
-
-  finalizeLeaseWrite();
-}
-
-void Interface::finalizeLeaseWrite() {
   if (_rootLayer == nullptr) {
     return;
   }
+
   auto& writeArena = _lease.writeArena();
-  _rootLayer->encodeInArena(writeArena, MatrixIdentity);
+
+  std::lock_guard<std::mutex> lock(_lock);
+
+  while (_transactionStack.size() != 0) {
+    _transactionStack.top().commit(writeArena);
+    _transactionStack.pop();
+  }
+
   _lease.swapWriteArena();
 }
 

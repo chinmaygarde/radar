@@ -54,12 +54,4 @@ const Layer* Layer::superlayer() const {
   return _superlayer;
 }
 
-void Layer::encodeInArena(EntityArena& arena, const Matrix& viewMatrix) const {
-  auto& entity = arena.emplaceEntity(*this, viewMatrix * modelMatrix());
-
-  for (const auto& layer : sublayers()) {
-    layer->encodeInArena(arena, entity.transformation());
-  }
-}
-
 }  // namespace rl

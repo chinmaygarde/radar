@@ -6,10 +6,17 @@
 
 namespace rl {
 
-InterfaceTransaction::InterfaceTransaction() {
+InterfaceTransaction::InterfaceTransaction() : _updates() {
 }
 
-void InterfaceTransaction::commit() {
+void InterfaceTransaction::mark(Entity& entity, Entity::Property property) {
+  _updates[&entity] |= property;
+}
+
+void InterfaceTransaction::commit(EntityArena& arena) {
+  for (const auto& pair : _updates) {
+    arena.emplaceEntity(*pair.first, MatrixIdentity);
+  }
 }
 
 }  // namespace rl

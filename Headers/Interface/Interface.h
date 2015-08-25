@@ -158,7 +158,6 @@ class Interface {
   void cleanupEventChannels();
   void processTouchEvents();
   void performTerminationCleanup();
-  void finalizeLeaseWrite();
 
   void didFinishLaunching();
   void didBecomeActive();

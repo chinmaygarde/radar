@@ -12,6 +12,18 @@
 namespace rl {
 class Entity {
  public:
+  // clang-format off
+  enum Property {
+    Bounds          = 1 << 0,
+    Position        = 1 << 1,
+    AnchorPoint     = 1 << 2,
+    Transformation  = 1 << 3,
+    BackgroundColor = 1 << 4,
+    Opacity         = 1 << 5,
+    Created         = 1 << 6,
+    Destroyed       = 1 << 7,
+  };
+// clang-format on
 #pragma mark - Managing Entity Lifecycle
 
   /**
@@ -146,7 +158,7 @@ class Entity {
   double _opacity;
   bool _notifiesInterfaceOnUpdate;
 
-  void notifyInterfaceIfNecessary();
+  void notifyInterfaceIfNecessary(Property property);
 
   DISALLOW_COPY_AND_ASSIGN(Entity);
 };
