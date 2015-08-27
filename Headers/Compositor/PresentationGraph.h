@@ -24,6 +24,9 @@ class PresentationGraph {
   void render(Frame& frame);
 
  private:
+  std::unordered_map<Entity::Identifer, std::unique_ptr<PresentationEntity>>
+      _entities;
+
   void prepareActionsAndMerge(PresentationEntity& currentState,
                               const TransferEntity& updatedState);
 

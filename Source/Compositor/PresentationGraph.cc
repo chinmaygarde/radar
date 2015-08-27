@@ -6,14 +6,13 @@
 
 namespace rl {
 
-PresentationGraph::PresentationGraph() {
+PresentationGraph::PresentationGraph() : _entities() {
 }
 
 PresentationGraph::~PresentationGraph() {
 }
 
 void PresentationGraph::applyUpdates(EntityArena& arena) {
-#if 0
   for (size_t i = 0, end = arena.encodedEntities(); i < end; i++) {
     const auto& updated = arena[i];
     /*
@@ -21,12 +20,14 @@ void PresentationGraph::applyUpdates(EntityArena& arena) {
      *  already knows of the same and we need to merge it with the previous
      *  state and add actions if necessary.
      */
-    const auto& result = _entities.emplace(updated.identifier(), updated);
-    if (!result.second) {
-      prepareActionsAndMerge((*(result.first)).second, updated);
+    const auto& found = _entities.find(updated.identifier());
+    if (found == _entities.end()) {
+      _entities.emplace(updated.identifier(),
+                        rl::make_unique<PresentationEntity>(updated));
+    } else {
+      prepareActionsAndMerge(*((*found).second), updated);
     }
   }
-#endif
 }
 
 void PresentationGraph::prepareActionsAndMerge(
@@ -36,12 +37,10 @@ void PresentationGraph::prepareActionsAndMerge(
 }
 
 void PresentationGraph::render(Frame& frame) {
-#if 0
   frame.statistics().entityCount().increment(_entities.size());
   for (const auto& i : _entities) {
-    i.second.render(frame);
+    i.second->render(frame);
   }
-#endif
 }
 
 }  // namespace rl
