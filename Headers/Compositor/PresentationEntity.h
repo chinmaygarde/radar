@@ -14,7 +14,7 @@ namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
-  PresentationEntity(const Entity& entity);
+  explicit PresentationEntity(const Entity& entity);
 
   ~PresentationEntity();
 

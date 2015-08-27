@@ -15,7 +15,7 @@
 namespace rl {
 class Primitive {
  public:
-  Primitive();
+  explicit Primitive();
 
   /**
    *  The solid color of the contents of this primitive

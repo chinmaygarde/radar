@@ -11,7 +11,7 @@
 namespace rl {
 class EntityLease {
  public:
-  EntityLease(size_t entityCount);
+  explicit EntityLease(size_t entityCount);
 
   std::shared_ptr<EventLoopSource> writeNotificationSource() const;
 

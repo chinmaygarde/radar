@@ -22,10 +22,10 @@ class SpringSimulation : public Simulation {
    *  A spring description with the provided spring description, start distance,
    *  end distance and velocity.
    */
-  SpringSimulation(SpringDescription desc,
-                   double start,
-                   double end,
-                   double velocity);
+  explicit SpringSimulation(SpringDescription desc,
+                            double start,
+                            double end,
+                            double velocity);
 
   virtual double x(double time) override;
   virtual double dx(double time) override;

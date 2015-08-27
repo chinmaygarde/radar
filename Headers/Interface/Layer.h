@@ -22,7 +22,7 @@ class Layer : public Entity {
 
 #pragma mark - Construction
 
-  Layer();
+  explicit Layer();
 
   ~Layer();
 

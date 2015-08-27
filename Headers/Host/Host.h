@@ -10,7 +10,7 @@
 namespace rl {
 class Host {
  public:
-  Host();
+  explicit Host();
 
   /**
    *  Run the host access subsystem

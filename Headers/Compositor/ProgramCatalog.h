@@ -20,7 +20,7 @@ class ProgramCatalog {
     TexturedPrimitive,
   };
 
-  ProgramCatalog();
+  explicit ProgramCatalog();
 
   /**
    *  Must be called before catalog items are about to be used
@@ -57,7 +57,7 @@ class ProgramCatalog {
  */
 class BasicPrimitiveProgram : public Program {
  public:
-  BasicPrimitiveProgram();
+  explicit BasicPrimitiveProgram();
 
   unsigned int modelViewProjectionUniform() const {
     return _modelViewProjectionUniform;

@@ -17,12 +17,12 @@ namespace rl {
  */
 class ScrollSimulation : public SimulationGroup {
  public:
-  ScrollSimulation(double position,
-                   double velocity,
-                   double leading,
-                   double trailing,
-                   SpringDescription spring,
-                   double drag);
+  explicit ScrollSimulation(double position,
+                            double velocity,
+                            double leading,
+                            double trailing,
+                            SpringDescription spring,
+                            double drag);
 
  protected:
   virtual Simulation* currentSimulation() override;

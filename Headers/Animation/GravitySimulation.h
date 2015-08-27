@@ -11,10 +11,10 @@
 namespace rl {
 class GravitySimulation : public Simulation {
  public:
-  GravitySimulation(double acceleration,
-                    double distance,
-                    double endDistance,
-                    double velocity);
+  explicit GravitySimulation(double acceleration,
+                             double distance,
+                             double endDistance,
+                             double velocity);
 
   virtual double x(double time) override;
   virtual double dx(double time) override;

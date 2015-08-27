@@ -15,8 +15,8 @@
 namespace rl {
 class Shell {
  public:
-  Shell(std::shared_ptr<RenderSurface> surface,
-        std::weak_ptr<InterfaceDelegate> delegate);
+  explicit Shell(std::shared_ptr<RenderSurface> surface,
+                 std::weak_ptr<InterfaceDelegate> delegate);
 
   /**
    *  Get a reference to the compositor

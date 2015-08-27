@@ -18,7 +18,7 @@ class TimingCurve {
     EaseInEaseOut,
   };
 
-  TimingCurve(const Point& c1, const Point& c2);
+  explicit TimingCurve(const Point& c1, const Point& c2);
 
   static const TimingCurve& SystemTimingCurve(Type type);
 

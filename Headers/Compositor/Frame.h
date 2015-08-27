@@ -17,9 +17,9 @@
 namespace rl {
 class Frame {
  public:
-  Frame(Size size,
-        std::shared_ptr<ProgramCatalog> catalog,
-        CompositorStatistics& stats);
+  explicit Frame(Size size,
+                 std::shared_ptr<ProgramCatalog> catalog,
+                 CompositorStatistics& stats);
 
   virtual ~Frame();
 

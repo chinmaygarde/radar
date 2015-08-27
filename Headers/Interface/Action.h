@@ -13,7 +13,7 @@ class Action {
   /**
    *  Create a new action specification
    */
-  Action();
+  explicit Action();
 
   /**
    *  Get the total duration of a single iteration of the action. The default is

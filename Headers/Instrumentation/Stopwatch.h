@@ -11,8 +11,8 @@ namespace rl {
 
 class Stopwatch {
  public:
-  Stopwatch();
-  
+  explicit Stopwatch();
+
   std::chrono::nanoseconds lastLap() const;
   std::chrono::nanoseconds currentLap() const;
 

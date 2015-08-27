@@ -37,11 +37,11 @@ class EventLoopSource {
    *  Create a custom event loop source with callbacks to specify each detail of
    *  operation of the source.
    */
-  EventLoopSource(RWHandlesProvider handleProvider,
-                  RWHandlesCollector handleCollector,
-                  IOHandler readHandler,
-                  IOHandler writeHandler,
-                  WaitSetUpdateHandler waitsetUpdateHandler);
+  explicit EventLoopSource(RWHandlesProvider handleProvider,
+                           RWHandlesCollector handleCollector,
+                           IOHandler readHandler,
+                           IOHandler writeHandler,
+                           WaitSetUpdateHandler waitsetUpdateHandler);
 
   ~EventLoopSource();
 

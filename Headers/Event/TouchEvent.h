@@ -21,12 +21,12 @@ class TouchEvent : public Event {
   /**
    *  Create a touch event with the given identifier and absolute location
    */
-  TouchEvent(uint64_t identifier, const Point& location, Phase phase);
+  explicit TouchEvent(uint64_t identifier, const Point& location, Phase phase);
 
   /**
    *  Create a touch event from a channel message
    */
-  TouchEvent(Message& message);
+  explicit TouchEvent(Message& message);
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
@@ -58,6 +58,8 @@ class TouchEvent : public Event {
   uint64_t _identifier;
   Point _location;
   Phase _phase;
+
+  DISALLOW_ASSIGN(TouchEvent);
 };
 }  // namespace rl
 

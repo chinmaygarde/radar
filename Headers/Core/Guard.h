@@ -22,7 +22,7 @@ class Guard {
    *
    *  @param block the block to invoke when the variable is collected
    */
-  Guard(const Block& block);
+  explicit Guard(const Block& block);
 
   ~Guard();
 

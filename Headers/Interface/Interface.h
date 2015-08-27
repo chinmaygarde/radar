@@ -40,8 +40,8 @@ class Interface {
     Background,
   };
 
-  Interface(std::weak_ptr<InterfaceDelegate> delegate,
-            EntityLease& interfaceLease);
+  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
+                     EntityLease& interfaceLease);
 
 #pragma mark - Bootstrapping the interface
 

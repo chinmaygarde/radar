@@ -36,7 +36,8 @@ class RenderSurfaceObserver {
 
 class RenderSurface : RenderSurfaceObserver {
  public:
-  RenderSurface() : _observer(nullptr) {}
+  explicit RenderSurface() : _observer(nullptr) {}
+
   virtual ~RenderSurface() {}
 
   /**
@@ -68,7 +69,7 @@ class RenderSurface : RenderSurfaceObserver {
 
 class ScopedRenderSurfaceAccess {
  public:
-  ScopedRenderSurfaceAccess(RenderSurface& surface);
+  explicit ScopedRenderSurfaceAccess(RenderSurface& surface);
   ~ScopedRenderSurfaceAccess();
 
  private:

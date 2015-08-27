@@ -14,7 +14,7 @@
 namespace rl {
 class InterfaceTransaction {
  public:
-  InterfaceTransaction();
+  explicit InterfaceTransaction();
 
   void mark(Entity& entity, Entity::Property property);
 

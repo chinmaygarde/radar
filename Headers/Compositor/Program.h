@@ -14,9 +14,9 @@
 namespace rl {
 class Program {
  public:
-  Program(std::vector<std::string> attributes,
-          std::string vertexShader,
-          std::string fragmentShader);
+  explicit Program(std::vector<std::string> attributes,
+                   std::string vertexShader,
+                   std::string fragmentShader);
   virtual ~Program();
 
   /**

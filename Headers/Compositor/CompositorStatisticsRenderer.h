@@ -13,7 +13,7 @@ namespace rl {
 class CompositorStatisticsRendererProgram;
 class CompositorStatisticsRenderer {
  public:
-  CompositorStatisticsRenderer();
+  explicit CompositorStatisticsRenderer();
   ~CompositorStatisticsRenderer();
 
   void render(CompositorStatistics& stats, Frame& frame);

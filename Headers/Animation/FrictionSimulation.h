@@ -11,7 +11,7 @@
 namespace rl {
 class FrictionSimulation : public Simulation {
  public:
-  FrictionSimulation(double drag, double position, double velocity);
+  explicit FrictionSimulation(double drag, double position, double velocity);
 
   virtual double x(double time) override;
   virtual double dx(double time) override;

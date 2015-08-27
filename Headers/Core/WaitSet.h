@@ -22,7 +22,7 @@ class WaitSet {
   /**
    *  Create an empty wait set to which sources can be added
    */
-  WaitSet();
+  explicit WaitSet();
 
   ~WaitSet();
 

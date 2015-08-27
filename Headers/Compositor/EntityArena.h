@@ -13,7 +13,7 @@ namespace rl {
 
 class EntityArena {
  public:
-  EntityArena(uint8_t* base, size_t maxSize, bool reader);
+  explicit EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
   TransferEntity& emplaceEntity(const Entity& entity);
 

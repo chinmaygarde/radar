@@ -11,7 +11,7 @@ namespace rl {
 
 class Trace {
  public:
-  Trace() {}
+  explicit Trace() {}
 
   void begin(const char* name);
   void end();

@@ -11,7 +11,7 @@ namespace rl {
 
 class Counter {
  public:
-  Counter();
+  explicit Counter();
 
   size_t count() const;
 

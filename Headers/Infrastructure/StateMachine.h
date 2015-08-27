@@ -24,7 +24,7 @@ class StateMachine {
    *  Construct a state machine given the set of legal state transitions along
    *  with their callbacks
    */
-  StateMachine(std::vector<LegalTransition> legalTransitions);
+  explicit StateMachine(std::vector<LegalTransition> legalTransitions);
 
   /**
    *  Get the current state of the state machine

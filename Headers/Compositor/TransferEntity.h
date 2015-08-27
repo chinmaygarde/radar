@@ -12,7 +12,7 @@ namespace rl {
 
 class TransferEntity : public Entity {
  public:
-  TransferEntity(const Entity& entity);
+  explicit TransferEntity(const Entity& entity);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(TransferEntity);

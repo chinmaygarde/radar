@@ -12,7 +12,7 @@ namespace rl {
 
 class CompositorStatistics {
  public:
-  CompositorStatistics();
+  explicit CompositorStatistics();
 
   Stopwatch& frameTimer();
 

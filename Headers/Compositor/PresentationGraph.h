@@ -16,7 +16,7 @@ namespace rl {
 
 class PresentationGraph {
  public:
-  PresentationGraph();
+  explicit PresentationGraph();
   ~PresentationGraph();
 
   void applyUpdates(EntityArena& arena);

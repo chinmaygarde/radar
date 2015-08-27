@@ -18,7 +18,7 @@ class Latch {
   /**
    *  Create a latch with the specified count
    */
-  Latch(unsigned int count);
+  explicit Latch(unsigned int count);
 
   /**
    *  Blocks the current thread till the count reaches zero. If the count is

@@ -26,7 +26,7 @@ class Compositor : RenderSurfaceObserver {
    *  No operations on the surface are performed till the compositor is run
    *  however.
    */
-  Compositor(std::shared_ptr<RenderSurface> surface);
+  explicit Compositor(std::shared_ptr<RenderSurface> surface);
 
   ~Compositor();
 
