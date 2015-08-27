@@ -7,7 +7,7 @@
 
 namespace rl {
 
-static Entity::Identifer LastEntityIdentifier = 0;
+static Entity::Identifier LastEntityIdentifier = 0;
 
 Entity::Entity(bool notifiesInterfaceOnUpdate)
     : _identifier(++LastEntityIdentifier),
@@ -19,6 +19,17 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
       _opacity(1.0),
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
   notifyInterfaceIfNecessary(Created);
+}
+
+Entity::Entity(Identifier identifier)
+    : _identifier(identifier),
+      _bounds(RectZero),
+      _position(PointZero),
+      _anchorPoint(Point(0.5, 0.5)),
+      _transformation(MatrixIdentity),
+      _backgroundColor(ColorWhiteTransparent),
+      _opacity(1.0),
+      _notifiesInterfaceOnUpdate(false) {
 }
 
 Entity::Entity(const Entity& entity)

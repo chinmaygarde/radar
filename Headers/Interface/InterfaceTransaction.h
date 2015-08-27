@@ -16,12 +16,12 @@ class InterfaceTransaction {
  public:
   explicit InterfaceTransaction();
 
-  void mark(Entity& entity, Entity::Property property);
+  void mark(const Entity& entity, Entity::Property property);
 
   void commit(EntityArena& arena);
 
  private:
-  std::map<Entity*, uint64_t> _updates;
+  std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
 
   DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };

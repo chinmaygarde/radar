@@ -6,16 +6,24 @@
 
 namespace rl {
 
-InterfaceTransaction::InterfaceTransaction() : _updates() {
+InterfaceTransaction::InterfaceTransaction() : _entities() {
 }
 
-void InterfaceTransaction::mark(Entity& entity, Entity::Property property) {
-  _updates[&entity] |= property;
+void InterfaceTransaction::mark(const Entity& entity,
+                                Entity::Property property) {
+  auto& transferEntity = _entities[entity.identifier()];
+
+  if (!transferEntity) {
+    auto transfer = rl::make_unique<TransferEntity>(entity.identifier());
+    transferEntity.swap(transfer);
+  }
+
+  transferEntity->record(entity, property);
 }
 
 void InterfaceTransaction::commit(EntityArena& arena) {
-  for (const auto& pair : _updates) {
-    arena.emplaceEntity(*pair.first);
+  for (const auto& pair : _entities) {
+    arena.emplaceTransferEntity(*(pair.second));
   }
 }
 

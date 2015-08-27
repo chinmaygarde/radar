@@ -10,7 +10,7 @@
 #include <Compositor/Frame.h>
 #include <Compositor/PresentationEntity.h>
 
-#include <unordered_map>
+#include <map>
 
 namespace rl {
 
@@ -24,8 +24,7 @@ class PresentationGraph {
   void render(Frame& frame);
 
  private:
-  std::unordered_map<Entity::Identifer, std::unique_ptr<PresentationEntity>>
-      _entities;
+  std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
 
   void prepareActionsAndMerge(PresentationEntity& currentState,
                               const TransferEntity& updatedState);

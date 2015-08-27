@@ -15,7 +15,7 @@ class EntityArena {
  public:
   explicit EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
-  TransferEntity& emplaceEntity(const Entity& entity);
+  TransferEntity& emplaceTransferEntity(const TransferEntity& entity);
 
   const TransferEntity& operator[](size_t index) const;
 

@@ -22,8 +22,8 @@ void PresentationGraph::applyUpdates(EntityArena& arena) {
      */
     const auto& found = _entities.find(updated.identifier());
     if (found == _entities.end()) {
-      _entities.emplace(updated.identifier(),
-                        rl::make_unique<PresentationEntity>(updated));
+      _entities[updated.identifier()] =
+          rl::make_unique<PresentationEntity>(updated);
     } else {
       prepareActionsAndMerge(*((*found).second), updated);
     }
@@ -33,6 +33,7 @@ void PresentationGraph::applyUpdates(EntityArena& arena) {
 void PresentationGraph::prepareActionsAndMerge(
     PresentationEntity& currentState,
     const TransferEntity& updatedState) {
+  RL_ASSERT(updatedState.updateMask() != 0);
   currentState.merge(updatedState);
 }
 

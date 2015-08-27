@@ -24,6 +24,7 @@ class Entity {
     Destroyed       = 1 << 7,
   };
 // clang-format on
+
 #pragma mark - Managing Entity Lifecycle
 
   /**
@@ -34,8 +35,8 @@ class Entity {
   ~Entity();
 
 #pragma mark - Entity Identification
-  using Identifer = uint64_t;
-  Identifer identifier() const;
+  using Identifier = uint64_t;
+  Identifier identifier() const;
 
 #pragma mark - Geometry
 
@@ -157,9 +158,10 @@ class Entity {
 
  protected:
   explicit Entity(const Entity& entity);
+  explicit Entity(Identifier identifier);
 
  private:
-  Identifer _identifier;
+  Identifier _identifier;
   Rect _bounds;
   Point _position;
   Point _anchorPoint;

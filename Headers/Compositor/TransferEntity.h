@@ -12,9 +12,16 @@ namespace rl {
 
 class TransferEntity : public Entity {
  public:
-  explicit TransferEntity(const Entity& entity);
+  explicit TransferEntity(Identifier identifier);
+  explicit TransferEntity(const TransferEntity& transferEntity);
+
+  void record(const Entity& entity, Entity::Property property);
+
+  uint64_t updateMask() const;
 
  private:
+  uint64_t _updateMask;
+
   DISALLOW_COPY_AND_ASSIGN(TransferEntity);
 };
 
