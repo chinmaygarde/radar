@@ -8,13 +8,13 @@
 #include <Core/Core.h>
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
+#include <Compositor/TransferEntity.h>
 
 namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
   PresentationEntity(const Entity& entity);
-  PresentationEntity(const PresentationEntity& entity);
 
   ~PresentationEntity();
 

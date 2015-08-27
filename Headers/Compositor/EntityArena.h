@@ -6,7 +6,7 @@
 #define __RADARLOVE_COMPOSITOR_ENTITYARENA__
 
 #include <Core/Core.h>
-#include <Compositor/PresentationEntity.h>
+#include <Compositor/TransferEntity.h>
 #include <Geometry/Geometry.h>
 
 namespace rl {
@@ -15,9 +15,9 @@ class EntityArena {
  public:
   EntityArena(uint8_t* base, size_t maxSize, bool reader);
 
-  PresentationEntity& emplaceEntity(const Entity& entity);
+  TransferEntity& emplaceEntity(const Entity& entity);
 
-  const PresentationEntity& operator[](size_t index) const;
+  const TransferEntity& operator[](size_t index) const;
 
   size_t encodedEntities() const;
 

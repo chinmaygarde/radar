@@ -29,9 +29,7 @@ class Entity {
   /**
    *  Construct a default entity
    */
-  Entity(bool notifiesInterfaceOnUpdate);
-
-  Entity(const Entity& entity);
+  explicit Entity(bool notifiesInterfaceOnUpdate);
 
   ~Entity();
 
@@ -156,6 +154,9 @@ class Entity {
 #pragma mark - Managing Entity Update
 
   void merge(const Entity& entity);
+
+ protected:
+  explicit Entity(const Entity& entity);
 
  private:
   Identifer _identifier;

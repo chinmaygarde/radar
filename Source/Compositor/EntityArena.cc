@@ -29,19 +29,19 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
   }
 }
 
-PresentationEntity& EntityArena::emplaceEntity(const Entity& entity) {
-  auto allocation = alloc(sizeof(PresentationEntity));
+TransferEntity& EntityArena::emplaceEntity(const Entity& entity) {
+  auto allocation = alloc(sizeof(TransferEntity));
   RL_ASSERT(allocation != nullptr &&
             "Could not emplace entity into this arena");
   WRITE_ENTITY_COUNT(++_encodedEntities);
-  return *(new (allocation) PresentationEntity(entity));
+  return *(new (allocation) TransferEntity(entity));
 }
 
-const PresentationEntity& EntityArena::operator[](size_t index) const {
+const TransferEntity& EntityArena::operator[](size_t index) const {
   RL_ASSERT(index < _encodedEntities);
   auto allocation =
-      _base + sizeof(EntityArenaHeader) + index * sizeof(PresentationEntity);
-  return *reinterpret_cast<PresentationEntity*>(allocation);
+      _base + sizeof(EntityArenaHeader) + index * sizeof(TransferEntity);
+  return *reinterpret_cast<TransferEntity*>(allocation);
 }
 
 size_t EntityArena::encodedEntities() const {
@@ -59,7 +59,7 @@ void* EntityArena::alloc(size_t bytes) {
 }
 
 size_t EntityArena::Size(size_t entityCount) {
-  return sizeof(EntityArenaHeader) + entityCount * sizeof(PresentationEntity);
+  return sizeof(EntityArenaHeader) + entityCount * sizeof(TransferEntity);
 }
 
 }  // namespace rl

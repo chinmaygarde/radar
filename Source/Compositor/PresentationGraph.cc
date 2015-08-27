@@ -13,30 +13,35 @@ PresentationGraph::~PresentationGraph() {
 }
 
 void PresentationGraph::applyUpdates(EntityArena& arena) {
+#if 0
   for (size_t i = 0, end = arena.encodedEntities(); i < end; i++) {
-    auto& updated = arena[i];
+    const auto& updated = arena[i];
     /*
      *  First, we try to directly emplace the entity. If we fail, the compositor
      *  already knows of the same and we need to merge it with the previous
      *  state and add actions if necessary.
      */
-    auto result = _entities.emplace(updated.identifier(), updated);
+    const auto& result = _entities.emplace(updated.identifier(), updated);
     if (!result.second) {
       prepareActionsAndMerge((*(result.first)).second, updated);
     }
   }
+#endif
 }
 
-void PresentationGraph::prepareActionsAndMerge(Entity& currentState,
-                                               const Entity& updatedState) {
+void PresentationGraph::prepareActionsAndMerge(
+    PresentationEntity& currentState,
+    const TransferEntity& updatedState) {
   currentState.merge(updatedState);
 }
 
 void PresentationGraph::render(Frame& frame) {
+#if 0
   frame.statistics().entityCount().increment(_entities.size());
   for (const auto& i : _entities) {
     i.second.render(frame);
   }
+#endif
 }
 
 }  // namespace rl

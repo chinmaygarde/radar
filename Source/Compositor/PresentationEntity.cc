@@ -10,10 +10,6 @@ namespace rl {
 PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
 }
 
-PresentationEntity::PresentationEntity(const PresentationEntity& entity)
-    : Entity(entity) {
-}
-
 PresentationEntity::~PresentationEntity() {
 }
 

@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 #include <Compositor/EntityArena.h>
 #include <Compositor/Frame.h>
+#include <Compositor/PresentationEntity.h>
 
 #include <unordered_map>
 
@@ -23,9 +24,8 @@ class PresentationGraph {
   void render(Frame& frame);
 
  private:
-  std::unordered_map<Entity::Identifer, PresentationEntity> _entities;
-
-  void prepareActionsAndMerge(Entity& currentState, const Entity& updatedState);
+  void prepareActionsAndMerge(PresentationEntity& currentState,
+                              const TransferEntity& updatedState);
 
   DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
