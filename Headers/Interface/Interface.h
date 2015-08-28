@@ -11,7 +11,7 @@
 #include <Interface/InterfaceDelegate.h>
 #include <Infrastructure/StateMachine.h>
 #include <Interface/Layer.h>
-#include <Compositor/EntityLease.h>
+#include <Compositor/CompositorChannel.h>
 
 #include <stack>
 #include <mutex>
@@ -41,7 +41,7 @@ class Interface {
   };
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     EntityLease& interfaceLease);
+                     std::weak_ptr<CompositorChannel> compositorChannel);
 
 #pragma mark - Bootstrapping the interface
 
@@ -149,7 +149,7 @@ class Interface {
   std::shared_ptr<EventLoopObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;
-  EntityLease& _lease;
+  std::weak_ptr<CompositorChannel> _compositorChannel;
   StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);

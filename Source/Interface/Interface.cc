@@ -17,7 +17,7 @@ static pthread_key_t InterfaceTLSKey() {
 }
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     EntityLease& lease)
+                     std::weak_ptr<CompositorChannel> compositorChannel)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -25,7 +25,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _transactionStack(),
       _touchEventChannel(),
       _delegate(delegate),
-      _lease(lease),
+      _compositorChannel(compositorChannel),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -126,7 +126,9 @@ void Interface::popTransaction() {
     return;
   }
 
-  _transactionStack.top().commit(_lease.writeArena());
+  auto compositor = _compositorChannel.lock();
+  RL_ASSERT(compositor && "Compositor channel must be present");
+  _transactionStack.top().commit(compositor->transactionMessage());
   _transactionStack.pop();
 }
 
@@ -141,20 +143,19 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
-  if (_rootLayer == nullptr) {
-    return;
-  }
-
-  auto& writeArena = _lease.writeArena();
-
   std::lock_guard<std::mutex> lock(_lock);
 
+  auto compositor = _compositorChannel.lock();
+  RL_ASSERT(compositor && "Compositor channel must be present");
+  auto& arena = compositor->transactionMessage();
+
   while (_transactionStack.size() != 0) {
-    _transactionStack.top().commit(writeArena);
+    _transactionStack.top().commit(arena);
     _transactionStack.pop();
   }
 
-  _lease.swapWriteArena();
+  bool result = compositor->flushTransaction();
+  RL_ASSERT(result && "Must be able to flush the compositor transaction");
 }
 
 void Interface::setupEventChannels() {

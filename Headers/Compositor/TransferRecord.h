@@ -7,6 +7,7 @@
 
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
+#include <Compositor/Color.h>
 
 namespace rl {
 
@@ -21,6 +22,7 @@ struct TransferRecord {
     Size size;
     Rect rect;
     Matrix matrix;
+    Color color;
 
     template <typename T>
     DataType(T value) {

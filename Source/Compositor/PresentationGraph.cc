@@ -12,28 +12,64 @@ PresentationGraph::PresentationGraph() : _entities() {
 PresentationGraph::~PresentationGraph() {
 }
 
-void PresentationGraph::applyUpdates(EntityArena& arena) {
-  for (size_t i = 0, end = arena.encodedEntities(); i < end; i++) {
-    const auto& updated = arena[i];
-    /*
-     *  First, we try to directly emplace the entity. If we fail, the compositor
-     *  already knows of the same and we need to merge it with the previous
-     *  state and add actions if necessary.
-     */
-    const auto& found = _entities.find(updated.identifier());
-    if (found == _entities.end()) {
-      _entities[updated.identifier()] =
-          rl::make_unique<PresentationEntity>(updated);
-    } else {
-      prepareActionsAndMerge(*((*found).second), updated);
+void PresentationGraph::applyUpdates(Message& arena) {
+  RL_ASSERT(arena.size() % sizeof(TransferRecord) == 0);
+  const auto transferRecords = arena.size() / sizeof(TransferRecord);
+  for (auto i = 0; i < transferRecords; i++) {
+    auto allocation = arena.decodeRaw(sizeof(TransferRecord));
+
+    if (allocation == nullptr) {
+      break;
     }
+
+    auto& record = *reinterpret_cast<TransferRecord*>(allocation);
+
+    if (record.property == Entity::Created) {
+      _entities[record.identifier] =
+          rl::make_unique<PresentationEntity>(record.identifier);
+      continue;
+    }
+
+    if (record.property == Entity::Destroyed) {
+      _entities.erase(record.identifier);
+      continue;
+    }
+
+    prepareActionsAndMerge(*_entities[record.identifier], record);
   }
+  RL_ASSERT(arena.readCompleted());
 }
 
-void PresentationGraph::prepareActionsAndMerge(
-    PresentationEntity& currentState,
-    const TransferEntity& updatedState) {
-  currentState.merge(updatedState);
+void PresentationGraph::prepareActionsAndMerge(PresentationEntity& currentState,
+                                               const TransferRecord& record) {
+  switch (record.property) {
+    case Entity::Bounds:
+      currentState.setBounds(record.data.rect);
+      break;
+    case Entity::Position:
+      currentState.setPosition(record.data.point);
+      break;
+    case Entity::AnchorPoint:
+      currentState.setAnchorPoint(record.data.point);
+      break;
+    case Entity::Transformation:
+      currentState.setTransformation(record.data.matrix);
+      break;
+    case Entity::BackgroundColor:
+      currentState.setBackgroundColor(record.data.color);
+      break;
+    case Entity::Opacity:
+      currentState.setOpacity(record.data.number);
+      break;
+#if 0
+    case Entity::AddedTo:
+      break;
+    case Entity::RemovedFrom:
+      break;
+#endif
+    default:
+      RL_ASSERT("Unknown Property");
+  }
 }
 
 void PresentationGraph::render(Frame& frame) {

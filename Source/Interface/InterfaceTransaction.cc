@@ -21,10 +21,14 @@ void InterfaceTransaction::mark(const Entity& entity,
   transferEntity->record(entity, property);
 }
 
-void InterfaceTransaction::commit(EntityArena& arena) {
+bool InterfaceTransaction::commit(Message& arena) {
+  bool result = false;
+
   for (const auto& pair : _entities) {
-    arena.emplaceTransferEntity(*(pair.second));
+    result |= (*(pair.second)).serialize(arena);
   }
+
+  return result;
 }
 
 }  // namespace rl

@@ -7,7 +7,8 @@
 
 namespace rl {
 
-PresentationEntity::PresentationEntity(const Entity& entity) : Entity(entity) {
+PresentationEntity::PresentationEntity(Identifier identifier)
+    : Entity(identifier) {
 }
 
 PresentationEntity::~PresentationEntity() {

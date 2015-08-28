@@ -9,6 +9,7 @@
 #include <Compositor/EntityArena.h>
 #include <Compositor/Frame.h>
 #include <Compositor/PresentationEntity.h>
+#include <Compositor/TransferRecord.h>
 
 #include <map>
 
@@ -19,7 +20,7 @@ class PresentationGraph {
   explicit PresentationGraph();
   ~PresentationGraph();
 
-  void applyUpdates(EntityArena& arena);
+  void applyUpdates(Message& arena);
 
   void render(Frame& frame);
 
@@ -27,7 +28,7 @@ class PresentationGraph {
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
 
   void prepareActionsAndMerge(PresentationEntity& currentState,
-                              const TransferEntity& updatedState);
+                              const TransferRecord& record);
 
   DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

@@ -30,13 +30,13 @@ bool TransferEntity::serialize(Message& message) {
     success |= TransferRecord::Emplaced(message, identifier(), prop, func); \
   }
 
+  SerializeProperty(Created, identifier());
   SerializeProperty(Bounds, bounds());
   SerializeProperty(Position, position());
   SerializeProperty(AnchorPoint, anchorPoint());
   SerializeProperty(Transformation, transformation());
   SerializeProperty(BackgroundColor, backgroundColor());
   SerializeProperty(Opacity, opacity());
-  SerializeProperty(Created, identifier());
   SerializeProperty(Destroyed, identifier());
 
 #if 0

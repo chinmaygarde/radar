@@ -15,6 +15,7 @@
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/CompositorStatisticsRenderer.h>
 #include <Compositor/PresentationGraph.h>
+#include <Compositor/CompositorChannel.h>
 
 #include <mutex>
 
@@ -56,7 +57,7 @@ class Compositor : RenderSurfaceObserver {
 
 #pragma mark - Interface Lease Management
 
-  EntityLease& acquireLease(size_t layer = 1024);
+  std::weak_ptr<CompositorChannel> acquireChannel();
 
  private:
   std::shared_ptr<RenderSurface> _surface;
@@ -64,7 +65,7 @@ class Compositor : RenderSurfaceObserver {
   std::mutex _lock;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::unique_ptr<EntityLease> _lease;
+  std::shared_ptr<CompositorChannel> _interfaceChannel;
   PresentationGraph _graph;
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
@@ -77,7 +78,7 @@ class Compositor : RenderSurfaceObserver {
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void drawSingleFrame();
-  void onInterfaceDidUpdate();
+  void onInterfaceDidUpdate(Messages messages);
   void setupChannels();
   void teardownChannels();
   void manageInterfaceUpdates(bool schedule);

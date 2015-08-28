@@ -102,6 +102,8 @@ class Message {
     return true;
   }
 
+  void *decodeRaw(size_t size);
+
 #pragma mark - Message Information Accessors
 
   /**
@@ -124,6 +126,8 @@ class Message {
    *  @return the size of data already read
    */
   size_t sizeRead() const;
+
+  bool readCompleted() const;
 
 #pragma mark - Reserved Header Length
 

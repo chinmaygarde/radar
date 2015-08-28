@@ -13,7 +13,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _lock(),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
-      _lease(nullptr),
+      _interfaceChannel(nullptr),
       _graph(),
       _stats(),
       _statsRenderer() {
@@ -131,38 +131,39 @@ void Compositor::teardownChannels() {
   manageInterfaceUpdates(false);
 }
 
-EntityLease& Compositor::acquireLease(size_t count) {
-  if (_lease != nullptr) {
-    return *_lease;
+std::weak_ptr<CompositorChannel> Compositor::acquireChannel() {
+  if (_interfaceChannel != nullptr) {
+    return _interfaceChannel;
   }
 
-  _lease = rl::make_unique<EntityLease>(count);
+  _interfaceChannel = std::make_shared<CompositorChannel>();
   manageInterfaceUpdates(true);
 
-  RL_ASSERT(_lease != nullptr);
-  return *_lease;
+  RL_ASSERT(_interfaceChannel != nullptr);
+  return _interfaceChannel;
 }
 
 void Compositor::manageInterfaceUpdates(bool schedule) {
-  if (_loop == nullptr || _lease == nullptr) {
+  if (_loop == nullptr || _interfaceChannel == nullptr) {
     return;
   }
 
+  auto source = _interfaceChannel->source();
+
   if (schedule) {
-    auto source = _lease->writeNotificationSource();
-    source->setWakeFunction(std::bind(&Compositor::onInterfaceDidUpdate, this));
+    _interfaceChannel->setMessagesReceivedCallback(
+        [&](Messages messages) { onInterfaceDidUpdate(std::move(messages)); });
     _loop->addSource(source);
   } else {
-    _loop->removeSource(_lease->writeNotificationSource());
+    _interfaceChannel->setMessagesReceivedCallback(nullptr);
+    _loop->removeSource(source);
   }
 }
 
-void Compositor::onInterfaceDidUpdate() {
-  if (_lease == nullptr) {
-    return;
+void Compositor::onInterfaceDidUpdate(Messages messages) {
+  for (auto& message : messages) {
+    _graph.applyUpdates(message);
   }
-
-  _graph.applyUpdates(_lease->swapReadArena());
   drawSingleFrame();
 }
 

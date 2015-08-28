@@ -122,6 +122,8 @@
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
 		9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */; };
 		9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */; };
+		9EB8E2DE1B9110A9006BFAC2 /* CompositorChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */; };
+		9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */; };
 		9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A61B87D856005D84FA /* Instrumentation.h */; };
 		9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A71B87D856005D84FA /* Stopwatch.h */; };
 		9EBA79AB1B87D856005D84FA /* Trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A81B87D856005D84FA /* Trace.h */; };
@@ -358,6 +360,8 @@
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
 		9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
 		9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
+		9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorChannel.h; sourceTree = "<group>"; };
+		9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorChannel.cc; sourceTree = "<group>"; };
 		9EBA79A61B87D856005D84FA /* Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrumentation.h; sourceTree = "<group>"; };
 		9EBA79A71B87D856005D84FA /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
 		9EBA79A81B87D856005D84FA /* Trace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trace.h; sourceTree = "<group>"; };
@@ -542,6 +546,7 @@
 			children = (
 				9EAECE3E1B685460000FA38A /* Color.h */,
 				9EAECE3F1B685460000FA38A /* Compositor.h */,
+				9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */,
 				9EBA79B91B87EEDF005D84FA /* CompositorStatistics.h */,
 				9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */,
 				9E62F9161B7C1F85008DE08E /* EntityArena.h */,
@@ -665,6 +670,7 @@
 			children = (
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
+				9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */,
 				9EBA79BD1B87EF08005D84FA /* CompositorStatistics.cc */,
 				9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */,
 				9E62F9141B7C1F7A008DE08E /* EntityArena.cc */,
@@ -858,6 +864,7 @@
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */,
+				9EB8E2DE1B9110A9006BFAC2 /* CompositorChannel.h in Headers */,
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
@@ -1142,6 +1149,7 @@
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */,
+				9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
 				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,

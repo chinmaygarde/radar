@@ -18,7 +18,7 @@ class InterfaceTransaction {
 
   void mark(const Entity& entity, Entity::Property property);
 
-  void commit(EntityArena& arena);
+  bool commit(Message& arena);
 
  private:
   std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;

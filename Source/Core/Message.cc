@@ -113,6 +113,16 @@ void* Message::encodeRaw(size_t size) {
   return _buffer + oldLength;
 }
 
+void* Message::decodeRaw(size_t size) {
+  if ((size + _sizeRead) > _bufferLength) {
+    return nullptr;
+  }
+
+  auto buffer = _buffer + _sizeRead;
+  _sizeRead += size;
+  return buffer;
+}
+
 uint8_t* Message::data() const {
   return _buffer;
 }
@@ -123,6 +133,10 @@ size_t Message::size() const {
 
 size_t Message::sizeRead() const {
   return _sizeRead;
+}
+
+bool Message::readCompleted() const {
+  return _sizeRead == _dataLength;
 }
 
 }  // namespace rl
