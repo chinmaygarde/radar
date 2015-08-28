@@ -120,6 +120,8 @@
 		9EAECEEA1B685469000FA38A /* Host.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEBE1B685469000FA38A /* Host.cc */; };
 		9EAECEEB1B685469000FA38A /* Interface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC01B685469000FA38A /* Interface.cc */; };
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
+		9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */; };
+		9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */; };
 		9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A61B87D856005D84FA /* Instrumentation.h */; };
 		9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A71B87D856005D84FA /* Stopwatch.h */; };
 		9EBA79AB1B87D856005D84FA /* Trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A81B87D856005D84FA /* Trace.h */; };
@@ -354,6 +356,8 @@
 		9EAECEBE1B685469000FA38A /* Host.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Host.cc; sourceTree = "<group>"; };
 		9EAECEC01B685469000FA38A /* Interface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cc; sourceTree = "<group>"; };
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
+		9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
+		9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
 		9EBA79A61B87D856005D84FA /* Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrumentation.h; sourceTree = "<group>"; };
 		9EBA79A71B87D856005D84FA /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
 		9EBA79A81B87D856005D84FA /* Trace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trace.h; sourceTree = "<group>"; };
@@ -553,6 +557,7 @@
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
 				9EAECE461B685460000FA38A /* RenderSurface.h */,
 				9E8628751B8D45D50003E474 /* TransferEntity.h */,
+				9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */,
 			);
 			path = Compositor;
 			sourceTree = "<group>";
@@ -675,6 +680,7 @@
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
 				9EAECEA21B685469000FA38A /* RenderSurface.cc */,
 				9E86287F1B8D45E00003E474 /* TransferEntity.cc */,
+				9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */,
 			);
 			path = Compositor;
 			sourceTree = "<group>";
@@ -913,6 +919,7 @@
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
+				9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
@@ -1116,6 +1123,7 @@
 				9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
+				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,

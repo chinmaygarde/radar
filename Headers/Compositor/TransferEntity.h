@@ -17,7 +17,7 @@ class TransferEntity : public Entity {
 
   void record(const Entity& entity, Entity::Property property);
 
-  uint64_t updateMask() const;
+  bool serialize(Message& message);
 
  private:
   uint64_t _updateMask;

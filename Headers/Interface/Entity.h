@@ -21,7 +21,9 @@ class Entity {
     BackgroundColor = 1 << 4,
     Opacity         = 1 << 5,
     Created         = 1 << 6,
-    Destroyed       = 1 << 7,
+    AddedTo         = 1 << 7,
+    RemovedFrom     = 1 << 8,
+    Destroyed       = 1 << 9,
   };
 // clang-format on
 

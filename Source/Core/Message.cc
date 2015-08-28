@@ -101,6 +101,18 @@ bool Message::resizeBuffer(size_t size) {
   return success;
 }
 
+void* Message::encodeRaw(size_t size) {
+  bool success = reserve(_dataLength + size);
+
+  if (!success) {
+    return nullptr;
+  }
+
+  auto oldLength = _dataLength;
+  _dataLength += size;
+  return _buffer + oldLength;
+}
+
 uint8_t* Message::data() const {
   return _buffer;
 }

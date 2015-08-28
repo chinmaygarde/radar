@@ -33,7 +33,6 @@ void PresentationGraph::applyUpdates(EntityArena& arena) {
 void PresentationGraph::prepareActionsAndMerge(
     PresentationEntity& currentState,
     const TransferEntity& updatedState) {
-  RL_ASSERT(updatedState.updateMask() != 0);
   currentState.merge(updatedState);
 }
 

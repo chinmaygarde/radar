@@ -80,6 +80,8 @@ class Message {
     return success;
   }
 
+  void* encodeRaw(size_t size);
+
   /**
    *  Decode the given value from the message
    *

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/TransferEntity.h>
+#include <Compositor/TransferRecord.h>
 
 namespace rl {
 
@@ -14,20 +15,38 @@ TransferEntity::TransferEntity(const TransferEntity& transferEntity)
     : Entity(transferEntity), _updateMask(transferEntity._updateMask) {
 }
 
-uint64_t TransferEntity::updateMask() const {
-  return _updateMask;
-}
-
 void TransferEntity::record(const Entity& entity, Entity::Property property) {
   RL_ASSERT(entity.identifier() == identifier());
-  RL_ASSERT(property != 0);
 
   _updateMask |= property;
-
-  /*
-   *  TODO: Avoid a full merge
-   */
   merge(entity);
+}
+
+bool TransferEntity::serialize(Message& message) {
+  bool success = false;
+
+#define SerializeProperty(prop, func)                                       \
+  if (_updateMask & prop) {                                                 \
+    success |= TransferRecord::Emplaced(message, identifier(), prop, func); \
+  }
+
+  SerializeProperty(Bounds, bounds());
+  SerializeProperty(Position, position());
+  SerializeProperty(AnchorPoint, anchorPoint());
+  SerializeProperty(Transformation, transformation());
+  SerializeProperty(BackgroundColor, backgroundColor());
+  SerializeProperty(Opacity, opacity());
+  SerializeProperty(Created, identifier());
+  SerializeProperty(Destroyed, identifier());
+
+#if 0
+  SerializeProperty(AddedTo, );
+  SerializeProperty(RemovedFrom, );
+#endif
+
+#undef SerializeProperty
+
+  return success;
 }
 
 }  // namespace rl
