@@ -25,14 +25,17 @@ void PresentationEntity::removeChild(PresentationEntity& entity) {
 }
 
 void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) const {
+  frame.statistics().primitiveCount().increment();
+
+  Matrix modelViewMatrix = viewMatrix * modelMatrix();
+
   Primitive p;
   p.setContentColor(backgroundColor());
   p.setOpacity(opacity());
-  p.render(frame, modelMatrix(), bounds().size);
-  frame.statistics().primitiveCount().increment();
+  p.render(frame, modelViewMatrix, bounds().size);
 
   for (const auto& child : _children) {
-    child->render(frame, viewMatrix * modelMatrix());
+    child->render(frame, modelViewMatrix);
   }
 }
 
