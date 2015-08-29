@@ -21,7 +21,7 @@ class PresentationEntity : public Entity {
   void addChild(PresentationEntity& entity);
   void removeChild(PresentationEntity& entity);
 
-  void render(Frame& frame) const;
+  void render(Frame& frame, const Matrix& viewMatrix = MatrixIdentity) const;
 
  private:
   std::vector<PresentationEntity*> _children;
