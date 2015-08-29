@@ -6,7 +6,8 @@
 
 namespace rl {
 
-InterfaceTransaction::InterfaceTransaction() : _entities() {
+InterfaceTransaction::InterfaceTransaction(const Action&& action)
+    : _entities(), _action(action) {
 }
 
 void InterfaceTransaction::mark(const Entity& entity,

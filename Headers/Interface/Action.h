@@ -8,12 +8,12 @@
 #include <Core/Core.h>
 
 namespace rl {
-class Action {
+class Action : public Serializable {
  public:
   /**
    *  Create a new action specification
    */
-  explicit Action();
+  explicit Action(double duration = 0.125);
 
   /**
    *  Get the total duration of a single iteration of the action. The default is
@@ -71,13 +71,21 @@ class Action {
    */
   void setBeginTime(double beginTime);
 
+  uint64_t propertyMask() const;
+
+  void setPropertyMask(uint64_t mask);
+
+  virtual void serialize(Message& message) const override;
+  virtual void deserialize(Message& message) override;
+
  private:
   double _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
   double _beginTime;
+  uint64_t _propertyMask;
 
-  DISALLOW_COPY_AND_ASSIGN(Action);
+  DISALLOW_ASSIGN(Action);
 };
 }
 

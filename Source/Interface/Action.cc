@@ -6,8 +6,12 @@
 
 namespace rl {
 
-Action::Action()
-    : _duration(0.125), _repeatCount(1), _autoReverses(false), _beginTime(0.0) {
+Action::Action(double duration)
+    : _duration(duration),
+      _repeatCount(1),
+      _autoReverses(false),
+      _beginTime(0.0),
+      _propertyMask(0) {
 }
 
 double Action::duration() const {
@@ -40,6 +44,30 @@ double Action::beginTime() const {
 
 void Action::setBeginTime(double beginTime) {
   _beginTime = beginTime;
+}
+
+uint64_t Action::propertyMask() const {
+  return _propertyMask;
+}
+
+void Action::setPropertyMask(uint64_t mask) {
+  _propertyMask = mask;
+}
+
+void Action::serialize(Message& message) const {
+  message.encode(_duration);
+  message.encode(_repeatCount);
+  message.encode(_autoReverses);
+  message.encode(_beginTime);
+  message.encode(_propertyMask);
+}
+
+void Action::deserialize(Message& message) {
+  message.decode(_duration);
+  message.decode(_repeatCount);
+  message.decode(_autoReverses);
+  message.decode(_beginTime);
+  message.decode(_propertyMask);
 }
 
 }  // namespace rl

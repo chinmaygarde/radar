@@ -6,6 +6,7 @@
 #define __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
 
 #include <Core/Core.h>
+#include <Interface/Action.h>
 #include <Interface/Entity.h>
 #include <Compositor/EntityArena.h>
 
@@ -14,7 +15,7 @@
 namespace rl {
 class InterfaceTransaction {
  public:
-  explicit InterfaceTransaction();
+  explicit InterfaceTransaction(const Action&& action);
 
   void mark(const Entity& entity,
             Entity::Property property,
@@ -23,6 +24,7 @@ class InterfaceTransaction {
   bool commit(Message& arena);
 
  private:
+  Action _action;
   std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
 
   DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);

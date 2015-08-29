@@ -106,7 +106,7 @@ InterfaceTransaction& Interface::transaction() {
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace();
+    _transactionStack.emplace(Action(0.0));
     armAutoFlushTransactions(true);
   }
 
