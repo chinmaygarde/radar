@@ -143,11 +143,11 @@ void Entity::setOpacity(double opacity) {
   notifyInterfaceIfNecessary(Opacity);
 }
 
-void Entity::notifyInterfaceIfNecessary(Property property) {
+void Entity::notifyInterfaceIfNecessary(Property property, Identifier other) {
   if (!_notifiesInterfaceOnUpdate) {
     return;
   }
-  Interface::current().transaction().mark(*this, property);
+  Interface::current().transaction().mark(*this, property, other);
 }
 
 }  // namespace rl

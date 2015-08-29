@@ -16,7 +16,9 @@ class InterfaceTransaction {
  public:
   explicit InterfaceTransaction();
 
-  void mark(const Entity& entity, Entity::Property property);
+  void mark(const Entity& entity,
+            Entity::Property property,
+            Entity::Identifier);
 
   bool commit(Message& arena);
 

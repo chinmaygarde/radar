@@ -15,12 +15,17 @@ class TransferEntity : public Entity {
   explicit TransferEntity(Identifier identifier);
   explicit TransferEntity(const TransferEntity& transferEntity);
 
-  void record(const Entity& entity, Entity::Property property);
+  void record(const Entity& entity,
+              Entity::Property property,
+              Entity::Identifier other);
 
   bool serialize(Message& message);
 
  private:
   uint64_t _updateMask;
+  bool _lastHierarchyUpdateWasAdd;
+  Identifier _firstRemovedFrom;
+  Identifier _lastAddedTo;
 
   DISALLOW_COPY_AND_ASSIGN(TransferEntity);
 };

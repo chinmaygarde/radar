@@ -10,7 +10,8 @@ InterfaceTransaction::InterfaceTransaction() : _entities() {
 }
 
 void InterfaceTransaction::mark(const Entity& entity,
-                                Entity::Property property) {
+                                Entity::Property property,
+                                Entity::Identifier other) {
   auto& transferEntity = _entities[entity.identifier()];
 
   if (!transferEntity) {
@@ -18,7 +19,7 @@ void InterfaceTransaction::mark(const Entity& entity,
     transferEntity.swap(transfer);
   }
 
-  transferEntity->record(entity, property);
+  transferEntity->record(entity, property, other);
 }
 
 bool InterfaceTransaction::commit(Message& arena) {

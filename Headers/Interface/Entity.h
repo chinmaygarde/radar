@@ -14,16 +14,18 @@ class Entity {
  public:
   // clang-format off
   enum Property {
-    Bounds          = 1 << 0,
-    Position        = 1 << 1,
-    AnchorPoint     = 1 << 2,
-    Transformation  = 1 << 3,
-    BackgroundColor = 1 << 4,
-    Opacity         = 1 << 5,
-    Created         = 1 << 6,
-    AddedTo         = 1 << 7,
-    RemovedFrom     = 1 << 8,
-    Destroyed       = 1 << 9,
+    Created         = 1 << 0,
+    Destroyed       = 1 << 1,
+    LifeCycle       = Created | Destroyed,
+    AddedTo         = 1 << 2,
+    RemovedFrom     = 1 << 3,
+    Hierarchy       = AddedTo | RemovedFrom,
+    Bounds          = 1 << 4,
+    Position        = 1 << 5,
+    AnchorPoint     = 1 << 6,
+    Transformation  = 1 << 7,
+    BackgroundColor = 1 << 8,
+    Opacity         = 1 << 9,
   };
 // clang-format on
 
@@ -38,6 +40,7 @@ class Entity {
 
 #pragma mark - Entity Identification
   using Identifier = uint64_t;
+  static const Identifier IdentifierNone = 0;
   Identifier identifier() const;
 
 #pragma mark - Geometry
@@ -162,6 +165,8 @@ class Entity {
   explicit Entity(const Entity& entity);
   explicit Entity(Identifier identifier);
 
+  void notifyInterfaceIfNecessary(Property property, Identifier other = 0);
+
  private:
   Identifier _identifier;
   Rect _bounds;
@@ -171,8 +176,6 @@ class Entity {
   Color _backgroundColor;
   double _opacity;
   bool _notifiesInterfaceOnUpdate;
-
-  void notifyInterfaceIfNecessary(Property property);
 
   DISALLOW_COPY_AND_ASSIGN(Entity);
 };

@@ -30,6 +30,7 @@ void Layer::addSublayer(Layer::Ref layer) {
    *  Assign the parent and add the same to the sublayers collections
    */
   layer->_superlayer = this;
+  layer->notifyInterfaceIfNecessary(AddedTo, identifier());
   _sublayers.push_back(layer);
 }
 
@@ -43,6 +44,7 @@ void Layer::removeSublayer(Layer::Ref layer) {
   if (found != _sublayers.end()) {
     _sublayers.erase(found);
     layer->_superlayer = nullptr;
+    layer->notifyInterfaceIfNecessary(RemovedFrom, identifier());
   }
 }
 

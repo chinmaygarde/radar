@@ -61,14 +61,14 @@ void PresentationGraph::prepareActionsAndMerge(PresentationEntity& currentState,
     case Entity::Opacity:
       currentState.setOpacity(record.data.number);
       break;
-#if 0
     case Entity::AddedTo:
+      (*_entities[record.data.identifier]).addChild(currentState);
       break;
     case Entity::RemovedFrom:
+      (*_entities[record.data.identifier]).removeChild(currentState);
       break;
-#endif
     default:
-      RL_ASSERT("Unknown Property");
+      RL_ASSERT(false && "Unknown Property");
   }
 }
 

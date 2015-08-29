@@ -18,9 +18,14 @@ class PresentationEntity : public Entity {
 
   ~PresentationEntity();
 
+  void addChild(PresentationEntity& entity);
+  void removeChild(PresentationEntity& entity);
+
   void render(Frame& frame) const;
 
  private:
+  std::vector<PresentationEntity*> _children;
+
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
 
