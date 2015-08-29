@@ -143,7 +143,8 @@ void Entity::setOpacity(double opacity) {
   notifyInterfaceIfNecessary(Opacity);
 }
 
-void Entity::notifyInterfaceIfNecessary(Property property, Identifier other) {
+void Entity::notifyInterfaceIfNecessary(Property property,
+                                        Identifier other) const {
   if (!_notifiesInterfaceOnUpdate) {
     return;
   }

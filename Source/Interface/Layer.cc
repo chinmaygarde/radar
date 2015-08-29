@@ -48,6 +48,10 @@ void Layer::removeSublayer(Layer::Ref layer) {
   }
 }
 
+void Layer::makeRootInInterface() const {
+  notifyInterfaceIfNecessary(MakeRoot);
+}
+
 const std::list<Layer::Ref>& Layer::sublayers() const {
   return _sublayers;
 }

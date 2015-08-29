@@ -6,7 +6,7 @@
 
 namespace rl {
 
-PresentationGraph::PresentationGraph() : _entities() {
+PresentationGraph::PresentationGraph() : _entities(), _root(nullptr) {
 }
 
 PresentationGraph::~PresentationGraph() {
@@ -31,6 +31,10 @@ void PresentationGraph::applyUpdates(Message& arena) {
     }
 
     if (record.property == Entity::Destroyed) {
+      if (_root && _root->identifier() == record.identifier) {
+        _root = nullptr;
+      }
+
       _entities.erase(record.identifier);
       continue;
     }
@@ -40,32 +44,35 @@ void PresentationGraph::applyUpdates(Message& arena) {
   RL_ASSERT(arena.readCompleted());
 }
 
-void PresentationGraph::prepareActionsAndMerge(PresentationEntity& currentState,
+void PresentationGraph::prepareActionsAndMerge(PresentationEntity& entity,
                                                const TransferRecord& record) {
   switch (record.property) {
     case Entity::Bounds:
-      currentState.setBounds(record.data.rect);
+      entity.setBounds(record.data.rect);
       break;
     case Entity::Position:
-      currentState.setPosition(record.data.point);
+      entity.setPosition(record.data.point);
       break;
     case Entity::AnchorPoint:
-      currentState.setAnchorPoint(record.data.point);
+      entity.setAnchorPoint(record.data.point);
       break;
     case Entity::Transformation:
-      currentState.setTransformation(record.data.matrix);
+      entity.setTransformation(record.data.matrix);
       break;
     case Entity::BackgroundColor:
-      currentState.setBackgroundColor(record.data.color);
+      entity.setBackgroundColor(record.data.color);
       break;
     case Entity::Opacity:
-      currentState.setOpacity(record.data.number);
+      entity.setOpacity(record.data.number);
       break;
     case Entity::AddedTo:
-      (*_entities[record.data.identifier]).addChild(currentState);
+      (*_entities[record.data.identifier]).addChild(entity);
       break;
     case Entity::RemovedFrom:
-      (*_entities[record.data.identifier]).removeChild(currentState);
+      (*_entities[record.data.identifier]).removeChild(entity);
+      break;
+    case Entity::MakeRoot:
+      _root = &entity;
       break;
     default:
       RL_ASSERT(false && "Unknown Property");
@@ -73,10 +80,11 @@ void PresentationGraph::prepareActionsAndMerge(PresentationEntity& currentState,
 }
 
 void PresentationGraph::render(Frame& frame) {
-  frame.statistics().entityCount().increment(_entities.size());
-  for (const auto& i : _entities) {
-    i.second->render(frame);
+  if (_root == nullptr) {
+    return;
   }
+  frame.statistics().entityCount().increment(_entities.size());
+  _root->render(frame);
 }
 
 }  // namespace rl

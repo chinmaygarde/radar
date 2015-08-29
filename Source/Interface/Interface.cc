@@ -239,6 +239,10 @@ const Layer::Ref Interface::rootLayer() const {
 
 void Interface::setRootLayer(Layer::Ref layer) {
   _rootLayer = layer;
+
+  if (layer) {
+    layer->makeRootInInterface();
+  }
 }
 
 }  // namespace rl

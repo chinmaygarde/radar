@@ -59,6 +59,7 @@ bool TransferEntity::serialize(Message& message) {
   SerializeProperty(Transformation, transformation());
   SerializeProperty(BackgroundColor, backgroundColor());
   SerializeProperty(Opacity, opacity());
+  SerializeProperty(MakeRoot, 0);
 
   if (_lastHierarchyUpdateWasAdd) {
     SerializeProperty(RemovedFrom, _firstRemovedFrom);

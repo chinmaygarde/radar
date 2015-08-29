@@ -54,6 +54,8 @@ class Layer : public Entity {
    */
   const Layer* superlayer() const;
 
+  void makeRootInInterface() const;
+
  private:
   std::list<Ref> _sublayers;
   Layer* _superlayer;

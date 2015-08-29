@@ -30,6 +30,10 @@ void PresentationEntity::render(Frame& frame) const {
   p.setOpacity(opacity());
   p.render(frame, transformation(), bounds().size);
   frame.statistics().primitiveCount().increment();
+
+  for (const auto& child : _children) {
+    child->render(frame);
+  }
 }
 
 }  // namespace rl

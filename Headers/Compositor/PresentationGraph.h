@@ -26,6 +26,7 @@ class PresentationGraph {
 
  private:
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
+  PresentationEntity* _root;
 
   void prepareActionsAndMerge(PresentationEntity& currentState,
                               const TransferRecord& record);

@@ -26,6 +26,7 @@ class Entity {
     Transformation  = 1 << 7,
     BackgroundColor = 1 << 8,
     Opacity         = 1 << 9,
+    MakeRoot        = 1 << 10,
   };
 // clang-format on
 
@@ -165,7 +166,8 @@ class Entity {
   explicit Entity(const Entity& entity);
   explicit Entity(Identifier identifier);
 
-  void notifyInterfaceIfNecessary(Property property, Identifier other = 0);
+  void notifyInterfaceIfNecessary(Property property,
+                                  Identifier other = 0) const;
 
  private:
   Identifier _identifier;
