@@ -10,6 +10,8 @@
 #include <Compositor/Frame.h>
 #include <Compositor/PresentationEntity.h>
 #include <Compositor/TransferRecord.h>
+#include <Interface/Action.h>
+#include <Compositor/AnimationDirector.h>
 
 #include <map>
 
@@ -27,9 +29,11 @@ class PresentationGraph {
  private:
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
   PresentationEntity* _root;
+  AnimationDirector _animationDirector;
 
   bool applyTransactionSingle(Message& arena);
-  void prepareActionsAndMerge(PresentationEntity& currentState,
+  void prepareActionsAndMerge(Action& action,
+                              PresentationEntity& currentState,
                               const TransferRecord& record);
 
   DISALLOW_COPY_AND_ASSIGN(PresentationGraph);

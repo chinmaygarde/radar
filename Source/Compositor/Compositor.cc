@@ -151,8 +151,11 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   auto source = _interfaceChannel->source();
 
   if (schedule) {
-    _interfaceChannel->setMessagesReceivedCallback(
-        [&](Messages messages) { onInterfaceDidUpdate(std::move(messages)); });
+    _interfaceChannel->setMessagesReceivedCallback([&](Messages messages) {
+      if (applyTransactionMessages(std::move(messages))) {
+        drawSingleFrame();
+      }
+    });
     _loop->addSource(source);
   } else {
     _interfaceChannel->setMessagesReceivedCallback(nullptr);
@@ -160,13 +163,13 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   }
 }
 
-void Compositor::onInterfaceDidUpdate(Messages messages) {
+bool Compositor::applyTransactionMessages(Messages messages) {
+  AutoStopwatchLap transactionUpdateTimer(_stats.transactionUpdateTimer());
   bool result = true;
   for (auto& message : messages) {
     result &= _graph.applyTransactions(message);
   }
-  RL_ASSERT(result);
-  drawSingleFrame();
+  return result;
 }
 
 }  // namespace rl

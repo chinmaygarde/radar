@@ -8,10 +8,16 @@
 #include <Core/Core.h>
 
 namespace rl {
+template <typename Type>
 class Interpolator {
  public:
+  Interpolator(const Type& from, const Type& to) : _from(from), _to(to){};
+
  private:
-  DISALLOW_COPY_AND_ASSIGN(Interpolator);
+  Type _from;
+  Type _to;
+
+  DISALLOW_ASSIGN(Interpolator);
 };
 }
 

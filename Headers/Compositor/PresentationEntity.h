@@ -9,6 +9,9 @@
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
 #include <Compositor/TransferEntity.h>
+#include <Compositor/Interpolator.h>
+
+#include <map>
 
 namespace rl {
 class Frame;
@@ -19,6 +22,7 @@ class PresentationEntity : public Entity {
   ~PresentationEntity();
 
   void addChild(PresentationEntity& entity);
+
   void removeChild(PresentationEntity& entity);
 
   void render(Frame& frame, const Matrix& viewMatrix = MatrixIdentity) const;

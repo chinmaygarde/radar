@@ -6,7 +6,7 @@
 
 namespace rl {
 
-Stopwatch::Stopwatch() : _start(0) {
+Stopwatch::Stopwatch() : _start(0), _lastLap(0) {
 }
 
 void Stopwatch::start() {
@@ -23,6 +23,15 @@ std::chrono::nanoseconds Stopwatch::currentLap() const {
 
 std::chrono::nanoseconds Stopwatch::lastLap() const {
   return _lastLap;
+}
+
+AutoStopwatchLap::AutoStopwatchLap(Stopwatch& stopwatch)
+    : _stopwatch(stopwatch) {
+  _stopwatch.start();
+}
+
+AutoStopwatchLap::~AutoStopwatchLap() {
+  _stopwatch.stop();
 }
 
 }  // namespace rl

@@ -150,6 +150,8 @@
 		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
 		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
 		9EC1A9901B70131D00795DB1 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */; };
+		EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA573B511B9306EE0053E461 /* AnimationDirector.h */; };
+		EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA573B5B1B9307030053E461 /* AnimationDirector.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -390,6 +392,8 @@
 		9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
 		9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
 		9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
+		EA573B511B9306EE0053E461 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationDirector.h; path = Headers/Compositor/AnimationDirector.h; sourceTree = SOURCE_ROOT; };
+		EA573B5B1B9307030053E461 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
@@ -544,6 +548,7 @@
 		9EAECE3D1B685460000FA38A /* Compositor */ = {
 			isa = PBXGroup;
 			children = (
+				EA573B511B9306EE0053E461 /* AnimationDirector.h */,
 				9EAECE3E1B685460000FA38A /* Color.h */,
 				9EAECE3F1B685460000FA38A /* Compositor.h */,
 				9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */,
@@ -668,6 +673,7 @@
 		9EAECE991B685469000FA38A /* Compositor */ = {
 			isa = PBXGroup;
 			children = (
+				EA573B5B1B9307030053E461 /* AnimationDirector.cc */,
 				9EAECE9A1B685469000FA38A /* Color.cc */,
 				9EAECE9B1B685469000FA38A /* Compositor.cc */,
 				9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */,
@@ -882,6 +888,7 @@
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
 				9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */,
+				EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
@@ -1127,6 +1134,7 @@
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
+				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
 				9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,

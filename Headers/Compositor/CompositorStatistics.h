@@ -16,6 +16,8 @@ class CompositorStatistics {
 
   Stopwatch& frameTimer();
 
+  Stopwatch& transactionUpdateTimer();
+
   Counter& entityCount();
 
   Counter& primitiveCount();
@@ -28,6 +30,7 @@ class CompositorStatistics {
 
  private:
   Stopwatch _frameTimer;
+  Stopwatch _transactionUpdateTimer;
   Counter _entityCount;
   Counter _primitiveCount;
   Counter _frameCount;

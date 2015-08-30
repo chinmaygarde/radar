@@ -78,7 +78,7 @@ class Compositor : RenderSurfaceObserver {
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void drawSingleFrame();
-  void onInterfaceDidUpdate(Messages messages);
+  bool applyTransactionMessages(Messages messages);
   void setupChannels();
   void teardownChannels();
   void manageInterfaceUpdates(bool schedule);

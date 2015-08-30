@@ -26,6 +26,17 @@ class Stopwatch {
   DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };
 
+class AutoStopwatchLap {
+ public:
+  explicit AutoStopwatchLap(Stopwatch& stopwatch);
+  ~AutoStopwatchLap();
+
+ private:
+  Stopwatch& _stopwatch;
+
+  DISALLOW_COPY_AND_ASSIGN(AutoStopwatchLap);
+};
+
 }  // namespace rl
 
 #endif  // __RADARLOVE_INSTRUMENTATION_STOPWATCH_H__

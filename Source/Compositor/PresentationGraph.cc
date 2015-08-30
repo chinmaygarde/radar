@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationGraph.h>
-#include <Interface/Action.h>
+#include <Compositor/Interpolator.h>
 
 namespace rl {
 
@@ -71,31 +71,45 @@ bool PresentationGraph::applyTransactionSingle(Message& arena) {
       continue;
     }
 
-    prepareActionsAndMerge(*_entities[record.identifier], record);
+    prepareActionsAndMerge(action, *_entities[record.identifier], record);
   }
 
   return true;
 }
 
-void PresentationGraph::prepareActionsAndMerge(PresentationEntity& entity,
+void PresentationGraph::prepareActionsAndMerge(Action& action,
+                                               PresentationEntity& entity,
                                                const TransferRecord& record) {
+#define SetInterpolator(prop, getter, propertyType, recordDataType) \
+  if (action.propertyMask() & prop) {                               \
+    _animationDirector.setInterpolator(                             \
+        {record.identifier, record.property},                       \
+        Interpolator<propertyType>(entity.getter,                   \
+                                   record.data.recordDataType));    \
+  }
   switch (record.property) {
     case Entity::Bounds:
+      SetInterpolator(Entity::Bounds, bounds(), Rect, rect);
       entity.setBounds(record.data.rect);
       break;
     case Entity::Position:
+      SetInterpolator(Entity::Position, position(), Point, point);
       entity.setPosition(record.data.point);
       break;
     case Entity::AnchorPoint:
+      SetInterpolator(Entity::AnchorPoint, anchorPoint(), Point, point);
       entity.setAnchorPoint(record.data.point);
       break;
     case Entity::Transformation:
+      SetInterpolator(Entity::Transformation, transformation(), Matrix, matrix);
       entity.setTransformation(record.data.matrix);
       break;
     case Entity::BackgroundColor:
+      SetInterpolator(Entity::BackgroundColor, backgroundColor(), Color, color);
       entity.setBackgroundColor(record.data.color);
       break;
     case Entity::Opacity:
+      SetInterpolator(Entity::Opacity, opacity(), double, number);
       entity.setOpacity(record.data.number);
       break;
     case Entity::AddedTo:
@@ -110,6 +124,8 @@ void PresentationGraph::prepareActionsAndMerge(PresentationEntity& entity,
     default:
       RL_ASSERT(false && "Unknown Property");
   }
+
+#undef SetInterpolator
 }
 
 void PresentationGraph::render(Frame& frame) {

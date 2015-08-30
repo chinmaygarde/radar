@@ -7,11 +7,19 @@
 namespace rl {
 
 CompositorStatistics::CompositorStatistics()
-    : _frameTimer(), _entityCount(), _primitiveCount(), _frameCount() {
+    : _frameTimer(),
+      _transactionUpdateTimer(),
+      _entityCount(),
+      _primitiveCount(),
+      _frameCount() {
 }
 
 Stopwatch& CompositorStatistics::frameTimer() {
   return _frameTimer;
+}
+
+Stopwatch& CompositorStatistics::transactionUpdateTimer() {
+  return _transactionUpdateTimer;
 }
 
 Counter& CompositorStatistics::entityCount() {
