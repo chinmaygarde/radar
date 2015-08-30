@@ -13,7 +13,7 @@
 #include <Interface/Layer.h>
 #include <Compositor/CompositorChannel.h>
 
-#include <stack>
+#include <deque>
 #include <mutex>
 
 namespace rl {
@@ -143,7 +143,8 @@ class Interface {
   Size _size;
   std::mutex _lock;
   Layer::Ref _rootLayer;
-  std::stack<InterfaceTransaction> _transactionStack;
+  std::deque<InterfaceTransaction> _transactionStack;
+  size_t _popCount;
   std::shared_ptr<EventLoopObserver> _autoFlushObserver;
   TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;

@@ -20,16 +20,20 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
+  rl::Action action;
+  action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
+  action.setDuration(1.0);
+  action.setPropertyMask(rl::Entity::Transformation);
+  interface.pushTransaction(std::move(action));
+
   for (auto i = 0; i < 1000; i++) {
     auto layer = std::make_shared<rl::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),
                      static_cast<double>(rand() % 1200),
                      static_cast<double>(10 + rand() % 120),
                      static_cast<double>(10 + rand() % 120)});
-#if 0
     layer->setTransformation(
         rl::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
-#endif
     layer->setBackgroundColor({(rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
@@ -37,6 +41,8 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
     layer->setOpacity(0.5 + ((rand() % 10) / 10.0) * 0.5);
     root->addSublayer(layer);
   }
+
+  interface.popTransaction();
 
   auto sub1 = std::make_shared<rl::Layer>();
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});

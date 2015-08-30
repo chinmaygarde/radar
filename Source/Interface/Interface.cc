@@ -23,6 +23,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _lock(),
       _rootLayer(nullptr),
       _transactionStack(),
+      _popCount(0),
       _touchEventChannel(),
       _delegate(delegate),
       _compositorChannel(compositorChannel),
@@ -102,20 +103,20 @@ InterfaceTransaction& Interface::transaction() {
   std::lock_guard<std::mutex> lock(_lock);
 
   if (_transactionStack.size() == 0) {
-    /**
+    /*
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace(Action(0.0));
+    _transactionStack.emplace_back(std::move(Action(0.0)));
     armAutoFlushTransactions(true);
   }
 
-  return _transactionStack.top();
+  return _transactionStack[_transactionStack.size() - _popCount - 1];
 }
 
 void Interface::pushTransaction(Action&& action) {
   std::lock_guard<std::mutex> lock(_lock);
-  _transactionStack.emplace(std::move(action));
+  _transactionStack.emplace_back(std::move(action));
 }
 
 void Interface::popTransaction() {
@@ -125,10 +126,7 @@ void Interface::popTransaction() {
     return;
   }
 
-  auto compositor = _compositorChannel.lock();
-  RL_ASSERT(compositor && "Compositor channel must be present");
-  _transactionStack.top().commit(compositor->transactionMessage());
-  _transactionStack.pop();
+  _popCount++;
 }
 
 void Interface::armAutoFlushTransactions(bool arm) {
@@ -150,12 +148,15 @@ void Interface::flushTransactions() {
 
   bool result = true;
 
-  while (_transactionStack.size() != 0) {
-    result &= _transactionStack.top().commit(arena);
-    _transactionStack.pop();
+  for (auto& transaction : _transactionStack) {
+    result &= transaction.commit(arena);
   }
 
   result &= compositor->flushTransaction();
+
+  _popCount = 0;
+  _transactionStack.clear();
+
   RL_ASSERT(result && "Must be able to flush the compositor transaction");
 }
 
