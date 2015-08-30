@@ -149,12 +149,14 @@ void Interface::flushTransactions() {
   RL_ASSERT(compositor && "Compositor channel must be present");
   auto& arena = compositor->transactionMessage();
 
+  bool result = true;
+
   while (_transactionStack.size() != 0) {
-    _transactionStack.top().commit(arena);
+    result &= _transactionStack.top().commit(arena);
     _transactionStack.pop();
   }
 
-  bool result = compositor->flushTransaction();
+  result &= compositor->flushTransaction();
   RL_ASSERT(result && "Must be able to flush the compositor transaction");
 }
 

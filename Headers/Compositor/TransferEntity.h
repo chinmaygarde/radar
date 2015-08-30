@@ -19,7 +19,7 @@ class TransferEntity : public Entity {
               Entity::Property property,
               Entity::Identifier other);
 
-  bool serialize(Message& message);
+  size_t serialize(Message& message);
 
  private:
   uint64_t _updateMask;

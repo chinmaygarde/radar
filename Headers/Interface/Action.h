@@ -75,8 +75,8 @@ class Action : public Serializable {
 
   void setPropertyMask(uint64_t mask);
 
-  virtual void serialize(Message& message) const override;
-  virtual void deserialize(Message& message) override;
+  virtual bool serialize(Message& message) const override;
+  virtual bool deserialize(Message& message) override;
 
  private:
   double _duration;

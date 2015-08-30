@@ -161,9 +161,11 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
 }
 
 void Compositor::onInterfaceDidUpdate(Messages messages) {
+  bool result = true;
   for (auto& message : messages) {
-    _graph.applyUpdates(message);
+    result &= _graph.applyTransactions(message);
   }
+  RL_ASSERT(result);
   drawSingleFrame();
 }
 

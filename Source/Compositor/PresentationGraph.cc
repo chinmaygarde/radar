@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationGraph.h>
+#include <Interface/Action.h>
 
 namespace rl {
 
@@ -12,14 +13,45 @@ PresentationGraph::PresentationGraph() : _entities(), _root(nullptr) {
 PresentationGraph::~PresentationGraph() {
 }
 
-void PresentationGraph::applyUpdates(Message& arena) {
-  RL_ASSERT(arena.size() % sizeof(TransferRecord) == 0);
-  const auto transferRecords = arena.size() / sizeof(TransferRecord);
+bool PresentationGraph::applyTransactions(Message& arena) {
+  do {
+    if (!applyTransactionSingle(arena)) {
+      return false;
+    }
+  } while (!arena.readCompleted());
+  RL_ASSERT(arena.readCompleted());
+  return true;
+}
+
+bool PresentationGraph::applyTransactionSingle(Message& arena) {
+  bool result = true;
+  /*
+   *  Step 1: Read the action
+   */
+  Action action;
+  result = action.deserialize(arena);
+
+  if (!result) {
+    return false;
+  }
+
+  /*
+   *  Step 2: Read the transfer record count
+   */
+  size_t transferRecords = 0;
+  result = arena.decode(transferRecords);
+  if (!result) {
+    return false;
+  }
+
+  /*
+   *  Step 3: Read the transfer records
+   */
   for (auto i = 0; i < transferRecords; i++) {
-    auto allocation = arena.decodeRaw(sizeof(TransferRecord));
+    auto allocation = arena.decodeRawUnsafe(sizeof(TransferRecord));
 
     if (allocation == nullptr) {
-      break;
+      return false;
     }
 
     auto& record = *reinterpret_cast<TransferRecord*>(allocation);
@@ -41,7 +73,8 @@ void PresentationGraph::applyUpdates(Message& arena) {
 
     prepareActionsAndMerge(*_entities[record.identifier], record);
   }
-  RL_ASSERT(arena.readCompleted());
+
+  return true;
 }
 
 void PresentationGraph::prepareActionsAndMerge(PresentationEntity& entity,

@@ -54,20 +54,24 @@ void Action::setPropertyMask(uint64_t mask) {
   _propertyMask = mask;
 }
 
-void Action::serialize(Message& message) const {
-  message.encode(_duration);
-  message.encode(_repeatCount);
-  message.encode(_autoReverses);
-  message.encode(_beginTime);
-  message.encode(_propertyMask);
+bool Action::serialize(Message& message) const {
+  bool result = true;
+  result &= message.encode(_duration);
+  result &= message.encode(_repeatCount);
+  result &= message.encode(_autoReverses);
+  result &= message.encode(_beginTime);
+  result &= message.encode(_propertyMask);
+  return result;
 }
 
-void Action::deserialize(Message& message) {
-  message.decode(_duration);
-  message.decode(_repeatCount);
-  message.decode(_autoReverses);
-  message.decode(_beginTime);
-  message.decode(_propertyMask);
+bool Action::deserialize(Message& message) {
+  bool result = true;
+  result &= message.decode(_duration);
+  result &= message.decode(_repeatCount);
+  result &= message.decode(_autoReverses);
+  result &= message.decode(_beginTime);
+  result &= message.decode(_propertyMask);
+  return result;
 }
 
 }  // namespace rl

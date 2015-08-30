@@ -41,14 +41,15 @@ void TransferEntity::record(const Entity& entity,
   merge(entity);
 }
 
-bool TransferEntity::serialize(Message& message) {
-  bool success = false;
+size_t TransferEntity::serialize(Message& message) {
+  size_t encodedRecords = 0;
 
   const auto mask = _updateMask;
 
-#define SerializeProperty(prop, func)                                       \
-  if (mask & prop) {                                                        \
-    success |= TransferRecord::Emplaced(message, identifier(), prop, func); \
+#define SerializeProperty(prop, func)                                        \
+  if (mask & prop) {                                                         \
+    encodedRecords +=                                                        \
+        TransferRecord::Emplaced(message, identifier(), prop, func) ? 1 : 0; \
   }
 
   SerializeProperty(Created, identifier());
@@ -59,7 +60,7 @@ bool TransferEntity::serialize(Message& message) {
   SerializeProperty(Transformation, transformation());
   SerializeProperty(BackgroundColor, backgroundColor());
   SerializeProperty(Opacity, opacity());
-  SerializeProperty(MakeRoot, 0);
+  SerializeProperty(MakeRoot, identifier());
 
   if (_lastHierarchyUpdateWasAdd) {
     SerializeProperty(RemovedFrom, _firstRemovedFrom);
@@ -73,7 +74,7 @@ bool TransferEntity::serialize(Message& message) {
 
 #undef SerializeProperty
 
-  return success;
+  return encodedRecords;
 }
 
 }  // namespace rl

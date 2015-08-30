@@ -24,8 +24,8 @@ class Event : public Serializable {
    */
   double timestamp() const;
 
-  virtual void serialize(Message& m) const override;
-  virtual void deserialize(Message& m) override;
+  virtual bool serialize(Message& m) const override;
+  virtual bool deserialize(Message& m) override;
 
  private:
   double _timestamp;

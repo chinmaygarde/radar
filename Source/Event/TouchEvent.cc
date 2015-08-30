@@ -30,18 +30,22 @@ TouchEvent::Phase TouchEvent::phase() const {
   return _phase;
 }
 
-void TouchEvent::serialize(Message& m) const {
-  Event::serialize(m);
-  m.encode(_identifier);
-  m.encode(_location);
-  m.encode(_phase);
+bool TouchEvent::serialize(Message& m) const {
+  bool result = true;
+  result &= Event::serialize(m);
+  result &= m.encode(_identifier);
+  result &= m.encode(_location);
+  result &= m.encode(_phase);
+  return result;
 }
 
-void TouchEvent::deserialize(Message& m) {
-  Event::deserialize(m);
-  m.decode(_identifier);
-  m.decode(_location);
-  m.decode(_phase);
+bool TouchEvent::deserialize(Message& m) {
+  bool result = true;
+  result &= Event::deserialize(m);
+  result &= m.decode(_identifier);
+  result &= m.decode(_location);
+  result &= m.decode(_phase);
+  return result;
 }
 
 }  // namespace rl

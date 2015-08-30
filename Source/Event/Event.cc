@@ -13,12 +13,12 @@ double Event::timestamp() const {
   return _timestamp;
 }
 
-void Event::serialize(Message& m) const {
-  m.encode(_timestamp);
+bool Event::serialize(Message& m) const {
+  return m.encode(_timestamp);
 }
 
-void Event::deserialize(Message& m) {
-  m.decode(_timestamp);
+bool Event::deserialize(Message& m) {
+  return m.decode(_timestamp);
 }
 
 }  // namespace rl

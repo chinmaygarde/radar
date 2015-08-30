@@ -20,7 +20,7 @@ class PresentationGraph {
   explicit PresentationGraph();
   ~PresentationGraph();
 
-  void applyUpdates(Message& arena);
+  bool applyTransactions(Message& arena);
 
   void render(Frame& frame);
 
@@ -28,6 +28,7 @@ class PresentationGraph {
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
   PresentationEntity* _root;
 
+  bool applyTransactionSingle(Message& arena);
   void prepareActionsAndMerge(PresentationEntity& currentState,
                               const TransferRecord& record);
 

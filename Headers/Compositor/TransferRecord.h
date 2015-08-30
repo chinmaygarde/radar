@@ -43,7 +43,7 @@ struct TransferRecord {
                        Entity::Identifier identity,
                        Entity::Property prop,
                        const T& varData) {
-    void* allocation = message.encodeRaw(sizeof(TransferRecord));
+    void* allocation = message.encodeRawUnsafe(sizeof(TransferRecord));
 
     if (allocation == nullptr) {
       return false;

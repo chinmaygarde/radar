@@ -101,7 +101,7 @@ bool Message::resizeBuffer(size_t size) {
   return success;
 }
 
-void* Message::encodeRaw(size_t size) {
+uint8_t* Message::encodeRawUnsafe(size_t size) {
   bool success = reserve(_dataLength + size);
 
   if (!success) {
@@ -113,7 +113,15 @@ void* Message::encodeRaw(size_t size) {
   return _buffer + oldLength;
 }
 
-void* Message::decodeRaw(size_t size) {
+size_t Message::encodeRawOffsetUnsafe(size_t size) {
+  if (encodeRawUnsafe(size) == nullptr) {
+    return std::numeric_limits<size_t>::max();
+  }
+
+  return _dataLength - size;
+}
+
+uint8_t* Message::decodeRawUnsafe(size_t size) {
   if ((size + _sizeRead) > _bufferLength) {
     return nullptr;
   }
@@ -121,6 +129,14 @@ void* Message::decodeRaw(size_t size) {
   auto buffer = _buffer + _sizeRead;
   _sizeRead += size;
   return buffer;
+}
+
+uint8_t* Message::operator[](size_t index) {
+  if (index >= _dataLength) {
+    return nullptr;
+  }
+
+  return _buffer + index;
 }
 
 uint8_t* Message::data() const {

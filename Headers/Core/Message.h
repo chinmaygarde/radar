@@ -80,7 +80,9 @@ class Message {
     return success;
   }
 
-  void* encodeRaw(size_t size);
+  uint8_t* encodeRawUnsafe(size_t size);
+
+  size_t encodeRawOffsetUnsafe(size_t size);
 
   /**
    *  Decode the given value from the message
@@ -102,7 +104,9 @@ class Message {
     return true;
   }
 
-  void *decodeRaw(size_t size);
+  uint8_t* decodeRawUnsafe(size_t size);
+
+  uint8_t* operator[](size_t index);
 
 #pragma mark - Message Information Accessors
 
@@ -148,8 +152,8 @@ class Message {
 using Messages = std::vector<Message>;
 
 class Serializable {
-  virtual void serialize(Message& message) const = 0;
-  virtual void deserialize(Message& message) = 0;
+  virtual bool serialize(Message& message) const = 0;
+  virtual bool deserialize(Message& message) = 0;
 };
 }
 
