@@ -29,7 +29,6 @@ bool InterfaceTransaction::commit(Message& arena) {
   /*
    *  Step 1: Encode the Action
    */
-
   result &= _action.serialize(arena);
 
   /*

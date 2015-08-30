@@ -113,10 +113,9 @@ InterfaceTransaction& Interface::transaction() {
   return _transactionStack.top();
 }
 
-template <typename... T>
-void Interface::pushTransaction(T&&... args) {
+void Interface::pushTransaction(Action&& action) {
   std::lock_guard<std::mutex> lock(_lock);
-  _transactionStack.emplace(args...);
+  _transactionStack.emplace(std::move(action));
 }
 
 void Interface::popTransaction() {

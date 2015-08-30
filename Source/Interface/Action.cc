@@ -11,7 +11,8 @@ Action::Action(double duration)
       _repeatCount(1),
       _autoReverses(false),
       _beginTime(0.0),
-      _propertyMask(0) {
+      _propertyMask(0),
+      _timingCurveType(TimingCurve::Linear) {
 }
 
 double Action::duration() const {
@@ -54,6 +55,14 @@ void Action::setPropertyMask(uint64_t mask) {
   _propertyMask = mask;
 }
 
+TimingCurve::Type Action::timingCurveType() const {
+  return _timingCurveType;
+}
+
+void Action::setTimingCurveType(TimingCurve::Type type) {
+  _timingCurveType = type;
+}
+
 bool Action::serialize(Message& message) const {
   bool result = true;
   result &= message.encode(_duration);
@@ -61,6 +70,7 @@ bool Action::serialize(Message& message) const {
   result &= message.encode(_autoReverses);
   result &= message.encode(_beginTime);
   result &= message.encode(_propertyMask);
+  result &= message.encode(_timingCurveType);
   return result;
 }
 
@@ -71,6 +81,7 @@ bool Action::deserialize(Message& message) {
   result &= message.decode(_autoReverses);
   result &= message.decode(_beginTime);
   result &= message.decode(_propertyMask);
+  result &= message.decode(_timingCurveType);
   return result;
 }
 

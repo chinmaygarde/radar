@@ -104,13 +104,11 @@ class Interface {
   InterfaceTransaction& transaction();
 
   /**
-   *  Push a new transaction (with the given arguments) onto the transaction
-   *  stack
+   *  Push a new transaction onto the transaction stack
    *
-   *  @param args the arguments to the interface transaction
+   *  @param args the action for the transaction
    */
-  template <typename... T>
-  void pushTransaction(T&&... args);
+  void pushTransaction(Action&& action);
 
   /**
    *  Pop the last transaction off the transaction stack

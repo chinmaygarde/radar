@@ -6,6 +6,7 @@
 #define __RADARLOVE_INTERFACE_ACTION__
 
 #include <Core/Core.h>
+#include <Compositor/TimingCurve.h>
 
 namespace rl {
 class Action : public Serializable {
@@ -75,7 +76,12 @@ class Action : public Serializable {
 
   void setPropertyMask(uint64_t mask);
 
+  TimingCurve::Type timingCurveType() const;
+
+  void setTimingCurveType(TimingCurve::Type type);
+
   virtual bool serialize(Message& message) const override;
+
   virtual bool deserialize(Message& message) override;
 
  private:
@@ -84,6 +90,7 @@ class Action : public Serializable {
   bool _autoReverses;
   double _beginTime;
   uint64_t _propertyMask;
+  TimingCurve::Type _timingCurveType;
 
   DISALLOW_ASSIGN(Action);
 };
