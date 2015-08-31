@@ -75,7 +75,7 @@ bool StateMachine::performSingleTransition(State state) {
 
   if (validTransitions.find(state) == validTransitions.end()) {
     /*
-     *  No a valid transition
+     *  Not a valid transition
      */
     return false;
   }

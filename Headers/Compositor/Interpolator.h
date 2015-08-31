@@ -6,16 +6,19 @@
 #define __RADARLOVE_COMPOSITOR_INTERPOLATOR__
 
 #include <Core/Core.h>
+#include <Interface/Action.h>
 
 namespace rl {
 template <typename Type>
 class Interpolator {
  public:
-  Interpolator(const Type& from, const Type& to) : _from(from), _to(to){};
+  Interpolator(const Action& action, const Type& from, const Type& to)
+      : _action(action), _from(from), _to(to){};
 
  private:
-  Type _from;
-  Type _to;
+  const Action _action;
+  const Type _from;
+  const Type _to;
 
   DISALLOW_ASSIGN(Interpolator);
 };

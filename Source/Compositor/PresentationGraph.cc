@@ -84,7 +84,7 @@ void PresentationGraph::prepareActionsAndMerge(Action& action,
   if (action.propertyMask() & prop) {                               \
     _animationDirector.setInterpolator(                             \
         {record.identifier, record.property},                       \
-        Interpolator<propertyType>(entity.getter,                   \
+        Interpolator<propertyType>(action, entity.getter,           \
                                    record.data.recordDataType));    \
   }
   switch (record.property) {
