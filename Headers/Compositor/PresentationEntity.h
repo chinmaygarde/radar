@@ -17,18 +17,20 @@ namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
+  using BorrowedReference = PresentationEntity const*;
+
   explicit PresentationEntity(Identifier identifier);
 
   ~PresentationEntity();
 
-  void addChild(PresentationEntity& entity);
+  void addChild(BorrowedReference entity);
 
-  void removeChild(PresentationEntity& entity);
+  void removeChild(BorrowedReference entity);
 
   void render(Frame& frame, const Matrix& viewMatrix = MatrixIdentity) const;
 
  private:
-  std::vector<PresentationEntity*> _children;
+  std::vector<BorrowedReference> _children;
 
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };

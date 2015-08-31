@@ -14,12 +14,12 @@ PresentationEntity::PresentationEntity(Identifier identifier)
 PresentationEntity::~PresentationEntity() {
 }
 
-void PresentationEntity::addChild(PresentationEntity& entity) {
-  _children.push_back(&entity);
+void PresentationEntity::addChild(BorrowedReference entity) {
+  _children.push_back(entity);
 }
 
-void PresentationEntity::removeChild(PresentationEntity& entity) {
-  auto found = std::find(_children.begin(), _children.end(), &entity);
+void PresentationEntity::removeChild(BorrowedReference entity) {
+  auto found = std::find(_children.begin(), _children.end(), entity);
   RL_ASSERT(found != _children.end());
   _children.erase(found);
 }

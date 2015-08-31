@@ -119,10 +119,10 @@ void PresentationGraph::prepareActionsAndMerge(Action& action,
       entity.setOpacity(record.data.number);
       break;
     case Entity::AddedTo:
-      (*_entities[record.data.identifier]).addChild(entity);
+      (*_entities[record.data.identifier]).addChild(&entity);
       break;
     case Entity::RemovedFrom:
-      (*_entities[record.data.identifier]).removeChild(entity);
+      (*_entities[record.data.identifier]).removeChild(&entity);
       break;
     case Entity::MakeRoot:
       _root = &entity;
