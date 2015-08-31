@@ -14,8 +14,9 @@ PresentationGraph::~PresentationGraph() {
 }
 
 bool PresentationGraph::applyTransactions(Message& arena) {
+  auto applyTime = Time::Current();
   do {
-    if (!applyTransactionSingle(arena)) {
+    if (!applyTransactionSingle(arena, applyTime)) {
       return false;
     }
   } while (!arena.readCompleted());
@@ -23,7 +24,8 @@ bool PresentationGraph::applyTransactions(Message& arena) {
   return true;
 }
 
-bool PresentationGraph::applyTransactionSingle(Message& arena) {
+bool PresentationGraph::applyTransactionSingle(Message& arena,
+                                               std::chrono::nanoseconds time) {
   bool result = true;
   /*
    *  Step 1: Read the action
@@ -71,7 +73,7 @@ bool PresentationGraph::applyTransactionSingle(Message& arena) {
       continue;
     }
 
-    prepareActionsAndMerge(action, *_entities[record.identifier], record);
+    prepareActionsAndMerge(action, *_entities[record.identifier], record, time);
   }
 
   return true;
@@ -79,37 +81,41 @@ bool PresentationGraph::applyTransactionSingle(Message& arena) {
 
 void PresentationGraph::prepareActionsAndMerge(Action& action,
                                                PresentationEntity& entity,
-                                               const TransferRecord& record) {
-#define SetInterpolator(prop, getter, propertyType, recordDataType) \
-  if (action.propertyMask() & prop) {                               \
-    _animationDirector.setInterpolator(                             \
-        {record.identifier, record.property},                       \
-        Interpolator<propertyType>(action, entity.getter,           \
-                                   record.data.recordDataType));    \
+                                               const TransferRecord& record,
+                                               std::chrono::nanoseconds time) {
+#define SetInterpolator(prop, getter, propertyType, recordDataType, time) \
+  if (action.propertyMask() & prop) {                                     \
+    _animationDirector.setInterpolator(                                   \
+        {record.identifier, record.property},                             \
+        Interpolator<propertyType>(action, entity.getter,                 \
+                                   record.data.recordDataType),           \
+        time);                                                            \
   }
   switch (record.property) {
     case Entity::Bounds:
-      SetInterpolator(Entity::Bounds, bounds(), Rect, rect);
+      SetInterpolator(Entity::Bounds, bounds(), Rect, rect, time);
       entity.setBounds(record.data.rect);
       break;
     case Entity::Position:
-      SetInterpolator(Entity::Position, position(), Point, point);
+      SetInterpolator(Entity::Position, position(), Point, point, time);
       entity.setPosition(record.data.point);
       break;
     case Entity::AnchorPoint:
-      SetInterpolator(Entity::AnchorPoint, anchorPoint(), Point, point);
+      SetInterpolator(Entity::AnchorPoint, anchorPoint(), Point, point, time);
       entity.setAnchorPoint(record.data.point);
       break;
     case Entity::Transformation:
-      SetInterpolator(Entity::Transformation, transformation(), Matrix, matrix);
+      SetInterpolator(Entity::Transformation, transformation(), Matrix, matrix,
+                      time);
       entity.setTransformation(record.data.matrix);
       break;
     case Entity::BackgroundColor:
-      SetInterpolator(Entity::BackgroundColor, backgroundColor(), Color, color);
+      SetInterpolator(Entity::BackgroundColor, backgroundColor(), Color, color,
+                      time);
       entity.setBackgroundColor(record.data.color);
       break;
     case Entity::Opacity:
-      SetInterpolator(Entity::Opacity, opacity(), double, number);
+      SetInterpolator(Entity::Opacity, opacity(), double, number, time);
       entity.setOpacity(record.data.number);
       break;
     case Entity::AddedTo:

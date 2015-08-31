@@ -12,13 +12,21 @@ namespace rl {
 template <typename Type>
 class Interpolator {
  public:
-  Interpolator(const Action& action, const Type& from, const Type& to)
-      : _action(action), _from(from), _to(to){};
+  Interpolator(const Action& action, const Type& from, const Type& to);
+
+  Type from() const;
+
+  Type to() const;
+
+  void start(std::chrono::nanoseconds time);
+
+  Type x(std::chrono::nanoseconds time) const;
 
  private:
   const Action _action;
   const Type _from;
   const Type _to;
+  std::chrono::nanoseconds _start;
 
   DISALLOW_ASSIGN(Interpolator);
 };

@@ -15,20 +15,34 @@ AnimationDirector::AnimationDirector()
       _colorInterpolators() {
 }
 
-#define SpecializeSetInterpolator(type, collection)  \
-  template <>                                        \
-  void AnimationDirector::setInterpolator<type>(     \
-      Key key, Interpolator<type> && interpolator) { \
-    collection.emplace(key, interpolator);           \
-  }
+template <>
+AnimationDirector::Interpolators<double>& AnimationDirector::collection() {
+  return _numberInterpolators;
+}
 
-SpecializeSetInterpolator(double, _numberInterpolators);
-SpecializeSetInterpolator(Point, _pointInterpolators);
-SpecializeSetInterpolator(Size, _sizeInterpolators);
-SpecializeSetInterpolator(Rect, _rectInterpolators);
-SpecializeSetInterpolator(Matrix, _matrixInterpolators);
-SpecializeSetInterpolator(Color, _colorInterpolators);
+template <>
+AnimationDirector::Interpolators<Size>& AnimationDirector::collection() {
+  return _sizeInterpolators;
+}
 
-#undef SpecializeSetInterpolator
+template <>
+AnimationDirector::Interpolators<Point>& AnimationDirector::collection() {
+  return _pointInterpolators;
+}
+
+template <>
+AnimationDirector::Interpolators<Rect>& AnimationDirector::collection() {
+  return _rectInterpolators;
+}
+
+template <>
+AnimationDirector::Interpolators<Color>& AnimationDirector::collection() {
+  return _colorInterpolators;
+}
+
+template <>
+AnimationDirector::Interpolators<Matrix>& AnimationDirector::collection() {
+  return _matrixInterpolators;
+}
 
 }  // namespace rl

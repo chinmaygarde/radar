@@ -39,7 +39,14 @@ class AnimationDirector {
   explicit AnimationDirector();
 
   template <typename T>
-  void setInterpolator(Key key, Interpolator<T>&& interpolator);
+  void setInterpolator(Key key,
+                       Interpolator<T>&& interpolator,
+                       std::chrono::nanoseconds startTime) {
+    auto result = collection<T>().emplace(key, interpolator);
+    if (result.second) {
+      (*(result.first)).second.start(startTime);
+    }
+  }
 
  private:
   template <typename T>
@@ -52,6 +59,9 @@ class AnimationDirector {
   Interpolators<Rect> _rectInterpolators;
   Interpolators<Matrix> _matrixInterpolators;
   Interpolators<Color> _colorInterpolators;
+
+  template <typename T>
+  Interpolators<T>& collection();
 
   DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
 };
