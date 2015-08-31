@@ -38,6 +38,9 @@ class Action : public Serializable {
    */
   uint64_t repeatCount() const;
 
+  static const uint64_t RepeatCountInfinity =
+      std::numeric_limits<uint64_t>::max();
+
   /**
    *  Set the repeat count of the action
    *

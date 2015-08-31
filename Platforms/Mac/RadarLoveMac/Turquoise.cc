@@ -23,6 +23,7 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   rl::Action action;
   action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
   action.setDuration(1.0);
+  action.setRepeatCount(rl::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::Entity::Transformation);
   interface.pushTransaction(std::move(action));
 
