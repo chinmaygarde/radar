@@ -20,6 +20,21 @@ struct Rect {
   /*
    *  Operator overloads
    */
+  Rect operator+(const Rect& r) const {
+    return Rect({origin.x + r.origin.x, origin.y + r.origin.y},
+                {size.width + r.size.width, size.height + r.size.height});
+  }
+
+  Rect operator-(const Rect& r) const {
+    return Rect({origin.x - r.origin.x, origin.y - r.origin.y},
+                {size.width - r.size.width, size.height - r.size.height});
+  }
+
+  Rect operator*(double scale) const {
+    return Rect({origin.x * scale, origin.y * scale},
+                {size.width * scale, size.height * scale});
+  }
+
   bool operator==(const Rect& r) const {
     return origin == r.origin && size == r.size;
   }

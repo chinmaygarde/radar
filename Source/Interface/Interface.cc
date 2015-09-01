@@ -45,8 +45,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
         flushTransactions();
         armAutoFlushTransactions(false);
       });
-
-  ;
 }
 
 void Interface::run(Latch& readyLatch) {

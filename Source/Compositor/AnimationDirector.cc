@@ -15,6 +15,43 @@ AnimationDirector::AnimationDirector()
       _colorInterpolators() {
 }
 
+bool AnimationDirector::flushInterpolations() {
+  const auto time = Time::Current();
+  bool didInterpolate = false;
+
+  for (const auto& i : _numberInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _numberInterpolators.size();
+
+  for (const auto& i : _pointInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _pointInterpolators.size();
+
+  for (const auto& i : _sizeInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _sizeInterpolators.size();
+
+  for (const auto& i : _rectInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _rectInterpolators.size();
+
+  for (const auto& i : _matrixInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _matrixInterpolators.size();
+
+  for (const auto& i : _colorInterpolators) {
+    i.second->step(time);
+  }
+  didInterpolate |= _colorInterpolators.size();
+
+  return didInterpolate;
+}
+
 template <>
 AnimationDirector::Interpolators<double>& AnimationDirector::collection() {
   return _numberInterpolators;

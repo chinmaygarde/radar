@@ -32,6 +32,7 @@ struct Point {
     return Point(x - s.width, y - s.height);
   }
 
+  Point operator*(double scale) const { return Point(x * scale, y * scale); }
   Point operator*(const Point& p) const { return Point(x * p.x, y * p.y); }
   Point operator*(const Size& s) const {
     return Point(x * s.width, y * s.height);

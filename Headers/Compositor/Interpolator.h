@@ -19,21 +19,23 @@ class Interpolator {
                const Type& from,
                const Type& to);
 
-  Type from() const;
+  const Type& from() const;
 
-  Type to() const;
+  const Type& to() const;
 
-  void start(std::chrono::nanoseconds time);
+  void start(const std::chrono::nanoseconds& time);
 
-  Type x(std::chrono::nanoseconds time) const;
+  void step(const std::chrono::nanoseconds& time);
 
  private:
   PresentationEntity::Borrowed _entity;
   const Action _action;
   const typename Entity::Accessors<Type>::Setter _setter;
-  const Type _from;
-  const Type _to;
+  Type _from;
+  Type _to;
   std::chrono::nanoseconds _start;
+
+  Type x(double unitTime) const;
 
   DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };

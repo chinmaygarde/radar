@@ -15,6 +15,10 @@ struct Size {
   /*
    *  Operator overloads
    */
+  Size operator*(double scale) const {
+    return Size(width * scale, height * scale);
+  }
+
   bool operator==(const Size& s) const {
     return s.width == width && s.height == height;
   }

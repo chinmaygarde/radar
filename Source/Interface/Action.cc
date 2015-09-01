@@ -63,6 +63,10 @@ void Action::setTimingCurveType(TimingCurve::Type type) {
   _timingCurveType = type;
 }
 
+double Action::durationInUnitSlice(double time) const {
+  return fmod(time, _duration);
+}
+
 bool Action::serialize(Message& message) const {
   bool result = true;
   result &= message.encode(_duration);

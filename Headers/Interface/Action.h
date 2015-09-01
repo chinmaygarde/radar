@@ -83,6 +83,8 @@ class Action : public Serializable {
 
   void setTimingCurveType(TimingCurve::Type type);
 
+  double durationInUnitSlice(double time) const;
+
   virtual bool serialize(Message& message) const override;
 
   virtual bool deserialize(Message& message) override;

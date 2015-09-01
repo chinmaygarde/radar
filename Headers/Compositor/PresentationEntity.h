@@ -16,7 +16,7 @@ namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
-  using Borrowed = PresentationEntity const*;
+  using Borrowed = PresentationEntity*;
 
   explicit PresentationEntity(Identifier identifier);
 

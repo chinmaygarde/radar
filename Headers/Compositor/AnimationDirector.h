@@ -48,6 +48,8 @@ class AnimationDirector {
     }
   }
 
+  bool flushInterpolations();
+
  private:
   template <typename T>
   using Interpolators = std::

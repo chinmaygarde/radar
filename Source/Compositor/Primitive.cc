@@ -53,8 +53,9 @@ void Primitive::render(Frame& frame,
   glUniformMatrix4fv(program->modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
-  glUniform4f(program->contentColorUniform(), _contentColor.r, _contentColor.g,
-              _contentColor.b, _contentColor.a * _opacity);
+  glUniform4f(program->contentColorUniform(), _contentColor.red,
+              _contentColor.green, _contentColor.blue,
+              _contentColor.alpha * _opacity);
 
   glUniform2f(program->sizeUniform(), size.width, size.height);
 
