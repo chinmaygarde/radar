@@ -15,43 +15,43 @@ AnimationDirector::AnimationDirector()
       _colorInterpolators() {
 }
 
-bool AnimationDirector::flushInterpolations(Stopwatch& stopwatch) {
+size_t AnimationDirector::flushInterpolations(Stopwatch& stopwatch) {
   AutoStopwatchLap lap(stopwatch);
 
   const auto time = Time::Current();
-  bool didInterpolate = false;
+  size_t count = 0;
 
   for (const auto& i : _numberInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _numberInterpolators.size();
+  count += _numberInterpolators.size();
 
   for (const auto& i : _pointInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _pointInterpolators.size();
+  count += _pointInterpolators.size();
 
   for (const auto& i : _sizeInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _sizeInterpolators.size();
+  count += _sizeInterpolators.size();
 
   for (const auto& i : _rectInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _rectInterpolators.size();
+  count += _rectInterpolators.size();
 
   for (const auto& i : _matrixInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _matrixInterpolators.size();
+  count += _matrixInterpolators.size();
 
   for (const auto& i : _colorInterpolators) {
     i.second->step(time);
   }
-  didInterpolate |= _colorInterpolators.size();
+  count += _colorInterpolators.size();
 
-  return didInterpolate;
+  return count;
 }
 
 template <>

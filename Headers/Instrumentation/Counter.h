@@ -15,7 +15,7 @@ class Counter {
 
   size_t count() const;
 
-  void reset();
+  void reset(size_t count = 0);
 
   void increment(size_t count = 1);
 

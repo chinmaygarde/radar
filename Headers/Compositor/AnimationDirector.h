@@ -49,7 +49,7 @@ class AnimationDirector {
     }
   }
 
-  bool flushInterpolations(Stopwatch& stopwatch);
+  size_t flushInterpolations(Stopwatch& stopwatch);
 
  private:
   template <typename T>

@@ -169,8 +169,11 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
 }
 
 void Compositor::onAnimationsFlush() {
-  if (_graph.animationDirector().flushInterpolations(_stats.interpolations())) {
+  auto flushed =
+      _graph.animationDirector().flushInterpolations(_stats.interpolations());
+  if (flushed > 0) {
     drawSingleFrame();
+    _stats.interpolationsCount().reset(flushed);
   }
 }
 

@@ -13,8 +13,8 @@ size_t Counter::count() const {
   return _count;
 }
 
-void Counter::reset() {
-  _count = 0;
+void Counter::reset(size_t count) {
+  _count = count;
 }
 
 void Counter::increment(size_t count) {

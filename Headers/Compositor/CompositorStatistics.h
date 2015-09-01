@@ -20,6 +20,8 @@ class CompositorStatistics {
 
   Stopwatch& interpolations();
 
+  Counter& interpolationsCount();
+
   Counter& entityCount();
 
   Counter& primitiveCount();
@@ -34,6 +36,7 @@ class CompositorStatistics {
   Stopwatch _frameTimer;
   Stopwatch _transactionUpdateTimer;
   Stopwatch _interpolations;
+  Counter _interpolationsCount;
   Counter _entityCount;
   Counter _primitiveCount;
   Counter _frameCount;
