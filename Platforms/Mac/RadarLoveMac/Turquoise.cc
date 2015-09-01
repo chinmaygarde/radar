@@ -24,7 +24,7 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
   action.setDuration(1.0);
   action.setRepeatCount(rl::Action::RepeatCountInfinity);
-  action.setPropertyMask(rl::Entity::Transformation);
+  action.setPropertyMask(rl::Entity::Transformation | rl::Entity::Opacity);
   interface.pushTransaction(std::move(action));
 
   for (auto i = 0; i < 1000; i++) {
@@ -39,7 +39,7 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
                                (rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
                                1.0});
-    layer->setOpacity(0.5 + ((rand() % 10) / 10.0) * 0.5);
+    layer->setOpacity(((rand() % 10) / 10.0));
     root->addSublayer(layer);
   }
 
