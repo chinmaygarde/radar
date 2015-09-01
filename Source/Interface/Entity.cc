@@ -151,4 +151,19 @@ void Entity::notifyInterfaceIfNecessary(Property property,
   Interface::current().transaction().mark(*this, property, other);
 }
 
+const Entity::Accessors<Rect> BoundsAccessors{&Entity::bounds,
+                                              &Entity::setBounds};
+const Entity::Accessors<Point> PositionAccessors{&Entity::position,
+                                                 &Entity::setPosition};
+const Entity::Accessors<Point> AnchorPointAccessors{&Entity::anchorPoint,
+                                                    &Entity::setAnchorPoint};
+const Entity::Accessors<Matrix> TransformationAccessors{
+    &Entity::transformation,
+    &Entity::setTransformation};
+const Entity::Accessors<Color> BackgroundColorAccessors{
+    &Entity::backgroundColor,
+    &Entity::setBackgroundColor};
+const Entity::Accessors<double> OpacityAccessors{&Entity::opacity,
+                                                 &Entity::setOpacity};
+
 }  // namespace rl

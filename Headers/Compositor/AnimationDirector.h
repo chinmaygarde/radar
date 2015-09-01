@@ -6,7 +6,7 @@
 #define __RADARLOVE_COMPOSITOR_ANIMATIONDIRECTOR_H__
 
 #include <Core/Core.h>
-#include <Interface/Entity.h>
+#include <Compositor/PresentationEntity.h>
 #include <Compositor/Interpolator.h>
 
 #include <unordered_map>
@@ -40,18 +40,18 @@ class AnimationDirector {
 
   template <typename T>
   void setInterpolator(Key key,
-                       Interpolator<T>&& interpolator,
+                       std::unique_ptr<Interpolator<T>> interpolator,
                        std::chrono::nanoseconds startTime) {
-    auto result = collection<T>().emplace(key, interpolator);
+    auto result = collection<T>().emplace(key, std::move(interpolator));
     if (result.second) {
-      (*(result.first)).second.start(startTime);
+      (*(result.first)).second->start(startTime);
     }
   }
 
  private:
   template <typename T>
-  using Interpolators =
-      std::unordered_map<Key, Interpolator<T>, KeyHash, KeyEqual>;
+  using Interpolators = std::
+      unordered_map<Key, std::unique_ptr<Interpolator<T>>, KeyHash, KeyEqual>;
 
   Interpolators<double> _numberInterpolators;
   Interpolators<Point> _pointInterpolators;

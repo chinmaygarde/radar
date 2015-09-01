@@ -24,8 +24,9 @@ bool PresentationGraph::applyTransactions(Message& arena) {
   return true;
 }
 
-bool PresentationGraph::applyTransactionSingle(Message& arena,
-                                               std::chrono::nanoseconds time) {
+bool PresentationGraph::applyTransactionSingle(
+    Message& arena,
+    const std::chrono::nanoseconds& time) {
   bool result = true;
   /*
    *  Step 1: Read the action
@@ -73,50 +74,85 @@ bool PresentationGraph::applyTransactionSingle(Message& arena,
       continue;
     }
 
-    prepareActionsAndMerge(action, *_entities[record.identifier], record, time);
+    prepareActions(action, *_entities[record.identifier], record, time);
   }
 
   return true;
 }
 
-void PresentationGraph::prepareActionsAndMerge(Action& action,
-                                               PresentationEntity& entity,
-                                               const TransferRecord& record,
-                                               std::chrono::nanoseconds time) {
-#define SetInterpolator(prop, getter, propertyType, recordDataType, time) \
-  if (action.propertyMask() & prop) {                                     \
-    _animationDirector.setInterpolator(                                   \
-        {record.identifier, record.property},                             \
-        Interpolator<propertyType>(action, entity.getter,                 \
-                                   record.data.recordDataType),           \
-        time);                                                            \
-  }
+template <typename T>
+void PresentationGraph::prepareActionSingle(
+    Action& action,
+    PresentationEntity& entity,
+    const TransferRecord& record,
+    const Entity::Accessors<T>& accessors,
+    const std::chrono::nanoseconds& start) {
+  /*
+   *  Prepare the key for the animation in the animation director
+   */
+  AnimationDirector::Key key(record.identifier, record.property);
+
+  /*
+   *  Prepare the interpolator
+   */
+  auto interpolator = rl::make_unique<Interpolator<T>>(
+      &entity, action, accessors.setter, accessors.getter(entity),
+      record.transferData<T>());
+
+  /*
+   *  Setup the intepolator in the animation director
+   */
+  _animationDirector.setInterpolator(key, std::move(interpolator), start);
+}
+
+void PresentationGraph::prepareActions(Action& action,
+                                       PresentationEntity& entity,
+                                       const TransferRecord& record,
+                                       const std::chrono::nanoseconds& time) {
   switch (record.property) {
     case Entity::Bounds:
-      SetInterpolator(Entity::Bounds, bounds(), Rect, rect, time);
-      entity.setBounds(record.data.rect);
+      if (action.propertyMask() & Entity::Bounds) {
+        prepareActionSingle(action, entity, record, BoundsAccessors, time);
+      } else {
+        entity.setBounds(record.data.rect);
+      }
       break;
     case Entity::Position:
-      SetInterpolator(Entity::Position, position(), Point, point, time);
-      entity.setPosition(record.data.point);
+      if (action.propertyMask() & Entity::Position) {
+        prepareActionSingle(action, entity, record, PositionAccessors, time);
+      } else {
+        entity.setPosition(record.data.point);
+      }
       break;
     case Entity::AnchorPoint:
-      SetInterpolator(Entity::AnchorPoint, anchorPoint(), Point, point, time);
-      entity.setAnchorPoint(record.data.point);
+      if (action.propertyMask() & Entity::AnchorPoint) {
+        prepareActionSingle(action, entity, record, AnchorPointAccessors, time);
+      } else {
+        entity.setAnchorPoint(record.data.point);
+      }
       break;
     case Entity::Transformation:
-      SetInterpolator(Entity::Transformation, transformation(), Matrix, matrix,
-                      time);
-      entity.setTransformation(record.data.matrix);
+      if (action.propertyMask() & Entity::Transformation) {
+        prepareActionSingle(action, entity, record, TransformationAccessors,
+                            time);
+      } else {
+        entity.setTransformation(record.data.matrix);
+      }
       break;
     case Entity::BackgroundColor:
-      SetInterpolator(Entity::BackgroundColor, backgroundColor(), Color, color,
-                      time);
-      entity.setBackgroundColor(record.data.color);
+      if (action.propertyMask() & Entity::BackgroundColor) {
+        prepareActionSingle(action, entity, record, BackgroundColorAccessors,
+                            time);
+      } else {
+        entity.setBackgroundColor(record.data.color);
+      }
       break;
     case Entity::Opacity:
-      SetInterpolator(Entity::Opacity, opacity(), double, number, time);
-      entity.setOpacity(record.data.number);
+      if (action.propertyMask() & Entity::Opacity) {
+        prepareActionSingle(action, entity, record, OpacityAccessors, time);
+      } else {
+        entity.setOpacity(record.data.number);
+      }
       break;
     case Entity::AddedTo:
       (*_entities[record.data.identifier]).addChild(&entity);
@@ -130,8 +166,6 @@ void PresentationGraph::prepareActionsAndMerge(Action& action,
     default:
       RL_ASSERT(false && "Unknown Property");
   }
-
-#undef SetInterpolator
 }
 
 void PresentationGraph::render(Frame& frame) {

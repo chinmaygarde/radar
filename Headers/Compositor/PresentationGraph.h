@@ -31,11 +31,18 @@ class PresentationGraph {
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
 
-  bool applyTransactionSingle(Message& arena, std::chrono::nanoseconds time);
-  void prepareActionsAndMerge(Action& action,
-                              PresentationEntity& currentState,
-                              const TransferRecord& record,
-                              std::chrono::nanoseconds time);
+  bool applyTransactionSingle(Message& arena,
+                              const std::chrono::nanoseconds& time);
+  void prepareActions(Action& action,
+                      PresentationEntity& currentState,
+                      const TransferRecord& record,
+                      const std::chrono::nanoseconds& time);
+  template <typename T>
+  void prepareActionSingle(Action& action,
+                           PresentationEntity& entity,
+                           const TransferRecord& record,
+                           const Entity::Accessors<T>& accessors,
+                           const std::chrono::nanoseconds& start);
 
   DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

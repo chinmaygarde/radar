@@ -9,7 +9,6 @@
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
 #include <Compositor/TransferEntity.h>
-#include <Compositor/Interpolator.h>
 
 #include <map>
 
@@ -17,20 +16,20 @@ namespace rl {
 class Frame;
 class PresentationEntity : public Entity {
  public:
-  using BorrowedReference = PresentationEntity const*;
+  using Borrowed = PresentationEntity const*;
 
   explicit PresentationEntity(Identifier identifier);
 
   ~PresentationEntity();
 
-  void addChild(BorrowedReference entity);
+  void addChild(Borrowed entity);
 
-  void removeChild(BorrowedReference entity);
+  void removeChild(Borrowed entity);
 
   void render(Frame& frame, const Matrix& viewMatrix = MatrixIdentity) const;
 
  private:
-  std::vector<BorrowedReference> _children;
+  std::vector<Borrowed> _children;
 
   DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };

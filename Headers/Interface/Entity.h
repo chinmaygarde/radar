@@ -28,7 +28,15 @@ class Entity {
     Opacity         = 1 << 9,
     MakeRoot        = 1 << 10,
   };
-// clang-format on
+  // clang-format on
+
+  template <typename T>
+  struct Accessors {
+    using Getter = std::function<const T&(Entity&)>;
+    Getter getter;
+    using Setter = std::function<void(Entity&, const T&)>;
+    Setter setter;
+  };
 
 #pragma mark - Managing Entity Lifecycle
 
@@ -181,6 +189,13 @@ class Entity {
 
   DISALLOW_COPY_AND_ASSIGN(Entity);
 };
+
+extern const Entity::Accessors<Rect> BoundsAccessors;
+extern const Entity::Accessors<Point> PositionAccessors;
+extern const Entity::Accessors<Point> AnchorPointAccessors;
+extern const Entity::Accessors<Matrix> TransformationAccessors;
+extern const Entity::Accessors<Color> BackgroundColorAccessors;
+extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace rl
 

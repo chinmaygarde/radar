@@ -52,6 +52,9 @@ struct TransferRecord {
     new (allocation) TransferRecord(identity, prop, varData);
     return true;
   }
+
+  template <typename T>
+  const T& transferData() const;
 };
 
 }  // namespace rl

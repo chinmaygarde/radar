@@ -4,4 +4,42 @@
 
 #include <Compositor/TransferRecord.h>
 
-namespace rl {}  // namespace rl
+namespace rl {
+
+template <>
+const Entity::Identifier& TransferRecord::transferData<Entity::Identifier>()
+    const {
+  return data.identifier;
+}
+
+template <>
+const double& TransferRecord::transferData<double>() const {
+  return data.number;
+}
+
+template <>
+const Point& TransferRecord::transferData<Point>() const {
+  return data.point;
+}
+
+template <>
+const Size& TransferRecord::transferData<Size>() const {
+  return data.size;
+}
+
+template <>
+const Rect& TransferRecord::transferData<Rect>() const {
+  return data.rect;
+}
+
+template <>
+const Matrix& TransferRecord::transferData<Matrix>() const {
+  return data.matrix;
+}
+
+template <>
+const Color& TransferRecord::transferData<Color>() const {
+  return data.color;
+}
+
+}  // namespace rl

@@ -8,10 +8,18 @@
 namespace rl {
 
 template <typename Type>
-Interpolator<Type>::Interpolator(const Action& action,
-                                 const Type& from,
-                                 const Type& to)
-    : _action(action), _from(from), _to(to), _start(0) {
+Interpolator<Type>::Interpolator(
+    PresentationEntity::Borrowed entity,
+    const Action& action,
+    const typename Entity::Accessors<Type>::Setter& setter,
+    const Type& from,
+    const Type& to)
+    : _entity(entity),
+      _action(action),
+      _setter(setter),
+      _from(from),
+      _to(to),
+      _start(0) {
 }
 
 template <typename Type>
@@ -37,7 +45,6 @@ Type Interpolator<Type>::to() const {
 /**
  * Explicit Template Specializations
  */
-
 template class Interpolator<double>;
 template class Interpolator<Point>;
 template class Interpolator<Size>;

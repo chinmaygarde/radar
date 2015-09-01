@@ -7,12 +7,17 @@
 
 #include <Core/Core.h>
 #include <Interface/Action.h>
+#include <Compositor/PresentationEntity.h>
 
 namespace rl {
 template <typename Type>
 class Interpolator {
  public:
-  Interpolator(const Action& action, const Type& from, const Type& to);
+  Interpolator(PresentationEntity::Borrowed entity,
+               const Action& action,
+               const typename Entity::Accessors<Type>::Setter& setter,
+               const Type& from,
+               const Type& to);
 
   Type from() const;
 
@@ -23,12 +28,14 @@ class Interpolator {
   Type x(std::chrono::nanoseconds time) const;
 
  private:
+  PresentationEntity::Borrowed _entity;
   const Action _action;
+  const typename Entity::Accessors<Type>::Setter _setter;
   const Type _from;
   const Type _to;
   std::chrono::nanoseconds _start;
 
-  DISALLOW_ASSIGN(Interpolator);
+  DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };
 }
 
