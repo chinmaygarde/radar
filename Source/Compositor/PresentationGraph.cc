@@ -176,4 +176,8 @@ void PresentationGraph::render(Frame& frame) {
   _root->render(frame);
 }
 
+AnimationDirector& PresentationGraph::animationDirector() {
+  return _animationDirector;
+}
+
 }  // namespace rl

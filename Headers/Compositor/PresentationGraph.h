@@ -26,6 +26,8 @@ class PresentationGraph {
 
   void render(Frame& frame);
 
+  AnimationDirector& animationDirector();
+
  private:
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
   PresentationEntity* _root;

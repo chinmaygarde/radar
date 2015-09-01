@@ -69,6 +69,7 @@ class Compositor : RenderSurfaceObserver {
   PresentationGraph _graph;
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
+  std::shared_ptr<EventLoopSource> _animationsSource;
 
   virtual void surfaceWasCreated() override;
   virtual void surfaceSizeUpdated(const Size& size) override;
@@ -82,6 +83,7 @@ class Compositor : RenderSurfaceObserver {
   void setupChannels();
   void teardownChannels();
   void manageInterfaceUpdates(bool schedule);
+  void onAnimationsFlush();
 
   DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

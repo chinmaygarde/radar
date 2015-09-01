@@ -16,10 +16,13 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _interfaceChannel(nullptr),
       _graph(),
       _stats(),
-      _statsRenderer() {
+      _statsRenderer(),
+      _animationsSource(EventLoopSource::Timer(std::chrono::milliseconds(16))) {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);
+  _animationsSource->setWakeFunction(
+      std::bind(&Compositor::onAnimationsFlush, this));
 }
 
 Compositor::~Compositor() {
@@ -125,10 +128,12 @@ void Compositor::drawSingleFrame() {
 
 void Compositor::setupChannels() {
   manageInterfaceUpdates(true);
+  _loop->addSource(_animationsSource);
 }
 
 void Compositor::teardownChannels() {
   manageInterfaceUpdates(false);
+  _loop->removeSource(_animationsSource);
 }
 
 std::weak_ptr<CompositorChannel> Compositor::acquireChannel() {
@@ -160,6 +165,12 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   } else {
     _interfaceChannel->setMessagesReceivedCallback(nullptr);
     _loop->removeSource(source);
+  }
+}
+
+void Compositor::onAnimationsFlush() {
+  if (_graph.animationDirector().flushInterpolations()) {
+    drawSingleFrame();
   }
 }
 
