@@ -256,6 +256,8 @@ void CompositorStatisticsRenderer::buildStatsUI(CompositorStatistics& stats) {
     ImGui::Text("Entities: %zu", stats.entityCount().count());
     ImGui::Text("Primitives: %zu", stats.primitiveCount().count());
     ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());
+    ImGui::Text("Interpolations: %.2f ms",
+                stats.interpolations().lastLap().count() * 1e-6);
     ImGui::Text("Last Transaction Update: %.2f ms",
                 stats.transactionUpdateTimer().lastLap().count() * 1e-6);
 

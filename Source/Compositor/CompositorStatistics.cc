@@ -22,6 +22,10 @@ Stopwatch& CompositorStatistics::transactionUpdateTimer() {
   return _transactionUpdateTimer;
 }
 
+Stopwatch& CompositorStatistics::interpolations() {
+  return _interpolations;
+}
+
 Counter& CompositorStatistics::entityCount() {
   return _entityCount;
 }

@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 #include <Compositor/PresentationEntity.h>
 #include <Compositor/Interpolator.h>
+#include <Instrumentation/Stopwatch.h>
 
 #include <unordered_map>
 
@@ -48,7 +49,7 @@ class AnimationDirector {
     }
   }
 
-  bool flushInterpolations();
+  bool flushInterpolations(Stopwatch& stopwatch);
 
  private:
   template <typename T>

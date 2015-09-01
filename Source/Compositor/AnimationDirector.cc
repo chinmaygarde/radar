@@ -15,7 +15,9 @@ AnimationDirector::AnimationDirector()
       _colorInterpolators() {
 }
 
-bool AnimationDirector::flushInterpolations() {
+bool AnimationDirector::flushInterpolations(Stopwatch& stopwatch) {
+  AutoStopwatchLap lap(stopwatch);
+
   const auto time = Time::Current();
   bool didInterpolate = false;
 
