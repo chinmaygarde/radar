@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_TURQUOISE_H__
-#define __RADARLOVE_TURQUOISE_H__
+#ifndef __RADARLOVE_SAMPLE_H__
+#define __RADARLOVE_SAMPLE_H__
 
 #include <Interface/Interface.h>
 
-namespace tq {
-class TurquoiseApplication : public rl::InterfaceDelegate {
+namespace sample {
+class SampleApplication : public rl::InterfaceDelegate {
  public:
-  TurquoiseApplication();
+  SampleApplication();
 
   virtual void didFinishLaunching(rl::Interface& interface) override;
   virtual void didBecomeActive(rl::Interface& interface) override;
@@ -23,8 +23,9 @@ class TurquoiseApplication : public rl::InterfaceDelegate {
   void onTouches(const std::vector<rl::TouchEvent>& touches,
                  rl::TouchEvent::Phase phase);
 
-  DISALLOW_COPY_AND_ASSIGN(TurquoiseApplication);
+  DISALLOW_COPY_AND_ASSIGN(SampleApplication);
 };
-}
 
-#endif /* __RADARLOVE_TURQUOISE_H__ */
+}  // namespace sample
+
+#endif /* __RADARLOVE_SAMPLE_H__ */

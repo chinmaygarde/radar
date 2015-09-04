@@ -2,20 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Turquoise.h"
+#include "Sample.h"
 
-namespace tq {
+namespace sample {
 
-TurquoiseApplication::TurquoiseApplication() {
+SampleApplication::SampleApplication() {
 }
 
-void TurquoiseApplication::didFinishLaunching(rl::Interface& interface) {
+void SampleApplication::didFinishLaunching(rl::Interface& interface) {
   interface.touchEventChannel().setTouchEventCallback(
       [&](const std::vector<rl::TouchEvent>& touches,
           rl::TouchEvent::Phase phase) { onTouches(touches, phase); });
 }
 
-void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
+void SampleApplication::didBecomeActive(rl::Interface& interface) {
   auto root = std::make_shared<rl::Layer>();
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
@@ -61,20 +61,20 @@ void TurquoiseApplication::didBecomeActive(rl::Interface& interface) {
   sub2->addSublayer(sub3);
 }
 
-void TurquoiseApplication::didEnterBackground(rl::Interface& interface) {
+void SampleApplication::didEnterBackground(rl::Interface& interface) {
 }
 
-void TurquoiseApplication::didTerminate(rl::Interface& interface) {
+void SampleApplication::didTerminate(rl::Interface& interface) {
 }
 
-void TurquoiseApplication::didBecomeInactive(rl::Interface& interface) {
+void SampleApplication::didBecomeInactive(rl::Interface& interface) {
 }
 
-void TurquoiseApplication::didUpdateSize(rl::Interface& interface) {
+void SampleApplication::didUpdateSize(rl::Interface& interface) {
 }
 
-void TurquoiseApplication::onTouches(const std::vector<rl::TouchEvent>& touches,
-                                     rl::TouchEvent::Phase phase) {
+void SampleApplication::onTouches(const std::vector<rl::TouchEvent>& touches,
+                                  rl::TouchEvent::Phase phase) {
 }
 
-}  // namespace tq
+}  // namespace sample
