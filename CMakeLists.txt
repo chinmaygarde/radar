@@ -42,7 +42,10 @@ file(GLOB RADARLOVE_SRC
   "Headers/Shell/*.h"
   "Headers/Host/*.h"
   "Headers/Compositor/*.h"
+  "Headers/Infrastructure/*.h"
+  "Headers/Instrumentation/*.h"
   "Headers/Interface/*.h"
+  "Headers/Event/*.h"
   "Headers/Geometry/*.h"
   "Source/*.h"
   "Source/*.cc"
@@ -50,12 +53,20 @@ file(GLOB RADARLOVE_SRC
   "Source/Animation/*.cc"
   "Source/Core/*.h"
   "Source/Core/*.cc"
+  "Source/Core/Channel/*.h"
+  "Source/Core/Channel/*.cc"
+  "Source/Event/*.h"
+  "Source/Event/*.cc"
   "Source/Shell/*.h"
   "Source/Shell/*.cc"
   "Source/Host/*.h"
   "Source/Host/*.cc"
   "Source/Compositor/*.h"
   "Source/Compositor/*.cc"
+  "Source/Infrastructure/*.h"
+  "Source/Infrastructure/*.cc"
+  "Source/Instrumentation/*.h"
+  "Source/Instrumentation/*.cc"
   "Source/Interface/*.h"
   "Source/Interface/*.cc"
   "Source/Geometry/*.h"
@@ -75,6 +86,7 @@ endif()
 
 include_directories ("Headers")
 include_directories ("Headers/Core")
+include_directories ("ThirdParty")
 
 add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})
 

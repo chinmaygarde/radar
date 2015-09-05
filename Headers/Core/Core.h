@@ -42,7 +42,6 @@
 /*
  *  IPC
  */
-#include <Core/Server.h>
 #include <Core/SharedMemory.h>
 
 #endif /* defined(__RADARLOVE_CORE__) */

@@ -4,6 +4,7 @@
 
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
+#include <cassert>
 
 namespace rl {
 
