@@ -7,5 +7,6 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -y build-essential
     sudo apt-get install -y cmake
     sudo apt-get install -y valgrind
+    sudo apt-get install -y libgles2-mesa-dev
   SHELL
 end

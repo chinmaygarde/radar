@@ -5,6 +5,8 @@
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
 #include <cassert>
+#include <cstdarg>
+#include <cstring>
 
 namespace rl {
 
