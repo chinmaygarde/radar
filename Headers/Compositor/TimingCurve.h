@@ -18,7 +18,7 @@ class TimingCurve {
     EaseInEaseOut,
   };
 
-  static const TimingCurve& SystemTimingCurve(Type type);
+  static TimingCurve SystemTimingCurve(Type type);
 
   double x(double t) const;
 
@@ -31,8 +31,6 @@ class TimingCurve {
   double _cy;
 
   explicit TimingCurve(const Point& c1, const Point& c2);
-
-  DISALLOW_COPY_AND_ASSIGN(TimingCurve);
 };
 }
 

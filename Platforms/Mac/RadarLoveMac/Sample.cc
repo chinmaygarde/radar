@@ -22,6 +22,7 @@ void SampleApplication::didBecomeActive(rl::Interface& interface) {
 
   rl::Action action;
   action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
+  action.setAutoReverses(true);
   action.setDuration(1.0);
   action.setRepeatCount(rl::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::Entity::Transformation | rl::Entity::Opacity);

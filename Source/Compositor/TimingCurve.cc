@@ -104,26 +104,19 @@ static inline double TimingCurve_SolveX(double ax,
   return TimingCurve_SampleCurve(ay, by, cy, xSolution);
 }
 
-const TimingCurve& TimingCurve::SystemTimingCurve(Type type) {
-  // clang-format off
-  static const TimingCurve linear        ( { 0.0,  0.0 }, { 1.0,  1.0 } );
-  static const TimingCurve easeIn        ( { 0.42, 0.0 }, { 1.0,  1.0 } );
-  static const TimingCurve easeOut       ( { 0.0,  0.0 }, { 0.58, 1.0 } );
-  static const TimingCurve easeInEaseOut ( { 0.42, 0.0 }, { 0.58, 1.0 } );
-  // clang-format on
-
+TimingCurve TimingCurve::SystemTimingCurve(Type type) {
   switch (type) {
     case Linear:
-      return linear;
+      return TimingCurve({0.0, 0.0}, {1.0, 1.0});
     case EaseIn:
-      return easeIn;
+      return TimingCurve({0.42, 0.0}, {1.0, 1.0});
     case EaseOut:
-      return easeOut;
+      return TimingCurve({0.0, 0.0}, {0.58, 1.0});
     case EaseInEaseOut:
-      return easeInEaseOut;
+      return TimingCurve({0.42, 0.0}, {0.58, 1.0});
   }
 
-  return easeInEaseOut;
+  return TimingCurve({0.0, 0.0}, {1.0, 1.0});
 }
 
 TimingCurve::TimingCurve(const Point& c1, const Point& c2) {

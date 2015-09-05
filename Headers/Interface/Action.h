@@ -63,18 +63,6 @@ class Action : public Serializable {
    */
   void setAutoReverses(bool autoReverses);
 
-  /**
-   *  Get the initial begin time offset of the action. The default is 0.
-   *
-   *  @return the begin time offset
-   */
-  double beginTime() const;
-
-  /**
-   *  Set the begin time offset of the animation
-   */
-  void setBeginTime(double beginTime);
-
   uint64_t propertyMask() const;
 
   void setPropertyMask(uint64_t mask);
@@ -93,9 +81,11 @@ class Action : public Serializable {
   double _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
-  double _beginTime;
   uint64_t _propertyMask;
   TimingCurve::Type _timingCurveType;
+  TimingCurve _resolvedCurve;
+
+  void resolveCurve();
 
   DISALLOW_ASSIGN(Action);
 };

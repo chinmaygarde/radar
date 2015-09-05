@@ -10,9 +10,9 @@ Action::Action(double duration)
     : _duration(duration),
       _repeatCount(1),
       _autoReverses(false),
-      _beginTime(0.0),
       _propertyMask(0),
-      _timingCurveType(TimingCurve::Linear) {
+      _timingCurveType(TimingCurve::Linear),
+      _resolvedCurve(TimingCurve::SystemTimingCurve(_timingCurveType)) {
 }
 
 double Action::duration() const {
@@ -39,14 +39,6 @@ void Action::setAutoReverses(bool autoReverses) {
   _autoReverses = autoReverses;
 }
 
-double Action::beginTime() const {
-  return _beginTime;
-}
-
-void Action::setBeginTime(double beginTime) {
-  _beginTime = beginTime;
-}
-
 uint64_t Action::propertyMask() const {
   return _propertyMask;
 }
@@ -61,10 +53,21 @@ TimingCurve::Type Action::timingCurveType() const {
 
 void Action::setTimingCurveType(TimingCurve::Type type) {
   _timingCurveType = type;
+  resolveCurve();
+}
+
+void Action::resolveCurve() {
+  _resolvedCurve = TimingCurve::SystemTimingCurve(_timingCurveType);
 }
 
 double Action::durationInUnitSlice(double time) const {
-  return fmod(time, _duration);
+  auto durationInUnitSlice = fmod(time, _duration) / _duration;
+
+  if (_autoReverses && ((int)(time / _duration) % 2) == 1) {
+    durationInUnitSlice = 1.0 - durationInUnitSlice;
+  }
+
+  return _resolvedCurve.x(durationInUnitSlice);
 }
 
 bool Action::serialize(Message& message) const {
@@ -72,7 +75,6 @@ bool Action::serialize(Message& message) const {
   result &= message.encode(_duration);
   result &= message.encode(_repeatCount);
   result &= message.encode(_autoReverses);
-  result &= message.encode(_beginTime);
   result &= message.encode(_propertyMask);
   result &= message.encode(_timingCurveType);
   return result;
@@ -83,9 +85,9 @@ bool Action::deserialize(Message& message) {
   result &= message.decode(_duration);
   result &= message.decode(_repeatCount);
   result &= message.decode(_autoReverses);
-  result &= message.decode(_beginTime);
   result &= message.decode(_propertyMask);
   result &= message.decode(_timingCurveType);
+  resolveCurve();
   return result;
 }
 

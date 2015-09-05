@@ -29,7 +29,8 @@ void Interpolator<Type>::start(const std::chrono::nanoseconds& time) {
 
 template <typename Type>
 void Interpolator<Type>::step(const std::chrono::nanoseconds& time) {
-  _setter(*_entity, x(_action.durationInUnitSlice(time.count() * 1e-9)));
+  auto timeSinceStart = time.count() - _start.count();
+  _setter(*_entity, x(_action.durationInUnitSlice(timeSinceStart * 1e-9)));
 }
 
 template <typename Type>
