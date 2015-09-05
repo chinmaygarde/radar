@@ -29,7 +29,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 ################################
-# Core Library
+# RadarLove Library
 ################################
 project(RadarLove)
 
@@ -92,6 +92,8 @@ add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})
 
 if(UNIX AND NOT APPLE)
   target_link_libraries(RadarLove rt)
+  find_package(OpenGL REQUIRED)
+  find_package(GLUT REQUIRED)
 endif()
 
 ################################

@@ -2,17 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
 #include <Core/Timing.h>
 
-/*
- *  TODO: Switch implementation on Linux
- */
+#if RL_OS_MAC
 #include <mach/mach_time.h>
+#elif RL_OS_LINUX
+#include <time.h>
+#endif
 
 namespace rl {
 namespace Time {
 
-static inline uint64_t MachTimeInNanoseconds(void) {
+#if RL_OS_MAC
+static inline uint64_t TimeInNanoseconds(void) {
   static mach_timebase_info_data_t timebaseInfo = {0};
   static uint32_t ratio = 0;
 
@@ -23,9 +26,16 @@ static inline uint64_t MachTimeInNanoseconds(void) {
 
   return mach_absolute_time() * ratio;
 }
+#elif RL_OS_LINUX
+static inline uint64_t TimeInNanoseconds(void) {
+  struct timespec time = {0};
+  clock_gettime(CLOCK_MONOTONIC, &time);
+  return time.tv_sec * 1000000000 + time.tv_nsec;
+}
+#endif
 
 std::chrono::nanoseconds Current(void) {
-  return std::chrono::nanoseconds(MachTimeInNanoseconds());
+  return std::chrono::nanoseconds(TimeInNanoseconds());
 }
 
 std::chrono::nanoseconds LoggingBootTime(void) {

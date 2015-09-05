@@ -20,6 +20,13 @@ template <typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
   return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
+
+/**
+ *  Set the name of current thread of execution
+ *
+ *  @param name the name to set
+ */
+void ThreadSetName(const char* name);
 }
 
 #endif /* defined(__RADARLOVE_CORE_UTILITIES__) */

@@ -5,4 +5,10 @@
 #ifndef __RADARLOVE_CORE_CONFIG__
 #define __RADARLOVE_CORE_CONFIG__
 
+#if __APPLE__
+#define RL_OS_MAC 1
+#else
+#define RL_OS_LINUX 1
+#endif
+
 #endif /* defined(__RADARLOVE_CORE_CONFIG__) */

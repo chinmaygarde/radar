@@ -7,7 +7,9 @@
 
 #include <stdlib.h>
 
+#if RL_OS_MAC
 #include <mach/mach.h>
+#endif
 
 namespace rl {
 
@@ -43,9 +45,11 @@ Message::Message(Message&& message) noexcept
 
 Message::~Message() {
   if (_vmDeallocate) {
+#if RL_OS_MAC
     kern_return_t res =
         vm_deallocate(mach_task_self(), _bufferLength, _bufferLength);
     RL_ASSERT(res == KERN_SUCCESS);
+#endif
   } else {
     free(_buffer);
   }

@@ -162,7 +162,6 @@
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
 		EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143B1B6C89630026B6BB /* TimingCurve.h */; };
-		EA6378331B9B576A0064FFB4 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEB21B685469000FA38A /* Server.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1151,7 +1150,6 @@
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
 				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
-				EA6378331B9B576A0064FFB4 /* Server.cc in Sources */,
 				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,

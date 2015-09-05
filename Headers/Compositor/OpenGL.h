@@ -16,7 +16,13 @@
 #error Importing OpenGL Header. Are you sure your source file needs this invasive header?
 #endif
 
-#import <OpenGL/gl.h>
+#include <Core/Config.h>
+
+#if RL_OS_MAC
+#include <OpenGL/gl.h>
+#elif RL_OS_LINUX
+#include <GL/gl.h>
+#endif
 
 #include <Geometry/Geometry.h>
 
