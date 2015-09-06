@@ -27,7 +27,6 @@
 		9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* EventLoopTest.cc */; };
 		9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */; };
 		9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */; };
-		9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80F1B796D81008DE08E /* ServerTest.cc */; };
 		9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */; };
 		9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8121B796D81008DE08E /* TestMain.cc */; };
 		9E62F8DC1B796EDD008DE08E /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECE271B68543F000FA38A /* libRadarLove.a */; };
@@ -263,7 +262,6 @@
 		9E62F80C1B796D81008DE08E /* EventLoopTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopTest.cc; sourceTree = "<group>"; };
 		9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDecoderTest.cc; sourceTree = "<group>"; };
 		9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageEncoderTest.cc; sourceTree = "<group>"; };
-		9E62F80F1B796D81008DE08E /* ServerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerTest.cc; sourceTree = "<group>"; };
 		9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemoryTest.cc; sourceTree = "<group>"; };
 		9E62F8121B796D81008DE08E /* TestMain.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestMain.cc; sourceTree = "<group>"; };
 		9E62F8A31B796E10008DE08E /* gtest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gtest.xcodeproj; path = Test/GoogleTest/xcode/gtest.xcodeproj; sourceTree = "<group>"; };
@@ -451,7 +449,6 @@
 				9E62F80C1B796D81008DE08E /* EventLoopTest.cc */,
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */,
 				9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */,
-				9E62F80F1B796D81008DE08E /* ServerTest.cc */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */,
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
@@ -1085,7 +1082,6 @@
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
-				9E62F8D81B796ED3008DE08E /* ServerTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
 				9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */,
