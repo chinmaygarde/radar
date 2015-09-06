@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/Program.h>
+#include <algorithm>
 
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
@@ -116,10 +117,10 @@ void Program::linkIfNecessary() {
 
 unsigned int Program::indexForAttribute(const std::string& attribute) {
   auto found =
-      std::find(_knownAttributes.begin(), _knownAttributes.end(), attribute);
+      std::find(_knownAttributes.cbegin(), _knownAttributes.cend(), attribute);
   RL_ASSERT(found != _knownAttributes.end() && "Unknown attribute queried");
   return static_cast<unsigned int>(
-      std::distance(_knownAttributes.begin(), found));
+      std::distance(_knownAttributes.cbegin(), found));
 }
 
 unsigned int Program::indexForUniform(const std::string& uniform) {
