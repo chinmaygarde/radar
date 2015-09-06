@@ -134,7 +134,7 @@ void Entity::setBackgroundColor(const Color& backgroundColor) {
   notifyInterfaceIfNecessary(BackgroundColor);
 }
 
-double Entity::opacity() const {
+const double& Entity::opacity() const {
   return _opacity;
 }
 

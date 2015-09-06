@@ -157,7 +157,7 @@ class Entity {
    *
    *  @return the opacity of the entity
    */
-  double opacity() const;
+  const double& opacity() const;
 
   /**
    *  Set the new opacity of the entity
