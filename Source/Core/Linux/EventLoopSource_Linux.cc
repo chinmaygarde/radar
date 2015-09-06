@@ -16,11 +16,11 @@
 
 namespace rl {
 
-static inline void EventLoopSource_UpdateEpollSource(int eventsMask,
-                                                     void* data,
-                                                     int epollDesc,
-                                                     int operation,
-                                                     int desc) {
+static inline void EPollInvoke(int eventsMask,
+                               void* data,
+                               int epollDesc,
+                               int operation,
+                               int desc) {
   struct epoll_event event = {0};
 
   event.events = eventsMask;
@@ -29,21 +29,16 @@ static inline void EventLoopSource_UpdateEpollSource(int eventsMask,
   RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
 }
 
-void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
-                                            bool shouldAdd) {
-  if (_customWaitSetUpdateHandler) {
-    _customWaitSetUpdateHandler(this, waitsetHandle, readHandle(), shouldAdd);
-    return;
-  }
-
-  EventLoopSource_UpdateEpollSource(EPOLLIN, this, waitsetHandle,
-                                    shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,
-                                    readHandle());
+void EventLoopSource::updateInWaitSetHandleForSimpleRead(
+    WaitSet::Handle waitsetHandle,
+    bool shouldAdd) {
+  EPollInvoke(EPOLLIN, this, waitsetHandle,
+              shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL, readHandle());
 }
 
-std::shared_ptr<EventLoopSource> EventLoopSource::AsTimer(
+std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     std::chrono::nanoseconds repeatInterval) {
-  IOHandlesAllocator allocator = [repeatInterval]() {
+  RWHandlesProvider provider = [repeatInterval]() {
     /*
      *  Create and arm the timer file descriptor
      */
@@ -63,7 +58,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::AsTimer(
     return Handles(desc, -1);
   };
 
-  IOHandlesDeallocator deallocator = [](Handles handles) {
+  RWHandlesCollector collector = [](Handles handles) {
     RL_ASSERT(handles.second == -1 /* since we never assigned one */);
     RL_CHECK(::close(handles.first));
   };
@@ -81,7 +76,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::AsTimer(
     RL_ASSERT(size == sizeof(uint64_t));
   };
 
-  return std::make_shared<EventLoopSource>(allocator, deallocator, reader,
+  return std::make_shared<EventLoopSource>(provider, collector, reader, nullptr,
                                            nullptr);
 }
 
