@@ -115,3 +115,27 @@ include_directories ( Source )
 add_executable( RadarLoveTest ${RADARLOVE_TEST_SRC} )
 target_link_libraries( RadarLoveTest RadarLove gtest gtest_main)
 add_test( RadarLoveTestAll RadarLoveTest )
+
+################################
+# Linux Desktop Shell
+################################
+
+if(UNIX AND NOT APPLE)
+  file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
+    "Platforms/Linux/*.h"
+    "Platforms/Linux/*.cc"
+  )
+  add_executable( RadarLoveLinuxDesktop ${RADARLOVE_LINUX_DESKTOP_SOURCES} )
+
+  include(FindPkgConfig)
+
+  pkg_search_module(SDL2 REQUIRED sdl2)
+
+  include_directories(${SDL2_INCLUDE_DIRS})
+  target_link_libraries(RadarLoveLinuxDesktop
+    RadarLove
+    pthread
+    ${SDL2_LIBRARIES}
+    rt
+  )
+endif()
