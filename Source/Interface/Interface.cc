@@ -16,6 +16,8 @@ static pthread_key_t InterfaceTLSKey() {
   return interfaceKey;
 }
 
+using LT = StateMachine::LegalTransition;
+
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
                      std::weak_ptr<CompositorChannel> compositorChannel)
     : _loop(nullptr),
@@ -30,13 +32,13 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
-          // From        | To          | Callback
-          {  NotRunning,   Inactive,     C(didFinishLaunching)  },
-          {  NotRunning,   Background,   C(didEnterBackground)  },
-          {  Inactive,     NotRunning,   C(didTerminate)        },
-          {  Inactive,     Active,       C(didBecomeActive)     },
-          {  Active,       Inactive,     C(didBecomeInactive)   },
-          {  Background,   NotRunning,   C(didTerminate)        },
+          //    From        | To          | Callback
+          LT {  NotRunning,   Inactive,     C(didFinishLaunching)  },
+          LT {  NotRunning,   Background,   C(didEnterBackground)  },
+          LT {  Inactive,     NotRunning,   C(didTerminate)        },
+          LT {  Inactive,     Active,       C(didBecomeActive)     },
+          LT {  Active,       Inactive,     C(didBecomeInactive)   },
+          LT {  Background,   NotRunning,   C(didTerminate)        },
           #undef F
           // clang-format on
       }) {
