@@ -8,5 +8,6 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -y cmake
     sudo apt-get install -y valgrind
     sudo apt-get install -y libgles2-mesa-dev
+    sudo apt-get install -y libsdl2-dev
   SHELL
 end

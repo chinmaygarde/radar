@@ -24,7 +24,11 @@ int main(int argc, const char* argv[]) {
    *  Initialize SDL
    */
   auto result = SDL_Init(SDL_INIT_VIDEO);
-  RL_ASSERT(result != 0);
+
+  if (result != 0) {
+    RL_LOG("Could not initialize SDL: %s", SDL_GetError());
+    RL_ASSERT(false);
+  }
 
   /*
    *  Setup SDL surface
