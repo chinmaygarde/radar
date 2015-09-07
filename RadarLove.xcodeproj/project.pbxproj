@@ -161,6 +161,10 @@
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
 		EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143B1B6C89630026B6BB /* TimingCurve.h */; };
+		EA6B63951B9D571F00256484 /* Equation.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63931B9D571F00256484 /* Equation.cc */; };
+		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
+		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
+		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -402,6 +406,10 @@
 		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
 		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
 		EA63143B1B6C89630026B6BB /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
+		EA6B63931B9D571F00256484 /* Equation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Equation.cc; sourceTree = "<group>"; };
+		EA6B63941B9D571F00256484 /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
+		EA6B63981B9D572D00256484 /* Equation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equation.h; sourceTree = "<group>"; };
+		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,6 +529,7 @@
 				9E293DD31B72EB680037A431 /* Infrastructure */,
 				9EBA79A51B87D856005D84FA /* Instrumentation */,
 				9EAECE611B685460000FA38A /* Interface */,
+				EA6B63971B9D572D00256484 /* Recognition */,
 				9EAECE631B685460000FA38A /* Shell */,
 			);
 			path = Headers;
@@ -647,6 +656,7 @@
 				9E293DD61B72EB700037A431 /* Infrastructure */,
 				9EBA79B41B87D864005D84FA /* Instrumentation */,
 				9EAECEBF1B685469000FA38A /* Interface */,
+				EA6B63921B9D571F00256484 /* Recognition */,
 				9EAECEC11B685469000FA38A /* Shell */,
 			);
 			path = Source;
@@ -853,6 +863,24 @@
 			path = Event;
 			sourceTree = "<group>";
 		};
+		EA6B63921B9D571F00256484 /* Recognition */ = {
+			isa = PBXGroup;
+			children = (
+				EA6B63931B9D571F00256484 /* Equation.cc */,
+				EA6B63941B9D571F00256484 /* Variable.cc */,
+			);
+			path = Recognition;
+			sourceTree = "<group>";
+		};
+		EA6B63971B9D572D00256484 /* Recognition */ = {
+			isa = PBXGroup;
+			children = (
+				EA6B63981B9D572D00256484 /* Equation.h */,
+				EA6B63991B9D572D00256484 /* Variable.h */,
+			);
+			path = Recognition;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -873,6 +901,7 @@
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
 				9EAECE821B685460000FA38A /* Server.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
+				EA6B639A1B9D572D00256484 /* Equation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
@@ -909,6 +938,7 @@
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
 				9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */,
+				EA6B639B1B9D572D00256484 /* Variable.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
@@ -1127,6 +1157,7 @@
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
+				EA6B63951B9D571F00256484 /* Equation.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
@@ -1136,6 +1167,7 @@
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
+				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
