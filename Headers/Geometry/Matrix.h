@@ -297,6 +297,22 @@ struct Matrix {
         tmp.m[12] * det, tmp.m[13] * det, tmp.m[14] * det, tmp.m[15] * det);
   }
 
+  bool isAffine() const {
+    return (m[2] == 0 && m[3] == 0 && m[6] == 0 && m[7] == 0 && m[8] == 0 &&
+            m[9] == 0 && m[10] == 1 && m[11] == 0 && m[14] == 0 && m[15] == 1);
+  }
+
+  bool isIdentity() const {
+    return (
+        // clang-format off
+            m[0]  == 1 && m[1]  == 0 && m[2]  == 0 && m[3]  == 0 &&
+            m[4]  == 0 && m[5]  == 1 && m[6]  == 0 && m[7]  == 0 &&
+            m[8]  == 0 && m[9]  == 0 && m[10] == 1 && m[11] == 0 &&
+            m[12] == 0 && m[13] == 0 && m[14] == 0 && m[15] == 1
+        // clang-format on
+        );
+  }
+
   bool operator==(const Matrix& m) const {
     // clang-format off
     return vec[0] == m.vec[0]
