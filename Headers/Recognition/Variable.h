@@ -11,6 +11,8 @@ namespace rl {
 
 class Variable {
  public:
+  Variable();
+
  private:
   DISALLOW_COPY_AND_ASSIGN(Variable);
 };

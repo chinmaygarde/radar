@@ -17,7 +17,7 @@ class Equation {
     using VariableDegree = std::pair<Variable&, double>;
     using Variables = std::vector<VariableDegree>;
 
-    explicit Term(double coefficient, Variables variables);
+    explicit Term(double coefficient, Variables variables = {});
 
     double coefficient() const;
     const Variables& variables() const;
@@ -25,8 +25,6 @@ class Equation {
    private:
     double _coefficient;
     std::vector<VariableDegree> _variables;
-
-    DISALLOW_COPY_AND_ASSIGN(Term);
   };
 
   using Terms = std::vector<Term>;

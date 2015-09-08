@@ -165,6 +165,7 @@
 		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
 		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
+		EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -410,6 +411,7 @@
 		EA6B63941B9D571F00256484 /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
 		EA6B63981B9D572D00256484 /* Equation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equation.h; sourceTree = "<group>"; };
 		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
+		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,6 +463,7 @@
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
 				9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */,
+				EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1111,6 +1114,7 @@
 				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
+				EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,

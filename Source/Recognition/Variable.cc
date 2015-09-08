@@ -4,4 +4,9 @@
 
 #include <Recognition/Variable.h>
 
-namespace rl {}  // namespace rl
+namespace rl {
+
+Variable::Variable() {
+}
+
+}  // namespace rl
