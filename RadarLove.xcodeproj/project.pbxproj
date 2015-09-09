@@ -351,7 +351,6 @@
 		9EAECEAE1B685469000FA38A /* EventLoop.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoop.cc; sourceTree = "<group>"; };
 		9EAECEAF1B685469000FA38A /* EventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource.cc; sourceTree = "<group>"; };
 		9EAECEB01B685469000FA38A /* Message.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cc; sourceTree = "<group>"; };
-		9EAECEB21B685469000FA38A /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		9EAECEB31B685469000FA38A /* SharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory.cc; sourceTree = "<group>"; };
 		9EAECEB51B685469000FA38A /* Utilities.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cc; sourceTree = "<group>"; };
 		9EAECEB61B685469000FA38A /* WaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet.cc; sourceTree = "<group>"; };
@@ -720,7 +719,6 @@
 				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
 				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
-				9EAECEB21B685469000FA38A /* Server.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
 				EA62B3241B6F2F41009F197F /* Timing.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
