@@ -6,7 +6,7 @@
 
 #if RL_OS_LINUX
 
-#include <Core/Channel/SocketChannel.h>
+#include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
 #include <Core/Message.h>
 
