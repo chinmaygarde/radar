@@ -6,7 +6,7 @@
 
 #if RL_OS_MAC
 
-#include <Core/Channel/MachPortChannel.h>
+#include <Core/MachPortChannel.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
 

@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_NACL
+#if RL_OS_LINUX
 
 #include <Core/Channel/SocketChannel.h>
 #include <Core/Utilities.h>
@@ -265,4 +265,4 @@ SocketChannel::Handle SocketChannel::writeHandle() const {
 
 }  // namespace rl
 
-#endif  // !RL_OS_NACL
+#endif  // RL_OS_LINUX

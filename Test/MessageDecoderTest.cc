@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <gtest/gtest.h>
 
-#include "Message.h"
+#include <Core/Message.h>
 
 TEST(MessageDecoderTest, SimpleInitialization) {
   rl::Message message;

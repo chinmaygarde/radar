@@ -5,8 +5,8 @@
 #include <Core/Channel.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
-#include <Core/Channel/SocketChannel.h>
-#include <Core/Channel/MachPortChannel.h>
+#include <Core/SocketChannel.h>
+#include <Core/MachPortChannel.h>
 
 namespace rl {
 

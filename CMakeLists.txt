@@ -35,57 +35,13 @@ project(RadarLove)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-file(GLOB RADARLOVE_SRC
+file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"
-  "Headers/Animation/*.h"
-  "Headers/Core/*.h"
-  "Headers/Shell/*.h"
-  "Headers/Host/*.h"
-  "Headers/Compositor/*.h"
-  "Headers/Infrastructure/*.h"
-  "Headers/Instrumentation/*.h"
-  "Headers/Interface/*.h"
-  "Headers/Event/*.h"
-  "Headers/Geometry/*.h"
   "Source/*.h"
   "Source/*.cc"
-  "Source/Animation/*.h"
-  "Source/Animation/*.cc"
-  "Source/Core/*.h"
-  "Source/Core/*.cc"
-  "Source/Core/Channel/*.h"
-  "Source/Core/Channel/*.cc"
-  "Source/Event/*.h"
-  "Source/Event/*.cc"
-  "Source/Shell/*.h"
-  "Source/Shell/*.cc"
-  "Source/Host/*.h"
-  "Source/Host/*.cc"
-  "Source/Compositor/*.h"
-  "Source/Compositor/*.cc"
-  "Source/Infrastructure/*.h"
-  "Source/Infrastructure/*.cc"
-  "Source/Instrumentation/*.h"
-  "Source/Instrumentation/*.cc"
-  "Source/Interface/*.h"
-  "Source/Interface/*.cc"
-  "Source/Geometry/*.h"
-  "Source/Geometry/*.cc"
 )
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  file(GLOB RADARLOVE_SRC_PLATFORM
-    "Source/Core/Apple/*.h"
-    "Source/Core/Apple/*.cc"
-  )
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  file(GLOB RADARLOVE_SRC_PLATFORM
-    "Source/Core/Linux/*.h"
-    "Source/Core/Linux/*.cc"
-  )
-endif()
 
 include_directories ("Headers")
-include_directories ("Headers/Core")
 include_directories ("ThirdParty")
 
 add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})

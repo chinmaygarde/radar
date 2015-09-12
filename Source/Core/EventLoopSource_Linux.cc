@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if RL_OS_LINUX
+
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
@@ -81,3 +85,5 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
 }
 
 }  // namespace rl
+
+#endif  // RL_OS_LINUX

@@ -2,31 +2,35 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/WaitSet.h>
+#include <Core/Config.h>
 
-#include <sys/event.h>
+#if RL_OS_LINUX
+
+#include <Core/WaitSet.h>
+#include <Core/Utilities.h>
+
+#include <sys/epoll.h>
 #include <unistd.h>
 
 namespace rl {
 
 WaitSet::Handle WaitSet::platformHandleCreate() {
-  WaitSet::Handle handle = RL_TEMP_FAILURE_RETRY(::kqueue());
+  WaitSet::Handle handle =
+      RL_TEMP_FAILURE_RETRY(::epoll_create(1 /* unused */));
 
   RL_ASSERT(handle != -1);
-
   return handle;
 }
 
 EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
-  struct kevent event = {0};
+  struct epoll_event event = {0};
 
-  int val =
-      RL_TEMP_FAILURE_RETRY(::kevent(handle, nullptr, 0, &event, 1, nullptr));
+  int val = RL_TEMP_FAILURE_RETRY(
+      ::epoll_wait(handle, &event, 1, -1 /* infinite timeout */));
 
   RL_ASSERT(val == 1);
-  RL_ASSERT(event.udata != nullptr);
 
-  return *static_cast<EventLoopSource*>(event.udata);
+  return *static_cast<EventLoopSource*>(event.data.ptr);
 }
 
 void WaitSet::platformHandleDestory(WaitSet::Handle handle) {
@@ -34,3 +38,5 @@ void WaitSet::platformHandleDestory(WaitSet::Handle handle) {
 }
 
 }  // namespace rl
+
+#endif  // RL_OS_LINUX

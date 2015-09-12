@@ -100,8 +100,6 @@
 		9EAECED11B685469000FA38A /* Program.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA01B685469000FA38A /* Program.cc */; };
 		9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA11B685469000FA38A /* ProgramCatalog.cc */; };
 		9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA21B685469000FA38A /* RenderSurface.cc */; };
-		9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */; };
-		9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */; };
 		9EAECED71B685469000FA38A /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA81B685469000FA38A /* Channel.cc */; };
 		9EAECED81B685469000FA38A /* Guard.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA91B685469000FA38A /* Guard.cc */; };
 		9EAECED91B685469000FA38A /* Latch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAA1B685469000FA38A /* Latch.cc */; };
@@ -145,12 +143,16 @@
 		9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */; };
 		9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D41B87FF57005D84FA /* stb_textedit.h */; };
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
-		9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */; };
-		9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */; };
-		9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */; };
-		9EC1A9901B70131D00795DB1 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */; };
 		EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA573B511B9306EE0053E461 /* AnimationDirector.h */; };
 		EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA573B5B1B9307030053E461 /* AnimationDirector.cc */; };
+		EA6090D61BA41E8C00C2E263 /* EventLoopSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */; };
+		EA6090D71BA41E8C00C2E263 /* EventLoopSource_Linux.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */; };
+		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
+		EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */; };
+		EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */; };
+		EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D31BA41E8C00C2E263 /* SocketChannel.h */; };
+		EA6090DC1BA41E8C00C2E263 /* WaitSet_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */; };
+		EA6090DD1BA41E8C00C2E263 /* WaitSet_Linux.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -341,13 +343,9 @@
 		9EAECEA01B685469000FA38A /* Program.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cc; sourceTree = "<group>"; };
 		9EAECEA11B685469000FA38A /* ProgramCatalog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramCatalog.cc; sourceTree = "<group>"; };
 		9EAECEA21B685469000FA38A /* RenderSurface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSurface.cc; sourceTree = "<group>"; };
-		9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Apple.cc; sourceTree = "<group>"; };
-		9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Apple.cc; sourceTree = "<group>"; };
 		9EAECEA81B685469000FA38A /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9EAECEA91B685469000FA38A /* Guard.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cc; sourceTree = "<group>"; };
 		9EAECEAA1B685469000FA38A /* Latch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Latch.cc; sourceTree = "<group>"; };
-		9EAECEAC1B685469000FA38A /* EventLoopSource_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Linux.cc; sourceTree = "<group>"; };
-		9EAECEAD1B685469000FA38A /* WaitSet_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Linux.cc; sourceTree = "<group>"; };
 		9EAECEAE1B685469000FA38A /* EventLoop.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoop.cc; sourceTree = "<group>"; };
 		9EAECEAF1B685469000FA38A /* EventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource.cc; sourceTree = "<group>"; };
 		9EAECEB01B685469000FA38A /* Message.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cc; sourceTree = "<group>"; };
@@ -390,12 +388,16 @@
 		9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = ThirdParty/imgui/stb_rect_pack.h; sourceTree = "<group>"; };
 		9EBA79D41B87FF57005D84FA /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = ThirdParty/imgui/stb_textedit.h; sourceTree = "<group>"; };
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
-		9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
-		9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
-		9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
-		9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
 		EA573B511B9306EE0053E461 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationDirector.h; path = Headers/Compositor/AnimationDirector.h; sourceTree = SOURCE_ROOT; };
 		EA573B5B1B9307030053E461 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
+		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Apple.cc; sourceTree = "<group>"; };
+		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Linux.cc; sourceTree = "<group>"; };
+		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
+		EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
+		EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
+		EA6090D31BA41E8C00C2E263 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
+		EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Apple.cc; sourceTree = "<group>"; };
+		EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Linux.cc; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
@@ -709,40 +711,27 @@
 		9EAECEA31B685469000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECEAB1B685469000FA38A /* Linux */,
-				9EAECEA41B685469000FA38A /* Apple */,
-				9EC1A9861B6FEF2900795DB1 /* Channel */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
+				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
+				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
+				EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */,
+				EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */,
+				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
-				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
-				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
-				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
+				EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */,
+				EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
+				EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */,
+				EA6090D31BA41E8C00C2E263 /* SocketChannel.h */,
 				EA62B3241B6F2F41009F197F /* Timing.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
+				EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */,
+				EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		9EAECEA41B685469000FA38A /* Apple */ = {
-			isa = PBXGroup;
-			children = (
-				9EAECEA51B685469000FA38A /* EventLoopSource_Apple.cc */,
-				9EAECEA61B685469000FA38A /* WaitSet_Apple.cc */,
-			);
-			path = Apple;
-			sourceTree = "<group>";
-		};
-		9EAECEAB1B685469000FA38A /* Linux */ = {
-			isa = PBXGroup;
-			children = (
-				9EAECEAC1B685469000FA38A /* EventLoopSource_Linux.cc */,
-				9EAECEAD1B685469000FA38A /* WaitSet_Linux.cc */,
-			);
-			path = Linux;
 			sourceTree = "<group>";
 		};
 		9EAECEB71B685469000FA38A /* Geometry */ = {
@@ -833,17 +822,6 @@
 			name = imgui;
 			sourceTree = "<group>";
 		};
-		9EC1A9861B6FEF2900795DB1 /* Channel */ = {
-			isa = PBXGroup;
-			children = (
-				9EC1A9871B6FEF2900795DB1 /* MachPortChannel.cc */,
-				9EC1A9881B6FEF2900795DB1 /* MachPortChannel.h */,
-				9EC1A9891B6FEF2900795DB1 /* SocketChannel.cc */,
-				9EC1A98A1B6FEF2900795DB1 /* SocketChannel.h */,
-			);
-			path = Channel;
-			sourceTree = "<group>";
-		};
 		EA62B3141B6F2402009F197F /* Event */ = {
 			isa = PBXGroup;
 			children = (
@@ -895,7 +873,6 @@
 				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
-				9EC1A98F1B6FF68600795DB1 /* MachPortChannel.h in Headers */,
 				9EB8E2DE1B9110A9006BFAC2 /* CompositorChannel.h in Headers */,
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
@@ -930,7 +907,6 @@
 				9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,
-				9EC1A98E1B6FEF2900795DB1 /* SocketChannel.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
@@ -944,12 +920,14 @@
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
 				9EAECE851B685460000FA38A /* Utilities.h in Headers */,
+				EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
 				9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
 				EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */,
+				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
@@ -1132,8 +1110,8 @@
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
-				9EAECED51B685469000FA38A /* WaitSet_Apple.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
+				EA6090D71BA41E8C00C2E263 /* EventLoopSource_Linux.cc in Sources */,
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
@@ -1147,7 +1125,9 @@
 				9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */,
 				9EBA79BE1B87EF08005D84FA /* CompositorStatistics.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
+				EA6090D61BA41E8C00C2E263 /* EventLoopSource_Apple.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
+				EA6090DD1BA41E8C00C2E263 /* WaitSet_Linux.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
@@ -1164,16 +1144,15 @@
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
 				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
-				9EAECED41B685469000FA38A /* EventLoopSource_Apple.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
+				EA6090DC1BA41E8C00C2E263 /* WaitSet_Apple.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
-				9EC1A9901B70131D00795DB1 /* MachPortChannel.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
@@ -1182,15 +1161,16 @@
 				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
 				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
-				9EC1A98D1B6FEF2900795DB1 /* SocketChannel.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */,
 				9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
+				EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */,
 				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
+				EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
