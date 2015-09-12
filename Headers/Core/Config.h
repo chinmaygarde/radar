@@ -7,8 +7,12 @@
 
 #if __APPLE__
 #define RL_OS_MAC 1
-#else
+#elif __native_client__
+#define RL_OS_NACL 1
+#elif __linux__
 #define RL_OS_LINUX 1
+#else
+#error Unsupported Platform
 #endif
 
 #endif /* defined(__RADARLOVE_CORE_CONFIG__) */

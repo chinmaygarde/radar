@@ -7,8 +7,10 @@
 
 #if RL_OS_MAC
 #include <pthread/pthread.h>
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX || RL_OS_NACL
 #include <pthread.h>
+#else
+#error Unsupported Platform
 #endif
 
 namespace rl {
@@ -17,8 +19,10 @@ void ThreadSetName(const char* name) {
   pthread_setname_np(name);
 #elif RL_OS_LINUX
   pthread_setname_np(pthread_self(), name);
+#elif RL_OS_NACL
+  // Unsupported on Native Client
 #else
-#error Unknown OS
+#error Unknown Platform
 #endif
 }
 }  // namespace rl

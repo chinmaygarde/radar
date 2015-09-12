@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if !RL_OS_NACL
+
 #include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
 
@@ -162,3 +166,5 @@ SharedMemory::Handle SharedMemory::handle() const {
 }
 
 }  // namespace rl
+
+#endif  // !RL_OS_NACL

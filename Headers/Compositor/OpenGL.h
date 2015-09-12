@@ -20,8 +20,10 @@
 
 #if RL_OS_MAC
 #include <OpenGL/gl.h>
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX || RL_OS_NACL
 #include <GLES2/gl2.h>
+#else
+#error Unsupported OS
 #endif
 
 #include <Geometry/Geometry.h>
