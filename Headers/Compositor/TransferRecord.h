@@ -57,8 +57,6 @@ struct TransferRecord {
   const T& transferData() const;
 };
 
-static_assert(std::is_trivially_copyable<TransferRecord>::value, "");
-
 }  // namespace rl
 
 #endif  // __RADARLOVE_COMPOSITOR_TRANSFERRECORD_H__
