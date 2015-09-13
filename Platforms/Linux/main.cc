@@ -5,8 +5,9 @@
 #include <stdlib.h>
 #include <Core/Core.h>
 #include <SDL.h>
+#include <SDL_opengl.h>
 
-static void SetupSDL(void) {
+static SDL_Renderer* SetupSDL(void) {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
   SDL_RendererInfo rendererInfo = { 0 };
@@ -16,6 +17,42 @@ static void SetupSDL(void) {
   RL_ASSERT((rendererInfo.flags & SDL_RENDERER_ACCELERATED) &&
             (rendererInfo.flags & SDL_RENDERER_TARGETTEXTURE) &&
             "Must be able to fetch an accelerated render target");
+
+  return renderer;
+}
+
+static void SetupEventLoop(SDL_Renderer *renderer) {
+  SDL_Event event;
+
+  bool keepRunning = true;
+
+  while (keepRunning) {
+    while (SDL_WaitEvent(&event) == 1) {
+
+      /*
+       *  Window Event
+       */
+      if (event.type == SDL_WINDOWEVENT) {
+        if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
+          keepRunning = false;
+          break;
+        }
+      }
+
+      /*
+       *  Quit Event
+       */
+      if (event.type == SDL_QUIT) {
+        keepRunning = false;
+        break;
+      }
+
+      glClearColor(1.0, 0.0, 1.0, 1.0);
+      glClear(GL_COLOR_BUFFER_BIT);
+      SDL_RenderPresent(renderer);
+    }
+  }
+
 }
 
 int main(int argc, const char* argv[]) {
@@ -31,14 +68,19 @@ int main(int argc, const char* argv[]) {
   }
 
   /*
-   *  Setup SDL surface
+   *  Setup the renderer
    */
-  SetupSDL();
+  auto renderer = SetupSDL();
 
   /*
-   *  Start the event loop
+   *  Start the event loop with the renderer
    */
-  rl::EventLoop::Current()->loop();
+  SetupEventLoop(renderer);
+
+  /*
+   *  Destroy the renderer
+   */
+   SDL_DestroyRenderer(renderer);
 
   /*
    *  Teardown SDL

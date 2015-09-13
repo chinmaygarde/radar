@@ -47,7 +47,7 @@ include_directories ("ThirdParty")
 add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})
 
 if(UNIX AND NOT APPLE)
-  target_link_libraries(RadarLove rt)
+  target_link_libraries(RadarLove rt GL)
 endif()
 
 ################################
