@@ -32,11 +32,16 @@ class RenderSurfaceLinux : public RenderSurface {
 };
 }
 
+static const int kInitialWindowWidth = 800;
+static const int kInitialWindowHeight = 600;
+
 static SDL_Renderer* SetupSDL(void) {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
   SDL_RendererInfo rendererInfo = {0};
-  SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_OPENGL, &window, &renderer);
+  SDL_CreateWindowAndRenderer(kInitialWindowWidth, kInitialWindowHeight,
+                              SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE, &window,
+                              &renderer);
   SDL_GetRendererInfo(renderer, &rendererInfo);
 
   RL_ASSERT((rendererInfo.flags & SDL_RENDERER_ACCELERATED) &&
@@ -46,11 +51,24 @@ static SDL_Renderer* SetupSDL(void) {
   return renderer;
 }
 
+static void ResizeInterface(rl::Shell& shell,
+                            rl::RenderSurfaceLinux& surface,
+                            int width,
+                            int height) {
+  rl::Size size(width, height);
+  surface.surfaceSizeUpdated(size);
+  shell.interface().setSize(size);
+}
+
 static void SetupEventLoop(SDL_Renderer* renderer) {
   auto renderSurface = std::make_shared<rl::RenderSurfaceLinux>(renderer);
   auto application = std::make_shared<sample::SampleApplication>();
   rl::Shell shell(renderSurface, application);
+
   renderSurface->surfaceWasCreated();
+
+  ResizeInterface(shell, *renderSurface, kInitialWindowWidth,
+                  kInitialWindowHeight);
 
   bool keepRunning = true;
   while (keepRunning) {
@@ -60,10 +78,16 @@ static void SetupEventLoop(SDL_Renderer* renderer) {
        *  Window Event
        */
       if (event.type == SDL_WINDOWEVENT) {
-        if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
-          keepRunning = false;
-          continue;
+        switch (event.window.event) {
+          case SDL_WINDOWEVENT_RESIZED:
+            ResizeInterface(shell, *renderSurface, event.window.data1,
+                            event.window.data2);
+            break;
+          case SDL_WINDOWEVENT_CLOSE:
+            keepRunning = false;
+            break;
         }
+        continue;
       }
 
       /*
@@ -75,6 +99,8 @@ static void SetupEventLoop(SDL_Renderer* renderer) {
       }
     }
   }
+
+  renderSurface->surfaceWasDestroyed();
 }
 
 int main(int argc, const char* argv[]) {
