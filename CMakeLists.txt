@@ -41,10 +41,16 @@ file(GLOB_RECURSE RADARLOVE_SRC
   "Source/*.cc"
 )
 
+file(GLOB RADARLOVE_IMGUI_SRC
+  "ThirdParty/imgui/imgui_draw.cpp"
+  "ThirdParty/imgui/imgui.cpp"
+  "ThirdParty/imgui/imgui_demo.cpp"
+)
+
 include_directories ("Headers")
 include_directories ("ThirdParty")
 
-add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_SRC_PLATFORM})
+add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_IMGUI_SRC})
 
 if(UNIX AND NOT APPLE)
   target_link_libraries(RadarLove rt GL)
@@ -80,7 +86,13 @@ if(UNIX AND NOT APPLE)
   file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
     "Platforms/Linux/*.h"
     "Platforms/Linux/*.cc"
+
+    "Samples/*.h"
+    "Samples/*.cc"
   )
+
+  include_directories ("Samples")
+
   add_executable( RadarLoveLinuxDesktop ${RADARLOVE_LINUX_DESKTOP_SOURCES} )
 
   include(FindPkgConfig)

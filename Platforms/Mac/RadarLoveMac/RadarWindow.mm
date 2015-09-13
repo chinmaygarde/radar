@@ -4,10 +4,9 @@
 
 #import "RadarWindow.h"
 
-#include <Core/Utilities.h>
+#include <Core/Core.h>
 #include <Shell/Shell.h>
 #include <Compositor/RenderSurface.h>
-#include <Core/Message.h>
 #include "Sample.h"
 
 namespace rl {

@@ -5,12 +5,37 @@
 #include <stdlib.h>
 #include <Core/Core.h>
 #include <SDL.h>
-#include <SDL_opengl.h>
+
+#include <Core/Core.h>
+#include <Shell/Shell.h>
+#include <Compositor/RenderSurface.h>
+#include "Sample.h"
+
+namespace rl {
+class RenderSurfaceLinux : public RenderSurface {
+ public:
+  explicit RenderSurfaceLinux(SDL_Renderer* renderer)
+      : RenderSurface(), _renderer(renderer) {
+    RL_ASSERT(renderer);
+  }
+
+  bool makeCurrent() { return true; }
+
+  bool present() {
+    SDL_RenderPresent(_renderer);
+    return true;
+  }
+
+ private:
+  SDL_Renderer* _renderer;
+  DISALLOW_COPY_AND_ASSIGN(RenderSurfaceLinux);
+};
+}
 
 static SDL_Renderer* SetupSDL(void) {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
-  SDL_RendererInfo rendererInfo = { 0 };
+  SDL_RendererInfo rendererInfo = {0};
   SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_OPENGL, &window, &renderer);
   SDL_GetRendererInfo(renderer, &rendererInfo);
 
@@ -21,21 +46,23 @@ static SDL_Renderer* SetupSDL(void) {
   return renderer;
 }
 
-static void SetupEventLoop(SDL_Renderer *renderer) {
-  SDL_Event event;
+static void SetupEventLoop(SDL_Renderer* renderer) {
+  auto renderSurface = std::make_shared<rl::RenderSurfaceLinux>(renderer);
+  auto application = std::make_shared<sample::SampleApplication>();
+  rl::Shell shell(renderSurface, application);
+  renderSurface->surfaceWasCreated();
 
   bool keepRunning = true;
-
   while (keepRunning) {
-    while (SDL_WaitEvent(&event) == 1) {
-
+    SDL_Event event;
+    if (SDL_WaitEvent(&event) == 1) {
       /*
        *  Window Event
        */
       if (event.type == SDL_WINDOWEVENT) {
         if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
           keepRunning = false;
-          break;
+          continue;
         }
       }
 
@@ -44,19 +71,13 @@ static void SetupEventLoop(SDL_Renderer *renderer) {
        */
       if (event.type == SDL_QUIT) {
         keepRunning = false;
-        break;
+        continue;
       }
-
-      glClearColor(1.0, 0.0, 1.0, 1.0);
-      glClear(GL_COLOR_BUFFER_BIT);
-      SDL_RenderPresent(renderer);
     }
   }
-
 }
 
 int main(int argc, const char* argv[]) {
-
   /*
    *  Initialize SDL
    */
@@ -80,7 +101,7 @@ int main(int argc, const char* argv[]) {
   /*
    *  Destroy the renderer
    */
-   SDL_DestroyRenderer(renderer);
+  SDL_DestroyRenderer(renderer);
 
   /*
    *  Teardown SDL
