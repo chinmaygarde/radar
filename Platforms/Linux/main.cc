@@ -11,31 +11,38 @@
 #include <Compositor/RenderSurface.h>
 #include "Sample.h"
 
-namespace rl {
-class RenderSurfaceLinux : public RenderSurface {
+using SDLWindowAndRenderer = std::pair<SDL_Window*, SDL_Renderer*>;
+
+class RenderSurfaceLinux : public rl::RenderSurface {
  public:
-  explicit RenderSurfaceLinux(SDL_Renderer* renderer)
-      : RenderSurface(), _renderer(renderer) {
-    RL_ASSERT(renderer);
+  explicit RenderSurfaceLinux(SDLWindowAndRenderer& windowAndRenderer)
+      : RenderSurface(), _windowAndRenderer(windowAndRenderer) {
+    RL_ASSERT(_windowAndRenderer.first);
+    RL_ASSERT(_windowAndRenderer.second);
+    _context = SDL_GL_GetCurrentContext();
   }
 
-  bool makeCurrent() { return true; }
+  bool makeCurrent() {
+    auto result = SDL_GL_MakeCurrent(_windowAndRenderer.first, _context);
+    RL_ASSERT(result == 0 && "Must be able to make the context current");
+    return result == 0;
+  }
 
   bool present() {
-    SDL_RenderPresent(_renderer);
+    SDL_RenderPresent(_windowAndRenderer.second);
     return true;
   }
 
  private:
-  SDL_Renderer* _renderer;
+  SDLWindowAndRenderer& _windowAndRenderer;
+  SDL_GLContext _context;
   DISALLOW_COPY_AND_ASSIGN(RenderSurfaceLinux);
 };
-}
 
 static const int kInitialWindowWidth = 800;
 static const int kInitialWindowHeight = 600;
 
-static SDL_Renderer* SetupSDL(void) {
+static SDLWindowAndRenderer SetupSDL(void) {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
   SDL_RendererInfo rendererInfo = {0};
@@ -48,11 +55,11 @@ static SDL_Renderer* SetupSDL(void) {
             (rendererInfo.flags & SDL_RENDERER_TARGETTEXTURE) &&
             "Must be able to fetch an accelerated render target");
 
-  return renderer;
+  return std::make_pair(window, renderer);
 }
 
 static void ResizeInterface(rl::Shell& shell,
-                            rl::RenderSurfaceLinux& surface,
+                            RenderSurfaceLinux& surface,
                             int width,
                             int height) {
   rl::Size size(width, height);
@@ -60,8 +67,8 @@ static void ResizeInterface(rl::Shell& shell,
   shell.interface().setSize(size);
 }
 
-static void SetupEventLoop(SDL_Renderer* renderer) {
-  auto renderSurface = std::make_shared<rl::RenderSurfaceLinux>(renderer);
+static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
+  auto renderSurface = std::make_shared<RenderSurfaceLinux>(windowAndRenderer);
   auto application = std::make_shared<sample::SampleApplication>();
   rl::Shell shell(renderSurface, application);
 
@@ -115,19 +122,20 @@ int main(int argc, const char* argv[]) {
   }
 
   /*
-   *  Setup the renderer
+   *  Setup the window and renderer
    */
-  auto renderer = SetupSDL();
+  auto windowAndRenderer = SetupSDL();
 
   /*
    *  Start the event loop with the renderer
    */
-  SetupEventLoop(renderer);
+  SetupEventLoop(windowAndRenderer);
 
   /*
-   *  Destroy the renderer
+   *  Destroy the window and renderer
    */
-  SDL_DestroyRenderer(renderer);
+  SDL_DestroyRenderer(windowAndRenderer.second);
+  SDL_DestroyWindow(windowAndRenderer.first);
 
   /*
    *  Teardown SDL
