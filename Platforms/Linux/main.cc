@@ -108,6 +108,7 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
   }
 
   renderSurface->surfaceWasDestroyed();
+  shell.shutdown();
 }
 
 int main(int argc, const char* argv[]) {
