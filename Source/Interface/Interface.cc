@@ -39,7 +39,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
           LT {  Inactive,     Active,       C(didBecomeActive)     },
           LT {  Active,       Inactive,     C(didBecomeInactive)   },
           LT {  Background,   NotRunning,   C(didTerminate)        },
-          #undef F
+          #undef C
           // clang-format on
       }) {
   _autoFlushObserver = std::make_shared<EventLoopObserver>(
