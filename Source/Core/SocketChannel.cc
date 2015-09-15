@@ -9,6 +9,7 @@
 #include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
 #include <Core/Message.h>
+#include <Core/SharedMemory.h>
 
 #if __APPLE__
 // For Single Unix Standard v3 (SUSv3) conformance
@@ -26,7 +27,7 @@
 
 namespace rl {
 
-static const size_t MaxBufferSize = 4096;
+static const size_t MaxInlineBufferSize = 4096;
 static const size_t MaxControlBufferItemCount = 8;
 static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
@@ -39,7 +40,7 @@ static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
    *  Limit the socket send and receive buffer sizes since we dont need large
    *  buffers for channels
    */
-  const int size = MaxBufferSize;
+  const int size = MaxInlineBufferSize;
 
   RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
 
@@ -76,7 +77,7 @@ SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
   /*
    *  Setup the channel buffer
    */
-  _buffer = static_cast<uint8_t*>(malloc(MaxBufferSize));
+  _buffer = static_cast<uint8_t*>(malloc(MaxInlineBufferSize));
   _controlBuffer = static_cast<uint8_t*>(malloc(MaxControlBufferSize));
 }
 
@@ -135,31 +136,19 @@ SocketChannel::Result SocketChannel::WriteMessages(const Messages& messages) {
  */
 ChannelProvider::Result SocketChannel::writeMessageSingle(
     const Message& message) {
-  if (message.size() > MaxBufferSize) {
-    return Result::TemporaryFailure;
+  if (message.size() < MaxInlineBufferSize) {
+    return writeMessageInline(message);
+  } else {
+    return writeMessageOutOfLine(message);
   }
+}
 
-  struct iovec vec[1] = {{0}};
-
-  vec[0].iov_base = (void*)message.data();
-  vec[0].iov_len = message.size();
-
-  struct msghdr messageHeader = {
-      .msg_name = nullptr,
-      .msg_namelen = 0,
-      .msg_iov = vec,
-      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
-      .msg_control = nullptr,
-      .msg_controllen = 0,
-      .msg_flags = 0,
-  };
-
+ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
+                                          struct msghdr* messageHeader,
+                                          size_t size) {
   long sent = 0;
-
-  const Handle writer = writeHandle();
-
   while (true) {
-    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, &messageHeader, 0));
+    sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, messageHeader, 0));
 
     if (sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
       struct pollfd pollFd = {
@@ -174,11 +163,60 @@ ChannelProvider::Result SocketChannel::writeMessageSingle(
     }
   }
 
-  if (sent != message.size()) {
-    return errno == EPIPE ? Result::PermanentFailure : Result::TemporaryFailure;
+  if (sent != size) {
+    return errno == EPIPE ? ChannelProvider::Result::PermanentFailure
+                          : ChannelProvider::Result::TemporaryFailure;
   }
 
-  return Result::Success;
+  return ChannelProvider::Result::Success;
+}
+
+ChannelProvider::Result SocketChannel::writeMessageInline(
+    const Message& message) {
+  struct iovec vec[1] = {{0}};
+
+  /*
+   *  Directly set the data to send as part of the scatter/gather array
+   */
+  vec[0].iov_base = (void*)message.data();
+  vec[0].iov_len = message.size();
+
+  struct msghdr messageHeader = {
+      .msg_name = nullptr,
+      .msg_namelen = 0,
+      .msg_iov = vec,
+      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
+      .msg_control = nullptr,
+      .msg_controllen = 0,
+      .msg_flags = 0,
+  };
+
+  return SocketSendMessage(writeHandle(), &messageHeader, message.size());
+}
+
+ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
+    const Message& message) {
+  /*
+   *  Create a shared memory region and copy over the contents of the message
+   *  over to that region
+   */
+  SharedMemory memory(message.size());
+  RL_ASSERT(memory.isReady());
+  memcpy(memory.address(), message.data(), message.size());
+
+  /*
+   *  Create the message header structure containing the descriptor to send over
+   *  the channel
+   */
+  struct msghdr messageHeader = {0};
+  struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+  cmsg->cmsg_level = SOL_SOCKET;
+  cmsg->cmsg_type = SCM_RIGHTS;
+  cmsg->cmsg_len = CMSG_LEN(sizeof(SharedMemory::Handle));
+  *((SharedMemory::Handle*)CMSG_DATA(cmsg)) = memory.handle();
+  messageHeader.msg_controllen = cmsg->cmsg_len;
+
+  return SocketSendMessage(writeHandle(), &messageHeader, memory.size());
 }
 
 SocketChannel::ReadResult SocketChannel::ReadMessages() {
@@ -187,7 +225,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
   struct iovec vec[1] = {{0}};
 
   vec[0].iov_base = _buffer;
-  vec[0].iov_len = MaxBufferSize;
+  vec[0].iov_len = MaxInlineBufferSize;
 
   Messages messages;
 
