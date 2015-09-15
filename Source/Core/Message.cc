@@ -11,6 +11,8 @@
 #include <mach/mach.h>
 #endif
 
+#include <sys/mman.h>
+
 namespace rl {
 
 Message::Message(size_t length)
@@ -45,11 +47,18 @@ Message::Message(Message&& message) noexcept
 
 Message::~Message() {
   if (_vmDeallocate) {
+    if (_buffer) {
 #if RL_OS_MAC
-    kern_return_t res =
-        vm_deallocate(mach_task_self(), _bufferLength, _bufferLength);
-    RL_ASSERT(res == KERN_SUCCESS);
+      kern_return_t res =
+          vm_deallocate(mach_task_self(),
+                        reinterpret_cast<vm_address_t>(_buffer), _bufferLength);
+      RL_ASSERT(res == KERN_SUCCESS);
+#elif RL_OS_LINUX
+      RL_CHECK(::munmap(_buffer, _bufferLength));
+#else
+#error Unknown Platform
 #endif
+    }
   } else {
     free(_buffer);
   }

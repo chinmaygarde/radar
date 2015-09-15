@@ -297,11 +297,39 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
     }
 
     if (received == 0) {
-      /*
-       *  if no messages are available to be received and the peer
-       *  has performed an orderly shutdown, recvmsg() returns 0
-       */
-      return ReadResult(Result::PermanentFailure, std::move(messages));
+      if (messageHeader.msg_controllen == 0) {
+        /*
+         *  If no messages are available to be received and the peer
+         *  has performed an orderly shutdown, recvmsg() returns 0
+         */
+        return ReadResult(Result::PermanentFailure, std::move(messages));
+      } else {
+        /*
+         *  We only ever send either inline data or a descriptor. An OOL shared
+         *  memory descriptor is present in this message. Read that!
+         */
+        struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+        SharedMemory::Handle handle = *((SharedMemory::Handle*)CMSG_DATA(cmsg));
+
+        /*
+         *  We create a shared memory instance from the handle but make it not
+         *  own its handle or the address mapping. We then manually close the
+         *  handle and create a message from the same with a "vm allocated"
+         *  backing. This message unmaps the allocation when it is done.
+         *
+         *  This way, there are no more copies!
+         */
+        SharedMemory memory(handle, false /* assume ownership */);
+        if (memory.isReady()) {
+          /*
+           *  The isReady check is equivalent to an EBADF guard
+           */
+          RL_CHECK(::close(handle));
+          Message message(memory.address(), memory.size(), true);
+          messages.push_back(std::move(message));
+          continue;
+        }
+      }
     }
   }
 

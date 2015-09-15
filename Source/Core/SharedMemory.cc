@@ -72,8 +72,44 @@ static SharedMemory::Handle SharedMemory_CreateBackingIfNecessary(
   return newHandle;
 }
 
+SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
+    : _handle(handle),
+      _size(0),
+      _address(nullptr),
+      _ready(false),
+      _assumeOwnership(assumeOwnership) {
+  /*
+   *  We have a handle, figure out the size of the shared memory region
+   */
+  struct stat info = {0};
+  if (fstat(handle, &info) != 0) {
+    /*
+     *  Must be able to successfully stat this mysterious descriptor
+     */
+    return;
+  }
+
+  _size = info.st_size;
+
+  if (_size == 0) {
+    return;
+  }
+
+  uint8_t* mapped = static_cast<uint8_t*>(
+      ::mmap(nullptr, _size, PROT_READ | PROT_WRITE, MAP_SHARED, _handle, 0));
+
+  if (mapped != MAP_FAILED) {
+    _address = mapped;
+    _ready = true;
+  }
+}
+
 SharedMemory::SharedMemory(size_t size)
-    : _handle(-1), _size(0), _address(nullptr), _ready(false) {
+    : _handle(-1),
+      _size(0),
+      _address(nullptr),
+      _ready(false),
+      _assumeOwnership(true) {
   /*
    *  Step 1: Create a handle to shared memory
    */
@@ -124,7 +160,7 @@ failure:
   _size = 0;
   _address = nullptr;
 
-  if (_handle == -1) {
+  if (_handle == -1 && _assumeOwnership) {
     RL_CHECK(::close(_handle));
   }
 
@@ -136,8 +172,10 @@ void SharedMemory::cleanup() {
     return;
   }
 
-  RL_CHECK(::munmap(_address, _size));
-  RL_CHECK(::close(_handle));
+  if (_assumeOwnership) {
+    RL_CHECK(::munmap(_address, _size));
+    RL_CHECK(::close(_handle));
+  }
 
   _handle = -1;
   _size = 0;
