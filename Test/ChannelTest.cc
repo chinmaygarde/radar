@@ -12,6 +12,37 @@ TEST(ChannelTest, SimpleInitialization) {
   ASSERT_TRUE(channel.source() != nullptr);
 }
 
+static bool MemorySetOrCheckPattern(uint8_t* buffer,
+                                    size_t size,
+                                    bool setOrCheck) {
+  auto pattern4 = reinterpret_cast<const uint8_t*>("dErP");
+  uint8_t* start = buffer;
+  uint8_t* p = buffer;
+
+  while ((start + size) - p >= 4) {
+    if (setOrCheck) {
+      bcopy(pattern4, p, 4);
+    } else {
+      if (memcmp(pattern4, p, 4) != 0) {
+        return false;
+      }
+    }
+    p += 4;
+  }
+
+  if ((start + size) - p != 0) {
+    if (setOrCheck) {
+      bcopy(pattern4, p, (start + size) - p);
+    } else {
+      if (memcmp(pattern4, p, (start + size) - p) != 0) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 TEST(ChannelTest, TestSimpleReads) {
   rl::Channel channel;
 
@@ -63,6 +94,8 @@ TEST(ChannelTest, TestLargeReadWrite) {
     channel.setMessagesReceivedCallback([&](rl::Messages m) {
       ASSERT_TRUE(m.size() == 1);
       ASSERT_TRUE(m[0].size() == sizeWritten);
+      ASSERT_TRUE(
+          MemorySetOrCheckPattern(m[0].data(), sizeWritten, false /* check */));
       ASSERT_TRUE(loop == rl::EventLoop::Current());
       loop->terminate();
     });
@@ -75,13 +108,10 @@ TEST(ChannelTest, TestLargeReadWrite) {
   rl::Messages messages;
   rl::Message m;
 
-  char c = 'c';
-  ASSERT_TRUE(m.encode(c));
-  /*
-   *  Just write a large chunk (50mb), we don't care about the contents, just
-   *  the size.
-   */
-  m.encodeRawUnsafe(50000000);
+  const auto rawSize = 50000003;
+  ASSERT_TRUE(MemorySetOrCheckPattern(m.encodeRawUnsafe(rawSize), rawSize,
+                                      true /* set */));
+
   sizeWritten = m.size();
   messages.emplace_back(std::move(m));
   ASSERT_TRUE(channel.sendMessages(std::move(messages)));
