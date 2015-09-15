@@ -132,6 +132,7 @@ if(RL_PLATFORM_NACL)
     "ppapi"
     "ppapi_cpp"
     "nacl_io"
+    "ppapi_gles2"
   )
 
   # Finalize PEXEs
