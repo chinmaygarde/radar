@@ -53,7 +53,7 @@ Message::~Message() {
           vm_deallocate(mach_task_self(),
                         reinterpret_cast<vm_address_t>(_buffer), _bufferLength);
       RL_ASSERT(res == KERN_SUCCESS);
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX || RL_OS_NACL
       RL_CHECK(::munmap(_buffer, _bufferLength));
 #else
 #error Unknown Platform

@@ -2,6 +2,7 @@ SET(CMAKE_SYSTEM_NAME Nacl)
 SET(CMAKE_SYSTEM_VERSION 1)
 
 include_directories(BEFORE SYSTEM /Applications/nacl_sdk/pepper_44/include)
+include_directories(BEFORE SYSTEM /Applications/nacl_sdk/pepper_44/include/newlib)
 
 set(CMAKE_C_COMPILER      /Applications/nacl_sdk/pepper_44/toolchain/mac_pnacl/bin/pnacl-clang)
 set(CMAKE_CXX_COMPILER    /Applications/nacl_sdk/pepper_44/toolchain/mac_pnacl/bin/pnacl-clang++)

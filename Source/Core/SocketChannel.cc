@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_LINUX || RL_OS_MAC
+#if RL_OS_LINUX || RL_OS_MAC || RL_OS_NACL
 
 #include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
@@ -21,9 +21,9 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#include <sys/un.h>
 #include <errno.h>
 #include <poll.h>
+#include <stdlib.h>
 
 namespace rl {
 
