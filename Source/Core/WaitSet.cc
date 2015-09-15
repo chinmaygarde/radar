@@ -12,22 +12,23 @@ WaitSet::WaitSet() : _handle(platformHandleCreate()) {
 }
 
 bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
-  if (_sources.find(source) != _sources.end()) {
+  if (std::find(_sources.begin(), _sources.end(), source) != _sources.end()) {
     return false;
   }
 
-  _sources.insert(source);
+  _sources.push_back(source);
   source->updateInWaitSetHandle(_handle, true);
 
   return true;
 }
 
 bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
-  if (_sources.find(source) == _sources.end()) {
+  auto found = std::find(_sources.begin(), _sources.end(), source);
+  if (found == _sources.end()) {
     return false;
   }
 
-  _sources.erase(source);
+  _sources.erase(found);
   source->updateInWaitSetHandle(_handle, false);
 
   return true;

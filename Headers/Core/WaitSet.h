@@ -7,7 +7,7 @@
 
 #include <Core/Macros.h>
 
-#include <set>
+#include <vector>
 
 namespace rl {
 class EventLoopSource;
@@ -57,9 +57,9 @@ class WaitSet {
  private:
   Handle _handle;
   static Handle platformHandleCreate();
-  static EventLoopSource& platformHandleWait(Handle handle);
+  EventLoopSource& platformHandleWait(Handle handle);
   static void platformHandleDestory(Handle handle);
-  std::set<std::shared_ptr<EventLoopSource>> _sources;
+  std::vector<std::shared_ptr<EventLoopSource>> _sources;
 
   DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };
