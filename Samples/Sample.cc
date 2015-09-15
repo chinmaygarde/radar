@@ -4,6 +4,8 @@
 
 #include "Sample.h"
 
+#include <stdlib.h>
+
 namespace sample {
 
 SampleApplication::SampleApplication() {

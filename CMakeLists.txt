@@ -107,3 +107,65 @@ if(UNIX AND NOT APPLE)
     rt
   )
 endif()
+
+################################
+# Native Client (PNaCl) Shell
+################################
+
+if(RL_PLATFORM_NACL)
+
+  file(GLOB RADARLOVE_NACL_SOURCES
+    "Platforms/Nacl/Source/*.h"
+    "Platforms/Nacl/Source/*.cc"
+    "Samples/*.h"
+    "Samples/*.cc"
+  )
+
+  # Generate the Executable
+
+  include_directories ("Samples")
+
+  add_executable( RadarLoveNacl ${RADARLOVE_NACL_SOURCES} )
+
+  target_link_libraries(RadarLoveNacl
+    RadarLove
+    "ppapi"
+    "ppapi_cpp"
+    "nacl_io"
+  )
+
+  # Finalize PEXEs
+
+  # Execuatable Shell
+  add_custom_command(
+    OUTPUT "RadarLoveNacl.pexe"
+    COMMAND ${RL_PNACL_FINALIZE} -o RadarLoveNacl.pexe RadarLoveNacl
+    DEPENDS RadarLoveNacl
+    COMMENT "Finalizing Native Client PEXE" VERBATIM
+  )
+
+  add_custom_target(
+    RadarLoveNaclPexe ALL
+    DEPENDS "RadarLoveNacl.pexe"
+  )
+
+  # Test Target
+  add_custom_command(
+    OUTPUT "RadarLoveTest.pexe"
+    COMMAND ${RL_PNACL_FINALIZE} -o RadarLoveTest.pexe RadarLoveTest
+    DEPENDS RadarLoveTest
+    COMMENT "Finalizing Native Client Test PEXE" VERBATIM
+  )
+
+  add_custom_target(
+    RadarLoveNaclTest ALL
+    DEPENDS "RadarLoveTest.pexe"
+  )
+
+  # Copy over the HTML harness and manifest
+
+  configure_file("Platforms/Nacl/RadarLove.html" "RadarLove.html" COPYONLY)
+  configure_file("Platforms/Nacl/RadarLove.nmf" "RadarLove.nmf" COPYONLY)
+  configure_file("Platforms/Nacl/Server" "Server" COPYONLY)
+
+endif()
