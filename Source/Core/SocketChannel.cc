@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_LINUX
+#if RL_OS_LINUX || RL_OS_MAC
 
 #include <Core/SocketChannel.h>
 #include <Core/Utilities.h>

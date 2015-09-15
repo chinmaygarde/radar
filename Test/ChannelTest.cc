@@ -46,6 +46,49 @@ TEST(ChannelTest, TestSimpleReads) {
   thread.join();
 }
 
+TEST(ChannelTest, TestLargeReadWrite) {
+  rl::Channel channel;
+
+  rl::Latch latch(1);
+
+  size_t sizeWritten = 0;
+
+  std::thread thread([&] {
+    auto loop = rl::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
+
+    auto source = channel.source();
+    ASSERT_TRUE(loop->addSource(source));
+
+    channel.setMessagesReceivedCallback([&](rl::Messages m) {
+      ASSERT_TRUE(m.size() == 1);
+      ASSERT_TRUE(m[0].size() == sizeWritten);
+      ASSERT_TRUE(loop == rl::EventLoop::Current());
+      loop->terminate();
+    });
+
+    loop->loop([&] { latch.countDown(); });
+  });
+
+  latch.wait();
+
+  rl::Messages messages;
+  rl::Message m;
+
+  char c = 'c';
+  ASSERT_TRUE(m.encode(c));
+  /*
+   *  Just write a large chunk (50mb), we don't care about the contents, just
+   *  the size.
+   */
+  m.encodeRawUnsafe(50000000);
+  sizeWritten = m.size();
+  messages.emplace_back(std::move(m));
+  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
+
+  thread.join();
+}
+
 TEST(ChannelTest, TestSimpleReadContents) {
   rl::Channel channel;
 
