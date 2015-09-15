@@ -11,9 +11,11 @@
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
 
-#if __APPLE__
-// For Single Unix Standard v3 (SUSv3) conformance
-#define _DARWIN_C_SOURCE
+#if RL_OS_NACL
+struct iovec {
+  void* iov_base; /* Pointer to data.  */
+  size_t iov_len; /* Length of data.  */
+};
 #endif
 
 #include <mutex>
