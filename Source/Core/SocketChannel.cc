@@ -145,7 +145,7 @@ ChannelProvider::Result SocketChannel::writeMessageSingle(
 
 ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
                                           struct msghdr* messageHeader,
-                                          size_t size) {
+                                          size_t expectedSendSize) {
   long sent = 0;
   while (true) {
     sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, messageHeader, 0));
@@ -163,7 +163,7 @@ ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
     }
   }
 
-  if (sent != size) {
+  if (sent != expectedSendSize || errno != 0) {
     return errno == EPIPE ? ChannelProvider::Result::PermanentFailure
                           : ChannelProvider::Result::TemporaryFailure;
   }
@@ -201,14 +201,25 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
    *  over to that region
    */
   SharedMemory memory(message.size());
-  RL_ASSERT(memory.isReady());
+  RL_ASSERT(memory.isReady() && memory.size() == message.size());
   memcpy(memory.address(), message.data(), message.size());
 
   /*
    *  Create the message header structure containing the descriptor to send over
    *  the channel
    */
-  struct msghdr messageHeader = {0};
+  const socklen_t controlBufferSize = CMSG_SPACE(sizeof(SharedMemory::Handle));
+  void* controlBuffer = calloc(1, controlBufferSize);
+  struct msghdr messageHeader = {
+      .msg_name = nullptr,
+      .msg_namelen = 0,
+      .msg_iov = nullptr,
+      .msg_iovlen = 0,
+      .msg_control = controlBuffer,
+      .msg_controllen = controlBufferSize,
+      .msg_flags = 0,
+  };
+
   struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
   cmsg->cmsg_level = SOL_SOCKET;
   cmsg->cmsg_type = SCM_RIGHTS;
@@ -216,7 +227,11 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
   *((SharedMemory::Handle*)CMSG_DATA(cmsg)) = memory.handle();
   messageHeader.msg_controllen = cmsg->cmsg_len;
 
-  return SocketSendMessage(writeHandle(), &messageHeader, memory.size());
+  auto result = SocketSendMessage(writeHandle(), &messageHeader, 0);
+
+  free(controlBuffer);
+
+  return result;
 }
 
 SocketChannel::ReadResult SocketChannel::ReadMessages() {
@@ -290,6 +305,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
     }
   }
 
+  RL_ASSERT(messages.size() > 0);
   return ReadResult(Result::Success, std::move(messages));
 }
 

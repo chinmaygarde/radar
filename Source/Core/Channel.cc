@@ -78,7 +78,7 @@ void Channel::readPendingMessageNow() {
   /*
    *  Dispatch all successfully read messages
    */
-  if (_messagesReceivedCallback) {
+  if (_messagesReceivedCallback && messages.size() > 0) {
     _messagesReceivedCallback(std::move(messages));
   }
 
