@@ -145,14 +145,14 @@
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
 		EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA573B511B9306EE0053E461 /* AnimationDirector.h */; };
 		EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA573B5B1B9307030053E461 /* AnimationDirector.cc */; };
-		EA6090D61BA41E8C00C2E263 /* EventLoopSource_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */; };
-		EA6090D71BA41E8C00C2E263 /* EventLoopSource_Linux.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */; };
+		EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */; };
+		EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */; };
 		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
 		EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */; };
 		EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */; };
 		EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D31BA41E8C00C2E263 /* SocketChannel.h */; };
-		EA6090DC1BA41E8C00C2E263 /* WaitSet_Apple.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */; };
-		EA6090DD1BA41E8C00C2E263 /* WaitSet_Linux.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */; };
+		EA6090DC1BA41E8C00C2E263 /* WaitSet_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */; };
+		EA6090DD1BA41E8C00C2E263 /* WaitSet_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -390,14 +390,14 @@
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
 		EA573B511B9306EE0053E461 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationDirector.h; path = Headers/Compositor/AnimationDirector.h; sourceTree = SOURCE_ROOT; };
 		EA573B5B1B9307030053E461 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
-		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Apple.cc; sourceTree = "<group>"; };
-		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Linux.cc; sourceTree = "<group>"; };
+		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_KQueue.cc; sourceTree = "<group>"; };
+		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_EPoll.cc; sourceTree = "<group>"; };
 		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
 		EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
 		EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
 		EA6090D31BA41E8C00C2E263 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
-		EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Apple.cc; sourceTree = "<group>"; };
-		EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_Linux.cc; sourceTree = "<group>"; };
+		EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_KQueue.cc; sourceTree = "<group>"; };
+		EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_EPoll.cc; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
@@ -714,8 +714,8 @@
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
 				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
-				EA6090CE1BA41E8C00C2E263 /* EventLoopSource_Apple.cc */,
-				EA6090CF1BA41E8C00C2E263 /* EventLoopSource_Linux.cc */,
+				EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */,
+				EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */,
 				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
@@ -727,8 +727,8 @@
 				EA6090D31BA41E8C00C2E263 /* SocketChannel.h */,
 				EA62B3241B6F2F41009F197F /* Timing.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
-				EA6090D41BA41E8C00C2E263 /* WaitSet_Apple.cc */,
-				EA6090D51BA41E8C00C2E263 /* WaitSet_Linux.cc */,
+				EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */,
+				EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
 			);
 			path = Core;
@@ -1111,7 +1111,7 @@
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
-				EA6090D71BA41E8C00C2E263 /* EventLoopSource_Linux.cc in Sources */,
+				EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */,
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
@@ -1125,9 +1125,9 @@
 				9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */,
 				9EBA79BE1B87EF08005D84FA /* CompositorStatistics.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
-				EA6090D61BA41E8C00C2E263 /* EventLoopSource_Apple.cc in Sources */,
+				EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
-				EA6090DD1BA41E8C00C2E263 /* WaitSet_Linux.cc in Sources */,
+				EA6090DD1BA41E8C00C2E263 /* WaitSet_EPoll.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
@@ -1146,7 +1146,7 @@
 				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
-				EA6090DC1BA41E8C00C2E263 /* WaitSet_Apple.cc in Sources */,
+				EA6090DC1BA41E8C00C2E263 /* WaitSet_KQueue.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
