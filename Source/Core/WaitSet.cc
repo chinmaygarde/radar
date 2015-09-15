@@ -6,6 +6,8 @@
 #include <Core/Utilities.h>
 #include <Core/EventLoopSource.h>
 
+#include <algorithm>
+
 namespace rl {
 
 WaitSet::WaitSet() : _handle(platformHandleCreate()) {
