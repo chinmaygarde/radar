@@ -24,7 +24,7 @@ class MachPortChannel : public ChannelProvider {
   Handle _handle;
   Channel& _channel;
 
-  DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
+  RL_DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
 };
 }  // namespace rl
 

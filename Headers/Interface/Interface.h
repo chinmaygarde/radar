@@ -165,7 +165,7 @@ class Interface {
   void didBecomeInactive();
   void didUpdateSize();
 
-  DISALLOW_COPY_AND_ASSIGN(Interface);
+  RL_DISALLOW_COPY_AND_ASSIGN(Interface);
 };
 }
 

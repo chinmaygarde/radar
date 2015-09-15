@@ -17,7 +17,7 @@ class Trace {
   void end();
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(Trace);
+  RL_DISALLOW_COPY_AND_ASSIGN(Trace);
 };
 
 class AutoTrace : public Trace {
@@ -26,7 +26,7 @@ class AutoTrace : public Trace {
   ~AutoTrace() { end(); };
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(AutoTrace);
+  RL_DISALLOW_COPY_AND_ASSIGN(AutoTrace);
 };
 
 }  // namespace rl

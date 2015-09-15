@@ -60,7 +60,7 @@ class Layer : public Entity {
   std::list<Ref> _sublayers;
   Layer* _superlayer;
 
-  DISALLOW_COPY_AND_ASSIGN(Layer);
+  RL_DISALLOW_COPY_AND_ASSIGN(Layer);
 };
 }
 

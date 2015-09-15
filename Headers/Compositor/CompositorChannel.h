@@ -20,7 +20,7 @@ class CompositorChannel : public Channel {
  private:
   std::unique_ptr<Message> _transactionMessage;
 
-  DISALLOW_COPY_AND_ASSIGN(CompositorChannel);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorChannel);
 };
 
 }  // namespace rl

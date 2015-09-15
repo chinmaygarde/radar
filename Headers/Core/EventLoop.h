@@ -101,7 +101,7 @@ class EventLoop {
   void afterSleep();
   void flushPendingDispatches();
 
-  DISALLOW_COPY_AND_ASSIGN(EventLoop);
+  RL_DISALLOW_COPY_AND_ASSIGN(EventLoop);
 };
 }
 

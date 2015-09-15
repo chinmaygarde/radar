@@ -165,7 +165,7 @@ class EventLoopSource {
   void updateInWaitSetHandleForSimpleRead(WaitSet::Handle handle,
                                           bool shouldAdd);
 
-  DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
+  RL_DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
 };
 }
 

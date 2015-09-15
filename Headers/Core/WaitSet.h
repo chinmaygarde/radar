@@ -61,7 +61,7 @@ class WaitSet {
   static void platformHandleDestory(Handle handle);
   std::vector<std::shared_ptr<EventLoopSource>> _sources;
 
-  DISALLOW_COPY_AND_ASSIGN(WaitSet);
+  RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };
 }
 

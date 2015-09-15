@@ -62,7 +62,7 @@ class CompositorStatisticsRendererProgram : public Program {
     colorAttribute = indexForAttribute("Color");
   }
 
-  DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRendererProgram);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRendererProgram);
 };
 
 static CompositorStatisticsRenderer* _CompositorStatisticsRenderer = nullptr;

@@ -28,7 +28,7 @@ class Host {
   void shutdown(Latch& shutdownLatch);
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(Host);
+  RL_DISALLOW_COPY_AND_ASSIGN(Host);
 };
 }
 

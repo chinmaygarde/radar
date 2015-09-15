@@ -29,7 +29,7 @@ class CompositorStatisticsRenderer {
   void cleanup();
   static void drawLists(void* data);
 
-  DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRenderer);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRenderer);
 };
 
 }  // namespace rl

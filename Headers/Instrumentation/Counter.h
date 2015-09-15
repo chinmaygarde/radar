@@ -22,7 +22,7 @@ class Counter {
  private:
   size_t _count;
 
-  DISALLOW_COPY_AND_ASSIGN(Counter);
+  RL_DISALLOW_COPY_AND_ASSIGN(Counter);
 };
 
 }  // namespace rl

@@ -75,7 +75,7 @@ class ScopedRenderSurfaceAccess {
  private:
   RenderSurface& _surface;
 
-  DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
+  RL_DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
 };
 }
 

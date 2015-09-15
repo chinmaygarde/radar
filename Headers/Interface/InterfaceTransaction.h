@@ -27,7 +27,7 @@ class InterfaceTransaction {
   Action _action;
   std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
 
-  DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
+  RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
 }
 

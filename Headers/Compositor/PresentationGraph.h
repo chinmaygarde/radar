@@ -46,7 +46,7 @@ class PresentationGraph {
                            const Entity::Accessors<T>& accessors,
                            const std::chrono::nanoseconds& start);
 
-  DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
+  RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 
 }  // namespace rl

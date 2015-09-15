@@ -27,7 +27,7 @@ class RenderSurfaceMac : public RenderSurface {
 
  private:
   NSOpenGLContext* _context;
-  DISALLOW_COPY_AND_ASSIGN(RenderSurfaceMac);
+  RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceMac);
 };
 }
 

@@ -64,7 +64,7 @@ class SharedMemory {
   bool _ready;
   bool _assumeOwnership;
 
-  DISALLOW_COPY_AND_ASSIGN(SharedMemory);
+  RL_DISALLOW_COPY_AND_ASSIGN(SharedMemory);
 };
 }
 

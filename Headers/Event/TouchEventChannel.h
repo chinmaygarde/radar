@@ -33,7 +33,7 @@ class TouchEventChannel : public Channel {
   void dispatchPendingTouches();
   std::vector<TouchEvent>& bufferForPhase(TouchEvent::Phase phase);
 
-  DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);
+  RL_DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);
 };
 }  // namespace rl
 

@@ -27,7 +27,7 @@ class TransferEntity : public Entity {
   Identifier _firstRemovedFrom;
   Identifier _lastAddedTo;
 
-  DISALLOW_COPY_AND_ASSIGN(TransferEntity);
+  RL_DISALLOW_COPY_AND_ASSIGN(TransferEntity);
 };
 
 }  // namespace rl

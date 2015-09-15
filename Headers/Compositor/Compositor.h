@@ -85,7 +85,7 @@ class Compositor : RenderSurfaceObserver {
   void manageInterfaceUpdates(bool schedule);
   void onAnimationsFlush();
 
-  DISALLOW_COPY_AND_ASSIGN(Compositor);
+  RL_DISALLOW_COPY_AND_ASSIGN(Compositor);
 };
 }
 

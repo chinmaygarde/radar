@@ -36,7 +36,7 @@ class SocketChannel : public ChannelProvider {
   Result writeMessageInline(const Message& message);
   Result writeMessageOutOfLine(const Message& message);
 
-  DISALLOW_COPY_AND_ASSIGN(SocketChannel);
+  RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
 }
 

@@ -40,7 +40,7 @@ class EntityArena {
 
   void* alloc(size_t bytes);
 
-  DISALLOW_COPY_AND_ASSIGN(EntityArena);
+  RL_DISALLOW_COPY_AND_ASSIGN(EntityArena);
 };
 
 }  // namespace rl

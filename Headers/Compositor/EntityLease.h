@@ -31,7 +31,7 @@ class EntityLease {
   std::unique_ptr<EntityArena> swapRead();
   std::unique_ptr<EntityArena> swapWrite();
 
-  DISALLOW_COPY_AND_ASSIGN(EntityLease);
+  RL_DISALLOW_COPY_AND_ASSIGN(EntityLease);
 };
 }  // namespace rl
 

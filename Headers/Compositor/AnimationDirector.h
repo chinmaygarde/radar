@@ -66,7 +66,7 @@ class AnimationDirector {
   template <typename T>
   Interpolators<T>& collection();
 
-  DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
+  RL_DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
 };
 
 }  // namespace rl

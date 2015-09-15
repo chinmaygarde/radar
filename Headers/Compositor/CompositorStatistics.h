@@ -41,7 +41,7 @@ class CompositorStatistics {
   Counter _primitiveCount;
   Counter _frameCount;
 
-  DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
 };
 
 class CompositorStatisticsFrame {
@@ -52,7 +52,7 @@ class CompositorStatisticsFrame {
  private:
   CompositorStatistics& _stats;
 
-  DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsFrame);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsFrame);
 };
 
 }  // namespace rl

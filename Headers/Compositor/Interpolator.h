@@ -37,7 +37,7 @@ class Interpolator {
 
   Type x(double unitTime) const;
 
-  DISALLOW_COPY_AND_ASSIGN(Interpolator);
+  RL_DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };
 }
 

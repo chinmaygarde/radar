@@ -59,7 +59,7 @@ class TouchEvent : public Event {
   Point _location;
   Phase _phase;
 
-  DISALLOW_ASSIGN(TouchEvent);
+  RL_DISALLOW_ASSIGN(TouchEvent);
 };
 }  // namespace rl
 

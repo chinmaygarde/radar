@@ -23,7 +23,7 @@ class Stopwatch {
   std::chrono::nanoseconds _start;
   std::chrono::nanoseconds _lastLap;
 
-  DISALLOW_COPY_AND_ASSIGN(Stopwatch);
+  RL_DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };
 
 class AutoStopwatchLap {
@@ -34,7 +34,7 @@ class AutoStopwatchLap {
  private:
   Stopwatch& _stopwatch;
 
-  DISALLOW_COPY_AND_ASSIGN(AutoStopwatchLap);
+  RL_DISALLOW_COPY_AND_ASSIGN(AutoStopwatchLap);
 };
 
 }  // namespace rl

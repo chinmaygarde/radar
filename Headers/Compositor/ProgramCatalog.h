@@ -49,7 +49,7 @@ class ProgramCatalog {
 
   void prepareIfNecessary();
 
-  DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
+  RL_DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
 };
 
 /*
@@ -75,7 +75,7 @@ class BasicPrimitiveProgram : public Program {
   unsigned int _contentColorUniform;
   unsigned int _sizeUniform;
 
-  DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
+  RL_DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
 }
 

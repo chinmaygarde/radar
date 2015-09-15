@@ -26,7 +26,7 @@ class GravitySimulation : public Simulation {
   const double _v;
   const double _end;
 
-  DISALLOW_COPY_AND_ASSIGN(GravitySimulation);
+  RL_DISALLOW_COPY_AND_ASSIGN(GravitySimulation);
 };
 }
 

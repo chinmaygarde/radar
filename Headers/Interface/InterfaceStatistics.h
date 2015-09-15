@@ -13,7 +13,7 @@ namespace rl {
 class InterfaceStatistics {
  public:
  private:
-  DISALLOW_COPY_AND_ASSIGN(InterfaceStatistics);
+  RL_DISALLOW_COPY_AND_ASSIGN(InterfaceStatistics);
 };
 
 }  // namespace rl

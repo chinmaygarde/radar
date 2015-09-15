@@ -41,7 +41,7 @@ class Primitive {
   Color _contentColor;
   double _opacity;
 
-  DISALLOW_COPY_AND_ASSIGN(Primitive);
+  RL_DISALLOW_COPY_AND_ASSIGN(Primitive);
 };
 }
 

@@ -23,7 +23,7 @@ class SampleApplication : public rl::InterfaceDelegate {
   void onTouches(const std::vector<rl::TouchEvent>& touches,
                  rl::TouchEvent::Phase phase);
 
-  DISALLOW_COPY_AND_ASSIGN(SampleApplication);
+  RL_DISALLOW_COPY_AND_ASSIGN(SampleApplication);
 };
 
 }  // namespace sample

@@ -29,7 +29,7 @@ class Guard {
  private:
   const Block& _block;
 
-  DISALLOW_COPY_AND_ASSIGN(Guard);
+  RL_DISALLOW_COPY_AND_ASSIGN(Guard);
 };
 }
 

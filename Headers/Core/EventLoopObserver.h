@@ -51,7 +51,7 @@ class EventLoopObserver {
   const Callback _callback;
   const uint64_t _priority;
 
-  DISALLOW_COPY_AND_ASSIGN(EventLoopObserver);
+  RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserver);
 };
 
 struct EventLoopObserverComparer {
@@ -90,7 +90,7 @@ class EventLoopObserverCollection {
   std::mutex _lock;
   EventLoopObserversSet _observers;
 
-  DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
+  RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
 };
 }
 

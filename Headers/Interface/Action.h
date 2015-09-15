@@ -87,7 +87,7 @@ class Action : public Serializable {
 
   void resolveCurve();
 
-  DISALLOW_ASSIGN(Action);
+  RL_DISALLOW_ASSIGN(Action);
 };
 }
 

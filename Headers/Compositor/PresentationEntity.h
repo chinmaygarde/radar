@@ -31,7 +31,7 @@ class PresentationEntity : public Entity {
  private:
   std::vector<Borrowed> _children;
 
-  DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
+  RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
 
 }  // namespace rl

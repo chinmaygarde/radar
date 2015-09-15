@@ -35,7 +35,7 @@ class SpringSimulation : public Simulation {
   const double _endPosition;
   const std::unique_ptr<SpringSolution> _solution;
 
-  DISALLOW_COPY_AND_ASSIGN(SpringSimulation);
+  RL_DISALLOW_COPY_AND_ASSIGN(SpringSimulation);
 };
 }
 

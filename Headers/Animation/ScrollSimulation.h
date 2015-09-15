@@ -44,7 +44,7 @@ class ScrollSimulation : public SimulationGroup {
   std::unique_ptr<Simulation> _currentSimulation;
   double _offset;
 
-  DISALLOW_COPY_AND_ASSIGN(ScrollSimulation);
+  RL_DISALLOW_COPY_AND_ASSIGN(ScrollSimulation);
 };
 }
 

@@ -103,7 +103,7 @@ class Channel {
   std::unique_ptr<ChannelProvider> _provider;
   std::shared_ptr<EventLoopSource> _source;
 
-  DISALLOW_COPY_AND_ASSIGN(Channel);
+  RL_DISALLOW_COPY_AND_ASSIGN(Channel);
 };
 }
 

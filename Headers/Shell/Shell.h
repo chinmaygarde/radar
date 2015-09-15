@@ -66,7 +66,7 @@ class Shell {
 
   void attachHostOnCurrentThread();
 
-  DISALLOW_COPY_AND_ASSIGN(Shell);
+  RL_DISALLOW_COPY_AND_ASSIGN(Shell);
 };
 }
 

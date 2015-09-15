@@ -79,7 +79,7 @@ class Frame {
 
   void setupFreshFrame();
 
-  DISALLOW_COPY_AND_ASSIGN(Frame);
+  RL_DISALLOW_COPY_AND_ASSIGN(Frame);
 };
 
 class ScopedFrame : public Frame {
@@ -93,7 +93,7 @@ class ScopedFrame : public Frame {
   ~ScopedFrame();
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
+  RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
 }
 

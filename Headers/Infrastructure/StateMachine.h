@@ -50,7 +50,7 @@ class StateMachine {
   std::vector<State> pathToState(State state);
   void stepTransitionNoCheck(State state);
 
-  DISALLOW_COPY_AND_ASSIGN(StateMachine);
+  RL_DISALLOW_COPY_AND_ASSIGN(StateMachine);
 };
 }
 

@@ -23,7 +23,7 @@ class FrictionSimulation : public Simulation {
   const double _x;
   const double _v;
 
-  DISALLOW_COPY_AND_ASSIGN(FrictionSimulation);
+  RL_DISALLOW_COPY_AND_ASSIGN(FrictionSimulation);
 };
 }
 

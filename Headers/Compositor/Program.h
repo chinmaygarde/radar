@@ -66,7 +66,7 @@ class Program {
 
   unsigned int registerNamedAttribute();
 
-  DISALLOW_COPY_AND_ASSIGN(Program);
+  RL_DISALLOW_COPY_AND_ASSIGN(Program);
 };
 }
 

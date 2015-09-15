@@ -14,7 +14,7 @@ class Variable {
   Variable();
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(Variable);
+  RL_DISALLOW_COPY_AND_ASSIGN(Variable);
 };
 
 }  // namespace rl

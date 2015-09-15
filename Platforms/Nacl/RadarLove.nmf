@@ -2,7 +2,7 @@
   "program": {
     "portable": {
       "pnacl-translate": {
-        "url": "RadarLoveTest.pexe"
+        "url": "RadarLoveNacl.pexe"
       }
     }
   }

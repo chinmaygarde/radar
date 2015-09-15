@@ -142,7 +142,7 @@ class Message {
 
   bool resizeBuffer(size_t size);
 
-  DISALLOW_COPY_AND_ASSIGN(Message);
+  RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };
 
 using Messages = std::vector<Message>;

@@ -36,7 +36,7 @@ class Latch {
   std::condition_variable _condition;
   std::mutex _lock;
 
-  DISALLOW_COPY_AND_ASSIGN(Latch);
+  RL_DISALLOW_COPY_AND_ASSIGN(Latch);
 };
 
 /**
@@ -48,7 +48,7 @@ class AutoLatch : public Latch {
   ~AutoLatch();
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(AutoLatch);
+  RL_DISALLOW_COPY_AND_ASSIGN(AutoLatch);
 };
 }
 

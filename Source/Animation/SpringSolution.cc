@@ -34,7 +34,7 @@ class CriticalSolution : public SpringSolution {
   const double _c1;
   const double _c2;
 
-  DISALLOW_COPY_AND_ASSIGN(CriticalSolution);
+  RL_DISALLOW_COPY_AND_ASSIGN(CriticalSolution);
 };
 
 class OverdampedSolution : public SpringSolution {
@@ -73,7 +73,7 @@ class OverdampedSolution : public SpringSolution {
   const double _c1;
   const double _c2;
 
-  DISALLOW_COPY_AND_ASSIGN(OverdampedSolution);
+  RL_DISALLOW_COPY_AND_ASSIGN(OverdampedSolution);
 };
 
 class UnderdampedSolution : public SpringSolution {
@@ -116,7 +116,7 @@ class UnderdampedSolution : public SpringSolution {
   const double _c1;
   const double _c2;
 
-  DISALLOW_COPY_AND_ASSIGN(UnderdampedSolution);
+  RL_DISALLOW_COPY_AND_ASSIGN(UnderdampedSolution);
 };
 }
 

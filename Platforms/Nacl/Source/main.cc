@@ -6,6 +6,7 @@
 #include <ppapi/cpp/module.h>
 #include <ppapi/cpp/var.h>
 
+#include <nacl_io/nacl_io.h>
 #include <Core/Core.h>
 
 class RadarLoveInstance : public pp::Instance {

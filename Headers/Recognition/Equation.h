@@ -35,7 +35,7 @@ class Equation {
  private:
   Terms _terms;
 
-  DISALLOW_COPY_AND_ASSIGN(Equation);
+  RL_DISALLOW_COPY_AND_ASSIGN(Equation);
 };
 
 }  // namespace rl
