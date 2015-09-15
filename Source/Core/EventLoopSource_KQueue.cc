@@ -29,8 +29,15 @@ static inline void KEventInvoke(int queue,
 void EventLoopSource::updateInWaitSetHandleForSimpleRead(
     WaitSet::Handle waitsetHandle,
     bool shouldAdd) {
-  KEventInvoke(waitsetHandle, readHandle(), EVFILT_READ,
-               shouldAdd ? EV_ADD : EV_DELETE, 0, 0, this);
+  // clang-format off
+  KEventInvoke(waitsetHandle,                   /* queue */
+               readHandle(),                    /* ident */
+               EVFILT_READ,                     /* filter */
+               shouldAdd ? EV_ADD : EV_DELETE,  /* flags */
+               0,                               /* filter-flags */
+               0,                               /* data */
+               this);                           /* user-data */
+  // clang-format on
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
@@ -38,9 +45,15 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
   WaitSetUpdateHandler updateHandler =
       [repeatInterval](EventLoopSource* source, WaitSet::Handle waitsetHandle,
                        Handle readHandle, bool adding) {
-        KEventInvoke(waitsetHandle, readHandle, EVFILT_TIMER,
-                     adding ? EV_ADD : EV_DELETE, NOTE_NSECONDS,
-                     repeatInterval.count(), source);
+        // clang-format off
+        KEventInvoke(waitsetHandle,               /* queue */
+                     readHandle,                  /* ident */
+                     EVFILT_TIMER,                /* filter */
+                     adding ? EV_ADD : EV_DELETE, /* flags */
+                     NOTE_NSECONDS,               /* filter-flags */
+                     repeatInterval.count(),      /* data */
+                     source);                     /* user-data */
+        // clang-format on
       };
 
   static uintptr_t KQueueTimerIdent = 1;
