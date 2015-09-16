@@ -68,8 +68,7 @@ static void SendEvent(rl::TouchEventChannel& channel,
   _application = std::make_shared<sample::SampleApplication>();
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  std::weak_ptr<sample::SampleApplication> application = _application;
-  _shell = rl::make_unique<rl::Shell>(_renderSurface, application);
+  _shell = rl::make_unique<rl::Shell>(_renderSurface, _application);
   _renderSurface->surfaceWasCreated();
 
   [self windowWasResized];
@@ -87,17 +86,17 @@ static void SendEvent(rl::TouchEventChannel& channel,
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
-  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
             rl::TouchEvent::Phase::Began);
 }
 
 - (void)mouseUp:(NSEvent*)theEvent {
-  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
             rl::TouchEvent::Phase::Ended);
 }
 
 - (void)mouseDragged:(nonnull NSEvent*)theEvent {
-  SendEvent(_shell->interface().touchEventChannel(), _surface, theEvent,
+  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
             rl::TouchEvent::Phase::Moved);
 }
 

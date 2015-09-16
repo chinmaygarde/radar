@@ -6,6 +6,7 @@
 #define __RADARLOVE_HOST_HOST__
 
 #include <Core/Core.h>
+#include <Event/TouchEventChannel.h>
 
 namespace rl {
 class Host {
@@ -27,7 +28,11 @@ class Host {
    */
   void shutdown(Latch& shutdownLatch);
 
+  TouchEventChannel& touchEventChannel();
+
  private:
+  TouchEventChannel _touchEventChannel;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Host);
 };
 }

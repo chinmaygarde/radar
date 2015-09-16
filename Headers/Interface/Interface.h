@@ -115,15 +115,6 @@ class Interface {
    */
   void popTransaction();
 
-#pragma mark - Accessing Event Channels
-
-  /**
-   *  Get the channel used for sending touch events to the interface
-   *
-   *  @return the touch event channel
-   */
-  TouchEventChannel& touchEventChannel();
-
 #pragma mark - Accessing State Information
 
   State state() const;
@@ -146,15 +137,14 @@ class Interface {
   std::deque<InterfaceTransaction> _transactionStack;
   size_t _popCount;
   std::shared_ptr<EventLoopObserver> _autoFlushObserver;
-  TouchEventChannel _touchEventChannel;
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::weak_ptr<CompositorChannel> _compositorChannel;
   StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
-  void setupEventChannels();
-  void cleanupEventChannels();
+  void scheduleChannels();
+  void unscheduleChannels();
   void processTouchEvents();
   void performTerminationCleanup();
 

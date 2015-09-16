@@ -17,4 +17,8 @@ void Host::shutdown(Latch& shutdownLatch) {
   shutdownLatch.countDown();
 }
 
+TouchEventChannel& Host::touchEventChannel() {
+  return _touchEventChannel;
+}
+
 }  // namespace rl

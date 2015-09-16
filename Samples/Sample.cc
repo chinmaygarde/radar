@@ -12,9 +12,6 @@ SampleApplication::SampleApplication() {
 }
 
 void SampleApplication::didFinishLaunching(rl::Interface& interface) {
-  interface.touchEventChannel().setTouchEventCallback(
-      [&](const std::vector<rl::TouchEvent>& touches,
-          rl::TouchEvent::Phase phase) { onTouches(touches, phase); });
 }
 
 void SampleApplication::didBecomeActive(rl::Interface& interface) {
@@ -74,10 +71,6 @@ void SampleApplication::didBecomeInactive(rl::Interface& interface) {
 }
 
 void SampleApplication::didUpdateSize(rl::Interface& interface) {
-}
-
-void SampleApplication::onTouches(const std::vector<rl::TouchEvent>& touches,
-                                  rl::TouchEvent::Phase phase) {
 }
 
 }  // namespace sample

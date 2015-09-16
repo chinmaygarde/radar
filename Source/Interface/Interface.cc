@@ -26,7 +26,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _rootLayer(nullptr),
       _transactionStack(),
       _popCount(0),
-      _touchEventChannel(),
       _delegate(delegate),
       _compositorChannel(compositorChannel),
       _state({
@@ -58,7 +57,7 @@ void Interface::run(Latch& readyLatch) {
   _loop = EventLoop::Current();
   _loop->loop([&]() {
     pthread_setspecific(InterfaceTLSKey(), this);
-    setupEventChannels();
+    scheduleChannels();
     _state.setState(Active, true);
     readyLatch.countDown();
   });
@@ -76,7 +75,7 @@ void Interface::shutdown(rl::Latch& onShutdown) {
 
   _loop->dispatchAsync([&]() {
     performTerminationCleanup();
-    cleanupEventChannels();
+    unscheduleChannels();
     _loop->terminate();
     pthread_setspecific(InterfaceTLSKey(), nullptr);
     onShutdown.countDown();
@@ -160,19 +159,18 @@ void Interface::flushTransactions() {
   RL_ASSERT(result && "Must be able to flush the compositor transaction");
 }
 
-void Interface::setupEventChannels() {
+void Interface::scheduleChannels() {
   RL_ASSERT(_loop == EventLoop::Current());
-  bool result = _loop->addSource(_touchEventChannel.source());
-  RL_ASSERT(result == true);
+  /*
+   *  The event loop is ready, schedule all event channels the interface cares
+   *  about
+   */
 }
 
-void Interface::cleanupEventChannels() {
-  bool result = _loop->removeSource(_touchEventChannel.source());
-  RL_ASSERT(result == true);
-}
-
-TouchEventChannel& Interface::touchEventChannel() {
-  return _touchEventChannel;
+void Interface::unscheduleChannels() {
+  /*
+   *  The event loop is about to die, unschedule all active channels
+   */
 }
 
 Interface::State Interface::state() const {
