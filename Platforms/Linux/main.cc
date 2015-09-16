@@ -36,7 +36,7 @@ class RenderSurfaceLinux : public rl::RenderSurface {
  private:
   SDLWindowAndRenderer& _windowAndRenderer;
   SDL_GLContext _context;
-  DISALLOW_COPY_AND_ASSIGN(RenderSurfaceLinux);
+  RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceLinux);
 };
 
 static const int kInitialWindowWidth = 800;
