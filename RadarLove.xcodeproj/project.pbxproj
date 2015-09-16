@@ -11,6 +11,8 @@
 		9E029C541BA89A6F007E5DF8 /* WaitSet_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */; };
 		9E029C561BA8AA3B007E5DF8 /* EventLoopSource_Poll.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C551BA8AA3A007E5DF8 /* EventLoopSource_Poll.cc */; };
 		9E029C581BA8AD1A007E5DF8 /* SharedMemory_None.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */; };
+		9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */; };
+		9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -254,6 +256,8 @@
 /* Begin PBXFileReference section */
 		9E029C551BA8AA3A007E5DF8 /* EventLoopSource_Poll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_Poll.cc; sourceTree = "<group>"; };
 		9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory_None.cc; sourceTree = "<group>"; };
+		9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemoryHandle.cc; sourceTree = "<group>"; };
+		9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemoryHandle.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -739,6 +743,8 @@
 				EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */,
 				EA6090F91BA801BE00C2E263 /* WaitSet_Poll.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
+				9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */,
+				9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -892,6 +898,7 @@
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
+				9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */,
 				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
@@ -1164,6 +1171,7 @@
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
+				9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */,
 				9E029C561BA8AA3B007E5DF8 /* EventLoopSource_Poll.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E029C541BA89A6F007E5DF8 /* WaitSet_KQueue.cc in Sources */,

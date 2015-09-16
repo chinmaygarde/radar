@@ -4,73 +4,19 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_NACL
+#if RL_OS_MAC || RL_OS_LINUX
 
 #include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
+
+#include "SharedMemoryHandle.h"
 
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sstream>
 
 namespace rl {
-
-static const int SharedMemoryTempHandleMaxRetries = 25;
-
-static std::string SharedMemory_RandomFileName() {
-  auto random = rand() % RAND_MAX;
-
-  std::stringstream stream;
-
-  stream << "/rl_SharedMemory" << random;
-
-  return stream.str();
-}
-
-static SharedMemory::Handle SharedMemory_CreateBackingIfNecessary(
-    SharedMemory::Handle handle) {
-  /*
-   *  A valid handle is already present. Nothing to do.
-   */
-  if (handle != -1) {
-    return handle;
-  }
-
-  SharedMemory::Handle newHandle = -1;
-
-  auto tempFile = SharedMemory_RandomFileName();
-
-  int tries = 0;
-
-  while (tries++ < SharedMemoryTempHandleMaxRetries) {
-    newHandle = ::shm_open(tempFile.c_str(), O_RDWR | O_CREAT | O_EXCL,
-                           S_IRUSR | S_IWUSR);
-
-    if (newHandle == -1 && errno == EEXIST) {
-      /*
-       *  The current handle already exists (the O_CREAT | O_EXCL
-       *  check is atomic). Try a new file name.
-       */
-      tempFile = SharedMemory_RandomFileName();
-      continue;
-    }
-
-    break;
-  }
-
-  /*
-   *  We already have a file reference, unlink the
-   *  reference by name.
-   */
-  if (newHandle != -1) {
-    RL_CHECK(::shm_unlink(tempFile.c_str()));
-  }
-
-  return newHandle;
-}
 
 SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
     : _handle(handle),
@@ -113,7 +59,8 @@ SharedMemory::SharedMemory(size_t size)
   /*
    *  Step 1: Create a handle to shared memory
    */
-  _handle = SharedMemory_CreateBackingIfNecessary(-1);
+
+  _handle = SharedMemoryHandleCreate();
 
   if (_handle == -1) {
     goto failure;
@@ -160,7 +107,7 @@ failure:
   _size = 0;
   _address = nullptr;
 
-  if (_handle == -1 && _assumeOwnership) {
+  if (_handle != -1 && _assumeOwnership) {
     RL_CHECK(::close(_handle));
   }
 
@@ -205,4 +152,4 @@ SharedMemory::Handle SharedMemory::handle() const {
 
 }  // namespace rl
 
-#endif  // !RL_OS_NACL
+#endif  // RL_OS_MAC || RL_OS_LINUX
