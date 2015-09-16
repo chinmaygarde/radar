@@ -13,7 +13,7 @@ namespace rl {
 
 class GestureRecognizer : public Serializable {
  public:
-  explicit GestureRecognizer(Equation&& equation);
+  explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
   bool serialize(Message& message) const override;
 
@@ -21,6 +21,7 @@ class GestureRecognizer : public Serializable {
 
  private:
   Equation _equation;
+  Variable _evaluationResult;
 
   RL_DISALLOW_COPY_AND_ASSIGN(GestureRecognizer);
 };

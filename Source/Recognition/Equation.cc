@@ -6,8 +6,8 @@
 
 namespace rl {
 
-Equation::Term::Term(double coefficient, Equation::Term::Variables variables)
-    : _coefficient(coefficient), _variables(variables) {
+Equation::Term::Term(double coefficient, Equation::Term::Variables&& variables)
+    : _coefficient(coefficient), _variables(std::move(variables)) {
 }
 
 Equation::Term::Term() : _coefficient(1.0), _variables() {
@@ -33,7 +33,8 @@ bool Equation::Term::deserialize(Message& message) {
   return result;
 }
 
-Equation::Equation(Equation::Terms terms) : _terms(std::move(terms)) {
+Equation::Equation(Equation::Terms terms, double constant)
+    : _terms(std::move(terms)), _constant(constant) {
 }
 
 const Equation::Terms& Equation::terms() const {

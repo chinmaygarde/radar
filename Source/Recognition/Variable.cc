@@ -6,7 +6,22 @@
 
 namespace rl {
 
-Variable::Variable() {
+Variable::Variable(Variable::Proxy proxy, Entity::Property property)
+    : _identifier(static_cast<Entity::Identifier>(proxy)),
+      _property(property),
+      _isProxy(true) {
+}
+
+Variable::Variable(const Entity& entity, Entity::Property property)
+    : _identifier(entity.identifier()), _property(property), _isProxy(false) {
+}
+
+Entity::Identifier Variable::targetIdentifier() const {
+  return _identifier;
+}
+
+Entity::Property Variable::targetProperty() const {
+  return _property;
 }
 
 }  // namespace rl

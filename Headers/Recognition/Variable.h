@@ -6,14 +6,39 @@
 #define __RADARLOVE_RECOGNITION_VARIABLE_H__
 
 #include <Core/Core.h>
+#include <Interface/Entity.h>
 
 namespace rl {
 
 class Variable {
  public:
-  Variable();
+  enum class Proxy {
+    AllTouches = 1,
+    Touch0,
+    Touch1,
+    Touch2,
+    Touch3,
+    Touch4,
+    Touch5,
+    Touch6,
+    Touch7,
+    Touch8,
+    Touch9,
+  };
+
+  Variable(Variable::Proxy proxy, Entity::Property property);
+  Variable(const Entity& entity, Entity::Property property);
+  Variable(Variable&& variable) = default;
+
+  Entity::Identifier targetIdentifier() const;
+
+  Entity::Property targetProperty() const;
 
  private:
+  Entity::Identifier _identifier;
+  Entity::Property _property;
+  bool _isProxy;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Variable);
 };
 

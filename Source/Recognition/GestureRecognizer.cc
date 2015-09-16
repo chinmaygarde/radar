@@ -6,16 +6,22 @@
 
 namespace rl {
 
-GestureRecognizer::GestureRecognizer(Equation&& equation)
-    : _equation(std::move(equation)) {
+GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
+                                     Equation&& equation)
+    : _evaluationResult(std::move(evaluationResult)),
+      _equation(std::move(equation)) {
 }
 
 bool GestureRecognizer::serialize(Message& message) const {
-  return false;
+  bool result = true;
+  result &= _equation.serialize(message);
+  return result;
 }
 
 bool GestureRecognizer::deserialize(Message& message) {
-  return false;
+  bool result = true;
+  result &= _equation.deserialize(message);
+  return result;
 }
 
 }  // namespace rl

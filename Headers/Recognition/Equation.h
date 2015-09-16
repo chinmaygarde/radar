@@ -17,7 +17,7 @@ class Equation : public Serializable {
     using VariableDegree = std::pair<Variable&, double>;
     using Variables = std::vector<VariableDegree>;
 
-    explicit Term(double coefficient, Variables variables = {});
+    explicit Term(double coefficient, Variables&& variables);
     explicit Term();
 
     double coefficient() const;
@@ -32,7 +32,7 @@ class Equation : public Serializable {
   };
 
   using Terms = std::vector<Term>;
-  explicit Equation(Terms terms);
+  explicit Equation(Terms terms, double constant);
 
   explicit Equation(Equation&& equation) = default;
 
@@ -44,6 +44,7 @@ class Equation : public Serializable {
 
  private:
   Terms _terms;
+  double _constant;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Equation);
 };
