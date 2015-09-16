@@ -10,17 +10,21 @@
 
 namespace rl {
 
-class Equation {
+class Equation : public Serializable {
  public:
-  class Term {
+  class Term : public Serializable {
    public:
     using VariableDegree = std::pair<Variable&, double>;
     using Variables = std::vector<VariableDegree>;
 
     explicit Term(double coefficient, Variables variables = {});
+    explicit Term();
 
     double coefficient() const;
     const Variables& variables() const;
+
+    bool serialize(Message& message) const override;
+    bool deserialize(Message& message) override;
 
    private:
     double _coefficient;
@@ -30,7 +34,13 @@ class Equation {
   using Terms = std::vector<Term>;
   explicit Equation(Terms terms);
 
+  explicit Equation(Equation&& equation) = default;
+
   const Terms& terms() const;
+
+  bool serialize(Message& message) const override;
+
+  bool deserialize(Message& message) override;
 
  private:
   Terms _terms;

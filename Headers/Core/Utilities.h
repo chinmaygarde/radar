@@ -6,6 +6,7 @@
 #define __RADARLOVE_CORE_UTILITIES__
 
 #include <memory>
+#include <type_traits>
 
 namespace rl {
 
@@ -20,6 +21,9 @@ template <typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
   return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
+
+template <bool B, class T = void>
+using enable_if_t = typename std::enable_if<B, T>::type;
 
 /**
  *  Set the name of current thread of execution

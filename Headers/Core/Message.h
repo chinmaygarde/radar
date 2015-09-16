@@ -6,6 +6,7 @@
 #define __RADARLOVE_CORE_MESSAGE__
 
 #include <Core/Macros.h>
+#include <Core/Utilities.h>
 
 #include <vector>
 #include <utility>
@@ -13,6 +14,7 @@
 #include <string.h>
 
 namespace rl {
+class Serializable;
 class Message {
  public:
   /**
@@ -64,16 +66,14 @@ class Message {
    *
    *  @return if the encode operation was successful
    */
-  template <typename T>
+  template <typename T,
+            typename = rl::enable_if_t<std::is_trivially_copyable<T>::value>>
   bool encode(T value) {
-    bool success = reserve(_dataLength + sizeof(T));
-
-    if (success) {
-      memcpy(_buffer + _dataLength, &value, sizeof(T));
-      _dataLength += sizeof(T);
+    if (auto buffer = encodeRawUnsafe(sizeof(T))) {
+      memcpy(buffer, &value, sizeof(T));
+      return true;
     }
-
-    return success;
+    return false;
   }
 
   uint8_t* encodeRawUnsafe(size_t size);
@@ -87,17 +87,14 @@ class Message {
    *
    *  @return if the value was successfully decoded
    */
-  template <typename T>
-  bool decode(T& t) {
-    if ((sizeof(T) + _sizeRead) > _bufferLength) {
-      return false;
+  template <typename T,
+            typename = rl::enable_if_t<std::is_trivially_copyable<T>::value>>
+  bool decode(T& value) {
+    if (auto buffer = decodeRawUnsafe(sizeof(T))) {
+      memcpy(&value, buffer, sizeof(T));
+      return true;
     }
-
-    memcpy(&t, _buffer + _sizeRead, sizeof(T));
-
-    _sizeRead += sizeof(T);
-
-    return true;
+    return false;
   }
 
   uint8_t* decodeRawUnsafe(size_t size);
@@ -146,11 +143,6 @@ class Message {
 };
 
 using Messages = std::vector<Message>;
-
-class Serializable {
-  virtual bool serialize(Message& message) const = 0;
-  virtual bool deserialize(Message& message) = 0;
-};
 }
 
 #endif /* defined(__RADARLOVE_CORE_MESSAGE__) */

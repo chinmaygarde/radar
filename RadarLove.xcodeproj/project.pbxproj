@@ -11,6 +11,10 @@
 		9E029C581BA8AD1A007E5DF8 /* SharedMemory_None.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */; };
 		9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */; };
 		9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */; };
+		9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */; };
+		9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */; };
+		9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C7B1BA9E833007E5DF8 /* Serializable.h */; };
+		9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -76,7 +80,6 @@
 		9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE501B685460000FA38A /* EventLoop.h */; };
 		9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE511B685460000FA38A /* EventLoopSource.h */; };
 		9EAECE801B685460000FA38A /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE521B685460000FA38A /* Message.h */; };
-		9EAECE821B685460000FA38A /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE541B685460000FA38A /* Server.h */; };
 		9EAECE831B685460000FA38A /* SharedMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE551B685460000FA38A /* SharedMemory.h */; };
 		9EAECE851B685460000FA38A /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE571B685460000FA38A /* Utilities.h */; };
 		9EAECE861B685460000FA38A /* WaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE581B685460000FA38A /* WaitSet.h */; };
@@ -255,6 +258,10 @@
 		9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemory_None.cc; sourceTree = "<group>"; };
 		9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemoryHandle.cc; sourceTree = "<group>"; };
 		9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemoryHandle.h; sourceTree = "<group>"; };
+		9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
+		9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cc; sourceTree = "<group>"; };
+		9E029C7B1BA9E833007E5DF8 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serializable.h; sourceTree = "<group>"; };
+		9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serializable.cc; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -321,7 +328,6 @@
 		9EAECE501B685460000FA38A /* EventLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoop.h; sourceTree = "<group>"; };
 		9EAECE511B685460000FA38A /* EventLoopSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoopSource.h; sourceTree = "<group>"; };
 		9EAECE521B685460000FA38A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		9EAECE541B685460000FA38A /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		9EAECE551B685460000FA38A /* SharedMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemory.h; sourceTree = "<group>"; };
 		9EAECE571B685460000FA38A /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		9EAECE581B685460000FA38A /* WaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitSet.h; sourceTree = "<group>"; };
@@ -602,7 +608,7 @@
 				9EAECE511B685460000FA38A /* EventLoopSource.h */,
 				9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */,
 				9EAECE521B685460000FA38A /* Message.h */,
-				9EAECE541B685460000FA38A /* Server.h */,
+				9E029C7B1BA9E833007E5DF8 /* Serializable.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
 				EA62B3221B6F2F31009F197F /* Timing.h */,
 				9EAECE571B685460000FA38A /* Utilities.h */,
@@ -728,6 +734,7 @@
 				EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */,
 				EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
+				9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
 				9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */,
 				EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */,
@@ -855,6 +862,7 @@
 			isa = PBXGroup;
 			children = (
 				EA6B63931B9D571F00256484 /* Equation.cc */,
+				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
 				EA6B63941B9D571F00256484 /* Variable.cc */,
 			);
 			path = Recognition;
@@ -864,6 +872,7 @@
 			isa = PBXGroup;
 			children = (
 				EA6B63981B9D572D00256484 /* Equation.h */,
+				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
 				EA6B63991B9D572D00256484 /* Variable.h */,
 			);
 			path = Recognition;
@@ -886,7 +895,6 @@
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
-				9EAECE821B685460000FA38A /* Server.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
 				EA6B639A1B9D572D00256484 /* Equation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
@@ -940,6 +948,7 @@
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
+				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
 				9E62F9171B7C1F85008DE08E /* EntityArena.h in Headers */,
@@ -951,6 +960,7 @@
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
 				9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
+				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
@@ -1160,7 +1170,9 @@
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
+				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
+				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,

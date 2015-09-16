@@ -38,6 +38,7 @@
  *  Messaging
  */
 #include <Core/Message.h>
+#include <Core/Serializable.h>
 
 /*
  *  IPC
