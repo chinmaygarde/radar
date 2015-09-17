@@ -28,7 +28,7 @@ class EventLoopSource {
   using WakeFunction = std::function<void(void)>;
   using RWHandlesProvider = std::function<Handles(void)>;
   using RWHandlesCollector = std::function<void(Handles)>;
-  using WaitSetUpdateHandler = std::function<void(EventLoopSource* source,
+  using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
                                                   WaitSet::Handle waitsetHandle,
                                                   Handle readHandle,
                                                   bool adding)>;

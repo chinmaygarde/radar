@@ -43,7 +43,7 @@ void EventLoopSource::updateInWaitSetHandleForSimpleRead(
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     std::chrono::nanoseconds repeatInterval) {
   WaitSetUpdateHandler updateHandler =
-      [repeatInterval](EventLoopSource* source, WaitSet::Handle waitsetHandle,
+      [repeatInterval](EventLoopSource& source, WaitSet::Handle waitsetHandle,
                        Handle readHandle, bool adding) {
         // clang-format off
         KEventInvoke(waitsetHandle,               /* queue */
@@ -52,7 +52,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
                      adding ? EV_ADD : EV_DELETE, /* flags */
                      NOTE_NSECONDS,               /* filter-flags */
                      repeatInterval.count(),      /* data */
-                     source);                     /* user-data */
+                     &source);                     /* user-data */
         // clang-format on
       };
 

@@ -88,7 +88,7 @@ void EventLoopSource::setWriter(const IOHandler& writer) {
 void EventLoopSource::updateInWaitSetHandle(WaitSet::Handle waitsetHandle,
                                             bool shouldAdd) {
   if (_customWaitSetUpdateHandler) {
-    _customWaitSetUpdateHandler(this, waitsetHandle, readHandle(), shouldAdd);
+    _customWaitSetUpdateHandler(*this, waitsetHandle, readHandle(), shouldAdd);
   } else {
     updateInWaitSetHandleForSimpleRead(waitsetHandle, shouldAdd);
   }
