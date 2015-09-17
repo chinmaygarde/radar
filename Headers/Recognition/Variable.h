@@ -13,8 +13,7 @@ namespace rl {
 class Variable {
  public:
   enum class Proxy {
-    AllTouches = 1,
-    Touch0,
+    AllTouches,
     Touch1,
     Touch2,
     Touch3,
@@ -24,6 +23,7 @@ class Variable {
     Touch7,
     Touch8,
     Touch9,
+    Touch10,
   };
 
   Variable(Variable::Proxy proxy, Entity::Property property);
