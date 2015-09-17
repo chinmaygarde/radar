@@ -158,7 +158,7 @@ ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
 
   return ChannelProvider::ReadResult(
       messages.size() == 0 ? Result::TemporaryFailure : Result::Success,
-      std::move(messages));
+      messages);
 }
 
 bool MachPortChannel::doTerminate() {
