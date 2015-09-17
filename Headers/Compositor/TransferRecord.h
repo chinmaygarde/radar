@@ -35,6 +35,9 @@ struct TransferRecord {
   using TransferRecordDataSize = size_t;
 
   static constexpr size_t TransferRecordInvariantsSize() {
+    static_assert(
+        offsetof(TransferRecord, data) + sizeof(data) == sizeof(TransferRecord),
+        "The data member must be the last item in the struct");
     return offsetof(TransferRecord, data);
   }
 
