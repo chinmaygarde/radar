@@ -46,10 +46,12 @@ size_t TransferEntity::serialize(Message& message) {
 
   const auto mask = _updateMask;
 
-#define SerializeProperty(prop, func)                                        \
-  if (mask & prop) {                                                         \
-    encodedRecords +=                                                        \
-        TransferRecord::Emplaced(message, identifier(), prop, func) ? 1 : 0; \
+#define SerializeProperty(prop, func)                                       \
+  if (mask & prop) {                                                        \
+    encodedRecords +=                                                       \
+        TransferRecord::EmplaceInMessage(message, identifier(), prop, func) \
+            ? 1                                                             \
+            : 0;                                                            \
   }
 
   SerializeProperty(Created, identifier());

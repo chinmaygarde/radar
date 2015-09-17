@@ -51,13 +51,7 @@ bool PresentationGraph::applyTransactionSingle(
    *  Step 3: Read the transfer records
    */
   for (auto i = 0; i < transferRecords; i++) {
-    auto allocation = arena.decodeRawUnsafe(sizeof(TransferRecord));
-
-    if (allocation == nullptr) {
-      return false;
-    }
-
-    auto& record = *reinterpret_cast<TransferRecord*>(allocation);
+    auto& record = TransferRecord::NextInMessage(arena);
 
     if (record.property == Entity::Created) {
       _entities[record.identifier] =

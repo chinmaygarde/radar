@@ -33,24 +33,28 @@ struct TransferRecord {
   } data;
 
   template <typename T>
-  TransferRecord(Entity::Identifier identity,
-                 Entity::Property prop,
-                 const T& varData)
-      : identifier(identity), property(prop), data(varData) {}
-
-  template <typename T>
-  static bool Emplaced(Message& message,
-                       Entity::Identifier identity,
-                       Entity::Property prop,
-                       const T& varData) {
-    void* allocation = message.encodeRawUnsafe(sizeof(TransferRecord));
+  static bool EmplaceInMessage(Message& message,
+                               Entity::Identifier identity,
+                               Entity::Property prop,
+                               const T& varData) {
+    TransferRecord* allocation = reinterpret_cast<TransferRecord*>(
+        message.encodeRawUnsafe(sizeof(TransferRecord)));
 
     if (allocation == nullptr) {
       return false;
     }
 
-    new (allocation) TransferRecord(identity, prop, varData);
+    allocation->identifier = identity;
+    allocation->property = prop;
+    memcpy(&allocation->data, &varData, sizeof(T));
+
     return true;
+  }
+
+  static TransferRecord& NextInMessage(Message& message) {
+    auto allocation = message.decodeRawUnsafe(sizeof(TransferRecord));
+    RL_ASSERT(allocation != nullptr);
+    return *reinterpret_cast<TransferRecord*>(allocation);
   }
 
   template <typename T>
