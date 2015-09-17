@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9E029C541BA89A6F007E5DF8 /* WaitSet_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */; };
 		9E029C581BA8AD1A007E5DF8 /* SharedMemory_None.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */; };
 		9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */; };
 		9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */; };
@@ -15,9 +14,16 @@
 		9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */; };
 		9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C7B1BA9E833007E5DF8 /* Serializable.h */; };
 		9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */; };
-		9E029C971BAB5CBB007E5DF8 /* WaitSet_InProcess.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C961BAB5CBB007E5DF8 /* WaitSet_InProcess.cc */; };
 		9E029CA21BAB5CF8007E5DF8 /* InProcessChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CA01BAB5CF8007E5DF8 /* InProcessChannel.cc */; };
 		9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA11BAB5CF8007E5DF8 /* InProcessChannel.h */; };
+		9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */; };
+		9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */; };
+		9E029CAC1BAB74DA007E5DF8 /* KQueueWaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CAA1BAB74DA007E5DF8 /* KQueueWaitSet.cc */; };
+		9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CAB1BAB74DA007E5DF8 /* KQueueWaitSet.h */; };
+		9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CAE1BAB74EF007E5DF8 /* EPollWaitSet.cc */; };
+		9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */; };
+		9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */; };
+		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -28,7 +34,6 @@
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
 		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
 		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
-		9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB71B71506D0037A431 /* ChannelProvider.h */; };
 		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
 		9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */; };
@@ -161,7 +166,6 @@
 		EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */; };
 		EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */; };
 		EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6090D31BA41E8C00C2E263 /* SocketChannel.h */; };
-		EA6090DD1BA41E8C00C2E263 /* WaitSet_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */; };
 		EA62B3161B6F2402009F197F /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3151B6F2402009F197F /* Event.h */; };
 		EA62B3191B6F241A009F197F /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3181B6F241A009F197F /* Event.cc */; };
 		EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B31E1B6F28ED009F197F /* TouchEvent.cc */; };
@@ -265,9 +269,16 @@
 		9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cc; sourceTree = "<group>"; };
 		9E029C7B1BA9E833007E5DF8 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serializable.h; sourceTree = "<group>"; };
 		9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serializable.cc; sourceTree = "<group>"; };
-		9E029C961BAB5CBB007E5DF8 /* WaitSet_InProcess.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_InProcess.cc; sourceTree = "<group>"; };
 		9E029CA01BAB5CF8007E5DF8 /* InProcessChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessChannel.cc; sourceTree = "<group>"; };
 		9E029CA11BAB5CF8007E5DF8 /* InProcessChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessChannel.h; sourceTree = "<group>"; };
+		9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitSetProvider.h; sourceTree = "<group>"; };
+		9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
+		9E029CAA1BAB74DA007E5DF8 /* KQueueWaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KQueueWaitSet.cc; sourceTree = "<group>"; };
+		9E029CAB1BAB74DA007E5DF8 /* KQueueWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KQueueWaitSet.h; sourceTree = "<group>"; };
+		9E029CAE1BAB74EF007E5DF8 /* EPollWaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EPollWaitSet.cc; sourceTree = "<group>"; };
+		9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPollWaitSet.h; sourceTree = "<group>"; };
+		9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessWaitSet.cc; sourceTree = "<group>"; };
+		9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessWaitSet.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -278,7 +289,6 @@
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
 		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
 		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
-		9E293DB71B71506D0037A431 /* ChannelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelProvider.h; sourceTree = "<group>"; };
 		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
@@ -414,8 +424,6 @@
 		EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPortChannel.h; sourceTree = "<group>"; };
 		EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketChannel.cc; sourceTree = "<group>"; };
 		EA6090D31BA41E8C00C2E263 /* SocketChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketChannel.h; sourceTree = "<group>"; };
-		EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_KQueue.cc; sourceTree = "<group>"; };
-		EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSet_EPoll.cc; sourceTree = "<group>"; };
 		EA62B3151B6F2402009F197F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		EA62B3181B6F241A009F197F /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
 		EA62B31E1B6F28ED009F197F /* TouchEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEvent.cc; sourceTree = "<group>"; };
@@ -605,7 +613,6 @@
 			children = (
 				9EA6744E1B753CAD00C8A8B4 /* Core.h */,
 				9EA6744F1B753CAD00C8A8B4 /* Macros.h */,
-				9E293DB71B71506D0037A431 /* ChannelProvider.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
 				9EAECE4C1B685460000FA38A /* Config.h */,
 				9EAECE4D1B685460000FA38A /* Guard.h */,
@@ -730,6 +737,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECEA81B685469000FA38A /* Channel.cc */,
+				9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */,
 				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
 				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
 				EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */,
@@ -747,14 +755,18 @@
 				9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
 				9E029C571BA8AD1A007E5DF8 /* SharedMemory_None.cc */,
-				EA62B3241B6F2F41009F197F /* Timing.cc */,
-				9EAECEB51B685469000FA38A /* Utilities.cc */,
-				EA6090D41BA41E8C00C2E263 /* WaitSet_KQueue.cc */,
-				9E029C961BAB5CBB007E5DF8 /* WaitSet_InProcess.cc */,
-				EA6090D51BA41E8C00C2E263 /* WaitSet_EPoll.cc */,
-				9EAECEB61B685469000FA38A /* WaitSet.cc */,
 				9E029C671BA8ED6E007E5DF8 /* SharedMemoryHandle.cc */,
 				9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */,
+				EA62B3241B6F2F41009F197F /* Timing.cc */,
+				9EAECEB51B685469000FA38A /* Utilities.cc */,
+				9EAECEB61B685469000FA38A /* WaitSet.cc */,
+				9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */,
+				9E029CAA1BAB74DA007E5DF8 /* KQueueWaitSet.cc */,
+				9E029CAB1BAB74DA007E5DF8 /* KQueueWaitSet.h */,
+				9E029CAE1BAB74EF007E5DF8 /* EPollWaitSet.cc */,
+				9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */,
+				9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */,
+				9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -908,6 +920,7 @@
 				EA6B639A1B9D572D00256484 /* Equation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
+				9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */,
 				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
 				9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
@@ -915,6 +928,7 @@
 				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
+				9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
@@ -938,6 +952,7 @@
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
+				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
@@ -957,7 +972,7 @@
 				9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
-				9E293DB81B71506D0037A431 /* ChannelProvider.h in Headers */,
+				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
 				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
@@ -971,6 +986,7 @@
 				9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
+				9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
@@ -1158,7 +1174,6 @@
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
 				EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
-				EA6090DD1BA41E8C00C2E263 /* WaitSet_EPoll.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
@@ -1170,6 +1185,7 @@
 				9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
+				9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */,
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
 				EA6B63951B9D571F00256484 /* Equation.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
@@ -1177,10 +1193,12 @@
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
 				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
+				9E029CAC1BAB74DA007E5DF8 /* KQueueWaitSet.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
+				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
@@ -1190,14 +1208,12 @@
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
-				9E029C541BA89A6F007E5DF8 /* WaitSet_KQueue.cc in Sources */,
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
 				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
 				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
-				9E029C971BAB5CBB007E5DF8 /* WaitSet_InProcess.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */,

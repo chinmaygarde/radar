@@ -23,7 +23,6 @@
 /*
  *  Channels
  */
-#include <Core/ChannelProvider.h>
 #include <Core/Channel.h>
 
 /*

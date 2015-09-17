@@ -7,6 +7,8 @@
 
 #include <Core/Channel.h>
 
+#include "ChannelProvider.h"
+
 #include <condition_variable>
 #include <list>
 

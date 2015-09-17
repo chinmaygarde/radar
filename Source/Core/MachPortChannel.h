@@ -7,6 +7,8 @@
 
 #include <Core/Channel.h>
 
+#include "ChannelProvider.h"
+
 namespace rl {
 class MachPortChannel : public ChannelProvider {
  public:

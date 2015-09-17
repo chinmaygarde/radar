@@ -10,14 +10,14 @@
 #include <vector>
 
 namespace rl {
+class WaitSetProvider;
 class EventLoopSource;
 /**
  *  A waitset is an abstraction over a platform specific event multiplexing API
  */
 class WaitSet {
  public:
-  using Handle = int;
-
+  using Handle = uintptr_t;
 #pragma mark - Creating Wait Sets
   /**
    *  Create an empty wait set to which sources can be added
@@ -55,10 +55,7 @@ class WaitSet {
   EventLoopSource& wait();
 
  private:
-  Handle _handle;
-  static Handle platformHandleCreate();
-  EventLoopSource& platformHandleWait(Handle handle);
-  static void platformHandleDestory(Handle handle);
+  std::unique_ptr<WaitSetProvider> _provider;
   std::vector<std::shared_ptr<EventLoopSource>> _sources;
 
   RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);

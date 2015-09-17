@@ -2,15 +2,29 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
 #include <Core/WaitSet.h>
 #include <Core/Utilities.h>
 #include <Core/EventLoopSource.h>
 
 #include <algorithm>
 
+#include "KQueueWaitSet.h"
+#include "EPollWaitSet.h"
+#include "InProcessWaitSet.h"
+
 namespace rl {
 
-WaitSet::WaitSet() : _handle(platformHandleCreate()) {
+WaitSet::WaitSet() {
+#if RL_OS_MAC
+  _provider = rl::make_unique<KQueueWaitSet>();
+#elif RL_OS_LINUX
+  _provider = rl::make_unique<EPollWaitSet>();
+#elif RL_OS_NACL
+  _provider = rl::make_unique<InProcessWaitSet>();
+#else
+#error Unknown Platform
+#endif
 }
 
 bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
@@ -19,7 +33,7 @@ bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
   }
 
   _sources.push_back(source);
-  source->updateInWaitSetHandle(_handle, true);
+  source->updateInWaitSetHandle(_provider->handle(), true);
 
   return true;
 }
@@ -31,21 +45,20 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   }
 
   _sources.erase(found);
-  source->updateInWaitSetHandle(_handle, false);
+  source->updateInWaitSetHandle(_provider->handle(), false);
 
   return true;
 }
 
 EventLoopSource& WaitSet::wait() {
-  return platformHandleWait(_handle);
+  return _provider->wait();
 }
 
 WaitSet::~WaitSet() {
+  auto handle = _provider->handle();
   for (auto const& source : _sources) {
-    source->updateInWaitSetHandle(_handle, false);
+    source->updateInWaitSetHandle(handle, false);
   }
-
-  platformHandleDestory(_handle);
 }
 
 }  // namespace rl

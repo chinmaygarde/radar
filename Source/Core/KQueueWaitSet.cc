@@ -6,26 +6,28 @@
 
 #if RL_OS_MAC
 
-#include <Core/WaitSet.h>
+#include "KQueueWaitSet.h"
 
 #include <sys/event.h>
 #include <unistd.h>
 
 namespace rl {
 
-WaitSet::Handle WaitSet::platformHandleCreate() {
-  WaitSet::Handle handle = RL_TEMP_FAILURE_RETRY(::kqueue());
-
-  RL_ASSERT(handle != -1);
-
-  return handle;
+KQueueWaitSet::KQueueWaitSet() : _handle(-1) {
+  _handle = RL_TEMP_FAILURE_RETRY(::kqueue());
+  RL_ASSERT(_handle != -1);
 }
 
-EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
+KQueueWaitSet::~KQueueWaitSet() {
+  RL_CHECK(::close(_handle));
+  _handle = -1;
+}
+
+EventLoopSource& KQueueWaitSet::wait() {
   struct kevent event = {0};
 
   int val =
-      RL_TEMP_FAILURE_RETRY(::kevent(handle, nullptr, 0, &event, 1, nullptr));
+      RL_TEMP_FAILURE_RETRY(::kevent(_handle, nullptr, 0, &event, 1, nullptr));
 
   RL_ASSERT(val == 1);
   RL_ASSERT(event.udata != nullptr);
@@ -33,8 +35,8 @@ EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
   return *static_cast<EventLoopSource*>(event.udata);
 }
 
-void WaitSet::platformHandleDestory(WaitSet::Handle handle) {
-  RL_CHECK(::close(handle));
+WaitSet::Handle KQueueWaitSet::handle() const {
+  return _handle;
 }
 
 }  // namespace rl

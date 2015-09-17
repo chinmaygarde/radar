@@ -6,23 +6,25 @@
 
 #if RL_OS_LINUX
 
-#include <Core/WaitSet.h>
 #include <Core/Utilities.h>
+
+#include "EPollWaitSet.h"
 
 #include <sys/epoll.h>
 #include <unistd.h>
 
 namespace rl {
 
-WaitSet::Handle WaitSet::platformHandleCreate() {
-  WaitSet::Handle handle =
-      RL_TEMP_FAILURE_RETRY(::epoll_create(1 /* unused */));
-
-  RL_ASSERT(handle != -1);
-  return handle;
+EPollWaitSet::EPollWaitSet() : _handle(-1) {
+  _handle = RL_TEMP_FAILURE_RETRY(::epoll_create(1 /* unused */));
+  RL_ASSERT(_handle != -1);
 }
 
-EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
+EPollWaitSet::~EPollWaitSet() {
+  RL_CHECK(::close(_handle));
+}
+
+EventLoopSource& EPollWaitSet::wait() {
   struct epoll_event event = {0};
 
   int val = RL_TEMP_FAILURE_RETRY(
@@ -33,8 +35,8 @@ EventLoopSource& WaitSet::platformHandleWait(WaitSet::Handle handle) {
   return *static_cast<EventLoopSource*>(event.data.ptr);
 }
 
-void WaitSet::platformHandleDestory(WaitSet::Handle handle) {
-  RL_CHECK(::close(handle));
+WaitSet::Handle EPollWaitSet::handle() const {
+  return _handle;
 }
 
 }  // namespace rl

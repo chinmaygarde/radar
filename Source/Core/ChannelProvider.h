@@ -52,6 +52,8 @@ class ChannelProvider {
    *  @return if the termination was successful
    */
   virtual bool doTerminate() = 0;
+
+  virtual ~ChannelProvider() {}
 };
 }
 

@@ -7,7 +7,6 @@
 
 #include <Core/Macros.h>
 #include <Core/EventLoop.h>
-#include <Core/ChannelProvider.h>
 #include <Core/Message.h>
 
 #include <string>
@@ -15,6 +14,8 @@
 #include <vector>
 
 namespace rl {
+
+class ChannelProvider;
 
 class Channel {
  public:

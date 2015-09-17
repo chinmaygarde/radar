@@ -12,6 +12,8 @@
 
 #include <sys/event.h>
 
+#define HANDLE_CAST(x) static_cast<int>((x))
+
 namespace rl {
 
 static inline void KEventInvoke(int queue,
@@ -30,7 +32,7 @@ void EventLoopSource::updateInWaitSetHandleForSimpleRead(
     WaitSet::Handle waitsetHandle,
     bool shouldAdd) {
   // clang-format off
-  KEventInvoke(waitsetHandle,                   /* queue */
+  KEventInvoke(HANDLE_CAST(waitsetHandle),      /* queue */
                readHandle(),                    /* ident */
                EVFILT_READ,                     /* filter */
                shouldAdd ? EV_ADD : EV_DELETE,  /* flags */
@@ -46,13 +48,13 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
       [repeatInterval](EventLoopSource& source, WaitSet::Handle waitsetHandle,
                        Handle readHandle, bool adding) {
         // clang-format off
-        KEventInvoke(waitsetHandle,               /* queue */
+        KEventInvoke(HANDLE_CAST(waitsetHandle),  /* queue */
                      readHandle,                  /* ident */
                      EVFILT_TIMER,                /* filter */
                      adding ? EV_ADD : EV_DELETE, /* flags */
                      NOTE_NSECONDS,               /* filter-flags */
                      repeatInterval.count(),      /* data */
-                     &source);                     /* user-data */
+                     &source);                    /* user-data */
         // clang-format on
       };
 
