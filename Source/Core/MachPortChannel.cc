@@ -110,9 +110,10 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   using ELS = EventLoopSource;
 
   auto allocator = [&]() { return ELS::Handles(_setHandle, _setHandle); };
-  auto readHandler = [&](Handle handle) { _channel.readPendingMessageNow(); };
+  auto readHandler =
+      [&](ELS::Handle handle) { _channel.readPendingMessageNow(); };
   auto updateHandler = [](EventLoopSource* source, WaitSet::Handle kev,
-                          Handle ident, bool adding) {
+                          ELS::Handle ident, bool adding) {
 
     struct kevent event = {0};
     // clang-format off
@@ -132,8 +133,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
                                updateHandler);
 }
 
-ChannelProvider::Result MachPortChannel::WriteMessages(
-    const Messages& messages) {
+ChannelProvider::Result MachPortChannel::WriteMessages(Messages&& messages) {
   bool success = true;
   for (auto const& message : messages) {
     MachPayload payload(message, _handle);
@@ -158,7 +158,7 @@ ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
 
   return ChannelProvider::ReadResult(
       messages.size() == 0 ? Result::TemporaryFailure : Result::Success,
-      messages);
+      std::move(messages));
 }
 
 bool MachPortChannel::doTerminate() {

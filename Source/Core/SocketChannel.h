@@ -19,7 +19,7 @@ class SocketChannel : public ChannelProvider {
 
   ~SocketChannel();
   virtual std::shared_ptr<EventLoopSource> createSource() const override;
-  virtual Result WriteMessages(const Messages& message) override;
+  virtual Result WriteMessages(Messages&& message) override;
   virtual ReadResult ReadMessages() override;
   virtual bool doTerminate() override;
 

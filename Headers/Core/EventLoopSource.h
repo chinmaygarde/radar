@@ -22,7 +22,7 @@ namespace rl {
  */
 class EventLoopSource {
  public:
-  using Handle = int;
+  using Handle = uintptr_t;
   using Handles = std::pair<Handle, Handle>;
   using IOHandler = std::function<void(Handle)>;
   using WakeFunction = std::function<void(void)>;

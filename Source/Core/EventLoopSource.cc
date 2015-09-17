@@ -8,6 +8,8 @@
 
 #include <unistd.h>
 
+#define HANDLE_CAST(x) static_cast<int>((x))
+
 namespace rl {
 
 EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
@@ -106,8 +108,8 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   };
 
   RWHandlesCollector collector = [](Handles h) {
-    RL_CHECK(::close(h.first));
-    RL_CHECK(::close(h.second));
+    RL_CHECK(::close(HANDLE_CAST(h.first)));
+    RL_CHECK(::close(HANDLE_CAST(h.second)));
   };
 
   static const char EventLoopWakeMessage[] = "w";
@@ -115,15 +117,16 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   IOHandler reader = [](Handle r) {
     char buffer[sizeof(EventLoopWakeMessage) / sizeof(char)];
 
-    ssize_t size = RL_TEMP_FAILURE_RETRY(::read(r, &buffer, sizeof(buffer)));
+    ssize_t size =
+        RL_TEMP_FAILURE_RETRY(::read(HANDLE_CAST(r), &buffer, sizeof(buffer)));
 
     RL_ASSERT(size == sizeof(buffer));
   };
 
   IOHandler writer = [](Handle w) {
 
-    ssize_t size = RL_TEMP_FAILURE_RETRY(
-        ::write(w, EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
+    ssize_t size = RL_TEMP_FAILURE_RETRY(::write(
+        HANDLE_CAST(w), EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
 
     RL_ASSERT(size == sizeof(EventLoopWakeMessage));
   };

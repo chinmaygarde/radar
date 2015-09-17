@@ -37,7 +37,7 @@ class ChannelProvider {
    *
    *  @return the write result
    */
-  virtual Result WriteMessages(const Messages& message) = 0;
+  virtual Result WriteMessages(Messages&& message) = 0;
 
   /**
    *  Read a message on the channel provider

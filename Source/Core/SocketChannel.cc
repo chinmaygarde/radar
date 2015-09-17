@@ -4,19 +4,12 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_LINUX || RL_OS_MAC || RL_OS_NACL
+#if RL_OS_LINUX || RL_OS_MAC
 
 #include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
-
-#if RL_OS_NACL
-struct iovec {
-  void* iov_base; /* Pointer to data.  */
-  size_t iov_len; /* Length of data.  */
-};
-#endif
 
 #include <mutex>
 #include <fcntl.h>
@@ -119,7 +112,7 @@ bool SocketChannel::doTerminate() {
   return false;
 }
 
-SocketChannel::Result SocketChannel::WriteMessages(const Messages& messages) {
+SocketChannel::Result SocketChannel::WriteMessages(Messages&& messages) {
   std::lock_guard<std::mutex> lock(_lock);
 
   for (const auto& message : messages) {
@@ -349,4 +342,4 @@ SocketChannel::Handle SocketChannel::writeHandle() const {
 
 }  // namespace rl
 
-#endif  // RL_OS_LINUX
+#endif  // RL_OS_LINUX || RL_OS_MAC
