@@ -32,18 +32,43 @@ struct TransferRecord {
     }
   } data;
 
+  using TransferRecordDataSize = size_t;
+
+  static constexpr size_t TransferRecordInvariantsSize() {
+    return offsetof(TransferRecord, data);
+  }
+
   template <typename T>
   static bool EmplaceInMessage(Message& message,
                                Entity::Identifier identity,
                                Entity::Property prop,
                                const T& varData) {
-    TransferRecord* allocation = reinterpret_cast<TransferRecord*>(
-        message.encodeRawUnsafe(sizeof(TransferRecord)));
+    /*
+     *  Write the size of the 'data' field contained within this transfer record
+     */
+    TransferRecordDataSize size = sizeof(T);
+    if (!message.encode(size)) {
+      return false;
+    }
+
+    /*
+     *  Allocate just enough space within the message for the transfer record
+     *  invariants and the data. The 'data' field is the last item to appear
+     *  within the transfer record
+     */
+    const auto recordSize = TransferRecordInvariantsSize() + sizeof(T);
+
+    TransferRecord* allocation =
+        reinterpret_cast<TransferRecord*>(message.encodeRawUnsafe(recordSize));
 
     if (allocation == nullptr) {
       return false;
     }
 
+    /*
+     *  Essentially a placement new (but not really because of the union at the
+     *  end)
+     */
     allocation->identifier = identity;
     allocation->property = prop;
     memcpy(&allocation->data, &varData, sizeof(T));
@@ -52,7 +77,19 @@ struct TransferRecord {
   }
 
   static TransferRecord& NextInMessage(Message& message) {
-    auto allocation = message.decodeRawUnsafe(sizeof(TransferRecord));
+    /*
+     *  Decode the size of the 'data' field
+     */
+    TransferRecordDataSize size = 0;
+    bool result = message.decode(size);
+    RL_ASSERT(result && size > 0);
+
+    /*
+     *  The transfer record size is the size of the invariants plus the size of
+     *  the data
+     */
+    const auto recordSize = TransferRecordInvariantsSize() + size;
+    auto allocation = message.decodeRawUnsafe(recordSize);
     RL_ASSERT(allocation != nullptr);
     return *reinterpret_cast<TransferRecord*>(allocation);
   }
