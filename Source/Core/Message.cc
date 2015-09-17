@@ -168,4 +168,8 @@ bool Message::readCompleted() const {
   return _sizeRead == _dataLength;
 }
 
+void Message::rewindRead() {
+  _sizeRead = 0;
+}
+
 }  // namespace rl

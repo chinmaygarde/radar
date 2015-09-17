@@ -130,6 +130,10 @@ class Message {
 
   size_t reservedHeaderSize() const;
 
+#pragma mark - Multiple Reads
+
+  void rewindRead();
+
  private:
   uint8_t* _buffer;
   size_t _bufferLength;
