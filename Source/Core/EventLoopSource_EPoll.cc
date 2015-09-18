@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_LINUX
+#if RL_WAITSET == RL_WAITSET_EPOLL
 
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
@@ -127,4 +127,4 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
 
 }  // namespace rl
 
-#endif  // RL_OS_LINUX
+#endif

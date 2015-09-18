@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_MAC
+#if RL_WAITSET == RL_WAITSET_KQUEUE
 
 #include "KQueueWaitSet.h"
 

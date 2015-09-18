@@ -19,14 +19,14 @@ Channel::Channel()
       _terminated(false),
       _provider(nullptr),
       _source(nullptr) {
-#if RL_OS_MAC
+#if RL_CHANNELS == RL_CHANNELS_MACH
   _provider = make_unique<MachPortChannel>(*this);
-#elif RL_OS_LINUX
+#elif RL_CHANNELS == RL_CHANNELS_SOCKET
   _provider = make_unique<SocketChannel>(*this);
-#elif RL_OS_NACL
+#elif RL_CHANNELS == RL_CHANNELS_INPROCESS
   _provider = make_unique<InProcessChannel>(*this);
 #else
-#error Unknown Platform
+#error Unknown Channels Implementation
 #endif
 }
 

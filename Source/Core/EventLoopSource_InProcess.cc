@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_NACL
+#if RL_WAITSET == RL_WAITSET_INPROCESS
 
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
@@ -34,4 +34,4 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
 
 }  // namespace rl
 
-#endif  // RL_OS_NACL
+#endif

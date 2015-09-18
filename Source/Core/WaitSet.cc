@@ -16,14 +16,14 @@
 namespace rl {
 
 WaitSet::WaitSet() {
-#if RL_OS_MAC
+#if RL_WAITSET == RL_WAITSET_KQUEUE
   _provider = rl::make_unique<KQueueWaitSet>();
-#elif RL_OS_LINUX
+#elif RL_WAITSET == RL_WAITSET_EPOLL
   _provider = rl::make_unique<EPollWaitSet>();
-#elif RL_OS_NACL
+#elif RL_WAITSET == RL_WAITSET_INPROCESS
   _provider = rl::make_unique<InProcessWaitSet>();
 #else
-#error Unknown Platform
+#error Unknown WaitSet Implementation
 #endif
 }
 
