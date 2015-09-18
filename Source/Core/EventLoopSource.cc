@@ -22,9 +22,12 @@ EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
       _readHandler(readHandler),
       _writeHandler(writeHandler),
       _customWaitSetUpdateHandler(waitsetUpdateHandler),
-      _wakeFunction(nullptr),
       _handles(Handles(-1, -1)),
       _handlesAllocated(false) {
+}
+
+EventLoopSource::EventLoopSource()
+    : _handles(Handles(-1, -1)), _handlesAllocated(false) {
 }
 
 EventLoopSource::~EventLoopSource() {
@@ -69,6 +72,14 @@ EventLoopSource::Handle EventLoopSource::writeHandle() {
   return handles().second;
 }
 
+void EventLoopSource::setHandlesProvider(RWHandlesProvider provider) {
+  _handlesProvider = provider;
+}
+
+void EventLoopSource::setHandlesCollector(RWHandlesCollector collector) {
+  _handlesCollector = collector;
+}
+
 EventLoopSource::IOHandler EventLoopSource::reader() const {
   return _readHandler;
 }
@@ -91,6 +102,11 @@ void EventLoopSource::updateInWaitSet(WaitSet& waitset, bool shouldAdd) {
   } else {
     updateInWaitSetForSimpleRead(waitset, shouldAdd);
   }
+}
+
+void EventLoopSource::setCustomWaitSetUpdateHandler(
+    WaitSetUpdateHandler updateHandler) {
+  _customWaitSetUpdateHandler = updateHandler;
 }
 
 }  // namespace rl

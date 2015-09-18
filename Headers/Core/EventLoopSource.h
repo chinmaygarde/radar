@@ -44,7 +44,7 @@ class EventLoopSource {
                            IOHandler writeHandler,
                            WaitSetUpdateHandler waitsetUpdateHandler);
 
-  ~EventLoopSource();
+  virtual ~EventLoopSource();
 
   void onAwoken();
 
@@ -86,6 +86,10 @@ class EventLoopSource {
    */
   Handle writeHandle();
 
+  void setHandlesProvider(RWHandlesProvider provider);
+
+  void setHandlesCollector(RWHandlesCollector collector);
+
 #pragma mark - Accessing the reader and writer procs
 
   /**
@@ -117,6 +121,8 @@ class EventLoopSource {
 
   void updateInWaitSet(WaitSet& waitset, bool shouldAdd);
 
+  void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler updateHandler);
+
 #pragma mark - Common event loop sources
 
   /**
@@ -135,6 +141,9 @@ class EventLoopSource {
    *  @return the trivial source
    */
   static std::shared_ptr<EventLoopSource> Trivial();
+
+ protected:
+  EventLoopSource();
 
  private:
   RWHandlesProvider _handlesProvider;

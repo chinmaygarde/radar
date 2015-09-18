@@ -25,6 +25,7 @@
 		9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */; };
 		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
 		9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */; };
+		9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -39,6 +40,8 @@
 		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
 		9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */; };
 		9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */; };
+		9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */; };
+		9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */; };
 		9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.cc */; };
 		9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80B1B796D81008DE08E /* LayerTest.cc */; };
 		9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* EventLoopTest.cc */; };
@@ -281,6 +284,7 @@
 		9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessWaitSet.cc; sourceTree = "<group>"; };
 		9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessWaitSet.h; sourceTree = "<group>"; };
 		9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSetProvider.cc; sourceTree = "<group>"; };
+		9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_InProcess.cc; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
 		9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
+		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
+		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelTest.cc; sourceTree = "<group>"; };
 		9E62F80B1B796D81008DE08E /* LayerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerTest.cc; sourceTree = "<group>"; };
 		9E62F80C1B796D81008DE08E /* EventLoopTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopTest.cc; sourceTree = "<group>"; };
@@ -744,6 +750,7 @@
 				9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */,
 				EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */,
 				EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */,
+				9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */,
 				9EAECEAF1B685469000FA38A /* EventLoopSource.cc */,
 				9EAECEA91B685469000FA38A /* Guard.cc */,
 				9EAECEAA1B685469000FA38A /* Latch.cc */,
@@ -770,6 +777,8 @@
 				9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */,
 				9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */,
 				9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */,
+				9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */,
+				9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -977,6 +986,7 @@
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
 				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
+				9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
 				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
 				9E62F9171B7C1F85008DE08E /* EntityArena.h in Headers */,
@@ -1181,6 +1191,7 @@
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
+				9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9E029CA21BAB5CF8007E5DF8 /* InProcessChannel.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
@@ -1197,6 +1208,7 @@
 				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
 				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9E029CAC1BAB74DA007E5DF8 /* KQueueWaitSet.cc in Sources */,
+				9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
