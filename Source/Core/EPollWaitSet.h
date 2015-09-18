@@ -6,7 +6,7 @@
 #define __RADARLOVE_CORE_EPOLLWAITSET_H__
 
 #include <Core/Macros.h>
-#include <WaitSetProvider.h>
+#include "WaitSetProvider.h"
 
 namespace rl {
 

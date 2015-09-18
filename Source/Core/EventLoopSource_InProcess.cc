@@ -11,6 +11,7 @@
 #include <Core/Utilities.h>
 
 #include "InProcessTrivialSource.h"
+#include "InProcessTimerSource.h"
 
 namespace rl {
 

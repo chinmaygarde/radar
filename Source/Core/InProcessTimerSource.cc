@@ -12,9 +12,8 @@ namespace rl {
 InProcessTimerSource::InProcessTimerSource(
     std::chrono::nanoseconds repeatInterval)
     : EventLoopSource() {
-  setHandlesProvider([] {
-    return Handles(InProcessWaitSet::TimerHandle(),
-                   InProcessWaitSet::TimerHandle());
+  setHandlesProvider([repeatInterval] {
+    return InProcessWaitSet::TimerHandles(repeatInterval);
   });
 
   setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,

@@ -13,6 +13,24 @@ InProcessWaitSet::~InProcessWaitSet() {
   RL_ASSERT(_watchedSources.size() == 0);
 }
 
+static constexpr EventLoopSource::Handle TimerHandle() {
+  return std::numeric_limits<EventLoopSource::Handle>::max();
+}
+
+static constexpr bool IsTimer(const EventLoopSource::Handles& handles) {
+  return handles.first == TimerHandle();
+}
+
+static std::chrono::nanoseconds TimerIntervalRelative(
+    const EventLoopSource::Handles& handles) {
+  return std::chrono::nanoseconds(handles.second);
+}
+
+EventLoopSource::Handles InProcessWaitSet::TimerHandles(
+    const std::chrono::nanoseconds& interval) {
+  return EventLoopSource::Handles(TimerHandle(), interval.count());
+}
+
 WaitSet::Handle InProcessWaitSet::handle() const {
   return WaitSet::Handle(this);
 }
@@ -22,37 +40,111 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     bool added) {
   WaitSetProvider::updateSource(waitset, source, added);
 
-  auto isTimer = source.writeHandle() == TimerHandle();
-  if (added) {
-    if (isTimer) {
-      _watchedTimers.insert(&source);
+  if (IsTimer(source.handles())) {
+    if (added) {
+      setupTimer(source);
     } else {
-      _watchedSources[source.writeHandle()] = &source;
+      teardownTimer(source);
     }
   } else {
-    if (isTimer) {
-      _watchedTimers.erase(&source);
+    if (added) {
+      setupSource(source);
     } else {
-      _watchedSources.erase(source.writeHandle());
+      teardownSource(source);
     }
   }
+}
+
+void InProcessWaitSet::setupTimer(EventLoopSource& source) {
+  RL_ASSERT(IsTimer(source.handles()));
+
+  auto absTimeout = TimerClock::now() + TimerIntervalRelative(source.handles());
+
+  _timers.emplace_back(source, absTimeout);
+  std::push_heap(_timers.begin(), _timers.end(), ActiveTimerCompare());
+}
+
+void InProcessWaitSet::teardownTimer(EventLoopSource& source) {
+  RL_ASSERT(IsTimer(source.handles()));
+
+  auto found = std::find_if(
+      _timers.begin(), _timers.end(),
+      [&source](const ActiveTimer& timer) { return timer.source == &source; });
+
+  RL_ASSERT(found != _timers.end());
+
+  _timers.erase(found);
+  std::make_heap(_timers.begin(), _timers.end(), ActiveTimerCompare());
+}
+
+void InProcessWaitSet::setupSource(EventLoopSource& source) {
+  _watchedSources[source.writeHandle()] = &source;
+}
+
+void InProcessWaitSet::teardownSource(EventLoopSource& source) {
+  _watchedSources.erase(source.writeHandle());
+}
+
+bool InProcessWaitSet::isTimerExpired() const {
+  if (_timers.size() == 0) {
+    return false;
+  }
+
+  return TimerClock::now() > _timers.front().absoluteTimeout;
+}
+
+bool InProcessWaitSet::isAwakable() const {
+  bool hasReadySources = _readySources.size() > 0;
+
+  return hasReadySources || isTimerExpired();
+}
+
+InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
+  return _timers.size() == 0 ? TimerClockPoint::max()
+                             : _timers.front().absoluteTimeout;
 }
 
 EventLoopSource& InProcessWaitSet::wait() {
   std::unique_lock<std::mutex> lock(_lock);
 
-  _conditionVariable.wait(lock, [&] { return _readySources.size() > 0; });
+  _conditionVariable.wait_until(lock, nextTimeout(),
+                                [&] { return isAwakable(); });
 
-  auto found = _readySources.begin();
-  RL_ASSERT(found != _readySources.end() &&
-            "There must already be at least one ready source");
-
-  auto source = *found;
-
-  _readySources.erase(found);
+  auto& source = isTimerExpired() ? timerOnWake() : sourceOnWake();
 
   lock.unlock();
 
+  return source;
+}
+
+EventLoopSource& InProcessWaitSet::timerOnWake() {
+  RL_ASSERT(isTimerExpired());
+  /*
+   *  Grab a hold of the next signalled timer
+   */
+  auto source = _timers.front().source;
+  RL_ASSERT(source);
+
+  /*
+   *  Erase the expired timer from the heap. We don't use teardownTimer() since
+   *  that assumes that any timer (not just the top of the heap) may be removed.
+   */
+  std::pop_heap(_timers.begin(), _timers.end(), ActiveTimerCompare());
+  _timers.pop_back();
+
+  /*
+   *  re-arm the timer since all timers are repeating
+   */
+  setupTimer(*source);
+
+  return *source;
+}
+
+EventLoopSource& InProcessWaitSet::sourceOnWake() {
+  auto found = _readySources.begin();
+  RL_ASSERT(found != _readySources.end());
+  auto source = *found;
+  _readySources.erase(found);
   return *source;
 }
 

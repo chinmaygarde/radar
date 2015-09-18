@@ -10,6 +10,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
 #include <condition_variable>
 
 namespace rl {
@@ -19,9 +20,8 @@ class InProcessWaitSet : public WaitSetProvider {
   InProcessWaitSet();
   ~InProcessWaitSet();
 
-  static constexpr EventLoopSource::Handle TimerHandle() {
-    return std::numeric_limits<EventLoopSource::Handle>::max();
-  }
+  static EventLoopSource::Handles TimerHandles(
+      const std::chrono::nanoseconds& interval);
 
   EventLoopSource& wait() override;
   WaitSet::Handle handle() const override;
@@ -32,14 +32,42 @@ class InProcessWaitSet : public WaitSetProvider {
                     bool addedOrRemoved) override;
 
  private:
+  using TimerClock = std::chrono::high_resolution_clock;
+  using TimerClockPoint = std::chrono::time_point<TimerClock>;
+
+  struct ActiveTimer {
+    EventLoopSource* source;
+    TimerClockPoint absoluteTimeout;
+
+    ActiveTimer(EventLoopSource& src, const TimerClockPoint& timeout)
+        : source(&src), absoluteTimeout(timeout) {}
+  };
+
+  struct ActiveTimerCompare {
+    bool operator()(const ActiveTimer& a, const ActiveTimer& b) {
+      return a.absoluteTimeout < b.absoluteTimeout;
+    }
+  };
+
   using WriteHandleSourcesMap =
       std::unordered_map<EventLoopSource::Handle, EventLoopSource*>;
+  using ActiveTimersHeap = std::vector<ActiveTimer>;
 
   std::mutex _lock;
   std::condition_variable _conditionVariable;
   WriteHandleSourcesMap _watchedSources;
-  std::unordered_set<EventLoopSource*> _watchedTimers;
+  ActiveTimersHeap _timers;
   std::unordered_set<EventLoopSource*> _readySources;
+
+  TimerClockPoint nextTimeout() const;
+  bool isAwakable() const;
+  bool isTimerExpired() const;
+  void setupTimer(EventLoopSource& source);
+  void teardownTimer(EventLoopSource& source);
+  void setupSource(EventLoopSource& source);
+  void teardownSource(EventLoopSource& source);
+  EventLoopSource& timerOnWake();
+  EventLoopSource& sourceOnWake();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
 };
