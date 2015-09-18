@@ -11,6 +11,7 @@
 
 #include <condition_variable>
 #include <list>
+#include <unordered_set>
 
 namespace rl {
 
@@ -26,9 +27,9 @@ class InProcessChannel : public ChannelProvider {
 
  private:
   std::mutex _lock;
-  std::condition_variable _conditionVariable;
   Channel& _channel;
   std::list<Message> _messageBuffer;
+  mutable std::unordered_set<WaitSet*> _activeWaitSets;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannel);
 };

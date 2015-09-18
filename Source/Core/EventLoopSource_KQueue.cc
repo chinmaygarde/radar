@@ -67,6 +67,47 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
                                            nullptr, updateHandler);
 }
 
+  std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
+    /*
+     *  We are using a simple pipe but this should likely be something
+     *  that coalesces multiple writes. Something like an event_fd on Linux
+     */
+    RWHandlesProvider provider = [] {
+      int descriptors[2] = {0};
+
+      RL_CHECK(::pipe(descriptors));
+
+      return Handles(descriptors[0], descriptors[1]);
+    };
+
+    RWHandlesCollector collector = [](Handles h) {
+      RL_CHECK(::close(HANDLE_CAST(h.first)));
+      RL_CHECK(::close(HANDLE_CAST(h.second)));
+    };
+
+    static const char EventLoopWakeMessage[] = "w";
+
+    IOHandler reader = [](Handle r) {
+      char buffer[sizeof(EventLoopWakeMessage) / sizeof(char)];
+
+      ssize_t size =
+      RL_TEMP_FAILURE_RETRY(::read(HANDLE_CAST(r), &buffer, sizeof(buffer)));
+
+      RL_ASSERT(size == sizeof(buffer));
+    };
+
+    IOHandler writer = [](Handle w) {
+
+      ssize_t size = RL_TEMP_FAILURE_RETRY(::write(
+                                                   HANDLE_CAST(w), EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
+
+      RL_ASSERT(size == sizeof(EventLoopWakeMessage));
+    };
+    
+    return std::make_shared<EventLoopSource>(provider, collector, reader, writer,
+                                             nullptr);
+  }
+
 }  // namespace rl
 
 #endif  // RL_OS_MAC

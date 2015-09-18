@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/WaitSet.h>
+#include <Core/EventLoopSource.h>
 
 namespace rl {
 
@@ -16,7 +17,12 @@ class WaitSetProvider {
 
   virtual WaitSet::Handle handle() const = 0;
 
-  virtual void updateSource(EventLoopSource& source, bool addedOrRemoved);
+  virtual void signalReadReadinessFromUserspace(
+      EventLoopSource::Handle writeHandle);
+
+  virtual void updateSource(WaitSet& waitset,
+                            EventLoopSource& source,
+                            bool addedOrRemoved);
 
   virtual ~WaitSetProvider();
 };

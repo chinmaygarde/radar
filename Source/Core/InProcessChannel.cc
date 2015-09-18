@@ -10,18 +10,33 @@ InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {
 }
 
 InProcessChannel::~InProcessChannel() {
+  RL_ASSERT(_activeWaitSets.size() == 0);
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
   using ELS = EventLoopSource;
 
   auto handle = reinterpret_cast<ELS::Handle>(this);
-  auto allocator = [&]() { return ELS::Handles(handle, handle); };
+  auto allocator = [handle]() {
+    /*
+     *  Since this channel is going to write to this source as well are read
+     *  from it, we assign ourselves as the read and write handles.
+     */
+    return ELS::Handles(handle, handle);
+  };
   auto readHandler =
       [&](ELS::Handle handle) { _channel.readPendingMessageNow(); };
+  auto updateHandler = [&](EventLoopSource& source, WaitSet& waitset,
+                           ELS::Handle ident, bool adding) {
+    if (adding) {
+      _activeWaitSets.insert(&waitset);
+    } else {
+      _activeWaitSets.erase(&waitset);
+    }
+  };
 
   return std::make_shared<ELS>(allocator, nullptr, readHandler, nullptr,
-                               nullptr);
+                               updateHandler);
 }
 
 ChannelProvider::Result InProcessChannel::WriteMessages(Messages&& messages) {
@@ -36,18 +51,16 @@ ChannelProvider::Result InProcessChannel::WriteMessages(Messages&& messages) {
     _messageBuffer.push_back(std::move(message));
   }
 
-  _conditionVariable.notify_all();
+  for (const auto& waitset : _activeWaitSets) {
+    waitset->signalReadReadinessFromUserspace(
+        reinterpret_cast<EventLoopSource::Handle>(this));
+  }
 
   return ChannelProvider::Result::Success;
 }
 
 ChannelProvider::ReadResult InProcessChannel::ReadMessages() {
-  /*
-   *  Hold a unique lock on the mutex. This constructor calls lock() on _lock
-   */
-  std::unique_lock<std::mutex> lock(_lock);
-
-  _conditionVariable.wait(lock, [&] { return _messageBuffer.size() == 0; });
+  std::lock_guard<std::mutex> lock(_lock);
 
   Messages readMessages;
 
@@ -55,8 +68,6 @@ ChannelProvider::ReadResult InProcessChannel::ReadMessages() {
     readMessages.push_back(std::move(_messageBuffer.front()));
     _messageBuffer.pop_front();
   }
-
-  _lock.unlock();
 
   return ChannelProvider::ReadResult(
       readMessages.size() == 0 ? Result::TemporaryFailure : Result::Success,

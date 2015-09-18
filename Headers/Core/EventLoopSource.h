@@ -6,13 +6,14 @@
 #define __RADARLOVE_CORE_EVENT_LOOP_SOURCE__
 
 #include <Core/Macros.h>
-#include <Core/WaitSet.h>
 
 #include <functional>
 #include <utility>
 #include <chrono>
 
 namespace rl {
+
+class WaitSet;
 
 /**
  *  An event loop source interacts with the wait set on the platform to wake the
@@ -29,7 +30,7 @@ class EventLoopSource {
   using RWHandlesProvider = std::function<Handles(void)>;
   using RWHandlesCollector = std::function<void(Handles)>;
   using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
-                                                  WaitSet::Handle waitsetHandle,
+                                                  WaitSet& waitset,
                                                   Handle readHandle,
                                                   bool adding)>;
 
@@ -114,15 +115,7 @@ class EventLoopSource {
 
 #pragma mark - Interacting with a WaitSet
 
-  /**
-   *  The function that in invoked to modify the raw event loop source handle
-   *  on the platform wait set
-   *
-   *  @param handle    the wait set handle
-   *  @param shouldAdd if this source is being added or removed from the wait
-   *                   set
-   */
-  void updateInWaitSetHandle(WaitSet::Handle handle, bool shouldAdd);
+  void updateInWaitSet(WaitSet& waitset, bool shouldAdd);
 
 #pragma mark - Common event loop sources
 
@@ -153,17 +146,7 @@ class EventLoopSource {
   WakeFunction _wakeFunction;
   bool _handlesAllocated;
 
-  /**
-   *  If this event loop source can be waitied on for simple reads by the
-   *  platform waitset, no custom wait set update handler is needed and this
-   *  function is invoked to add the handle for waiting on a read.
-   *
-   *  @param handle    the wait set handle
-   *  @param shouldAdd if this source is being added or removed from the wait
-   *                   set
-   */
-  void updateInWaitSetHandleForSimpleRead(WaitSet::Handle handle,
-                                          bool shouldAdd);
+  void updateInWaitSetForSimpleRead(WaitSet& waitset, bool shouldAdd);
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
 };

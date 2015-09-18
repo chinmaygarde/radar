@@ -8,9 +8,17 @@
 
 namespace rl {
 
-void WaitSetProvider::updateSource(EventLoopSource& source,
+void WaitSetProvider::updateSource(WaitSet& waitset,
+                                   EventLoopSource& source,
                                    bool addedOrRemoved) {
-  source.updateInWaitSetHandle(handle(), addedOrRemoved);
+  source.updateInWaitSet(waitset, addedOrRemoved);
+}
+
+void WaitSetProvider::signalReadReadinessFromUserspace(
+    EventLoopSource::Handle writeHandle) {
+  RL_ASSERT(false &&
+            "This platform does not allow signalling read readiness of sources "
+            "from userspace. Only 'InProcess' Core variants support this!");
 }
 
 WaitSetProvider::~WaitSetProvider() {

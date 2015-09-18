@@ -115,7 +115,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
 
   // clang-format off
   auto updateHandler = [](EventLoopSource& source,
-                          WaitSet::Handle kev,
+                          WaitSet& kev,
                           ELS::Handle ident,
                           bool adding) {
 
@@ -129,7 +129,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
            0,                           /* data */
            &source                      /* udata */);
 
-    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(static_cast<int>(kev),
+    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(static_cast<int>(kev.handle()),
                                              &event,
                                              1,
                                              nullptr,

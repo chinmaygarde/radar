@@ -6,6 +6,7 @@
 #define __RADARLOVE_CORE_WAITSET__
 
 #include <Core/Macros.h>
+#include <Core/EventLoopSource.h>
 
 #include <vector>
 
@@ -53,6 +54,10 @@ class WaitSet {
    *  @return the first loop source signalled on the waitset
    */
   EventLoopSource& wait();
+
+  Handle handle() const;
+
+  void signalReadReadinessFromUserspace(EventLoopSource::Handle writeHandle);
 
  private:
   std::unique_ptr<WaitSetProvider> _provider;
