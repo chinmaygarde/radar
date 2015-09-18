@@ -185,6 +185,8 @@
 		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
 		EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
+		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; settings = {ASSET_TAGS = (); }; };
+		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -447,6 +449,8 @@
 		EA6B63981B9D572D00256484 /* Equation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equation.h; sourceTree = "<group>"; };
 		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
 		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
+		EAB757321BABE585009AA97F /* InProcessTimerSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTimerSource.cc; sourceTree = "<group>"; };
+		EAB757331BABE585009AA97F /* InProcessTimerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTimerSource.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -779,6 +783,8 @@
 				9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */,
 				9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */,
 				9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */,
+				EAB757321BABE585009AA97F /* InProcessTimerSource.cc */,
+				EAB757331BABE585009AA97F /* InProcessTimerSource.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -928,6 +934,7 @@
 				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
+				EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
 				EA6B639A1B9D572D00256484 /* Equation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
@@ -1210,6 +1217,7 @@
 				9E029CAC1BAB74DA007E5DF8 /* KQueueWaitSet.cc in Sources */,
 				9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
+				EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */,
 				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,

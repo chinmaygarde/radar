@@ -24,7 +24,7 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     std::chrono::nanoseconds repeatInterval) {
-  return nullptr;
+  return std::make_shared<InProcessTimerSource>(repeatInterval);
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {

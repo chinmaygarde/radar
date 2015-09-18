@@ -21,10 +21,20 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     EventLoopSource& source,
                                     bool added) {
   WaitSetProvider::updateSource(waitset, source, added);
+
+  auto isTimer = source.writeHandle() == TimerHandle();
   if (added) {
-    _watchedSources[source.writeHandle()] = &source;
+    if (isTimer) {
+      _watchedTimers.insert(&source);
+    } else {
+      _watchedSources[source.writeHandle()] = &source;
+    }
   } else {
-    _watchedSources.erase(source.writeHandle());
+    if (isTimer) {
+      _watchedTimers.erase(&source);
+    } else {
+      _watchedSources.erase(source.writeHandle());
+    }
   }
 }
 

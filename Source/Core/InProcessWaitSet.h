@@ -19,6 +19,10 @@ class InProcessWaitSet : public WaitSetProvider {
   InProcessWaitSet();
   ~InProcessWaitSet();
 
+  static constexpr EventLoopSource::Handle TimerHandle() {
+    return std::numeric_limits<EventLoopSource::Handle>::max();
+  }
+
   EventLoopSource& wait() override;
   WaitSet::Handle handle() const override;
   void signalReadReadinessFromUserspace(
@@ -34,6 +38,7 @@ class InProcessWaitSet : public WaitSetProvider {
   std::mutex _lock;
   std::condition_variable _conditionVariable;
   WriteHandleSourcesMap _watchedSources;
+  std::unordered_set<EventLoopSource*> _watchedTimers;
   std::unordered_set<EventLoopSource*> _readySources;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
