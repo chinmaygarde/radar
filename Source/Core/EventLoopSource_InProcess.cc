@@ -16,6 +16,10 @@ namespace rl {
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
                                                    bool shouldAdd) {
+  RL_ASSERT(false &&
+            "In-process loop sources require an extra bit of context to signal "
+            "the waitset from userspace. There can be no default simple read "
+            "handler without this.");
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
