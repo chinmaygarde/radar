@@ -34,9 +34,11 @@ void Channel::terminate() {
 
   bool closed = _provider->doTerminate();
 
+  RL_ASSERT(closed);
+
   _terminated = true;
 
-  if (closed && _terminationCallback) {
+  if (_terminationCallback) {
     _terminationCallback();
   }
 }

@@ -174,8 +174,11 @@ ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
 }
 
 bool MachPortChannel::doTerminate() {
-  kern_return_t res = mach_port_destroy(mach_task_self(), _handle);
-  return res == KERN_SUCCESS;
+  kern_return_t res0 =
+      mach_port_extract_member(mach_task_self(), _handle, _setHandle);
+  kern_return_t res1 = mach_port_destroy(mach_task_self(), _handle);
+  kern_return_t res2 = mach_port_destroy(mach_task_self(), _setHandle);
+  return res0 == KERN_SUCCESS && res1 == KERN_SUCCESS && res2 == KERN_SUCCESS;
 }
 
 }  // namespace rl
