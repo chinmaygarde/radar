@@ -16,7 +16,9 @@ class WaitSetProvider {
 
   virtual WaitSet::Handle handle() const = 0;
 
-  virtual ~WaitSetProvider(){};
+  virtual void updateSource(EventLoopSource& source, bool addedOrRemoved);
+
+  virtual ~WaitSetProvider();
 };
 
 }  // namespace rl

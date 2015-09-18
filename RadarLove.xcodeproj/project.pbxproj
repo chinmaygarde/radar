@@ -24,6 +24,7 @@
 		9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */; };
 		9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */; };
 		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
+		9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -279,6 +280,7 @@
 		9E029CAF1BAB74EF007E5DF8 /* EPollWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPollWaitSet.h; sourceTree = "<group>"; };
 		9E029CB21BAB74FD007E5DF8 /* InProcessWaitSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessWaitSet.cc; sourceTree = "<group>"; };
 		9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessWaitSet.h; sourceTree = "<group>"; };
+		9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSetProvider.cc; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -761,6 +763,7 @@
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
 				9EAECEB61B685469000FA38A /* WaitSet.cc */,
 				9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */,
+				9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */,
 				9E029CAA1BAB74DA007E5DF8 /* KQueueWaitSet.cc */,
 				9E029CAB1BAB74DA007E5DF8 /* KQueueWaitSet.h */,
 				9E029CAE1BAB74EF007E5DF8 /* EPollWaitSet.cc */,
@@ -1204,6 +1207,7 @@
 				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
+				9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */,

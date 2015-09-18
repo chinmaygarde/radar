@@ -33,7 +33,7 @@ bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
   }
 
   _sources.push_back(source);
-  source->updateInWaitSetHandle(_provider->handle(), true);
+  _provider->updateSource(*source, true);
 
   return true;
 }
@@ -45,7 +45,7 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   }
 
   _sources.erase(found);
-  source->updateInWaitSetHandle(_provider->handle(), false);
+  _provider->updateSource(*source, false);
 
   return true;
 }
@@ -55,9 +55,8 @@ EventLoopSource& WaitSet::wait() {
 }
 
 WaitSet::~WaitSet() {
-  auto handle = _provider->handle();
   for (auto const& source : _sources) {
-    source->updateInWaitSetHandle(handle, false);
+    _provider->updateSource(*source, false);
   }
 }
 
