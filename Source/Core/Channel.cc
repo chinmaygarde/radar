@@ -2,11 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
 #include <Core/Channel.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
-#include <Core/SocketChannel.h>
-#include <Core/MachPortChannel.h>
+
+#include "SocketChannel.h"
+#include "MachPortChannel.h"
+#include "InProcessChannel.h"
 
 namespace rl {
 
@@ -16,10 +19,14 @@ Channel::Channel()
       _terminated(false),
       _provider(nullptr),
       _source(nullptr) {
-#if __APPLE__
+#if RL_OS_MAC
   _provider = make_unique<MachPortChannel>(*this);
-#else
+#elif RL_OS_LINUX
   _provider = make_unique<SocketChannel>(*this);
+#elif RL_OS_NACL
+  _provider = make_unique<InProcessChannel>(*this);
+#else
+#error Unknown Platform
 #endif
 }
 
