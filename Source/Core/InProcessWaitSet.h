@@ -45,7 +45,7 @@ class InProcessWaitSet : public WaitSetProvider {
 
   struct ActiveTimerCompare {
     bool operator()(const ActiveTimer& a, const ActiveTimer& b) {
-      return a.absoluteTimeout < b.absoluteTimeout;
+      return a.absoluteTimeout > b.absoluteTimeout;
     }
   };
 
