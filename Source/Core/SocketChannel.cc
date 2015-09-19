@@ -107,9 +107,9 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
 }
 
 bool SocketChannel::doTerminate() {
-  SocketChannel_CloseHandle(readHandle());
-  SocketChannel_CloseHandle(writeHandle());
-  return false;
+  bool readClosed = SocketChannel_CloseHandle(readHandle());
+  bool writeClosed = SocketChannel_CloseHandle(writeHandle());
+  return readClosed && writeClosed;
 }
 
 SocketChannel::Result SocketChannel::WriteMessages(Messages&& messages) {
