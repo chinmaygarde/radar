@@ -51,7 +51,7 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
       teardownTimer(source);
     }
     /*
-     *  in care timer re-arms are required, notify an idle wake
+     *  in case timer re-arms are required, notify an idle wake
      */
     _idleWake = true;
     _conditionVariable.notify_all();
