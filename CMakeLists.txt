@@ -169,5 +169,6 @@ if(RL_PLATFORM_NACL)
   configure_file("Platforms/Nacl/RadarLove.nmf" "RadarLove.nmf" COPYONLY)
   configure_file("Platforms/Nacl/Server" "Server" COPYONLY)
   configure_file("Platforms/Nacl/GDBInit" "GDBInit" COPYONLY)
+  configure_file("Platforms/Nacl/Debug" "Debug" COPYONLY)
 
 endif()

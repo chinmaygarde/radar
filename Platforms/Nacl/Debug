@@ -1,0 +1,2 @@
+#!/bin/sh
+/Applications/nacl_sdk/pepper_45/toolchain/mac_x86_newlib/bin/x86_64-nacl-gdb -x GDBInit

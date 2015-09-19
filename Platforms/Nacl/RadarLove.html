@@ -11,36 +11,17 @@
 
   <script type="text/javascript">
     RadarLoveModule = null;
-    statusText = 'NO-STATUS';
-
     function moduleDidLoad() {
       RadarLoveModule = document.getElementById('RadarLove');
-      updateStatus('SUCCESS');
+      console.log("RadarLove Module Load Successful");
     }
 
     function handleMessage(message_event) {
-      alert(message_event.data);
-    }
-
-    function pageDidLoad() {
-      if (RadarLoveModule == null) {
-        updateStatus('LOADING...');
-      } else {
-        updateStatus();
-      }
-    }
-    
-    function updateStatus(opt_message) {
-      if (opt_message)
-        statusText = opt_message;
-      var statusField = document.getElementById('statusField');
-      if (statusField) {
-        statusField.innerHTML = statusText;
-      }
+      console.log(message_event.data);
     }
   </script>
 </head>
-<body onload="pageDidLoad()">
+<body>
   <p>
     <div id="listener">
       <script type="text/javascript">
@@ -50,11 +31,10 @@
       </script>
 
       <embed id="RadarLove"
-             width=0 height=0
+             width="800" height="600"
              src="RadarLove.nmf"
              type="application/x-pnacl" />
     </div>
   </p>
-  <h2>Status <code id="statusField">NO-STATUS</code></h2>
 </body>
 </html>
