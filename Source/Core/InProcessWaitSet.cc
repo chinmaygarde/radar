@@ -8,7 +8,7 @@
 
 namespace rl {
 
-InProcessWaitSet::InProcessWaitSet() {
+InProcessWaitSet::InProcessWaitSet() : _idleWake(false) {
 }
 
 InProcessWaitSet::~InProcessWaitSet() {
@@ -42,12 +42,19 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     bool added) {
   WaitSetProvider::updateSource(waitset, source, added);
 
+  std::lock_guard<std::mutex> lock(_lock);
+
   if (IsTimer(source.handles())) {
     if (added) {
       setupTimer(source);
     } else {
       teardownTimer(source);
     }
+    /*
+     *  in care timer re-arms are required, notify an idle wake
+     */
+    _idleWake = true;
+    _conditionVariable.notify_all();
   } else {
     if (added) {
       setupSource(source);
@@ -98,7 +105,7 @@ bool InProcessWaitSet::isTimerExpired() const {
 bool InProcessWaitSet::isAwakable() const {
   bool hasReadySources = _readySources.size() > 0;
 
-  return hasReadySources || isTimerExpired();
+  return hasReadySources || isTimerExpired() || _idleWake;
 }
 
 InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
@@ -107,20 +114,37 @@ InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
 }
 
 EventLoopSource& InProcessWaitSet::wait() {
-  std::unique_lock<std::mutex> lock(_lock);
+  EventLoopSource* source = nullptr;
 
-  _conditionVariable.wait_until(lock, nextTimeout(),
-                                [&] { return isAwakable(); });
+  while (true) {
+    std::unique_lock<std::mutex> lock(_lock);
+    _conditionVariable.wait_until(lock, nextTimeout(),
+                                  [&] { return isAwakable(); });
 
-  auto& source = isTimerExpired() ? timerOnWake() : sourceOnWake();
+    source = isTimerExpired() ? &timerOnWake() : sourceOnWake();
 
-  lock.unlock();
+    lock.unlock();
 
-  return source;
+    if (source == nullptr && _idleWake) {
+      /*
+       *  We could not find a signalled source or timer, but this was an idle
+       *  wake anyway. Try again.
+       */
+      _idleWake = false;
+      continue;
+    }
+
+    _idleWake = false;
+    break;
+  }
+
+  RL_ASSERT(source != nullptr);
+  return *source;
 }
 
 EventLoopSource& InProcessWaitSet::timerOnWake() {
   RL_ASSERT(isTimerExpired());
+
   /*
    *  Grab a hold of the next signalled timer
    */
@@ -142,12 +166,17 @@ EventLoopSource& InProcessWaitSet::timerOnWake() {
   return *source;
 }
 
-EventLoopSource& InProcessWaitSet::sourceOnWake() {
+EventLoopSource* InProcessWaitSet::sourceOnWake() {
   auto found = _readySources.begin();
-  RL_ASSERT(found != _readySources.end());
+
+  if (found == _readySources.end()) {
+    return nullptr;
+  }
+
   auto source = *found;
   _readySources.erase(found);
-  return *source;
+
+  return source;
 }
 
 void InProcessWaitSet::signalReadReadinessFromUserspace(

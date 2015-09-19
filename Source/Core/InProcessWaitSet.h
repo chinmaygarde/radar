@@ -55,6 +55,7 @@ class InProcessWaitSet : public WaitSetProvider {
 
   std::mutex _lock;
   std::condition_variable _conditionVariable;
+  bool _idleWake;
   WriteHandleSourcesMap _watchedSources;
   ActiveTimersHeap _timers;
   std::unordered_set<EventLoopSource*> _readySources;
@@ -67,7 +68,7 @@ class InProcessWaitSet : public WaitSetProvider {
   void setupSource(EventLoopSource& source);
   void teardownSource(EventLoopSource& source);
   EventLoopSource& timerOnWake();
-  EventLoopSource& sourceOnWake();
+  EventLoopSource* sourceOnWake();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
 };
