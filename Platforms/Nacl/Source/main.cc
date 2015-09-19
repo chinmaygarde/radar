@@ -25,14 +25,26 @@
 class RenderSurfaceNacl : public rl::RenderSurface {
  public:
   explicit RenderSurfaceNacl(pp::Graphics3D& context)
-      : RenderSurface(), _context(context) {}
+      : RenderSurface(), _context(context), _callbackFactory(this) {}
 
-  bool makeCurrent() { return true; }
+  bool makeCurrent() {
+    glSetCurrentContextPPAPI(_context.pp_resource());
+    return true;
+  }
 
-  bool present() { return true; }
+  bool present() {
+    _context.SwapBuffers(
+        _callbackFactory.NewCallback(&RenderSurfaceNacl::didSwapBuffers));
+    return true;
+  }
+
+  void didSwapBuffers(int32_t) {
+    RL_LOG("Finished Swapping Buffers");
+  }
 
  private:
   pp::Graphics3D _context;
+  pp::CompletionCallbackFactory<RenderSurfaceNacl> _callbackFactory;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceNacl);
 };
@@ -40,7 +52,7 @@ class RenderSurfaceNacl : public rl::RenderSurface {
 class RadarLoveInstance : public pp::Instance {
  public:
   explicit RadarLoveInstance(PP_Instance instance)
-      : pp::Instance(instance), _callbackFactory(this) {
+      : pp::Instance(instance) {
     auto ppInstance = pp::Instance::pp_instance();
     auto ppInterface = pp::Module::Get()->get_browser_interface();
     RL_CHECK(nacl_io_init_ppapi(ppInstance, ppInterface));
@@ -60,25 +72,26 @@ class RadarLoveInstance : public pp::Instance {
     int32_t new_height = view.GetRect().height() * view.GetDeviceScale();
 
     if (_context.is_null()) {
-      auto result = InitializeOpenGL(new_width, new_height);
+      auto result = initializeOpenGL(new_width, new_height);
       RL_ASSERT(result);
+      initializeRadarLove();
     } else {
       auto result = _context.ResizeBuffers(new_width, new_height);
       RL_ASSERT(result >= 0);
     }
 
-    // TODO: Use new_width and new_height
-    RL_LOG("New Size %d x %d", new_width, new_height);
-    glViewport(0, 0, new_width, new_height);
-    glClearColor(0.0, 0.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    _context.SwapBuffers(
-        _callbackFactory.NewCallback(&RadarLoveInstance::didSwapBuffers));
+    resizeInterface(new_width, new_height);
   }
 
-  void didSwapBuffers(int32_t) { RL_LOG("Finished Swapping Buffers"); }
+  void resizeInterface(int32_t width,
+                       int32_t height) {
+    RL_ASSERT(_renderSurface != nullptr && _shell != nullptr);
+    rl::Size size(width, height);
+    _renderSurface->surfaceSizeUpdated(size);
+    _shell->interface().setSize(size);
+  }
 
-  bool InitializeOpenGL(int32_t new_width, int32_t new_height) {
+  bool initializeOpenGL(int32_t new_width, int32_t new_height) {
     if (!glInitializePPAPI(pp::Module::Get()->get_browser_interface())) {
       RL_LOG("Unable to initialize GL PPAPI!");
       return false;
@@ -98,11 +111,10 @@ class RadarLoveInstance : public pp::Instance {
       return false;
     }
 
-    glSetCurrentContextPPAPI(_context.pp_resource());
     return true;
   }
 
-  void InitializeRadarLove() {
+  void initializeRadarLove() {
     _renderSurface = std::make_shared<RenderSurfaceNacl>(_context);
     _application = std::make_shared<sample::SampleApplication>();
     _shell = rl::make_unique<rl::Shell>(_renderSurface, _application);
@@ -114,7 +126,6 @@ class RadarLoveInstance : public pp::Instance {
   std::shared_ptr<sample::SampleApplication> _application;
 
   pp::Graphics3D _context;
-  pp::CompletionCallbackFactory<RadarLoveInstance> _callbackFactory;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RadarLoveInstance);
 };
