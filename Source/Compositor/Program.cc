@@ -73,14 +73,14 @@ void Program::linkIfNecessary() {
   glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
 
   if (status != GL_TRUE) {
-    printf("Vertex Shader Compilation Failed:\n%s\n",
+    RL_LOG("Vertex Shader Compilation Failed:\n%s\n",
            Program_LogShaderInfo(vertexShader).c_str());
     RL_ASSERT(false && "Vertex shader compilation must be successful");
   }
 
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
   if (status != GL_TRUE) {
-    printf("Fragment Shader Compilation Failed:\n%s\n",
+    RL_LOG("Fragment Shader Compilation Failed:\n%s\n",
            Program_LogShaderInfo(fragmentShader).c_str());
     RL_ASSERT(false && "Fragment shader compilation must be successful");
   }

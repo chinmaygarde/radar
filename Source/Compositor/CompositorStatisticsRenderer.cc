@@ -29,6 +29,11 @@ static const std::string RendererVertexShader = R"--(
 )--";
 
 static const std::string RendererFragmentShader = R"--(
+
+#ifdef GL_ES
+  precision mediump float;
+#endif
+
   uniform sampler2D Texture;
 
   varying vec2 Frag_UV;
