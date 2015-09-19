@@ -64,10 +64,11 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
   }
 }
 
-void InProcessWaitSet::setupTimer(EventLoopSource& source) {
+void InProcessWaitSet::setupTimer(EventLoopSource& source,
+                                  TimerClockPoint now) {
   RL_ASSERT(IsTimer(source.handles()));
 
-  auto absTimeout = TimerClock::now() + TimerIntervalRelative(source.handles());
+  auto absTimeout = now + TimerIntervalRelative(source.handles());
 
   _timers.emplace_back(source, absTimeout);
   std::push_heap(_timers.begin(), _timers.end(), ActiveTimerCompare());
@@ -94,18 +95,18 @@ void InProcessWaitSet::teardownSource(EventLoopSource& source) {
   _watchedSources.erase(source.writeHandle());
 }
 
-bool InProcessWaitSet::isTimerExpired() const {
+bool InProcessWaitSet::isTimerExpired(TimerClockPoint now) const {
   if (_timers.size() == 0) {
     return false;
   }
 
-  return TimerClock::now() > _timers.front().absoluteTimeout;
+  return now > _timers.front().absoluteTimeout;
 }
 
 bool InProcessWaitSet::isAwakable() const {
   bool hasReadySources = _readySources.size() > 0;
 
-  return hasReadySources || isTimerExpired() || _idleWake;
+  return _idleWake || hasReadySources || isTimerExpired() /* syscall so last */;
 }
 
 InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
@@ -121,7 +122,8 @@ EventLoopSource& InProcessWaitSet::wait() {
     _conditionVariable.wait_until(lock, nextTimeout(),
                                   [&] { return isAwakable(); });
 
-    source = isTimerExpired() ? &timerOnWake() : sourceOnWake();
+    auto now = TimerClock::now();
+    source = isTimerExpired(now) ? &timerOnWake(now) : sourceOnWake();
 
     lock.unlock();
 
@@ -142,8 +144,8 @@ EventLoopSource& InProcessWaitSet::wait() {
   return *source;
 }
 
-EventLoopSource& InProcessWaitSet::timerOnWake() {
-  RL_ASSERT(isTimerExpired());
+EventLoopSource& InProcessWaitSet::timerOnWake(TimerClockPoint now) {
+  RL_ASSERT(isTimerExpired(now));
 
   /*
    *  Grab a hold of the next signalled timer
@@ -161,7 +163,7 @@ EventLoopSource& InProcessWaitSet::timerOnWake() {
   /*
    *  re-arm the timer since all timers are repeating
    */
-  setupTimer(*source);
+  setupTimer(*source, now);
 
   return *source;
 }

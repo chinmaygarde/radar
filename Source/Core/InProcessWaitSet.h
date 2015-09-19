@@ -62,12 +62,13 @@ class InProcessWaitSet : public WaitSetProvider {
 
   TimerClockPoint nextTimeout() const;
   bool isAwakable() const;
-  bool isTimerExpired() const;
-  void setupTimer(EventLoopSource& source);
+  bool isTimerExpired(TimerClockPoint now = TimerClock::now()) const;
+  void setupTimer(EventLoopSource& source,
+                  TimerClockPoint now = TimerClock::now());
   void teardownTimer(EventLoopSource& source);
   void setupSource(EventLoopSource& source);
   void teardownSource(EventLoopSource& source);
-  EventLoopSource& timerOnWake();
+  EventLoopSource& timerOnWake(TimerClockPoint now = TimerClock::now());
   EventLoopSource* sourceOnWake();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
