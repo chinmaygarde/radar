@@ -13,7 +13,7 @@ void Latch::wait() {
   if (_count > 0) {
     std::unique_lock<std::mutex> lock(_lock);
     _condition.wait(lock, [&] { return _count == 0; });
-    _lock.unlock();
+    lock.unlock();
   }
 }
 
