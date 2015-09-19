@@ -122,8 +122,9 @@ EventLoopSource& InProcessWaitSet::wait() {
     _conditionVariable.wait_until(lock, nextTimeout(),
                                   [&] { return isAwakable(); });
 
-    auto now = TimerClock::now();
-    source = isTimerExpired(now) ? &timerOnWake(now) : sourceOnWake();
+    auto wakeInstant = TimerClock::now();
+    source = isTimerExpired(wakeInstant) ? &timerOnWake(wakeInstant)
+                                         : sourceOnWake();
 
     lock.unlock();
 
