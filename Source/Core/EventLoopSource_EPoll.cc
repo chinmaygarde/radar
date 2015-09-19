@@ -8,11 +8,14 @@
 
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/WaitSet.h>
 #include <Core/Utilities.h>
 
 #include <sys/epoll.h>
 #include <sys/timerfd.h>
 #include <unistd.h>
+
+#define HANDLE_CAST(x) static_cast<int>((x))
 
 #ifndef NSEC_PER_SEC
 #define NSEC_PER_SEC 1000000000 /* nanoseconds per second */
@@ -33,11 +36,15 @@ static inline void EPollInvoke(int eventsMask,
   RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
 }
 
-void EventLoopSource::updateInWaitSetHandleForSimpleRead(
-    WaitSet::Handle waitsetHandle,
-    bool shouldAdd) {
-  EPollInvoke(EPOLLIN, this, waitsetHandle,
-              shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL, readHandle());
+void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
+                                                   bool shouldAdd) {
+  // clang-format off
+  EPollInvoke(EPOLLIN,
+              this,
+              HANDLE_CAST(waitset.handle()),
+              shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,
+              readHandle());
+  // clang-format on
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(

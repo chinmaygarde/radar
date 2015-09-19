@@ -18,7 +18,7 @@ class Serializable {
   using VectorSize = size_t;
 
   template <typename T,
-            typename = rl::enable_if_t<std::is_base_of<Serializable, T>::value>>
+            typename = only_if<std::is_base_of<Serializable, T>::value>>
   static bool SerializeVector(const std::vector<T>& vector, Message& message) {
     VectorSize count = vector.size();
     auto result = message.encode(count);
@@ -29,8 +29,8 @@ class Serializable {
   }
 
   template <typename T,
-            typename = rl::enable_if_t<std::is_base_of<Serializable, T>::value>,
-            typename = rl::enable_if_t<std::is_default_constructible<T>::value>>
+            typename = only_if<std::is_base_of<Serializable, T>::value>,
+            typename = only_if<std::is_default_constructible<T>::value>>
   static bool DeserializeVector(std::vector<T>& vector, Message& message) {
     VectorSize count = 0;
     auto result = message.decode(count);

@@ -8,6 +8,9 @@
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
 #include <Compositor/Color.h>
+#include <Core/Utilities.h>
+
+#include <stddef.h>
 
 namespace rl {
 
@@ -101,7 +104,7 @@ struct TransferRecord {
   const T& transferData() const;
 };
 
-static_assert(std::is_trivially_copyable<TransferRecord>::value, "");
+static_assert(rl_trivially_copyable(TransferRecord), "");
 
 }  // namespace rl
 

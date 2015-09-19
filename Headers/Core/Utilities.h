@@ -23,7 +23,9 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 }
 
 template <bool B, class T = void>
-using enable_if_t = typename std::enable_if<B, T>::type;
+using only_if = typename std::enable_if<B, T>::type;
+
+#define rl_trivially_copyable(x) __has_trivial_copy(x)
 
 /**
  *  Set the name of current thread of execution

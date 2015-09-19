@@ -28,7 +28,7 @@ EventLoopSource& EPollWaitSet::wait() {
   struct epoll_event event = {0};
 
   int val = RL_TEMP_FAILURE_RETRY(
-      ::epoll_wait(handle, &event, 1, -1 /* infinite timeout */));
+      ::epoll_wait(_handle, &event, 1, -1 /* infinite timeout */));
 
   RL_ASSERT(val == 1);
 

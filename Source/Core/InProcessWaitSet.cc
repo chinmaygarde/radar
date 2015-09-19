@@ -4,6 +4,8 @@
 
 #include "InProcessWaitSet.h"
 
+#include <algorithm>
+
 namespace rl {
 
 InProcessWaitSet::InProcessWaitSet() {
