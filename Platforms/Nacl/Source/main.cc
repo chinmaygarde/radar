@@ -12,8 +12,7 @@
 #include <ppapi/cpp/var_array.h>
 #include <ppapi/lib/gl/gles2/gl2ext_ppapi.h>
 #include <ppapi/utility/completion_callback_factory.h>
-
-#include <GLES2/gl2.h>  // Remove
+#include <ppapi/cpp/message_loop.h>
 
 #include <nacl_io/nacl_io.h>
 #include <Core/Core.h>
@@ -33,14 +32,19 @@ class RenderSurfaceNacl : public rl::RenderSurface {
   }
 
   bool present() {
-    _context.SwapBuffers(
-        _callbackFactory.NewCallback(&RenderSurfaceNacl::didSwapBuffers));
+    auto swapCallback =
+        _callbackFactory.NewCallback(&RenderSurfaceNacl::swapOnMainThread);
+    pp::MessageLoop::GetForMainThread().PostWork(swapCallback);
     return true;
   }
 
-  void didSwapBuffers(int32_t) {
-    RL_LOG("Finished Swapping Buffers");
+  void swapOnMainThread(int32_t) {
+    auto callback =
+        _callbackFactory.NewCallback(&RenderSurfaceNacl::didSwapBuffers);
+    _context.SwapBuffers(callback);
   }
+
+  void didSwapBuffers(int32_t) {}
 
  private:
   pp::Graphics3D _context;
@@ -51,8 +55,7 @@ class RenderSurfaceNacl : public rl::RenderSurface {
 
 class RadarLoveInstance : public pp::Instance {
  public:
-  explicit RadarLoveInstance(PP_Instance instance)
-      : pp::Instance(instance) {
+  explicit RadarLoveInstance(PP_Instance instance) : pp::Instance(instance) {
     auto ppInstance = pp::Instance::pp_instance();
     auto ppInterface = pp::Module::Get()->get_browser_interface();
     RL_CHECK(nacl_io_init_ppapi(ppInstance, ppInterface));
@@ -83,8 +86,7 @@ class RadarLoveInstance : public pp::Instance {
     resizeInterface(new_width, new_height);
   }
 
-  void resizeInterface(int32_t width,
-                       int32_t height) {
+  void resizeInterface(int32_t width, int32_t height) {
     RL_ASSERT(_renderSurface != nullptr && _shell != nullptr);
     rl::Size size(width, height);
     _renderSurface->surfaceSizeUpdated(size);
