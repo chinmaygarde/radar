@@ -27,6 +27,10 @@ Term::Degree Equation::degree() const {
   return degree;
 }
 
+double Equation::constant() const {
+  return _constant;
+}
+
 bool Equation::serialize(Message& message) const {
   bool result = true;
   result &= Serializable::SerializeVector(_terms, message);

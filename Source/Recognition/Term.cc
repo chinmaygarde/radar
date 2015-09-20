@@ -21,9 +21,7 @@ Term::Degree Term::degree() const {
   Degree degree = 0;
 
   for (const auto& variableDegree : _variables) {
-    if (variableDegree.second > degree) {
-      degree = variableDegree.second;
-    }
+    degree += variableDegree.second;
   }
 
   return degree;

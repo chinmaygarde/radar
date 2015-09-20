@@ -22,6 +22,8 @@ class Equation : public Serializable {
 
   Term::Degree degree() const;
 
+  double constant() const;
+
   bool serialize(Message& message) const override;
 
   bool deserialize(Message& message) override;
