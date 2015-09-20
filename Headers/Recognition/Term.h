@@ -38,6 +38,15 @@ Term::VariableDegree operator^(Variable& variable, Term::Degree degree) {
   return Term::VariableDegree(variable, degree);
 }
 
+Term
+operator*(Term::VariableDegree&& variableDegree, double coefficient) {
+  return Term(coefficient, {std::move(variableDegree)});
+}
+
+Term operator*(double coefficient, Term::VariableDegree&& variableDegree) {
+  return Term(coefficient, {std::move(variableDegree)});
+}
+
 }  // namespace rl
 
 #endif  // __RADARLOVE_RECOGNITION_TERM_H__
