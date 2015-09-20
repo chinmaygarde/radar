@@ -34,6 +34,10 @@ class Term : public Serializable {
   std::vector<VariableDegree> _variables;
 };
 
+Term::VariableDegree operator^(Variable& variable, Term::Degree degree) {
+  return Term::VariableDegree(variable, degree);
+}
+
 }  // namespace rl
 
 #endif  // __RADARLOVE_RECOGNITION_TERM_H__
