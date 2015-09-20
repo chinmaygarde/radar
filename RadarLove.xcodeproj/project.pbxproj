@@ -28,6 +28,7 @@
 		9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */; };
 		9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E0F71791BAE3AF90021CEEF /* Term.h */; };
 		9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E0F71831BAE3B0A0021CEEF /* Term.cc */; };
+		9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -186,7 +187,6 @@
 		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
 		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
-		EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
 		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; };
 		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; };
 /* End PBXBuildFile section */
@@ -1161,9 +1161,9 @@
 				9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */,
 				9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */,
 				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
+				9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
-				EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
