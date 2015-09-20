@@ -12,6 +12,14 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
       _equation(std::move(equation)) {
 }
 
+const Equation& GestureRecognizer::equation() const {
+  return _equation;
+}
+
+const Variable& GestureRecognizer::evaluationResult() const {
+  return _evaluationResult;
+}
+
 bool GestureRecognizer::serialize(Message& message) const {
   bool result = true;
   result &= _equation.serialize(message);

@@ -15,6 +15,10 @@ class GestureRecognizer : public Serializable {
  public:
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
+  const Equation& equation() const;
+
+  const Variable& evaluationResult() const;
+
   bool serialize(Message& message) const override;
 
   bool deserialize(Message& message) override;

@@ -71,19 +71,19 @@ class RadarLoveInstance : public pp::Instance {
   virtual void HandleMessage(const pp::Var& var_message) {}
 
   virtual void DidChangeView(const pp::View& view) {
-    int32_t new_width = view.GetRect().width() * view.GetDeviceScale();
-    int32_t new_height = view.GetRect().height() * view.GetDeviceScale();
+    int32_t newWidth = view.GetRect().width() * view.GetDeviceScale();
+    int32_t newHeight = view.GetRect().height() * view.GetDeviceScale();
 
     if (_context.is_null()) {
-      auto result = initializeOpenGL(new_width, new_height);
+      auto result = initializeOpenGL(newWidth, newHeight);
       RL_ASSERT(result);
       initializeRadarLove();
     } else {
-      auto result = _context.ResizeBuffers(new_width, new_height);
+      auto result = _context.ResizeBuffers(newWidth, newHeight);
       RL_ASSERT(result >= 0);
     }
 
-    resizeInterface(new_width, new_height);
+    resizeInterface(newWidth, newHeight);
   }
 
   void resizeInterface(int32_t width, int32_t height) {
@@ -93,7 +93,7 @@ class RadarLoveInstance : public pp::Instance {
     _shell->interface().setSize(size);
   }
 
-  bool initializeOpenGL(int32_t new_width, int32_t new_height) {
+  bool initializeOpenGL(int32_t newWidth, int32_t newHeight) {
     if (!glInitializePPAPI(pp::Module::Get()->get_browser_interface())) {
       RL_LOG("Unable to initialize GL PPAPI!");
       return false;
@@ -101,8 +101,8 @@ class RadarLoveInstance : public pp::Instance {
 
     const int32_t attrib_list[] = {PP_GRAPHICS3DATTRIB_ALPHA_SIZE, 8,
                                    PP_GRAPHICS3DATTRIB_DEPTH_SIZE, 24,
-                                   PP_GRAPHICS3DATTRIB_WIDTH,      new_width,
-                                   PP_GRAPHICS3DATTRIB_HEIGHT,     new_height,
+                                   PP_GRAPHICS3DATTRIB_WIDTH,      newWidth,
+                                   PP_GRAPHICS3DATTRIB_HEIGHT,     newHeight,
                                    PP_GRAPHICS3DATTRIB_NONE};
 
     _context = pp::Graphics3D(this, attrib_list);

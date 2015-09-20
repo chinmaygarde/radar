@@ -7,36 +7,20 @@
 
 #include <Core/Core.h>
 #include <Recognition/Variable.h>
+#include <Recognition/Term.h>
 
 namespace rl {
 
 class Equation : public Serializable {
  public:
-  class Term : public Serializable {
-   public:
-    using VariableDegree = std::pair<Variable&, double>;
-    using Variables = std::vector<VariableDegree>;
-
-    explicit Term(double coefficient, Variables&& variables);
-    explicit Term();
-
-    double coefficient() const;
-    const Variables& variables() const;
-
-    bool serialize(Message& message) const override;
-    bool deserialize(Message& message) override;
-
-   private:
-    double _coefficient;
-    std::vector<VariableDegree> _variables;
-  };
-
   using Terms = std::vector<Term>;
   explicit Equation(Terms terms, double constant);
 
   explicit Equation(Equation&& equation) = default;
 
   const Terms& terms() const;
+
+  Term::Degree degree() const;
 
   bool serialize(Message& message) const override;
 

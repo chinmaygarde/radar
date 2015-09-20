@@ -26,6 +26,8 @@
 		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
 		9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */; };
 		9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */; };
+		9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E0F71791BAE3AF90021CEEF /* Term.h */; };
+		9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E0F71831BAE3B0A0021CEEF /* Term.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -185,8 +187,8 @@
 		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
 		EA6B639D1B9E06AC00256484 /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
-		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; settings = {ASSET_TAGS = (); }; };
-		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; settings = {ASSET_TAGS = (); }; };
+		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; };
+		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +289,8 @@
 		9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessWaitSet.h; sourceTree = "<group>"; };
 		9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSetProvider.cc; sourceTree = "<group>"; };
 		9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_InProcess.cc; sourceTree = "<group>"; };
+		9E0F71791BAE3AF90021CEEF /* Term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Term.h; sourceTree = "<group>"; };
+		9E0F71831BAE3B0A0021CEEF /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -902,6 +906,7 @@
 			children = (
 				EA6B63931B9D571F00256484 /* Equation.cc */,
 				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
+				9E0F71831BAE3B0A0021CEEF /* Term.cc */,
 				EA6B63941B9D571F00256484 /* Variable.cc */,
 			);
 			path = Recognition;
@@ -912,6 +917,7 @@
 			children = (
 				EA6B63981B9D572D00256484 /* Equation.h */,
 				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
+				9E0F71791BAE3AF90021CEEF /* Term.h */,
 				EA6B63991B9D572D00256484 /* Variable.h */,
 			);
 			path = Recognition;
@@ -952,6 +958,7 @@
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
 				9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */,
+				9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */,
 				EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
@@ -1189,6 +1196,7 @@
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
+				9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */,
 				9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */,
 				9EBA79BE1B87EF08005D84FA /* CompositorStatistics.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,

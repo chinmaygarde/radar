@@ -6,39 +6,25 @@
 
 namespace rl {
 
-Equation::Term::Term(double coefficient, Equation::Term::Variables&& variables)
-    : _coefficient(coefficient), _variables(std::move(variables)) {
-}
-
-Equation::Term::Term() : _coefficient(1.0), _variables() {
-}
-
-double Equation::Term::coefficient() const {
-  return _coefficient;
-}
-
-const Equation::Term::Variables& Equation::Term::variables() const {
-  return _variables;
-}
-
-bool Equation::Term::serialize(Message& message) const {
-  bool result = true;
-  result &= message.encode(_coefficient);
-  return result;
-}
-
-bool Equation::Term::deserialize(Message& message) {
-  bool result = true;
-  result &= message.decode(_coefficient);
-  return result;
-}
-
 Equation::Equation(Equation::Terms terms, double constant)
     : _terms(std::move(terms)), _constant(constant) {
 }
 
 const Equation::Terms& Equation::terms() const {
   return _terms;
+}
+
+Term::Degree Equation::degree() const {
+  Term::Degree degree = 0;
+
+  for (const auto& term : _terms) {
+    auto termDegree = term.degree();
+    if (termDegree > degree) {
+      degree = termDegree;
+    }
+  }
+
+  return degree;
 }
 
 bool Equation::serialize(Message& message) const {
