@@ -34,16 +34,17 @@ class Term : public Serializable {
   std::vector<VariableDegree> _variables;
 };
 
-Term::VariableDegree operator^(Variable& variable, Term::Degree degree) {
+inline Term::VariableDegree operator^(Variable& variable, Term::Degree degree) {
   return Term::VariableDegree(variable, degree);
 }
 
-Term
+inline Term
 operator*(Term::VariableDegree&& variableDegree, double coefficient) {
   return Term(coefficient, {std::move(variableDegree)});
 }
 
-Term operator*(double coefficient, Term::VariableDegree&& variableDegree) {
+inline Term operator*(double coefficient,
+                      Term::VariableDegree&& variableDegree) {
   return Term(coefficient, {std::move(variableDegree)});
 }
 
