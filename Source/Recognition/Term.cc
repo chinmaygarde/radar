@@ -21,7 +21,7 @@ Term::Degree Term::degree() const {
   Degree degree = 0;
 
   for (const auto& variableDegree : _variables) {
-    degree += variableDegree.second;
+    degree += variableDegree.degree;
   }
 
   return degree;
@@ -34,12 +34,28 @@ const Term::Variables& Term::variables() const {
 bool Term::serialize(Message& message) const {
   bool result = true;
   result &= message.encode(_coefficient);
+  result &= SerializeVector(_variables, message);
   return result;
 }
 
 bool Term::deserialize(Message& message) {
   bool result = true;
   result &= message.decode(_coefficient);
+  result &= DeserializeVector(_variables, message);
+  return result;
+}
+
+bool Term::VariableDegree::serialize(Message& message) const {
+  auto result = true;
+  result &= variable.serialize(message);
+  result &= message.encode(degree);
+  return result;
+}
+
+bool Term::VariableDegree::deserialize(Message& message) {
+  auto result = true;
+  result &= variable.deserialize(message);
+  result &= message.decode(degree);
   return result;
 }
 

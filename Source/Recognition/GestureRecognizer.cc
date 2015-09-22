@@ -24,13 +24,15 @@ const Variable& GestureRecognizer::evaluationResult() const {
 }
 
 bool GestureRecognizer::serialize(Message& message) const {
-  bool result = true;
+  auto result = true;
+  result &= _evaluationResult.serialize(message);
   result &= _equation.serialize(message);
   return result;
 }
 
 bool GestureRecognizer::deserialize(Message& message) {
-  bool result = true;
+  auto result = true;
+  result &= _evaluationResult.deserialize(message);
   result &= _equation.deserialize(message);
   return result;
 }

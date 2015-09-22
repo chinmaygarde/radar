@@ -13,7 +13,19 @@ namespace rl {
 class Term : public Serializable {
  public:
   using Degree = uint32_t;
-  using VariableDegree = std::pair<Variable&, Degree>;
+  struct VariableDegree : public Serializable {
+    Variable variable;
+    Degree degree;
+
+    explicit VariableDegree() : degree(1) {}
+    explicit VariableDegree(const Variable& v, Degree d)
+        : variable(v), degree(d) {}
+
+    bool serialize(Message& message) const override;
+
+    bool deserialize(Message& message) override;
+  };
+
   using Variables = std::vector<VariableDegree>;
 
   explicit Term(double coefficient, Variables&& variables);
@@ -33,20 +45,6 @@ class Term : public Serializable {
   double _coefficient;
   std::vector<VariableDegree> _variables;
 };
-
-inline Term::VariableDegree operator^(Variable& variable, Term::Degree degree) {
-  return Term::VariableDegree(variable, degree);
-}
-
-inline Term
-operator*(Term::VariableDegree&& variableDegree, double coefficient) {
-  return Term(coefficient, {std::move(variableDegree)});
-}
-
-inline Term operator*(double coefficient,
-                      Term::VariableDegree&& variableDegree) {
-  return Term(coefficient, {std::move(variableDegree)});
-}
 
 }  // namespace rl
 

@@ -35,13 +35,15 @@ double Equation::constant() const {
 }
 
 bool Equation::serialize(Message& message) const {
-  bool result = true;
+  auto result = true;
+  result &= message.encode(_constant);
   result &= Serializable::SerializeVector(_terms, message);
   return result;
 }
 
 bool Equation::deserialize(Message& message) {
-  bool result = true;
+  auto result = true;
+  result &= message.decode(_constant);
   result &= Serializable::DeserializeVector(_terms, message);
   return result;
 }

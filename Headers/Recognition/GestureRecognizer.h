@@ -28,8 +28,8 @@ class GestureRecognizer : public Serializable {
   bool deserialize(Message& message) override;
 
  private:
-  Equation _equation;
   Variable _evaluationResult;
+  Equation _equation;
 
   RL_DISALLOW_COPY_AND_ASSIGN(GestureRecognizer);
 };

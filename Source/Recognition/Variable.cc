@@ -30,4 +30,20 @@ Entity::Property Variable::targetProperty() const {
   return _property;
 }
 
+bool Variable::serialize(Message& message) const {
+  auto result = true;
+  result &= message.encode(_identifier);
+  result &= message.encode(_property);
+  result &= message.encode(_isProxy);
+  return result;
+}
+
+bool Variable::deserialize(Message& message) {
+  auto result = true;
+  result &= message.decode(_identifier);
+  result &= message.decode(_property);
+  result &= message.decode(_isProxy);
+  return result;
+}
+
 }  // namespace rl

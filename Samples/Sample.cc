@@ -19,7 +19,8 @@ static void AddPanRecognizer(rl::Layer& layer) {
   rl::Variable y(layer, rl::Entity::Position);
   rl::Variable x(rl::Variable::Proxy::AllTouches, rl::Entity::Position);
 
-  rl::Term term(1.0, {{x, 1.0}});
+  rl::Term::VariableDegree variableDegree(x, 1);
+  rl::Term term(1.0, {variableDegree});
   rl::Equation equation({term}, 0.0);
 
   rl::GestureRecognizer recognizer(std::move(y), std::move(equation));

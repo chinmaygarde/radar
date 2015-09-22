@@ -10,7 +10,7 @@
 
 namespace rl {
 
-class Variable {
+class Variable : public Serializable {
  public:
   enum class Proxy {
     AllTouches,
@@ -29,18 +29,21 @@ class Variable {
   explicit Variable();
   explicit Variable(Variable::Proxy proxy, Entity::Property property);
   explicit Variable(const Entity& entity, Entity::Property property);
-  Variable(Variable&& variable) = default;
 
   Entity::Identifier targetIdentifier() const;
 
   Entity::Property targetProperty() const;
+
+  bool serialize(Message& message) const override;
+
+  bool deserialize(Message& message) override;
 
  private:
   Entity::Identifier _identifier;
   Entity::Property _property;
   bool _isProxy;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Variable);
+  RL_DISALLOW_ASSIGN(Variable);
 };
 
 }  // namespace rl
