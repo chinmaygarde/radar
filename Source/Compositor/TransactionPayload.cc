@@ -34,6 +34,8 @@ bool TransactionPayload::serialize(Message& message) const {
    */
   result &= _action.serialize(message);
 
+  result &= SerializeVector(_recognizers, message);
+
   /*
    *  Step 2: Encode the transfer record count
    *          This is a bit weird since we dont know how many records the entity
@@ -81,6 +83,13 @@ bool TransactionPayload::deserialize(Message& message) {
 
   _actionCallback(action);
 
+  RecognizerCollection recognizers;
+  result = DeserializeVector(recognizers, message);
+
+  if (!result) {
+    return false;
+  }
+
   /*
    *  Step 2: Read the transfer record count
    */
@@ -96,6 +105,10 @@ bool TransactionPayload::deserialize(Message& message) {
   for (auto i = 0; i < transferRecords; i++) {
     _transferRecordCallback(action, TransferRecord::NextInMessage(message),
                             _commitTime);
+  }
+
+  if (recognizers.size() > 0) {
+    _recognizerCallback(recognizers);
   }
 
   return true;

@@ -16,6 +16,8 @@ class Equation : public Serializable {
   using Terms = std::vector<Term>;
   explicit Equation(Terms terms, double constant);
 
+  explicit Equation();
+
   explicit Equation(Equation&& equation) = default;
 
   const Terms& terms() const;

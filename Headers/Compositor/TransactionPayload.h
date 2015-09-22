@@ -24,7 +24,7 @@ class TransactionPayload : public Serializable {
   using ActionCallback = std::function<void(Action&)>;
   using TransferRecordCallback = std::function<
       void(Action&, TransferRecord&, const std::chrono::nanoseconds&)>;
-  using RecognizerCallback = std::function<void(GestureRecognizer&)>;
+  using RecognizerCallback = std::function<void(RecognizerCollection&)>;
 
   explicit TransactionPayload(Action&& action,
                               EntityMap&& entities,

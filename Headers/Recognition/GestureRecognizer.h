@@ -15,6 +15,8 @@ class GestureRecognizer : public Serializable {
  public:
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
+  explicit GestureRecognizer();
+
   GestureRecognizer(GestureRecognizer&& recognizer) = default;
 
   const Equation& equation() const;

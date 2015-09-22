@@ -65,7 +65,8 @@ void PresentationGraph::onTransferRecordCommit(
   prepareActions(action, *_entities[record.identifier], record, time);
 }
 
-void PresentationGraph::onRecognizerCommit(GestureRecognizer& recognizer) {
+void PresentationGraph::onRecognizerCommit(
+    TransactionPayload::RecognizerCollection& recognizers) {
 }
 
 template <typename T>

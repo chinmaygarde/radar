@@ -12,6 +12,9 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
       _equation(std::move(equation)) {
 }
 
+GestureRecognizer::GestureRecognizer() {
+}
+
 const Equation& GestureRecognizer::equation() const {
   return _equation;
 }

@@ -6,6 +6,12 @@
 
 namespace rl {
 
+Variable::Variable()
+    : _identifier(Entity::IdentifierNone),
+      _property(Entity::Property::None),
+      _isProxy(false) {
+}
+
 Variable::Variable(Variable::Proxy proxy, Entity::Property property)
     : _identifier(static_cast<Entity::Identifier>(proxy)),
       _property(property),

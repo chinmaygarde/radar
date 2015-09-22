@@ -26,8 +26,9 @@ class Variable {
     Touch10,
   };
 
-  Variable(Variable::Proxy proxy, Entity::Property property);
-  Variable(const Entity& entity, Entity::Property property);
+  explicit Variable();
+  explicit Variable(Variable::Proxy proxy, Entity::Property property);
+  explicit Variable(const Entity& entity, Entity::Property property);
   Variable(Variable&& variable) = default;
 
   Entity::Identifier targetIdentifier() const;

@@ -10,6 +10,9 @@ Equation::Equation(Equation::Terms terms, double constant)
     : _terms(std::move(terms)), _constant(constant) {
 }
 
+Equation::Equation() : _constant(0.0) {
+}
+
 const Equation::Terms& Equation::terms() const {
   return _terms;
 }

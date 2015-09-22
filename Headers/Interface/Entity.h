@@ -17,6 +17,7 @@ class Entity {
  public:
   // clang-format off
   enum Property {
+    None            = 0,
     Created         = 1 << 0,
     Destroyed       = 1 << 1,
     LifeCycle       = Created | Destroyed,

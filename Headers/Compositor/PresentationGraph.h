@@ -12,6 +12,7 @@
 #include <Compositor/TransferRecord.h>
 #include <Interface/Action.h>
 #include <Compositor/AnimationDirector.h>
+#include <Compositor/TransactionPayload.h>
 
 #include <map>
 
@@ -50,7 +51,8 @@ class PresentationGraph {
   void onTransferRecordCommit(Action& action,
                               TransferRecord& record,
                               const std::chrono::nanoseconds& commitTime);
-  void onRecognizerCommit(GestureRecognizer& recognizer);
+  void onRecognizerCommit(
+      TransactionPayload::RecognizerCollection& recognizers);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
