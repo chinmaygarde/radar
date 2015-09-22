@@ -10,6 +10,9 @@
 #include <Compositor/Color.h>
 
 namespace rl {
+
+class GestureRecognizer;
+
 class Entity {
  public:
   // clang-format off
@@ -165,6 +168,10 @@ class Entity {
    *  @param opacity the new opacity
    */
   void setOpacity(double opacity);
+
+#pragma mark - Managing Gesture Recognition
+
+  void setupGestureRecognizer(GestureRecognizer&& recognizer);
 
 #pragma mark - Managing Entity Update
 

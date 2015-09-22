@@ -46,6 +46,12 @@ class PresentationGraph {
                            const Entity::Accessors<T>& accessors,
                            const std::chrono::nanoseconds& start);
 
+  void onActionCommit(Action& action);
+  void onTransferRecordCommit(Action& action,
+                              TransferRecord& record,
+                              const std::chrono::nanoseconds& commitTime);
+  void onRecognizerCommit(GestureRecognizer& recognizer);
+
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 

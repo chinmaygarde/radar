@@ -68,6 +68,8 @@
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
+		9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6795421BB08C430054621F /* TransactionPayload.cc */; };
+		9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67954C1BB08C4E0054621F /* TransactionPayload.h */; };
 		9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8628751B8D45D50003E474 /* TransferEntity.h */; };
 		9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86287F1B8D45E00003E474 /* TransferEntity.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
@@ -330,6 +332,8 @@
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
+		9E6795421BB08C430054621F /* TransactionPayload.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransactionPayload.cc; sourceTree = "<group>"; };
+		9E67954C1BB08C4E0054621F /* TransactionPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionPayload.h; sourceTree = "<group>"; };
 		9E8628751B8D45D50003E474 /* TransferEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferEntity.h; sourceTree = "<group>"; };
 		9E86287F1B8D45E00003E474 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
@@ -618,6 +622,7 @@
 				9EAECE441B685460000FA38A /* Program.h */,
 				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
 				9EAECE461B685460000FA38A /* RenderSurface.h */,
+				9E67954C1BB08C4E0054621F /* TransactionPayload.h */,
 				9E8628751B8D45D50003E474 /* TransferEntity.h */,
 				9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */,
 			);
@@ -743,6 +748,7 @@
 				9EAECEA01B685469000FA38A /* Program.cc */,
 				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
 				9EAECEA21B685469000FA38A /* RenderSurface.cc */,
+				9E6795421BB08C430054621F /* TransactionPayload.cc */,
 				9E86287F1B8D45E00003E474 /* TransferEntity.cc */,
 				9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */,
 			);
@@ -982,6 +988,7 @@
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
+				9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */,
 				9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */,
 				9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */,
 				EA6B639B1B9D572D00256484 /* Variable.h in Headers */,
@@ -1218,6 +1225,7 @@
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
 				EA6B63951B9D571F00256484 /* Equation.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
+				9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
 				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,

@@ -4,6 +4,7 @@
 
 #include <Interface/Entity.h>
 #include <Interface/Interface.h>
+#include <Recognition/GestureRecognizer.h>
 
 namespace rl {
 
@@ -150,6 +151,15 @@ void Entity::notifyInterfaceIfNecessary(Property property,
   }
   Interface::current().transaction().mark(*this, property, other);
 }
+
+void Entity::setupGestureRecognizer(GestureRecognizer&& recognizer) {
+  if (!_notifiesInterfaceOnUpdate) {
+    return;
+  }
+  Interface::current().transaction().mark(std::move(recognizer));
+}
+
+#pragma mark - Constants
 
 const Entity::Accessors<Rect> BoundsAccessors{&Entity::bounds,
                                               &Entity::setBounds};

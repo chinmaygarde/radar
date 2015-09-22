@@ -4,6 +4,7 @@
 
 #include <Compositor/PresentationGraph.h>
 #include <Compositor/Interpolator.h>
+#include <Compositor/TransactionPayload.h>
 
 namespace rl {
 
@@ -27,51 +28,44 @@ bool PresentationGraph::applyTransactions(Message& arena) {
 bool PresentationGraph::applyTransactionSingle(
     Message& arena,
     const std::chrono::nanoseconds& time) {
-  bool result = true;
-  /*
-   *  Step 1: Read the action
-   */
-  Action action;
-  result = action.deserialize(arena);
+  using namespace std::placeholders;
+  TransactionPayload payload(
+      time, std::bind(&PresentationGraph::onActionCommit, this, _1),
+      std::bind(&PresentationGraph::onTransferRecordCommit, this, _1, _2, _3),
+      std::bind(&PresentationGraph::onRecognizerCommit, this, _1));
+  return payload.deserialize(arena);
+}
 
-  if (!result) {
-    return false;
+void PresentationGraph::onActionCommit(Action& action) {
+  /*
+   *  Nothing to do on its own. Its only when we see transfer records with this
+   *  action do we need to do some configuration.
+   */
+}
+
+void PresentationGraph::onTransferRecordCommit(
+    Action& action,
+    TransferRecord& record,
+    const std::chrono::nanoseconds& time) {
+  if (record.property == Entity::Created) {
+    _entities[record.identifier] =
+        rl::make_unique<PresentationEntity>(record.identifier);
+    return;
   }
 
-  /*
-   *  Step 2: Read the transfer record count
-   */
-  size_t transferRecords = 0;
-  result = arena.decode(transferRecords);
-  if (!result) {
-    return false;
-  }
-
-  /*
-   *  Step 3: Read the transfer records
-   */
-  for (auto i = 0; i < transferRecords; i++) {
-    auto& record = TransferRecord::NextInMessage(arena);
-
-    if (record.property == Entity::Created) {
-      _entities[record.identifier] =
-          rl::make_unique<PresentationEntity>(record.identifier);
-      continue;
+  if (record.property == Entity::Destroyed) {
+    if (_root && _root->identifier() == record.identifier) {
+      _root = nullptr;
     }
 
-    if (record.property == Entity::Destroyed) {
-      if (_root && _root->identifier() == record.identifier) {
-        _root = nullptr;
-      }
-
-      _entities.erase(record.identifier);
-      continue;
-    }
-
-    prepareActions(action, *_entities[record.identifier], record, time);
+    _entities.erase(record.identifier);
+    return;
   }
 
-  return true;
+  prepareActions(action, *_entities[record.identifier], record, time);
+}
+
+void PresentationGraph::onRecognizerCommit(GestureRecognizer& recognizer) {
 }
 
 template <typename T>

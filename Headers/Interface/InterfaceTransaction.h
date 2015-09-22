@@ -9,10 +9,14 @@
 #include <Interface/Action.h>
 #include <Interface/Entity.h>
 #include <Compositor/EntityArena.h>
+#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
 namespace rl {
+
+class GestureRecognizer;
+
 class InterfaceTransaction {
  public:
   explicit InterfaceTransaction(const Action&& action);
@@ -21,11 +25,14 @@ class InterfaceTransaction {
             Entity::Property property,
             Entity::Identifier);
 
+  void mark(GestureRecognizer&& recognizer);
+
   bool commit(Message& arena);
 
  private:
   Action _action;
   std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
+  std::vector<GestureRecognizer> _recognizers;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
