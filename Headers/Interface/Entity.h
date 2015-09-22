@@ -170,10 +170,6 @@ class Entity {
    */
   void setOpacity(double opacity);
 
-#pragma mark - Managing Gesture Recognition
-
-  void setupGestureRecognizer(GestureRecognizer&& recognizer);
-
 #pragma mark - Managing Entity Update
 
   void merge(const Entity& entity);

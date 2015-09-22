@@ -15,7 +15,7 @@ SampleApplication::SampleApplication() {
 void SampleApplication::didFinishLaunching(rl::Interface& interface) {
 }
 
-static void AddPanRecognizer(rl::Layer& layer) {
+static void AddPanRecognizer(rl::Interface& interface, rl::Layer& layer) {
   rl::Variable y(layer, rl::Entity::Position);
   rl::Variable x(rl::Variable::Proxy::AllTouches, rl::Entity::Position);
 
@@ -24,7 +24,8 @@ static void AddPanRecognizer(rl::Layer& layer) {
   rl::Equation equation({term}, 0.0);
 
   rl::GestureRecognizer recognizer(std::move(y), std::move(equation));
-  layer.setupGestureRecognizer(std::move(recognizer));
+
+  interface.setupGestureRecognizer(std::move(recognizer));
 }
 
 void SampleApplication::didBecomeActive(rl::Interface& interface) {
@@ -54,7 +55,7 @@ void SampleApplication::didBecomeActive(rl::Interface& interface) {
                                1.0});
     layer->setOpacity(((rand() % 10) / 10.0));
     root->addSublayer(layer);
-    AddPanRecognizer(*layer);
+    AddPanRecognizer(interface, *layer);
   }
 
   interface.popTransaction();

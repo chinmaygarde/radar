@@ -129,6 +129,10 @@ class Interface {
    */
   static Interface& current();
 
+#pragma mark - Setting up Gesture Recognizers
+
+  void setupGestureRecognizer(GestureRecognizer&& recognizer);
+
  private:
   EventLoop* _loop;
   Size _size;
