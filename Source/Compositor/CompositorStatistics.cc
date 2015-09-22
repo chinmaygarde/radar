@@ -6,14 +6,7 @@
 
 namespace rl {
 
-CompositorStatistics::CompositorStatistics()
-    : _frameTimer(),
-      _transactionUpdateTimer(),
-      _interpolations(),
-      _interpolationsCount(),
-      _entityCount(),
-      _primitiveCount(),
-      _frameCount() {
+CompositorStatistics::CompositorStatistics() {
 }
 
 Stopwatch& CompositorStatistics::frameTimer() {

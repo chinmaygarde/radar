@@ -6,13 +6,7 @@
 
 namespace rl {
 
-AnimationDirector::AnimationDirector()
-    : _numberInterpolators(),
-      _pointInterpolators(),
-      _sizeInterpolators(),
-      _rectInterpolators(),
-      _matrixInterpolators(),
-      _colorInterpolators() {
+AnimationDirector::AnimationDirector() {
 }
 
 size_t AnimationDirector::flushInterpolations(Stopwatch& stopwatch) {

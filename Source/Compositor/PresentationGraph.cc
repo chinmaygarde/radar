@@ -8,7 +8,7 @@
 
 namespace rl {
 
-PresentationGraph::PresentationGraph() : _entities(), _root(nullptr) {
+PresentationGraph::PresentationGraph() : _root(nullptr) {
 }
 
 PresentationGraph::~PresentationGraph() {

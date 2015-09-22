@@ -35,8 +35,7 @@ void main() {
 
 namespace rl {
 
-ProgramCatalog::ProgramCatalog()
-    : _prepared(false), _current(None, nullptr), _catalog() {
+ProgramCatalog::ProgramCatalog() : _prepared(false), _current(None, nullptr) {
 }
 
 void ProgramCatalog::startUsing() {

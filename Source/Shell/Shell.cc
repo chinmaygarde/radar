@@ -12,11 +12,8 @@ namespace rl {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface,
              std::weak_ptr<InterfaceDelegate> delegate)
-    : _hostThread(),
-      _host(),
-      _compositorThread(),
+    : _compositorThread(),
       _compositor(surface),
-      _interfaceThread(),
       _interface(delegate, _compositor.acquireChannel()) {
   Time::LoggingBootTime();
   attachHostOnCurrentThread();

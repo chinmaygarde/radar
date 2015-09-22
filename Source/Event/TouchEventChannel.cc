@@ -6,14 +6,7 @@
 
 namespace rl {
 
-static const size_t TouchEventBufferSize = 10;
-
 TouchEventChannel::TouchEventChannel() : Channel() {
-  _pendingTouchesBegan.reserve(TouchEventBufferSize);
-  _pendingTouchesMoved.reserve(TouchEventBufferSize);
-  _pendingTouchesEnded.reserve(TouchEventBufferSize);
-  _pendingTouchesCancelled.reserve(TouchEventBufferSize);
-
   setMessagesReceivedCallback([&](Messages m) { processRawTouches(m); });
 }
 

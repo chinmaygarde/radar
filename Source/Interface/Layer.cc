@@ -7,7 +7,7 @@
 
 namespace rl {
 
-Layer::Layer() : Entity(true), _sublayers(), _superlayer(nullptr) {
+Layer::Layer() : Entity(true), _superlayer(nullptr) {
 }
 
 Layer::~Layer() {

@@ -35,10 +35,7 @@ EventLoop::EventLoop()
     : _waitSet(),
       _trivialSource(nullptr),
       _shouldTerminate(false),
-      _lock(),
-      _pendingDispatches(make_unique<PendingBlocks>()),
-      _beforeSleepObservers(),
-      _afterSleepObservers() {
+      _pendingDispatches(make_unique<PendingBlocks>()) {
 }
 
 EventLoop::~EventLoop() {
