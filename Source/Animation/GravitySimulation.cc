@@ -14,15 +14,15 @@ GravitySimulation::GravitySimulation(double acceleration,
     : _a(acceleration), _x(distance), _v(velocity), _end(endDistance) {
 }
 
-double GravitySimulation::x(double time) {
-  return _x + _v * time + 0.5 * _a * time * time;
+double GravitySimulation::x(const ClockDuration& time) {
+  return _x + _v * time.count() + 0.5 * _a * time.count() * time.count();
 }
 
-double GravitySimulation::dx(double time) {
-  return _v + time * _a;
+double GravitySimulation::dx(const ClockDuration& time) {
+  return _v + time.count() * _a;
 }
 
-bool GravitySimulation::isDone(double time) {
+bool GravitySimulation::isDone(const ClockDuration& time) {
   return fabs(x(time)) >= _end;
 }
 

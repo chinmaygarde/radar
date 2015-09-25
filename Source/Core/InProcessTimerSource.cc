@@ -9,8 +9,7 @@
 
 namespace rl {
 
-InProcessTimerSource::InProcessTimerSource(
-    std::chrono::nanoseconds repeatInterval)
+InProcessTimerSource::InProcessTimerSource(ClockDurationNano repeatInterval)
     : EventLoopSource() {
   setHandlesProvider([repeatInterval] {
     return InProcessWaitSet::TimerHandles(repeatInterval);

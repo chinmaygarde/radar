@@ -6,23 +6,24 @@
 
 namespace rl {
 
-double SimulationGroup::x(double time) {
+double SimulationGroup::x(const ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->x(time - currentIntervalOffset());
 }
 
-double SimulationGroup::dx(double time) {
+double SimulationGroup::dx(const ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->dx(time - currentIntervalOffset());
 }
 
-bool SimulationGroup::isDone(double time) {
+bool SimulationGroup::isDone(const ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->isDone(time);
 }
 
-void SimulationGroup::stepIfNecessary(double time) {
-  if (Animation::NearEqual(_lastStep, time, Animation::TimeTolerance)) {
+void SimulationGroup::stepIfNecessary(const ClockDuration& time) {
+  if (Animation::NearEqual(_lastStep.count(), time.count(),
+                           Animation::TimeTolerance)) {
     return;
   }
 

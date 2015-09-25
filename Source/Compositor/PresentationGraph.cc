@@ -15,7 +15,7 @@ PresentationGraph::~PresentationGraph() {
 }
 
 bool PresentationGraph::applyTransactions(Message& arena) {
-  auto applyTime = Time::Current();
+  auto applyTime = Clock::now();
   do {
     if (!applyTransactionSingle(arena, applyTime)) {
       return false;
@@ -25,9 +25,8 @@ bool PresentationGraph::applyTransactions(Message& arena) {
   return true;
 }
 
-bool PresentationGraph::applyTransactionSingle(
-    Message& arena,
-    const std::chrono::nanoseconds& time) {
+bool PresentationGraph::applyTransactionSingle(Message& arena,
+                                               const ClockPoint& time) {
   using namespace std::placeholders;
   TransactionPayload payload(
       time, std::bind(&PresentationGraph::onActionCommit, this, _1),
@@ -43,10 +42,9 @@ void PresentationGraph::onActionCommit(Action& action) {
    */
 }
 
-void PresentationGraph::onTransferRecordCommit(
-    Action& action,
-    TransferRecord& record,
-    const std::chrono::nanoseconds& time) {
+void PresentationGraph::onTransferRecordCommit(Action& action,
+                                               TransferRecord& record,
+                                               const ClockPoint& time) {
   if (record.property == Entity::Created) {
     _entities[record.identifier] =
         rl::make_unique<PresentationEntity>(record.identifier);
@@ -75,7 +73,7 @@ void PresentationGraph::prepareActionSingle(
     PresentationEntity& entity,
     const TransferRecord& record,
     const Entity::Accessors<T>& accessors,
-    const std::chrono::nanoseconds& start) {
+    const ClockPoint& start) {
   /*
    *  Prepare the key for the animation in the animation director
    */
@@ -97,7 +95,7 @@ void PresentationGraph::prepareActionSingle(
 void PresentationGraph::prepareActions(Action& action,
                                        PresentationEntity& entity,
                                        const TransferRecord& record,
-                                       const std::chrono::nanoseconds& time) {
+                                       const ClockPoint& time) {
   switch (record.property) {
     case Entity::Bounds:
       if (action.propertyMask() & Entity::Bounds) {

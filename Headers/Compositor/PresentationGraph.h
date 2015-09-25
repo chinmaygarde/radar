@@ -34,23 +34,22 @@ class PresentationGraph {
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
 
-  bool applyTransactionSingle(Message& arena,
-                              const std::chrono::nanoseconds& time);
+  bool applyTransactionSingle(Message& arena, const ClockPoint& time);
   void prepareActions(Action& action,
                       PresentationEntity& currentState,
                       const TransferRecord& record,
-                      const std::chrono::nanoseconds& time);
+                      const ClockPoint& time);
   template <typename T>
   void prepareActionSingle(Action& action,
                            PresentationEntity& entity,
                            const TransferRecord& record,
                            const Entity::Accessors<T>& accessors,
-                           const std::chrono::nanoseconds& start);
+                           const ClockPoint& start);
 
   void onActionCommit(Action& action);
   void onTransferRecordCommit(Action& action,
                               TransferRecord& record,
-                              const std::chrono::nanoseconds& commitTime);
+                              const ClockPoint& commitTime);
   void onRecognizerCommit(
       TransactionPayload::RecognizerCollection& recognizers);
 

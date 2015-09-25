@@ -263,12 +263,12 @@ void CompositorStatisticsRenderer::buildStatsUI(CompositorStatistics& stats) {
     ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());
     ImGui::Text("Interpolations (%zu): %.2f ms",
                 stats.interpolationsCount().count(),
-                stats.interpolations().lastLap().count() * 1e-6);
+                stats.interpolations().lastLap().count() * 1e3);
     ImGui::Text("Last Transaction Update: %.2f ms",
-                stats.transactionUpdateTimer().lastLap().count() * 1e-6);
+                stats.transactionUpdateTimer().lastLap().count() * 1e3);
 
     ImGui::Text("Frame Time (minus swap):");
-    auto frameMs = stats.frameTimer().currentLap().count() * 1e-6;
+    auto frameMs = stats.frameTimer().currentLap().count() * 1e3;
     ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
   }
   ImGui::End();

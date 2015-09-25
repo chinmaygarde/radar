@@ -16,7 +16,7 @@ TransactionPayload::TransactionPayload(Action&& action,
 }
 
 TransactionPayload::TransactionPayload(
-    const std::chrono::nanoseconds& commitTime,
+    const ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     RecognizerCallback recognizerCallback)

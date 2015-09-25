@@ -22,15 +22,15 @@ class TransactionPayload : public Serializable {
   using RecognizerCollection = std::vector<GestureRecognizer>;
 
   using ActionCallback = std::function<void(Action&)>;
-  using TransferRecordCallback = std::function<
-      void(Action&, TransferRecord&, const std::chrono::nanoseconds&)>;
+  using TransferRecordCallback =
+      std::function<void(Action&, TransferRecord&, const ClockPoint&)>;
   using RecognizerCallback = std::function<void(RecognizerCollection&)>;
 
   explicit TransactionPayload(Action&& action,
                               EntityMap&& entities,
                               RecognizerCollection&& recognizers);
 
-  explicit TransactionPayload(const std::chrono::nanoseconds& commitTime,
+  explicit TransactionPayload(const ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
                               RecognizerCallback recognizerCallback);
@@ -49,7 +49,7 @@ class TransactionPayload : public Serializable {
   /*
    *  Used when reading
    */
-  std::chrono::nanoseconds _commitTime;
+  ClockPoint _commitTime;
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;
   RecognizerCallback _recognizerCallback;

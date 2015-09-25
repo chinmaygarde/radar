@@ -15,7 +15,7 @@ Shell::Shell(std::shared_ptr<RenderSurface> surface,
     : _compositorThread(),
       _compositor(surface),
       _interface(delegate, _compositor.acquireChannel()) {
-  Time::LoggingBootTime();
+  clock::LoggingBootTime();
   attachHostOnCurrentThread();
 }
 

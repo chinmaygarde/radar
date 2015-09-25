@@ -14,7 +14,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _interfaceChannel(nullptr),
-      _animationsSource(EventLoopSource::Timer(std::chrono::milliseconds(16))) {
+      _animationsSource(EventLoopSource::Timer(ClockDurationGod)) {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);

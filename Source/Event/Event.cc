@@ -6,10 +6,10 @@
 
 namespace rl {
 
-Event::Event(double timestamp) : _timestamp(timestamp) {
+Event::Event(ClockPoint timestamp) : _timestamp(timestamp) {
 }
 
-double Event::timestamp() const {
+ClockPoint Event::timestamp() const {
   return _timestamp;
 }
 

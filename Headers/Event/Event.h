@@ -15,20 +15,20 @@ class Event : public Serializable {
    *
    *  @param timestamp the timestamp of the event
    */
-  explicit Event(double timestamp);
+  explicit Event(ClockPoint timestamp);
 
   /**
    *  Get the timestamp of the event
    *
    *  @return the event timestamp
    */
-  double timestamp() const;
+  ClockPoint timestamp() const;
 
   virtual bool serialize(Message& m) const override;
   virtual bool deserialize(Message& m) override;
 
  private:
-  double _timestamp;
+  ClockPoint _timestamp;
 };
 }
 

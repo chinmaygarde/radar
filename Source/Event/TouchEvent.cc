@@ -7,13 +7,14 @@
 namespace rl {
 
 TouchEvent::TouchEvent(uint64_t identifier, const Point& location, Phase phase)
-    : Event(Time::ToSeconds(Time::Current())),
+    : Event(Clock::now()),
       _identifier(identifier),
       _location(location),
       _phase(phase) {
 }
 
-TouchEvent::TouchEvent(Message& message) : Event(0.0), _location(0.0, 0.0) {
+TouchEvent::TouchEvent(Message& message)
+    : Event(ClockPoint::min()), _location(0.0, 0.0) {
   deserialize(message);
   RL_ASSERT(message.size() == message.sizeRead());
 }

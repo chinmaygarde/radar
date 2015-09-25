@@ -14,15 +14,15 @@ FrictionSimulation::FrictionSimulation(double drag,
     : _drag(drag), _dragLog(log(drag)), _x(position), _v(velocity) {
 }
 
-double FrictionSimulation::x(double time) {
-  return _x + _v * pow(_drag, time) / _dragLog - _v / _dragLog;
+double FrictionSimulation::x(const ClockDuration& time) {
+  return _x + _v * pow(_drag, time.count()) / _dragLog - _v / _dragLog;
 }
 
-double FrictionSimulation::dx(double time) {
-  return _v * pow(_drag, time);
+double FrictionSimulation::dx(const ClockDuration& time) {
+  return _v * pow(_drag, time.count());
 }
 
-bool FrictionSimulation::isDone(double time) {
+bool FrictionSimulation::isDone(const ClockDuration& time) {
   return fabs(dx(time)) < Animation::VelocityTolerance;
 }
 

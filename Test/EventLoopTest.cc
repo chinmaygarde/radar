@@ -32,7 +32,7 @@ TEST(EventLoopTest, SimpleLoop) {
     bool terminatedFromInner = false;
 
     std::thread innerThread([&] {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(rl::ClockDurationMilli(10));
       terminatedFromInner = true;
       outer->terminate();
       ASSERT_TRUE(true);
@@ -57,20 +57,17 @@ TEST(EventLoopTest, Timer) {
 
     auto loop = rl::EventLoop::Current();
 
-    std::chrono::high_resolution_clock clock;
+    rl::Clock clock;
 
     auto start = clock.now();
 
-    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(10));
+    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(10));
 
     timer->setWakeFunction([clock, start]() {
-      long long duration =
-          std::chrono::duration_cast<std::chrono::milliseconds>(clock.now() -
-                                                                start)
-              .count();
+      rl::ClockDurationMilli duration = clock.now() - start;
       rl::EventLoop::Current()->terminate();
-      ASSERT_TRUE(duration >= 5 &&
-                  duration <=
+      ASSERT_TRUE(duration.count() >= 5 &&
+                  duration.count() <=
                       15); /* FIXME: brittle, need a better way to check. */
     });
 
@@ -90,7 +87,7 @@ TEST(EventLoopTest, TimerRepetition) {
 
     auto loop = rl::EventLoop::Current();
 
-    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(1));
+    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(1));
 
     timer->setWakeFunction([&count, loop]() {
 
@@ -132,7 +129,7 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
     trivial->writer()(trivial->writeHandle());
     trivial->writer()(trivial->writeHandle());
 
-    auto timer = rl::EventLoopSource::Timer(std::chrono::milliseconds(250));
+    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(250));
     timer->setWakeFunction([]() { rl::EventLoop::Current()->terminate(); });
 
     loop->addSource(trivial);

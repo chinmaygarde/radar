@@ -13,15 +13,15 @@ class Stopwatch {
  public:
   explicit Stopwatch();
 
-  std::chrono::nanoseconds lastLap() const;
-  std::chrono::nanoseconds currentLap() const;
+  ClockDuration lastLap() const;
+  ClockDuration currentLap() const;
 
   void start();
   void stop();
 
  private:
-  std::chrono::nanoseconds _start;
-  std::chrono::nanoseconds _lastLap;
+  ClockPoint _startPoint;
+  ClockDuration _lastLap;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };

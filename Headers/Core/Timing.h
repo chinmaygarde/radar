@@ -8,28 +8,33 @@
 #include <chrono>
 
 namespace rl {
-namespace Time {
 
-/**
- *  Get the current absolute time
- *
- *  @return the absolute time
- */
-std::chrono::nanoseconds Current(void);
+using Clock = std::chrono::high_resolution_clock;
+using ClockDuration = std::chrono::duration<double /*, std::ratio<1>*/>;
 
+using ClockDurationSeconds = ClockDuration;
+using ClockDurationNano = std::chrono::nanoseconds;
+using ClockDurationMilli = std::chrono::milliseconds;
+using ClockDurationMicro = std::chrono::microseconds;
+
+using ClockPoint = std::chrono::time_point<Clock, ClockDuration>;
+
+static const ClockDurationMilli ClockDurationGod = ClockDurationMilli(16);
+
+namespace clock {
 /**
  *  Get the absolute boot time used for logging purposes. Useless
  *  for any other purpose
  *
  *  @return the logging boot time.
  */
-std::chrono::nanoseconds LoggingBootTime(void);
+ClockPoint LoggingBootTime(void);
 
-inline double ToSeconds(std::chrono::nanoseconds nanos) {
-  return nanos.count() / 1e9;
+inline ClockDuration ToSeconds(ClockPoint point) {
+  return std::chrono::duration_cast<ClockDuration>(point.time_since_epoch());
 }
 
-}  // namespace Time
+}  // namespace clock
 }  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_TIME__) */

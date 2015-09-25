@@ -15,11 +15,11 @@ Action::Action(double duration)
       _resolvedCurve(TimingCurve::SystemTimingCurve(_timingCurveType)) {
 }
 
-double Action::duration() const {
+const ClockDuration& Action::duration() const {
   return _duration;
 }
 
-void Action::setDuration(double duration) {
+void Action::setDuration(const ClockDuration& duration) {
   _duration = duration;
 }
 
@@ -60,14 +60,15 @@ void Action::resolveCurve() {
   _resolvedCurve = TimingCurve::SystemTimingCurve(_timingCurveType);
 }
 
-double Action::durationInUnitSlice(double time) const {
-  auto durationInUnitSlice = fmod(time, _duration) / _duration;
+double Action::unitInterpolation(const ClockDuration& time) const {
+  auto unitInterpolation =
+      fmod(time.count(), _duration.count()) / _duration.count();
 
   if (_autoReverses && ((int)(time / _duration) % 2) == 1) {
-    durationInUnitSlice = 1.0 - durationInUnitSlice;
+    unitInterpolation = 1.0 - unitInterpolation;
   }
 
-  return _resolvedCurve.x(durationInUnitSlice);
+  return _resolvedCurve.x(unitInterpolation);
 }
 
 bool Action::serialize(Message& message) const {

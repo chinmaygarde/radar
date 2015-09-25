@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>C4CF9C75-3ADD-48E2-AB59-5B00782C4ADF</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>RadarLoveMac</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>455B3765685DE18BA494A6571AEEBA5033BD60AF</key>
 		<string>github.com:chinmaygarde/RadarLove.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Platforms/Mac/RadarLoveMac.xcodeproj/project.xcworkspace</string>
+	<string>Platforms/Mac/RadarLoveMac.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>455B3765685DE18BA494A6571AEEBA5033BD60AF</key>

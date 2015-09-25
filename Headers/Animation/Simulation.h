@@ -22,7 +22,7 @@ class Simulation {
    *
    *  @return the position
    */
-  virtual double x(double time) = 0;
+  virtual double x(const ClockDuration& time) = 0;
 
   /**
    *  The current velocity of the object in the simulation
@@ -31,7 +31,7 @@ class Simulation {
    *
    *  @return the velocity
    */
-  virtual double dx(double time) = 0;
+  virtual double dx(const ClockDuration& time) = 0;
 
   /**
    *  Returns if the simulation is done at a given time
@@ -40,7 +40,7 @@ class Simulation {
    *
    *  @return if the simulation is done
    */
-  virtual bool isDone(double time) = 0;
+  virtual bool isDone(const ClockDuration& time) = 0;
 };
 }
 

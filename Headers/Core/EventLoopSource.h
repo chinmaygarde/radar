@@ -133,7 +133,7 @@ class EventLoopSource {
    *  @return the timer source
    */
   static std::shared_ptr<EventLoopSource> Timer(
-      std::chrono::nanoseconds repeatInterval);
+      ClockDurationNano repeatInterval);
 
   /**
    *  Create a trivial loop source

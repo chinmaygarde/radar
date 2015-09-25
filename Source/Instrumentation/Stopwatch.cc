@@ -6,22 +6,22 @@
 
 namespace rl {
 
-Stopwatch::Stopwatch() : _start(0), _lastLap(0) {
+Stopwatch::Stopwatch() : _startPoint(ClockPoint::min()), _lastLap(0) {
 }
 
 void Stopwatch::start() {
-  _start = Time::Current();
+  _startPoint = Clock::now();
 }
 
 void Stopwatch::stop() {
-  _lastLap = Time::Current() - _start;
+  _lastLap = Clock::now() - _startPoint;
 }
 
-std::chrono::nanoseconds Stopwatch::currentLap() const {
-  return Time::Current() - _start;
+ClockDuration Stopwatch::currentLap() const {
+  return Clock::now() - _startPoint;
 }
 
-std::chrono::nanoseconds Stopwatch::lastLap() const {
+ClockDuration Stopwatch::lastLap() const {
   return _lastLap;
 }
 

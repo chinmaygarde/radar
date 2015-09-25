@@ -20,25 +20,25 @@ ScrollSimulation::ScrollSimulation(double position,
       _isSpringing(false),
       _currentSimulation(nullptr),
       _offset(0.0) {
-  chooseSimulation(position, velocity, 0.0);
+  chooseSimulation(position, velocity, ClockDuration::zero());
 }
 
 Simulation* ScrollSimulation::currentSimulation() {
   return _currentSimulation.get();
 }
 
-double ScrollSimulation::currentIntervalOffset() {
+const ClockDuration& ScrollSimulation::currentIntervalOffset() {
   return _offset;
 }
 
-bool ScrollSimulation::step(double time) {
+bool ScrollSimulation::step(const ClockDuration& time) {
   return chooseSimulation(_currentSimulation->x(time - _offset),
                           _currentSimulation->dx(time - _offset), time);
 }
 
 bool ScrollSimulation::chooseSimulation(double position,
                                         double velocity,
-                                        double intervalOffset) {
+                                        const ClockDuration& intervalOffset) {
   if (position > _trailingExtent || position < _leadingExtent) {
     return false;
   }

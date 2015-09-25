@@ -19,18 +19,18 @@ Interpolator<Type>::Interpolator(
       _setter(setter),
       _from(from),
       _to(to),
-      _start(0) {
+      _start(ClockPoint::min()) {
 }
 
 template <typename Type>
-void Interpolator<Type>::start(const std::chrono::nanoseconds& time) {
+void Interpolator<Type>::start(const ClockPoint& time) {
   _start = time;
 }
 
 template <typename Type>
-void Interpolator<Type>::step(const std::chrono::nanoseconds& time) {
-  auto timeSinceStart = time.count() - _start.count();
-  _setter(*_entity, x(_action.durationInUnitSlice(timeSinceStart * 1e-9)));
+void Interpolator<Type>::step(const ClockPoint& time) {
+  auto timeSinceStart = time - _start;
+  _setter(*_entity, x(_action.unitInterpolation(timeSinceStart)));
 }
 
 template <typename Type>

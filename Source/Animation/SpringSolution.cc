@@ -18,16 +18,16 @@ class CriticalSolution : public SpringSolution {
     return make_unique<CriticalSolution>(r, c1, c2);
   }
 
-  virtual double x(double time) override {
-    return (_c1 + _c2 * time) * pow(M_E, _r * time);
+  virtual double x(const ClockDuration& time) override {
+    return (_c1 + _c2 * time.count()) * pow(M_E, _r * time.count());
   }
 
-  virtual double dx(double time) override {
-    const double power = pow(M_E, _r * time);
-    return _r * (_c1 + _c2 * time) * power + _c2 * power;
+  virtual double dx(const ClockDuration& time) override {
+    const double power = pow(M_E, _r * time.count());
+    return _r * (_c1 + _c2 * time.count()) * power + _c2 * power;
   }
 
-  virtual bool isDone(double time) override { return false; }
+  virtual bool isDone(const ClockDuration& time) override { return false; }
 
  private:
   const double _r;
@@ -56,16 +56,17 @@ class OverdampedSolution : public SpringSolution {
     return make_unique<OverdampedSolution>(r1, r2, c1, c2);
   }
 
-  virtual double x(double time) override {
-    return (_c1 * pow(M_E, _r1 * time) + _c2 * pow(M_E, _r2 * time));
+  virtual double x(const ClockDuration& time) override {
+    return (_c1 * pow(M_E, _r1 * time.count()) +
+            _c2 * pow(M_E, _r2 * time.count()));
   }
 
-  virtual double dx(double time) override {
-    return (_c1 * _r1 * pow(M_E, _r1 * time) +
-            _c2 * _r2 * pow(M_E, _r2 * time));
+  virtual double dx(const ClockDuration& time) override {
+    return (_c1 * _r1 * pow(M_E, _r1 * time.count()) +
+            _c2 * _r2 * pow(M_E, _r2 * time.count()));
   }
 
-  virtual bool isDone(double time) override { return false; }
+  virtual bool isDone(const ClockDuration& time) override { return false; }
 
  private:
   const double _r1;
@@ -95,20 +96,21 @@ class UnderdampedSolution : public SpringSolution {
     return make_unique<UnderdampedSolution>(w, r, c1, c2);
   }
 
-  virtual double x(double time) override {
-    return pow(M_E, _r * time) * (_c1 * cos(_w * time) + _c2 * sin(_w * time));
+  virtual double x(const ClockDuration& time) override {
+    return pow(M_E, _r * time.count()) *
+           (_c1 * cos(_w * time.count()) + _c2 * sin(_w * time.count()));
   }
 
-  virtual double dx(double time) override {
-    double power = pow(M_E, _r * time);
-    double cosine = cos(_w * time);
-    double sine = sin(_w * time);
+  virtual double dx(const ClockDuration& time) override {
+    double power = pow(M_E, _r * time.count());
+    double cosine = cos(_w * time.count());
+    double sine = sin(_w * time.count());
 
     return power * (_c2 * _w * cosine - _c1 * _w * sine) +
            _r * power * (_c2 * sine + _c1 * cosine);
   }
 
-  virtual bool isDone(double time) override { return false; }
+  virtual bool isDone(const ClockDuration& time) override { return false; }
 
  private:
   const double _w;

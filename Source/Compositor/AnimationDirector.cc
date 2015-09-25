@@ -12,7 +12,7 @@ AnimationDirector::AnimationDirector() {
 size_t AnimationDirector::flushInterpolations(Stopwatch& stopwatch) {
   AutoStopwatchLap lap(stopwatch);
 
-  const auto time = Time::Current();
+  const ClockPoint time = Clock::now();
   size_t count = 0;
 
   for (const auto& i : _numberInterpolators) {

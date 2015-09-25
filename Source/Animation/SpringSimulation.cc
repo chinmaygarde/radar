@@ -16,15 +16,15 @@ SpringSimulation::SpringSimulation(SpringDescription desc,
       _solution(SpringSolution::Create(desc, start - end, velocity)) {
 }
 
-double SpringSimulation::x(double time) {
+double SpringSimulation::x(const ClockDuration& time) {
   return _endPosition + _solution->x(time);
 }
 
-double SpringSimulation::dx(double time) {
+double SpringSimulation::dx(const ClockDuration& time) {
   return _solution->dx(time);
 }
 
-bool SpringSimulation::isDone(double time) {
+bool SpringSimulation::isDone(const ClockDuration& time) {
   return Animation::NearEqual(x(time), _endPosition,
                               Animation::DistanceTolerance) &&
          Animation::NearZero(dx(time), Animation::VelocityTolerance);

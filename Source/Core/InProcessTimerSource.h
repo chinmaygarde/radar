@@ -13,7 +13,7 @@ namespace rl {
 
 class InProcessTimerSource : public EventLoopSource {
  public:
-  InProcessTimerSource(std::chrono::nanoseconds repeatInterval);
+  InProcessTimerSource(ClockDurationNano repeatInterval);
   ~InProcessTimerSource();
 
  private:

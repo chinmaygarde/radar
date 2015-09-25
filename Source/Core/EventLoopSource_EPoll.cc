@@ -48,7 +48,7 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
-    std::chrono::nanoseconds repeatInterval) {
+    ClockDurationNano repeatInterval) {
   RWHandlesProvider provider = [repeatInterval]() {
     /*
      *  Create and arm the timer file descriptor

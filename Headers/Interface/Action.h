@@ -22,14 +22,14 @@ class Action : public Serializable {
    *
    *  @return the action duration
    */
-  double duration() const;
+  const ClockDuration& duration() const;
 
   /**
    *  Set the duration of a single iteration of the action
    *
    *  @param duration the action duration
    */
-  void setDuration(double duration);
+  void setDuration(const ClockDuration& duration);
 
   /**
    *  Get the repeat count of the action. The default is 1
@@ -71,14 +71,14 @@ class Action : public Serializable {
 
   void setTimingCurveType(TimingCurve::Type type);
 
-  double durationInUnitSlice(double time) const;
+  double unitInterpolation(const ClockDuration& time) const;
 
   virtual bool serialize(Message& message) const override;
 
   virtual bool deserialize(Message& message) override;
 
  private:
-  double _duration;
+  ClockDuration _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
   uint64_t _propertyMask;
