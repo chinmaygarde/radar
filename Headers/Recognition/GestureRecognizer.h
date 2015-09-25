@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H__
-#define __RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H__
+#ifndef RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H_
+#define RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H_
 
 #include <Core/Core.h>
 #include <Recognition/Equation.h>
@@ -36,4 +36,4 @@ class GestureRecognizer : public Serializable {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H__
+#endif  // RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H_

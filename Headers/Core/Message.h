@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_MESSAGE__
-#define __RADARLOVE_CORE_MESSAGE__
+#ifndef RADARLOVE_CORE_MESSAGE_
+#define RADARLOVE_CORE_MESSAGE_
 
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
@@ -147,4 +147,4 @@ class Message {
 using Messages = std::vector<Message>;
 }
 
-#endif  // __RADARLOVE_CORE_MESSAGE__
+#endif  // RADARLOVE_CORE_MESSAGE_

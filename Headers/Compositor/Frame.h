@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_FRAME__
-#define __RADARLOVE_COMPOSITOR_FRAME__
+#ifndef RADARLOVE_COMPOSITOR_FRAME_
+#define RADARLOVE_COMPOSITOR_FRAME_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
@@ -97,4 +97,4 @@ class ScopedFrame : public Frame {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_FRAME__
+#endif  // RADARLOVE_COMPOSITOR_FRAME_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_ANIMATION_UTILITIES__
-#define __RADARLOVE_ANIMATION_UTILITIES__
+#ifndef RADARLOVE_ANIMATION_UTILITIES_
+#define RADARLOVE_ANIMATION_UTILITIES_
 
 namespace rl {
 namespace Animation {
@@ -43,4 +43,4 @@ bool NearZero(double a, double epsilon);
 }
 }
 
-#endif  // __RADARLOVE_ANIMATION_UTILITIES__
+#endif  // RADARLOVE_ANIMATION_UTILITIES_

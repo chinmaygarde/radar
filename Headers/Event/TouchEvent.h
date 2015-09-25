@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_EVENT_TOUCHEVENT__
-#define __RADARLOVE_EVENT_TOUCHEVENT__
+#ifndef RADARLOVE_EVENT_TOUCHEVENT_
+#define RADARLOVE_EVENT_TOUCHEVENT_
 
 #include <Event/Event.h>
 #include <Geometry/Geometry.h>
@@ -63,4 +63,4 @@ class TouchEvent : public Event {
 };
 }  // namespace rl
 
-#endif  // __RADARLOVE_EVENT_TOUCHEVENT__
+#endif  // RADARLOVE_EVENT_TOUCHEVENT_

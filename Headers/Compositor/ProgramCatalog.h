@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__
-#define __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__
+#ifndef RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
+#define RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 
 #include <Compositor/Program.h>
 
@@ -79,4 +79,4 @@ class BasicPrimitiveProgram : public Program {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__
+#endif  // RADARLOVE_COMPOSITOR_PROGRAMCATALOG_

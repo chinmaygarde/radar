@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_ENTITY__
-#define __RADARLOVE_INTERFACE_ENTITY__
+#ifndef RADARLOVE_INTERFACE_ENTITY_
+#define RADARLOVE_INTERFACE_ENTITY_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
@@ -203,4 +203,4 @@ extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_INTERFACE_ENTITY__
+#endif  // RADARLOVE_INTERFACE_ENTITY_

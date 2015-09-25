@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_EVENT_EVENT__
-#define __RADARLOVE_EVENT_EVENT__
+#ifndef RADARLOVE_EVENT_EVENT_
+#define RADARLOVE_EVENT_EVENT_
 
 #include <Core/Core.h>
 
@@ -32,4 +32,4 @@ class Event : public Serializable {
 };
 }
 
-#endif  // __RADARLOVE_EVENT_EVENT__
+#endif  // RADARLOVE_EVENT_EVENT_

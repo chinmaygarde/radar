@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_INTERFACEDELEGATE__
-#define __RADARLOVE_INTERFACE_INTERFACEDELEGATE__
+#ifndef RADARLOVE_INTERFACE_INTERFACEDELEGATE_
+#define RADARLOVE_INTERFACE_INTERFACEDELEGATE_
 
 namespace rl {
 
@@ -55,4 +55,4 @@ class InterfaceDelegate {
 };
 }
 
-#endif  // __RADARLOVE_INTERFACE_INTERFACEDELEGATE__
+#endif  // RADARLOVE_INTERFACE_INTERFACEDELEGATE_

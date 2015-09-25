@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_RENDERSURFACE__
-#define __RADARLOVE_GEOMETRY_RENDERSURFACE__
+#ifndef RADARLOVE_GEOMETRY_RENDERSURFACE_
+#define RADARLOVE_GEOMETRY_RENDERSURFACE_
 
 #include <Core/Macros.h>
 #include <Geometry/Geometry.h>
@@ -79,4 +79,4 @@ class ScopedRenderSurfaceAccess {
 };
 }
 
-#endif  // __RADARLOVE_GEOMETRY_RENDERSURFACE__
+#endif  // RADARLOVE_GEOMETRY_RENDERSURFACE_

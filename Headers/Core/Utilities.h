@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_UTILITIES__
-#define __RADARLOVE_CORE_UTILITIES__
+#ifndef RADARLOVE_CORE_UTILITIES_
+#define RADARLOVE_CORE_UTILITIES_
 
 #include <memory>
 #include <type_traits>
@@ -35,4 +35,4 @@ using only_if = typename std::enable_if<B, T>::type;
 void ThreadSetName(const char* name);
 }
 
-#endif  // __RADARLOVE_CORE_UTILITIES__
+#endif  // RADARLOVE_CORE_UTILITIES_

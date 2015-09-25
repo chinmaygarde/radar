@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_ANIMATION_SIMULATION__
-#define __RADARLOVE_ANIMATION_SIMULATION__
+#ifndef RADARLOVE_ANIMATION_SIMULATION_
+#define RADARLOVE_ANIMATION_SIMULATION_
 
 #include <Core/Core.h>
 
@@ -44,4 +44,4 @@ class Simulation {
 };
 }
 
-#endif  // __RADARLOVE_ANIMATION_SIMULATION__
+#endif  // RADARLOVE_ANIMATION_SIMULATION_

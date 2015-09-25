@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_LAYER__
-#define __RADARLOVE_INTERFACE_LAYER__
+#ifndef RADARLOVE_INTERFACE_LAYER_
+#define RADARLOVE_INTERFACE_LAYER_
 
 #include <Core/Core.h>
 
@@ -64,4 +64,4 @@ class Layer : public Entity {
 };
 }
 
-#endif  // __RADARLOVE_INTERFACE_LAYER__
+#endif  // RADARLOVE_INTERFACE_LAYER_

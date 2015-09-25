@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H__
-#define __RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H__
+#ifndef RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_
+#define RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_
 
 #include <Instrumentation/Trace.h>
 #include <Instrumentation/Stopwatch.h>
 #include <Instrumentation/Counter.h>
 
-#endif  // __RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H__
+#endif  // RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_

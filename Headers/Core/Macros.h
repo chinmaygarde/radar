@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_MACROS__
-#define __RADARLOVE_CORE_MACROS__
+#ifndef RADARLOVE_CORE_MACROS_
+#define RADARLOVE_CORE_MACROS_
 
 #include <Core/Config.h>
 #include <Core/Utilities.h>
@@ -77,4 +77,4 @@
   TypeName(TypeName&) = delete;               \
   void operator=(TypeName) = delete;
 
-#endif  // __RADARLOVE_CORE_MACROS__
+#endif  // RADARLOVE_CORE_MACROS_

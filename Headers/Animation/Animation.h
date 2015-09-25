@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_ANIMATION_ANIMATION__
-#define __RADARLOVE_ANIMATION_ANIMATION__
+#ifndef RADARLOVE_ANIMATION_ANIMATION_
+#define RADARLOVE_ANIMATION_ANIMATION_
 
 /*
  *  Utilities
@@ -24,4 +24,4 @@
 #include <Animation/ScrollSimulation.h>
 #include <Animation/SpringSimulation.h>
 
-#endif // __RADARLOVE_ANIMATION_ANIMATION__
+#endif // RADARLOVE_ANIMATION_ANIMATION_

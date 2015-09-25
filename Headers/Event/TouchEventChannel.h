@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__
-#define __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__
+#ifndef RADARLOVE_EVENT_TOUCHEVENTCHANNEL_
+#define RADARLOVE_EVENT_TOUCHEVENTCHANNEL_
 
 #include <Core/Channel.h>
 #include <Event/TouchEvent.h>
@@ -37,4 +37,4 @@ class TouchEventChannel : public Channel {
 };
 }  // namespace rl
 
-#endif  // __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__
+#endif  // RADARLOVE_EVENT_TOUCHEVENTCHANNEL_

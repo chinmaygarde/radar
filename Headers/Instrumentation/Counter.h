@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INSTRUMENTATION_COUNTER_H__
-#define __RADARLOVE_INSTRUMENTATION_COUNTER_H__
+#ifndef RADARLOVE_INSTRUMENTATION_COUNTER_H_
+#define RADARLOVE_INSTRUMENTATION_COUNTER_H_
 
 #include <Core/Core.h>
 
@@ -27,4 +27,4 @@ class Counter {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_INSTRUMENTATION_COUNTER_H__
+#endif  // RADARLOVE_INSTRUMENTATION_COUNTER_H_

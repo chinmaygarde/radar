@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_OPENGL__
-#define __RADARLOVE_COMPOSITOR_OPENGL__
+#ifndef RADARLOVE_COMPOSITOR_OPENGL_
+#define RADARLOVE_COMPOSITOR_OPENGL_
 
 #if !RL_OPENGL_ALLOWED
 /*
@@ -72,4 +72,4 @@ static_assert(sizeof(rl::GLMatrix) == 16 * sizeof(GLfloat),
 #define RL_GLAssert(x, ...) \
   rl::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
-#endif  // __RADARLOVE_COMPOSITOR_OPENGL__
+#endif  // RADARLOVE_COMPOSITOR_OPENGL_

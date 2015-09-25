@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_TIME__
-#define __RADARLOVE_CORE_TIME__
+#ifndef RADARLOVE_CORE_TIME_
+#define RADARLOVE_CORE_TIME_
 
 #include <chrono>
 
@@ -37,4 +37,4 @@ inline ClockDuration ToSeconds(ClockPoint point) {
 }  // namespace clock
 }  // namespace rl
 
-#endif  // __RADARLOVE_CORE_TIME__
+#endif  // RADARLOVE_CORE_TIME_

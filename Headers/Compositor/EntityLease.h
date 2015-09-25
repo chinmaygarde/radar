@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_ENTITY_LEASE__
-#define __RADARLOVE_COMPOSITOR_ENTITY_LEASE__
+#ifndef RADARLOVE_COMPOSITOR_ENTITY_LEASE_
+#define RADARLOVE_COMPOSITOR_ENTITY_LEASE_
 
 #include <Core/Core.h>
 #include <Compositor/EntityArena.h>
@@ -35,4 +35,4 @@ class EntityLease {
 };
 }  // namespace rl
 
-#endif  // __RADARLOVE_COMPOSITOR_ENTITY_LEASE__
+#endif  // RADARLOVE_COMPOSITOR_ENTITY_LEASE_

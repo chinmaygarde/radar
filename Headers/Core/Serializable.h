@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_SERIALIZABLE_H__
-#define __RADARLOVE_CORE_SERIALIZABLE_H__
+#ifndef RADARLOVE_CORE_SERIALIZABLE_H_
+#define RADARLOVE_CORE_SERIALIZABLE_H_
 
 #include <Core/Message.h>
 #include <Core/Utilities.h>
@@ -44,4 +44,4 @@ class Serializable {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_CORE_SERIALIZABLE_H__
+#endif  // RADARLOVE_CORE_SERIALIZABLE_H_

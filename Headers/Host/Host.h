@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_HOST_HOST__
-#define __RADARLOVE_HOST_HOST__
+#ifndef RADARLOVE_HOST_HOST_
+#define RADARLOVE_HOST_HOST_
 
 #include <Core/Core.h>
 #include <Event/TouchEventChannel.h>
@@ -37,4 +37,4 @@ class Host {
 };
 }
 
-#endif  // __RADARLOVE_HOST_HOST__
+#endif  // RADARLOVE_HOST_HOST_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INSTRUMENTATION_TRACE_H__
-#define __RADARLOVE_INSTRUMENTATION_TRACE_H__
+#ifndef RADARLOVE_INSTRUMENTATION_TRACE_H_
+#define RADARLOVE_INSTRUMENTATION_TRACE_H_
 
 #include <Core/Core.h>
 
@@ -31,4 +31,4 @@ class AutoTrace : public Trace {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_INSTRUMENTATION_TRACE_H__
+#endif  // RADARLOVE_INSTRUMENTATION_TRACE_H_

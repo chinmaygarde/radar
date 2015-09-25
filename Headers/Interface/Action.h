@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_ACTION__
-#define __RADARLOVE_INTERFACE_ACTION__
+#ifndef RADARLOVE_INTERFACE_ACTION_
+#define RADARLOVE_INTERFACE_ACTION_
 
 #include <Core/Core.h>
 #include <Compositor/TimingCurve.h>
@@ -91,4 +91,4 @@ class Action : public Serializable {
 };
 }
 
-#endif  // __RADARLOVE_INTERFACE_ACTION__
+#endif  // RADARLOVE_INTERFACE_ACTION_

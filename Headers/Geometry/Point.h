@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_POINT__
-#define __RADARLOVE_GEOMETRY_POINT__
+#ifndef RADARLOVE_GEOMETRY_POINT_
+#define RADARLOVE_GEOMETRY_POINT_
 
 #include <Geometry/Size.h>
 
@@ -47,4 +47,4 @@ struct Point {
 static const Point PointZero(0.0, 0.0);
 }
 
-#endif  // __RADARLOVE_GEOMETRY_POINT__
+#endif  // RADARLOVE_GEOMETRY_POINT_

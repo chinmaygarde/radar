@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_INTERFACE__
-#define __RADARLOVE_INTERFACE_INTERFACE__
+#ifndef RADARLOVE_INTERFACE_INTERFACE_
+#define RADARLOVE_INTERFACE_INTERFACE_
 
 #include <Core/Core.h>
 #include <Event/TouchEventChannel.h>
@@ -163,4 +163,4 @@ class Interface {
 };
 }
 
-#endif  // __RADARLOVE_INTERFACE_INTERFACE__
+#endif  // RADARLOVE_INTERFACE_INTERFACE_

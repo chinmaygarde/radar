@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_ENTITYARENA__
-#define __RADARLOVE_COMPOSITOR_ENTITYARENA__
+#ifndef RADARLOVE_COMPOSITOR_ENTITYARENA_
+#define RADARLOVE_COMPOSITOR_ENTITYARENA_
 
 #include <Core/Core.h>
 #include <Compositor/TransferEntity.h>
@@ -45,4 +45,4 @@ class EntityArena {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_COMPOSITOR_ENTITYARENA__
+#endif  // RADARLOVE_COMPOSITOR_ENTITYARENA_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
-#define __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
+#ifndef RADARLOVE_INTERFACE_INTERFACETRANSACTION_
+#define RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 
 #include <Core/Core.h>
 #include <Interface/Action.h>
@@ -38,4 +38,4 @@ class InterfaceTransaction {
 };
 }
 
-#endif  // __RADARLOVE_INTERFACE_INTERFACETRANSACTION__
+#endif  // RADARLOVE_INTERFACE_INTERFACETRANSACTION_

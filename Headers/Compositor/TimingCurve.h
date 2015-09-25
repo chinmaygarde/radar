@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_TIMINGCURVE__
-#define __RADARLOVE_COMPOSITOR_TIMINGCURVE__
+#ifndef RADARLOVE_COMPOSITOR_TIMINGCURVE_
+#define RADARLOVE_COMPOSITOR_TIMINGCURVE_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
@@ -34,4 +34,4 @@ class TimingCurve {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_TIMINGCURVE__
+#endif  // RADARLOVE_COMPOSITOR_TIMINGCURVE_

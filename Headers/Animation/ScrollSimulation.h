@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_ANIMATION_SCROLLSIMULATION__
-#define __RADARLOVE_ANIMATION_SCROLLSIMULATION__
+#ifndef RADARLOVE_ANIMATION_SCROLLSIMULATION_
+#define RADARLOVE_ANIMATION_SCROLLSIMULATION_
 
 #include <Core/Core.h>
 #include <Animation/SimulationGroup.h>
@@ -48,4 +48,4 @@ class ScrollSimulation : public SimulationGroup {
 };
 }
 
-#endif  // __RADARLOVE_ANIMATION_SCROLLSIMULATION__
+#endif  // RADARLOVE_ANIMATION_SCROLLSIMULATION_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_PRIMITIVE__
-#define __RADARLOVE_COMPOSITOR_PRIMITIVE__
+#ifndef RADARLOVE_COMPOSITOR_PRIMITIVE_
+#define RADARLOVE_COMPOSITOR_PRIMITIVE_
 
 #include <Core/Core.h>
 
@@ -45,4 +45,4 @@ class Primitive {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_PRIMITIVE__
+#endif  // RADARLOVE_COMPOSITOR_PRIMITIVE_

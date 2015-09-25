@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_RECT__
-#define __RADARLOVE_GEOMETRY_RECT__
+#ifndef RADARLOVE_GEOMETRY_RECT_
+#define RADARLOVE_GEOMETRY_RECT_
 
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
@@ -43,4 +43,4 @@ struct Rect {
 static const Rect RectZero(PointZero, SizeZero);
 }
 
-#endif  // __RADARLOVE_GEOMETRY_RECT__
+#endif  // RADARLOVE_GEOMETRY_RECT_

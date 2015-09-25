@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_SIZE__
-#define __RADARLOVE_GEOMETRY_SIZE__
+#ifndef RADARLOVE_GEOMETRY_SIZE_
+#define RADARLOVE_GEOMETRY_SIZE_
 
 namespace rl {
 struct Size {
@@ -39,4 +39,4 @@ struct Size {
 static const Size SizeZero(0.0, 0.0);
 }
 
-#endif  // __RADARLOVE_GEOMETRY_SIZE__
+#endif  // RADARLOVE_GEOMETRY_SIZE_

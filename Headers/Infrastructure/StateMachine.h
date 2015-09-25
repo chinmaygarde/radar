@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_STATE_MACHINE__
-#define __RADARLOVE_STATE_MACHINE__
+#ifndef RADARLOVE_STATE_MACHINE_
+#define RADARLOVE_STATE_MACHINE_
 
 #include <Core/Core.h>
 
@@ -54,4 +54,4 @@ class StateMachine {
 };
 }
 
-#endif  // __RADARLOVE_STATE_MACHINE__
+#endif  // RADARLOVE_STATE_MACHINE_

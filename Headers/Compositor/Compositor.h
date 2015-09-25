@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_COMPOSITOR__
-#define __RADARLOVE_COMPOSITOR_COMPOSITOR__
+#ifndef RADARLOVE_COMPOSITOR_COMPOSITOR_
+#define RADARLOVE_COMPOSITOR_COMPOSITOR_
 
 #include <Core/Core.h>
 
@@ -89,4 +89,4 @@ class Compositor : RenderSurfaceObserver {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_COMPOSITOR__
+#endif  // RADARLOVE_COMPOSITOR_COMPOSITOR_

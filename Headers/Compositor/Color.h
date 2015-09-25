@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_COLOR__
-#define __RADARLOVE_GEOMETRY_COLOR__
+#ifndef RADARLOVE_GEOMETRY_COLOR_
+#define RADARLOVE_GEOMETRY_COLOR_
 
 #include <cmath>
 
@@ -121,4 +121,4 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
 static const double TransparencyAlphaThreshold = 0.01;
 }
 
-#endif  // __RADARLOVE_GEOMETRY_COLOR__
+#endif  // RADARLOVE_GEOMETRY_COLOR_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_LATCH__
-#define __RADARLOVE_CORE_LATCH__
+#ifndef RADARLOVE_CORE_LATCH_
+#define RADARLOVE_CORE_LATCH_
 
 #include <Core/Macros.h>
 #include <atomic>
@@ -52,4 +52,4 @@ class AutoLatch : public Latch {
 };
 }
 
-#endif  // __RADARLOVE_CORE_LATCH__
+#endif  // RADARLOVE_CORE_LATCH_

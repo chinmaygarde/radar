@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_GEOMETRY_MATRIX__
-#define __RADARLOVE_GEOMETRY_MATRIX__
+#ifndef RADARLOVE_GEOMETRY_MATRIX_
+#define RADARLOVE_GEOMETRY_MATRIX_
 
 #include <Geometry/Vector.h>
 #include <Geometry/Size.h>
@@ -361,4 +361,4 @@ static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
 // clang-format on
 }
 
-#endif  // __RADARLOVE_GEOMETRY_MATRIX__
+#endif  // RADARLOVE_GEOMETRY_MATRIX_

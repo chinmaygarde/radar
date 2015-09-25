@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_INTERPOLATOR__
-#define __RADARLOVE_COMPOSITOR_INTERPOLATOR__
+#ifndef RADARLOVE_COMPOSITOR_INTERPOLATOR_
+#define RADARLOVE_COMPOSITOR_INTERPOLATOR_
 
 #include <Core/Core.h>
 #include <Interface/Action.h>
@@ -41,4 +41,4 @@ class Interpolator {
 };
 }
 
-#endif  // __RADARLOVE_COMPOSITOR_INTERPOLATOR__
+#endif  // RADARLOVE_COMPOSITOR_INTERPOLATOR_

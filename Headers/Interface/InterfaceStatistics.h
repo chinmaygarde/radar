@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_INTERFACE_INTERFACESTATISTICS_H__
-#define __RADARLOVE_INTERFACE_INTERFACESTATISTICS_H__
+#ifndef RADARLOVE_INTERFACE_INTERFACESTATISTICS_H_
+#define RADARLOVE_INTERFACE_INTERFACESTATISTICS_H_
 
 #include <Core/Core.h>
 #include <Instrumentation/Instrumentation.h>
@@ -18,4 +18,4 @@ class InterfaceStatistics {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_INTERFACE_INTERFACESTATISTICS_H__
+#endif  // RADARLOVE_INTERFACE_INTERFACESTATISTICS_H_

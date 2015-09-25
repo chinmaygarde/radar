@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H__
-#define __RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H__
+#ifndef RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H_
+#define RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H_
 
 #include <Core/Core.h>
 #include <Compositor/EntityArena.h>
@@ -58,4 +58,4 @@ class PresentationGraph {
 
 }  // namespace rl
 
-#endif  // __RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H__
+#endif  // RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H_

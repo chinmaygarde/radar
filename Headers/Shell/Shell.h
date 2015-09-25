@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_SHELL_SHELL__
-#define __RADARLOVE_SHELL_SHELL__
+#ifndef RADARLOVE_SHELL_SHELL_
+#define RADARLOVE_SHELL_SHELL_
 
 #include <thread>
 #include <Core/Core.h>
@@ -70,4 +70,4 @@ class Shell {
 };
 }
 
-#endif  // __RADARLOVE_SHELL_SHELL__
+#endif  // RADARLOVE_SHELL_SHELL_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE__
-#define __RADARLOVE_CORE__
+#ifndef RADARLOVE_CORE_
+#define RADARLOVE_CORE_
 
 /*
  *  The umbrella header for the Core library
@@ -44,4 +44,4 @@
  */
 #include <Core/SharedMemory.h>
 
-#endif  // __RADARLOVE_CORE__
+#endif  // RADARLOVE_CORE_
