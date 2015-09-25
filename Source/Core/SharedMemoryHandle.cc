@@ -8,17 +8,18 @@
 
 #include "SharedMemoryHandle.h"
 
-#include <sstream>
-
 #include <sys/mman.h>
 #include <fcntl.h>
+
+#include <sstream>
 
 namespace rl {
 
 static const int SharedMemoryTempHandleMaxRetries = 25;
 
 static std::string SharedMemory_RandomFileName() {
-  auto random = rand() % RAND_MAX;
+  static uint32_t kSeed = 4;
+  auto random = rand_r(&kSeed) % RAND_MAX;
 
   std::stringstream stream;
 

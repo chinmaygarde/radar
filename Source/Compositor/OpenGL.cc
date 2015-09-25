@@ -42,7 +42,7 @@ void GLAssertError(const char* file, int line, const char* fmt...) {
 
   va_list args;
   va_start(args, fmt);
-  vsnprintf(userMessage, 128, fmt, args);
+  vsnprintf(userMessage, sizeof(userMessage), fmt, args);
   va_end(args);
 
   const char* basename = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
@@ -120,7 +120,7 @@ void GLDescribeFramebuffer(void) {
 
   GLenum status = glCheckFramebufferStatus(framebuffer);
 
-  snprintf(description, 128, "FBO %d%s %s", framebuffer,
+  snprintf(description, sizeof(description), "FBO %d%s %s", framebuffer,
            framebuffer == GL_NONE ? " (Default)" : "",
            RL_GLDescribeFramebufferStatus(status));
 

@@ -25,7 +25,8 @@ bool EventLoopObserverComparer::operator()(
   return a->priority() < b->priority();
 }
 
-EventLoopObserverCollection::EventLoopObserverCollection() : _observers(){};
+EventLoopObserverCollection::EventLoopObserverCollection() : _observers() {
+}
 
 void EventLoopObserverCollection::addObserver(
     std::shared_ptr<EventLoopObserver> observer) {

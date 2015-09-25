@@ -98,7 +98,6 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   };
 
   IOHandler writer = [](Handle w) {
-
     ssize_t size = RL_TEMP_FAILURE_RETRY(::write(
         HANDLE_CAST(w), EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
 

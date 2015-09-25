@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 #include <Compositor/Program.h>
-#include <algorithm>
 
 #define RL_OPENGL_ALLOWED 1
 #include <Compositor/OpenGL.h>
+
+#include <algorithm>
 
 namespace rl {
 
@@ -37,10 +38,12 @@ static std::string Program_LogShaderInfo(GLuint shader) {
     return "";
   }
 
-  char log[logSize];
+  auto log = reinterpret_cast<char*>(calloc(logSize, sizeof(char)));
   glGetShaderInfoLog(shader, logSize, &logSize, log);
+  auto string = std::string(log);
+  free(log);
 
-  return std::string(log);
+  return string;
 }
 
 void Program::linkIfNecessary() {

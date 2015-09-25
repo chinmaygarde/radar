@@ -64,7 +64,7 @@ double Action::unitInterpolation(const ClockDuration& time) const {
   auto unitInterpolation =
       fmod(time.count(), _duration.count()) / _duration.count();
 
-  if (_autoReverses && ((int)(time / _duration) % 2) == 1) {
+  if (_autoReverses && (static_cast<int>(time / _duration) % 2) == 1) {
     unitInterpolation = 1.0 - unitInterpolation;
   }
 

@@ -17,5 +17,5 @@ bool NearEqual(double a, double b, double epsilon) {
 bool NearZero(double a, double epsilon) {
   return NearEqual(a, 0.0, epsilon);
 }
-}
-}
+}  // namespace Animation
+}  // namespace rl

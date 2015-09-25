@@ -58,7 +58,7 @@ class CompositorStatisticsRendererProgram : public Program {
   unsigned int colorAttribute;
 
  protected:
-  virtual void onLinkSuccess() override {
+  void onLinkSuccess() override {
     textureUniform = indexForUniform("Texture");
     projMtxUniform = indexForUniform("ProjMtx");
 
@@ -123,11 +123,14 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
   glEnableVertexAttribArray(program.colorAttribute);
 
   glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, pos));
+                        sizeof(ImDrawVert),
+                        reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, pos)));
   glVertexAttribPointer(program.uvAttribute, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, uv));
+                        sizeof(ImDrawVert),
+                        reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, uv)));
   glVertexAttribPointer(program.colorAttribute, 4, GL_UNSIGNED_BYTE, GL_TRUE,
-                        sizeof(ImDrawVert), (GLvoid*)offsetof(ImDrawVert, col));
+                        sizeof(ImDrawVert),
+                        reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, col)));
 
   for (int n = 0; n < drawData->CmdListsCount; n++) {
     ImDrawList* cmdList = drawData->CmdLists[n];
@@ -144,9 +147,10 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
       } else {
         glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pCmd->TextureId);
 
-        glScissor((int)(pCmd->ClipRect.x), (int)((height - pCmd->ClipRect.w)),
-                  (int)((pCmd->ClipRect.z - pCmd->ClipRect.x)),
-                  (int)((pCmd->ClipRect.w - pCmd->ClipRect.y)));
+        glScissor(static_cast<int>(pCmd->ClipRect.x),
+                  static_cast<int>(height - pCmd->ClipRect.w),
+                  static_cast<int>(pCmd->ClipRect.z - pCmd->ClipRect.x),
+                  static_cast<int>(pCmd->ClipRect.w - pCmd->ClipRect.y));
 
         glDrawElements(GL_TRIANGLES, (GLsizei)pCmd->ElemCount,
                        GL_UNSIGNED_SHORT, idxBuffer);

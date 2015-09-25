@@ -11,7 +11,6 @@
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
 
-#include <mutex>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -19,6 +18,8 @@
 #include <errno.h>
 #include <poll.h>
 #include <stdlib.h>
+
+#include <mutex>
 
 namespace rl {
 
@@ -141,7 +142,7 @@ ChannelProvider::Result SocketChannel::writeMessageSingle(
 ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
                                           struct msghdr* messageHeader,
                                           size_t expectedSendSize) {
-  long sent = 0;
+  int64_t sent = 0;
   while (true) {
     sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, messageHeader, 0));
 
@@ -173,7 +174,7 @@ ChannelProvider::Result SocketChannel::writeMessageInline(
   /*
    *  Directly set the data to send as part of the scatter/gather array
    */
-  vec[0].iov_base = (void*)message.data();
+  vec[0].iov_base = reinterpret_cast<void*>(message.data());
   vec[0].iov_len = message.size();
 
   struct msghdr messageHeader = {
@@ -250,7 +251,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
         .msg_flags = 0,
     };
 
-    long received =
+    int64_t received =
         RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
     if (received > 0) {

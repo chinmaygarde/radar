@@ -21,7 +21,7 @@ struct MachPayload {
   mach_msg_ool_descriptor_t mem;
   mach_msg_trailer_info_t trailer;
 
-  MachPayload(const Message& message, mach_port_t remote)
+  explicit MachPayload(const Message& message, mach_port_t remote)
       : header({
             .msgh_size = sizeof(MachPayload) - sizeof(mach_msg_trailer_info_t),
             .msgh_remote_port = remote,
@@ -38,7 +38,7 @@ struct MachPayload {
         }),
         trailer() {}
 
-  MachPayload(mach_port_t local)
+  explicit MachPayload(mach_port_t local)
       : header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
         body(),
         mem(),
@@ -118,7 +118,6 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
                           WaitSet& kev,
                           ELS::Handle ident,
                           bool adding) {
-
     struct kevent event = {0};
 
     EV_SET(&event,                      /* &kev */

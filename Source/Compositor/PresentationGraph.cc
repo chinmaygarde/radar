@@ -27,11 +27,13 @@ bool PresentationGraph::applyTransactions(Message& arena) {
 
 bool PresentationGraph::applyTransactionSingle(Message& arena,
                                                const ClockPoint& time) {
-  using namespace std::placeholders;
+  namespace P = std::placeholders;
+  using G = PresentationGraph;
   TransactionPayload payload(
-      time, std::bind(&PresentationGraph::onActionCommit, this, _1),
-      std::bind(&PresentationGraph::onTransferRecordCommit, this, _1, _2, _3),
-      std::bind(&PresentationGraph::onRecognizerCommit, this, _1));
+      time,  //
+      std::bind(&G::onActionCommit, this, P::_1),
+      std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
+      std::bind(&G::onRecognizerCommit, this, P::_1));
   return payload.deserialize(arena);
 }
 
