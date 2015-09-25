@@ -63,4 +63,4 @@ class TouchEvent : public Event {
 };
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_EVENT_TOUCHEVENT__) */
+#endif  // __RADARLOVE_EVENT_TOUCHEVENT__

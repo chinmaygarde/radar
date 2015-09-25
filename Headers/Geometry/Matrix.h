@@ -361,4 +361,4 @@ static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
 // clang-format on
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_MATRIX__) */
+#endif  // __RADARLOVE_GEOMETRY_MATRIX__

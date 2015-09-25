@@ -97,4 +97,4 @@ class ScopedFrame : public Frame {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_FRAME__) */
+#endif  // __RADARLOVE_COMPOSITOR_FRAME__

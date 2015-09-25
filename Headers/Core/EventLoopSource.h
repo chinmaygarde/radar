@@ -161,4 +161,4 @@ class EventLoopSource {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_EVENT_LOOP_SOURCE__) */
+#endif  // __RADARLOVE_CORE_EVENT_LOOP_SOURCE__

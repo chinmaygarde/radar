@@ -79,4 +79,4 @@ class ScopedRenderSurfaceAccess {
 };
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_RENDERSURFACE__) */
+#endif  // __RADARLOVE_GEOMETRY_RENDERSURFACE__

@@ -38,4 +38,4 @@ class InterfaceTransaction {
 };
 }
 
-#endif /* defined(__RADARLOVE_INTERFACE_INTERFACETRANSACTION__) */
+#endif  // __RADARLOVE_INTERFACE_INTERFACETRANSACTION__

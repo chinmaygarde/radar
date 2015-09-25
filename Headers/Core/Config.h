@@ -98,4 +98,4 @@
 #error in-process waitsets require in-process channels
 #endif
 
-#endif /* defined(__RADARLOVE_CORE_CONFIG__) */
+#endif  // __RADARLOVE_CORE_CONFIG__

@@ -44,4 +44,4 @@ class Simulation {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_SIMULATION__) */
+#endif  // __RADARLOVE_ANIMATION_SIMULATION__

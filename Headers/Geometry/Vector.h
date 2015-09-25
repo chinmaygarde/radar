@@ -75,4 +75,4 @@ struct Vector4 {
 };
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_VECTOR__) */
+#endif  // __RADARLOVE_GEOMETRY_VECTOR__

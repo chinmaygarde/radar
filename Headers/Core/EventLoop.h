@@ -105,4 +105,4 @@ class EventLoop {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_EVENTLOOP__) */
+#endif  // __RADARLOVE_CORE_EVENTLOOP__

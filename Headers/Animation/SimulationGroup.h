@@ -53,4 +53,4 @@ class SimulationGroup : public Simulation {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_SIMULATIONGROUP__) */
+#endif  // __RADARLOVE_ANIMATION_SIMULATIONGROUP__

@@ -94,4 +94,4 @@ class EventLoopObserverCollection {
 };
 }
 
-#endif /* defined(__RADARLOVER_CORE_EVENT_LOOP_OBSERVER__) */
+#endif  // __RADARLOVER_CORE_EVENT_LOOP_OBSERVER__

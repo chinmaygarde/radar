@@ -54,4 +54,4 @@ class StateMachine {
 };
 }
 
-#endif /* defined(__RADARLOVE_STATE_MACHINE__) */
+#endif  // __RADARLOVE_STATE_MACHINE__

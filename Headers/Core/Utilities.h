@@ -35,4 +35,4 @@ using only_if = typename std::enable_if<B, T>::type;
 void ThreadSetName(const char* name);
 }
 
-#endif /* defined(__RADARLOVE_CORE_UTILITIES__) */
+#endif  // __RADARLOVE_CORE_UTILITIES__

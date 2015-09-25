@@ -147,4 +147,4 @@ class Message {
 using Messages = std::vector<Message>;
 }
 
-#endif /* defined(__RADARLOVE_CORE_MESSAGE__) */
+#endif  // __RADARLOVE_CORE_MESSAGE__

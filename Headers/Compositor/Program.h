@@ -70,4 +70,4 @@ class Program {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_PROGRAM__) */
+#endif  // __RADARLOVE_COMPOSITOR_PROGRAM__

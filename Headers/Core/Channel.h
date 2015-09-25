@@ -108,4 +108,4 @@ class Channel {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_CHANNEL__) */
+#endif  // __RADARLOVE_CORE_CHANNEL__

@@ -45,4 +45,4 @@ class Primitive {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_PRIMITIVE__) */
+#endif  // __RADARLOVE_COMPOSITOR_PRIMITIVE__

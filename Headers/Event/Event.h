@@ -32,4 +32,4 @@ class Event : public Serializable {
 };
 }
 
-#endif /* defined(__RADARLOVE_EVENT_EVENT__) */
+#endif  // __RADARLOVE_EVENT_EVENT__

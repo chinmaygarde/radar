@@ -58,4 +58,4 @@ class SpringSolution : public Simulation {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_SPRINGSOLUTION__) */
+#endif  // __RADARLOVE_ANIMATION_SPRINGSOLUTION__

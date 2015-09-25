@@ -45,4 +45,4 @@ class EntityArena {
 
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_ENTITYARENA__) */
+#endif  // __RADARLOVE_COMPOSITOR_ENTITYARENA__

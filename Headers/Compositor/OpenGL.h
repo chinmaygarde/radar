@@ -72,4 +72,4 @@ static_assert(sizeof(rl::GLMatrix) == 16 * sizeof(GLfloat),
 #define RL_GLAssert(x, ...) \
   rl::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_OPENGL__) */
+#endif  // __RADARLOVE_COMPOSITOR_OPENGL__

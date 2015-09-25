@@ -44,4 +44,4 @@
  */
 #include <Core/SharedMemory.h>
 
-#endif /* defined(__RADARLOVE_CORE__) */
+#endif  // __RADARLOVE_CORE__

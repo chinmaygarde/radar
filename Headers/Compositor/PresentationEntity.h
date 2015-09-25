@@ -36,4 +36,4 @@ class PresentationEntity : public Entity {
 
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_PRESENTATIONENTITY__) */
+#endif  // __RADARLOVE_COMPOSITOR_PRESENTATIONENTITY__

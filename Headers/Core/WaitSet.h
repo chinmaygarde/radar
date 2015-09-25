@@ -67,4 +67,4 @@ class WaitSet {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_WAITSET__) */
+#endif  // __RADARLOVE_CORE_WAITSET__

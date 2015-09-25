@@ -121,4 +121,4 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
 static const double TransparencyAlphaThreshold = 0.01;
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_COLOR__) */
+#endif  // __RADARLOVE_GEOMETRY_COLOR__

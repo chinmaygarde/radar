@@ -35,4 +35,4 @@ class EntityLease {
 };
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_ENTITY_LEASE__) */
+#endif  // __RADARLOVE_COMPOSITOR_ENTITY_LEASE__

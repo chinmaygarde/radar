@@ -27,4 +27,4 @@ class FrictionSimulation : public Simulation {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_FRICTION_SIMULATION__) */
+#endif  // __RADARLOVE_ANIMATION_FRICTION_SIMULATION__

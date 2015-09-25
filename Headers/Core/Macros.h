@@ -77,4 +77,4 @@
   TypeName(TypeName&) = delete;               \
   void operator=(TypeName) = delete;
 
-#endif /* defined(__RADARLOVE_CORE_MACROS__) */
+#endif  // __RADARLOVE_CORE_MACROS__

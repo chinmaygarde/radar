@@ -48,4 +48,4 @@ class ScrollSimulation : public SimulationGroup {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_SCROLLSIMULATION__) */
+#endif  // __RADARLOVE_ANIMATION_SCROLLSIMULATION__

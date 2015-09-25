@@ -203,4 +203,4 @@ extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_INTERFACE_ENTITY__) */
+#endif  // __RADARLOVE_INTERFACE_ENTITY__

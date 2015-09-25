@@ -33,4 +33,4 @@ class Guard {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_GUARD__) */
+#endif  // __RADARLOVE_CORE_GUARD__

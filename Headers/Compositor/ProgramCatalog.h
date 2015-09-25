@@ -79,4 +79,4 @@ class BasicPrimitiveProgram : public Program {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_PROGRAMCATALOG__) */
+#endif  // __RADARLOVE_COMPOSITOR_PROGRAMCATALOG__

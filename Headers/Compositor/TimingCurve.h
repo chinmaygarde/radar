@@ -34,4 +34,4 @@ class TimingCurve {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_TIMINGCURVE__) */
+#endif  // __RADARLOVE_COMPOSITOR_TIMINGCURVE__

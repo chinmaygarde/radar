@@ -37,4 +37,4 @@ class Host {
 };
 }
 
-#endif /* defined(__RADARLOVE_HOST_HOST__) */
+#endif  // __RADARLOVE_HOST_HOST__

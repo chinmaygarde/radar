@@ -55,4 +55,4 @@ class InterfaceDelegate {
 };
 }
 
-#endif /* defined(__RADARLOVE_INTERFACE_INTERFACEDELEGATE__) */
+#endif  // __RADARLOVE_INTERFACE_INTERFACEDELEGATE__

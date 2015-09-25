@@ -39,4 +39,4 @@ struct Size {
 static const Size SizeZero(0.0, 0.0);
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_SIZE__) */
+#endif  // __RADARLOVE_GEOMETRY_SIZE__

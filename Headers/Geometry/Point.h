@@ -47,4 +47,4 @@ struct Point {
 static const Point PointZero(0.0, 0.0);
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_POINT__) */
+#endif  // __RADARLOVE_GEOMETRY_POINT__

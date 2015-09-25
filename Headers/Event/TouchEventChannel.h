@@ -37,4 +37,4 @@ class TouchEventChannel : public Channel {
 };
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_EVENT_TOUCHEVENTCHANNEL__) */
+#endif  // __RADARLOVE_EVENT_TOUCHEVENTCHANNEL__

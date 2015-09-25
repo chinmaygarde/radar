@@ -68,4 +68,4 @@ class SharedMemory {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_SHAREDMEMORY__) */
+#endif  // __RADARLOVE_CORE_SHAREDMEMORY__

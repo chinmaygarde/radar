@@ -52,4 +52,4 @@ class AutoLatch : public Latch {
 };
 }
 
-#endif /* defined(__RADARLOVE_CORE_LATCH__) */
+#endif  // __RADARLOVE_CORE_LATCH__

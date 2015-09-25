@@ -91,4 +91,4 @@ class Action : public Serializable {
 };
 }
 
-#endif /* defined(__RADARLOVE_INTERFACE_ACTION__) */
+#endif  // __RADARLOVE_INTERFACE_ACTION__

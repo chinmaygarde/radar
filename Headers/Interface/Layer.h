@@ -64,4 +64,4 @@ class Layer : public Entity {
 };
 }
 
-#endif /* defined(__RADARLOVE_INTERFACE_LAYER__) */
+#endif  // __RADARLOVE_INTERFACE_LAYER__

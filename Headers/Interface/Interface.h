@@ -163,4 +163,4 @@ class Interface {
 };
 }
 
-#endif /* defined(__RADARLOVE_INTERFACE_INTERFACE__) */
+#endif  // __RADARLOVE_INTERFACE_INTERFACE__

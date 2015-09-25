@@ -37,4 +37,4 @@ inline ClockDuration ToSeconds(ClockPoint point) {
 }  // namespace clock
 }  // namespace rl
 
-#endif /* defined(__RADARLOVE_CORE_TIME__) */
+#endif  // __RADARLOVE_CORE_TIME__

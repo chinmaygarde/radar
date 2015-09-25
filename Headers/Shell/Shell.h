@@ -70,4 +70,4 @@ class Shell {
 };
 }
 
-#endif /* defined(__RADARLOVE_SHELL_SHELL__) */
+#endif  // __RADARLOVE_SHELL_SHELL__

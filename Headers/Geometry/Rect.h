@@ -43,4 +43,4 @@ struct Rect {
 static const Rect RectZero(PointZero, SizeZero);
 }
 
-#endif /* defined(__RADARLOVE_GEOMETRY_RECT__) */
+#endif  // __RADARLOVE_GEOMETRY_RECT__

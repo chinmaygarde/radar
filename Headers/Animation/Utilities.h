@@ -43,4 +43,4 @@ bool NearZero(double a, double epsilon);
 }
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_UTILITIES__) */
+#endif  // __RADARLOVE_ANIMATION_UTILITIES__

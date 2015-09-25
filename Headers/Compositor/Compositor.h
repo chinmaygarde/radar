@@ -89,4 +89,4 @@ class Compositor : RenderSurfaceObserver {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_COMPOSITOR__) */
+#endif  // __RADARLOVE_COMPOSITOR_COMPOSITOR__

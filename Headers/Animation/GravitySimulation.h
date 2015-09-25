@@ -30,4 +30,4 @@ class GravitySimulation : public Simulation {
 };
 }
 
-#endif /* defined(__RADARLOVE_ANIMATION_GRAVITYSIMULATION__) */
+#endif  // __RADARLOVE_ANIMATION_GRAVITYSIMULATION__

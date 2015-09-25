@@ -41,4 +41,4 @@ class Interpolator {
 };
 }
 
-#endif /* defined(__RADARLOVE_COMPOSITOR_INTERPOLATOR__) */
+#endif  // __RADARLOVE_COMPOSITOR_INTERPOLATOR__
