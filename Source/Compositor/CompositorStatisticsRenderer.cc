@@ -147,10 +147,10 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
       } else {
         glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pCmd->TextureId);
 
-        glScissor(static_cast<int>(pCmd->ClipRect.x),
-                  static_cast<int>(height - pCmd->ClipRect.w),
-                  static_cast<int>(pCmd->ClipRect.z - pCmd->ClipRect.x),
-                  static_cast<int>(pCmd->ClipRect.w - pCmd->ClipRect.y));
+        glScissor(static_cast<GLint>(pCmd->ClipRect.x),
+                  static_cast<GLint>(height - pCmd->ClipRect.w),
+                  static_cast<GLsizei>(pCmd->ClipRect.z - pCmd->ClipRect.x),
+                  static_cast<GLsizei>(pCmd->ClipRect.w - pCmd->ClipRect.y));
 
         glDrawElements(GL_TRIANGLES, (GLsizei)pCmd->ElemCount,
                        GL_UNSIGNED_SHORT, idxBuffer);
