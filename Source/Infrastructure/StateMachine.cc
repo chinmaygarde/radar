@@ -88,6 +88,7 @@ bool StateMachine::performSingleTransition(State state) {
 void StateMachine::stepTransitionNoCheck(State state) {
   auto callback = _transitionCallbacks[std::make_pair(_currentState, state)];
   _currentState = state;
+  RL_ASSERT(callback != nullptr);
   callback();
 }
 

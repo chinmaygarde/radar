@@ -305,6 +305,7 @@ SocketChannel::ReadResult SocketChannel::ReadMessages() {
          *  memory descriptor is present in this message. Read that!
          */
         struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+        RL_ASSERT(cmsg != nullptr);
         SharedMemory::Handle handle = *((SharedMemory::Handle*)CMSG_DATA(cmsg));
 
         /*

@@ -78,9 +78,10 @@ Color Interpolator<Color>::x(double t) const {
    */
   ColorHSB from = ColorHSB::FromRGB(_from);
   ColorHSB to = ColorHSB::FromRGB(_to);
-  ColorHSB interpolated(
-      _lerp(from.hue, to.hue, t), _lerp(from.saturation, to.saturation, t),
-      _lerp(from.brightness, to.brightness, t), _lerp(from.alpha, to.alpha, t));
+  auto interpolated = ColorHSB{_lerp(from.hue, to.hue, t),
+                               _lerp(from.saturation, to.saturation, t),
+                               _lerp(from.brightness, to.brightness, t),
+                               _lerp(from.alpha, to.alpha, t)};
   return interpolated.ToRGBA();
 }
 
