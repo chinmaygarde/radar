@@ -5,12 +5,13 @@
 #ifndef RADARLOVE_SHELL_SHELL_
 #define RADARLOVE_SHELL_SHELL_
 
-#include <thread>
 #include <Core/Core.h>
 #include <Compositor/Compositor.h>
 #include <Compositor/RenderSurface.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
+
+#include <thread>
 
 namespace rl {
 class Shell {
@@ -68,6 +69,6 @@ class Shell {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Shell);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_SHELL_SHELL_

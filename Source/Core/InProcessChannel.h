@@ -17,13 +17,13 @@ namespace rl {
 
 class InProcessChannel : public ChannelProvider {
  public:
-  InProcessChannel(Channel& owner);
+  explicit InProcessChannel(Channel& owner);
   ~InProcessChannel();
 
-  virtual std::shared_ptr<EventLoopSource> createSource() const override;
-  virtual Result WriteMessages(Messages&& messages) override;
-  virtual ReadResult ReadMessages() override;
-  virtual bool doTerminate() override;
+  std::shared_ptr<EventLoopSource> createSource() const override;
+  Result WriteMessages(Messages&& messages) override;
+  ReadResult ReadMessages() override;
+  bool doTerminate() override;
 
  private:
   std::mutex _lock;

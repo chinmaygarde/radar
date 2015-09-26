@@ -37,6 +37,6 @@ struct Size {
 };
 
 static const Size SizeZero(0.0, 0.0);
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_SIZE_

@@ -13,7 +13,7 @@ namespace rl {
 
 class InProcessTimerSource : public EventLoopSource {
  public:
-  InProcessTimerSource(ClockDurationNano repeatInterval);
+  explicit InProcessTimerSource(ClockDurationNano repeatInterval);
   ~InProcessTimerSource();
 
  private:

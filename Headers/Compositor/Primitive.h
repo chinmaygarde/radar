@@ -43,6 +43,6 @@ class Primitive {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PRIMITIVE_

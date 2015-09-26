@@ -8,10 +8,11 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 
+#include <string.h>
+
 #include <vector>
 #include <utility>
 #include <memory>
-#include <string.h>
 
 namespace rl {
 class Serializable;
@@ -145,6 +146,6 @@ class Message {
 };
 
 using Messages = std::vector<Message>;
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_MESSAGE_

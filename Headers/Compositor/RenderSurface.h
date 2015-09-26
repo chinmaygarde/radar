@@ -59,9 +59,9 @@ class RenderSurface : RenderSurfaceObserver {
   /*
    *  Invoked by host on changes to underlying surface
    */
-  virtual void surfaceWasCreated() override;
-  virtual void surfaceSizeUpdated(const Size& size) override;
-  virtual void surfaceWasDestroyed() override;
+  void surfaceWasCreated() override;
+  void surfaceSizeUpdated(const Size& size) override;
+  void surfaceWasDestroyed() override;
 
  private:
   RenderSurfaceObserver* _observer;
@@ -77,6 +77,6 @@ class ScopedRenderSurfaceAccess {
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_RENDERSURFACE_

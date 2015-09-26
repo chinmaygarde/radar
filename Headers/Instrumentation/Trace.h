@@ -23,7 +23,7 @@ class Trace {
 class AutoTrace : public Trace {
  public:
   AutoTrace(const char* name) { begin(name); }
-  ~AutoTrace() { end(); };
+  ~AutoTrace() { end(); }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(AutoTrace);

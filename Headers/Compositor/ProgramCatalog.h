@@ -63,12 +63,12 @@ class BasicPrimitiveProgram : public Program {
     return _modelViewProjectionUniform;
   }
 
-  unsigned int contentColorUniform() const { return _contentColorUniform; };
+  unsigned int contentColorUniform() const { return _contentColorUniform; }
 
-  unsigned int sizeUniform() const { return _sizeUniform; };
+  unsigned int sizeUniform() const { return _sizeUniform; }
 
  protected:
-  virtual void onLinkSuccess() override;
+  void onLinkSuccess() override;
 
  private:
   unsigned int _modelViewProjectionUniform;
@@ -77,6 +77,6 @@ class BasicPrimitiveProgram : public Program {
 
   RL_DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PROGRAMCATALOG_

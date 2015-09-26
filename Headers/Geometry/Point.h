@@ -45,6 +45,6 @@ struct Point {
 };
 
 static const Point PointZero(0.0, 0.0);
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_POINT_

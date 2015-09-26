@@ -159,6 +159,6 @@ class EventLoopSource {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_EVENT_LOOP_SOURCE_

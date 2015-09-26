@@ -41,6 +41,6 @@ struct Rect {
 };
 
 static const Rect RectZero(PointZero, SizeZero);
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_RECT_

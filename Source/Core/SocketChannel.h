@@ -15,13 +15,13 @@ class SocketChannel : public ChannelProvider {
  public:
   using Handle = int;
 
-  SocketChannel(Channel& owner);
+  explicit SocketChannel(Channel& owner);
 
   ~SocketChannel();
-  virtual std::shared_ptr<EventLoopSource> createSource() const override;
-  virtual Result WriteMessages(Messages&& message) override;
-  virtual ReadResult ReadMessages() override;
-  virtual bool doTerminate() override;
+  std::shared_ptr<EventLoopSource> createSource() const override;
+  Result WriteMessages(Messages&& message) override;
+  ReadResult ReadMessages() override;
+  bool doTerminate() override;
 
  private:
   std::mutex _lock;
@@ -38,6 +38,6 @@ class SocketChannel : public ChannelProvider {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
-}
+}  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__) */

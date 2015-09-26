@@ -36,6 +36,6 @@ class InterfaceTransaction {
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACETRANSACTION_

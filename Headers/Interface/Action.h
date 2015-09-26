@@ -73,9 +73,9 @@ class Action : public Serializable {
 
   double unitInterpolation(const ClockDuration& time) const;
 
-  virtual bool serialize(Message& message) const override;
+  bool serialize(Message& message) const override;
 
-  virtual bool deserialize(Message& message) override;
+  bool deserialize(Message& message) override;
 
  private:
   ClockDuration _duration;
@@ -89,6 +89,6 @@ class Action : public Serializable {
 
   RL_DISALLOW_ASSIGN(Action);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_ACTION_

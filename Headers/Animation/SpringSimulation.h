@@ -27,9 +27,9 @@ class SpringSimulation : public Simulation {
                             double end,
                             double velocity);
 
-  virtual double x(const ClockDuration& time) override;
-  virtual double dx(const ClockDuration& time) override;
-  virtual bool isDone(const ClockDuration& time) override;
+  double x(const ClockDuration& time) override;
+  double dx(const ClockDuration& time) override;
+  bool isDone(const ClockDuration& time) override;
 
  private:
   const double _endPosition;
@@ -37,6 +37,6 @@ class SpringSimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SpringSimulation);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SPRINGSIMULATION_

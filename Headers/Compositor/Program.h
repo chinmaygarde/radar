@@ -68,6 +68,6 @@ class Program {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Program);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PROGRAM_

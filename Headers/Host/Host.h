@@ -35,6 +35,6 @@ class Host {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Host);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_HOST_HOST_

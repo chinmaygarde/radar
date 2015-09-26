@@ -31,6 +31,6 @@ class Guard {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Guard);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_GUARD_

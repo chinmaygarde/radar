@@ -52,6 +52,6 @@ class StateMachine {
 
   RL_DISALLOW_COPY_AND_ASSIGN(StateMachine);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_STATE_MACHINE_

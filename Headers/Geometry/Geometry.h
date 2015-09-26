@@ -11,4 +11,4 @@
 #include <Geometry/Size.h>
 #include <Geometry/Vector.h>
 
-#endif // RADARLOVE_GEOMETRY_GEOMETRY_
+#endif  // RADARLOVE_GEOMETRY_GEOMETRY_

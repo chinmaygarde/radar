@@ -42,6 +42,6 @@ class Simulation {
    */
   virtual bool isDone(const ClockDuration& time) = 0;
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SIMULATION_

@@ -24,12 +24,12 @@ class Event : public Serializable {
    */
   ClockPoint timestamp() const;
 
-  virtual bool serialize(Message& m) const override;
-  virtual bool deserialize(Message& m) override;
+  bool serialize(Message& m) const override;
+  bool deserialize(Message& m) override;
 
  private:
   ClockPoint _timestamp;
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_EVENT_EVENT_

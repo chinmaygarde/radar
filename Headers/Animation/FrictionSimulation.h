@@ -13,9 +13,9 @@ class FrictionSimulation : public Simulation {
  public:
   explicit FrictionSimulation(double drag, double position, double velocity);
 
-  virtual double x(const ClockDuration& time) override;
-  virtual double dx(const ClockDuration& time) override;
-  virtual bool isDone(const ClockDuration& time) override;
+  double x(const ClockDuration& time) override;
+  double dx(const ClockDuration& time) override;
+  bool isDone(const ClockDuration& time) override;
 
  private:
   const double _drag;
@@ -25,6 +25,6 @@ class FrictionSimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(FrictionSimulation);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_FRICTION_SIMULATION_

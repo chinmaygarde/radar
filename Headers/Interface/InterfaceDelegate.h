@@ -53,6 +53,6 @@ class InterfaceDelegate {
    */
   virtual void didUpdateSize(Interface& interface) = 0;
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACEDELEGATE_

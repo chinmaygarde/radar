@@ -39,6 +39,6 @@ class Interpolator {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_INTERPOLATOR_

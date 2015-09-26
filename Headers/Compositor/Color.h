@@ -5,6 +5,8 @@
 #ifndef RADARLOVE_GEOMETRY_COLOR_
 #define RADARLOVE_GEOMETRY_COLOR_
 
+#include <stdint.h>
+
 #include <cmath>
 
 namespace rl {
@@ -30,7 +32,7 @@ struct ColorHSB {
   double alpha;
 
   ColorHSB(double h, double s, double b, double a)
-      : hue(h), saturation(s), brightness(b){};
+      : hue(h), saturation(s), brightness(b) {}
 
   static ColorHSB FromRGB(Color rgb) {
     double R = rgb.red;
@@ -41,7 +43,7 @@ struct ColorHSB {
     double x = 0.0;
     double f = 0.0;
 
-    long i = 0;
+    int64_t i = 0;
 
     x = fmin(R, G);
     x = fmin(x, B);
@@ -67,7 +69,7 @@ struct ColorHSB {
     double n = 0.0;
     double f = 0.0;
 
-    long i = 0;
+    int64_t i = 0;
 
     if (h == 0)
       h = 0.01;
@@ -119,6 +121,6 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
  *  rendering purposes.
  */
 static const double TransparencyAlphaThreshold = 0.01;
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_COLOR_

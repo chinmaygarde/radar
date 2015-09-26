@@ -62,6 +62,6 @@ class Layer : public Entity {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Layer);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_LAYER_

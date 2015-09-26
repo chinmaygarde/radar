@@ -40,17 +40,17 @@ class SimulationGroup : public Simulation {
    */
   virtual bool step(const ClockDuration& time) = 0;
 
-  virtual double x(const ClockDuration& time) override;
+  double x(const ClockDuration& time) override;
 
-  virtual double dx(const ClockDuration& time) override;
+  double dx(const ClockDuration& time) override;
 
-  virtual bool isDone(const ClockDuration& time) override;
+  bool isDone(const ClockDuration& time) override;
 
  private:
   ClockDuration _lastStep;
 
   void stepIfNecessary(const ClockDuration& time);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SIMULATIONGROUP_

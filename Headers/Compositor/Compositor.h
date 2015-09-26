@@ -71,9 +71,10 @@ class Compositor : RenderSurfaceObserver {
   CompositorStatisticsRenderer _statsRenderer;
   std::shared_ptr<EventLoopSource> _animationsSource;
 
-  virtual void surfaceWasCreated() override;
-  virtual void surfaceSizeUpdated(const Size& size) override;
-  virtual void surfaceWasDestroyed() override;
+  void surfaceWasCreated() override;
+  void surfaceSizeUpdated(const Size& size) override;
+  void surfaceWasDestroyed() override;
+
   void startComposition();
   void commitCompositionSizeUpdate(const Size& size);
   void stopComposition();
@@ -87,6 +88,6 @@ class Compositor : RenderSurfaceObserver {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Compositor);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_COMPOSITOR_

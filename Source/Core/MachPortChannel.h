@@ -14,12 +14,12 @@ class MachPortChannel : public ChannelProvider {
  public:
   using Handle = uint32_t;
 
-  MachPortChannel(Channel& owner);
+  explicit MachPortChannel(Channel& owner);
   ~MachPortChannel();
-  virtual std::shared_ptr<EventLoopSource> createSource() const override;
-  virtual Result WriteMessages(Messages&& message) override;
-  virtual ReadResult ReadMessages() override;
-  virtual bool doTerminate() override;
+  std::shared_ptr<EventLoopSource> createSource() const override;
+  Result WriteMessages(Messages&& message) override;
+  ReadResult ReadMessages() override;
+  bool doTerminate() override;
 
  private:
   Handle _setHandle;

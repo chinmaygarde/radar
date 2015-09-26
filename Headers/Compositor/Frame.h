@@ -95,6 +95,6 @@ class ScopedFrame : public Frame {
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_FRAME_

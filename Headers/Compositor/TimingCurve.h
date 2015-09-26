@@ -32,6 +32,6 @@ class TimingCurve {
 
   explicit TimingCurve(const Point& c1, const Point& c2);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_TIMINGCURVE_

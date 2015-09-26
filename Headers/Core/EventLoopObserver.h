@@ -92,6 +92,6 @@ class EventLoopObserverCollection {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVER_CORE_EVENT_LOOP_OBSERVER_

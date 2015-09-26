@@ -161,6 +161,6 @@ class Interface {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Interface);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACE_

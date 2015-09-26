@@ -66,6 +66,6 @@ class SharedMemory {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SharedMemory);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_SHAREDMEMORY_

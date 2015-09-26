@@ -106,6 +106,6 @@ class Channel {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Channel);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_CHANNEL_

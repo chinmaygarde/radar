@@ -28,7 +28,7 @@ struct SpringDescription {
   const double damping;
 
   explicit SpringDescription(double mass, double springConstant, double damping)
-      : mass(mass), springConstant(springConstant), damping(damping){};
+      : mass(mass), springConstant(springConstant), damping(damping) {}
 
   /**
    *  Create a spring given the mass, spring constant and the damping ratio. The
@@ -47,7 +47,7 @@ struct SpringDescription {
                                      double ratio) {
     return SpringDescription(mass, springConstant,
                              ratio * 2.0 * sqrt(mass * springConstant));
-  };
+  }
 };
 
 class SpringSolution : public Simulation {
@@ -56,6 +56,6 @@ class SpringSolution : public Simulation {
                                                 double initialPosition,
                                                 double initialVelocity);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SPRINGSOLUTION_

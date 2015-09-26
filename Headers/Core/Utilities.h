@@ -33,6 +33,6 @@ using only_if = typename std::enable_if<B, T>::type;
  *  @param name the name to set
  */
 void ThreadSetName(const char* name);
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_UTILITIES_

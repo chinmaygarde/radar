@@ -13,7 +13,7 @@
  *  file really needs this. Knowing that the file would need
  *  rewrites/modifications for other backend.
  */
-#error Importing OpenGL Header. Are you sure your source file needs this invasive header?
+#error Importing OpenGL Header. This is an invasive header
 #endif
 
 #include <Core/Config.h>
@@ -64,7 +64,7 @@ struct GLMatrix {
             static_cast<GLfloat>(o.m[15]),
         } {};
 };
-}
+}  // namespace rl
 
 static_assert(sizeof(rl::GLMatrix) == 16 * sizeof(GLfloat),
               "GLMatrix must have the expected size");

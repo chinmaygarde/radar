@@ -73,6 +73,6 @@ struct Vector4 {
     return Vector4(a - v.a, b - v.b, c - v.c, d - v.d);
   }
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_VECTOR_

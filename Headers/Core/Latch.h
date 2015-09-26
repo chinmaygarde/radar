@@ -50,6 +50,6 @@ class AutoLatch : public Latch {
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(AutoLatch);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_CORE_LATCH_

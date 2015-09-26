@@ -16,9 +16,9 @@ class GravitySimulation : public Simulation {
                              double endDistance,
                              double velocity);
 
-  virtual double x(const ClockDuration& time) override;
-  virtual double dx(const ClockDuration& time) override;
-  virtual bool isDone(const ClockDuration& time) override;
+  double x(const ClockDuration& time) override;
+  double dx(const ClockDuration& time) override;
+  bool isDone(const ClockDuration& time) override;
 
  private:
   const double _a;
@@ -28,6 +28,6 @@ class GravitySimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(GravitySimulation);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_GRAVITYSIMULATION_

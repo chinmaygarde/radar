@@ -51,8 +51,8 @@ class TouchEvent : public Event {
    */
   Phase phase() const;
 
-  virtual bool serialize(Message& m) const override;
-  virtual bool deserialize(Message& m) override;
+  bool serialize(Message& m) const override;
+  bool deserialize(Message& m) override;
 
  private:
   uint64_t _identifier;

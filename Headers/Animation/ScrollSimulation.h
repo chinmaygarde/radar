@@ -25,11 +25,11 @@ class ScrollSimulation : public SimulationGroup {
                             double drag);
 
  protected:
-  virtual Simulation* currentSimulation() override;
+  Simulation* currentSimulation() override;
 
-  virtual const ClockDuration& currentIntervalOffset() override;
+  const ClockDuration& currentIntervalOffset() override;
 
-  virtual bool step(const ClockDuration& time) override;
+  bool step(const ClockDuration& time) override;
 
  private:
   bool chooseSimulation(double position,
@@ -46,6 +46,6 @@ class ScrollSimulation : public SimulationGroup {
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScrollSimulation);
 };
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SCROLLSIMULATION_

@@ -335,9 +335,9 @@ struct Matrix {
 
   Matrix operator-(const Vector3& t) const { return translate(-t); }
 
-  Matrix operator*(const Vector3& s) const { return scale(s); };
+  Matrix operator*(const Vector3& s) const { return scale(s); }
 
-  Matrix operator*(const Matrix& m) const { return multiply(m); };
+  Matrix operator*(const Matrix& m) const { return multiply(m); }
 
   // clang-format off
   static Matrix Orthographic(double left,   double right,
@@ -359,6 +359,6 @@ static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
                                    0.0, 0.0, 1.0, 0.0,
                                    0.0, 0.0, 0.0, 1.0);
 // clang-format on
-}
+}  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_MATRIX_

@@ -55,6 +55,6 @@ class ChannelProvider {
 
   virtual ~ChannelProvider() {}
 };
-}
+}  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_CHANNELPROVIDER__) */
