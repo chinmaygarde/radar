@@ -6,7 +6,6 @@
 #define RADARLOVE_INTERFACE_INTERFACE_
 
 #include <Core/Core.h>
-#include <Event/TouchEventChannel.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Infrastructure/StateMachine.h>
@@ -149,7 +148,6 @@ class Interface {
   void flushTransactions();
   void scheduleChannels();
   void unscheduleChannels();
-  void processTouchEvents();
   void performTerminationCleanup();
 
   void didFinishLaunching();
