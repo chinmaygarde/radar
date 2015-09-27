@@ -7,19 +7,20 @@
 
 namespace rl {
 
-Compositor::Compositor(std::shared_ptr<RenderSurface> surface)
+Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
+                       TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
-      _lock(),
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _interfaceChannel(nullptr),
-      _animationsSource(EventLoopSource::Timer(ClockDurationGod)) {
+      _animationsSource(EventLoopSource::Timer(ClockDurationGod)),
+      _touchEventChannel(touchEventChannel) {
   RL_ASSERT(_surface != nullptr &&
             "A surface must be provided to the compositor");
   _surface->setObserver(this);
   _animationsSource->setWakeFunction(
-      std::bind(&Compositor::onAnimationsFlush, this));
+      std::bind(&Compositor::onAnimationsStep, this));
 }
 
 Compositor::~Compositor() {
@@ -70,7 +71,7 @@ void Compositor::surfaceWasDestroyed() {
 }
 
 void Compositor::startComposition() {
-  drawSingleFrame();
+  prepareSingleFrame();
 }
 
 void Compositor::stopComposition() {
@@ -106,23 +107,6 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
   return _programCatalog;
 }
 
-void Compositor::drawSingleFrame() {
-  CompositorStatisticsFrame statistics(_stats);
-
-  ScopedRenderSurfaceAccess access(*_surface);
-  ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
-
-  if (!frame.isReady()) {
-    return;
-  }
-
-  _stats.frameCount().increment();
-
-  _graph.render(frame);
-
-  _statsRenderer.render(_stats, frame);
-}
-
 void Compositor::setupChannels() {
   manageInterfaceUpdates(true);
   _loop->addSource(_animationsSource);
@@ -153,24 +137,13 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   auto source = _interfaceChannel->source();
 
   if (schedule) {
-    _interfaceChannel->setMessagesReceivedCallback([&](Messages messages) {
-      if (applyTransactionMessages(std::move(messages))) {
-        drawSingleFrame();
-      }
-    });
+    namespace P = std::placeholders;
+    _interfaceChannel->setMessagesReceivedCallback(
+        std::bind(&Compositor::onInterfaceTransactionUpdate, this, P::_1));
     _loop->addSource(source);
   } else {
     _interfaceChannel->setMessagesReceivedCallback(nullptr);
     _loop->removeSource(source);
-  }
-}
-
-void Compositor::onAnimationsFlush() {
-  auto flushed =
-      _graph.animationDirector().flushInterpolations(_stats.interpolations());
-  if (flushed > 0) {
-    drawSingleFrame();
-    _stats.interpolationsCount().reset(flushed);
   }
 }
 
@@ -181,6 +154,47 @@ bool Compositor::applyTransactionMessages(Messages messages) {
     result &= _graph.applyTransactions(message);
   }
   return result;
+}
+
+void Compositor::onInterfaceTransactionUpdate(Messages messages) {
+  if (applyTransactionMessages(std::move(messages))) {
+    prepareSingleFrame();
+  }
+}
+
+void Compositor::onAnimationsStep() {
+  const auto count =
+      _graph.animationDirector().stepInterpolations(_stats.interpolations());
+  if (count > 0) {
+    prepareSingleFrame();
+    _stats.interpolationsCount().reset(count);
+  }
+}
+
+void Compositor::prepareSingleFrame() {
+  drainPendingTouches();
+  drawSingleFrame();
+}
+
+void Compositor::drawSingleFrame() {
+  CompositorStatisticsFrame statistics(_stats);
+
+  ScopedRenderSurfaceAccess access(*_surface);
+  ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
+
+  if (!frame.isReady()) {
+    return;
+  }
+
+  _stats.frameCount().increment();
+
+  _graph.render(frame);
+
+  _statsRenderer.render(_stats, frame);
+}
+
+void Compositor::drainPendingTouches() {
+  
 }
 
 }  // namespace rl

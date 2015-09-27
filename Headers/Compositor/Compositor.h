@@ -16,6 +16,7 @@
 #include <Compositor/CompositorStatisticsRenderer.h>
 #include <Compositor/PresentationGraph.h>
 #include <Compositor/CompositorChannel.h>
+#include <Event/TouchEventChannel.h>
 
 #include <mutex>
 
@@ -27,7 +28,8 @@ class Compositor : RenderSurfaceObserver {
    *  No operations on the surface are performed till the compositor is run
    *  however.
    */
-  explicit Compositor(std::shared_ptr<RenderSurface> surface);
+  explicit Compositor(std::shared_ptr<RenderSurface> surface,
+                      TouchEventChannel& touchEventChannel);
 
   ~Compositor();
 
@@ -70,6 +72,7 @@ class Compositor : RenderSurfaceObserver {
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
   std::shared_ptr<EventLoopSource> _animationsSource;
+  TouchEventChannel& _touchEventChannel;
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const Size& size) override;
@@ -79,12 +82,17 @@ class Compositor : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(const Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
-  void drawSingleFrame();
   bool applyTransactionMessages(Messages messages);
   void setupChannels();
   void teardownChannels();
   void manageInterfaceUpdates(bool schedule);
-  void onAnimationsFlush();
+
+  void prepareSingleFrame();
+  void drawSingleFrame();
+
+  void onInterfaceTransactionUpdate(Messages messages);
+  void onAnimationsStep();
+  void drainPendingTouches();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Compositor);
 };

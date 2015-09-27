@@ -11,19 +11,11 @@
 namespace rl {
 class TouchEventChannel : public Channel {
  public:
-  using TouchEventCallback =
-      std::function<void(const std::vector<TouchEvent>& touches,
-                         TouchEvent::Phase phase)>;
-
   explicit TouchEventChannel();
-
-  TouchEventCallback touchEventCallback() const;
-  void setTouchEventCallback(TouchEventCallback callback);
 
   void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
  private:
-  TouchEventCallback _callback;
   std::vector<TouchEvent> _pendingTouchesBegan;
   std::vector<TouchEvent> _pendingTouchesMoved;
   std::vector<TouchEvent> _pendingTouchesEnded;

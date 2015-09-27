@@ -7,16 +7,6 @@
 namespace rl {
 
 TouchEventChannel::TouchEventChannel() : Channel() {
-  setMessagesReceivedCallback([&](Messages m) { processRawTouches(m); });
-}
-
-TouchEventChannel::TouchEventCallback TouchEventChannel::touchEventCallback()
-    const {
-  return _callback;
-}
-
-void TouchEventChannel::setTouchEventCallback(TouchEventCallback callback) {
-  _callback = callback;
 }
 
 void TouchEventChannel::sendTouchEvents(
@@ -53,34 +43,11 @@ void TouchEventChannel::processRawTouches(Messages& messages) {
     TouchEvent event(message);
     bufferForPhase(event.phase()).emplace_back(std::move(event));
   }
-
-  /*
-   *  TODO: More thought must be put into discarding un-handled touches and
-   *  and deciding how and when to make the decision to dispatch
-   */
   dispatchPendingTouches();
 }
 
 void TouchEventChannel::dispatchPendingTouches() {
-  if (!_callback) {
-    goto done;
-  }
-
-  if (_pendingTouchesBegan.size() > 0) {
-    _callback(_pendingTouchesBegan, TouchEvent::Began);
-  }
-
-  if (_pendingTouchesMoved.size() > 0) {
-    _callback(_pendingTouchesMoved, TouchEvent::Moved);
-  }
-
-  if (_pendingTouchesEnded.size() > 0) {
-    _callback(_pendingTouchesEnded, TouchEvent::Ended);
-  }
-
-  if (_pendingTouchesCancelled.size() > 0) {
-    _callback(_pendingTouchesCancelled, TouchEvent::Cancelled);
-  }
+  RL_ASSERT(false && "WIP");
 
 done:
   _pendingTouchesBegan.clear();

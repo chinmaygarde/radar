@@ -13,7 +13,7 @@ namespace rl {
 Shell::Shell(std::shared_ptr<RenderSurface> surface,
              std::weak_ptr<InterfaceDelegate> delegate)
     : _compositorThread(),
-      _compositor(surface),
+      _compositor(surface, _host.touchEventChannel()),
       _interface(delegate, _compositor.acquireChannel()) {
   clock::LoggingBootTime();
   attachHostOnCurrentThread();
