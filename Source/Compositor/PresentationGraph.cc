@@ -67,6 +67,10 @@ void PresentationGraph::onTransferRecordCommit(Action& action,
 
 void PresentationGraph::onRecognizerCommit(
     TransactionPayload::RecognizerCollection& recognizers) {
+  for (auto& recognizer : recognizers) {
+    auto res = _recognizers.emplace(std::move(recognizer));
+    RL_ASSERT(res.second);
+  }
 }
 
 template <typename T>

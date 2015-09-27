@@ -13,6 +13,7 @@
 #include <Interface/Action.h>
 #include <Compositor/AnimationDirector.h>
 #include <Compositor/TransactionPayload.h>
+#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
@@ -31,6 +32,8 @@ class PresentationGraph {
 
  private:
   std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
+  std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
+
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
 

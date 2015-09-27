@@ -6,13 +6,16 @@
 
 namespace rl {
 
+static GestureRecognizer::Identifier LastGestureRecognizerIdentifier = 0;
+
 GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
                                      Equation&& equation)
-    : _evaluationResult(std::move(evaluationResult)),
+    : _identifier(++LastGestureRecognizerIdentifier),
+      _evaluationResult(std::move(evaluationResult)),
       _equation(std::move(equation)) {
 }
 
-GestureRecognizer::GestureRecognizer() {
+GestureRecognizer::GestureRecognizer() : _identifier(0) {
 }
 
 const Equation& GestureRecognizer::equation() const {
@@ -25,6 +28,7 @@ const Variable& GestureRecognizer::evaluationResult() const {
 
 bool GestureRecognizer::serialize(Message& message) const {
   auto result = true;
+  result &= message.encode(_identifier);
   result &= _evaluationResult.serialize(message);
   result &= _equation.serialize(message);
   return result;
@@ -32,6 +36,7 @@ bool GestureRecognizer::serialize(Message& message) const {
 
 bool GestureRecognizer::deserialize(Message& message) {
   auto result = true;
+  result &= message.decode(_identifier);
   result &= _evaluationResult.deserialize(message);
   result &= _equation.deserialize(message);
   return result;

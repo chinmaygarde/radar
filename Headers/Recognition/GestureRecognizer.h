@@ -13,6 +13,8 @@ namespace rl {
 
 class GestureRecognizer : public Serializable {
  public:
+  using Identifier = uint64_t;
+
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
   explicit GestureRecognizer();
@@ -27,7 +29,15 @@ class GestureRecognizer : public Serializable {
 
   bool deserialize(Message& message) override;
 
+  struct Less {
+    bool operator()(const GestureRecognizer& lhs,
+                    const GestureRecognizer& rhs) const {
+      return lhs._identifier < rhs._identifier;
+    }
+  };
+
  private:
+  Identifier _identifier;
   Variable _evaluationResult;
   Equation _equation;
 
