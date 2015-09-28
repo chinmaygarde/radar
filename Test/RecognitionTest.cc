@@ -7,6 +7,8 @@
 #include <Recognition/Equation.h>
 #include <Recognition/GestureRecognizer.h>
 
+#if 0
+
 TEST(RecognitionTest, SimpleInitialization) {
   /*
    *  Simple Pan: y = mx + c
@@ -106,5 +108,7 @@ TEST(RecognitionTest, ComplexInitializationOperatedOverloaded) {
   ASSERT_TRUE(recognizer.equation().degree() == 10);
   ASSERT_TRUE(recognizer.equation().constant() == 4.0);
 }
+
+#endif
 
 #endif
