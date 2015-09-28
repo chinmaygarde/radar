@@ -63,12 +63,14 @@ TEST(EventLoopTest, Timer) {
 
     auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(10));
 
+    /*
+     *  This test is extremely brittle :/
+     */
     timer->setWakeFunction([clock, start]() {
-      rl::ClockDurationMilli duration = clock.now() - start;
+      auto duration = std::chrono::duration_cast<rl::ClockDurationMilli>(
+          clock.now() - start);
       rl::EventLoop::Current()->terminate();
-      ASSERT_TRUE(duration.count() >= 5 &&
-                  duration.count() <=
-                      15); /* FIXME: brittle, need a better way to check. */
+      ASSERT_TRUE(duration.count() >= 5 && duration.count() <= 15);
     });
 
     loop->addSource(timer);
