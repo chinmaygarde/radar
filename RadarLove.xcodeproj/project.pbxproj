@@ -28,6 +28,8 @@
 		9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E0F71791BAE3AF90021CEEF /* Term.h */; };
 		9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E0F71831BAE3B0A0021CEEF /* Term.cc */; };
 		9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
+		9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */; };
+		9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -297,6 +299,8 @@
 		9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_InProcess.cc; sourceTree = "<group>"; };
 		9E0F71791BAE3AF90021CEEF /* Term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Term.h; sourceTree = "<group>"; };
 		9E0F71831BAE3B0A0021CEEF /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
+		9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionEngine.cc; sourceTree = "<group>"; };
+		9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognitionEngine.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -924,6 +928,7 @@
 			children = (
 				EA6B63931B9D571F00256484 /* Equation.cc */,
 				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
+				9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */,
 				9E0F71831BAE3B0A0021CEEF /* Term.cc */,
 				EA6B63941B9D571F00256484 /* Variable.cc */,
 			);
@@ -935,6 +940,7 @@
 			children = (
 				EA6B63981B9D572D00256484 /* Equation.h */,
 				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
+				9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */,
 				9E0F71791BAE3AF90021CEEF /* Term.h */,
 				EA6B63991B9D572D00256484 /* Variable.h */,
 			);
@@ -992,6 +998,7 @@
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
+				9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */,
 				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
@@ -1233,6 +1240,7 @@
 				9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
+				9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */,
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
 				9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,

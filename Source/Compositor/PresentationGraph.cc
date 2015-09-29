@@ -66,11 +66,8 @@ void PresentationGraph::onTransferRecordCommit(Action& action,
 }
 
 void PresentationGraph::onRecognizerCommit(
-    TransactionPayload::RecognizerCollection& recognizers) {
-  for (auto& recognizer : recognizers) {
-    auto res = _recognizers.emplace(std::move(recognizer));
-    RL_ASSERT(res.second);
-  }
+    GestureRecognizer::Collection&& recognizers) {
+  _recognitionEngine.setupRecognizers(std::move(recognizers));
 }
 
 template <typename T>
@@ -174,8 +171,9 @@ AnimationDirector& PresentationGraph::animationDirector() {
 }
 
 bool PresentationGraph::applyTouchMap(TouchEvent::PhaseMap&& map) {
-  RL_ASSERT(false);
-  return false;
+  RL_ASSERT(map.size() > 0);
+
+  return _recognitionEngine.applyTouchMap(std::move(map));
 }
 
 }  // namespace rl

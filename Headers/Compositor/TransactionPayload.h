@@ -19,16 +19,16 @@ class TransactionPayload : public Serializable {
  public:
   using EntityMap =
       std::map<Entity::Identifier, std::unique_ptr<TransferEntity>>;
-  using RecognizerCollection = std::vector<GestureRecognizer>;
 
   using ActionCallback = std::function<void(Action&)>;
   using TransferRecordCallback =
       std::function<void(Action&, TransferRecord&, const ClockPoint&)>;
-  using RecognizerCallback = std::function<void(RecognizerCollection&)>;
+  using RecognizerCallback =
+      std::function<void(GestureRecognizer::Collection&&)>;
 
   explicit TransactionPayload(Action&& action,
                               EntityMap&& entities,
-                              RecognizerCollection&& recognizers);
+                              GestureRecognizer::Collection&& recognizers);
 
   explicit TransactionPayload(const ClockPoint& commitTime,
                               ActionCallback actionCallback,
@@ -44,7 +44,7 @@ class TransactionPayload : public Serializable {
    */
   Action _action;
   EntityMap _entities;
-  RecognizerCollection _recognizers;
+  GestureRecognizer::Collection _recognizers;
 
   /*
    *  Used when reading

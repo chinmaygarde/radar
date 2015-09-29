@@ -31,6 +31,8 @@ class PresentationEntity : public Entity {
 
   void removeChild(Borrowed entity);
 
+  bool isPointInside(const Point& point) const;
+
   void render(Frame& frame, const Matrix& viewMatrix);
 
  private:

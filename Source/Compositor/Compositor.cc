@@ -200,7 +200,8 @@ void Compositor::drainPendingTouches() {
     return;
   }
 
-  _graph.applyTouchMap(std::move(touchMap));
+  auto res = _graph.applyTouchMap(std::move(touchMap));
+  RL_ASSERT(res);
 }
 
 }  // namespace rl

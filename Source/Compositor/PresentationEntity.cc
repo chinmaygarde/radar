@@ -30,6 +30,11 @@ void PresentationEntity::removeChild(Borrowed entity) {
   entity->_presentationOrder = PresentationOrderNone;
 }
 
+bool PresentationEntity::isPointInside(const Point& point) const {
+  RL_ASSERT(false);
+  return false;
+}
+
 void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) {
   frame.statistics().primitiveCount().increment();
 

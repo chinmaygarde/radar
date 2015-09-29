@@ -13,8 +13,7 @@
 #include <Interface/Action.h>
 #include <Compositor/AnimationDirector.h>
 #include <Compositor/TransactionPayload.h>
-#include <Recognition/GestureRecognizer.h>
-#include <Event/TouchEvent.h>
+#include <Recognition/RecognitionEngine.h>
 
 #include <map>
 
@@ -22,6 +21,9 @@ namespace rl {
 
 class PresentationGraph {
  public:
+  using EntityMap =
+      std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>>;
+
   explicit PresentationGraph();
   ~PresentationGraph();
 
@@ -33,8 +35,8 @@ class PresentationGraph {
   AnimationDirector& animationDirector();
 
  private:
-  std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>> _entities;
-  std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
+  EntityMap _entities;
+  RecognitionEngine _recognitionEngine;
 
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
@@ -55,8 +57,7 @@ class PresentationGraph {
   void onTransferRecordCommit(Action& action,
                               TransferRecord& record,
                               const ClockPoint& commitTime);
-  void onRecognizerCommit(
-      TransactionPayload::RecognizerCollection& recognizers);
+  void onRecognizerCommit(GestureRecognizer::Collection&& recognizers);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

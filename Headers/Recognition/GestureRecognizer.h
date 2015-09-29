@@ -9,11 +9,14 @@
 #include <Recognition/Equation.h>
 #include <Recognition/Variable.h>
 
+#include <set>
+
 namespace rl {
 
 class GestureRecognizer : public Serializable {
  public:
   using Identifier = uint64_t;
+  using Collection = std::vector<GestureRecognizer>;
 
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
@@ -29,6 +32,9 @@ class GestureRecognizer : public Serializable {
 
   bool deserialize(Message& message) override;
 
+  using ObservedEntities = std::set<Entity::Identifier>;
+  const ObservedEntities& observedEntities() const;
+
   struct Less {
     bool operator()(const GestureRecognizer& lhs,
                     const GestureRecognizer& rhs) const {
@@ -40,6 +46,10 @@ class GestureRecognizer : public Serializable {
   Identifier _identifier;
   Variable _evaluationResult;
   Equation _equation;
+
+  ObservedEntities _observedEntities;
+
+  void prepareForUse();
 
   RL_DISALLOW_COPY_AND_ASSIGN(GestureRecognizer);
 };

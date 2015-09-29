@@ -7,9 +7,10 @@
 
 namespace rl {
 
-TransactionPayload::TransactionPayload(Action&& action,
-                                       EntityMap&& entities,
-                                       RecognizerCollection&& recognizers)
+TransactionPayload::TransactionPayload(
+    Action&& action,
+    EntityMap&& entities,
+    GestureRecognizer::Collection&& recognizers)
     : _action(std::move(action)),
       _entities(std::move(entities)),
       _recognizers(std::move(recognizers)) {
@@ -83,7 +84,7 @@ bool TransactionPayload::deserialize(Message& message) {
 
   _actionCallback(action);
 
-  RecognizerCollection recognizers;
+  GestureRecognizer::Collection recognizers;
   result = DeserializeVector(recognizers, message);
 
   if (!result) {
@@ -108,7 +109,7 @@ bool TransactionPayload::deserialize(Message& message) {
   }
 
   if (recognizers.size() > 0) {
-    _recognizerCallback(recognizers);
+    _recognizerCallback(std::move(recognizers));
   }
 
   return true;

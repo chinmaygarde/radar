@@ -34,6 +34,8 @@ class Variable : public Serializable {
 
   Entity::Property targetProperty() const;
 
+  bool isProxy() const;
+
   bool serialize(Message& message) const override;
 
   bool deserialize(Message& message) override;

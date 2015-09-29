@@ -30,6 +30,10 @@ Entity::Property Variable::targetProperty() const {
   return _property;
 }
 
+bool Variable::isProxy() const {
+  return _isProxy;
+}
+
 bool Variable::serialize(Message& message) const {
   auto result = true;
   result &= message.encode(_identifier);
