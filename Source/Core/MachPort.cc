@@ -37,9 +37,24 @@ struct MachPayload {
         mem(),
         trailer() {}
 
-  bool send() {
-    return mach_msg_send(reinterpret_cast<mach_msg_header_t*>(this)) ==
-           MACH_MSG_SUCCESS;
+  MachPort::Result send(mach_msg_option_t timeoutOption,
+                        mach_msg_timeout_t timeout) {
+    auto header = reinterpret_cast<mach_msg_header_t*>(this);
+
+    auto res =
+        mach_msg(header, MACH_SEND_MSG | timeoutOption, header->msgh_size, 0,
+                 MACH_PORT_NULL, timeout, MACH_PORT_NULL);
+
+    switch (res) {
+      case MACH_MSG_SUCCESS:
+        return MachPort::Result::Success;
+      case MACH_SEND_TIMED_OUT:
+        return MachPort::Result::Timeout;
+      default:
+        return MachPort::Result::Failure;
+    }
+
+    return MachPort::Result::Failure;
   }
 
   bool receive() {
@@ -125,22 +140,33 @@ bool MachPort::doTerminate() {
   return success;
 }
 
-MachPort::Result MachPort::sendMessages(Messages&& messages) {
-  bool success = true;
+MachPort::Result MachPort::sendMessages(Messages&& messages,
+                                        ClockDurationMilli requestedTimeout) {
+  mach_msg_option_t timeoutOption = 0;
+  mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
 
+  if (requestedTimeout != ClockDurationMilli::max()) {
+    timeoutOption = MACH_SEND_TIMEOUT;
+    timeout = static_cast<mach_msg_timeout_t>(requestedTimeout.count());
+  }
+
+  auto result = MachPort::Failure;
+  /*
+   *  This is incorrect. Multiple messages need to be sent in one call
+   */
   for (auto const& message : messages) {
     MachPayload payload(message, _handle);
+    result = payload.send(timeoutOption, timeout);
 
-    if (!payload.send()) {
-      success = false;
-      break;
+    if (result == MachPort::Failure) {
+      return result;
     }
   }
 
-  return success ? Result::Success : Result::Failure;
+  return result;
 }
 
-MachPort::ReadResult MachPort::readMessages() {
+MachPort::ReadResult MachPort::readMessages(ClockDurationMilli timeout) {
   MachPayload payload(_handle);
   Messages messages;
 
