@@ -57,7 +57,8 @@ struct MachPayload {
     return MachPort::Result::Failure;
   }
 
-  bool receive(mach_msg_option_t timeoutOption, mach_msg_timeout_t timeout) {
+  MachPort::Result receive(mach_msg_option_t timeoutOption,
+                           mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     auto res =
@@ -154,14 +155,20 @@ bool MachPort::doTerminate() {
   return success;
 }
 
+static inline mach_msg_timeout_t MachMessageTimeOutFromDuration(
+    ClockDurationNano timeout) {
+  return static_cast<mach_msg_timeout_t>(
+      std::chrono::duration_cast<ClockDurationMilli>(timeout).count());
+}
+
 MachPort::Result MachPort::sendMessages(Messages&& messages,
-                                        ClockDurationMilli requestedTimeout) {
+                                        ClockDurationNano requestedTimeout) {
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
 
-  if (requestedTimeout != ClockDurationMilli::max()) {
+  if (requestedTimeout != ClockDurationNano::max()) {
     timeoutOption = MACH_SEND_TIMEOUT;
-    timeout = static_cast<mach_msg_timeout_t>(requestedTimeout.count());
+    timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
   auto result = MachPort::Failure;
@@ -181,24 +188,34 @@ MachPort::Result MachPort::sendMessages(Messages&& messages,
 }
 
 MachPort::ReadResult MachPort::readMessages(
-    ClockDurationMilli requestedTimeout) {
+    ClockDurationNano requestedTimeout) {
   MachPayload payload(_handle);
   Messages messages;
 
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
 
-  if (requestedTimeout != ClockDurationMilli::max()) {
+  auto hasTimeout = requestedTimeout != ClockDurationNano::max();
+
+  if (hasTimeout) {
     timeoutOption = MACH_RCV_TIMEOUT;
-    timeout = static_cast<mach_msg_timeout_t>(requestedTimeout.count());
+    timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
-  if (payload.receive(timeoutOption, timeout)) {
-    messages.emplace_back(std::move(payload.asMessage()));
+  auto res = MachPort::Result::Failure;
+
+  do {
+    res = payload.receive(timeoutOption, timeout);
+    if (res == MachPort::Result::Success) {
+      messages.emplace_back(std::move(payload.asMessage()));
+    }
+  } while (res == MachPort::Result::Success && hasTimeout);
+
+  if (res == MachPort::Result::Timeout && messages.size() > 0) {
+    res = MachPort::Result::Success;
   }
 
-  return ReadResult(messages.size() == 0 ? Failure : Success,
-                    std::move(messages));
+  return ReadResult(res, std::move(messages));
 }
 
 }  // namespace rl

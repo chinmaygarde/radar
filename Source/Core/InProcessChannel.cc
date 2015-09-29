@@ -39,7 +39,9 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
                                updateHandler);
 }
 
-ChannelProvider::Result InProcessChannel::WriteMessages(Messages&& messages) {
+ChannelProvider::Result InProcessChannel::WriteMessages(
+    Messages&& messages,
+    ClockDurationNano timeout) {
   if (messages.size() == 0) {
     return ChannelProvider::Result::Success;
   }
@@ -59,7 +61,8 @@ ChannelProvider::Result InProcessChannel::WriteMessages(Messages&& messages) {
   return ChannelProvider::Result::Success;
 }
 
-ChannelProvider::ReadResult InProcessChannel::ReadMessages() {
+ChannelProvider::ReadResult InProcessChannel::ReadMessages(
+    ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_lock);
 
   Messages readMessages;

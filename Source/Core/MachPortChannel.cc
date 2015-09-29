@@ -62,8 +62,10 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   // clang-format on
 }
 
-ChannelProvider::Result MachPortChannel::WriteMessages(Messages&& messages) {
-  auto result = _port.sendMessages(std::move(messages));
+ChannelProvider::Result MachPortChannel::WriteMessages(
+    Messages&& messages,
+    ClockDurationNano timeout) {
+  auto result = _port.sendMessages(std::move(messages), timeout);
 
   switch (result) {
     case MachPort::Success:
@@ -77,8 +79,9 @@ ChannelProvider::Result MachPortChannel::WriteMessages(Messages&& messages) {
   return ChannelProvider::Result::PermanentFailure;
 }
 
-ChannelProvider::ReadResult MachPortChannel::ReadMessages() {
-  auto result = _port.readMessages();
+ChannelProvider::ReadResult MachPortChannel::ReadMessages(
+    ClockDurationNano timeout) {
+  auto result = _port.readMessages(timeout);
 
   if (result.first == MachPort::Result::Failure) {
     return ChannelProvider::ReadResult(Result::PermanentFailure,

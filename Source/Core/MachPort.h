@@ -27,10 +27,8 @@ class MachPort {
   Handle portHandle() const;
   Handle setHandle() const;
 
-  Result sendMessages(Messages&& messages,
-                      ClockDurationMilli timeout = ClockDurationMilli::max());
-  ReadResult readMessages(
-      ClockDurationMilli timeout = ClockDurationMilli::max());
+  Result sendMessages(Messages&& messages, ClockDurationNano timeout);
+  ReadResult readMessages(ClockDurationNano timeout);
 
   bool doTerminate();
 

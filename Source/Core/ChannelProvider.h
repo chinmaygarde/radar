@@ -37,14 +37,15 @@ class ChannelProvider {
    *
    *  @return the write result
    */
-  virtual Result WriteMessages(Messages&& message) = 0;
+  virtual Result WriteMessages(Messages&& message,
+                               ClockDurationNano timeout) = 0;
 
   /**
    *  Read a message on the channel provider
    *
    *  @return the read result
    */
-  virtual ReadResult ReadMessages() = 0;
+  virtual ReadResult ReadMessages(ClockDurationNano timeout) = 0;
 
   /**
    *  Perform the actual channel connection termination

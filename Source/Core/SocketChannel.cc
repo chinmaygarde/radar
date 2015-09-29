@@ -113,7 +113,8 @@ bool SocketChannel::doTerminate() {
   return readClosed && writeClosed;
 }
 
-SocketChannel::Result SocketChannel::WriteMessages(Messages&& messages) {
+SocketChannel::Result SocketChannel::WriteMessages(Messages&& messages,
+                                                   ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_lock);
 
   for (const auto& message : messages) {
@@ -230,7 +231,8 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
   return result;
 }
 
-SocketChannel::ReadResult SocketChannel::ReadMessages() {
+SocketChannel::ReadResult SocketChannel::ReadMessages(
+    ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_lock);
 
   struct iovec vec[1] = {{0}};

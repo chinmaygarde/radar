@@ -88,7 +88,7 @@ class Channel {
    */
   std::shared_ptr<EventLoopSource> source();
 
-#pragma mark - Manually reads
+#pragma mark - Manual reads
 
   /**
    *  Read all pending messages on the channel immediately. The user rarely (if
