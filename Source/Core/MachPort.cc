@@ -39,7 +39,7 @@ struct MachPayload {
 
   MachPort::Result send(mach_msg_option_t timeoutOption,
                         mach_msg_timeout_t timeout) {
-    auto header = reinterpret_cast<mach_msg_header_t*>(this);
+    const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     auto res =
         mach_msg(header, MACH_SEND_MSG | timeoutOption, header->msgh_size, 0,
@@ -57,9 +57,23 @@ struct MachPayload {
     return MachPort::Result::Failure;
   }
 
-  bool receive() {
-    return mach_msg_receive(reinterpret_cast<mach_msg_header_t*>(this)) ==
-           KERN_SUCCESS;
+  bool receive(mach_msg_option_t timeoutOption, mach_msg_timeout_t timeout) {
+    const auto header = reinterpret_cast<mach_msg_header_t*>(this);
+
+    auto res =
+        mach_msg(header, MACH_RCV_MSG | timeoutOption, 0, header->msgh_size,
+                 header->msgh_local_port, timeout, MACH_PORT_NULL);
+
+    switch (res) {
+      case MACH_MSG_SUCCESS:
+        return MachPort::Result::Success;
+      case MACH_RCV_TIMED_OUT:
+        return MachPort::Result::Timeout;
+      default:
+        return MachPort::Result::Failure;
+    }
+
+    return MachPort::Result::Failure;
   }
 
   Message asMessage() const {
@@ -166,11 +180,20 @@ MachPort::Result MachPort::sendMessages(Messages&& messages,
   return result;
 }
 
-MachPort::ReadResult MachPort::readMessages(ClockDurationMilli timeout) {
+MachPort::ReadResult MachPort::readMessages(
+    ClockDurationMilli requestedTimeout) {
   MachPayload payload(_handle);
   Messages messages;
 
-  if (payload.receive()) {
+  mach_msg_option_t timeoutOption = 0;
+  mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
+
+  if (requestedTimeout != ClockDurationMilli::max()) {
+    timeoutOption = MACH_RCV_TIMEOUT;
+    timeout = static_cast<mach_msg_timeout_t>(requestedTimeout.count());
+  }
+
+  if (payload.receive(timeoutOption, timeout)) {
     messages.emplace_back(std::move(payload.asMessage()));
   }
 
