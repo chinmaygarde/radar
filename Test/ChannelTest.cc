@@ -171,3 +171,68 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
   thread.join();
 }
+
+#if 0
+
+TEST(ChannelTest, TestMultipleQueuedReads) {
+  rl::Channel channel;
+
+  rl::Latch latch(1);
+  rl::Latch readLatch(1);
+
+  std::thread thread([&] {
+    auto loop = rl::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
+
+    auto source = channel.source();
+    ASSERT_TRUE(loop->addSource(source));
+
+    channel.setMessagesReceivedCallback([&](rl::Messages m) {
+      ASSERT_TRUE(m.size() == 3);
+      ASSERT_TRUE(loop == rl::EventLoop::Current());
+
+      char r = '\0';
+      m[0].decode(r);
+      ASSERT_TRUE(r == 'a');
+
+      m[1].decode(r);
+      ASSERT_TRUE(r == 'b');
+
+      m[2].decode(r);
+      ASSERT_TRUE(r == 'c');
+
+      loop->terminate();
+    });
+
+    loop->loop([&] {
+      latch.countDown();
+      readLatch.wait();
+    });
+  });
+
+  latch.wait();
+
+  rl::Messages messages;
+
+  rl::Message m1;
+  char c = 'a';
+  ASSERT_TRUE(m1.encode(c));
+  messages.emplace_back(std::move(m1));
+
+  rl::Message m2;
+  c = 'b';
+  ASSERT_TRUE(m2.encode(c));
+  messages.emplace_back(std::move(m2));
+
+  rl::Message m3;
+  c = 'c';
+  ASSERT_TRUE(m3.encode(c));
+  messages.emplace_back(std::move(m3));
+
+  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
+  readLatch.countDown();
+
+  thread.join();
+}
+
+#endif
