@@ -13,6 +13,8 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
     : _identifier(++LastGestureRecognizerIdentifier),
       _evaluationResult(std::move(evaluationResult)),
       _equation(std::move(equation)) {
+  RL_ASSERT(!_evaluationResult.isProxy() &&
+            "The evaluation result may not be a proxy");
   prepareForUse();
 }
 
@@ -32,11 +34,19 @@ const GestureRecognizer::ObservedEntities& GestureRecognizer::observedEntities()
   return _observedEntities;
 }
 
+Entity::Identifier GestureRecognizer::affectedEntity() const {
+  return _evaluationResult.targetIdentifier();
+}
+
 void GestureRecognizer::prepareForUse() {
   _observedEntities.clear();
+  _observedProxies.clear();
   for (const auto& term : _equation.terms()) {
     for (const auto& varDegree : term.variables()) {
-      if (!varDegree.variable.isProxy()) {
+      if (varDegree.variable.isProxy()) {
+        _observedProxies.insert(static_cast<Variable::Proxy>(
+            varDegree.variable.targetIdentifier()));
+      } else {
         _observedEntities.insert(varDegree.variable.targetIdentifier());
       }
     }
@@ -45,9 +55,11 @@ void GestureRecognizer::prepareForUse() {
 
 bool GestureRecognizer::serialize(Message& message) const {
   auto result = true;
+
   result &= message.encode(_identifier);
   result &= _evaluationResult.serialize(message);
   result &= _equation.serialize(message);
+
   return result;
 }
 

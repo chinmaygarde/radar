@@ -18,8 +18,10 @@ void RecognitionEngine::setupRecognizers(
     auto res = _recognizers.emplace(std::move(recognizer));
 
     if (res.second) {
-      const auto& observed = (*res.first).observedEntities();
+      const auto& inserted = (*res.first);
+      const auto& observed = inserted.observedEntities();
       _observedEntities.insert(observed.begin(), observed.end());
+      _affectedEntities.insert(inserted.affectedEntity());
     }
   }
 }

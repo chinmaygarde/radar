@@ -17,6 +17,7 @@ class GestureRecognizer : public Serializable {
  public:
   using Identifier = uint64_t;
   using Collection = std::vector<GestureRecognizer>;
+  using ObservedEntities = std::set<Entity::Identifier>;
 
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
@@ -32,8 +33,11 @@ class GestureRecognizer : public Serializable {
 
   bool deserialize(Message& message) override;
 
-  using ObservedEntities = std::set<Entity::Identifier>;
   const ObservedEntities& observedEntities() const;
+
+  const Variable::ProxySet& observedProxies() const;
+
+  Entity::Identifier affectedEntity() const;
 
   struct Less {
     bool operator()(const GestureRecognizer& lhs,
@@ -48,6 +52,7 @@ class GestureRecognizer : public Serializable {
   Equation _equation;
 
   ObservedEntities _observedEntities;
+  Variable::ProxySet _observedProxies;
 
   void prepareForUse();
 

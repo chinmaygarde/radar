@@ -23,6 +23,7 @@ class RecognitionEngine {
  private:
   std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
   GestureRecognizer::ObservedEntities _observedEntities;
+  GestureRecognizer::ObservedEntities _affectedEntities;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RecognitionEngine);
 };

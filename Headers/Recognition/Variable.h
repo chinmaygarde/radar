@@ -8,6 +8,8 @@
 #include <Core/Core.h>
 #include <Interface/Entity.h>
 
+#include <set>
+
 namespace rl {
 
 class Variable : public Serializable {
@@ -25,6 +27,8 @@ class Variable : public Serializable {
     Touch9,
     Touch10,
   };
+
+  using ProxySet = std::set<Proxy>;
 
   explicit Variable();
   explicit Variable(Variable::Proxy proxy, Entity::Property property);
