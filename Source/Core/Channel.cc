@@ -102,6 +102,16 @@ void Channel::readPendingMessageNow() {
   }
 }
 
+Messages Channel::drainPendingMessages() {
+  auto result = _provider->ReadMessages(ClockDurationNano(0));
+
+  if (result.first == ChannelProvider::Result::PermanentFailure) {
+    terminate();
+  }
+
+  return std::move(result.second);
+}
+
 Channel::TerminationCallback Channel::terminationCallback() const {
   return _terminationCallback;
 }

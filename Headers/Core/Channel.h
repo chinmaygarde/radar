@@ -97,6 +97,9 @@ class Channel {
    */
   void readPendingMessageNow();
 
+ protected:
+  Messages drainPendingMessages();
+
  private:
   MessagesReceivedCallback _messagesReceivedCallback;
   TerminationCallback _terminationCallback;

@@ -15,6 +15,8 @@ class TouchEventChannel : public Channel {
 
   void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
+  void drainPendingTouches();
+
  private:
   std::vector<TouchEvent> _pendingTouchesBegan;
   std::vector<TouchEvent> _pendingTouchesMoved;

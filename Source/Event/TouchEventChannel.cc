@@ -17,7 +17,8 @@ void TouchEventChannel::sendTouchEvents(
     touch.serialize(m);
     messages.emplace_back(std::move(m));
   }
-  sendMessages(std::move(messages));
+  bool result = sendMessages(std::move(messages));
+  RL_ASSERT(result);
 }
 
 std::vector<TouchEvent>& TouchEventChannel::bufferForPhase(
