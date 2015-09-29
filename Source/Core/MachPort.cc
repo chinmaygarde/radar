@@ -41,9 +41,15 @@ struct MachPayload {
                         mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
-    auto res =
-        mach_msg(header, MACH_SEND_MSG | timeoutOption, header->msgh_size, 0,
-                 MACH_PORT_NULL, timeout, MACH_PORT_NULL);
+    // clang-format off
+    auto res = mach_msg(header,
+                        MACH_SEND_MSG | timeoutOption,
+                        header->msgh_size,
+                        0,
+                        MACH_PORT_NULL,
+                        timeout,
+                        MACH_PORT_NULL);
+    // clang-format on
 
     switch (res) {
       case MACH_MSG_SUCCESS:
@@ -51,6 +57,7 @@ struct MachPayload {
       case MACH_SEND_TIMED_OUT:
         return MachPort::Result::Timeout;
       default:
+        RL_LOG("Mach Send Failed: %s", mach_error_string(res));
         return MachPort::Result::Failure;
     }
 
@@ -61,16 +68,24 @@ struct MachPayload {
                            mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
-    auto res =
-        mach_msg(header, MACH_RCV_MSG | timeoutOption, 0, header->msgh_size,
-                 header->msgh_local_port, timeout, MACH_PORT_NULL);
+    // clang-format off
+    auto res = mach_msg(header,
+                        MACH_RCV_MSG | MACH_RCV_LARGE | timeoutOption,
+                        0,
+                        header->msgh_size,
+                        header->msgh_local_port,
+                        timeout,
+                        MACH_PORT_NULL);
+    // clang-format on
 
     switch (res) {
       case MACH_MSG_SUCCESS:
         return MachPort::Result::Success;
       case MACH_RCV_TIMED_OUT:
+      case MACH_RCV_TOO_LARGE:
         return MachPort::Result::Timeout;
       default:
+        RL_LOG("Mach Recv Failed: %s", mach_error_string(res));
         return MachPort::Result::Failure;
     }
 
