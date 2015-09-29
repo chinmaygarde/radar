@@ -17,19 +17,26 @@ class Frame;
 class PresentationEntity : public Entity {
  public:
   using Borrowed = PresentationEntity*;
+  using PresentationOrder = int64_t;
 
   explicit PresentationEntity(Identifier identifier);
 
+  const Matrix& lastModelViewMatrix() const;
+
   ~PresentationEntity();
+
+  PresentationOrder presentationOrder() const;
 
   void addChild(Borrowed entity);
 
   void removeChild(Borrowed entity);
 
-  void render(Frame& frame, const Matrix& viewMatrix = MatrixIdentity) const;
+  void render(Frame& frame, const Matrix& viewMatrix);
 
  private:
+  PresentationOrder _presentationOrder;
   std::vector<Borrowed> _children;
+  Matrix _lastModelViewMatrix;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
