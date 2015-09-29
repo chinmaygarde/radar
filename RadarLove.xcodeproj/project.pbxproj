@@ -76,6 +76,8 @@
 		9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA72CBD1BBA03A7001A755C /* MachPort.cc */; };
 		9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA72CBE1BBA03A7001A755C /* MachPort.h */; };
 		9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CA01BAB5CF8007E5DF8 /* InProcessChannel.cc */; };
+		9EA72CC51BBA12A1001A755C /* MachTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA72CC31BBA12A1001A755C /* MachTrivialSource.cc */; };
+		9EA72CC61BBA12A1001A755C /* MachTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA72CC41BBA12A1001A755C /* MachTrivialSource.h */; };
 		9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE351B685460000FA38A /* FrictionSimulation.h */; };
 		9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE361B685460000FA38A /* GravitySimulation.h */; };
 		9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE371B685460000FA38A /* ScrollSimulation.h */; };
@@ -342,6 +344,8 @@
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EA72CBD1BBA03A7001A755C /* MachPort.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPort.cc; sourceTree = "<group>"; };
 		9EA72CBE1BBA03A7001A755C /* MachPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachPort.h; sourceTree = "<group>"; };
+		9EA72CC31BBA12A1001A755C /* MachTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachTrivialSource.cc; sourceTree = "<group>"; };
+		9EA72CC41BBA12A1001A755C /* MachTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachTrivialSource.h; sourceTree = "<group>"; };
 		9EAECE271B68543F000FA38A /* libRadarLove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRadarLove.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EAECE351B685460000FA38A /* FrictionSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrictionSimulation.h; sourceTree = "<group>"; };
 		9EAECE361B685460000FA38A /* GravitySimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySimulation.h; sourceTree = "<group>"; };
@@ -778,6 +782,8 @@
 				9EA72CBE1BBA03A7001A755C /* MachPort.h */,
 				EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */,
 				EA6090D11BA41E8C00C2E263 /* MachPortChannel.h */,
+				9EA72CC31BBA12A1001A755C /* MachTrivialSource.cc */,
+				9EA72CC41BBA12A1001A755C /* MachTrivialSource.h */,
 				EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */,
 				EA6090D31BA41E8C00C2E263 /* SocketChannel.h */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
@@ -972,6 +978,7 @@
 				9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */,
 				9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */,
 				EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */,
+				9EA72CC61BBA12A1001A755C /* MachTrivialSource.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
@@ -1218,6 +1225,7 @@
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
 				EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
+				9EA72CC51BBA12A1001A755C /* MachTrivialSource.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,

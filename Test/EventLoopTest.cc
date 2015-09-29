@@ -111,8 +111,6 @@ TEST(EventLoopTest, TimerRepetition) {
   ASSERT_TRUE(count == 10);
 }
 
-#if 0
-
 TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   int count = 0;
   std::thread trivialThread([&count] {
@@ -141,5 +139,3 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   trivialThread.join();
   ASSERT_TRUE(count == 1);
 }
-
-#endif
