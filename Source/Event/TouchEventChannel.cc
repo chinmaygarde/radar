@@ -21,40 +21,21 @@ void TouchEventChannel::sendTouchEvents(
   RL_ASSERT(result);
 }
 
-std::vector<TouchEvent>& TouchEventChannel::bufferForPhase(
-    TouchEvent::Phase phase) {
-  switch (phase) {
-    case TouchEvent::Began:
-      return _pendingTouchesBegan;
-    case TouchEvent::Moved:
-      return _pendingTouchesMoved;
-    case TouchEvent::Ended:
-      return _pendingTouchesEnded;
-    case TouchEvent::Cancelled:
-      return _pendingTouchesCancelled;
-    default:
-      RL_ASSERT(false);
+TouchEventChannel::TouchPhaseEventMap TouchEventChannel::drainPendingTouches() {
+  auto messages = drainPendingMessages();
+
+  TouchPhaseEventMap results;
+
+  if (messages.size() == 0) {
+    return std::move(results);
   }
 
-  return _pendingTouchesCancelled;
-}
-
-void TouchEventChannel::processRawTouches(Messages& messages) {
   for (auto& message : messages) {
     TouchEvent event(message);
-    bufferForPhase(event.phase()).emplace_back(std::move(event));
+    results[event.phase()].emplace_back(std::move(event));
   }
-  dispatchPendingTouches();
-}
 
-void TouchEventChannel::dispatchPendingTouches() {
-  RL_ASSERT(false && "WIP");
-
-done:
-  _pendingTouchesBegan.clear();
-  _pendingTouchesMoved.clear();
-  _pendingTouchesEnded.clear();
-  _pendingTouchesCancelled.clear();
+  return std::move(results);
 }
 
 }  // namespace rl

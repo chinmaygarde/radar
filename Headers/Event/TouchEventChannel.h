@@ -8,6 +8,8 @@
 #include <Core/Channel.h>
 #include <Event/TouchEvent.h>
 
+#include <map>
+
 namespace rl {
 class TouchEventChannel : public Channel {
  public:
@@ -15,16 +17,11 @@ class TouchEventChannel : public Channel {
 
   void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
-  void drainPendingTouches();
+  using TouchPhaseEventMap =
+      std::map<TouchEvent::Phase, std::vector<TouchEvent>>;
+  TouchPhaseEventMap drainPendingTouches();
 
  private:
-  std::vector<TouchEvent> _pendingTouchesBegan;
-  std::vector<TouchEvent> _pendingTouchesMoved;
-  std::vector<TouchEvent> _pendingTouchesEnded;
-  std::vector<TouchEvent> _pendingTouchesCancelled;
-
-  void processRawTouches(Messages& messages);
-  void dispatchPendingTouches();
   std::vector<TouchEvent>& bufferForPhase(TouchEvent::Phase phase);
 
   RL_DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);

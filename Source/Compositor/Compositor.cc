@@ -194,7 +194,11 @@ void Compositor::drawSingleFrame() {
 }
 
 void Compositor::drainPendingTouches() {
-  
+  auto touchMap = _touchEventChannel.drainPendingTouches();
+
+  if (touchMap.size() == 0) {
+    return;
+  }
 }
 
 }  // namespace rl
