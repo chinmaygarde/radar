@@ -199,6 +199,8 @@ void Compositor::drainPendingTouches() {
   if (touchMap.size() == 0) {
     return;
   }
+
+  _graph.applyTouchMap(std::move(touchMap));
 }
 
 }  // namespace rl

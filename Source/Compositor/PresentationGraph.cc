@@ -173,4 +173,9 @@ AnimationDirector& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 
+bool PresentationGraph::applyTouchMap(TouchEvent::PhaseMap&& map) {
+  RL_ASSERT(false);
+  return false;
+}
+
 }  // namespace rl

@@ -21,10 +21,10 @@ void TouchEventChannel::sendTouchEvents(
   RL_ASSERT(result);
 }
 
-TouchEventChannel::TouchPhaseEventMap TouchEventChannel::drainPendingTouches() {
+TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {
   auto messages = drainPendingMessages();
 
-  TouchPhaseEventMap results;
+  TouchEvent::PhaseMap results;
 
   if (messages.size() == 0) {
     return std::move(results);

@@ -8,8 +8,6 @@
 #include <Core/Channel.h>
 #include <Event/TouchEvent.h>
 
-#include <map>
-
 namespace rl {
 class TouchEventChannel : public Channel {
  public:
@@ -17,9 +15,7 @@ class TouchEventChannel : public Channel {
 
   void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
-  using TouchPhaseEventMap =
-      std::map<TouchEvent::Phase, std::vector<TouchEvent>>;
-  TouchPhaseEventMap drainPendingTouches();
+  TouchEvent::PhaseMap drainPendingTouches();
 
  private:
   std::vector<TouchEvent>& bufferForPhase(TouchEvent::Phase phase);

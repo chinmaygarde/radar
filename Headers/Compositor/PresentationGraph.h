@@ -14,6 +14,7 @@
 #include <Compositor/AnimationDirector.h>
 #include <Compositor/TransactionPayload.h>
 #include <Recognition/GestureRecognizer.h>
+#include <Event/TouchEvent.h>
 
 #include <map>
 
@@ -25,6 +26,7 @@ class PresentationGraph {
   ~PresentationGraph();
 
   bool applyTransactions(Message& arena);
+  bool applyTouchMap(TouchEvent::PhaseMap&& map);
 
   void render(Frame& frame);
 

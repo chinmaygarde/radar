@@ -8,6 +8,8 @@
 #include <Event/Event.h>
 #include <Geometry/Geometry.h>
 
+#include <map>
+
 namespace rl {
 class TouchEvent : public Event {
  public:
@@ -17,6 +19,8 @@ class TouchEvent : public Event {
     Ended,
     Cancelled,
   };
+
+  using PhaseMap = std::map<Phase, std::vector<TouchEvent>>;
 
   /**
    *  Create a touch event with the given identifier and absolute location
