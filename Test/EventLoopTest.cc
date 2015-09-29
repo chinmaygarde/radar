@@ -129,7 +129,7 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
     trivial->writer()(trivial->writeHandle());
     trivial->writer()(trivial->writeHandle());
 
-    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(250));
+    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(100));
     timer->setWakeFunction([]() { rl::EventLoop::Current()->terminate(); });
 
     loop->addSource(trivial);
