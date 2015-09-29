@@ -33,6 +33,9 @@ void PresentationEntity::removeChild(Borrowed entity) {
 void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) {
   frame.statistics().primitiveCount().increment();
 
+  /*
+   *  This is incorrect. This method needs to be const.
+   */
   _lastModelViewMatrix = viewMatrix * modelMatrix();
 
   Primitive p;
