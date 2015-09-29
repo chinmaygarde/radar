@@ -21,7 +21,7 @@ class MachPort {
 
   using ReadResult = std::pair<Result, Messages>;
 
-  explicit MachPort();
+  explicit MachPort(size_t queueLimit = 1024);
   ~MachPort();
 
   Handle portHandle() const;

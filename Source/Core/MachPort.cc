@@ -67,7 +67,7 @@ struct MachPayload {
   }
 };
 
-MachPort::MachPort() {
+MachPort::MachPort(size_t queueLimit) {
   /*
    *  Step 1: Allocate the port set that will be used as the observer in the
    *          waitset
@@ -95,7 +95,7 @@ MachPort::MachPort() {
    */
 
   mach_port_limits_t limits = {0};
-  limits.mpl_qlimit = MACH_PORT_QLIMIT_LARGE;
+  limits.mpl_qlimit = static_cast<mach_port_msgcount_t>(queueLimit);
   res = mach_port_set_attributes(
       mach_task_self(), _handle, MACH_PORT_LIMITS_INFO,
       (mach_port_info_t)&limits, MACH_PORT_LIMITS_INFO_COUNT);
