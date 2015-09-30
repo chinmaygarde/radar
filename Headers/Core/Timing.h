@@ -22,17 +22,8 @@ using ClockPoint = std::chrono::time_point<Clock, ClockDuration>;
 static const ClockDurationMilli ClockDurationGod = ClockDurationMilli(16);
 
 namespace clock {
-/**
- *  Get the absolute boot time used for logging purposes. Useless
- *  for any other purpose
- *
- *  @return the logging boot time.
- */
-ClockPoint LoggingBootTime(void);
 
-inline ClockDuration ToSeconds(ClockPoint point) {
-  return std::chrono::duration_cast<ClockDuration>(point.time_since_epoch());
-}
+ClockDurationSeconds LoggingClockDuration(void);
 
 }  // namespace clock
 }  // namespace rl

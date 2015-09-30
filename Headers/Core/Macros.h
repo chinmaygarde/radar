@@ -23,9 +23,8 @@
   (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define _RL_LOG_FMT "%.3fs %s:%d: "
-#define _RL_LOG_ARG                                          \
-  (rl::Clock::now() - rl::clock::LoggingBootTime()).count(), \
-      _RL_FILE_LAST_COMPONENT, __LINE__
+#define _RL_LOG_ARG \
+  clock::LoggingClockDuration().count(), _RL_FILE_LAST_COMPONENT, __LINE__
 
 #define RL_LOG(message, ...) \
   printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);

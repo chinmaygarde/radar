@@ -8,14 +8,14 @@
 namespace rl {
 namespace clock {
 
-ClockPoint LoggingBootTime(void) {
+ClockDurationSeconds LoggingClockDuration(void) {
   static ClockPoint point;
   static bool initialized = false;
   if (!initialized) {
     point = Clock::now();
     initialized = true;
   }
-  return point;
+  return Clock::now() - point;
 }
 
 }  // namespace clock
