@@ -32,6 +32,8 @@ class TouchEvent : public Event {
    */
   explicit TouchEvent(Message& message);
 
+  TouchEvent(TouchEvent&& message) = default;
+
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
    *  be unique per distinct touch in a multitouch sequence
@@ -63,7 +65,7 @@ class TouchEvent : public Event {
   Point _location;
   Phase _phase;
 
-  RL_DISALLOW_ASSIGN(TouchEvent);
+  RL_DISALLOW_COPY_AND_ASSIGN(TouchEvent);
 };
 }  // namespace rl
 
