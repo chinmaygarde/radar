@@ -12,13 +12,18 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
                                      Equation&& equation)
     : _identifier(++LastGestureRecognizerIdentifier),
       _evaluationResult(std::move(evaluationResult)),
-      _equation(std::move(equation)) {
+      _equation(std::move(equation)),
+      _touchCount(0) {
   RL_ASSERT(!_evaluationResult.isProxy() &&
             "The evaluation result may not be a proxy");
   prepareForUse();
 }
 
-GestureRecognizer::GestureRecognizer() : _identifier(0) {
+GestureRecognizer::GestureRecognizer() : _identifier(0), _touchCount(0) {
+}
+
+GestureRecognizer::Identifier GestureRecognizer::identifier() const {
+  return _identifier;
 }
 
 const Equation& GestureRecognizer::equation() const {
@@ -29,25 +34,25 @@ const Variable& GestureRecognizer::evaluationResult() const {
   return _evaluationResult;
 }
 
-const GestureRecognizer::ObservedEntities& GestureRecognizer::observedEntities()
-    const {
-  return _observedEntities;
-}
-
-Entity::Identifier GestureRecognizer::affectedEntity() const {
-  return _evaluationResult.targetIdentifier();
-}
-
 void GestureRecognizer::prepareForUse() {
   _observedEntities.clear();
   _observedProxies.clear();
+  _touchCount = 0;
+
   for (const auto& term : _equation.terms()) {
     for (const auto& varDegree : term.variables()) {
+      auto targetIdentifier = varDegree.variable.targetIdentifier();
       if (varDegree.variable.isProxy()) {
-        _observedProxies.insert(static_cast<Variable::Proxy>(
-            varDegree.variable.targetIdentifier()));
+        _observedProxies.insert(static_cast<Variable::Proxy>(targetIdentifier));
+
+        /**
+         *  Identifiers of proxies are enum indices of said proxies
+         */
+        if (targetIdentifier > _touchCount) {
+          _touchCount = targetIdentifier;
+        }
       } else {
-        _observedEntities.insert(varDegree.variable.targetIdentifier());
+        _observedEntities.insert(targetIdentifier);
       }
     }
   }
@@ -73,6 +78,30 @@ bool GestureRecognizer::deserialize(Message& message) {
   prepareForUse();
 
   return result;
+}
+
+bool GestureRecognizer::shouldBeginRecognition(
+    const TouchEvent::IdentifierMap& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
+  if (_touchCount > touches.size()) {
+    return false;
+  }
+
+  /**
+   *  Cycle over all observed entities and ask them if each touch in the array
+   *  is of interest to it.
+   */
+  for (const auto entityIdentifier : _observedEntities) {
+    // WIP
+  }
+  RL_ASSERT(false);
+  return false;
+}
+
+bool GestureRecognizer::shouldContinueRecognition(
+    const TouchEvent::IdentifierMap& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
+  return false;
 }
 
 }  // namespace rl

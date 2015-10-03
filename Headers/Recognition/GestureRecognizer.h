@@ -8,11 +8,13 @@
 #include <Core/Core.h>
 #include <Recognition/Equation.h>
 #include <Recognition/Variable.h>
+#include <Event/TouchEvent.h>
+#include <Compositor/PresentationEntity.h>
 
 #include <set>
+#include <vector>
 
 namespace rl {
-
 class GestureRecognizer : public Serializable {
  public:
   using Identifier = uint64_t;
@@ -25,6 +27,8 @@ class GestureRecognizer : public Serializable {
 
   GestureRecognizer(GestureRecognizer&& recognizer) = default;
 
+  Identifier identifier() const;
+
   const Equation& equation() const;
 
   const Variable& evaluationResult() const;
@@ -33,11 +37,13 @@ class GestureRecognizer : public Serializable {
 
   bool deserialize(Message& message) override;
 
-  const ObservedEntities& observedEntities() const;
+  bool shouldBeginRecognition(
+      const TouchEvent::IdentifierMap& touches,
+      const PresentationEntity::IdentifierMap& entities) const;
 
-  const Variable::ProxySet& observedProxies() const;
-
-  Entity::Identifier affectedEntity() const;
+  bool shouldContinueRecognition(
+      const TouchEvent::IdentifierMap& touches,
+      const PresentationEntity::IdentifierMap& entities) const;
 
   struct Less {
     bool operator()(const GestureRecognizer& lhs,
@@ -50,6 +56,7 @@ class GestureRecognizer : public Serializable {
   Identifier _identifier;
   Variable _evaluationResult;
   Equation _equation;
+  size_t _touchCount;
 
   ObservedEntities _observedEntities;
   Variable::ProxySet _observedProxies;

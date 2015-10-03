@@ -15,7 +15,6 @@ namespace rl {
 class Variable : public Serializable {
  public:
   enum class Proxy {
-    AllTouches,
     Touch1,
     Touch2,
     Touch3,

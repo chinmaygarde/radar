@@ -21,9 +21,6 @@ namespace rl {
 
 class PresentationGraph {
  public:
-  using EntityMap =
-      std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>>;
-
   explicit PresentationGraph();
   ~PresentationGraph();
 
@@ -35,7 +32,7 @@ class PresentationGraph {
   AnimationDirector& animationDirector();
 
  private:
-  EntityMap _entities;
+  PresentationEntity::IdentifierMap _entities;
   RecognitionEngine _recognitionEngine;
 
   PresentationEntity* _root;

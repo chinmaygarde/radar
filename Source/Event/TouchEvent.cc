@@ -6,7 +6,9 @@
 
 namespace rl {
 
-TouchEvent::TouchEvent(uint64_t identifier, const Point& location, Phase phase)
+TouchEvent::TouchEvent(Identifier identifier,
+                       const Point& location,
+                       Phase phase)
     : Event(Clock::now()),
       _identifier(identifier),
       _location(location),
@@ -19,7 +21,7 @@ TouchEvent::TouchEvent(Message& message)
   RL_ASSERT(message.size() == message.sizeRead());
 }
 
-uint64_t TouchEvent::identifier() const {
+TouchEvent::Identifier TouchEvent::identifier() const {
   return _identifier;
 }
 

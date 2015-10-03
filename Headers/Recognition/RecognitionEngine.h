@@ -18,12 +18,28 @@ class RecognitionEngine {
 
   void setupRecognizers(GestureRecognizer::Collection&& recognizers);
 
-  bool applyTouchMap(TouchEvent::PhaseMap&& map);
+  bool applyTouchMap(TouchEvent::PhaseMap&& map,
+                     const PresentationEntity::IdentifierMap& entities);
 
  private:
   std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
-  GestureRecognizer::ObservedEntities _observedEntities;
-  GestureRecognizer::ObservedEntities _affectedEntities;
+  std::set<GestureRecognizer::Identifier> _activeRecognizers;
+  TouchEvent::IdentifierMap _activeTouches;
+
+  void processAddedTouches(const std::vector<TouchEvent>& touches,
+                           const PresentationEntity::IdentifierMap& entities);
+  void processMovedTouches(const std::vector<TouchEvent>& touches,
+                           const PresentationEntity::IdentifierMap& entities);
+  void processEndedTouches(const std::vector<TouchEvent>& touches,
+                           const PresentationEntity::IdentifierMap& entities);
+  void processCancelledTouches(
+      const std::vector<TouchEvent>& touches,
+      const PresentationEntity::IdentifierMap& entities);
+
+  void addToActiveTouches(const std::vector<TouchEvent>& touches);
+  void clearFromActiveTouches(const std::vector<TouchEvent>& touches);
+
+  bool isEngineConsistent() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RecognitionEngine);
 };

@@ -39,7 +39,7 @@ static void SendEvent(rl::TouchEventChannel& channel,
   loc.y = view.frame.size.height - loc.y;
 
   using Event = rl::TouchEvent;
-  auto identifier = reinterpret_cast<uint64_t>(event);
+  auto identifier = static_cast<uint64_t>(event.pointingDeviceID);
 
   std::vector<Event> events;
   events.emplace_back(Event(identifier, {loc.x, loc.y}, phase));

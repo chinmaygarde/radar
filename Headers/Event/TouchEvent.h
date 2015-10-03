@@ -20,19 +20,21 @@ class TouchEvent : public Event {
     Cancelled,
   };
 
+  using Identifier = uint64_t;
   using PhaseMap = std::map<Phase, std::vector<TouchEvent>>;
+  using IdentifierMap = std::map<Identifier, TouchEvent>;
 
   /**
    *  Create a touch event with the given identifier and absolute location
    */
-  explicit TouchEvent(uint64_t identifier, const Point& location, Phase phase);
+  explicit TouchEvent(Identifier identifier,
+                      const Point& location,
+                      Phase phase);
 
   /**
    *  Create a touch event from a channel message
    */
   explicit TouchEvent(Message& message);
-
-  TouchEvent(TouchEvent&& message) = default;
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
@@ -40,7 +42,7 @@ class TouchEvent : public Event {
    *
    *  @return the touch identifier
    */
-  uint64_t identifier() const;
+  Identifier identifier() const;
 
   /**
    *  The absolute location of the touch. Coordinate space negotiation must be
@@ -58,14 +60,15 @@ class TouchEvent : public Event {
   Phase phase() const;
 
   bool serialize(Message& m) const override;
+
   bool deserialize(Message& m) override;
 
  private:
-  uint64_t _identifier;
+  Identifier _identifier;
   Point _location;
   Phase _phase;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(TouchEvent);
+  RL_DISALLOW_ASSIGN(TouchEvent);
 };
 }  // namespace rl
 

@@ -18,6 +18,8 @@ class PresentationEntity : public Entity {
  public:
   using Borrowed = PresentationEntity*;
   using PresentationOrder = int64_t;
+  using IdentifierMap =
+      std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>>;
 
   explicit PresentationEntity(Identifier identifier);
 

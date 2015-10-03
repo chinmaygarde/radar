@@ -16,18 +16,100 @@ void RecognitionEngine::setupRecognizers(
     GestureRecognizer::Collection&& recognizers) {
   for (auto& recognizer : recognizers) {
     auto res = _recognizers.emplace(std::move(recognizer));
+    RL_ASSERT(res.second);
+  }
+}
 
-    if (res.second) {
-      const auto& inserted = (*res.first);
-      const auto& observed = inserted.observedEntities();
-      _observedEntities.insert(observed.begin(), observed.end());
-      _affectedEntities.insert(inserted.affectedEntity());
+void RecognitionEngine::addToActiveTouches(
+    const std::vector<TouchEvent>& touches) {
+  for (const auto& touch : touches) {
+    auto res = _activeTouches.insert({touch.identifier(), touch});
+    RL_ASSERT(res.second && "A touch that was already active was added again");
+  }
+}
+
+void RecognitionEngine::clearFromActiveTouches(
+    const std::vector<TouchEvent>& touches) {
+  for (const auto& touch : touches) {
+    auto res = _activeTouches.erase(touch.identifier());
+    RL_ASSERT(res != 0 && "A touch that was not already active was ended");
+  }
+}
+
+void RecognitionEngine::processAddedTouches(
+    const std::vector<TouchEvent>& touches,
+    const PresentationEntity::IdentifierMap& entities) {
+  if (touches.size() == 0) {
+    return;
+  }
+
+  /*
+   *  Add the new touches to the set of touches considered active
+   */
+  addToActiveTouches(touches);
+
+  /*
+   *  Ask available gesture recognizers if the new set of active touches
+   *  satisfy their active conditions
+   */
+  for (const auto& recognizer : _recognizers) {
+    if (recognizer.shouldBeginRecognition(_activeTouches, entities)) {
+      _activeRecognizers.insert(recognizer.identifier());
     }
   }
 }
 
-bool RecognitionEngine::applyTouchMap(TouchEvent::PhaseMap&& map) {
-  return false;
+void RecognitionEngine::processMovedTouches(
+    const std::vector<TouchEvent>& touches,
+    const PresentationEntity::IdentifierMap& entities) {
+  if (touches.size() == 0) {
+    return;
+  }
+}
+
+void RecognitionEngine::processEndedTouches(
+    const std::vector<TouchEvent>& touches,
+    const PresentationEntity::IdentifierMap& entities) {
+  if (touches.size() == 0) {
+    return;
+  }
+
+  clearFromActiveTouches(touches);
+}
+
+void RecognitionEngine::processCancelledTouches(
+    const std::vector<TouchEvent>& touches,
+    const PresentationEntity::IdentifierMap& entities) {
+  if (touches.size() == 0) {
+    return;
+  }
+
+  clearFromActiveTouches(touches);
+}
+
+bool RecognitionEngine::isEngineConsistent() const {
+  if (_activeTouches.size() == 0) {
+    if (_activeRecognizers.size() != 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool RecognitionEngine::applyTouchMap(
+    TouchEvent::PhaseMap&& map,
+    const PresentationEntity::IdentifierMap& entities) {
+  processAddedTouches(map[TouchEvent::Phase::Began], entities);
+  processMovedTouches(map[TouchEvent::Phase::Moved], entities);
+  processEndedTouches(map[TouchEvent::Phase::Ended], entities);
+  processCancelledTouches(map[TouchEvent::Phase::Cancelled], entities);
+
+  RL_ASSERT(isEngineConsistent() &&
+            "After each touch process pass, the recognition engine must be "
+            "consistent");
+
+  return true;
 }
 
 }  // namespace rl
