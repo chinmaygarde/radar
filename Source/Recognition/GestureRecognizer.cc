@@ -13,13 +13,14 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
     : _identifier(++LastGestureRecognizerIdentifier),
       _evaluationResult(std::move(evaluationResult)),
       _equation(std::move(equation)),
-      _touchCount(0) {
+      _touchCount(0),
+      _preparedForUse(false) {
   RL_ASSERT(!_evaluationResult.isProxy() &&
             "The evaluation result may not be a proxy");
-  prepareForUse();
 }
 
-GestureRecognizer::GestureRecognizer() : _identifier(0), _touchCount(0) {
+GestureRecognizer::GestureRecognizer()
+    : _identifier(0), _touchCount(0), _preparedForUse(false) {
 }
 
 GestureRecognizer::Identifier GestureRecognizer::identifier() const {
@@ -56,6 +57,8 @@ void GestureRecognizer::prepareForUse() {
       }
     }
   }
+
+  _preparedForUse = true;
 }
 
 bool GestureRecognizer::serialize(Message& message) const {
@@ -83,6 +86,8 @@ bool GestureRecognizer::deserialize(Message& message) {
 bool GestureRecognizer::shouldBeginRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
+  RL_ASSERT(_preparedForUse);
+
   if (touches.size() < _touchCount) {
     return false;
   }
@@ -110,6 +115,7 @@ bool GestureRecognizer::shouldBeginRecognition(
 bool GestureRecognizer::shouldContinueRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
+  RL_ASSERT(_preparedForUse);
   return false;
 }
 

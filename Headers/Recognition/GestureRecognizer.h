@@ -58,6 +58,7 @@ class GestureRecognizer : public Serializable {
   Equation _equation;
   size_t _touchCount;
 
+  bool _preparedForUse;
   ObservedEntities _observedEntities;
   Variable::ProxySet _observedProxies;
 
