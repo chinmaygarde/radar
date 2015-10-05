@@ -17,7 +17,7 @@ void SampleApplication::didFinishLaunching(rl::Interface& interface) {
 
 static void AddPanRecognizer(rl::Interface& interface, rl::Layer& layer) {
   rl::Variable y(layer, rl::Entity::Position);
-  rl::Variable x(rl::Variable::Proxy::AllTouches, rl::Entity::Position);
+  rl::Variable x(rl::Variable::Proxy::Touch1, rl::Entity::Position);
 
   rl::Term::VariableDegree variableDegree(x, 1);
   rl::Term term(1.0, {variableDegree});

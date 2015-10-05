@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Recognition/GestureRecognizer.h>
-#include <Event/TouchEvent.h>
+#include <Recognition/ActiveTouchSet.h>
 
 namespace rl {
 
@@ -24,7 +24,7 @@ class RecognitionEngine {
  private:
   std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
   std::set<GestureRecognizer::Identifier> _activeRecognizers;
-  TouchEvent::IdentifierMap _activeTouches;
+  ActiveTouchSet _activeTouches;
 
   void processAddedTouches(const std::vector<TouchEvent>& touches,
                            const PresentationEntity::IdentifierMap& entities);
@@ -35,9 +35,6 @@ class RecognitionEngine {
   void processCancelledTouches(
       const std::vector<TouchEvent>& touches,
       const PresentationEntity::IdentifierMap& entities);
-
-  void addToActiveTouches(const std::vector<TouchEvent>& touches);
-  void clearFromActiveTouches(const std::vector<TouchEvent>& touches);
 
   bool isEngineConsistent() const;
 

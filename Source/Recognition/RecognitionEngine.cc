@@ -20,22 +20,6 @@ void RecognitionEngine::setupRecognizers(
   }
 }
 
-void RecognitionEngine::addToActiveTouches(
-    const std::vector<TouchEvent>& touches) {
-  for (const auto& touch : touches) {
-    auto res = _activeTouches.insert({touch.identifier(), touch});
-    RL_ASSERT(res.second && "A touch that was already active was added again");
-  }
-}
-
-void RecognitionEngine::clearFromActiveTouches(
-    const std::vector<TouchEvent>& touches) {
-  for (const auto& touch : touches) {
-    auto res = _activeTouches.erase(touch.identifier());
-    RL_ASSERT(res != 0 && "A touch that was not already active was ended");
-  }
-}
-
 void RecognitionEngine::processAddedTouches(
     const std::vector<TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
@@ -46,7 +30,7 @@ void RecognitionEngine::processAddedTouches(
   /*
    *  Add the new touches to the set of touches considered active
    */
-  addToActiveTouches(touches);
+  _activeTouches.add(touches);
 
   /*
    *  Ask available gesture recognizers if the new set of active touches
@@ -74,7 +58,7 @@ void RecognitionEngine::processEndedTouches(
     return;
   }
 
-  clearFromActiveTouches(touches);
+  _activeTouches.clear(touches);
 }
 
 void RecognitionEngine::processCancelledTouches(
@@ -84,7 +68,7 @@ void RecognitionEngine::processCancelledTouches(
     return;
   }
 
-  clearFromActiveTouches(touches);
+  _activeTouches.clear(touches);
 }
 
 bool RecognitionEngine::isEngineConsistent() const {

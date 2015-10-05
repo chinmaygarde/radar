@@ -48,8 +48,8 @@ void GestureRecognizer::prepareForUse() {
         /**
          *  Identifiers of proxies are enum indices of said proxies
          */
-        if (targetIdentifier > _touchCount) {
-          _touchCount = targetIdentifier;
+        if (targetIdentifier + 1 > _touchCount) {
+          _touchCount = targetIdentifier + 1;
         }
       } else {
         _observedEntities.insert(targetIdentifier);
@@ -81,25 +81,34 @@ bool GestureRecognizer::deserialize(Message& message) {
 }
 
 bool GestureRecognizer::shouldBeginRecognition(
-    const TouchEvent::IdentifierMap& touches,
+    const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
-  if (_touchCount > touches.size()) {
+  if (touches.size() < _touchCount) {
     return false;
   }
 
-  /**
-   *  Cycle over all observed entities and ask them if each touch in the array
-   *  is of interest to it.
+  /*
+   *  Ask the evaluation result if all of the coordinates are inside its bounds
    */
-  for (const auto entityIdentifier : _observedEntities) {
-    // WIP
+  const auto& entity = entities.at(evaluationResult().targetIdentifier());
+
+  for (size_t i = 0; i < _touchCount; i++) {
+    auto point = touches.pointForIndex(i);
+    if (!point.first) {
+      RL_ASSERT(false);
+      return false;
+    }
+
+    if (!entity->isPointInside(point.second)) {
+      return false;
+    }
   }
-  RL_ASSERT(false);
-  return false;
+
+  return true;
 }
 
 bool GestureRecognizer::shouldContinueRecognition(
-    const TouchEvent::IdentifierMap& touches,
+    const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
   return false;
 }

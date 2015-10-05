@@ -25,6 +25,8 @@
 		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
 		9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */; };
 		9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */; };
+		9E092BE11BC301B400FE79BA /* ActiveTouchSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */; };
+		9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */; };
 		9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E0F71791BAE3AF90021CEEF /* Term.h */; };
 		9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E0F71831BAE3B0A0021CEEF /* Term.cc */; };
 		9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
@@ -297,6 +299,8 @@
 		9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessWaitSet.h; sourceTree = "<group>"; };
 		9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaitSetProvider.cc; sourceTree = "<group>"; };
 		9E029CB81BAB953D007E5DF8 /* EventLoopSource_InProcess.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_InProcess.cc; sourceTree = "<group>"; };
+		9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveTouchSet.h; sourceTree = "<group>"; };
+		9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActiveTouchSet.cc; sourceTree = "<group>"; };
 		9E0F71791BAE3AF90021CEEF /* Term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Term.h; sourceTree = "<group>"; };
 		9E0F71831BAE3B0A0021CEEF /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
 		9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionEngine.cc; sourceTree = "<group>"; };
@@ -926,6 +930,7 @@
 		EA6B63921B9D571F00256484 /* Recognition */ = {
 			isa = PBXGroup;
 			children = (
+				9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */,
 				EA6B63931B9D571F00256484 /* Equation.cc */,
 				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
 				9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */,
@@ -938,6 +943,7 @@
 		EA6B63971B9D572D00256484 /* Recognition */ = {
 			isa = PBXGroup;
 			children = (
+				9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */,
 				EA6B63981B9D572D00256484 /* Equation.h */,
 				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
 				9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */,
@@ -1012,6 +1018,7 @@
 				9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */,
 				9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */,
 				9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */,
+				9E092BE11BC301B400FE79BA /* ActiveTouchSet.h in Headers */,
 				EA6B639B1B9D572D00256484 /* Variable.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
@@ -1239,6 +1246,7 @@
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
 				9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
+				9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
 				9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */,
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,

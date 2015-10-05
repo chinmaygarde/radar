@@ -8,7 +8,7 @@
 #include <Core/Core.h>
 #include <Recognition/Equation.h>
 #include <Recognition/Variable.h>
-#include <Event/TouchEvent.h>
+#include <Recognition/ActiveTouchSet.h>
 #include <Compositor/PresentationEntity.h>
 
 #include <set>
@@ -38,11 +38,11 @@ class GestureRecognizer : public Serializable {
   bool deserialize(Message& message) override;
 
   bool shouldBeginRecognition(
-      const TouchEvent::IdentifierMap& touches,
+      const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
   bool shouldContinueRecognition(
-      const TouchEvent::IdentifierMap& touches,
+      const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
   struct Less {
