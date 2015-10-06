@@ -38,6 +38,11 @@ struct Rect {
   bool operator==(const Rect& r) const {
     return origin == r.origin && size == r.size;
   }
+
+  bool contains(const Point& p) const {
+    return p.x >= origin.x && p.x <= size.width && p.y >= origin.y &&
+           p.y <= size.height;
+  }
 };
 
 static const Rect RectZero(PointZero, SizeZero);

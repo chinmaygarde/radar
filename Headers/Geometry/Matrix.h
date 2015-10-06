@@ -359,6 +359,14 @@ static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
                                    0.0, 0.0, 1.0, 0.0,
                                    0.0, 0.0, 0.0, 1.0);
 // clang-format on
+
+static inline Vector4 operator*(const Vector4& v, const Matrix& m) {
+  return Vector4(v.a * m.m[0] + v.b * m.m[4] + v.c * m.m[8] + v.d * m.m[12],
+                 v.a * m.m[1] + v.b * m.m[5] + v.c * m.m[9] + v.d * m.m[13],
+                 v.a * m.m[2] + v.b * m.m[6] + v.c * m.m[10] + v.d * m.m[14],
+                 v.a * m.m[3] + v.b * m.m[7] + v.c * m.m[11] + v.d * m.m[15]);
+}
+
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_MATRIX_

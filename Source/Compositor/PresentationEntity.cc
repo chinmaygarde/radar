@@ -31,8 +31,10 @@ void PresentationEntity::removeChild(Borrowed entity) {
 }
 
 bool PresentationEntity::isPointInside(const Point& point) const {
-  RL_ASSERT(false);
-  return false;
+  auto inverted = _lastModelViewMatrix.invert();
+  auto pointInWindowVector = point * inverted;
+  auto pointInWindow = Point{pointInWindowVector.a, pointInWindowVector.b};
+  return bounds().contains(pointInWindow);
 }
 
 void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) {

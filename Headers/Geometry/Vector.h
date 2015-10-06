@@ -51,6 +51,7 @@ struct Vector4 {
 
   Vector4(double a, double b, double c, double d) : a(a), b(b), c(c), d(d) {}
   Vector4(const Vector3& v) : a(v.x), b(v.y), c(v.z), d(1.0) {}
+  Vector4(const Point& p) : a(p.x), b(p.y), c(0.0), d(1.0) {}
 
   Vector4 normalize() const {
     const double inverse = 1.0 / sqrt(a * a + b * b + c * c + d * d);
