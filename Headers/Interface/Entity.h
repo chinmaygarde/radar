@@ -191,7 +191,7 @@ class Entity {
   double _opacity;
   bool _notifiesInterfaceOnUpdate;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Entity);
+  RL_DISALLOW_ASSIGN(Entity);
 };
 
 extern const Entity::Accessors<Rect> BoundsAccessors;

@@ -68,12 +68,12 @@
     _rc;                                     \
   })
 
-#define RL_DISALLOW_COPY(TypeName) TypeName(TypeName&) = delete;
+#define RL_DISALLOW_COPY(TypeName) TypeName(const TypeName&) = delete;
 
-#define RL_DISALLOW_ASSIGN(TypeName) void operator=(TypeName) = delete;
+#define RL_DISALLOW_ASSIGN(TypeName) void operator=(const TypeName&) = delete;
 
 #define RL_DISALLOW_COPY_AND_ASSIGN(TypeName) \
-  TypeName(TypeName&) = delete;               \
-  void operator=(TypeName) = delete;
+  RL_DISALLOW_COPY(TypeName)                  \
+  RL_DISALLOW_ASSIGN(TypeName)
 
 #endif  // RADARLOVE_CORE_MACROS_
