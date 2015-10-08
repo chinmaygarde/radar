@@ -15,7 +15,8 @@ RecognitionEngine::~RecognitionEngine() {
 void RecognitionEngine::setupRecognizers(
     GestureRecognizer::Collection&& recognizers) {
   for (auto& recognizer : recognizers) {
-    auto res = _recognizers.emplace(std::move(recognizer));
+    const auto identifier = recognizer.identifier();
+    auto res = _recognizers.emplace(identifier, std::move(recognizer));
     RL_ASSERT(res.second);
   }
 }
@@ -36,9 +37,9 @@ void RecognitionEngine::processAddedTouches(
    *  Ask available gesture recognizers if the new set of active touches
    *  satisfy their active conditions
    */
-  for (const auto& recognizer : _recognizers) {
-    if (recognizer.shouldBeginRecognition(_activeTouches, entities)) {
-      _activeRecognizers.insert(recognizer.identifier());
+  for (const auto& item : _recognizers) {
+    if (item.second.shouldBeginRecognition(_activeTouches, entities)) {
+      _activeRecognizers.insert(item.second.identifier());
     }
   }
 }
@@ -59,6 +60,21 @@ void RecognitionEngine::processEndedTouches(
   }
 
   _activeTouches.clear(touches);
+
+  GestureRecognizer::Collection ended;
+  GestureRecognizer::Collection cancelled;
+
+  for (const auto& activeRecognizerID : _activeRecognizers) {
+    const auto& recognizer = _recognizers.at(activeRecognizerID);
+    switch (recognizer.shouldContinueRecognition(_activeTouches, entities)) {
+      case GestureRecognizer::Continuation::Continue:
+        break;
+      case GestureRecognizer::Continuation::End:
+        break;
+      case GestureRecognizer::Continuation::Cancel:
+        break;
+    }
+  }
 }
 
 void RecognitionEngine::processCancelledTouches(
@@ -67,6 +83,11 @@ void RecognitionEngine::processCancelledTouches(
   if (touches.size() == 0) {
     return;
   }
+
+  /*
+   *  FIXME: Cancellation of a single touch cancels all active recognizers
+   */
+  _activeRecognizers.clear();
 
   _activeTouches.clear(touches);
 }
@@ -84,10 +105,12 @@ bool RecognitionEngine::isEngineConsistent() const {
 bool RecognitionEngine::applyTouchMap(
     TouchEvent::PhaseMap&& map,
     const PresentationEntity::IdentifierMap& entities) {
-  processAddedTouches(map[TouchEvent::Phase::Began], entities);
-  processMovedTouches(map[TouchEvent::Phase::Moved], entities);
-  processEndedTouches(map[TouchEvent::Phase::Ended], entities);
-  processCancelledTouches(map[TouchEvent::Phase::Cancelled], entities);
+  using Phase = TouchEvent::Phase;
+
+  processAddedTouches(map[Phase::Began], entities);
+  processMovedTouches(map[Phase::Moved], entities);
+  processEndedTouches(map[Phase::Ended], entities);
+  processCancelledTouches(map[Phase::Cancelled], entities);
 
   RL_ASSERT(isEngineConsistent() &&
             "After each touch process pass, the recognition engine must be "

@@ -112,11 +112,10 @@ bool GestureRecognizer::shouldBeginRecognition(
   return true;
 }
 
-bool GestureRecognizer::shouldContinueRecognition(
+GestureRecognizer::Continuation GestureRecognizer::shouldContinueRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
-  RL_ASSERT(_preparedForUse);
-  return false;
+  return Continuation::Cancel;
 }
 
 }  // namespace rl

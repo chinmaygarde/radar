@@ -21,6 +21,12 @@ class GestureRecognizer : public Serializable {
   using Collection = std::vector<GestureRecognizer>;
   using ObservedEntities = std::set<Entity::Identifier>;
 
+  enum class Continuation {
+    Continue,
+    End,
+    Cancel,
+  };
+
   explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
 
   explicit GestureRecognizer();
@@ -41,16 +47,9 @@ class GestureRecognizer : public Serializable {
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
-  bool shouldContinueRecognition(
+  Continuation shouldContinueRecognition(
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
-
-  struct Less {
-    bool operator()(const GestureRecognizer& lhs,
-                    const GestureRecognizer& rhs) const {
-      return lhs._identifier < rhs._identifier;
-    }
-  };
 
  private:
   Identifier _identifier;

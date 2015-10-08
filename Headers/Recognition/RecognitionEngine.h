@@ -9,6 +9,8 @@
 #include <Recognition/GestureRecognizer.h>
 #include <Recognition/ActiveTouchSet.h>
 
+#include <map>
+
 namespace rl {
 
 class RecognitionEngine {
@@ -22,7 +24,7 @@ class RecognitionEngine {
                      const PresentationEntity::IdentifierMap& entities);
 
  private:
-  std::set<GestureRecognizer, GestureRecognizer::Less> _recognizers;
+  std::map<GestureRecognizer::Identifier, GestureRecognizer> _recognizers;
   std::set<GestureRecognizer::Identifier> _activeRecognizers;
   ActiveTouchSet _activeTouches;
 
