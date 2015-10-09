@@ -8,10 +8,13 @@
 #include <Core/Config.h>
 #include <Core/Utilities.h>
 #include <Core/Timing.h>
+
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <cstdarg>
 
 /*
  *  Logging

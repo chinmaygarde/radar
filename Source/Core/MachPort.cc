@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_MACH
+
 #include "MachPort.h"
 
 #include <mach/mach.h>
@@ -234,3 +238,5 @@ MachPort::ReadResult MachPort::readMessages(
 }
 
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH
