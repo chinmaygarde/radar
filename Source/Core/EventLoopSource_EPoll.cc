@@ -13,6 +13,7 @@
 
 #include <sys/epoll.h>
 #include <sys/timerfd.h>
+#include <sys/eventfd.h>
 #include <unistd.h>
 
 #define HANDLE_CAST(x) static_cast<int>((x))
@@ -92,39 +93,40 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
-  /*
-   *  We are using a simple pipe but this should likely be something
-   *  that coalesces multiple writes. Something like an event_fd on Linux
-   */
   RWHandlesProvider provider = [] {
-    int descriptors[2] = {0};
-
-    RL_CHECK(::pipe(descriptors));
-
-    return Handles(descriptors[0], descriptors[1]);
+    int efd = eventfd(0 /* initial value */, 0 /* flags */);
+    return Handles(efd, efd);
   };
 
   RWHandlesCollector collector = [](Handles h) {
+    RL_ASSERT(h.first == h.second);
     RL_CHECK(::close(HANDLE_CAST(h.first)));
-    RL_CHECK(::close(HANDLE_CAST(h.second)));
   };
 
-  static const char EventLoopWakeMessage[] = "w";
-
   IOHandler reader = [](Handle r) {
-    char buffer[sizeof(EventLoopWakeMessage) / sizeof(char)];
+    /*
+     *  On read, the signal count is the number of times this descriptor was
+     *  woken up.
+     */
+    uint64_t signalCount = 0;
 
-    ssize_t size =
-        RL_TEMP_FAILURE_RETRY(::read(HANDLE_CAST(r), &buffer, sizeof(buffer)));
+    ssize_t size = RL_TEMP_FAILURE_RETRY(
+        ::read(HANDLE_CAST(r), &signalCount, sizeof(signalCount)));
 
-    RL_ASSERT(size == sizeof(buffer));
+    RL_ASSERT(signalCount > 0);
   };
 
   IOHandler writer = [](Handle w) {
-    ssize_t size = RL_TEMP_FAILURE_RETRY(::write(
-        HANDLE_CAST(w), EventLoopWakeMessage, sizeof(EventLoopWakeMessage)));
+    /*
+     *  On signal, the 8 byte integer value is addded. We specify 1 for each
+     *  wake
+     */
+    const uint64_t writeCount = 1;
 
-    RL_ASSERT(size == sizeof(EventLoopWakeMessage));
+    ssize_t size = RL_TEMP_FAILURE_RETRY(
+        ::write(HANDLE_CAST(w), &writeCount, sizeof(writeCount)));
+
+    RL_ASSERT(size == sizeof(writeCount));
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,
