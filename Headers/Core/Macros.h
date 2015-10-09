@@ -11,25 +11,59 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
-#include <assert.h>
+#include <stdlib.h>
 
-#pragma mark - Assertions
-
-#define RL_ASSERT assert
+/*
+ *  Logging
+ */
 
 #pragma mark - Logging
 
-#define _RL_FILE_LAST_COMPONENT \
-  (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define _RL_FILE_LAST_COMPONENT(file) \
+  (strrchr(file, '/') ? strrchr(file, '/') + 1 : file)
 
 #define _RL_LOG_FMT "%.3fs %s:%d: "
-#define _RL_LOG_ARG \
-  clock::LoggingClockDuration().count(), _RL_FILE_LAST_COMPONENT, __LINE__
+#define _RL_LOG_ARG                                                         \
+  clock::LoggingClockDuration().count(), _RL_FILE_LAST_COMPONENT(__FILE__), \
+      __LINE__
 
 #define RL_LOG(message, ...) \
   printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);
 #define RL_LOG_ERRNO() RL_LOG("%s (%d)", strerror(errno), errno)
 #define RL_LOG_HERE RL_LOG("%s", __FUNCTION__)
+
+/*
+ *  Assertions
+ */
+
+#pragma mark - Assertions
+
+static inline void _RL_AssertLog(const char* file,
+                                 int line,
+                                 const char* message,
+                                 ...) {
+  printf("Assertion Failed: %s:%d\n", _RL_FILE_LAST_COMPONENT(file), line);
+  va_list args;
+  va_start(args, message);
+  vprintf(message, args);
+  va_end(args);
+  printf("\n");
+}
+
+#define RL_ASSERT_MESSAGE(condition, message, ...)               \
+  do {                                                           \
+    if (!(condition)) {                                          \
+      _RL_AssertLog(__FILE__, __LINE__, message, ##__VA_ARGS__); \
+      abort();                                                   \
+    }                                                            \
+  } while (0)
+
+#define RL_ASSERT(condition) \
+  RL_ASSERT_MESSAGE((condition), "Condition Failed: (" #condition ")")
+
+/*
+ *  Error Checking
+ */
 
 #pragma mark - Error Checking
 
@@ -67,6 +101,12 @@
     _RL_CHECK_EXPECT(_rc, 0);                \
     _rc;                                     \
   })
+
+/*
+ *  C++ Compiler Macros
+ */
+
+#pragma mark - C++ Compiler Macros
 
 #define RL_DISALLOW_COPY(TypeName) TypeName(const TypeName&) = delete;
 
