@@ -112,9 +112,9 @@ bool RecognitionEngine::applyTouchMap(
   processEndedTouches(map[Phase::Ended], entities);
   processCancelledTouches(map[Phase::Cancelled], entities);
 
-  RL_ASSERT(isEngineConsistent() &&
-            "After each touch process pass, the recognition engine must be "
-            "consistent");
+  RL_ASSERT_MSG(isEngineConsistent(),
+                "After each touch process pass, the recognition engine must be "
+                "consistent");
 
   return true;
 }

@@ -50,7 +50,7 @@ static inline void _RL_AssertLog(const char* file,
   printf("\n");
 }
 
-#define RL_ASSERT_MESSAGE(condition, message, ...)               \
+#define RL_ASSERT_MSG(condition, message, ...)                   \
   do {                                                           \
     if (!(condition)) {                                          \
       _RL_AssertLog(__FILE__, __LINE__, message, ##__VA_ARGS__); \
@@ -59,7 +59,7 @@ static inline void _RL_AssertLog(const char* file,
   } while (0)
 
 #define RL_ASSERT(condition) \
-  RL_ASSERT_MESSAGE((condition), "Condition Failed: (" #condition ")")
+  RL_ASSERT_MSG((condition), "Condition Failed: (" #condition ")")
 
 /*
  *  Error Checking

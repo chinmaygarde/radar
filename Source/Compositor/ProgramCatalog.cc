@@ -49,8 +49,8 @@ void ProgramCatalog::stopUsing() {
 }
 
 ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
-  RL_ASSERT(_prepared &&
-            "Catalog must be prepared and in use before using a program");
+  RL_ASSERT_MSG(_prepared,
+                "Catalog must be prepared and in use before using a program");
 
   if (_current.first == type) {
     return _current.second;
@@ -58,11 +58,11 @@ ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
 
   const auto& program = _catalog[type];
 
-  RL_ASSERT(program && "A valid program must be found in the catalog");
+  RL_ASSERT_MSG(program, "A valid program must be found in the catalog");
 
   bool result = program->use();
 
-  RL_ASSERT(result && "The selected program must be usable by the catalog");
+  RL_ASSERT_MSG(result, "The selected program must be usable by the catalog");
   _current = std::make_pair(type, program.get());
 
   return _current.second;

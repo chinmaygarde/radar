@@ -15,8 +15,8 @@ GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
       _equation(std::move(equation)),
       _touchCount(0),
       _preparedForUse(false) {
-  RL_ASSERT(!_evaluationResult.isProxy() &&
-            "The evaluation result may not be a proxy");
+  RL_ASSERT_MSG(!_evaluationResult.isProxy(),
+                "The evaluation result may not be a proxy");
 }
 
 GestureRecognizer::GestureRecognizer()

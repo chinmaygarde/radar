@@ -154,7 +154,7 @@ void PresentationGraph::prepareActions(Action& action,
       _root = &entity;
       break;
     default:
-      RL_ASSERT(false && "Unknown Property");
+      RL_ASSERT_MSG(false, "Unknown Property");
   }
 }
 

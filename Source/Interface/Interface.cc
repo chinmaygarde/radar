@@ -143,7 +143,7 @@ void Interface::flushTransactions() {
   std::lock_guard<std::mutex> lock(_lock);
 
   auto compositor = _compositorChannel.lock();
-  RL_ASSERT(compositor && "Compositor channel must be present");
+  RL_ASSERT_MSG(compositor, "Compositor channel must be present");
   auto& arena = compositor->transactionMessage();
 
   bool result = true;
@@ -157,7 +157,7 @@ void Interface::flushTransactions() {
   _popCount = 0;
   _transactionStack.clear();
 
-  RL_ASSERT(result && "Must be able to flush the compositor transaction");
+  RL_ASSERT_MSG(result, "Must be able to flush the compositor transaction");
 }
 
 void Interface::scheduleChannels() {
@@ -182,8 +182,8 @@ Interface& Interface::current() {
   auto interface =
       reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
 
-  RL_ASSERT(interface != nullptr &&
-            "Layer modification on a non-interface threads is forbidden");
+  RL_ASSERT_MSG(interface != nullptr,
+                "Layer modification on a non-interface threads is forbidden");
 
   return *interface;
 }

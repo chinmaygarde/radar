@@ -17,7 +17,7 @@ Frame::Frame(Size size,
       _projectionMatrix(Matrix::Orthographic(size)),
       _programCatalog(catalog),
       _stats(stats) {
-  RL_ASSERT(catalog != nullptr && "The program catalog must be valid");
+  RL_ASSERT_MSG(catalog != nullptr, "The program catalog must be valid");
 }
 
 bool Frame::isReady() const {

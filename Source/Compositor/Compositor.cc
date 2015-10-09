@@ -16,8 +16,8 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
       _interfaceChannel(nullptr),
       _animationsSource(EventLoopSource::Timer(ClockDurationGod)),
       _touchEventChannel(touchEventChannel) {
-  RL_ASSERT(_surface != nullptr &&
-            "A surface must be provided to the compositor");
+  RL_ASSERT_MSG(_surface != nullptr,
+                "A surface must be provided to the compositor");
   _surface->setObserver(this);
   _animationsSource->setWakeFunction(
       std::bind(&Compositor::onAnimationsStep, this));

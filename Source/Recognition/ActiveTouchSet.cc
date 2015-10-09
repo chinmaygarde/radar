@@ -22,7 +22,8 @@ void ActiveTouchSet::add(const std::vector<TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
     auto res = _activeTouches.insert({identifier, touch});
-    RL_ASSERT(res.second && "A touch that was already active was added again");
+    RL_ASSERT_MSG(res.second,
+                  "A touch that was already active was added again");
     _indexedTouches.push_back(identifier);
   }
 }
@@ -31,7 +32,7 @@ void ActiveTouchSet::clear(const std::vector<TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
     auto res = _activeTouches.erase(identifier);
-    RL_ASSERT(res != 0 && "A touch that was not already active was ended");
+    RL_ASSERT_MSG(res != 0, "A touch that was not already active was ended");
     auto found =
         std::find(_indexedTouches.begin(), _indexedTouches.end(), identifier);
     RL_ASSERT(found != _indexedTouches.end());

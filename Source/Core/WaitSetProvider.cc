@@ -16,9 +16,10 @@ void WaitSetProvider::updateSource(WaitSet& waitset,
 
 void WaitSetProvider::signalReadReadinessFromUserspace(
     EventLoopSource::Handle writeHandle) {
-  RL_ASSERT(false &&
-            "This platform does not allow signalling read readiness of sources "
-            "from userspace. Only 'InProcess' Core variants support this!");
+  RL_ASSERT_MSG(
+      false,
+      "This platform does not allow signalling read readiness of sources "
+      "from userspace. Only 'InProcess' Core variants support this!");
 }
 
 WaitSetProvider::~WaitSetProvider() {

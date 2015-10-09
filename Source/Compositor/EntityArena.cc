@@ -32,8 +32,8 @@ EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
 TransferEntity& EntityArena::emplaceTransferEntity(
     const TransferEntity& entity) {
   auto allocation = alloc(sizeof(TransferEntity));
-  RL_ASSERT(allocation != nullptr &&
-            "Could not emplace entity into this arena");
+  RL_ASSERT_MSG(allocation != nullptr,
+                "Could not emplace entity into this arena");
   WRITE_ENTITY_COUNT(++_encodedEntities);
   return *(new (allocation) TransferEntity(entity));
 }
