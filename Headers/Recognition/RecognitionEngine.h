@@ -28,6 +28,7 @@ class RecognitionEngine {
   std::set<GestureRecognizer::Identifier> _activeRecognizers;
   ActiveTouchSet _activeTouches;
 
+  void stepActiveRecognizers(const PresentationEntity::IdentifierMap& entities);
   void processAddedTouches(const std::vector<TouchEvent>& touches,
                            const PresentationEntity::IdentifierMap& entities);
   void processMovedTouches(const std::vector<TouchEvent>& touches,

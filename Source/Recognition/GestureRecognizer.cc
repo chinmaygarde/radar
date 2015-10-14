@@ -99,11 +99,7 @@ bool GestureRecognizer::shouldBeginRecognition(
 
   for (size_t i = 0; i < _touchCount; i++) {
     auto point = touches.pointForIndex(i);
-    if (!point.first) {
-      RL_ASSERT(false);
-      return false;
-    }
-
+    RL_ASSERT(point.first);
     if (!entity->isPointInside(point.second)) {
       return false;
     }
@@ -115,7 +111,13 @@ bool GestureRecognizer::shouldBeginRecognition(
 GestureRecognizer::Continuation GestureRecognizer::shouldContinueRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
-  return Continuation::Cancel;
+  if (touches.size() < _touchCount) {
+    RL_LOG("Cancel");
+    return Continuation::Cancel;
+  }
+
+  RL_LOG("Continue");
+  return Continuation::Continue;
 }
 
 }  // namespace rl

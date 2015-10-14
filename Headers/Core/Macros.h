@@ -45,7 +45,8 @@ static inline void _RL_AssertLog(const char* file,
                                  int line,
                                  const char* message,
                                  ...) {
-  printf("Assertion Failed: %s:%d\n", _RL_FILE_LAST_COMPONENT(file), line);
+  printf("Assertion Failed: %s:%d\nReason: ", _RL_FILE_LAST_COMPONENT(file),
+         line);
   va_list args;
   va_start(args, message);
   vprintf(message, args);

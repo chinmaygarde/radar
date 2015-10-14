@@ -44,12 +44,38 @@ void RecognitionEngine::processAddedTouches(
   }
 }
 
+void RecognitionEngine::stepActiveRecognizers(
+    const PresentationEntity::IdentifierMap& entities) {
+  GestureRecognizer::Collection ended;
+  GestureRecognizer::Collection cancelled;
+
+  std::set<GestureRecognizer::Identifier> expiredIdentifiers;
+
+  for (const auto& activeRecognizerID : _activeRecognizers) {
+    const auto& recognizer = _recognizers.at(activeRecognizerID);
+    switch (recognizer.shouldContinueRecognition(_activeTouches, entities)) {
+      case GestureRecognizer::Continuation::Continue:
+        break;
+      case GestureRecognizer::Continuation::End:
+      case GestureRecognizer::Continuation::Cancel:
+        expiredIdentifiers.insert(activeRecognizerID);
+        break;
+    }
+  }
+
+  for (const auto& expired : expiredIdentifiers) {
+    _activeRecognizers.erase(expired);
+  }
+}
+
 void RecognitionEngine::processMovedTouches(
     const std::vector<TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
   }
+
+  stepActiveRecognizers(entities);
 }
 
 void RecognitionEngine::processEndedTouches(
@@ -61,20 +87,7 @@ void RecognitionEngine::processEndedTouches(
 
   _activeTouches.clear(touches);
 
-  GestureRecognizer::Collection ended;
-  GestureRecognizer::Collection cancelled;
-
-  for (const auto& activeRecognizerID : _activeRecognizers) {
-    const auto& recognizer = _recognizers.at(activeRecognizerID);
-    switch (recognizer.shouldContinueRecognition(_activeTouches, entities)) {
-      case GestureRecognizer::Continuation::Continue:
-        break;
-      case GestureRecognizer::Continuation::End:
-        break;
-      case GestureRecognizer::Continuation::Cancel:
-        break;
-    }
-  }
+  stepActiveRecognizers(entities);
 }
 
 void RecognitionEngine::processCancelledTouches(
@@ -85,11 +98,13 @@ void RecognitionEngine::processCancelledTouches(
   }
 
   /*
-   *  FIXME: Cancellation of a single touch cancels all active recognizers
+   *  Note:
+   *  Cancellation just overrides the results of successful recognition to the
+   *  cancelled state. In case of other behavior, it is identical to touch ends.
    */
   _activeRecognizers.clear();
 
-  _activeTouches.clear(touches);
+  stepActiveRecognizers(entities);
 }
 
 bool RecognitionEngine::isEngineConsistent() const {
@@ -105,6 +120,10 @@ bool RecognitionEngine::isEngineConsistent() const {
 bool RecognitionEngine::applyTouchMap(
     TouchEvent::PhaseMap&& map,
     const PresentationEntity::IdentifierMap& entities) {
+  if (_recognizers.size() == 0) {
+    return true;
+  }
+
   using Phase = TouchEvent::Phase;
 
   processAddedTouches(map[Phase::Began], entities);
