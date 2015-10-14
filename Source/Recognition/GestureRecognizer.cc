@@ -108,7 +108,7 @@ bool GestureRecognizer::shouldBeginRecognition(
   return true;
 }
 
-GestureRecognizer::Continuation GestureRecognizer::shouldContinueRecognition(
+GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
   if (touches.size() < _touchCount) {

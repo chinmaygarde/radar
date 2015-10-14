@@ -53,7 +53,7 @@ void RecognitionEngine::stepActiveRecognizers(
 
   for (const auto& activeRecognizerID : _activeRecognizers) {
     const auto& recognizer = _recognizers.at(activeRecognizerID);
-    switch (recognizer.shouldContinueRecognition(_activeTouches, entities)) {
+    switch (recognizer.stepRecognition(_activeTouches, entities)) {
       case GestureRecognizer::Continuation::Continue:
         break;
       case GestureRecognizer::Continuation::End:

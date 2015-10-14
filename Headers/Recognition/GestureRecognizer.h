@@ -47,7 +47,7 @@ class GestureRecognizer : public Serializable {
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
-  Continuation shouldContinueRecognition(
+  Continuation stepRecognition(
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
