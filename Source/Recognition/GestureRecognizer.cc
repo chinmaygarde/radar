@@ -9,10 +9,10 @@ namespace rl {
 static GestureRecognizer::Identifier LastGestureRecognizerIdentifier = 0;
 
 GestureRecognizer::GestureRecognizer(Variable&& evaluationResult,
-                                     Equation&& equation)
+                                     Polynomial&& polynomial)
     : _identifier(++LastGestureRecognizerIdentifier),
       _evaluationResult(std::move(evaluationResult)),
-      _equation(std::move(equation)),
+      _polynomial(std::move(polynomial)),
       _touchCount(0),
       _preparedForUse(false) {
   RL_ASSERT_MSG(!_evaluationResult.isProxy(),
@@ -27,8 +27,8 @@ GestureRecognizer::Identifier GestureRecognizer::identifier() const {
   return _identifier;
 }
 
-const Equation& GestureRecognizer::equation() const {
-  return _equation;
+const Polynomial& GestureRecognizer::polynomial() const {
+  return _polynomial;
 }
 
 const Variable& GestureRecognizer::evaluationResult() const {
@@ -40,7 +40,7 @@ void GestureRecognizer::prepareForUse() {
   _observedProxies.clear();
   _touchCount = 0;
 
-  for (const auto& term : _equation.terms()) {
+  for (const auto& term : _polynomial.terms()) {
     for (const auto& varDegree : term.variables()) {
       auto targetIdentifier = varDegree.variable.targetIdentifier();
       if (varDegree.variable.isProxy()) {
@@ -66,7 +66,7 @@ bool GestureRecognizer::serialize(Message& message) const {
 
   result &= message.encode(_identifier);
   result &= _evaluationResult.serialize(message);
-  result &= _equation.serialize(message);
+  result &= _polynomial.serialize(message);
 
   return result;
 }
@@ -76,7 +76,7 @@ bool GestureRecognizer::deserialize(Message& message) {
 
   result &= message.decode(_identifier);
   result &= _evaluationResult.deserialize(message);
-  result &= _equation.deserialize(message);
+  result &= _polynomial.deserialize(message);
 
   prepareForUse();
 

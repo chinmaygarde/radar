@@ -6,7 +6,7 @@
 #define RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H_
 
 #include <Core/Core.h>
-#include <Recognition/Equation.h>
+#include <Recognition/Polynomial.h>
 #include <Recognition/Variable.h>
 #include <Recognition/ActiveTouchSet.h>
 #include <Compositor/PresentationEntity.h>
@@ -27,7 +27,8 @@ class GestureRecognizer : public Serializable {
     Cancel,
   };
 
-  explicit GestureRecognizer(Variable&& evaluationResult, Equation&& equation);
+  explicit GestureRecognizer(Variable&& evaluationResult,
+                             Polynomial&& polynomial);
 
   explicit GestureRecognizer();
 
@@ -35,7 +36,7 @@ class GestureRecognizer : public Serializable {
 
   Identifier identifier() const;
 
-  const Equation& equation() const;
+  const Polynomial& polynomial() const;
 
   const Variable& evaluationResult() const;
 
@@ -54,7 +55,7 @@ class GestureRecognizer : public Serializable {
  private:
   Identifier _identifier;
   Variable _evaluationResult;
-  Equation _equation;
+  Polynomial _polynomial;
   size_t _touchCount;
 
   bool _preparedForUse;

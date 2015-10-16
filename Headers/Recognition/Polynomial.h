@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_RECOGNITION_EQUATION_H_
-#define RADARLOVE_RECOGNITION_EQUATION_H_
+#ifndef RADARLOVE_RECOGNITION_POLYNOMIAL_H_
+#define RADARLOVE_RECOGNITION_POLYNOMIAL_H_
 
 #include <Core/Core.h>
 #include <Recognition/Variable.h>
@@ -11,14 +11,14 @@
 
 namespace rl {
 
-class Equation : public Serializable {
+class Polynomial : public Serializable {
  public:
   using Terms = std::vector<Term>;
-  explicit Equation(Terms terms, double constant);
+  explicit Polynomial(Terms terms, double constant);
 
-  explicit Equation();
+  explicit Polynomial();
 
-  explicit Equation(Equation&& equation) = default;
+  explicit Polynomial(Polynomial&& Polynomial) = default;
 
   const Terms& terms() const;
 
@@ -34,9 +34,9 @@ class Equation : public Serializable {
   Terms _terms;
   double _constant;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Equation);
+  RL_DISALLOW_COPY_AND_ASSIGN(Polynomial);
 };
 
 }  // namespace rl
 
-#endif  // RADARLOVE_RECOGNITION_EQUATION_H_
+#endif  // RADARLOVE_RECOGNITION_POLYNOMIAL_H_

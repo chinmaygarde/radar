@@ -193,9 +193,9 @@
 		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
 		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
 		EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143B1B6C89630026B6BB /* TimingCurve.h */; };
-		EA6B63951B9D571F00256484 /* Equation.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63931B9D571F00256484 /* Equation.cc */; };
+		EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63931B9D571F00256484 /* Polynomial.cc */; };
 		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
-		EA6B639A1B9D572D00256484 /* Equation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Equation.h */; };
+		EA6B639A1B9D572D00256484 /* Polynomial.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Polynomial.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
 		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; };
 		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; };
@@ -468,9 +468,9 @@
 		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
 		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
 		EA63143B1B6C89630026B6BB /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
-		EA6B63931B9D571F00256484 /* Equation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Equation.cc; sourceTree = "<group>"; };
+		EA6B63931B9D571F00256484 /* Polynomial.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Polynomial.cc; sourceTree = "<group>"; };
 		EA6B63941B9D571F00256484 /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
-		EA6B63981B9D572D00256484 /* Equation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equation.h; sourceTree = "<group>"; };
+		EA6B63981B9D572D00256484 /* Polynomial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = "<group>"; };
 		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
 		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
 		EAB757321BABE585009AA97F /* InProcessTimerSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTimerSource.cc; sourceTree = "<group>"; };
@@ -931,7 +931,7 @@
 			isa = PBXGroup;
 			children = (
 				9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */,
-				EA6B63931B9D571F00256484 /* Equation.cc */,
+				EA6B63931B9D571F00256484 /* Polynomial.cc */,
 				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
 				9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */,
 				9E0F71831BAE3B0A0021CEEF /* Term.cc */,
@@ -944,7 +944,7 @@
 			isa = PBXGroup;
 			children = (
 				9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */,
-				EA6B63981B9D572D00256484 /* Equation.h */,
+				EA6B63981B9D572D00256484 /* Polynomial.h */,
 				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
 				9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */,
 				9E0F71791BAE3AF90021CEEF /* Term.h */,
@@ -972,7 +972,7 @@
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
 				EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
-				EA6B639A1B9D572D00256484 /* Equation.h in Headers */,
+				EA6B639A1B9D572D00256484 /* Polynomial.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */,
@@ -1255,7 +1255,7 @@
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
 				9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */,
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
-				EA6B63951B9D571F00256484 /* Equation.cc in Sources */,
+				EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
