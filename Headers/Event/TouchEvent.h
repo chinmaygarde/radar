@@ -22,7 +22,6 @@ class TouchEvent : public Event {
 
   using Identifier = uint64_t;
   using PhaseMap = std::map<Phase, std::vector<TouchEvent>>;
-  using IdentifierMap = std::map<Identifier, TouchEvent>;
 
   /**
    *  Create a touch event with the given identifier and absolute location

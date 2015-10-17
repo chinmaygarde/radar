@@ -34,6 +34,8 @@
 		9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
+		9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */; };
+		9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
 		9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */; };
 		9E222CDD1B6A9387005D02EE /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDB1B6A9387005D02EE /* Action.cc */; };
@@ -307,6 +309,8 @@
 		9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognitionEngine.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEntity.cc; sourceTree = "<group>"; };
+		9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEntity.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
 		9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoopObserver.h; sourceTree = "<group>"; };
 		9E222CDB1B6A9387005D02EE /* Action.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
@@ -935,6 +939,7 @@
 				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
 				9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */,
 				9E0F71831BAE3B0A0021CEEF /* Term.cc */,
+				9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */,
 				EA6B63941B9D571F00256484 /* Variable.cc */,
 			);
 			path = Recognition;
@@ -948,6 +953,7 @@
 				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
 				9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */,
 				9E0F71791BAE3AF90021CEEF /* Term.h */,
+				9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */,
 				EA6B63991B9D572D00256484 /* Variable.h */,
 			);
 			path = Recognition;
@@ -1031,6 +1037,7 @@
 				EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */,
+				9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
@@ -1270,6 +1277,7 @@
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
+				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,

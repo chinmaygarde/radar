@@ -49,7 +49,7 @@ class Entity {
    */
   explicit Entity(bool notifiesInterfaceOnUpdate);
 
-  ~Entity();
+  virtual ~Entity();
 
 #pragma mark - Entity Identification
   using Identifier = uint64_t;

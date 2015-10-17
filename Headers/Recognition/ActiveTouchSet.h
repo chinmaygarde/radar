@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
 #include <Recognition/Variable.h>
+#include <Recognition/TouchEntity.h>
 
 namespace rl {
 
@@ -22,11 +23,15 @@ class ActiveTouchSet {
   using PointResult = std::pair<bool /* result */, Point>;
   PointResult pointForIndex(size_t index) const;
 
+  TouchEntity* touchEntityForProxy(Variable::Proxy proxy) const;
+
   size_t size() const;
 
  private:
-  TouchEvent::IdentifierMap _activeTouches;
+  TouchEntity::IdentifierMap _activeTouches;
   std::vector<TouchEvent::Identifier> _indexedTouches;
+
+  TouchEntity* touchEntityForIndex(size_t index) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ActiveTouchSet);
 };

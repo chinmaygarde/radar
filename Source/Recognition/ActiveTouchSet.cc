@@ -21,9 +21,15 @@ size_t ActiveTouchSet::size() const {
 void ActiveTouchSet::add(const std::vector<TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
-    auto res = _activeTouches.insert({identifier, touch});
+    auto touchEntity = rl::make_unique<TouchEntity>(touch);
+
+    auto identifierTouchPair =
+        std::make_pair(identifier, std::move(touchEntity));
+
+    auto res = _activeTouches.insert(std::move(identifierTouchPair));
     RL_ASSERT_MSG(res.second,
                   "A touch that was already active was added again");
+
     _indexedTouches.push_back(identifier);
   }
 }
@@ -31,11 +37,14 @@ void ActiveTouchSet::add(const std::vector<TouchEvent>& touches) {
 void ActiveTouchSet::clear(const std::vector<TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
+
     auto res = _activeTouches.erase(identifier);
     RL_ASSERT_MSG(res != 0, "A touch that was not already active was ended");
+
     auto found =
         std::find(_indexedTouches.begin(), _indexedTouches.end(), identifier);
     RL_ASSERT(found != _indexedTouches.end());
+
     _indexedTouches.erase(found);
   }
 
@@ -43,12 +52,30 @@ void ActiveTouchSet::clear(const std::vector<TouchEvent>& touches) {
 }
 
 ActiveTouchSet::PointResult ActiveTouchSet::pointForIndex(size_t index) const {
+  const auto entity = touchEntityForIndex(index);
+  if (entity) {
+    return PointResult(true, entity->position());
+  }
+
+  return PointResult(false, PointZero);
+}
+
+TouchEntity* ActiveTouchSet::touchEntityForProxy(Variable::Proxy proxy) const {
+  return touchEntityForIndex(static_cast<size_t>(proxy));
+}
+
+TouchEntity* ActiveTouchSet::touchEntityForIndex(size_t index) const {
   if (index + 1 > _activeTouches.size()) {
-    return PointResult(false, PointZero);
+    return nullptr;
   }
 
   const auto& touchEvent = _activeTouches.at(_indexedTouches[index]);
-  return PointResult(true, touchEvent.location());
+  /*
+   *  Paranoid assertion since bounds checking has already been done
+   */
+  RL_ASSERT(touchEvent != nullptr);
+
+  return touchEvent.get();
 }
 
 }  // namespace rl

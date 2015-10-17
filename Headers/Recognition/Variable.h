@@ -7,11 +7,13 @@
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
+#include <Compositor/PresentationEntity.h>
 
 #include <set>
 
 namespace rl {
 
+class ActiveTouchSet;
 class Variable : public Serializable {
  public:
   enum class Proxy {
@@ -49,6 +51,10 @@ class Variable : public Serializable {
   ValueType valueType() const;
 
   bool isProxy() const;
+
+  Entity& entityRepresentation(
+      const ActiveTouchSet& touches,
+      const PresentationEntity::IdentifierMap& entities);
 
   bool serialize(Message& message) const override;
 

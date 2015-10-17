@@ -24,7 +24,7 @@ class Layer : public Entity {
 
   explicit Layer();
 
-  ~Layer();
+  ~Layer() override;
 
 #pragma mark - Layer Hierarchy
   /**

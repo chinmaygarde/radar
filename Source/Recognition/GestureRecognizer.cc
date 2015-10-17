@@ -125,9 +125,34 @@ bool GestureRecognizer::shouldBeginRecognition(
 GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
+  RL_ASSERT(_preparedForUse);
+
   if (touches.size() < _touchCount) {
     RL_LOG("Cancel");
     return Continuation::Cancel;
+  }
+
+  /*
+   *  From the evaluation result, get the accessor. Solve the value from the
+   *  polynomial and apply the update
+   */
+  switch (evaluationResult().targetProperty()) {
+    case Entity::Property::Bounds:
+      break;
+    case Entity::Property::Position:
+      break;
+    case Entity::Property::AnchorPoint:
+      break;
+    case Entity::Property::Transformation:
+      break;
+    case Entity::Property::BackgroundColor:
+      break;
+    case Entity::Property::Opacity:
+      break;
+    default:
+      RL_ASSERT_MSG(
+          false, "The recognition subsystem cannot operate on this property");
+      break;
   }
 
   RL_LOG("Continue");

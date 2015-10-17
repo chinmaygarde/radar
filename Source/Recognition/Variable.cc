@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Recognition/Variable.h>
+#include <Recognition/ActiveTouchSet.h>
 
 namespace rl {
 
@@ -52,6 +53,23 @@ Variable::ValueType Variable::valueType() const {
       return ValueType::Unsupported;
   }
   return ValueType::Unsupported;
+}
+
+Entity& Variable::entityRepresentation(
+    const ActiveTouchSet& touches,
+    const PresentationEntity::IdentifierMap& entities) {
+  if (_isProxy) {
+    auto entity =
+        touches.touchEntityForProxy(static_cast<Variable::Proxy>(_identifier));
+    RL_ASSERT_MSG(entity != nullptr,
+                  "A valid entity for the proxy was not found. Some bounds "
+                  "checking earlier has gone wrong");
+    return *entity;
+  } else {
+    auto& entity = entities.at(_identifier);
+    RL_ASSERT(entity != nullptr);
+    return *entity.get();
+  }
 }
 
 bool Variable::serialize(Message& message) const {
