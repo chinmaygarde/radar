@@ -44,6 +44,8 @@ class GestureRecognizer : public Serializable {
 
   bool deserialize(Message& message) override;
 
+  bool isSolvable() const;
+
   bool shouldBeginRecognition(
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;

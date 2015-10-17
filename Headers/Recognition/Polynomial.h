@@ -26,6 +26,8 @@ class Polynomial : public Serializable {
 
   double constant() const;
 
+  Variable::ValueType valueType() const;
+
   bool serialize(Message& message) const override;
 
   bool deserialize(Message& message) override;

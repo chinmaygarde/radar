@@ -37,6 +37,8 @@ class Term : public Serializable {
 
   const Variables& variables() const;
 
+  Variable::ValueType valueType() const;
+
   bool serialize(Message& message) const override;
 
   bool deserialize(Message& message) override;

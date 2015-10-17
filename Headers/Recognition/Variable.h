@@ -27,6 +27,15 @@ class Variable : public Serializable {
     Touch10,
   };
 
+  enum class ValueType {
+    Unsupported,
+    Number,
+    Rect,
+    Point,
+    Matrix,
+    Color,
+  };
+
   using ProxySet = std::set<Proxy>;
 
   explicit Variable();
@@ -36,6 +45,8 @@ class Variable : public Serializable {
   Entity::Identifier targetIdentifier() const;
 
   Entity::Property targetProperty() const;
+
+  ValueType valueType() const;
 
   bool isProxy() const;
 

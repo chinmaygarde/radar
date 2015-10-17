@@ -130,7 +130,7 @@ class Interface {
 
 #pragma mark - Setting up Gesture Recognizers
 
-  void setupGestureRecognizer(GestureRecognizer&& recognizer);
+  bool setupGestureRecognizer(GestureRecognizer&& recognizer);
 
  private:
   EventLoop* _loop;
