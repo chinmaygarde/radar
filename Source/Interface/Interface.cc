@@ -246,8 +246,12 @@ void Interface::setRootLayer(Layer::Ref layer) {
   }
 }
 
-void Interface::setupGestureRecognizer(rl::GestureRecognizer&& recognizer) {
+bool Interface::setupGestureRecognizer(rl::GestureRecognizer&& recognizer) {
+  if (!recognizer.isSolvable()) {
+    return false;
+  }
   transaction().mark(std::move(recognizer));
+  return true;
 }
 
 }  // namespace rl

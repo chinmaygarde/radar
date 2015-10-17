@@ -34,6 +34,26 @@ double Polynomial::constant() const {
   return _constant;
 }
 
+Variable::ValueType Polynomial::valueType() const {
+  if (_terms.size() == 0) {
+    /*
+     *  This polynomial has no terms and only a constant. Constants can only
+     *  operate on numbers
+     */
+    return Variable::ValueType::Number;
+  }
+
+  Variable::ValueType check = _terms[0].valueType();
+
+  for (const auto& term : _terms) {
+    if (term.valueType() != check) {
+      return Variable::ValueType::Unsupported;
+    }
+  }
+
+  return check;
+}
+
 bool Polynomial::serialize(Message& message) const {
   auto result = true;
   result &= message.encode(_constant);

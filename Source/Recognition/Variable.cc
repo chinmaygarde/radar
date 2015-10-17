@@ -34,6 +34,26 @@ bool Variable::isProxy() const {
   return _isProxy;
 }
 
+Variable::ValueType Variable::valueType() const {
+  switch (_property) {
+    case Entity::Property::Position:
+      return ValueType::Point;
+    case Entity::Property::AnchorPoint:
+      return ValueType::Point;
+    case Entity::Property::Bounds:
+      return ValueType::Rect;
+    case Entity::Property::Transformation:
+      return ValueType::Matrix;
+    case Entity::Property::BackgroundColor:
+      return ValueType::Color;
+    case Entity::Property::Opacity:
+      return ValueType::Number;
+    default:
+      return ValueType::Unsupported;
+  }
+  return ValueType::Unsupported;
+}
+
 bool Variable::serialize(Message& message) const {
   auto result = true;
   result &= message.encode(_identifier);

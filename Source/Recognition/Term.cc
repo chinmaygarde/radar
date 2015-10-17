@@ -31,6 +31,26 @@ const Term::Variables& Term::variables() const {
   return _variables;
 }
 
+Variable::ValueType Term::valueType() const {
+  if (_variables.size() == 0) {
+    return Variable::ValueType::Unsupported;
+  }
+
+  Variable::ValueType check = _variables[0].variable.valueType();
+
+  if (check == Variable::ValueType::Unsupported) {
+    return Variable::ValueType::Unsupported;
+  }
+
+  for (auto const& variableDegree : _variables) {
+    if (variableDegree.variable.valueType() != check) {
+      return Variable::ValueType::Unsupported;
+    }
+  }
+
+  return check;
+}
+
 bool Term::serialize(Message& message) const {
   bool result = true;
   result &= message.encode(_coefficient);

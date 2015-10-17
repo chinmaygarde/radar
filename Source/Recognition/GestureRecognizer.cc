@@ -83,6 +83,20 @@ bool GestureRecognizer::deserialize(Message& message) {
   return result;
 }
 
+bool GestureRecognizer::isSolvable() const {
+  auto evaluationResultType = _evaluationResult.valueType();
+  if (evaluationResultType == Variable::ValueType::Unsupported) {
+    return false;
+  }
+
+  auto polynomialType = _polynomial.valueType();
+  if (polynomialType == Variable::ValueType::Unsupported) {
+    return false;
+  }
+
+  return polynomialType == evaluationResultType;
+}
+
 bool GestureRecognizer::shouldBeginRecognition(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {

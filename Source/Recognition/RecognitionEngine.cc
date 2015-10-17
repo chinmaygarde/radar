@@ -15,6 +15,7 @@ RecognitionEngine::~RecognitionEngine() {
 void RecognitionEngine::setupRecognizers(
     GestureRecognizer::Collection&& recognizers) {
   for (auto& recognizer : recognizers) {
+    RL_ASSERT(recognizer.isSolvable());
     const auto identifier = recognizer.identifier();
     auto res = _recognizers.emplace(identifier, std::move(recognizer));
     RL_ASSERT(res.second);
