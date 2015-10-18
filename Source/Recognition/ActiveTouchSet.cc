@@ -34,6 +34,17 @@ void ActiveTouchSet::add(const std::vector<TouchEvent>& touches) {
   }
 }
 
+void ActiveTouchSet::update(const std::vector<TouchEvent>& touches) {
+  for (const auto& touch : touches) {
+    auto& entity = _activeTouches.at(touch.identifier());
+    RL_ASSERT(entity != nullptr);
+    /*
+     *  These are touch entities, so no view matrix conversions are necessary
+     */
+    entity->setPosition(touch.location());
+  }
+}
+
 void ActiveTouchSet::clear(const std::vector<TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();

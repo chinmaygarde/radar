@@ -54,7 +54,7 @@ class Variable : public Serializable {
 
   Entity& entityRepresentation(
       const ActiveTouchSet& touches,
-      const PresentationEntity::IdentifierMap& entities);
+      const PresentationEntity::IdentifierMap& entities) const;
 
   bool serialize(Message& message) const override;
 

@@ -76,6 +76,7 @@ void RecognitionEngine::processMovedTouches(
     return;
   }
 
+  _activeTouches.update(touches);
   stepActiveRecognizers(entities);
 }
 
@@ -87,7 +88,6 @@ void RecognitionEngine::processEndedTouches(
   }
 
   _activeTouches.clear(touches);
-
   stepActiveRecognizers(entities);
 }
 
@@ -103,8 +103,7 @@ void RecognitionEngine::processCancelledTouches(
    *  Cancellation just overrides the results of successful recognition to the
    *  cancelled state. In case of other behavior, it is identical to touch ends.
    */
-  _activeRecognizers.clear();
-
+  _activeTouches.clear(touches);
   stepActiveRecognizers(entities);
 }
 

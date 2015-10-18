@@ -57,7 +57,7 @@ Variable::ValueType Variable::valueType() const {
 
 Entity& Variable::entityRepresentation(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) {
+    const PresentationEntity::IdentifierMap& entities) const {
   if (_isProxy) {
     auto entity =
         touches.touchEntityForProxy(static_cast<Variable::Proxy>(_identifier));

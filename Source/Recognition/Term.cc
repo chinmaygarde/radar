@@ -13,6 +13,34 @@ Term::Term(double coefficient, Term::Variables&& variables)
 Term::Term() : _coefficient(1.0), _variables() {
 }
 
+bool Term::serialize(Message& message) const {
+  bool result = true;
+  result &= message.encode(_coefficient);
+  result &= SerializeVector(_variables, message);
+  return result;
+}
+
+bool Term::deserialize(Message& message) {
+  bool result = true;
+  result &= message.decode(_coefficient);
+  result &= DeserializeVector(_variables, message);
+  return result;
+}
+
+bool Term::VariableDegree::serialize(Message& message) const {
+  auto result = true;
+  result &= variable.serialize(message);
+  result &= message.encode(degree);
+  return result;
+}
+
+bool Term::VariableDegree::deserialize(Message& message) {
+  auto result = true;
+  result &= variable.deserialize(message);
+  result &= message.decode(degree);
+  return result;
+}
+
 double Term::coefficient() const {
   return _coefficient;
 }
@@ -51,32 +79,38 @@ Variable::ValueType Term::valueType() const {
   return check;
 }
 
-bool Term::serialize(Message& message) const {
-  bool result = true;
-  result &= message.encode(_coefficient);
-  result &= SerializeVector(_variables, message);
-  return result;
-}
+Point Term::solve(const ActiveTouchSet& touches,
+                  const PresentationEntity::IdentifierMap& entities) const {
+  Point solution = PointZero;
 
-bool Term::deserialize(Message& message) {
-  bool result = true;
-  result &= message.decode(_coefficient);
-  result &= DeserializeVector(_variables, message);
-  return result;
-}
+  for (auto const& item : _variables) {
+    const auto& entity = item.variable.entityRepresentation(touches, entities);
+    /*
+     *  Fetch the value of the property to operate on
+     */
+    Point value = PointZero;
 
-bool Term::VariableDegree::serialize(Message& message) const {
-  auto result = true;
-  result &= variable.serialize(message);
-  result &= message.encode(degree);
-  return result;
-}
+    switch (item.variable.targetProperty()) {
+      case Entity::Property::Position:
+        value = PositionAccessors.getter(entity);
+        break;
+      case Entity::Property::AnchorPoint:
+        value = AnchorPointAccessors.getter(entity);
+        break;
+      default:
+        RL_ASSERT_MSG(false, "Cannot solve for a point this property");
+        break;
+    }
 
-bool Term::VariableDegree::deserialize(Message& message) {
-  auto result = true;
-  result &= variable.deserialize(message);
-  result &= message.decode(degree);
-  return result;
+    /*
+     *  Apply the coefficient. The degree is guaranteed to be 1 since the
+     *  recognizer would not have accepted this term for recognition otherwise
+     */
+    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Point' by another 'Point'");
+    solution = solution + (value * _coefficient);
+  }
+
+  return solution;
 }
 
 }  // namespace rl

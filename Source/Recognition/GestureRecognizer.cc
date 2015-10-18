@@ -94,7 +94,39 @@ bool GestureRecognizer::isSolvable() const {
     return false;
   }
 
-  return polynomialType == evaluationResultType;
+  auto typesSame = polynomialType == evaluationResultType;
+
+  if (!typesSame) {
+    /*
+     *  If the types for the left and right hand sides dont match up, then a
+     *  solution is impossible
+     */
+    return false;
+  }
+
+  /*
+   *  The presence of certain types means that there has to be an additional
+   *  restriction on the degree of the polynomial. For example, what does it
+   *  even mean to raise a "point" by another "point"? Since we don't support it
+   *  we will filter out such polynomials.
+   */
+  const auto polynomialDegree = _polynomial.degree();
+  switch (polynomialType) {
+    case Variable::ValueType::Number:
+      return true;
+    case Variable::ValueType::Rect:
+      return polynomialDegree == 1;
+    case Variable::ValueType::Point:
+      return polynomialDegree == 1;
+    case Variable::ValueType::Matrix:
+      return polynomialDegree == 1;
+    case Variable::ValueType::Color:
+      return polynomialDegree == 1;
+    case Variable::ValueType::Unsupported:
+      return false;
+  }
+
+  return false;
 }
 
 bool GestureRecognizer::shouldBeginRecognition(
@@ -136,10 +168,12 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
    *  From the evaluation result, get the accessor. Solve the value from the
    *  polynomial and apply the update
    */
+  auto& entity = _evaluationResult.entityRepresentation(touches, entities);
   switch (evaluationResult().targetProperty()) {
     case Entity::Property::Bounds:
       break;
     case Entity::Property::Position:
+      PositionAccessors.setter(entity, _polynomial.solve(touches, entities));
       break;
     case Entity::Property::AnchorPoint:
       break;

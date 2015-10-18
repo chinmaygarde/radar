@@ -37,6 +37,9 @@ class Term : public Serializable {
 
   const Variables& variables() const;
 
+  Point solve(const ActiveTouchSet& touches,
+              const PresentationEntity::IdentifierMap& entities) const;
+
   Variable::ValueType valueType() const;
 
   bool serialize(Message& message) const override;

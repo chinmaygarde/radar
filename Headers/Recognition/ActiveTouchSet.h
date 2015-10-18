@@ -18,6 +18,7 @@ class ActiveTouchSet {
   ~ActiveTouchSet();
 
   void add(const std::vector<TouchEvent>& touches);
+  void update(const std::vector<TouchEvent>& touches);
   void clear(const std::vector<TouchEvent>& touches);
 
   using PointResult = std::pair<bool /* result */, Point>;

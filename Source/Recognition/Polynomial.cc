@@ -13,6 +13,20 @@ Polynomial::Polynomial(Polynomial::Terms terms, double constant)
 Polynomial::Polynomial() : _constant(0.0) {
 }
 
+bool Polynomial::serialize(Message& message) const {
+  auto result = true;
+  result &= message.encode(_constant);
+  result &= Serializable::SerializeVector(_terms, message);
+  return result;
+}
+
+bool Polynomial::deserialize(Message& message) {
+  auto result = true;
+  result &= message.decode(_constant);
+  result &= Serializable::DeserializeVector(_terms, message);
+  return result;
+}
+
 const Polynomial::Terms& Polynomial::terms() const {
   return _terms;
 }
@@ -54,18 +68,18 @@ Variable::ValueType Polynomial::valueType() const {
   return check;
 }
 
-bool Polynomial::serialize(Message& message) const {
-  auto result = true;
-  result &= message.encode(_constant);
-  result &= Serializable::SerializeVector(_terms, message);
-  return result;
-}
+Point Polynomial::solve(
+    const ActiveTouchSet& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
+  RL_ASSERT(valueType() == Variable::ValueType::Point);
 
-bool Polynomial::deserialize(Message& message) {
-  auto result = true;
-  result &= message.decode(_constant);
-  result &= Serializable::DeserializeVector(_terms, message);
-  return result;
+  Point point = PointZero;
+
+  for (auto const& term : _terms) {
+    point = point + term.solve(touches, entities);
+  }
+
+  return point;
 }
 
 }  // namespace rl

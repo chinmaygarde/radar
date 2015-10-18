@@ -36,7 +36,7 @@ class Entity {
 
   template <typename T>
   struct Accessors {
-    using Getter = std::function<const T&(Entity&)>;
+    using Getter = std::function<const T&(const Entity&)>;
     Getter getter;
     using Setter = std::function<void(Entity&, const T&)>;
     Setter setter;
