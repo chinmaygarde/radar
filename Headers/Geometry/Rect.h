@@ -36,6 +36,11 @@ struct Rect {
                 {size.width * scale, size.height * scale});
   }
 
+  Rect operator*(const Rect& r) const {
+    return Rect({origin.x * r.origin.x, origin.y * r.origin.y},
+                {size.width * r.size.width, size.height * r.size.height});
+  }
+
   bool operator==(const Rect& r) const {
     return origin == r.origin && size == r.size;
   }

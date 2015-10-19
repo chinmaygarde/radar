@@ -201,15 +201,11 @@ Rect Term::solve(const ActiveTouchSet& touches,
                   "Polynomial solutions on rectangles may only operate on the "
                   "'bounds' property");
 
-    /*
-     *  Apply the coefficient. The degree is guaranteed to be 1 since the
-     *  recognizer would not have accepted this term for recognition otherwise
-     */
-    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Rect' by another 'Rect'");
-    solution = solution + (value * _coefficient);
+    RL_ASSERT_MSG(item.degree == 1, "Cannot raise a 'Rect' by another 'Rect'");
+    solution = solution * value;
   }
 
-  return solution;
+  return solution * _coefficient;
 }
 
 template <>
