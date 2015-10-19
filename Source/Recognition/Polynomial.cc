@@ -57,15 +57,15 @@ Variable::ValueType Polynomial::valueType() const {
     return Variable::ValueType::Number;
   }
 
-  Variable::ValueType check = _terms[0].valueType();
+  Variable::ValueType resolvedType = _terms[0].valueType();
 
   for (const auto& term : _terms) {
-    if (term.valueType() != check) {
+    if (term.valueType() != resolvedType) {
       return Variable::ValueType::Unsupported;
     }
   }
 
-  return check;
+  return resolvedType;
 }
 
 }  // namespace rl
