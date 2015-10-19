@@ -62,39 +62,52 @@ const Term::Variables& Term::variables() const {
 }
 
 Variable::ValueType Term::valueType() const {
+  /*
+   *  Step 1: If the term has no variable, it is a construction error. The
+   *          coefficient (if present) should have been hoisted into the
+   *          polynomial. Either way, unsupported.
+   */
   if (_variables.size() == 0) {
     return Variable::ValueType::Unsupported;
   }
 
-  Variable::ValueType check = _variables[0].variable.valueType();
+  /*
+   *  Step 2: If the types of all the variables do not match, a solution is
+   *          impossible to determine. Filter away these as well.
+   *
+   *          It is possible that in the future, we may not want to perform an
+   *          exact type check. Instead, just make sure the dimensions are
+   *          compatible. For example, 'Transformation.RotationZ' and 'double'
+   */
+  Variable::ValueType resolvedType = _variables[0].variable.valueType();
 
-  if (check == Variable::ValueType::Unsupported) {
+  if (resolvedType == Variable::ValueType::Unsupported) {
     return Variable::ValueType::Unsupported;
   }
 
   for (auto const& variableDegree : _variables) {
     auto valueType = variableDegree.variable.valueType();
-    if (valueType != check) {
+    if (valueType != resolvedType) {
       return Variable::ValueType::Unsupported;
-    }
-
-    if (_coefficient != 1.0) {
-      /*
-       *  Applying a coefficient to certain properties is meaningless. We filter
-       *  away such polynomials from recognition.
-       */
-      switch (valueType) {
-        case Variable::ValueType::Color:
-        case Variable::ValueType::Matrix:
-          return Variable::ValueType::Unsupported;
-          break;
-        default:
-          break;
-      }
     }
   }
 
-  return check;
+  /*
+   *  Step 3: Applying a coefficient to certain properties is meaningless. We
+   *          filter away such polynomials from recognition.
+   */
+  if (_coefficient != 1.0) {
+    switch (resolvedType) {
+      case Variable::ValueType::Color:
+      case Variable::ValueType::Matrix:
+        return Variable::ValueType::Unsupported;
+        break;
+      default:
+        break;
+    }
+  }
+
+  return resolvedType;
 }
 
 template <>
