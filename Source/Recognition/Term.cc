@@ -126,14 +126,10 @@ double Term::solve(const ActiveTouchSet& touches,
                   "Polynomial solutions on numbers may only operate on the "
                   "'opacity' property");
 
-    /*
-     *  FIXME: It is possible that we cache the degree, the complexity of
-     *  calculating the same is not constant. But its small.
-     */
-    solution = solution + (_coefficient * pow(value, degree()));
+    solution = solution * pow(value, item.degree);
   }
 
-  return solution;
+  return _coefficient * solution;
 }
 
 template <>
