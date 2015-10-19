@@ -90,10 +90,27 @@ Variable::ValueType Term::valueType() const {
     if (valueType != resolvedType) {
       return Variable::ValueType::Unsupported;
     }
+
+    /*
+     *  Step 3: For certain types, it does not make sense to raise a type by
+     *          anything. We filter away such cases.
+     */
+    if (variableDegree.degree > 1) {
+      switch (valueType) {
+        case Variable::ValueType::Point:
+        case Variable::ValueType::Rect:
+        case Variable::ValueType::Color:
+        case Variable::ValueType::Matrix:
+          return Variable::ValueType::Unsupported;
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   /*
-   *  Step 3: Applying a coefficient to certain properties is meaningless. We
+   *  Step 4: Applying a coefficient to certain properties is meaningless. We
    *          filter away such polynomials from recognition.
    */
   if (_coefficient != 1.0) {
@@ -156,15 +173,12 @@ Point Term::solve(const ActiveTouchSet& touches,
         break;
     }
 
-    /*
-     *  Apply the coefficient. The degree is guaranteed to be 1 since the
-     *  recognizer would not have accepted this term for recognition otherwise
-     */
-    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Point' by another 'Point'");
-    solution = solution + (value * _coefficient);
+    RL_ASSERT_MSG(item.degree == 1,
+                  "Cannot raise a 'Point' by another 'Point'");
+    solution = solution * value;
   }
 
-  return solution;
+  return solution * _coefficient;
 }
 
 template <>
