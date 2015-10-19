@@ -28,8 +28,9 @@ class Polynomial : public Serializable {
 
   Variable::ValueType valueType() const;
 
-  Point solve(const ActiveTouchSet& touches,
-              const PresentationEntity::IdentifierMap& entities) const;
+  template <typename T>
+  T solve(const ActiveTouchSet& touches,
+          const PresentationEntity::IdentifierMap& entities) const;
 
   bool serialize(Message& message) const override;
 

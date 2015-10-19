@@ -68,6 +68,7 @@ Variable::ValueType Polynomial::valueType() const {
   return check;
 }
 
+template <>
 Point Polynomial::solve(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
@@ -76,7 +77,7 @@ Point Polynomial::solve(
   Point point = PointZero;
 
   for (auto const& term : _terms) {
-    point = point + term.solve(touches, entities);
+    point = point + term.solve<Point>(touches, entities);
   }
 
   return point;

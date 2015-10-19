@@ -172,12 +172,14 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
     case Entity::Property::Bounds:
       break;
     case Entity::Property::Position: {
-      auto point =
-          entity.convertPointFromWindow(_polynomial.solve(touches, entities));
+      auto pointInWindow = _polynomial.solve<Point>(touches, entities);
+      auto point = entity.convertPointFromWindow(pointInWindow);
       PositionAccessors.setter(entity, point);
     } break;
-    case Entity::Property::AnchorPoint:
-      break;
+    case Entity::Property::AnchorPoint: {
+      auto anchorPoint = _polynomial.solve<Point>(touches, entities);
+      AnchorPointAccessors.setter(entity, anchorPoint);
+    } break;
     case Entity::Property::Transformation:
       break;
     case Entity::Property::BackgroundColor:

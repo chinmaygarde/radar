@@ -79,6 +79,7 @@ Variable::ValueType Term::valueType() const {
   return check;
 }
 
+template <>
 Point Term::solve(const ActiveTouchSet& touches,
                   const PresentationEntity::IdentifierMap& entities) const {
   Point solution = PointZero;
@@ -98,7 +99,7 @@ Point Term::solve(const ActiveTouchSet& touches,
         value = AnchorPointAccessors.getter(entity);
         break;
       default:
-        RL_ASSERT_MSG(false, "Cannot solve for a point this property");
+        RL_ASSERT_MSG(false, "Cannot solve for a point for this property");
         break;
     }
 

@@ -37,8 +37,9 @@ class Term : public Serializable {
 
   const Variables& variables() const;
 
-  Point solve(const ActiveTouchSet& touches,
-              const PresentationEntity::IdentifierMap& entities) const;
+  template <typename T>
+  T solve(const ActiveTouchSet& touches,
+          const PresentationEntity::IdentifierMap& entities) const;
 
   Variable::ValueType valueType() const;
 
