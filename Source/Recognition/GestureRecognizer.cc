@@ -146,7 +146,7 @@ bool GestureRecognizer::shouldBeginRecognition(
   for (size_t i = 0; i < _touchCount; i++) {
     auto point = touches.pointForIndex(i);
     RL_ASSERT(point.first);
-    if (!entity->isPointInside(point.second)) {
+    if (!entity->isWindowPointInside(point.second)) {
       return false;
     }
   }
@@ -160,7 +160,6 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
   RL_ASSERT(_preparedForUse);
 
   if (touches.size() < _touchCount) {
-    RL_LOG("Cancel");
     return Continuation::Cancel;
   }
 
@@ -168,13 +167,15 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
    *  From the evaluation result, get the accessor. Solve the value from the
    *  polynomial and apply the update
    */
-  auto& entity = _evaluationResult.entityRepresentation(touches, entities);
+  auto& entity = _evaluationResult.presentationEntityRepresentation(entities);
   switch (evaluationResult().targetProperty()) {
     case Entity::Property::Bounds:
       break;
-    case Entity::Property::Position:
-      PositionAccessors.setter(entity, _polynomial.solve(touches, entities));
-      break;
+    case Entity::Property::Position: {
+      auto point =
+          entity.convertPointFromWindow(_polynomial.solve(touches, entities));
+      PositionAccessors.setter(entity, point);
+    } break;
     case Entity::Property::AnchorPoint:
       break;
     case Entity::Property::Transformation:
@@ -189,7 +190,6 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
       break;
   }
 
-  RL_LOG("Continue");
   return Continuation::Continue;
 }
 

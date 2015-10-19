@@ -72,6 +72,16 @@ Entity& Variable::entityRepresentation(
   }
 }
 
+PresentationEntity& Variable::presentationEntityRepresentation(
+    const PresentationEntity::IdentifierMap& presentationEntities) const {
+  RL_ASSERT_MSG(
+      !_isProxy,
+      "Asked for the presentation entity representation of a proxy variable");
+  auto& presentationEntity = presentationEntities.at(_identifier);
+  RL_ASSERT(presentationEntity != nullptr);
+  return *presentationEntity.get();
+}
+
 bool Variable::serialize(Message& message) const {
   auto result = true;
   result &= message.encode(_identifier);

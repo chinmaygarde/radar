@@ -30,11 +30,14 @@ void PresentationEntity::removeChild(Borrowed entity) {
   entity->_presentationOrder = PresentationOrderNone;
 }
 
-bool PresentationEntity::isPointInside(const Point& point) const {
+bool PresentationEntity::isWindowPointInside(const Point& point) const {
+  return bounds().contains(convertPointFromWindow(point));
+}
+
+Point PresentationEntity::convertPointFromWindow(const Point& point) const {
   auto inverted = _lastModelViewMatrix.invert();
   auto pointInWindowVector = point * inverted;
-  auto pointInWindow = Point{pointInWindowVector.a, pointInWindowVector.b};
-  return bounds().contains(pointInWindow);
+  return Point{pointInWindowVector.a, pointInWindowVector.b};
 }
 
 void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) {

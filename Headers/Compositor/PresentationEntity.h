@@ -33,7 +33,9 @@ class PresentationEntity : public Entity {
 
   void removeChild(Borrowed entity);
 
-  bool isPointInside(const Point& point) const;
+  bool isWindowPointInside(const Point& point) const;
+
+  Point convertPointFromWindow(const Point& point) const;
 
   void render(Frame& frame, const Matrix& viewMatrix);
 
