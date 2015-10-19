@@ -92,8 +92,8 @@ Variable::ValueType Term::valueType() const {
     }
 
     /*
-     *  Step 3: For certain types, it does not make sense to raise a type by
-     *          anything. We filter away such cases.
+     *  Step 3: For certain types, it does not make sense to raise the value of
+     *          that type by anything. We filter away such cases.
      */
     if (variableDegree.degree > 1) {
       switch (valueType) {
@@ -124,6 +124,21 @@ Variable::ValueType Term::valueType() const {
     }
   }
 
+  /*
+   *  Step 5: Certain terms require that only a certain term be present. This
+   *          may be because "multiplying" multiple terms may not make sense.
+   *          Filter these away as well
+   */
+  if (_variables.size() > 1) {
+    switch (resolvedType) {
+      case Variable::ValueType::Color:
+      case Variable::ValueType::Matrix:
+        return Variable::ValueType::Unsupported;
+      default:
+        break;
+    }
+  }
+
   return resolvedType;
 }
 
@@ -134,6 +149,7 @@ double Term::solve(const ActiveTouchSet& touches,
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
+
     /*
      *  Fetch the value of the property to operate on
      */
@@ -156,6 +172,7 @@ Point Term::solve(const ActiveTouchSet& touches,
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
+
     /*
      *  Fetch the value of the property to operate on
      */
@@ -188,6 +205,7 @@ Rect Term::solve(const ActiveTouchSet& touches,
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
+
     /*
      *  Fetch the value of the property to operate on
      */
@@ -211,28 +229,28 @@ Rect Term::solve(const ActiveTouchSet& touches,
 template <>
 Color Term::solve(const ActiveTouchSet& touches,
                   const PresentationEntity::IdentifierMap& entities) const {
-  auto solution = Color{};
+  RL_ASSERT_MSG(
+      _variables.size() == 1,
+      "There may only be a single variable in a term operating on colors");
 
-  for (auto const& item : _variables) {
-    const auto& entity = item.variable.entityRepresentation(touches, entities);
-    /*
-     *  Fetch the value of the property to operate on
-     */
-    Color value = BackgroundColorAccessors.getter(entity);
-    RL_ASSERT_MSG(
-        item.variable.targetProperty() == Entity::Property::BackgroundColor,
-        "Polynomial solutions on colors may only operate on the 'background "
-        "color' property");
+  RL_ASSERT_MSG(_coefficient == 1.0,
+                "Cannot multiply a 'Color' with a coefficient");
 
-    /*
-     *  Apply the coefficient. The degree is guaranteed to be 1 since the
-     *  recognizer would not have accepted this term for recognition otherwise
-     */
-    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Color' by another 'Color'");
-    RL_ASSERT_MSG(_coefficient == 1.0,
-                  "Cannot multiply a 'Color' with a coefficient");
-    solution = solution + value;
-  }
+  auto const& item = _variables[0];
+
+  const auto& entity = item.variable.entityRepresentation(touches, entities);
+
+  /*
+   *  Fetch the value of the property to operate on
+   */
+  auto solution = BackgroundColorAccessors.getter(entity);
+
+  RL_ASSERT_MSG(
+      item.variable.targetProperty() == Entity::Property::BackgroundColor,
+      "Polynomial solutions on colors may only operate on the 'background "
+      "color' property");
+
+  RL_ASSERT_MSG(item.degree == 1, "Cannot raise a 'Color' by another 'Color'");
 
   return solution;
 }
@@ -240,28 +258,29 @@ Color Term::solve(const ActiveTouchSet& touches,
 template <>
 Matrix Term::solve(const ActiveTouchSet& touches,
                    const PresentationEntity::IdentifierMap& entities) const {
-  auto solution = Matrix{};
+  RL_ASSERT_MSG(
+      _variables.size() == 1,
+      "There may only be a single variable in a term operating on matrices");
 
-  for (auto const& item : _variables) {
-    const auto& entity = item.variable.entityRepresentation(touches, entities);
-    /*
-     *  Fetch the value of the property to operate on
-     */
-    Matrix value = TransformationAccessors.getter(entity);
-    RL_ASSERT_MSG(
-        item.variable.targetProperty() == Entity::Property::Transformation,
-        "Polynomial solutions on matrices may only operate on the "
-        "'tranformation' property");
+  RL_ASSERT_MSG(_coefficient == 1.0,
+                "Cannot multiply a 'Matrix' with a coefficient");
 
-    /*
-     *  Apply the coefficient. The degree is guaranteed to be 1 since the
-     *  recognizer would not have accepted this term for recognition otherwise
-     */
-    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Matrix' by another 'Matrix'");
-    RL_ASSERT_MSG(_coefficient == 1.0,
-                  "Cannot multiply a 'Matrix' with a coefficient");
-    solution = solution + value;
-  }
+  auto const& item = _variables[0];
+
+  const auto& entity = item.variable.entityRepresentation(touches, entities);
+
+  /*
+   *  Fetch the value of the property to operate on
+   */
+  auto solution = TransformationAccessors.getter(entity);
+
+  RL_ASSERT_MSG(
+      item.variable.targetProperty() == Entity::Property::Transformation,
+      "Polynomial solutions on matrices may only operate on the "
+      "'tranformation' property");
+
+  RL_ASSERT_MSG(item.degree == 1,
+                "Cannot raise a 'Matrix' by another 'Matrix'");
 
   return solution;
 }
