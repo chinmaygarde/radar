@@ -18,6 +18,14 @@ struct Matrix {
     Vector4 vec[4];
   };
 
+  Matrix()
+      // clang-format off
+      : vec{ Vector4(1.0,  0.0,  0.0,  0.0),
+             Vector4(0.0,  1.0,  0.0,  0.0),
+             Vector4(0.0,  0.0,  1.0,  0.0),
+             Vector4(0.0,  0.0,  0.0,  1.0)} {}
+  // clang-format on
+
   // clang-format off
   Matrix(double m0,  double m1,  double m2,  double m3,
          double m4,  double m5,  double m6,  double m7,
@@ -338,6 +346,8 @@ struct Matrix {
   Matrix operator*(const Vector3& s) const { return scale(s); }
 
   Matrix operator*(const Matrix& m) const { return multiply(m); }
+
+  Matrix operator+(const Matrix& m) const;
 
   // clang-format off
   static Matrix Orthographic(double left,   double right,

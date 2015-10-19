@@ -40,6 +40,7 @@ bool NearEqual(double a, double b, double epsilon);
  *  @return if equal to zero within the tolerance
  */
 bool NearZero(double a, double epsilon);
+
 }  // namespace Animation
 }  // namespace rl
 

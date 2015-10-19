@@ -30,7 +30,15 @@ class Polynomial : public Serializable {
 
   template <typename T>
   T solve(const ActiveTouchSet& touches,
-          const PresentationEntity::IdentifierMap& entities) const;
+          const PresentationEntity::IdentifierMap& entities) const {
+    auto solution = T{};
+
+    for (auto const& term : _terms) {
+      solution = solution + term.solve<T>(touches, entities);
+    }
+
+    return solution;
+  }
 
   bool serialize(Message& message) const override;
 

@@ -169,8 +169,10 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
    */
   auto& entity = _evaluationResult.presentationEntityRepresentation(entities);
   switch (evaluationResult().targetProperty()) {
-    case Entity::Property::Bounds:
-      break;
+    case Entity::Property::Bounds: {
+      auto bounds = _polynomial.solve<Rect>(touches, entities);
+      BoundsAccessors.setter(entity, bounds);
+    } break;
     case Entity::Property::Position: {
       auto pointInWindow = _polynomial.solve<Point>(touches, entities);
       auto point = entity.convertPointFromWindow(pointInWindow);
@@ -180,12 +182,18 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
       auto anchorPoint = _polynomial.solve<Point>(touches, entities);
       AnchorPointAccessors.setter(entity, anchorPoint);
     } break;
-    case Entity::Property::Transformation:
-      break;
-    case Entity::Property::BackgroundColor:
-      break;
-    case Entity::Property::Opacity:
-      break;
+    case Entity::Property::Transformation: {
+      auto transformation = _polynomial.solve<Matrix>(touches, entities);
+      TransformationAccessors.setter(entity, transformation);
+    } break;
+    case Entity::Property::BackgroundColor: {
+      auto transformation = _polynomial.solve<Color>(touches, entities);
+      BackgroundColorAccessors.setter(entity, transformation);
+    } break;
+    case Entity::Property::Opacity: {
+      auto opacity = _polynomial.solve<double>(touches, entities);
+      OpacityAccessors.setter(entity, opacity);
+    } break;
     default:
       RL_ASSERT_MSG(
           false, "The recognition subsystem cannot operate on this property");

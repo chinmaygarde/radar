@@ -4,6 +4,8 @@
 
 #include <Recognition/Term.h>
 
+#include <cmath>
+
 namespace rl {
 
 Term::Term(double coefficient, Term::Variables&& variables)
@@ -71,12 +73,54 @@ Variable::ValueType Term::valueType() const {
   }
 
   for (auto const& variableDegree : _variables) {
-    if (variableDegree.variable.valueType() != check) {
+    auto valueType = variableDegree.variable.valueType();
+    if (valueType != check) {
       return Variable::ValueType::Unsupported;
+    }
+
+    if (_coefficient != 1.0) {
+      /*
+       *  Applying a coefficient to certain properties is meaningless. We filter
+       *  away such polynomials from recognition.
+       */
+      switch (valueType) {
+        case Variable::ValueType::Color:
+        case Variable::ValueType::Matrix:
+          return Variable::ValueType::Unsupported;
+          break;
+        default:
+          break;
+      }
     }
   }
 
   return check;
+}
+
+template <>
+double Term::solve(const ActiveTouchSet& touches,
+                   const PresentationEntity::IdentifierMap& entities) const {
+  double solution = 0.0;
+
+  for (auto const& item : _variables) {
+    const auto& entity = item.variable.entityRepresentation(touches, entities);
+    /*
+     *  Fetch the value of the property to operate on
+     */
+    double value = OpacityAccessors.getter(entity);
+
+    RL_ASSERT_MSG(item.variable.targetProperty() == Entity::Property::Opacity,
+                  "Polynomial solutions on numbers may only operate on the "
+                  "'opacity' property");
+
+    /*
+     *  FIXME: It is possible that we cache the degree, the complexity of
+     *  calculating the same is not constant. But its small.
+     */
+    solution = solution + (_coefficient * pow(value, degree()));
+  }
+
+  return solution;
 }
 
 template <>
@@ -99,7 +143,7 @@ Point Term::solve(const ActiveTouchSet& touches,
         value = AnchorPointAccessors.getter(entity);
         break;
       default:
-        RL_ASSERT_MSG(false, "Cannot solve for a point for this property");
+        RL_ASSERT_MSG(false, "Cannot solve for a point using this property");
         break;
     }
 
@@ -109,6 +153,95 @@ Point Term::solve(const ActiveTouchSet& touches,
      */
     RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Point' by another 'Point'");
     solution = solution + (value * _coefficient);
+  }
+
+  return solution;
+}
+
+template <>
+Rect Term::solve(const ActiveTouchSet& touches,
+                 const PresentationEntity::IdentifierMap& entities) const {
+  Rect solution = RectZero;
+
+  for (auto const& item : _variables) {
+    const auto& entity = item.variable.entityRepresentation(touches, entities);
+    /*
+     *  Fetch the value of the property to operate on
+     */
+    Rect value = BoundsAccessors.getter(entity);
+
+    /**
+     *  Note: This should likely be augmented to include the computed 'frame'
+     *        property for ease of use of the API
+     */
+    RL_ASSERT_MSG(item.variable.targetProperty() == Entity::Property::Bounds,
+                  "Polynomial solutions on rectangles may only operate on the "
+                  "'bounds' property");
+
+    /*
+     *  Apply the coefficient. The degree is guaranteed to be 1 since the
+     *  recognizer would not have accepted this term for recognition otherwise
+     */
+    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Rect' by another 'Rect'");
+    solution = solution + (value * _coefficient);
+  }
+
+  return solution;
+}
+
+template <>
+Color Term::solve(const ActiveTouchSet& touches,
+                  const PresentationEntity::IdentifierMap& entities) const {
+  auto solution = Color{};
+
+  for (auto const& item : _variables) {
+    const auto& entity = item.variable.entityRepresentation(touches, entities);
+    /*
+     *  Fetch the value of the property to operate on
+     */
+    Color value = BackgroundColorAccessors.getter(entity);
+    RL_ASSERT_MSG(
+        item.variable.targetProperty() == Entity::Property::BackgroundColor,
+        "Polynomial solutions on colors may only operate on the 'background "
+        "color' property");
+
+    /*
+     *  Apply the coefficient. The degree is guaranteed to be 1 since the
+     *  recognizer would not have accepted this term for recognition otherwise
+     */
+    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Color' by another 'Color'");
+    RL_ASSERT_MSG(_coefficient == 1.0,
+                  "Cannot multiply a 'Color' with a coefficient");
+    solution = solution + value;
+  }
+
+  return solution;
+}
+
+template <>
+Matrix Term::solve(const ActiveTouchSet& touches,
+                   const PresentationEntity::IdentifierMap& entities) const {
+  auto solution = Matrix{};
+
+  for (auto const& item : _variables) {
+    const auto& entity = item.variable.entityRepresentation(touches, entities);
+    /*
+     *  Fetch the value of the property to operate on
+     */
+    Matrix value = TransformationAccessors.getter(entity);
+    RL_ASSERT_MSG(
+        item.variable.targetProperty() == Entity::Property::Transformation,
+        "Polynomial solutions on matrices may only operate on the "
+        "'tranformation' property");
+
+    /*
+     *  Apply the coefficient. The degree is guaranteed to be 1 since the
+     *  recognizer would not have accepted this term for recognition otherwise
+     */
+    RL_ASSERT_MSG(degree() == 1, "Cannot raise a 'Matrix' by another 'Matrix'");
+    RL_ASSERT_MSG(_coefficient == 1.0,
+                  "Cannot multiply a 'Matrix' with a coefficient");
+    solution = solution + value;
   }
 
   return solution;

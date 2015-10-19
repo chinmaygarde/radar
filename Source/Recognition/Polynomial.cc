@@ -68,19 +68,4 @@ Variable::ValueType Polynomial::valueType() const {
   return check;
 }
 
-template <>
-Point Polynomial::solve(
-    const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
-  RL_ASSERT(valueType() == Variable::ValueType::Point);
-
-  Point point = PointZero;
-
-  for (auto const& term : _terms) {
-    point = point + term.solve<Point>(touches, entities);
-  }
-
-  return point;
-}
-
 }  // namespace rl
