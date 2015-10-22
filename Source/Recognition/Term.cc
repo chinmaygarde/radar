@@ -145,7 +145,7 @@ Variable::ValueType Term::valueType() const {
 template <>
 double Term::solve(const ActiveTouchSet& touches,
                    const PresentationEntity::IdentifierMap& entities) const {
-  double solution = 0.0;
+  double solution = 1.0;
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
@@ -153,7 +153,7 @@ double Term::solve(const ActiveTouchSet& touches,
     /*
      *  Fetch the value of the property to operate on
      */
-    double value = OpacityAccessors.getter(entity);
+    double value = entity.opacity();
 
     RL_ASSERT_MSG(item.variable.targetProperty() == Entity::Property::Opacity,
                   "Polynomial solutions on numbers may only operate on the "
@@ -168,7 +168,7 @@ double Term::solve(const ActiveTouchSet& touches,
 template <>
 Point Term::solve(const ActiveTouchSet& touches,
                   const PresentationEntity::IdentifierMap& entities) const {
-  Point solution = PointZero;
+  auto solution = Point{1.0, 1.0};
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
@@ -180,10 +180,10 @@ Point Term::solve(const ActiveTouchSet& touches,
 
     switch (item.variable.targetProperty()) {
       case Entity::Property::Position:
-        value = PositionAccessors.getter(entity);
+        value = entity.position();
         break;
       case Entity::Property::AnchorPoint:
-        value = AnchorPointAccessors.getter(entity);
+        value = entity.anchorPoint();
         break;
       default:
         RL_ASSERT_MSG(false, "Cannot solve for a point using this property");
@@ -201,7 +201,7 @@ Point Term::solve(const ActiveTouchSet& touches,
 template <>
 Rect Term::solve(const ActiveTouchSet& touches,
                  const PresentationEntity::IdentifierMap& entities) const {
-  Rect solution = RectZero;
+  auto solution = Rect{{1.0, 1.0}, {1.0, 1.0}};
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
@@ -209,7 +209,7 @@ Rect Term::solve(const ActiveTouchSet& touches,
     /*
      *  Fetch the value of the property to operate on
      */
-    Rect value = BoundsAccessors.getter(entity);
+    Rect value = entity.bounds();
 
     /**
      *  Note: This should likely be augmented to include the computed 'frame'
@@ -243,7 +243,7 @@ Color Term::solve(const ActiveTouchSet& touches,
   /*
    *  Fetch the value of the property to operate on
    */
-  auto solution = BackgroundColorAccessors.getter(entity);
+  auto solution = entity.backgroundColor();
 
   RL_ASSERT_MSG(
       item.variable.targetProperty() == Entity::Property::BackgroundColor,
@@ -272,7 +272,7 @@ Matrix Term::solve(const ActiveTouchSet& touches,
   /*
    *  Fetch the value of the property to operate on
    */
-  auto solution = TransformationAccessors.getter(entity);
+  auto solution = entity.transformation();
 
   RL_ASSERT_MSG(
       item.variable.targetProperty() == Entity::Property::Transformation,
