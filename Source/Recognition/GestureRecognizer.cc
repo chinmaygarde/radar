@@ -171,28 +171,27 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
   switch (evaluationResult().targetProperty()) {
     case Entity::Property::Bounds: {
       auto bounds = _polynomial.solve<Rect>(touches, entities);
-      BoundsAccessors.setter(entity, bounds);
+      entity.setBounds(bounds);
     } break;
     case Entity::Property::Position: {
       auto pointInWindow = _polynomial.solve<Point>(touches, entities);
-      auto point = entity.convertPointFromWindow(pointInWindow);
-      PositionAccessors.setter(entity, point);
+      entity.setPosition(pointInWindow);
     } break;
     case Entity::Property::AnchorPoint: {
       auto anchorPoint = _polynomial.solve<Point>(touches, entities);
-      AnchorPointAccessors.setter(entity, anchorPoint);
+      entity.setAnchorPoint(anchorPoint);
     } break;
     case Entity::Property::Transformation: {
       auto transformation = _polynomial.solve<Matrix>(touches, entities);
-      TransformationAccessors.setter(entity, transformation);
+      entity.setTransformation(transformation);
     } break;
     case Entity::Property::BackgroundColor: {
-      auto transformation = _polynomial.solve<Color>(touches, entities);
-      BackgroundColorAccessors.setter(entity, transformation);
+      auto backgroundColor = _polynomial.solve<Color>(touches, entities);
+      entity.setBackgroundColor(backgroundColor);
     } break;
     case Entity::Property::Opacity: {
       auto opacity = _polynomial.solve<double>(touches, entities);
-      OpacityAccessors.setter(entity, opacity);
+      entity.setOpacity(opacity);
     } break;
     default:
       RL_ASSERT_MSG(
