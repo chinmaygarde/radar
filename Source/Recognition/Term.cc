@@ -125,7 +125,7 @@ Variable::ValueType Term::valueType() const {
   }
 
   /*
-   *  Step 5: Certain terms require that only a certain term be present. This
+   *  Step 5: Certain terms require that only a one term be present. This
    *          may be because "multiplying" multiple terms may not make sense.
    *          Filter these away as well
    */
