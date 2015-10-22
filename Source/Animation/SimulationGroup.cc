@@ -18,7 +18,7 @@ double SimulationGroup::dx(const ClockDuration& time) {
 
 bool SimulationGroup::isDone(const ClockDuration& time) {
   stepIfNecessary(time);
-  return currentSimulation()->isDone(time);
+  return currentSimulation()->isDone(time - currentIntervalOffset());
 }
 
 void SimulationGroup::stepIfNecessary(const ClockDuration& time) {
