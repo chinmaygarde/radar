@@ -34,6 +34,26 @@
 		9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
+		9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */; };
+		9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D51BE2E9BC00FFEDFC /* Expression.h */; };
+		9E16A6DC1BE2E9BC00FFEDFC /* Priority.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D61BE2E9BC00FFEDFC /* Priority.h */; };
+		9E16A6DD1BE2E9BC00FFEDFC /* Solver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D71BE2E9BC00FFEDFC /* Solver.h */; };
+		9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D81BE2E9BC00FFEDFC /* Term.h */; };
+		9E16A6DF1BE2E9BC00FFEDFC /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D91BE2E9BC00FFEDFC /* Variable.h */; };
+		9E16A6F71BE2E9D700FFEDFC /* Constraint.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6E91BE2E9D700FFEDFC /* Constraint.cc */; };
+		9E16A6F81BE2E9D700FFEDFC /* EditInfo.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6EA1BE2E9D700FFEDFC /* EditInfo.cc */; };
+		9E16A6F91BE2E9D700FFEDFC /* EditInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6EB1BE2E9D700FFEDFC /* EditInfo.h */; };
+		9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6EC1BE2E9D700FFEDFC /* Expression.cc */; };
+		9E16A6FB1BE2E9D700FFEDFC /* Priority.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6ED1BE2E9D700FFEDFC /* Priority.cc */; };
+		9E16A6FC1BE2E9D700FFEDFC /* Row.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6EE1BE2E9D700FFEDFC /* Row.cc */; };
+		9E16A6FD1BE2E9D700FFEDFC /* Row.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6EF1BE2E9D700FFEDFC /* Row.h */; };
+		9E16A6FE1BE2E9D700FFEDFC /* Solver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F01BE2E9D700FFEDFC /* Solver.cc */; };
+		9E16A6FF1BE2E9D700FFEDFC /* Symbol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F11BE2E9D700FFEDFC /* Symbol.cc */; };
+		9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6F21BE2E9D700FFEDFC /* Symbol.h */; };
+		9E16A7011BE2E9D700FFEDFC /* Tag.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F31BE2E9D700FFEDFC /* Tag.cc */; };
+		9E16A7021BE2E9D700FFEDFC /* Tag.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6F41BE2E9D700FFEDFC /* Tag.h */; };
+		9E16A7031BE2E9D700FFEDFC /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F51BE2E9D700FFEDFC /* Term.cc */; };
+		9E16A7041BE2E9D700FFEDFC /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F61BE2E9D700FFEDFC /* Variable.cc */; };
 		9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */; };
 		9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
@@ -309,6 +329,26 @@
 		9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognitionEngine.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constraint.h; sourceTree = "<group>"; };
+		9E16A6D51BE2E9BC00FFEDFC /* Expression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expression.h; sourceTree = "<group>"; };
+		9E16A6D61BE2E9BC00FFEDFC /* Priority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Priority.h; sourceTree = "<group>"; };
+		9E16A6D71BE2E9BC00FFEDFC /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
+		9E16A6D81BE2E9BC00FFEDFC /* Term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Term.h; sourceTree = "<group>"; };
+		9E16A6D91BE2E9BC00FFEDFC /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
+		9E16A6E91BE2E9D700FFEDFC /* Constraint.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constraint.cc; sourceTree = "<group>"; };
+		9E16A6EA1BE2E9D700FFEDFC /* EditInfo.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditInfo.cc; sourceTree = "<group>"; };
+		9E16A6EB1BE2E9D700FFEDFC /* EditInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfo.h; sourceTree = "<group>"; };
+		9E16A6EC1BE2E9D700FFEDFC /* Expression.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Expression.cc; sourceTree = "<group>"; };
+		9E16A6ED1BE2E9D700FFEDFC /* Priority.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Priority.cc; sourceTree = "<group>"; };
+		9E16A6EE1BE2E9D700FFEDFC /* Row.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Row.cc; sourceTree = "<group>"; };
+		9E16A6EF1BE2E9D700FFEDFC /* Row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Row.h; sourceTree = "<group>"; };
+		9E16A6F01BE2E9D700FFEDFC /* Solver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solver.cc; sourceTree = "<group>"; };
+		9E16A6F11BE2E9D700FFEDFC /* Symbol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Symbol.cc; sourceTree = "<group>"; };
+		9E16A6F21BE2E9D700FFEDFC /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
+		9E16A6F31BE2E9D700FFEDFC /* Tag.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tag.cc; sourceTree = "<group>"; };
+		9E16A6F41BE2E9D700FFEDFC /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		9E16A6F51BE2E9D700FFEDFC /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
+		9E16A6F61BE2E9D700FFEDFC /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
 		9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEntity.cc; sourceTree = "<group>"; };
 		9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEntity.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
@@ -502,6 +542,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E16A6D31BE2E9BC00FFEDFC /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */,
+				9E16A6D51BE2E9BC00FFEDFC /* Expression.h */,
+				9E16A6D61BE2E9BC00FFEDFC /* Priority.h */,
+				9E16A6D71BE2E9BC00FFEDFC /* Solver.h */,
+				9E16A6D81BE2E9BC00FFEDFC /* Term.h */,
+				9E16A6D91BE2E9BC00FFEDFC /* Variable.h */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		9E16A6E81BE2E9D700FFEDFC /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				9E16A6E91BE2E9D700FFEDFC /* Constraint.cc */,
+				9E16A6EA1BE2E9D700FFEDFC /* EditInfo.cc */,
+				9E16A6EB1BE2E9D700FFEDFC /* EditInfo.h */,
+				9E16A6EC1BE2E9D700FFEDFC /* Expression.cc */,
+				9E16A6ED1BE2E9D700FFEDFC /* Priority.cc */,
+				9E16A6EE1BE2E9D700FFEDFC /* Row.cc */,
+				9E16A6EF1BE2E9D700FFEDFC /* Row.h */,
+				9E16A6F01BE2E9D700FFEDFC /* Solver.cc */,
+				9E16A6F11BE2E9D700FFEDFC /* Symbol.cc */,
+				9E16A6F21BE2E9D700FFEDFC /* Symbol.h */,
+				9E16A6F31BE2E9D700FFEDFC /* Tag.cc */,
+				9E16A6F41BE2E9D700FFEDFC /* Tag.h */,
+				9E16A6F51BE2E9D700FFEDFC /* Term.cc */,
+				9E16A6F61BE2E9D700FFEDFC /* Variable.cc */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		9E293DD31B72EB680037A431 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +673,7 @@
 				9E293DD31B72EB680037A431 /* Infrastructure */,
 				9EBA79A51B87D856005D84FA /* Instrumentation */,
 				9EAECE611B685460000FA38A /* Interface */,
+				9E16A6D31BE2E9BC00FFEDFC /* Layout */,
 				EA6B63971B9D572D00256484 /* Recognition */,
 				9EAECE631B685460000FA38A /* Shell */,
 			);
@@ -726,6 +801,7 @@
 				9E293DD61B72EB700037A431 /* Infrastructure */,
 				9EBA79B41B87D864005D84FA /* Instrumentation */,
 				9EAECEBF1B685469000FA38A /* Interface */,
+				9E16A6E81BE2E9D700FFEDFC /* Layout */,
 				EA6B63921B9D571F00256484 /* Recognition */,
 				9EAECEC11B685469000FA38A /* Shell */,
 			);
@@ -968,7 +1044,9 @@
 			files = (
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
 				9EAECE731B685460000FA38A /* Program.h in Headers */,
+				9E16A6DF1BE2E9BC00FFEDFC /* Variable.h in Headers */,
 				9EBA79BA1B87EEDF005D84FA /* CompositorStatistics.h in Headers */,
+				9E16A6F91BE2E9D700FFEDFC /* EditInfo.h in Headers */,
 				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
@@ -985,9 +1063,12 @@
 				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
 				9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
+				9E16A6FD1BE2E9D700FFEDFC /* Row.h in Headers */,
 				9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */,
+				9E16A7021BE2E9D700FFEDFC /* Tag.h in Headers */,
 				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
+				9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
 				9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
@@ -1015,10 +1096,13 @@
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
+				9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */,
+				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
 				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
+				9E16A6DC1BE2E9BC00FFEDFC /* Priority.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
 				9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */,
@@ -1026,6 +1110,7 @@
 				9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */,
 				9E092BE11BC301B400FE79BA /* ActiveTouchSet.h in Headers */,
 				EA6B639B1B9D572D00256484 /* Variable.h in Headers */,
+				9E16A6DD1BE2E9BC00FFEDFC /* Solver.h in Headers */,
 				9EAECE8B1B685460000FA38A /* Vector.h in Headers */,
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
@@ -1056,6 +1141,7 @@
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
 				9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */,
+				9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
@@ -1223,6 +1309,7 @@
 				9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */,
 				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,
 				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
+				9E16A6F71BE2E9D700FFEDFC /* Constraint.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
@@ -1230,11 +1317,14 @@
 				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
+				9E16A6FC1BE2E9D700FFEDFC /* Row.cc in Sources */,
 				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
+				9E16A7041BE2E9D700FFEDFC /* Variable.cc in Sources */,
 				9EBA79B81B87D864005D84FA /* Trace.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* SharedMemory_None.cc in Sources */,
+				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
@@ -1252,6 +1342,7 @@
 				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
 				9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */,
+				9E16A6FB1BE2E9D700FFEDFC /* Priority.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
@@ -1264,6 +1355,7 @@
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
 				EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
+				9E16A7031BE2E9D700FFEDFC /* Term.cc in Sources */,
 				9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
@@ -1284,9 +1376,11 @@
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
 				9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */,
+				9E16A6F81BE2E9D700FFEDFC /* EditInfo.cc in Sources */,
 				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */,
+				9E16A7011BE2E9D700FFEDFC /* Tag.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
@@ -1298,6 +1392,8 @@
 				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
 				9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */,
 				9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */,
+				9E16A6FE1BE2E9D700FFEDFC /* Solver.cc in Sources */,
+				9E16A6FF1BE2E9D700FFEDFC /* Symbol.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
 				EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */,
 				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
