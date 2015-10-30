@@ -9,6 +9,7 @@
 #include <Interface/Interface.h>
 
 namespace rl {
+namespace shell {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface,
              std::weak_ptr<InterfaceDelegate> delegate)
@@ -77,4 +78,5 @@ void Shell::shutdown() {
   }
 }
 
+}  // namespace shell
 }  // namespace rl

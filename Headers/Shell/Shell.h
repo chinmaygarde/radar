@@ -14,6 +14,8 @@
 #include <thread>
 
 namespace rl {
+namespace shell {
+
 class Shell {
  public:
   explicit Shell(std::shared_ptr<RenderSurface> surface,
@@ -69,6 +71,8 @@ class Shell {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Shell);
 };
+
+}  // namespace shell
 }  // namespace rl
 
 #endif  // RADARLOVE_SHELL_SHELL_

@@ -53,7 +53,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 @end
 
 @implementation RadarWindow {
-  std::unique_ptr<rl::Shell> _shell;
+  std::unique_ptr<rl::shell::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
   std::shared_ptr<sample::SampleApplication> _application;
 }
@@ -68,7 +68,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
   _application = std::make_shared<sample::SampleApplication>();
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  _shell = rl::make_unique<rl::Shell>(_renderSurface, _application);
+  _shell = rl::make_unique<rl::shell::Shell>(_renderSurface, _application);
   _renderSurface->surfaceWasCreated();
 
   [self windowWasResized];
