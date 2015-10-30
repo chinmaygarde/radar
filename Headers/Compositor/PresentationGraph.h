@@ -25,7 +25,7 @@ class PresentationGraph {
   ~PresentationGraph();
 
   bool applyTransactions(Message& arena);
-  bool applyTouchMap(TouchEvent::PhaseMap&& map);
+  bool applyTouchMap(event::TouchEvent::PhaseMap&& map);
 
   void render(Frame& frame);
 

@@ -8,6 +8,8 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace event {
+
 class Event : public Serializable {
  public:
   /**
@@ -30,6 +32,8 @@ class Event : public Serializable {
  private:
   ClockPoint _timestamp;
 };
+
+}  // namespace event
 }  // namespace rl
 
 #endif  // RADARLOVE_EVENT_EVENT_

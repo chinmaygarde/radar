@@ -28,10 +28,10 @@ class Host {
    */
   void shutdown(Latch& shutdownLatch);
 
-  TouchEventChannel& touchEventChannel();
+  event::TouchEventChannel& touchEventChannel();
 
  private:
-  TouchEventChannel _touchEventChannel;
+  event::TouchEventChannel _touchEventChannel;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Host);
 };

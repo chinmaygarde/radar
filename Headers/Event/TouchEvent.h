@@ -11,6 +11,8 @@
 #include <map>
 
 namespace rl {
+namespace event {
+
 class TouchEvent : public Event {
  public:
   enum Phase {
@@ -69,6 +71,8 @@ class TouchEvent : public Event {
 
   RL_DISALLOW_ASSIGN(TouchEvent);
 };
+
+}  // namespace event
 }  // namespace rl
 
 #endif  // RADARLOVE_EVENT_TOUCHEVENT_

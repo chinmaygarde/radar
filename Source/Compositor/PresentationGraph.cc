@@ -170,7 +170,7 @@ AnimationDirector& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 
-bool PresentationGraph::applyTouchMap(TouchEvent::PhaseMap&& map) {
+bool PresentationGraph::applyTouchMap(event::TouchEvent::PhaseMap&& map) {
   RL_ASSERT(map.size() > 0);
 
   return _recognitionEngine.applyTouchMap(std::move(map), _entities);

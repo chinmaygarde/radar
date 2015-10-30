@@ -5,6 +5,7 @@
 #include <Event/TouchEventChannel.h>
 
 namespace rl {
+namespace event {
 
 TouchEventChannel::TouchEventChannel() : Channel() {
 }
@@ -38,4 +39,5 @@ TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {
   return std::move(results);
 }
 
+}  // namespace event
 }  // namespace rl

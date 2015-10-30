@@ -31,14 +31,14 @@ class RenderSurfaceMac : public RenderSurface {
 };
 }
 
-static void SendEvent(rl::TouchEventChannel& channel,
+static void SendEvent(rl::event::TouchEventChannel& channel,
                       NSView* view,
                       NSEvent* event,
-                      rl::TouchEvent::Phase phase) {
+                      rl::event::TouchEvent::Phase phase) {
   NSPoint loc = [view convertPoint:event.locationInWindow fromView:nil];
   loc.y = view.frame.size.height - loc.y;
 
-  using Event = rl::TouchEvent;
+  using Event = rl::event::TouchEvent;
   auto identifier = static_cast<uint64_t>(event.pointingDeviceID);
 
   std::vector<Event> events;
@@ -87,17 +87,17 @@ static void SendEvent(rl::TouchEventChannel& channel,
 
 - (void)mouseDown:(NSEvent*)theEvent {
   SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::TouchEvent::Phase::Began);
+            rl::event::TouchEvent::Phase::Began);
 }
 
 - (void)mouseUp:(NSEvent*)theEvent {
   SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::TouchEvent::Phase::Ended);
+            rl::event::TouchEvent::Phase::Ended);
 }
 
 - (void)mouseDragged:(nonnull NSEvent*)theEvent {
   SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::TouchEvent::Phase::Moved);
+            rl::event::TouchEvent::Phase::Moved);
 }
 
 - (void)windowWillClose:(NSNotification*)notification {

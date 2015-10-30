@@ -17,7 +17,7 @@ void Host::shutdown(Latch& shutdownLatch) {
   shutdownLatch.countDown();
 }
 
-TouchEventChannel& Host::touchEventChannel() {
+event::TouchEventChannel& Host::touchEventChannel() {
   return _touchEventChannel;
 }
 

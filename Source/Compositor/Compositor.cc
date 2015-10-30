@@ -8,7 +8,7 @@
 namespace rl {
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
-                       TouchEventChannel& touchEventChannel)
+                       event::TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
       _surfaceSize(SizeZero),

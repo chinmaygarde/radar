@@ -3,11 +3,10 @@
 // found in the LICENSE file.
 
 #include <Recognition/TouchEntity.h>
-#include <Event/TouchEvent.h>
 
 namespace rl {
 
-TouchEntity::TouchEntity(const TouchEvent& event) : Entity(false) {
+TouchEntity::TouchEntity(const event::TouchEvent& event) : Entity(false) {
   setBounds({0.0, 0.0, 1.0, 1.0});
   setPosition(event.location());
 }

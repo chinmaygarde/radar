@@ -29,7 +29,7 @@ class Compositor : RenderSurfaceObserver {
    *  however.
    */
   explicit Compositor(std::shared_ptr<RenderSurface> surface,
-                      TouchEventChannel& touchEventChannel);
+                      event::TouchEventChannel& touchEventChannel);
 
   ~Compositor();
 
@@ -72,7 +72,7 @@ class Compositor : RenderSurfaceObserver {
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
   std::shared_ptr<EventLoopSource> _animationsSource;
-  TouchEventChannel& _touchEventChannel;
+  event::TouchEventChannel& _touchEventChannel;
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const Size& size) override;

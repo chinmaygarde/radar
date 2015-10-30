@@ -7,18 +7,18 @@
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
+#include <Event/TouchEvent.h>
 
 #include <map>
 
 namespace rl {
 
-class TouchEvent;
 class TouchEntity : public Entity {
  public:
   using IdentifierMap =
       std::map<Entity::Identifier, std::unique_ptr<TouchEntity>>;
 
-  TouchEntity(const TouchEvent& event);
+  TouchEntity(const event::TouchEvent& event);
   ~TouchEntity() override;
 
  private:

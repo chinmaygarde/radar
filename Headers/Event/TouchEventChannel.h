@@ -9,6 +9,8 @@
 #include <Event/TouchEvent.h>
 
 namespace rl {
+namespace event {
+
 class TouchEventChannel : public Channel {
  public:
   explicit TouchEventChannel();
@@ -22,6 +24,8 @@ class TouchEventChannel : public Channel {
 
   RL_DISALLOW_COPY_AND_ASSIGN(TouchEventChannel);
 };
+
+}  // namespace event
 }  // namespace rl
 
 #endif  // RADARLOVE_EVENT_TOUCHEVENTCHANNEL_

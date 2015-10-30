@@ -23,7 +23,7 @@ void RecognitionEngine::setupRecognizers(
 }
 
 void RecognitionEngine::processAddedTouches(
-    const std::vector<TouchEvent>& touches,
+    const std::vector<event::TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
@@ -70,7 +70,7 @@ void RecognitionEngine::stepActiveRecognizers(
 }
 
 void RecognitionEngine::processMovedTouches(
-    const std::vector<TouchEvent>& touches,
+    const std::vector<event::TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
@@ -81,7 +81,7 @@ void RecognitionEngine::processMovedTouches(
 }
 
 void RecognitionEngine::processEndedTouches(
-    const std::vector<TouchEvent>& touches,
+    const std::vector<event::TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
@@ -92,7 +92,7 @@ void RecognitionEngine::processEndedTouches(
 }
 
 void RecognitionEngine::processCancelledTouches(
-    const std::vector<TouchEvent>& touches,
+    const std::vector<event::TouchEvent>& touches,
     const PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
@@ -118,13 +118,13 @@ bool RecognitionEngine::isEngineConsistent() const {
 }
 
 bool RecognitionEngine::applyTouchMap(
-    TouchEvent::PhaseMap&& map,
+    event::TouchEvent::PhaseMap&& map,
     const PresentationEntity::IdentifierMap& entities) {
   if (_recognizers.size() == 0) {
     return true;
   }
 
-  using Phase = TouchEvent::Phase;
+  using Phase = event::TouchEvent::Phase;
 
   processAddedTouches(map[Phase::Began], entities);
   processMovedTouches(map[Phase::Moved], entities);

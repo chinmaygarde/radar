@@ -5,6 +5,7 @@
 #include <Event/Event.h>
 
 namespace rl {
+namespace event {
 
 Event::Event(ClockPoint timestamp) : _timestamp(timestamp) {
 }
@@ -21,4 +22,5 @@ bool Event::deserialize(Message& m) {
   return m.decode(_timestamp);
 }
 
+}  // namespace event
 }  // namespace rl

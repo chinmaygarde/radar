@@ -17,9 +17,9 @@ class ActiveTouchSet {
   ActiveTouchSet();
   ~ActiveTouchSet();
 
-  void add(const std::vector<TouchEvent>& touches);
-  void update(const std::vector<TouchEvent>& touches);
-  void clear(const std::vector<TouchEvent>& touches);
+  void add(const std::vector<event::TouchEvent>& touches);
+  void update(const std::vector<event::TouchEvent>& touches);
+  void clear(const std::vector<event::TouchEvent>& touches);
 
   using PointResult = std::pair<bool /* result */, Point>;
   PointResult pointForIndex(size_t index) const;
@@ -30,7 +30,7 @@ class ActiveTouchSet {
 
  private:
   TouchEntity::IdentifierMap _activeTouches;
-  std::vector<TouchEvent::Identifier> _indexedTouches;
+  std::vector<event::TouchEvent::Identifier> _indexedTouches;
 
   TouchEntity* touchEntityForIndex(size_t index) const;
 

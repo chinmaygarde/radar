@@ -5,6 +5,7 @@
 #include <Event/TouchEvent.h>
 
 namespace rl {
+namespace event {
 
 TouchEvent::TouchEvent(Identifier identifier,
                        const Point& location,
@@ -51,4 +52,5 @@ bool TouchEvent::deserialize(Message& m) {
   return result;
 }
 
+}  // namespace event
 }  // namespace rl

@@ -20,7 +20,7 @@ class RecognitionEngine {
 
   void setupRecognizers(GestureRecognizer::Collection&& recognizers);
 
-  bool applyTouchMap(TouchEvent::PhaseMap&& map,
+  bool applyTouchMap(event::TouchEvent::PhaseMap&& map,
                      const PresentationEntity::IdentifierMap& entities);
 
  private:
@@ -29,14 +29,14 @@ class RecognitionEngine {
   ActiveTouchSet _activeTouches;
 
   void stepActiveRecognizers(const PresentationEntity::IdentifierMap& entities);
-  void processAddedTouches(const std::vector<TouchEvent>& touches,
+  void processAddedTouches(const std::vector<event::TouchEvent>& touches,
                            const PresentationEntity::IdentifierMap& entities);
-  void processMovedTouches(const std::vector<TouchEvent>& touches,
+  void processMovedTouches(const std::vector<event::TouchEvent>& touches,
                            const PresentationEntity::IdentifierMap& entities);
-  void processEndedTouches(const std::vector<TouchEvent>& touches,
+  void processEndedTouches(const std::vector<event::TouchEvent>& touches,
                            const PresentationEntity::IdentifierMap& entities);
   void processCancelledTouches(
-      const std::vector<TouchEvent>& touches,
+      const std::vector<event::TouchEvent>& touches,
       const PresentationEntity::IdentifierMap& entities);
 
   bool isEngineConsistent() const;
