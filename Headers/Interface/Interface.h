@@ -8,7 +8,7 @@
 #include <Core/Core.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/InterfaceDelegate.h>
-#include <Infrastructure/StateMachine.h>
+#include <Toolbox/StateMachine.h>
 #include <Interface/Layer.h>
 #include <Compositor/CompositorChannel.h>
 
@@ -142,7 +142,7 @@ class Interface {
   std::shared_ptr<EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::weak_ptr<CompositorChannel> _compositorChannel;
-  StateMachine _state;
+  toolbox::StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();

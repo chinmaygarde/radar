@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Infrastructure/StateMachine.h>
+#include <Toolbox/StateMachine.h>
 #include <queue>
 
 namespace rl {
+namespace toolbox {
 
 StateMachine::StateMachine(std::vector<LegalTransition> legalTransitions)
     : _currentState(0), _activated(false) {
@@ -92,4 +93,5 @@ void StateMachine::stepTransitionNoCheck(State state) {
   callback();
 }
 
+}  // namespace toolbox
 }  // namespace rl

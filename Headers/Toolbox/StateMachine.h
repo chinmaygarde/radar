@@ -13,6 +13,8 @@
 #include <set>
 
 namespace rl {
+namespace toolbox {
+
 class StateMachine {
  public:
   using State = uint64_t;
@@ -52,6 +54,8 @@ class StateMachine {
 
   RL_DISALLOW_COPY_AND_ASSIGN(StateMachine);
 };
+
+}  // namespace toolbox
 }  // namespace rl
 
 #endif  // RADARLOVE_STATE_MACHINE_

@@ -64,8 +64,6 @@
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
 		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
 		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
-		9E293DD51B72EB680037A431 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DD41B72EB680037A431 /* StateMachine.h */; };
-		9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DD71B72EB700037A431 /* StateMachine.cc */; };
 		9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */; };
 		9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */; };
 		9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */; };
@@ -97,6 +95,8 @@
 		9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67954C1BB08C4E0054621F /* TransactionPayload.h */; };
 		9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8628751B8D45D50003E474 /* TransferEntity.h */; };
 		9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86287F1B8D45E00003E474 /* TransferEntity.cc */; };
+		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
+		9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655801BE2F17F00997766 /* StateMachine.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA72CBD1BBA03A7001A755C /* MachPort.cc */; };
@@ -359,8 +359,6 @@
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
 		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
 		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
-		9E293DD41B72EB680037A431 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
-		9E293DD71B72EB700037A431 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
 		9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
 		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
@@ -392,6 +390,8 @@
 		9E67954C1BB08C4E0054621F /* TransactionPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionPayload.h; sourceTree = "<group>"; };
 		9E8628751B8D45D50003E474 /* TransferEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferEntity.h; sourceTree = "<group>"; };
 		9E86287F1B8D45E00003E474 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
+		9E86557D1BE2F16F00997766 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
+		9E8655801BE2F17F00997766 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EA72CBD1BBA03A7001A755C /* MachPort.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPort.cc; sourceTree = "<group>"; };
@@ -576,22 +576,6 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		9E293DD31B72EB680037A431 /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-				9E293DD41B72EB680037A431 /* StateMachine.h */,
-			);
-			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		9E293DD61B72EB700037A431 /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-				9E293DD71B72EB700037A431 /* StateMachine.cc */,
-			);
-			path = Infrastructure;
-			sourceTree = "<group>";
-		};
 		9E62F7481B796D80008DE08E /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +624,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9E86557C1BE2F16F00997766 /* Toolbox */ = {
+			isa = PBXGroup;
+			children = (
+				9E86557D1BE2F16F00997766 /* StateMachine.h */,
+			);
+			path = Toolbox;
+			sourceTree = "<group>";
+		};
+		9E86557F1BE2F17F00997766 /* Toolbox */ = {
+			isa = PBXGroup;
+			children = (
+				9E8655801BE2F17F00997766 /* StateMachine.cc */,
+			);
+			path = Toolbox;
+			sourceTree = "<group>";
+		};
 		9EAECE1E1B68543F000FA38A = {
 			isa = PBXGroup;
 			children = (
@@ -670,12 +670,12 @@
 				EA62B3141B6F2402009F197F /* Event */,
 				9EAECE591B685460000FA38A /* Geometry */,
 				9EAECE5F1B685460000FA38A /* Host */,
-				9E293DD31B72EB680037A431 /* Infrastructure */,
 				9EBA79A51B87D856005D84FA /* Instrumentation */,
 				9EAECE611B685460000FA38A /* Interface */,
 				9E16A6D31BE2E9BC00FFEDFC /* Layout */,
 				EA6B63971B9D572D00256484 /* Recognition */,
 				9EAECE631B685460000FA38A /* Shell */,
+				9E86557C1BE2F16F00997766 /* Toolbox */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -798,12 +798,12 @@
 				EA62B3171B6F241A009F197F /* Event */,
 				9EAECEB71B685469000FA38A /* Geometry */,
 				9EAECEBD1B685469000FA38A /* Host */,
-				9E293DD61B72EB700037A431 /* Infrastructure */,
 				9EBA79B41B87D864005D84FA /* Instrumentation */,
 				9EAECEBF1B685469000FA38A /* Interface */,
 				9E16A6E81BE2E9D700FFEDFC /* Layout */,
 				EA6B63921B9D571F00256484 /* Recognition */,
 				9EAECEC11B685469000FA38A /* Shell */,
+				9E86557F1BE2F17F00997766 /* Toolbox */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1084,8 +1084,8 @@
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9E62F90D1B7C1672008DE08E /* PresentationEntity.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
+				9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
-				9E293DD51B72EB680037A431 /* StateMachine.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
 				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
@@ -1328,6 +1328,7 @@
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
+				9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
 				9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */,
@@ -1385,7 +1386,6 @@
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
 				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
-				9E293DD81B72EB700037A431 /* StateMachine.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
 				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
