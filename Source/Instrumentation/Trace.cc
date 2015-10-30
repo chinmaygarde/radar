@@ -5,6 +5,7 @@
 #include <Instrumentation/Trace.h>
 
 namespace rl {
+namespace instrumentation {
 
 void Trace::begin(const char* name) {
 }
@@ -12,4 +13,5 @@ void Trace::begin(const char* name) {
 void Trace::end() {
 }
 
+}  // namespace instrumentation
 }  // namespace rl

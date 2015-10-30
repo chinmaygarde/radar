@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace instrumentation {
 
 class Stopwatch {
  public:
@@ -37,6 +38,7 @@ class AutoStopwatchLap {
   RL_DISALLOW_COPY_AND_ASSIGN(AutoStopwatchLap);
 };
 
+}  // namespace instrumentation
 }  // namespace rl
 
 #endif  // RADARLOVE_INSTRUMENTATION_STOPWATCH_H_

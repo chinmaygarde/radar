@@ -148,7 +148,8 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
 }
 
 bool Compositor::applyTransactionMessages(Messages messages) {
-  AutoStopwatchLap transactionUpdateTimer(_stats.transactionUpdateTimer());
+  instrumentation::AutoStopwatchLap transactionUpdateTimer(
+      _stats.transactionUpdateTimer());
   bool result = true;
   for (auto& message : messages) {
     result &= _graph.applyTransactions(message);

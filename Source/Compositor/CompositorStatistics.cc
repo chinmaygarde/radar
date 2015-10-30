@@ -9,31 +9,31 @@ namespace rl {
 CompositorStatistics::CompositorStatistics() {
 }
 
-Stopwatch& CompositorStatistics::frameTimer() {
+instrumentation::Stopwatch& CompositorStatistics::frameTimer() {
   return _frameTimer;
 }
 
-Stopwatch& CompositorStatistics::transactionUpdateTimer() {
+instrumentation::Stopwatch& CompositorStatistics::transactionUpdateTimer() {
   return _transactionUpdateTimer;
 }
 
-Stopwatch& CompositorStatistics::interpolations() {
+instrumentation::Stopwatch& CompositorStatistics::interpolations() {
   return _interpolations;
 }
 
-Counter& CompositorStatistics::interpolationsCount() {
+instrumentation::Counter& CompositorStatistics::interpolationsCount() {
   return _interpolationsCount;
 }
 
-Counter& CompositorStatistics::entityCount() {
+instrumentation::Counter& CompositorStatistics::entityCount() {
   return _entityCount;
 }
 
-Counter& CompositorStatistics::primitiveCount() {
+instrumentation::Counter& CompositorStatistics::primitiveCount() {
   return _primitiveCount;
 }
 
-Counter& CompositorStatistics::frameCount() {
+instrumentation::Counter& CompositorStatistics::frameCount() {
   return _frameCount;
 }
 

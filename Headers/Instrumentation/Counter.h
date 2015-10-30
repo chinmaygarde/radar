@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace instrumentation {
 
 class Counter {
  public:
@@ -25,6 +26,7 @@ class Counter {
   RL_DISALLOW_COPY_AND_ASSIGN(Counter);
 };
 
+}  // namespace instrumentation
 }  // namespace rl
 
 #endif  // RADARLOVE_INSTRUMENTATION_COUNTER_H_

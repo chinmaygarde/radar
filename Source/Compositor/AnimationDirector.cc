@@ -9,8 +9,9 @@ namespace rl {
 AnimationDirector::AnimationDirector() {
 }
 
-size_t AnimationDirector::stepInterpolations(Stopwatch& stopwatch) {
-  AutoStopwatchLap lap(stopwatch);
+size_t AnimationDirector::stepInterpolations(
+    instrumentation::Stopwatch& stopwatch) {
+  instrumentation::AutoStopwatchLap lap(stopwatch);
 
   const ClockPoint time = Clock::now();
   size_t count = 0;

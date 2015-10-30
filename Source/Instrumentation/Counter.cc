@@ -5,6 +5,7 @@
 #include <Instrumentation/Counter.h>
 
 namespace rl {
+namespace instrumentation {
 
 Counter::Counter() : _count(0) {
 }
@@ -21,4 +22,5 @@ void Counter::increment(size_t count) {
   _count += count;
 }
 
+}  // namespace instrumentation
 }  // namespace rl

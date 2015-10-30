@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace instrumentation {
 
 class Trace {
  public:
@@ -29,6 +30,7 @@ class AutoTrace : public Trace {
   RL_DISALLOW_COPY_AND_ASSIGN(AutoTrace);
 };
 
+}  // namespace instrumentation
 }  // namespace rl
 
 #endif  // RADARLOVE_INSTRUMENTATION_TRACE_H_

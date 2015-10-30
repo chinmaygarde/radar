@@ -5,6 +5,7 @@
 #include <Instrumentation/Stopwatch.h>
 
 namespace rl {
+namespace instrumentation {
 
 Stopwatch::Stopwatch() : _startPoint(ClockPoint::min()), _lastLap(0) {
 }
@@ -34,4 +35,5 @@ AutoStopwatchLap::~AutoStopwatchLap() {
   _stopwatch.stop();
 }
 
+}  // namespace instrumentation
 }  // namespace rl

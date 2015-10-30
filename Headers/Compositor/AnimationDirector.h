@@ -49,7 +49,7 @@ class AnimationDirector {
     }
   }
 
-  size_t stepInterpolations(Stopwatch& stopwatch);
+  size_t stepInterpolations(instrumentation::Stopwatch& stopwatch);
 
  private:
   template <typename T>

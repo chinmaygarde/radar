@@ -14,32 +14,32 @@ class CompositorStatistics {
  public:
   explicit CompositorStatistics();
 
-  Stopwatch& frameTimer();
+  instrumentation::Stopwatch& frameTimer();
 
-  Stopwatch& transactionUpdateTimer();
+  instrumentation::Stopwatch& transactionUpdateTimer();
 
-  Stopwatch& interpolations();
+  instrumentation::Stopwatch& interpolations();
 
-  Counter& interpolationsCount();
+  instrumentation::Counter& interpolationsCount();
 
-  Counter& entityCount();
+  instrumentation::Counter& entityCount();
 
-  Counter& primitiveCount();
+  instrumentation::Counter& primitiveCount();
 
-  Counter& frameCount();
+  instrumentation::Counter& frameCount();
 
   void start();
 
   void stop();
 
  private:
-  Stopwatch _frameTimer;
-  Stopwatch _transactionUpdateTimer;
-  Stopwatch _interpolations;
-  Counter _interpolationsCount;
-  Counter _entityCount;
-  Counter _primitiveCount;
-  Counter _frameCount;
+  instrumentation::Stopwatch _frameTimer;
+  instrumentation::Stopwatch _transactionUpdateTimer;
+  instrumentation::Stopwatch _interpolations;
+  instrumentation::Counter _interpolationsCount;
+  instrumentation::Counter _entityCount;
+  instrumentation::Counter _primitiveCount;
+  instrumentation::Counter _frameCount;
 
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
 };
