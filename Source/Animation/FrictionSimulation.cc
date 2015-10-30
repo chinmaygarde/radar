@@ -7,6 +7,7 @@
 #include <cmath>
 
 namespace rl {
+namespace animation {
 
 FrictionSimulation::FrictionSimulation(double drag,
                                        double position,
@@ -23,7 +24,8 @@ double FrictionSimulation::dx(const ClockDuration& time) {
 }
 
 bool FrictionSimulation::isDone(const ClockDuration& time) {
-  return fabs(dx(time)) < Animation::VelocityTolerance;
+  return fabs(dx(time)) < VelocityTolerance;
 }
 
+}  // namespace animation
 }  // namespace rl

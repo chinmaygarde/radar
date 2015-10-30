@@ -6,6 +6,7 @@
 #include <Animation/FrictionSimulation.h>
 
 namespace rl {
+namespace animation {
 
 ScrollSimulation::ScrollSimulation(double position,
                                    double velocity,
@@ -71,4 +72,5 @@ bool ScrollSimulation::chooseSimulation(double position,
   return false;
 }
 
+}  // namespace animation
 }  // namespace rl

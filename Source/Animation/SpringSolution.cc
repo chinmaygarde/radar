@@ -5,6 +5,8 @@
 #include <Animation/SpringSolution.h>
 
 namespace rl {
+namespace animation {
+
 class CriticalSolution : public SpringSolution {
  public:
   CriticalSolution(double r, double c1, double c2) : _r(r), _c1(c1), _c2(c2) {}
@@ -139,4 +141,5 @@ std::unique_ptr<SpringSolution> SpringSolution::Create(SpringDescription desc,
   return nullptr;
 }
 
+}  // namespace animation
 }  // namespace rl

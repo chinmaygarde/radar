@@ -5,6 +5,7 @@
 #include <Animation/SimulationGroup.h>
 
 namespace rl {
+namespace animation {
 
 double SimulationGroup::x(const ClockDuration& time) {
   stepIfNecessary(time);
@@ -22,8 +23,7 @@ bool SimulationGroup::isDone(const ClockDuration& time) {
 }
 
 void SimulationGroup::stepIfNecessary(const ClockDuration& time) {
-  if (Animation::NearEqual(_lastStep.count(), time.count(),
-                           Animation::TimeTolerance)) {
+  if (NearEqual(_lastStep.count(), time.count(), TimeTolerance)) {
     return;
   }
 
@@ -31,4 +31,5 @@ void SimulationGroup::stepIfNecessary(const ClockDuration& time) {
   step(time);
 }
 
+}  // namespace animation
 }  // namespace rl

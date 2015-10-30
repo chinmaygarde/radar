@@ -8,6 +8,8 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace animation {
+
 /**
  *  The base class for all simulations. The user is meant to instantiate an
  *  instance of a simulation and query the same for the position and velocity
@@ -42,6 +44,8 @@ class Simulation {
    */
   virtual bool isDone(const ClockDuration& time) = 0;
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SIMULATION_

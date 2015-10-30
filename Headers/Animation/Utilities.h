@@ -6,7 +6,8 @@
 #define RADARLOVE_ANIMATION_UTILITIES_
 
 namespace rl {
-namespace Animation {
+namespace animation {
+
 /**
  *  Acceptable tolerance for changes to velocity
  */
@@ -41,7 +42,7 @@ bool NearEqual(double a, double b, double epsilon);
  */
 bool NearZero(double a, double epsilon);
 
-}  // namespace Animation
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_UTILITIES_

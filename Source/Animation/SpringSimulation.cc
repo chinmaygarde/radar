@@ -7,6 +7,7 @@
 #include <Animation/SpringSolution.h>
 
 namespace rl {
+namespace animation {
 
 SpringSimulation::SpringSimulation(SpringDescription desc,
                                    double start,
@@ -25,9 +26,9 @@ double SpringSimulation::dx(const ClockDuration& time) {
 }
 
 bool SpringSimulation::isDone(const ClockDuration& time) {
-  return Animation::NearEqual(x(time), _endPosition,
-                              Animation::DistanceTolerance) &&
-         Animation::NearZero(dx(time), Animation::VelocityTolerance);
+  return NearEqual(x(time), _endPosition, DistanceTolerance) &&
+         NearZero(dx(time), VelocityTolerance);
 }
 
+}  // namespace animation
 }  // namespace rl

@@ -10,6 +10,8 @@
 #include <Animation/SpringSimulation.h>
 
 namespace rl {
+namespace animation {
+
 /**
  *  Simulates kinetic scrolling behavior between a leading and trailing
  *  boundary. Friction is applied within the extends and a spring action applied
@@ -46,6 +48,8 @@ class ScrollSimulation : public SimulationGroup {
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScrollSimulation);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SCROLLSIMULATION_

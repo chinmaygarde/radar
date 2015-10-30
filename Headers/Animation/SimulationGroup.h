@@ -10,6 +10,8 @@
 #include <Animation/Utilities.h>
 
 namespace rl {
+namespace animation {
+
 /*
  *  The abstract base class for all composite simulations. Concrete subclasses
  *  must implement the appropriate methods to select the appropriate simulation
@@ -51,6 +53,8 @@ class SimulationGroup : public Simulation {
 
   void stepIfNecessary(const ClockDuration& time);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SIMULATIONGROUP_

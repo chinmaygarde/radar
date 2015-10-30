@@ -12,6 +12,8 @@
 #include <cmath>
 
 namespace rl {
+namespace animation {
+
 /**
  * A spring simulation. Depending on the spring description, a critically,
  * under or overdamped spring will be created.
@@ -37,6 +39,8 @@ class SpringSimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SpringSimulation);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SPRINGSIMULATION_

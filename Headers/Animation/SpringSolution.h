@@ -11,6 +11,8 @@
 #include <cmath>
 
 namespace rl {
+namespace animation {
+
 struct SpringDescription {
   /**
    *  The mass of the spring (m)
@@ -56,6 +58,8 @@ class SpringSolution : public Simulation {
                                                 double initialPosition,
                                                 double initialVelocity);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_SPRINGSOLUTION_

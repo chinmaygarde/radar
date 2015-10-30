@@ -6,6 +6,7 @@
 #include <cmath>
 
 namespace rl {
+namespace animation {
 
 GravitySimulation::GravitySimulation(double acceleration,
                                      double distance,
@@ -26,4 +27,5 @@ bool GravitySimulation::isDone(const ClockDuration& time) {
   return fabs(x(time)) >= _end;
 }
 
+}  // namespace animation
 }  // namespace rl

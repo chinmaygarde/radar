@@ -9,6 +9,8 @@
 #include <Animation/Simulation.h>
 
 namespace rl {
+namespace animation {
+
 class FrictionSimulation : public Simulation {
  public:
   explicit FrictionSimulation(double drag, double position, double velocity);
@@ -25,6 +27,8 @@ class FrictionSimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(FrictionSimulation);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_FRICTION_SIMULATION_

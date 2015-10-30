@@ -9,6 +9,8 @@
 #include <Animation/Simulation.h>
 
 namespace rl {
+namespace animation {
+
 class GravitySimulation : public Simulation {
  public:
   explicit GravitySimulation(double acceleration,
@@ -28,6 +30,8 @@ class GravitySimulation : public Simulation {
 
   RL_DISALLOW_COPY_AND_ASSIGN(GravitySimulation);
 };
+
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_ANIMATION_GRAVITYSIMULATION_

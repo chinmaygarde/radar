@@ -4,4 +4,6 @@
 
 #include <Animation/Simulation.h>
 
-namespace rl {}  // namespace rl
+namespace rl {
+namespace animation {}  // namespace animation
+}  // namespace rl
