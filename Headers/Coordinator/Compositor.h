@@ -61,7 +61,7 @@ class Compositor : RenderSurfaceObserver {
 
 #pragma mark - Interface Lease Management
 
-  std::weak_ptr<CompositorChannel> acquireChannel();
+  std::weak_ptr<Channel> acquireChannel();
 
  private:
   std::shared_ptr<RenderSurface> _surface;
@@ -69,7 +69,7 @@ class Compositor : RenderSurfaceObserver {
   std::mutex _lock;
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::shared_ptr<CompositorChannel> _interfaceChannel;
+  std::shared_ptr<Channel> _interfaceChannel;
   PresentationGraph _graph;
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;

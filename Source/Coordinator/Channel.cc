@@ -2,20 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/CompositorChannel.h>
+#include <Coordinator/Channel.h>
 
 namespace rl {
 namespace coordinator {
 
-CompositorChannel::CompositorChannel()
-    : Channel(), _transactionMessage(new core::Message()) {
+Channel::Channel() : core::Channel(), _transactionMessage(new core::Message()) {
 }
 
-core::Message& CompositorChannel::transactionMessage() {
+core::Message& Channel::transactionMessage() {
   return *_transactionMessage;
 }
 
-bool CompositorChannel::flushTransaction() {
+bool Channel::flushTransaction() {
   RL_ASSERT(_transactionMessage);
 
   core::Messages messages;

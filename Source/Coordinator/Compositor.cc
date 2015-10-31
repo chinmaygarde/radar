@@ -118,12 +118,12 @@ void Compositor::teardownChannels() {
   _loop->removeSource(_animationsSource);
 }
 
-std::weak_ptr<CompositorChannel> Compositor::acquireChannel() {
+std::weak_ptr<Channel> Compositor::acquireChannel() {
   if (_interfaceChannel != nullptr) {
     return _interfaceChannel;
   }
 
-  _interfaceChannel = std::make_shared<CompositorChannel>();
+  _interfaceChannel = std::make_shared<Channel>();
   manageInterfaceUpdates(true);
 
   RL_ASSERT(_interfaceChannel != nullptr);

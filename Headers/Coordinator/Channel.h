@@ -2,17 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_COMPOSITORCHANNEL_H_
-#define RADARLOVE_COMPOSITOR_COMPOSITORCHANNEL_H_
+#ifndef RADARLOVE_COMPOSITOR_CHANNEL_H_
+#define RADARLOVE_COMPOSITOR_CHANNEL_H_
 
 #include <Core/Core.h>
 
 namespace rl {
 namespace coordinator {
 
-class CompositorChannel : public core::Channel {
+class Channel : public core::Channel {
  public:
-  CompositorChannel();
+  Channel();
 
   core::Message& transactionMessage();
 
@@ -21,10 +21,10 @@ class CompositorChannel : public core::Channel {
  private:
   std::unique_ptr<core::Message> _transactionMessage;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CompositorChannel);
+  RL_DISALLOW_COPY_AND_ASSIGN(Channel);
 };
 
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_COMPOSITORCHANNEL_H_
+#endif  // RADARLOVE_COMPOSITOR_CHANNEL_H_
