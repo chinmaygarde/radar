@@ -13,7 +13,7 @@
 
 namespace rl {
 
-class TouchEntity : public Entity {
+class TouchEntity : public interface::Entity {
  public:
   using IdentifierMap =
       std::map<Entity::Identifier, std::unique_ptr<TouchEntity>>;

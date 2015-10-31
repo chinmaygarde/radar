@@ -5,6 +5,7 @@
 #include <Interface/Action.h>
 
 namespace rl {
+namespace interface {
 
 Action::Action(double duration)
     : _duration(duration),
@@ -92,4 +93,5 @@ bool Action::deserialize(core::Message& message) {
   return result;
 }
 
+}  // namespace interface
 }  // namespace rl

@@ -10,8 +10,8 @@ namespace rl {
 template <typename Type>
 Interpolator<Type>::Interpolator(
     PresentationEntity::Borrowed entity,
-    const Action& action,
-    const typename Entity::Accessors<Type>::Setter& setter,
+    const interface::Action& action,
+    const typename interface::Entity::Accessors<Type>::Setter& setter,
     const Type& from,
     const Type& to)
     : _entity(entity),

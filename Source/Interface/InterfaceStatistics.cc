@@ -4,4 +4,6 @@
 
 #include <Interface/InterfaceStatistics.h>
 
-namespace rl {}  // namespace rl
+namespace rl {
+namespace interface {}  // namespace interface
+}  // namespace rl

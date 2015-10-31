@@ -18,15 +18,15 @@ namespace rl {
 class TransactionPayload : public core::Serializable {
  public:
   using EntityMap =
-      std::map<Entity::Identifier, std::unique_ptr<TransferEntity>>;
+      std::map<interface::Entity::Identifier, std::unique_ptr<TransferEntity>>;
 
-  using ActionCallback = std::function<void(Action&)>;
-  using TransferRecordCallback =
-      std::function<void(Action&, TransferRecord&, const core::ClockPoint&)>;
+  using ActionCallback = std::function<void(interface::Action&)>;
+  using TransferRecordCallback = std::function<
+      void(interface::Action&, TransferRecord&, const core::ClockPoint&)>;
   using RecognizerCallback =
       std::function<void(GestureRecognizer::Collection&&)>;
 
-  explicit TransactionPayload(Action&& action,
+  explicit TransactionPayload(interface::Action&& action,
                               EntityMap&& entities,
                               GestureRecognizer::Collection&& recognizers);
 
@@ -42,7 +42,7 @@ class TransactionPayload : public core::Serializable {
   /*
    *  Used when writing
    */
-  Action _action;
+  interface::Action _action;
   EntityMap _entities;
   GestureRecognizer::Collection _recognizers;
 

@@ -7,6 +7,7 @@
 #include <Recognition/GestureRecognizer.h>
 
 namespace rl {
+namespace interface {
 
 static Entity::Identifier LastEntityIdentifier = 0;
 
@@ -44,7 +45,7 @@ Entity::Entity(const Entity& entity)
       _notifiesInterfaceOnUpdate(false) {
 }
 
-void Entity::merge(const rl::Entity& entity) {
+void Entity::merge(const interface::Entity& entity) {
   RL_ASSERT(_identifier == entity._identifier);
 
   _bounds = entity._bounds;
@@ -181,4 +182,5 @@ const Entity::Accessors<double> OpacityAccessors{
 };
 // clang-format on
 
+}  // namespace interface
 }  // namespace rl

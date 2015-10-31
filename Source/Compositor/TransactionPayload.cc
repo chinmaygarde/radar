@@ -8,7 +8,7 @@
 namespace rl {
 
 TransactionPayload::TransactionPayload(
-    Action&& action,
+    interface::Action&& action,
     EntityMap&& entities,
     GestureRecognizer::Collection&& recognizers)
     : _action(std::move(action)),
@@ -75,7 +75,7 @@ bool TransactionPayload::deserialize(core::Message& message) {
   /*
    *  Step 1: Read the action
    */
-  Action action;
+  interface::Action action;
   result = action.deserialize(message);
 
   if (!result) {

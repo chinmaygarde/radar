@@ -12,80 +12,87 @@ namespace sample {
 SampleApplication::SampleApplication() {
 }
 
-void SampleApplication::didFinishLaunching(rl::Interface& interface) {
+void SampleApplication::didFinishLaunching(
+    rl::interface::Interface& interface) {
 }
 
-static void AddPanRecognizer(rl::Interface& interface, rl::Layer& layer) {
-  rl::Variable y(layer, rl::Entity::Position);
-  rl::Variable x(rl::Variable::Proxy::Touch1, rl::Entity::Position);
+static void AddPanRecognizer(rl::interface::Interface& interface,
+                             rl::interface::Layer& layer) {
+  rl::Variable y(layer, rl::interface::Entity::Position);
+  rl::Variable x(rl::Variable::Proxy::Touch1, rl::interface::Entity::Position);
 
   rl::Term::VariableDegree variableDegree(x, 1);
   rl::Term term(1.0, {variableDegree});
-  rl::Equation equation({term}, 0.0);
+  rl::Polynomial polynomial({term}, 0.0);
 
-  rl::GestureRecognizer recognizer(std::move(y), std::move(equation));
+  rl::GestureRecognizer recognizer(std::move(y), std::move(polynomial));
 
-  interface.setupGestureRecognizer(std::move(recognizer));
+  bool result = interface.setupGestureRecognizer(std::move(recognizer));
+  RL_ASSERT(result);
 }
 
-void SampleApplication::didBecomeActive(rl::Interface& interface) {
-  auto root = std::make_shared<rl::Layer>();
+void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
+  auto root = std::make_shared<rl::interface::Layer>();
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
-  rl::Action action;
+  rl::interface::Action action;
   action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
   action.setAutoReverses(true);
-  action.setDuration(rl::ClockDuration(1.0));
-  action.setRepeatCount(rl::Action::RepeatCountInfinity);
-  action.setPropertyMask(rl::Entity::Transformation | rl::Entity::Opacity);
+  action.setDuration(rl::core::ClockDuration(1.0));
+  action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);
+  action.setPropertyMask(rl::interface::Entity::Transformation |
+                         rl::interface::Entity::Opacity);
   interface.pushTransaction(std::move(action));
 
-  for (auto i = 0; i < 1000; i++) {
-    auto layer = std::make_shared<rl::Layer>();
+  for (auto i = 0; i < 1; i++) {
+    auto layer = std::make_shared<rl::interface::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),
                      static_cast<double>(rand() % 1200),
                      static_cast<double>(10 + rand() % 120),
                      static_cast<double>(10 + rand() % 120)});
     layer->setTransformation(
-        rl::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
+        rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
     layer->setBackgroundColor({(rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
                                (rand() % 100) / 100.0,
                                1.0});
     layer->setOpacity(((rand() % 10) / 10.0));
     root->addSublayer(layer);
-    AddPanRecognizer(interface, *layer);
   }
 
   interface.popTransaction();
 
-  auto sub1 = std::make_shared<rl::Layer>();
+  auto sub1 = std::make_shared<rl::interface::Layer>();
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});
   sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
   root->addSublayer(sub1);
+  AddPanRecognizer(interface, *sub1);
 
-  auto sub2 = std::make_shared<rl::Layer>();
+  auto sub2 = std::make_shared<rl::interface::Layer>();
   sub2->setFrame({10.0, 10.0, 80.0, 80.0});
   sub2->setBackgroundColor({0.0, 1.0, 0.0, 1.0});
   sub1->addSublayer(sub2);
+  AddPanRecognizer(interface, *sub2);
 
-  auto sub3 = std::make_shared<rl::Layer>();
+  auto sub3 = std::make_shared<rl::interface::Layer>();
   sub3->setFrame({10.0, 10.0, 60.0, 60.0});
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
   sub2->addSublayer(sub3);
+  AddPanRecognizer(interface, *sub3);
 }
 
-void SampleApplication::didEnterBackground(rl::Interface& interface) {
+void SampleApplication::didEnterBackground(
+    rl::interface::Interface& interface) {
 }
 
-void SampleApplication::didTerminate(rl::Interface& interface) {
+void SampleApplication::didTerminate(rl::interface::Interface& interface) {
 }
 
-void SampleApplication::didBecomeInactive(rl::Interface& interface) {
+void SampleApplication::didBecomeInactive(rl::interface::Interface& interface) {
 }
 
-void SampleApplication::didUpdateSize(rl::Interface& interface) {
+void SampleApplication::didUpdateSize(rl::interface::Interface& interface) {
 }
 
 }  // namespace sample

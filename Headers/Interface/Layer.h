@@ -16,6 +16,8 @@
 #include <list>
 
 namespace rl {
+namespace interface {
+
 class Layer : public Entity {
  public:
   using Ref = std::shared_ptr<Layer>;
@@ -62,6 +64,8 @@ class Layer : public Entity {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Layer);
 };
+
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_LAYER_

@@ -6,6 +6,7 @@
 #include <Compositor/TransactionPayload.h>
 
 namespace rl {
+namespace interface {
 
 InterfaceTransaction::InterfaceTransaction(const Action&& action)
     : _action(action) {
@@ -34,4 +35,5 @@ bool InterfaceTransaction::commit(core::Message& arena) {
   return payload.serialize(arena);
 }
 
+}  // namespace interface
 }  // namespace rl

@@ -14,12 +14,12 @@
 
 namespace rl {
 class Frame;
-class PresentationEntity : public Entity {
+class PresentationEntity : public interface::Entity {
  public:
   using Borrowed = PresentationEntity*;
   using PresentationOrder = int64_t;
-  using IdentifierMap =
-      std::map<Entity::Identifier, std::unique_ptr<PresentationEntity>>;
+  using IdentifierMap = std::map<interface::Entity::Identifier,
+                                 std::unique_ptr<PresentationEntity>>;
 
   explicit PresentationEntity(Identifier identifier);
 

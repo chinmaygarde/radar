@@ -9,6 +9,8 @@
 #include <Compositor/TimingCurve.h>
 
 namespace rl {
+namespace interface {
+
 class Action : public core::Serializable {
  public:
   /**
@@ -89,6 +91,8 @@ class Action : public core::Serializable {
 
   RL_DISALLOW_ASSIGN(Action);
 };
+
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_ACTION_

@@ -6,6 +6,7 @@
 #include <Interface/Interface.h>
 
 namespace rl {
+namespace interface {
 
 Layer::Layer() : Entity(true), _superlayer(nullptr) {
 }
@@ -60,4 +61,5 @@ const Layer* Layer::superlayer() const {
   return _superlayer;
 }
 
+}  // namespace interface
 }  // namespace rl

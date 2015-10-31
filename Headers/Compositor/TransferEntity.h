@@ -10,7 +10,7 @@
 
 namespace rl {
 
-class TransferEntity : public Entity {
+class TransferEntity : public interface::Entity {
  public:
   explicit TransferEntity(Identifier identifier);
   explicit TransferEntity(const TransferEntity& transferEntity);

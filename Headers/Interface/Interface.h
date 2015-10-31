@@ -16,6 +16,8 @@
 #include <mutex>
 
 namespace rl {
+namespace interface {
+
 class Interface {
  public:
   enum State {
@@ -159,6 +161,8 @@ class Interface {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Interface);
 };
+
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACE_

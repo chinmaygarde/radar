@@ -15,11 +15,11 @@
 namespace rl {
 
 struct TransferRecord {
-  Entity::Identifier identifier;
-  Entity::Property property;
+  interface::Entity::Identifier identifier;
+  interface::Entity::Property property;
 
   union DataType {
-    Entity::Identifier identifier;
+    interface::Entity::Identifier identifier;
     double number;
     geom::Point point;
     geom::Size size;
@@ -46,8 +46,8 @@ struct TransferRecord {
 
   template <typename T>
   static bool EmplaceInMessage(core::Message& message,
-                               Entity::Identifier identity,
-                               Entity::Property prop,
+                               interface::Entity::Identifier identity,
+                               interface::Entity::Property prop,
                                const T& varData) {
     /*
      *  Write the size of the 'data' field contained within this transfer record

@@ -17,15 +17,15 @@ namespace rl {
 class AnimationDirector {
  public:
   struct Key {
-    Entity::Identifier entityIdentifier;
-    Entity::Property entityProperty;
-    Key(Entity::Identifier ident, Entity::Property prop)
+    interface::Entity::Identifier entityIdentifier;
+    interface::Entity::Property entityProperty;
+    Key(interface::Entity::Identifier ident, interface::Entity::Property prop)
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 
   struct KeyHash {
     std::size_t operator()(const Key& key) const {
-      return std::hash<Entity::Identifier>()(key.entityIdentifier) ^
+      return std::hash<interface::Entity::Identifier>()(key.entityIdentifier) ^
              ((key.entityProperty) << 1);
     }
   };

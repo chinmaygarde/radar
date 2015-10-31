@@ -8,16 +8,16 @@
 #include <Interface/Interface.h>
 
 namespace sample {
-class SampleApplication : public rl::InterfaceDelegate {
+class SampleApplication : public rl::interface::InterfaceDelegate {
  public:
   SampleApplication();
 
-  virtual void didFinishLaunching(rl::Interface& interface) override;
-  virtual void didBecomeActive(rl::Interface& interface) override;
-  virtual void didEnterBackground(rl::Interface& interface) override;
-  virtual void didTerminate(rl::Interface& interface) override;
-  virtual void didBecomeInactive(rl::Interface& interface) override;
-  virtual void didUpdateSize(rl::Interface& interface) override;
+  virtual void didFinishLaunching(rl::interface::Interface& interface) override;
+  virtual void didBecomeActive(rl::interface::Interface& interface) override;
+  virtual void didEnterBackground(rl::interface::Interface& interface) override;
+  virtual void didTerminate(rl::interface::Interface& interface) override;
+  virtual void didBecomeInactive(rl::interface::Interface& interface) override;
+  virtual void didUpdateSize(rl::interface::Interface& interface) override;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(SampleApplication);

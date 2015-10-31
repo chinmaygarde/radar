@@ -19,7 +19,7 @@ namespace shell {
 class Shell {
  public:
   explicit Shell(std::shared_ptr<RenderSurface> surface,
-                 std::weak_ptr<InterfaceDelegate> delegate);
+                 std::weak_ptr<interface::InterfaceDelegate> delegate);
 
   /**
    *  Get a reference to the compositor
@@ -33,7 +33,7 @@ class Shell {
    *
    *  @return the interface
    */
-  Interface& interface();
+  interface::Interface& interface();
 
   /**
    *  Get a reference to the host
@@ -65,7 +65,7 @@ class Shell {
    *  Interface variables
    */
   std::thread _interfaceThread;
-  Interface _interface;
+  interface::Interface _interface;
 
   void attachHostOnCurrentThread();
 

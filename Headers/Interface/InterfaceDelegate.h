@@ -6,6 +6,7 @@
 #define RADARLOVE_INTERFACE_INTERFACEDELEGATE_
 
 namespace rl {
+namespace interface {
 
 class Interface;
 class InterfaceDelegate {
@@ -53,6 +54,8 @@ class InterfaceDelegate {
    */
   virtual void didUpdateSize(Interface& interface) = 0;
 };
+
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACEDELEGATE_

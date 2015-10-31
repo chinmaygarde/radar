@@ -13,11 +13,12 @@ namespace rl {
 template <typename Type>
 class Interpolator {
  public:
-  Interpolator(PresentationEntity::Borrowed entity,
-               const Action& action,
-               const typename Entity::Accessors<Type>::Setter& setter,
-               const Type& from,
-               const Type& to);
+  Interpolator(
+      PresentationEntity::Borrowed entity,
+      const interface::Action& action,
+      const typename interface::Entity::Accessors<Type>::Setter& setter,
+      const Type& from,
+      const Type& to);
 
   const Type& from() const;
 
@@ -29,8 +30,8 @@ class Interpolator {
 
  private:
   PresentationEntity::Borrowed _entity;
-  const Action _action;
-  const typename Entity::Accessors<Type>::Setter _setter;
+  const interface::Action _action;
+  const typename interface::Entity::Accessors<Type>::Setter _setter;
   Type _from;
   Type _to;
   core::ClockPoint _start;

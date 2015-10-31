@@ -9,6 +9,7 @@
 #include <Instrumentation/Instrumentation.h>
 
 namespace rl {
+namespace interface {
 
 class InterfaceStatistics {
  public:
@@ -16,6 +17,7 @@ class InterfaceStatistics {
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceStatistics);
 };
 
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACESTATISTICS_H_

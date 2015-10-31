@@ -41,18 +41,20 @@ class Variable : public core::Serializable {
   using ProxySet = std::set<Proxy>;
 
   explicit Variable();
-  explicit Variable(Variable::Proxy proxy, Entity::Property property);
-  explicit Variable(const Entity& entity, Entity::Property property);
+  explicit Variable(Variable::Proxy proxy,
+                    interface::Entity::Property property);
+  explicit Variable(const interface::Entity& entity,
+                    interface::Entity::Property property);
 
-  Entity::Identifier targetIdentifier() const;
+  interface::Entity::Identifier targetIdentifier() const;
 
-  Entity::Property targetProperty() const;
+  interface::Entity::Property targetProperty() const;
 
   ValueType valueType() const;
 
   bool isProxy() const;
 
-  Entity& entityRepresentation(
+  interface::Entity& entityRepresentation(
       const ActiveTouchSet& touches,
       const PresentationEntity::IdentifierMap& entities) const;
 
@@ -64,8 +66,8 @@ class Variable : public core::Serializable {
   bool deserialize(core::Message& message) override;
 
  private:
-  Entity::Identifier _identifier;
-  Entity::Property _property;
+  interface::Entity::Identifier _identifier;
+  interface::Entity::Property _property;
   bool _isProxy;
 
   RL_DISALLOW_ASSIGN(Variable);

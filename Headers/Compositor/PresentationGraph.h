@@ -40,19 +40,19 @@ class PresentationGraph {
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
-  void prepareActions(Action& action,
+  void prepareActions(interface::Action& action,
                       PresentationEntity& currentState,
                       const TransferRecord& record,
                       const core::ClockPoint& time);
   template <typename T>
-  void prepareActionSingle(Action& action,
+  void prepareActionSingle(interface::Action& action,
                            PresentationEntity& entity,
                            const TransferRecord& record,
-                           const Entity::Accessors<T>& accessors,
+                           const interface::Entity::Accessors<T>& accessors,
                            const core::ClockPoint& start);
 
-  void onActionCommit(Action& action);
-  void onTransferRecordCommit(Action& action,
+  void onActionCommit(interface::Action& action);
+  void onTransferRecordCommit(interface::Action& action,
                               TransferRecord& record,
                               const core::ClockPoint& commitTime);
   void onRecognizerCommit(GestureRecognizer::Collection&& recognizers);

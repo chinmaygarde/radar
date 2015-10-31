@@ -14,8 +14,7 @@
 #include <map>
 
 namespace rl {
-
-class GestureRecognizer;
+namespace interface {
 
 class InterfaceTransaction {
  public:
@@ -36,6 +35,8 @@ class InterfaceTransaction {
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
+
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_INTERFACETRANSACTION_

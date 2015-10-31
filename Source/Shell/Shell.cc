@@ -12,7 +12,7 @@ namespace rl {
 namespace shell {
 
 Shell::Shell(std::shared_ptr<RenderSurface> surface,
-             std::weak_ptr<InterfaceDelegate> delegate)
+             std::weak_ptr<interface::InterfaceDelegate> delegate)
     : _compositorThread(),
       _compositor(surface, _host.touchEventChannel()),
       _interface(delegate, _compositor.acquireChannel()) {
@@ -43,7 +43,7 @@ Compositor& Shell::compositor() {
   return _compositor;
 }
 
-Interface& Shell::interface() {
+interface::Interface& Shell::interface() {
   return _interface;
 }
 

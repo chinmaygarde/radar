@@ -19,7 +19,7 @@ class GestureRecognizer : public core::Serializable {
  public:
   using Identifier = uint64_t;
   using Collection = std::vector<GestureRecognizer>;
-  using ObservedEntities = std::set<Entity::Identifier>;
+  using ObservedEntities = std::set<interface::Entity::Identifier>;
 
   enum class Continuation {
     Continue,

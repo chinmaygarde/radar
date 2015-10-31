@@ -9,6 +9,7 @@
 #include <limits>
 
 namespace rl {
+namespace interface {
 
 static pthread_key_t InterfaceTLSKey() {
   static std::once_flag once;
@@ -254,4 +255,5 @@ bool Interface::setupGestureRecognizer(rl::GestureRecognizer&& recognizer) {
   return true;
 }
 
+}  // namespace interface
 }  // namespace rl

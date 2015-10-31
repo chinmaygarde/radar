@@ -155,9 +155,10 @@ double Term::solve(const ActiveTouchSet& touches,
      */
     double value = entity.opacity();
 
-    RL_ASSERT_MSG(item.variable.targetProperty() == Entity::Property::Opacity,
-                  "Polynomial solutions on numbers may only operate on the "
-                  "'opacity' property");
+    RL_ASSERT_MSG(
+        item.variable.targetProperty() == interface::Entity::Property::Opacity,
+        "Polynomial solutions on numbers may only operate on the "
+        "'opacity' property");
 
     solution = solution * pow(value, item.degree);
   }
@@ -180,10 +181,10 @@ geom::Point Term::solve(
     geom::Point value = geom::PointZero;
 
     switch (item.variable.targetProperty()) {
-      case Entity::Property::Position:
+      case interface::Entity::Property::Position:
         value = entity.position();
         break;
-      case Entity::Property::AnchorPoint:
+      case interface::Entity::Property::AnchorPoint:
         value = entity.anchorPoint();
         break;
       default:
@@ -217,9 +218,10 @@ geom::Rect Term::solve(
      *  Note: This should likely be augmented to include the computed 'frame'
      *        property for ease of use of the API
      */
-    RL_ASSERT_MSG(item.variable.targetProperty() == Entity::Property::Bounds,
-                  "Polynomial solutions on rectangles may only operate on the "
-                  "'bounds' property");
+    RL_ASSERT_MSG(
+        item.variable.targetProperty() == interface::Entity::Property::Bounds,
+        "Polynomial solutions on rectangles may only operate on the "
+        "'bounds' property");
 
     RL_ASSERT_MSG(item.degree == 1, "Cannot raise a 'Rect' by another 'Rect'");
     solution = solution * value;
@@ -248,7 +250,8 @@ Color Term::solve(const ActiveTouchSet& touches,
   auto solution = entity.backgroundColor();
 
   RL_ASSERT_MSG(
-      item.variable.targetProperty() == Entity::Property::BackgroundColor,
+      item.variable.targetProperty() ==
+          interface::Entity::Property::BackgroundColor,
       "Polynomial solutions on colors may only operate on the 'background "
       "color' property");
 
@@ -277,10 +280,10 @@ geom::Matrix Term::solve(
    */
   auto solution = entity.transformation();
 
-  RL_ASSERT_MSG(
-      item.variable.targetProperty() == Entity::Property::Transformation,
-      "Polynomial solutions on matrices may only operate on the "
-      "'tranformation' property");
+  RL_ASSERT_MSG(item.variable.targetProperty() ==
+                    interface::Entity::Property::Transformation,
+                "Polynomial solutions on matrices may only operate on the "
+                "'tranformation' property");
 
   RL_ASSERT_MSG(item.degree == 1,
                 "Cannot raise a 'Matrix' by another 'Matrix'");

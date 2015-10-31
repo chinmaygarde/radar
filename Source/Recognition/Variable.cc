@@ -8,26 +8,27 @@
 namespace rl {
 
 Variable::Variable()
-    : _identifier(Entity::IdentifierNone),
-      _property(Entity::Property::None),
+    : _identifier(interface::Entity::IdentifierNone),
+      _property(interface::Entity::Property::None),
       _isProxy(false) {
 }
 
-Variable::Variable(Variable::Proxy proxy, Entity::Property property)
-    : _identifier(static_cast<Entity::Identifier>(proxy)),
+Variable::Variable(Variable::Proxy proxy, interface::Entity::Property property)
+    : _identifier(static_cast<interface::Entity::Identifier>(proxy)),
       _property(property),
       _isProxy(true) {
 }
 
-Variable::Variable(const Entity& entity, Entity::Property property)
+Variable::Variable(const interface::Entity& entity,
+                   interface::Entity::Property property)
     : _identifier(entity.identifier()), _property(property), _isProxy(false) {
 }
 
-Entity::Identifier Variable::targetIdentifier() const {
+interface::Entity::Identifier Variable::targetIdentifier() const {
   return _identifier;
 }
 
-Entity::Property Variable::targetProperty() const {
+interface::Entity::Property Variable::targetProperty() const {
   return _property;
 }
 
@@ -36,18 +37,19 @@ bool Variable::isProxy() const {
 }
 
 Variable::ValueType Variable::valueType() const {
+  using Property = interface::Entity::Property;
   switch (_property) {
-    case Entity::Property::Position:
+    case Property::Position:
       return ValueType::Point;
-    case Entity::Property::AnchorPoint:
+    case Property::AnchorPoint:
       return ValueType::Point;
-    case Entity::Property::Bounds:
+    case Property::Bounds:
       return ValueType::Rect;
-    case Entity::Property::Transformation:
+    case Property::Transformation:
       return ValueType::Matrix;
-    case Entity::Property::BackgroundColor:
+    case Property::BackgroundColor:
       return ValueType::Color;
-    case Entity::Property::Opacity:
+    case Property::Opacity:
       return ValueType::Number;
     default:
       return ValueType::Unsupported;
@@ -55,7 +57,7 @@ Variable::ValueType Variable::valueType() const {
   return ValueType::Unsupported;
 }
 
-Entity& Variable::entityRepresentation(
+interface::Entity& Variable::entityRepresentation(
     const ActiveTouchSet& touches,
     const PresentationEntity::IdentifierMap& entities) const {
   if (_isProxy) {

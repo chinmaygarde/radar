@@ -10,8 +10,7 @@
 #include <Compositor/Color.h>
 
 namespace rl {
-
-class GestureRecognizer;
+namespace interface {
 
 class Entity {
  public:
@@ -201,6 +200,7 @@ extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
 extern const Entity::Accessors<Color> BackgroundColorAccessors;
 extern const Entity::Accessors<double> OpacityAccessors;
 
+}  // namespace interface
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_ENTITY_

@@ -7,8 +7,8 @@
 namespace rl {
 
 template <>
-const Entity::Identifier& TransferRecord::transferData<Entity::Identifier>()
-    const {
+const interface::Entity::Identifier&
+TransferRecord::transferData<interface::Entity::Identifier>() const {
   return data.identifier;
 }
 

@@ -169,27 +169,28 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
    */
   auto& entity = _evaluationResult.presentationEntityRepresentation(entities);
   switch (evaluationResult().targetProperty()) {
-    case Entity::Property::Bounds: {
+    using Property = interface::Entity::Property;
+    case Property::Bounds: {
       auto bounds = _polynomial.solve<geom::Rect>(touches, entities);
       entity.setBounds(bounds);
     } break;
-    case Entity::Property::Position: {
+    case Property::Position: {
       auto pointInWindow = _polynomial.solve<geom::Point>(touches, entities);
       entity.setPosition(pointInWindow);
     } break;
-    case Entity::Property::AnchorPoint: {
+    case Property::AnchorPoint: {
       auto anchorPoint = _polynomial.solve<geom::Point>(touches, entities);
       entity.setAnchorPoint(anchorPoint);
     } break;
-    case Entity::Property::Transformation: {
+    case Property::Transformation: {
       auto transformation = _polynomial.solve<geom::Matrix>(touches, entities);
       entity.setTransformation(transformation);
     } break;
-    case Entity::Property::BackgroundColor: {
+    case Property::BackgroundColor: {
       auto backgroundColor = _polynomial.solve<Color>(touches, entities);
       entity.setBackgroundColor(backgroundColor);
     } break;
-    case Entity::Property::Opacity: {
+    case Property::Opacity: {
       auto opacity = _polynomial.solve<double>(touches, entities);
       entity.setOpacity(opacity);
     } break;

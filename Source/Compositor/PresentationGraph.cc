@@ -37,23 +37,23 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   return payload.deserialize(arena);
 }
 
-void PresentationGraph::onActionCommit(Action& action) {
+void PresentationGraph::onActionCommit(interface::Action& action) {
   /*
    *  Nothing to do on its own. Its only when we see transfer records with this
    *  action do we need to do some configuration.
    */
 }
 
-void PresentationGraph::onTransferRecordCommit(Action& action,
+void PresentationGraph::onTransferRecordCommit(interface::Action& action,
                                                TransferRecord& record,
                                                const core::ClockPoint& time) {
-  if (record.property == Entity::Created) {
+  if (record.property == interface::Entity::Created) {
     _entities[record.identifier] =
         core::make_unique<PresentationEntity>(record.identifier);
     return;
   }
 
-  if (record.property == Entity::Destroyed) {
+  if (record.property == interface::Entity::Destroyed) {
     if (_root && _root->identifier() == record.identifier) {
       _root = nullptr;
     }
@@ -72,10 +72,10 @@ void PresentationGraph::onRecognizerCommit(
 
 template <typename T>
 void PresentationGraph::prepareActionSingle(
-    Action& action,
+    interface::Action& action,
     PresentationEntity& entity,
     const TransferRecord& record,
-    const Entity::Accessors<T>& accessors,
+    const interface::Entity::Accessors<T>& accessors,
     const core::ClockPoint& start) {
   /*
    *  Prepare the key for the animation in the animation director
@@ -95,62 +95,66 @@ void PresentationGraph::prepareActionSingle(
   _animationDirector.setInterpolator(key, std::move(interpolator), start);
 }
 
-void PresentationGraph::prepareActions(Action& action,
+void PresentationGraph::prepareActions(interface::Action& action,
                                        PresentationEntity& entity,
                                        const TransferRecord& record,
                                        const core::ClockPoint& time) {
   switch (record.property) {
-    case Entity::Bounds:
-      if (action.propertyMask() & Entity::Bounds) {
-        prepareActionSingle(action, entity, record, BoundsAccessors, time);
+    case interface::Entity::Bounds:
+      if (action.propertyMask() & interface::Entity::Bounds) {
+        prepareActionSingle(action, entity, record, interface::BoundsAccessors,
+                            time);
       } else {
         entity.setBounds(record.data.rect);
       }
       break;
-    case Entity::Position:
-      if (action.propertyMask() & Entity::Position) {
-        prepareActionSingle(action, entity, record, PositionAccessors, time);
+    case interface::Entity::Position:
+      if (action.propertyMask() & interface::Entity::Position) {
+        prepareActionSingle(action, entity, record,
+                            interface::PositionAccessors, time);
       } else {
         entity.setPosition(record.data.point);
       }
       break;
-    case Entity::AnchorPoint:
-      if (action.propertyMask() & Entity::AnchorPoint) {
-        prepareActionSingle(action, entity, record, AnchorPointAccessors, time);
+    case interface::Entity::AnchorPoint:
+      if (action.propertyMask() & interface::Entity::AnchorPoint) {
+        prepareActionSingle(action, entity, record,
+                            interface::AnchorPointAccessors, time);
       } else {
         entity.setAnchorPoint(record.data.point);
       }
       break;
-    case Entity::Transformation:
-      if (action.propertyMask() & Entity::Transformation) {
-        prepareActionSingle(action, entity, record, TransformationAccessors,
-                            time);
+    case interface::Entity::Transformation:
+      if (action.propertyMask() & interface::Entity::Transformation) {
+        prepareActionSingle(action, entity, record,
+                            interface::TransformationAccessors, time);
       } else {
         entity.setTransformation(record.data.matrix);
       }
       break;
-    case Entity::BackgroundColor:
-      if (action.propertyMask() & Entity::BackgroundColor) {
-        prepareActionSingle(action, entity, record, BackgroundColorAccessors,
-                            time);
+    case interface::Entity::BackgroundColor:
+      if (action.propertyMask() & interface::Entity::BackgroundColor) {
+        prepareActionSingle(action, entity, record,
+                            interface::BackgroundColorAccessors, time);
       } else {
         entity.setBackgroundColor(record.data.color);
       }
       break;
-    case Entity::Opacity:
-      if (action.propertyMask() & Entity::Opacity) {
-        prepareActionSingle(action, entity, record, OpacityAccessors, time);
+    case interface::Entity::Opacity:
+      if (action.propertyMask() & interface::Entity::Opacity) {
+        prepareActionSingle(action, entity, record, interface::OpacityAccessors,
+                            time);
       } else {
         entity.setOpacity(record.data.number);
       }
       break;
-    case Entity::AddedTo:
+    case interface::Entity::AddedTo:
       (*_entities[record.data.identifier]).addChild(&entity);
       break;
-    case Entity::RemovedFrom:
+    case interface::Entity::RemovedFrom:
       (*_entities[record.data.identifier]).removeChild(&entity);
       break;
-    case Entity::MakeRoot:
+    case interface::Entity::MakeRoot:
       _root = &entity;
       break;
     default:
