@@ -8,7 +8,7 @@
 #include <Core/Core.h>
 #include <Interface/Action.h>
 #include <Interface/Entity.h>
-#include <Compositor/EntityArena.h>
+#include <Coordinator/EntityArena.h>
 #include <Recognition/GestureRecognizer.h>
 
 #include <map>

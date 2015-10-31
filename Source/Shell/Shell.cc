@@ -4,7 +4,7 @@
 
 #include <Shell/Shell.h>
 
-#include <Compositor/Compositor.h>
+#include <Coordinator/Compositor.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
 

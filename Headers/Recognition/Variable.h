@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
-#include <Compositor/PresentationEntity.h>
+#include <Coordinator/PresentationEntity.h>
 
 #include <set>
 

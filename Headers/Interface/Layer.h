@@ -8,10 +8,10 @@
 #include <Core/Core.h>
 
 #include <Interface/Entity.h>
-#include <Compositor/Color.h>
-#include <Compositor/Frame.h>
-#include <Compositor/Primitive.h>
-#include <Compositor/EntityArena.h>
+#include <Coordinator/Color.h>
+#include <Coordinator/Frame.h>
+#include <Coordinator/Primitive.h>
+#include <Coordinator/EntityArena.h>
 
 #include <list>
 

@@ -6,8 +6,8 @@
 #define RADARLOVE_SHELL_SHELL_
 
 #include <Core/Core.h>
-#include <Compositor/Compositor.h>
-#include <Compositor/RenderSurface.h>
+#include <Coordinator/Compositor.h>
+#include <Coordinator/RenderSurface.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
 

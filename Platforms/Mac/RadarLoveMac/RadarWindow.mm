@@ -6,7 +6,7 @@
 
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Compositor/RenderSurface.h>
+#include <Coordinator/RenderSurface.h>
 #include "Sample.h"
 
 namespace rl {

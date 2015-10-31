@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Compositor/Color.h>
+#include <Coordinator/Color.h>
 
 namespace rl {
 namespace interface {

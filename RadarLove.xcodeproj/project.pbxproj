@@ -64,8 +64,6 @@
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
 		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
 		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
-		9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */; };
-		9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */; };
 		9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */; };
 		9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */; };
 		9E62F8D31B796ED3008DE08E /* ChannelTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.cc */; };
@@ -79,24 +77,56 @@
 		9E62F8DD1B796EDD008DE08E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8B21B796E10008DE08E /* libgtest.a */; };
 		9E62F8DF1B796FC8008DE08E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */; };
 		9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.cc */; };
-		9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */; };
-		9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9081B7BEEB2008DE08E /* EntityLease.h */; };
 		9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */; };
-		9E62F90D1B7C1672008DE08E /* PresentationEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F90C1B7C1672008DE08E /* PresentationEntity.h */; };
-		9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */; };
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
 		9E62F9131B7C19AF008DE08E /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9121B7C19AF008DE08E /* Entity.h */; };
-		9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9141B7C1F7A008DE08E /* EntityArena.cc */; };
-		9E62F9171B7C1F85008DE08E /* EntityArena.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9161B7C1F85008DE08E /* EntityArena.h */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
-		9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6795421BB08C430054621F /* TransactionPayload.cc */; };
-		9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67954C1BB08C4E0054621F /* TransactionPayload.h */; };
-		9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8628751B8D45D50003E474 /* TransferEntity.h */; };
-		9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86287F1B8D45E00003E474 /* TransferEntity.cc */; };
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
 		9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655801BE2F17F00997766 /* StateMachine.cc */; };
+		9E8655E81BE45E2700997766 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D31BE45E2700997766 /* AnimationDirector.h */; };
+		9E8655E91BE45E2700997766 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D41BE45E2700997766 /* Color.h */; };
+		9E8655EA1BE45E2700997766 /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Compositor.h */; };
+		9E8655EB1BE45E2700997766 /* CompositorChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D61BE45E2700997766 /* CompositorChannel.h */; };
+		9E8655EC1BE45E2700997766 /* CompositorStatistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* CompositorStatistics.h */; };
+		9E8655ED1BE45E2700997766 /* CompositorStatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */; };
+		9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D91BE45E2700997766 /* EntityArena.h */; };
+		9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DA1BE45E2700997766 /* EntityLease.h */; };
+		9E8655F01BE45E2700997766 /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DB1BE45E2700997766 /* Frame.h */; };
+		9E8655F11BE45E2700997766 /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DC1BE45E2700997766 /* Interpolator.h */; };
+		9E8655F21BE45E2700997766 /* OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DD1BE45E2700997766 /* OpenGL.h */; };
+		9E8655F31BE45E2700997766 /* PresentationEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DE1BE45E2700997766 /* PresentationEntity.h */; };
+		9E8655F41BE45E2700997766 /* PresentationGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DF1BE45E2700997766 /* PresentationGraph.h */; };
+		9E8655F51BE45E2700997766 /* Primitive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E01BE45E2700997766 /* Primitive.h */; };
+		9E8655F61BE45E2700997766 /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E11BE45E2700997766 /* Program.h */; };
+		9E8655F71BE45E2700997766 /* ProgramCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E21BE45E2700997766 /* ProgramCatalog.h */; };
+		9E8655F81BE45E2700997766 /* RenderSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E31BE45E2700997766 /* RenderSurface.h */; };
+		9E8655F91BE45E2700997766 /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E41BE45E2700997766 /* TimingCurve.h */; };
+		9E8655FA1BE45E2700997766 /* TransactionPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E51BE45E2700997766 /* TransactionPayload.h */; };
+		9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E61BE45E2700997766 /* TransferEntity.h */; };
+		9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E71BE45E2700997766 /* TransferRecord.h */; };
+		9E8656131BE45E3A00997766 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655FE1BE45E3A00997766 /* AnimationDirector.cc */; };
+		9E8656141BE45E3A00997766 /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655FF1BE45E3A00997766 /* Color.cc */; };
+		9E8656151BE45E3A00997766 /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Compositor.cc */; };
+		9E8656161BE45E3A00997766 /* CompositorChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656011BE45E3A00997766 /* CompositorChannel.cc */; };
+		9E8656171BE45E3A00997766 /* CompositorStatistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* CompositorStatistics.cc */; };
+		9E8656181BE45E3A00997766 /* CompositorStatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */; };
+		9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656041BE45E3A00997766 /* EntityArena.cc */; };
+		9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656051BE45E3A00997766 /* EntityLease.cc */; };
+		9E86561B1BE45E3A00997766 /* Frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656061BE45E3A00997766 /* Frame.cc */; };
+		9E86561C1BE45E3A00997766 /* Interpolator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656071BE45E3A00997766 /* Interpolator.cc */; };
+		9E86561D1BE45E3A00997766 /* OpenGL.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656081BE45E3A00997766 /* OpenGL.cc */; };
+		9E86561E1BE45E3A00997766 /* PresentationEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656091BE45E3A00997766 /* PresentationEntity.cc */; };
+		9E86561F1BE45E3A00997766 /* PresentationGraph.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560A1BE45E3A00997766 /* PresentationGraph.cc */; };
+		9E8656201BE45E3A00997766 /* Primitive.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560B1BE45E3A00997766 /* Primitive.cc */; };
+		9E8656211BE45E3A00997766 /* Program.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560C1BE45E3A00997766 /* Program.cc */; };
+		9E8656221BE45E3A00997766 /* ProgramCatalog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560D1BE45E3A00997766 /* ProgramCatalog.cc */; };
+		9E8656231BE45E3A00997766 /* RenderSurface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560E1BE45E3A00997766 /* RenderSurface.cc */; };
+		9E8656241BE45E3A00997766 /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E86560F1BE45E3A00997766 /* TimingCurve.cc */; };
+		9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656101BE45E3A00997766 /* TransactionPayload.cc */; };
+		9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656111BE45E3A00997766 /* TransferEntity.cc */; };
+		9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656121BE45E3A00997766 /* TransferRecord.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA72CBD1BBA03A7001A755C /* MachPort.cc */; };
@@ -112,14 +142,6 @@
 		9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3A1B685460000FA38A /* SpringSimulation.h */; };
 		9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3B1B685460000FA38A /* SpringSolution.h */; };
 		9EAECE6C1B685460000FA38A /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3C1B685460000FA38A /* Utilities.h */; };
-		9EAECE6D1B685460000FA38A /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3E1B685460000FA38A /* Color.h */; };
-		9EAECE6E1B685460000FA38A /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE3F1B685460000FA38A /* Compositor.h */; };
-		9EAECE6F1B685460000FA38A /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE401B685460000FA38A /* Frame.h */; };
-		9EAECE711B685460000FA38A /* OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE421B685460000FA38A /* OpenGL.h */; };
-		9EAECE721B685460000FA38A /* Primitive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE431B685460000FA38A /* Primitive.h */; };
-		9EAECE731B685460000FA38A /* Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE441B685460000FA38A /* Program.h */; };
-		9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE451B685460000FA38A /* ProgramCatalog.h */; };
-		9EAECE751B685460000FA38A /* RenderSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE461B685460000FA38A /* RenderSurface.h */; };
 		9EAECE791B685460000FA38A /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4B1B685460000FA38A /* Channel.h */; };
 		9EAECE7A1B685460000FA38A /* Config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4C1B685460000FA38A /* Config.h */; };
 		9EAECE7B1B685460000FA38A /* Guard.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAECE4D1B685460000FA38A /* Guard.h */; };
@@ -146,14 +168,6 @@
 		9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE961B685469000FA38A /* SpringSimulation.cc */; };
 		9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE971B685469000FA38A /* SpringSolution.cc */; };
 		9EAECECA1B685469000FA38A /* Utilities.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE981B685469000FA38A /* Utilities.cc */; };
-		9EAECECB1B685469000FA38A /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9A1B685469000FA38A /* Color.cc */; };
-		9EAECECC1B685469000FA38A /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9B1B685469000FA38A /* Compositor.cc */; };
-		9EAECECD1B685469000FA38A /* Frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9C1B685469000FA38A /* Frame.cc */; };
-		9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9E1B685469000FA38A /* OpenGL.cc */; };
-		9EAECED01B685469000FA38A /* Primitive.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECE9F1B685469000FA38A /* Primitive.cc */; };
-		9EAECED11B685469000FA38A /* Program.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA01B685469000FA38A /* Program.cc */; };
-		9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA11B685469000FA38A /* ProgramCatalog.cc */; };
-		9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA21B685469000FA38A /* RenderSurface.cc */; };
 		9EAECED71B685469000FA38A /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA81B685469000FA38A /* Channel.cc */; };
 		9EAECED81B685469000FA38A /* Guard.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEA91B685469000FA38A /* Guard.cc */; };
 		9EAECED91B685469000FA38A /* Latch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEAA1B685469000FA38A /* Latch.cc */; };
@@ -171,23 +185,15 @@
 		9EAECEEA1B685469000FA38A /* Host.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEBE1B685469000FA38A /* Host.cc */; };
 		9EAECEEB1B685469000FA38A /* Interface.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC01B685469000FA38A /* Interface.cc */; };
 		9EAECEEC1B685469000FA38A /* Shell.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EAECEC21B685469000FA38A /* Shell.cc */; };
-		9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */; };
-		9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */; };
-		9EB8E2DE1B9110A9006BFAC2 /* CompositorChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */; };
-		9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */; };
 		9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A61B87D856005D84FA /* Instrumentation.h */; };
 		9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A71B87D856005D84FA /* Stopwatch.h */; };
 		9EBA79AB1B87D856005D84FA /* Trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79A81B87D856005D84FA /* Trace.h */; };
 		9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79B51B87D864005D84FA /* Stopwatch.cc */; };
 		9EBA79B81B87D864005D84FA /* Trace.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79B61B87D864005D84FA /* Trace.cc */; };
-		9EBA79BA1B87EEDF005D84FA /* CompositorStatistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79B91B87EEDF005D84FA /* CompositorStatistics.h */; };
 		9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79BB1B87EEF4005D84FA /* InterfaceStatistics.h */; };
-		9EBA79BE1B87EF08005D84FA /* CompositorStatistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79BD1B87EF08005D84FA /* CompositorStatistics.cc */; };
 		9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */; };
 		9EBA79C21B87F1F8005D84FA /* Counter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79C11B87F1F8005D84FA /* Counter.h */; };
 		9EBA79C41B87F203005D84FA /* Counter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79C31B87F203005D84FA /* Counter.cc */; };
-		9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */; };
-		9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */; };
 		9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79CB1B87FF57005D84FA /* imconfig.h */; };
 		9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79CC1B87FF57005D84FA /* imgui_demo.cpp */; };
 		9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA79CD1B87FF57005D84FA /* imgui_draw.cpp */; };
@@ -197,8 +203,6 @@
 		9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */; };
 		9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D41B87FF57005D84FA /* stb_textedit.h */; };
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
-		EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA573B511B9306EE0053E461 /* AnimationDirector.h */; };
-		EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA573B5B1B9307030053E461 /* AnimationDirector.cc */; };
 		EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */; };
 		EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */; };
 		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
@@ -211,10 +215,6 @@
 		EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3201B6F28F7009F197F /* TouchEvent.h */; };
 		EA62B3231B6F2F31009F197F /* Timing.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3221B6F2F31009F197F /* Timing.h */; };
 		EA62B3251B6F2F41009F197F /* Timing.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3241B6F2F41009F197F /* Timing.cc */; };
-		EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314361B6C89510026B6BB /* Interpolator.cc */; };
-		EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6314371B6C89510026B6BB /* TimingCurve.cc */; };
-		EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143A1B6C89630026B6BB /* Interpolator.h */; };
-		EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EA63143B1B6C89630026B6BB /* TimingCurve.h */; };
 		EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63931B9D571F00256484 /* Polynomial.cc */; };
 		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
 		EA6B639A1B9D572D00256484 /* Polynomial.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Polynomial.h */; };
@@ -359,8 +359,6 @@
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
 		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
 		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
-		9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
-		9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
 		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
 		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelTest.cc; sourceTree = "<group>"; };
@@ -374,24 +372,56 @@
 		9E62F8C71B796E9E008DE08E /* RadarLoveTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RadarLoveTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		9E62F8F91B7983A2008DE08E /* LatchTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LatchTest.cc; sourceTree = "<group>"; };
-		9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLease.cc; sourceTree = "<group>"; };
-		9E62F9081B7BEEB2008DE08E /* EntityLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityLease.h; sourceTree = "<group>"; };
 		9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLeaseTest.cc; sourceTree = "<group>"; };
-		9E62F90C1B7C1672008DE08E /* PresentationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationEntity.h; sourceTree = "<group>"; };
-		9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationEntity.cc; sourceTree = "<group>"; };
 		9E62F9101B7C199D008DE08E /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
 		9E62F9121B7C19AF008DE08E /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		9E62F9141B7C1F7A008DE08E /* EntityArena.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityArena.cc; sourceTree = "<group>"; };
-		9E62F9161B7C1F85008DE08E /* EntityArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityArena.h; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
-		9E6795421BB08C430054621F /* TransactionPayload.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransactionPayload.cc; sourceTree = "<group>"; };
-		9E67954C1BB08C4E0054621F /* TransactionPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionPayload.h; sourceTree = "<group>"; };
-		9E8628751B8D45D50003E474 /* TransferEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferEntity.h; sourceTree = "<group>"; };
-		9E86287F1B8D45E00003E474 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
 		9E86557D1BE2F16F00997766 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E8655801BE2F17F00997766 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
+		9E8655D31BE45E2700997766 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDirector.h; sourceTree = "<group>"; };
+		9E8655D41BE45E2700997766 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		9E8655D51BE45E2700997766 /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
+		9E8655D61BE45E2700997766 /* CompositorChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorChannel.h; sourceTree = "<group>"; };
+		9E8655D71BE45E2700997766 /* CompositorStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatistics.h; sourceTree = "<group>"; };
+		9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatisticsRenderer.h; sourceTree = "<group>"; };
+		9E8655D91BE45E2700997766 /* EntityArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityArena.h; sourceTree = "<group>"; };
+		9E8655DA1BE45E2700997766 /* EntityLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityLease.h; sourceTree = "<group>"; };
+		9E8655DB1BE45E2700997766 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		9E8655DC1BE45E2700997766 /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
+		9E8655DD1BE45E2700997766 /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
+		9E8655DE1BE45E2700997766 /* PresentationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationEntity.h; sourceTree = "<group>"; };
+		9E8655DF1BE45E2700997766 /* PresentationGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationGraph.h; sourceTree = "<group>"; };
+		9E8655E01BE45E2700997766 /* Primitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Primitive.h; sourceTree = "<group>"; };
+		9E8655E11BE45E2700997766 /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
+		9E8655E21BE45E2700997766 /* ProgramCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramCatalog.h; sourceTree = "<group>"; };
+		9E8655E31BE45E2700997766 /* RenderSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSurface.h; sourceTree = "<group>"; };
+		9E8655E41BE45E2700997766 /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
+		9E8655E51BE45E2700997766 /* TransactionPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionPayload.h; sourceTree = "<group>"; };
+		9E8655E61BE45E2700997766 /* TransferEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferEntity.h; sourceTree = "<group>"; };
+		9E8655E71BE45E2700997766 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
+		9E8655FE1BE45E3A00997766 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
+		9E8655FF1BE45E3A00997766 /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
+		9E8656001BE45E3A00997766 /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
+		9E8656011BE45E3A00997766 /* CompositorChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorChannel.cc; sourceTree = "<group>"; };
+		9E8656021BE45E3A00997766 /* CompositorStatistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatistics.cc; sourceTree = "<group>"; };
+		9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatisticsRenderer.cc; sourceTree = "<group>"; };
+		9E8656041BE45E3A00997766 /* EntityArena.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityArena.cc; sourceTree = "<group>"; };
+		9E8656051BE45E3A00997766 /* EntityLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLease.cc; sourceTree = "<group>"; };
+		9E8656061BE45E3A00997766 /* Frame.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cc; sourceTree = "<group>"; };
+		9E8656071BE45E3A00997766 /* Interpolator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cc; sourceTree = "<group>"; };
+		9E8656081BE45E3A00997766 /* OpenGL.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cc; sourceTree = "<group>"; };
+		9E8656091BE45E3A00997766 /* PresentationEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationEntity.cc; sourceTree = "<group>"; };
+		9E86560A1BE45E3A00997766 /* PresentationGraph.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PresentationGraph.cc; sourceTree = "<group>"; };
+		9E86560B1BE45E3A00997766 /* Primitive.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Primitive.cc; sourceTree = "<group>"; };
+		9E86560C1BE45E3A00997766 /* Program.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cc; sourceTree = "<group>"; };
+		9E86560D1BE45E3A00997766 /* ProgramCatalog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramCatalog.cc; sourceTree = "<group>"; };
+		9E86560E1BE45E3A00997766 /* RenderSurface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSurface.cc; sourceTree = "<group>"; };
+		9E86560F1BE45E3A00997766 /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
+		9E8656101BE45E3A00997766 /* TransactionPayload.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransactionPayload.cc; sourceTree = "<group>"; };
+		9E8656111BE45E3A00997766 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
+		9E8656121BE45E3A00997766 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EA72CBD1BBA03A7001A755C /* MachPort.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPort.cc; sourceTree = "<group>"; };
@@ -407,14 +437,6 @@
 		9EAECE3A1B685460000FA38A /* SpringSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpringSimulation.h; sourceTree = "<group>"; };
 		9EAECE3B1B685460000FA38A /* SpringSolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpringSolution.h; sourceTree = "<group>"; };
 		9EAECE3C1B685460000FA38A /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
-		9EAECE3E1B685460000FA38A /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		9EAECE3F1B685460000FA38A /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
-		9EAECE401B685460000FA38A /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		9EAECE421B685460000FA38A /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
-		9EAECE431B685460000FA38A /* Primitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Primitive.h; sourceTree = "<group>"; };
-		9EAECE441B685460000FA38A /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
-		9EAECE451B685460000FA38A /* ProgramCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramCatalog.h; sourceTree = "<group>"; };
-		9EAECE461B685460000FA38A /* RenderSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSurface.h; sourceTree = "<group>"; };
 		9EAECE4B1B685460000FA38A /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9EAECE4C1B685460000FA38A /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		9EAECE4D1B685460000FA38A /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
@@ -441,14 +463,6 @@
 		9EAECE961B685469000FA38A /* SpringSimulation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpringSimulation.cc; sourceTree = "<group>"; };
 		9EAECE971B685469000FA38A /* SpringSolution.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpringSolution.cc; sourceTree = "<group>"; };
 		9EAECE981B685469000FA38A /* Utilities.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cc; sourceTree = "<group>"; };
-		9EAECE9A1B685469000FA38A /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
-		9EAECE9B1B685469000FA38A /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
-		9EAECE9C1B685469000FA38A /* Frame.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cc; sourceTree = "<group>"; };
-		9EAECE9E1B685469000FA38A /* OpenGL.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cc; sourceTree = "<group>"; };
-		9EAECE9F1B685469000FA38A /* Primitive.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Primitive.cc; sourceTree = "<group>"; };
-		9EAECEA01B685469000FA38A /* Program.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cc; sourceTree = "<group>"; };
-		9EAECEA11B685469000FA38A /* ProgramCatalog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramCatalog.cc; sourceTree = "<group>"; };
-		9EAECEA21B685469000FA38A /* RenderSurface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSurface.cc; sourceTree = "<group>"; };
 		9EAECEA81B685469000FA38A /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9EAECEA91B685469000FA38A /* Guard.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cc; sourceTree = "<group>"; };
 		9EAECEAA1B685469000FA38A /* Latch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Latch.cc; sourceTree = "<group>"; };
@@ -466,23 +480,15 @@
 		9EAECEBE1B685469000FA38A /* Host.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Host.cc; sourceTree = "<group>"; };
 		9EAECEC01B685469000FA38A /* Interface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cc; sourceTree = "<group>"; };
 		9EAECEC21B685469000FA38A /* Shell.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cc; sourceTree = "<group>"; };
-		9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
-		9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
-		9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorChannel.h; sourceTree = "<group>"; };
-		9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorChannel.cc; sourceTree = "<group>"; };
 		9EBA79A61B87D856005D84FA /* Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrumentation.h; sourceTree = "<group>"; };
 		9EBA79A71B87D856005D84FA /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
 		9EBA79A81B87D856005D84FA /* Trace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trace.h; sourceTree = "<group>"; };
 		9EBA79B51B87D864005D84FA /* Stopwatch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stopwatch.cc; sourceTree = "<group>"; };
 		9EBA79B61B87D864005D84FA /* Trace.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trace.cc; sourceTree = "<group>"; };
-		9EBA79B91B87EEDF005D84FA /* CompositorStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatistics.h; sourceTree = "<group>"; };
 		9EBA79BB1B87EEF4005D84FA /* InterfaceStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceStatistics.h; sourceTree = "<group>"; };
-		9EBA79BD1B87EF08005D84FA /* CompositorStatistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatistics.cc; sourceTree = "<group>"; };
 		9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceStatistics.cc; sourceTree = "<group>"; };
 		9EBA79C11B87F1F8005D84FA /* Counter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counter.h; sourceTree = "<group>"; };
 		9EBA79C31B87F203005D84FA /* Counter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Counter.cc; sourceTree = "<group>"; };
-		9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatisticsRenderer.h; sourceTree = "<group>"; };
-		9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatisticsRenderer.cc; sourceTree = "<group>"; };
 		9EBA79CB1B87FF57005D84FA /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = ThirdParty/imgui/imconfig.h; sourceTree = "<group>"; };
 		9EBA79CC1B87FF57005D84FA /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = ThirdParty/imgui/imgui_demo.cpp; sourceTree = "<group>"; };
 		9EBA79CD1B87FF57005D84FA /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = ThirdParty/imgui/imgui_draw.cpp; sourceTree = "<group>"; };
@@ -494,8 +500,6 @@
 		9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = ThirdParty/imgui/stb_rect_pack.h; sourceTree = "<group>"; };
 		9EBA79D41B87FF57005D84FA /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = ThirdParty/imgui/stb_textedit.h; sourceTree = "<group>"; };
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
-		EA573B511B9306EE0053E461 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationDirector.h; path = Headers/Compositor/AnimationDirector.h; sourceTree = SOURCE_ROOT; };
-		EA573B5B1B9307030053E461 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_KQueue.cc; sourceTree = "<group>"; };
 		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_EPoll.cc; sourceTree = "<group>"; };
 		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
@@ -508,10 +512,6 @@
 		EA62B3201B6F28F7009F197F /* TouchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEvent.h; sourceTree = "<group>"; };
 		EA62B3221B6F2F31009F197F /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
 		EA62B3241B6F2F41009F197F /* Timing.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timing.cc; sourceTree = "<group>"; };
-		EA6314361B6C89510026B6BB /* Interpolator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cc; sourceTree = "<group>"; };
-		EA6314371B6C89510026B6BB /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
-		EA63143A1B6C89630026B6BB /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
-		EA63143B1B6C89630026B6BB /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
 		EA6B63931B9D571F00256484 /* Polynomial.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Polynomial.cc; sourceTree = "<group>"; };
 		EA6B63941B9D571F00256484 /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
 		EA6B63981B9D572D00256484 /* Polynomial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = "<group>"; };
@@ -640,6 +640,62 @@
 			path = Toolbox;
 			sourceTree = "<group>";
 		};
+		9E8655D21BE45E2700997766 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				9E8655D31BE45E2700997766 /* AnimationDirector.h */,
+				9E8655D41BE45E2700997766 /* Color.h */,
+				9E8655D51BE45E2700997766 /* Compositor.h */,
+				9E8655D61BE45E2700997766 /* CompositorChannel.h */,
+				9E8655D71BE45E2700997766 /* CompositorStatistics.h */,
+				9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */,
+				9E8655D91BE45E2700997766 /* EntityArena.h */,
+				9E8655DA1BE45E2700997766 /* EntityLease.h */,
+				9E8655DB1BE45E2700997766 /* Frame.h */,
+				9E8655DC1BE45E2700997766 /* Interpolator.h */,
+				9E8655DD1BE45E2700997766 /* OpenGL.h */,
+				9E8655DE1BE45E2700997766 /* PresentationEntity.h */,
+				9E8655DF1BE45E2700997766 /* PresentationGraph.h */,
+				9E8655E01BE45E2700997766 /* Primitive.h */,
+				9E8655E11BE45E2700997766 /* Program.h */,
+				9E8655E21BE45E2700997766 /* ProgramCatalog.h */,
+				9E8655E31BE45E2700997766 /* RenderSurface.h */,
+				9E8655E41BE45E2700997766 /* TimingCurve.h */,
+				9E8655E51BE45E2700997766 /* TransactionPayload.h */,
+				9E8655E61BE45E2700997766 /* TransferEntity.h */,
+				9E8655E71BE45E2700997766 /* TransferRecord.h */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		9E8655FD1BE45E3A00997766 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				9E8655FE1BE45E3A00997766 /* AnimationDirector.cc */,
+				9E8655FF1BE45E3A00997766 /* Color.cc */,
+				9E8656001BE45E3A00997766 /* Compositor.cc */,
+				9E8656011BE45E3A00997766 /* CompositorChannel.cc */,
+				9E8656021BE45E3A00997766 /* CompositorStatistics.cc */,
+				9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */,
+				9E8656041BE45E3A00997766 /* EntityArena.cc */,
+				9E8656051BE45E3A00997766 /* EntityLease.cc */,
+				9E8656061BE45E3A00997766 /* Frame.cc */,
+				9E8656071BE45E3A00997766 /* Interpolator.cc */,
+				9E8656081BE45E3A00997766 /* OpenGL.cc */,
+				9E8656091BE45E3A00997766 /* PresentationEntity.cc */,
+				9E86560A1BE45E3A00997766 /* PresentationGraph.cc */,
+				9E86560B1BE45E3A00997766 /* Primitive.cc */,
+				9E86560C1BE45E3A00997766 /* Program.cc */,
+				9E86560D1BE45E3A00997766 /* ProgramCatalog.cc */,
+				9E86560E1BE45E3A00997766 /* RenderSurface.cc */,
+				9E86560F1BE45E3A00997766 /* TimingCurve.cc */,
+				9E8656101BE45E3A00997766 /* TransactionPayload.cc */,
+				9E8656111BE45E3A00997766 /* TransferEntity.cc */,
+				9E8656121BE45E3A00997766 /* TransferRecord.cc */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		9EAECE1E1B68543F000FA38A = {
 			isa = PBXGroup;
 			children = (
@@ -665,7 +721,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECE341B685460000FA38A /* Animation */,
-				9EAECE3D1B685460000FA38A /* Compositor */,
+				9E8655D21BE45E2700997766 /* Coordinator */,
 				9EAECE471B685460000FA38A /* Core */,
 				EA62B3141B6F2402009F197F /* Event */,
 				9EAECE591B685460000FA38A /* Geometry */,
@@ -694,34 +750,6 @@
 				9EAECE3C1B685460000FA38A /* Utilities.h */,
 			);
 			path = Animation;
-			sourceTree = "<group>";
-		};
-		9EAECE3D1B685460000FA38A /* Compositor */ = {
-			isa = PBXGroup;
-			children = (
-				EA573B511B9306EE0053E461 /* AnimationDirector.h */,
-				9EAECE3E1B685460000FA38A /* Color.h */,
-				9EAECE3F1B685460000FA38A /* Compositor.h */,
-				9EB8E2DD1B9110A9006BFAC2 /* CompositorChannel.h */,
-				9EBA79B91B87EEDF005D84FA /* CompositorStatistics.h */,
-				9EBA79C51B87FDEA005D84FA /* CompositorStatisticsRenderer.h */,
-				9E62F9161B7C1F85008DE08E /* EntityArena.h */,
-				9EAECE401B685460000FA38A /* Frame.h */,
-				9E62F9081B7BEEB2008DE08E /* EntityLease.h */,
-				EA63143A1B6C89630026B6BB /* Interpolator.h */,
-				EA63143B1B6C89630026B6BB /* TimingCurve.h */,
-				9EAECE421B685460000FA38A /* OpenGL.h */,
-				9E62F90C1B7C1672008DE08E /* PresentationEntity.h */,
-				9E3874D71B8D06AA00A39D24 /* PresentationGraph.h */,
-				9EAECE431B685460000FA38A /* Primitive.h */,
-				9EAECE441B685460000FA38A /* Program.h */,
-				9EAECE451B685460000FA38A /* ProgramCatalog.h */,
-				9EAECE461B685460000FA38A /* RenderSurface.h */,
-				9E67954C1BB08C4E0054621F /* TransactionPayload.h */,
-				9E8628751B8D45D50003E474 /* TransferEntity.h */,
-				9EB8E2D51B8FD8FF006BFAC2 /* TransferRecord.h */,
-			);
-			path = Compositor;
 			sourceTree = "<group>";
 		};
 		9EAECE471B685460000FA38A /* Core */ = {
@@ -793,7 +821,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECE901B685469000FA38A /* Animation */,
-				9EAECE991B685469000FA38A /* Compositor */,
+				9E8655FD1BE45E3A00997766 /* Coordinator */,
 				9EAECEA31B685469000FA38A /* Core */,
 				EA62B3171B6F241A009F197F /* Event */,
 				9EAECEB71B685469000FA38A /* Geometry */,
@@ -821,34 +849,6 @@
 				9EAECE981B685469000FA38A /* Utilities.cc */,
 			);
 			path = Animation;
-			sourceTree = "<group>";
-		};
-		9EAECE991B685469000FA38A /* Compositor */ = {
-			isa = PBXGroup;
-			children = (
-				EA573B5B1B9307030053E461 /* AnimationDirector.cc */,
-				9EAECE9A1B685469000FA38A /* Color.cc */,
-				9EAECE9B1B685469000FA38A /* Compositor.cc */,
-				9EB8E2E71B9110B4006BFAC2 /* CompositorChannel.cc */,
-				9EBA79BD1B87EF08005D84FA /* CompositorStatistics.cc */,
-				9EBA79C71B87FDF5005D84FA /* CompositorStatisticsRenderer.cc */,
-				9E62F9141B7C1F7A008DE08E /* EntityArena.cc */,
-				9EAECE9C1B685469000FA38A /* Frame.cc */,
-				9E62F8FE1B7BEEA4008DE08E /* EntityLease.cc */,
-				EA6314361B6C89510026B6BB /* Interpolator.cc */,
-				EA6314371B6C89510026B6BB /* TimingCurve.cc */,
-				9EAECE9E1B685469000FA38A /* OpenGL.cc */,
-				9E62F90E1B7C1683008DE08E /* PresentationEntity.cc */,
-				9E3874E11B8D06BA00A39D24 /* PresentationGraph.cc */,
-				9EAECE9F1B685469000FA38A /* Primitive.cc */,
-				9EAECEA01B685469000FA38A /* Program.cc */,
-				9EAECEA11B685469000FA38A /* ProgramCatalog.cc */,
-				9EAECEA21B685469000FA38A /* RenderSurface.cc */,
-				9E6795421BB08C430054621F /* TransactionPayload.cc */,
-				9E86287F1B8D45E00003E474 /* TransferEntity.cc */,
-				9EB8E2D71B8FD90E006BFAC2 /* TransferRecord.cc */,
-			);
-			path = Compositor;
 			sourceTree = "<group>";
 		};
 		9EAECEA31B685469000FA38A /* Core */ = {
@@ -1042,16 +1042,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8655F01BE45E2700997766 /* Frame.h in Headers */,
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
-				9EAECE731B685460000FA38A /* Program.h in Headers */,
 				9E16A6DF1BE2E9BC00FFEDFC /* Variable.h in Headers */,
-				9EBA79BA1B87EEDF005D84FA /* CompositorStatistics.h in Headers */,
 				9E16A6F91BE2E9D700FFEDFC /* EditInfo.h in Headers */,
 				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
+				9E8655EA1BE45E2700997766 /* Compositor.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
-				9EB8E2DE1B9110A9006BFAC2 /* CompositorChannel.h in Headers */,
-				9EAECE6E1B685460000FA38A /* Compositor.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
 				EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */,
@@ -1060,52 +1058,53 @@
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
 				9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */,
-				9EBA79C61B87FDEA005D84FA /* CompositorStatisticsRenderer.h in Headers */,
 				9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */,
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9E16A6FD1BE2E9D700FFEDFC /* Row.h in Headers */,
 				9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */,
+				9E8655ED1BE45E2700997766 /* CompositorStatisticsRenderer.h in Headers */,
 				9E16A7021BE2E9D700FFEDFC /* Tag.h in Headers */,
 				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
+				9E8655F41BE45E2700997766 /* PresentationGraph.h in Headers */,
 				9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */,
+				9E8655E81BE45E2700997766 /* AnimationDirector.h in Headers */,
+				9E8655F81BE45E2700997766 /* RenderSurface.h in Headers */,
+				9E8655F31BE45E2700997766 /* PresentationEntity.h in Headers */,
 				9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
+				9E8655F71BE45E2700997766 /* ProgramCatalog.h in Headers */,
+				9E8655EB1BE45E2700997766 /* CompositorChannel.h in Headers */,
 				9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
 				9EBA79A91B87D856005D84FA /* Instrumentation.h in Headers */,
-				9E3874D81B8D06AA00A39D24 /* PresentationGraph.h in Headers */,
 				9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */,
-				EA573B521B9306EE0053E461 /* AnimationDirector.h in Headers */,
 				9EA72CC61BBA12A1001A755C /* MachTrivialSource.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
-				EA63143D1B6C89630026B6BB /* TimingCurve.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
-				9E62F90D1B7C1672008DE08E /* PresentationEntity.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
 				9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
+				9E8655F11BE45E2700997766 /* Interpolator.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
 				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
-				9E62F9091B7BEEB2008DE08E /* EntityLease.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */,
+				9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */,
 				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
-				9EAECE6F1B685460000FA38A /* Frame.h in Headers */,
 				9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */,
+				9E8655FA1BE45E2700997766 /* TransactionPayload.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
-				9EAECE741B685460000FA38A /* ProgramCatalog.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
-				9EAECE751B685460000FA38A /* RenderSurface.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
+				9E8655F61BE45E2700997766 /* Program.h in Headers */,
 				9E16A6DC1BE2E9BC00FFEDFC /* Priority.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
 				9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */,
-				9E67954D1BB08C4E0054621F /* TransactionPayload.h in Headers */,
 				9EBA79D91B87FF57005D84FA /* imgui_internal.h in Headers */,
 				9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */,
 				9E092BE11BC301B400FE79BA /* ActiveTouchSet.h in Headers */,
@@ -1115,31 +1114,32 @@
 				9EAECE8E1B685460000FA38A /* Shell.h in Headers */,
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
 				9EAECE851B685460000FA38A /* Utilities.h in Headers */,
+				9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */,
+				9E8655EC1BE45E2700997766 /* CompositorStatistics.h in Headers */,
 				EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
 				9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */,
+				9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
-				EA63143C1B6C89630026B6BB /* Interpolator.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
-				9E8628761B8D45D50003E474 /* TransferEntity.h in Headers */,
 				9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */,
+				9E8655F21BE45E2700997766 /* OpenGL.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
+				9E8655F91BE45E2700997766 /* TimingCurve.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
+				9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */,
 				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
 				9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
-				9EAECE6D1B685460000FA38A /* Color.h in Headers */,
-				9E62F9171B7C1F85008DE08E /* EntityArena.h in Headers */,
+				9E8655E91BE45E2700997766 /* Color.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
-				9EAECE721B685460000FA38A /* Primitive.h in Headers */,
-				9EAECE711B685460000FA38A /* OpenGL.h in Headers */,
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
-				9EB8E2D61B8FD8FF006BFAC2 /* TransferRecord.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
+				9E8655F51BE45E2700997766 /* Primitive.h in Headers */,
 				9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */,
 				9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
@@ -1303,95 +1303,93 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */,
+				9E8656221BE45E3A00997766 /* ProgramCatalog.cc in Sources */,
+				9E8656161BE45E3A00997766 /* CompositorChannel.cc in Sources */,
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
-				9E3874E21B8D06BA00A39D24 /* PresentationGraph.cc in Sources */,
-				9EBA79C81B87FDF5005D84FA /* CompositorStatisticsRenderer.cc in Sources */,
 				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,
-				9EAECECC1B685469000FA38A /* Compositor.cc in Sources */,
 				9E16A6F71BE2E9D700FFEDFC /* Constraint.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
+				9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */,
+				9E8656181BE45E3A00997766 /* CompositorStatisticsRenderer.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
 				EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */,
-				EA6314381B6C89510026B6BB /* Interpolator.cc in Sources */,
 				9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */,
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9E16A6FC1BE2E9D700FFEDFC /* Row.cc in Sources */,
-				9EAECECF1B685469000FA38A /* OpenGL.cc in Sources */,
 				9E16A7041BE2E9D700FFEDFC /* Variable.cc in Sources */,
 				9EBA79B81B87D864005D84FA /* Trace.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
+				9E86561F1BE45E3A00997766 /* PresentationGraph.cc in Sources */,
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
+				9E86561B1BE45E3A00997766 /* Frame.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* SharedMemory_None.cc in Sources */,
+				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
-				9EAECED01B685469000FA38A /* Primitive.cc in Sources */,
 				9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */,
+				9E8656201BE45E3A00997766 /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
 				9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */,
-				9E62F9151B7C1F7A008DE08E /* EntityArena.cc in Sources */,
-				9EBA79BE1B87EF08005D84FA /* CompositorStatistics.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
 				EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				9EA72CC51BBA12A1001A755C /* MachTrivialSource.cc in Sources */,
 				EA62B3251B6F2F41009F197F /* Timing.cc in Sources */,
 				9EAECEC31B685469000FA38A /* FrictionSimulation.cc in Sources */,
-				9E62F90F1B7C1683008DE08E /* PresentationEntity.cc in Sources */,
 				9EAECEC71B685469000FA38A /* SimulationGroup.cc in Sources */,
+				9E86561E1BE45E3A00997766 /* PresentationEntity.cc in Sources */,
 				9E029CB91BAB953D007E5DF8 /* EventLoopSource_InProcess.cc in Sources */,
 				9E16A6FB1BE2E9D700FFEDFC /* Priority.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */,
+				9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
+				9E8656241BE45E3A00997766 /* TimingCurve.cc in Sources */,
 				9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */,
 				9EAECEE11B685469000FA38A /* SharedMemory.cc in Sources */,
-				9E62F8FF1B7BEEA4008DE08E /* EntityLease.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
+				9E8656131BE45E3A00997766 /* AnimationDirector.cc in Sources */,
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
 				9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */,
+				9E8656231BE45E3A00997766 /* RenderSurface.cc in Sources */,
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
 				EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */,
+				9E8656211BE45E3A00997766 /* Program.cc in Sources */,
+				9E8656141BE45E3A00997766 /* Color.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
 				9E16A7031BE2E9D700FFEDFC /* Term.cc in Sources */,
-				9E6795431BB08C430054621F /* TransactionPayload.cc in Sources */,
 				9EAECEEB1B685469000FA38A /* Interface.cc in Sources */,
 				9EAECED91B685469000FA38A /* Latch.cc in Sources */,
-				EA573B5C1B9307030053E461 /* AnimationDirector.cc in Sources */,
-				9EAECED21B685469000FA38A /* ProgramCatalog.cc in Sources */,
 				9E029CAC1BAB74DA007E5DF8 /* KQueueWaitSet.cc in Sources */,
 				9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */,
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */,
-				9EB8E2D81B8FD90E006BFAC2 /* TransferRecord.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
+				9E8656171BE45E3A00997766 /* CompositorStatistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
-				9EAECECD1B685469000FA38A /* Frame.cc in Sources */,
 				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
-				9EAECED31B685469000FA38A /* RenderSurface.cc in Sources */,
+				9E86561C1BE45E3A00997766 /* Interpolator.cc in Sources */,
 				9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */,
 				9E16A6F81BE2E9D700FFEDFC /* EditInfo.cc in Sources */,
-				9EAECED11B685469000FA38A /* Program.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* SharedMemoryHandle.cc in Sources */,
 				9E16A7011BE2E9D700FFEDFC /* Tag.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
+				9E86561D1BE45E3A00997766 /* OpenGL.cc in Sources */,
 				9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */,
 				9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */,
 				9EBA79B71B87D864005D84FA /* Stopwatch.cc in Sources */,
 				9EAECED81B685469000FA38A /* Guard.cc in Sources */,
-				9EAECECB1B685469000FA38A /* Color.cc in Sources */,
 				9EAECEC81B685469000FA38A /* SpringSimulation.cc in Sources */,
-				EA6314391B6C89510026B6BB /* TimingCurve.cc in Sources */,
-				9E8628801B8D45E00003E474 /* TransferEntity.cc in Sources */,
-				9EB8E2E81B9110B4006BFAC2 /* CompositorChannel.cc in Sources */,
 				9E16A6FE1BE2E9D700FFEDFC /* Solver.cc in Sources */,
 				9E16A6FF1BE2E9D700FFEDFC /* Symbol.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
@@ -1399,6 +1397,8 @@
 				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */,
+				9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */,
+				9E8656151BE45E3A00997766 /* Compositor.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

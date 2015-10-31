@@ -6,7 +6,7 @@
 #define RADARLOVE_INTERFACE_ACTION_
 
 #include <Core/Core.h>
-#include <Compositor/TimingCurve.h>
+#include <Coordinator/TimingCurve.h>
 
 namespace rl {
 namespace interface {

@@ -9,7 +9,7 @@
 #include <Recognition/Polynomial.h>
 #include <Recognition/Variable.h>
 #include <Recognition/ActiveTouchSet.h>
-#include <Compositor/PresentationEntity.h>
+#include <Coordinator/PresentationEntity.h>
 
 #include <set>
 #include <vector>
