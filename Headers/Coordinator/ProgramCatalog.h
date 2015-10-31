@@ -12,6 +12,8 @@
 #include <memory>
 
 namespace rl {
+namespace coordinator {
+
 class ProgramCatalog {
  public:
   enum Type {
@@ -77,6 +79,8 @@ class BasicPrimitiveProgram : public Program {
 
   RL_DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PROGRAMCATALOG_

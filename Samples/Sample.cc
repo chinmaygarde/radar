@@ -39,7 +39,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   interface.setRootLayer(root);
 
   rl::interface::Action action;
-  action.setTimingCurveType(rl::TimingCurve::EaseInEaseOut);
+  action.setTimingCurveType(rl::coordinator::TimingCurve::EaseInEaseOut);
   action.setAutoReverses(true);
   action.setDuration(rl::core::ClockDuration(1.0));
   action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);

@@ -18,6 +18,7 @@
 #include <map>
 
 namespace rl {
+namespace coordinator {
 
 class PresentationGraph {
  public:
@@ -61,6 +62,7 @@ class PresentationGraph {
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PRESENTATIONGRAPH_H_

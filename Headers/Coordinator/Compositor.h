@@ -21,6 +21,8 @@
 #include <mutex>
 
 namespace rl {
+namespace coordinator {
+
 class Compositor : RenderSurfaceObserver {
  public:
   /**
@@ -96,6 +98,8 @@ class Compositor : RenderSurfaceObserver {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Compositor);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_COMPOSITOR_

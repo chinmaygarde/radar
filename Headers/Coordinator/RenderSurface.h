@@ -11,6 +11,7 @@
 #include <memory>
 
 namespace rl {
+namespace coordinator {
 
 class RenderSurfaceObserver {
  public:
@@ -77,6 +78,8 @@ class ScopedRenderSurfaceAccess {
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_RENDERSURFACE_

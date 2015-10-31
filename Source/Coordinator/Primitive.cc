@@ -8,6 +8,7 @@
 #include <Coordinator/OpenGL.h>
 
 namespace rl {
+namespace coordinator {
 
 Primitive::Primitive() : _contentColor(ColorWhiteTransparent), _opacity(1.0) {
 }
@@ -72,4 +73,5 @@ void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
+}  // namespace coordinator
 }  // namespace rl

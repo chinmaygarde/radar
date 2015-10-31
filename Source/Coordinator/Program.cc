@@ -10,6 +10,7 @@
 #include <algorithm>
 
 namespace rl {
+namespace coordinator {
 
 Program::Program(std::vector<std::string> attributes,
                  std::string vertexShader,
@@ -145,4 +146,5 @@ Program::~Program() {
   glDeleteProgram(_program);
 }
 
+}  // namespace coordinator
 }  // namespace rl

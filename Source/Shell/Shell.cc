@@ -11,7 +11,7 @@
 namespace rl {
 namespace shell {
 
-Shell::Shell(std::shared_ptr<RenderSurface> surface,
+Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
              std::weak_ptr<interface::InterfaceDelegate> delegate)
     : _compositorThread(),
       _compositor(surface, _host.touchEventChannel()),
@@ -39,7 +39,7 @@ void Shell::attachHostOnCurrentThread() {
   readyLatch.wait();
 }
 
-Compositor& Shell::compositor() {
+coordinator::Compositor& Shell::compositor() {
   return _compositor;
 }
 

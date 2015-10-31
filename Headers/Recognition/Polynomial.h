@@ -30,8 +30,9 @@ class Polynomial : public core::Serializable {
   Variable::ValueType valueType() const;
 
   template <typename T>
-  T solve(const ActiveTouchSet& touches,
-          const PresentationEntity::IdentifierMap& entities) const {
+  T solve(
+      const ActiveTouchSet& touches,
+      const coordinator::PresentationEntity::IdentifierMap& entities) const {
     auto solution = T{};
 
     for (auto const& term : _terms) {

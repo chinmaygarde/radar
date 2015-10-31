@@ -9,6 +9,8 @@
 #include <Coordinator/EntityArena.h>
 
 namespace rl {
+namespace coordinator {
+
 class EntityLease {
  public:
   explicit EntityLease(size_t entityCount);
@@ -33,6 +35,8 @@ class EntityLease {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EntityLease);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_ENTITY_LEASE_

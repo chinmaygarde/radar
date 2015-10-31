@@ -69,9 +69,9 @@ class Action : public core::Serializable {
 
   void setPropertyMask(uint64_t mask);
 
-  TimingCurve::Type timingCurveType() const;
+  coordinator::TimingCurve::Type timingCurveType() const;
 
-  void setTimingCurveType(TimingCurve::Type type);
+  void setTimingCurveType(coordinator::TimingCurve::Type type);
 
   double unitInterpolation(const core::ClockDuration& time) const;
 
@@ -84,8 +84,8 @@ class Action : public core::Serializable {
   uint64_t _repeatCount;
   bool _autoReverses;
   uint64_t _propertyMask;
-  TimingCurve::Type _timingCurveType;
-  TimingCurve _resolvedCurve;
+  coordinator::TimingCurve::Type _timingCurveType;
+  coordinator::TimingCurve _resolvedCurve;
 
   void resolveCurve();
 

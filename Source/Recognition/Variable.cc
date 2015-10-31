@@ -60,7 +60,7 @@ Variable::ValueType Variable::valueType() const {
 
 interface::Entity& Variable::entityRepresentation(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   if (_isProxy) {
     auto entity =
         touches.touchEntityForProxy(static_cast<Variable::Proxy>(_identifier));
@@ -75,8 +75,9 @@ interface::Entity& Variable::entityRepresentation(
   }
 }
 
-PresentationEntity& Variable::presentationEntityRepresentation(
-    const PresentationEntity::IdentifierMap& presentationEntities) const {
+coordinator::PresentationEntity& Variable::presentationEntityRepresentation(
+    const coordinator::PresentationEntity::IdentifierMap& presentationEntities)
+    const {
   RL_ASSERT_MSG(
       !_isProxy,
       "Asked for the presentation entity representation of a proxy variable");

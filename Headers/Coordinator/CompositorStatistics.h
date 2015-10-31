@@ -9,6 +9,7 @@
 #include <Instrumentation/Instrumentation.h>
 
 namespace rl {
+namespace coordinator {
 
 class CompositorStatistics {
  public:
@@ -55,6 +56,7 @@ class CompositorStatisticsFrame {
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsFrame);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICS_H_

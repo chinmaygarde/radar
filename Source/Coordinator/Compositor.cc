@@ -6,6 +6,7 @@
 #include <Coordinator/Frame.h>
 
 namespace rl {
+namespace coordinator {
 
 Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
                        event::TouchEventChannel& touchEventChannel)
@@ -205,4 +206,5 @@ void Compositor::drainPendingTouches() {
   RL_ASSERT(res);
 }
 
+}  // namespace coordinator
 }  // namespace rl

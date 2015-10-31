@@ -13,6 +13,7 @@
 #include <stddef.h>
 
 namespace rl {
+namespace coordinator {
 
 struct TransferRecord {
   interface::Entity::Identifier identifier;
@@ -106,6 +107,7 @@ struct TransferRecord {
 
 static_assert(rl_trivially_copyable(TransferRecord), "");
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_TRANSFERRECORD_H_

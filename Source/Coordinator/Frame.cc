@@ -9,6 +9,7 @@
 #include <Coordinator/OpenGL.h>
 
 namespace rl {
+namespace coordinator {
 
 Frame::Frame(geom::Size size,
              std::shared_ptr<ProgramCatalog> catalog,
@@ -76,4 +77,5 @@ ScopedFrame::~ScopedFrame() {
   end();
 }
 
+}  // namespace coordinator
 }  // namespace rl

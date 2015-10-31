@@ -12,6 +12,8 @@
 #include <string>
 
 namespace rl {
+namespace coordinator {
+
 class Program {
  public:
   explicit Program(std::vector<std::string> attributes,
@@ -68,6 +70,8 @@ class Program {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Program);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PROGRAM_

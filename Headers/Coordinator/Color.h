@@ -10,6 +10,8 @@
 #include <cmath>
 
 namespace rl {
+namespace coordinator {
+
 struct Color {
   double red;
   double green;
@@ -57,6 +59,8 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
  *  rendering purposes.
  */
 static const double TransparencyAlphaThreshold = 0.01;
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_COLOR_

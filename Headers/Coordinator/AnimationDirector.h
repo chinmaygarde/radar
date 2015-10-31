@@ -13,6 +13,7 @@
 #include <unordered_map>
 
 namespace rl {
+namespace coordinator {
 
 class AnimationDirector {
  public:
@@ -69,6 +70,7 @@ class AnimationDirector {
   RL_DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_ANIMATIONDIRECTOR_H_

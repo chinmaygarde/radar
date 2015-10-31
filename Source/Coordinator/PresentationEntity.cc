@@ -6,6 +6,7 @@
 #include <Coordinator/Primitive.h>
 
 namespace rl {
+namespace coordinator {
 
 static const PresentationEntity::PresentationOrder PresentationOrderNone = 0;
 
@@ -59,4 +60,5 @@ void PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
   }
 }
 
+}  // namespace coordinator
 }  // namespace rl

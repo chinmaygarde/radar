@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace coordinator {
 
 class CompositorChannel : public core::Channel {
  public:
@@ -23,6 +24,7 @@ class CompositorChannel : public core::Channel {
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorChannel);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_COMPOSITORCHANNEL_H_

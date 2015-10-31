@@ -34,6 +34,7 @@ void main() {
 )--";
 
 namespace rl {
+namespace coordinator {
 
 ProgramCatalog::ProgramCatalog() : _prepared(false), _current(None, nullptr) {
 }
@@ -94,4 +95,5 @@ void BasicPrimitiveProgram::onLinkSuccess() {
   _sizeUniform = indexForUniform("U_Size");
 }
 
+}  // namespace coordinator
 }  // namespace rl

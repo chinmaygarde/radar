@@ -10,6 +10,7 @@
 #include <Coordinator/OpenGL.h>
 
 namespace rl {
+namespace coordinator {
 
 static const std::string RendererVertexShader = R"--(
   uniform mat4 ProjMtx;
@@ -278,4 +279,5 @@ void CompositorStatisticsRenderer::buildStatsUI(CompositorStatistics& stats) {
   ImGui::End();
 }
 
+}  // namespace coordinator
 }  // namespace rl

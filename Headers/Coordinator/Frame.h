@@ -15,6 +15,8 @@
 #include <deque>
 
 namespace rl {
+namespace coordinator {
+
 class Frame {
  public:
   explicit Frame(geom::Size size,
@@ -95,6 +97,8 @@ class ScopedFrame : public Frame {
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_FRAME_

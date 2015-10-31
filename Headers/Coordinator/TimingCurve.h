@@ -9,6 +9,8 @@
 #include <Geometry/Geometry.h>
 
 namespace rl {
+namespace coordinator {
+
 class TimingCurve {
  public:
   enum Type {
@@ -32,6 +34,8 @@ class TimingCurve {
 
   explicit TimingCurve(const geom::Point& c1, const geom::Point& c2);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_TIMINGCURVE_

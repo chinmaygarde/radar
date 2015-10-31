@@ -9,6 +9,7 @@
 #include <Interface/Entity.h>
 
 namespace rl {
+namespace coordinator {
 
 class TransferEntity : public interface::Entity {
  public:
@@ -30,6 +31,7 @@ class TransferEntity : public interface::Entity {
   RL_DISALLOW_ASSIGN(TransferEntity);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_TRANSFERENTITY_H_

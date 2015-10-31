@@ -6,6 +6,7 @@
 #include <Coordinator/PresentationEntity.h>
 
 namespace rl {
+namespace coordinator {
 
 TransactionPayload::TransactionPayload(
     interface::Action&& action,
@@ -115,4 +116,5 @@ bool TransactionPayload::deserialize(core::Message& message) {
   return true;
 }
 
+}  // namespace coordinator
 }  // namespace rl

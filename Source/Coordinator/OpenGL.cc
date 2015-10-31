@@ -9,6 +9,7 @@
 #include <cstring>
 
 namespace rl {
+namespace coordinator {
 
 void GLAssertError(const char* file, int line, const char* fmt...) {
   GLenum res = glGetError();
@@ -142,4 +143,5 @@ void GLDescribeFramebuffer(void) {
   glGetError();
 }
 
+}  // namespace coordinator
 }  // namespace rl

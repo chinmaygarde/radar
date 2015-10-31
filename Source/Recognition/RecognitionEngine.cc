@@ -25,7 +25,7 @@ void RecognitionEngine::setupRecognizers(
 
 void RecognitionEngine::processAddedTouches(
     const std::vector<event::TouchEvent>& touches,
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
   }
@@ -47,7 +47,7 @@ void RecognitionEngine::processAddedTouches(
 }
 
 void RecognitionEngine::stepActiveRecognizers(
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   GestureRecognizer::Collection ended;
   GestureRecognizer::Collection cancelled;
 
@@ -72,7 +72,7 @@ void RecognitionEngine::stepActiveRecognizers(
 
 void RecognitionEngine::processMovedTouches(
     const std::vector<event::TouchEvent>& touches,
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
   }
@@ -83,7 +83,7 @@ void RecognitionEngine::processMovedTouches(
 
 void RecognitionEngine::processEndedTouches(
     const std::vector<event::TouchEvent>& touches,
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
   }
@@ -94,7 +94,7 @@ void RecognitionEngine::processEndedTouches(
 
 void RecognitionEngine::processCancelledTouches(
     const std::vector<event::TouchEvent>& touches,
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   if (touches.size() == 0) {
     return;
   }
@@ -120,7 +120,7 @@ bool RecognitionEngine::isEngineConsistent() const {
 
 bool RecognitionEngine::applyTouchMap(
     event::TouchEvent::PhaseMap&& map,
-    const PresentationEntity::IdentifierMap& entities) {
+    const coordinator::PresentationEntity::IdentifierMap& entities) {
   if (_recognizers.size() == 0) {
     return true;
   }

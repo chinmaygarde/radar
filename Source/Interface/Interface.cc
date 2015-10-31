@@ -20,8 +20,9 @@ static pthread_key_t InterfaceTLSKey() {
 
 using LT = toolbox::StateMachine::LegalTransition;
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<CompositorChannel> compositorChannel)
+Interface::Interface(
+    std::weak_ptr<InterfaceDelegate> delegate,
+    std::weak_ptr<coordinator::CompositorChannel> compositorChannel)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),

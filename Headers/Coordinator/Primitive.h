@@ -13,6 +13,8 @@
 #include <Coordinator/Color.h>
 
 namespace rl {
+namespace coordinator {
+
 class Primitive {
  public:
   explicit Primitive();
@@ -45,6 +47,8 @@ class Primitive {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PRIMITIVE_

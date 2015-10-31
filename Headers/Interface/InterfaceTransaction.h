@@ -30,7 +30,8 @@ class InterfaceTransaction {
 
  private:
   Action _action;
-  std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
+  std::map<Entity::Identifier, std::unique_ptr<coordinator::TransferEntity>>
+      _entities;
   std::vector<recognition::GestureRecognizer> _recognizers;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);

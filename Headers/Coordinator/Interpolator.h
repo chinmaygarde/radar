@@ -10,6 +10,8 @@
 #include <Coordinator/PresentationEntity.h>
 
 namespace rl {
+namespace coordinator {
+
 template <typename Type>
 class Interpolator {
  public:
@@ -40,6 +42,8 @@ class Interpolator {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_INTERPOLATOR_

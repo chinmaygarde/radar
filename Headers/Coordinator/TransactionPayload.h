@@ -14,6 +14,7 @@
 #include <map>
 
 namespace rl {
+namespace coordinator {
 
 class TransactionPayload : public core::Serializable {
  public:
@@ -58,6 +59,7 @@ class TransactionPayload : public core::Serializable {
   RL_DISALLOW_COPY_AND_ASSIGN(TransactionPayload);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_TRANSACTIONPAYLOAD_H_

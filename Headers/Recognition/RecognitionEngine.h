@@ -21,24 +21,29 @@ class RecognitionEngine {
 
   void setupRecognizers(GestureRecognizer::Collection&& recognizers);
 
-  bool applyTouchMap(event::TouchEvent::PhaseMap&& map,
-                     const PresentationEntity::IdentifierMap& entities);
+  bool applyTouchMap(
+      event::TouchEvent::PhaseMap&& map,
+      const coordinator::PresentationEntity::IdentifierMap& entities);
 
  private:
   std::map<GestureRecognizer::Identifier, GestureRecognizer> _recognizers;
   std::set<GestureRecognizer::Identifier> _activeRecognizers;
   ActiveTouchSet _activeTouches;
 
-  void stepActiveRecognizers(const PresentationEntity::IdentifierMap& entities);
-  void processAddedTouches(const std::vector<event::TouchEvent>& touches,
-                           const PresentationEntity::IdentifierMap& entities);
-  void processMovedTouches(const std::vector<event::TouchEvent>& touches,
-                           const PresentationEntity::IdentifierMap& entities);
-  void processEndedTouches(const std::vector<event::TouchEvent>& touches,
-                           const PresentationEntity::IdentifierMap& entities);
+  void stepActiveRecognizers(
+      const coordinator::PresentationEntity::IdentifierMap& entities);
+  void processAddedTouches(
+      const std::vector<event::TouchEvent>& touches,
+      const coordinator::PresentationEntity::IdentifierMap& entities);
+  void processMovedTouches(
+      const std::vector<event::TouchEvent>& touches,
+      const coordinator::PresentationEntity::IdentifierMap& entities);
+  void processEndedTouches(
+      const std::vector<event::TouchEvent>& touches,
+      const coordinator::PresentationEntity::IdentifierMap& entities);
   void processCancelledTouches(
       const std::vector<event::TouchEvent>& touches,
-      const PresentationEntity::IdentifierMap& entities);
+      const coordinator::PresentationEntity::IdentifierMap& entities);
 
   bool isEngineConsistent() const;
 

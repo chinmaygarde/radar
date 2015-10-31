@@ -10,6 +10,8 @@
 #include <Coordinator/CompositorStatistics.h>
 
 namespace rl {
+namespace coordinator {
+
 class CompositorStatisticsRendererProgram;
 class CompositorStatisticsRenderer {
  public:
@@ -32,6 +34,7 @@ class CompositorStatisticsRenderer {
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRenderer);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICSRENDERER_H_

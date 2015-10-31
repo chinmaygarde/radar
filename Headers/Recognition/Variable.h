@@ -57,10 +57,10 @@ class Variable : public core::Serializable {
 
   interface::Entity& entityRepresentation(
       const ActiveTouchSet& touches,
-      const PresentationEntity::IdentifierMap& entities) const;
+      const coordinator::PresentationEntity::IdentifierMap& entities) const;
 
-  PresentationEntity& presentationEntityRepresentation(
-      const PresentationEntity::IdentifierMap& entities) const;
+  coordinator::PresentationEntity& presentationEntityRepresentation(
+      const coordinator::PresentationEntity::IdentifierMap& entities) const;
 
   bool serialize(core::Message& message) const override;
 

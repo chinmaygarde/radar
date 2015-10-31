@@ -5,6 +5,7 @@
 #include <Coordinator/EntityArena.h>
 
 namespace rl {
+namespace coordinator {
 
 struct EntityArenaHeader {
   size_t entityCount;
@@ -63,4 +64,5 @@ size_t EntityArena::Size(size_t entityCount) {
   return sizeof(EntityArenaHeader) + entityCount * sizeof(TransferEntity);
 }
 
+}  // namespace coordinator
 }  // namespace rl

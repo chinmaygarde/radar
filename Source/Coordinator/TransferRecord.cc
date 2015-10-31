@@ -5,6 +5,7 @@
 #include <Coordinator/TransferRecord.h>
 
 namespace rl {
+namespace coordinator {
 
 template <>
 const interface::Entity::Identifier&
@@ -42,4 +43,5 @@ const Color& TransferRecord::transferData<Color>() const {
   return data.color;
 }
 
+}  // namespace coordinator
 }  // namespace rl

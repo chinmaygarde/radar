@@ -33,6 +33,8 @@
 #include <sstream>
 
 namespace rl {
+namespace coordinator {
+
 void GLAssertError(const char* file, int line, const char* fmt...);
 void GLDescribeFramebuffer(void);
 
@@ -64,12 +66,14 @@ struct GLMatrix {
             static_cast<GLfloat>(o.m[15]),
         } {};
 };
+
+}  // namespace coordinator
 }  // namespace rl
 
-static_assert(sizeof(rl::GLMatrix) == 16 * sizeof(GLfloat),
+static_assert(sizeof(rl::coordinator::GLMatrix) == 16 * sizeof(GLfloat),
               "GLMatrix must have the expected size");
 
 #define RL_GLAssert(x, ...) \
-  rl::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
+  rl::coordinator::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
 #endif  // RADARLOVE_COMPOSITOR_OPENGL_

@@ -50,11 +50,11 @@ class GestureRecognizer : public core::Serializable {
 
   bool shouldBeginRecognition(
       const ActiveTouchSet& touches,
-      const PresentationEntity::IdentifierMap& entities) const;
+      const coordinator::PresentationEntity::IdentifierMap& entities) const;
 
   Continuation stepRecognition(
       const ActiveTouchSet& touches,
-      const PresentationEntity::IdentifierMap& entities) const;
+      const coordinator::PresentationEntity::IdentifierMap& entities) const;
 
  private:
   Identifier _identifier;

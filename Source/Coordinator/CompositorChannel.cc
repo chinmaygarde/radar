@@ -5,6 +5,7 @@
 #include <Coordinator/CompositorChannel.h>
 
 namespace rl {
+namespace coordinator {
 
 CompositorChannel::CompositorChannel()
     : Channel(), _transactionMessage(new core::Message()) {
@@ -26,4 +27,5 @@ bool CompositorChannel::flushTransaction() {
   return sendMessages(std::move(messages));
 }
 
+}  // namespace coordinator
 }  // namespace rl

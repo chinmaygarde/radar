@@ -10,7 +10,7 @@
 #include "Sample.h"
 
 namespace rl {
-class RenderSurfaceMac : public RenderSurface {
+class RenderSurfaceMac : public coordinator::RenderSurface {
  public:
   RenderSurfaceMac(NSOpenGLContext* context)
       : RenderSurface(), _context(context) {}

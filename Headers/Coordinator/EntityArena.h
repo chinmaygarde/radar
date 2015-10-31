@@ -10,6 +10,7 @@
 #include <Geometry/Geometry.h>
 
 namespace rl {
+namespace coordinator {
 
 class EntityArena {
  public:
@@ -43,6 +44,7 @@ class EntityArena {
   RL_DISALLOW_COPY_AND_ASSIGN(EntityArena);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_ENTITYARENA_

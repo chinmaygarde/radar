@@ -5,6 +5,7 @@
 #include <Coordinator/AnimationDirector.h>
 
 namespace rl {
+namespace coordinator {
 
 AnimationDirector::AnimationDirector() {
 }
@@ -80,4 +81,5 @@ AnimationDirector::collection() {
   return _matrixInterpolators;
 }
 
+}  // namespace coordinator
 }  // namespace rl

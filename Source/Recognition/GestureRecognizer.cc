@@ -132,7 +132,7 @@ bool GestureRecognizer::isSolvable() const {
 
 bool GestureRecognizer::shouldBeginRecognition(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   RL_ASSERT(_preparedForUse);
 
   if (touches.size() < _touchCount) {
@@ -157,7 +157,7 @@ bool GestureRecognizer::shouldBeginRecognition(
 
 GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   RL_ASSERT(_preparedForUse);
 
   if (touches.size() < _touchCount) {
@@ -188,7 +188,8 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
       entity.setTransformation(transformation);
     } break;
     case Property::BackgroundColor: {
-      auto backgroundColor = _polynomial.solve<Color>(touches, entities);
+      auto backgroundColor =
+          _polynomial.solve<coordinator::Color>(touches, entities);
       entity.setBackgroundColor(backgroundColor);
     } break;
     case Property::Opacity: {

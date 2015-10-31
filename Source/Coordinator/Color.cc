@@ -6,6 +6,7 @@
 #include <algorithm>
 
 namespace rl {
+namespace coordinator {
 
 ColorHSB ColorHSB::FromRGB(Color rgb) {
   double R = rgb.red;
@@ -99,4 +100,5 @@ Color Color::operator+(const Color& o) const {
                ColorClamp(alpha + o.alpha, 0.0, 1.0));
 }
 
+}  // namespace coordinator
 }  // namespace rl

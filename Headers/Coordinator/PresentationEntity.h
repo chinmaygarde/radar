@@ -13,6 +13,8 @@
 #include <map>
 
 namespace rl {
+namespace coordinator {
+
 class Frame;
 class PresentationEntity : public interface::Entity {
  public:
@@ -47,6 +49,7 @@ class PresentationEntity : public interface::Entity {
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
 
+}  // namespace coordinator
 }  // namespace rl
 
 #endif  // RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_

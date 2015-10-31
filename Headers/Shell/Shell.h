@@ -18,7 +18,7 @@ namespace shell {
 
 class Shell {
  public:
-  explicit Shell(std::shared_ptr<RenderSurface> surface,
+  explicit Shell(std::shared_ptr<coordinator::RenderSurface> surface,
                  std::weak_ptr<interface::InterfaceDelegate> delegate);
 
   /**
@@ -26,7 +26,7 @@ class Shell {
    *
    *  @return the compositor
    */
-  Compositor& compositor();
+  coordinator::Compositor& compositor();
 
   /**
    *  Get a reference to the interface
@@ -59,7 +59,7 @@ class Shell {
    *  Compositor variables
    */
   std::thread _compositorThread;
-  Compositor _compositor;
+  coordinator::Compositor _compositor;
 
   /*
    *  Interface variables

@@ -7,6 +7,8 @@
 #include <atomic>
 
 namespace rl {
+namespace coordinator {
+
 struct LeaseHeader {
   std::atomic<uint8_t*> read;
   std::atomic<uint8_t*> write;
@@ -97,4 +99,5 @@ std::shared_ptr<core::EventLoopSource> EntityLease::writeNotificationSource()
   return _writeNotificationSource;
 }
 
+}  // namespace coordinator
 }  // namespace rl

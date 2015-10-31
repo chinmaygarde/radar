@@ -144,8 +144,9 @@ Variable::ValueType Term::valueType() const {
 }
 
 template <>
-double Term::solve(const ActiveTouchSet& touches,
-                   const PresentationEntity::IdentifierMap& entities) const {
+double Term::solve(
+    const ActiveTouchSet& touches,
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   double solution = 1.0;
 
   for (auto const& item : _variables) {
@@ -170,7 +171,7 @@ double Term::solve(const ActiveTouchSet& touches,
 template <>
 geom::Point Term::solve(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   auto solution = geom::Point{1.0, 1.0};
 
   for (auto const& item : _variables) {
@@ -204,7 +205,7 @@ geom::Point Term::solve(
 template <>
 geom::Rect Term::solve(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   auto solution = geom::Rect{{1.0, 1.0}, {1.0, 1.0}};
 
   for (auto const& item : _variables) {
@@ -232,8 +233,9 @@ geom::Rect Term::solve(
 }
 
 template <>
-Color Term::solve(const ActiveTouchSet& touches,
-                  const PresentationEntity::IdentifierMap& entities) const {
+coordinator::Color Term::solve(
+    const ActiveTouchSet& touches,
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   RL_ASSERT_MSG(
       _variables.size() == 1,
       "There may only be a single variable in a term operating on colors");
@@ -264,7 +266,7 @@ Color Term::solve(const ActiveTouchSet& touches,
 template <>
 geom::Matrix Term::solve(
     const ActiveTouchSet& touches,
-    const PresentationEntity::IdentifierMap& entities) const {
+    const coordinator::PresentationEntity::IdentifierMap& entities) const {
   RL_ASSERT_MSG(
       _variables.size() == 1,
       "There may only be a single variable in a term operating on matrices");

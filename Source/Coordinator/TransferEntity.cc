@@ -6,6 +6,7 @@
 #include <Coordinator/TransferRecord.h>
 
 namespace rl {
+namespace coordinator {
 
 TransferEntity::TransferEntity(Identifier identifier)
     : Entity(identifier),
@@ -79,4 +80,5 @@ size_t TransferEntity::serialize(core::Message& message) {
   return encodedRecords;
 }
 
+}  // namespace coordinator
 }  // namespace rl

@@ -5,6 +5,7 @@
 #include <Coordinator/RenderSurface.h>
 
 namespace rl {
+namespace coordinator {
 
 void RenderSurface::surfaceWasCreated() {
   if (_observer != nullptr) {
@@ -39,4 +40,5 @@ ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
   RL_ASSERT(result);
 }
 
+}  // namespace coordinator
 }  // namespace rl

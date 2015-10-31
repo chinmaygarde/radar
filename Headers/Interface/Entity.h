@@ -145,14 +145,14 @@ class Entity {
    *
    *  @return the background color
    */
-  const Color& backgroundColor() const;
+  const coordinator::Color& backgroundColor() const;
 
   /**
    *  Set the new background color of the entity
    *
    *  @param backgroundColor the new background color
    */
-  void setBackgroundColor(const Color& backgroundColor);
+  void setBackgroundColor(const coordinator::Color& backgroundColor);
 
   /**
    *  The opacity of the entity. 0.0 is fully transparent and 1.0 is fully
@@ -186,7 +186,7 @@ class Entity {
   geom::Point _position;
   geom::Point _anchorPoint;
   geom::Matrix _transformation;
-  Color _backgroundColor;
+  coordinator::Color _backgroundColor;
   double _opacity;
   bool _notifiesInterfaceOnUpdate;
 
@@ -197,7 +197,7 @@ extern const Entity::Accessors<geom::Rect> BoundsAccessors;
 extern const Entity::Accessors<geom::Point> PositionAccessors;
 extern const Entity::Accessors<geom::Point> AnchorPointAccessors;
 extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
-extern const Entity::Accessors<Color> BackgroundColorAccessors;
+extern const Entity::Accessors<coordinator::Color> BackgroundColorAccessors;
 extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace interface

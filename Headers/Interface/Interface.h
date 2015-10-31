@@ -41,8 +41,9 @@ class Interface {
     Background,
   };
 
-  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<CompositorChannel> compositorChannel);
+  explicit Interface(
+      std::weak_ptr<InterfaceDelegate> delegate,
+      std::weak_ptr<coordinator::CompositorChannel> compositorChannel);
 
 #pragma mark - Bootstrapping the interface
 
@@ -143,7 +144,7 @@ class Interface {
   size_t _popCount;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
-  std::weak_ptr<CompositorChannel> _compositorChannel;
+  std::weak_ptr<coordinator::CompositorChannel> _compositorChannel;
   toolbox::StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);

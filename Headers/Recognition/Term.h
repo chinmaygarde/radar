@@ -40,7 +40,7 @@ class Term : public core::Serializable {
 
   template <typename T>
   T solve(const ActiveTouchSet& touches,
-          const PresentationEntity::IdentifierMap& entities) const;
+          const coordinator::PresentationEntity::IdentifierMap& entities) const;
 
   Variable::ValueType valueType() const;
 

@@ -6,6 +6,7 @@
 #include <Coordinator/Color.h>
 
 namespace rl {
+namespace coordinator {
 
 template <typename Type>
 Interpolator<Type>::Interpolator(
@@ -112,4 +113,5 @@ template class Interpolator<geom::Rect>;
 template class Interpolator<Color>;
 template class Interpolator<geom::Matrix>;
 
+}  // namespace coordinator
 }  // namespace rl

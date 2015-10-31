@@ -7,6 +7,7 @@
 #include <Coordinator/TransactionPayload.h>
 
 namespace rl {
+namespace coordinator {
 
 PresentationGraph::PresentationGraph() : _root(nullptr) {
 }
@@ -180,4 +181,5 @@ bool PresentationGraph::applyTouchMap(event::TouchEvent::PhaseMap&& map) {
   return _recognitionEngine.applyTouchMap(std::move(map), _entities);
 }
 
+}  // namespace coordinator
 }  // namespace rl
