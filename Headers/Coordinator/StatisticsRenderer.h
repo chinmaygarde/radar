@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICSRENDERER_H_
-#define RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICSRENDERER_H_
+#ifndef RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
+#define RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
 
 #include <Core/Core.h>
 #include <Coordinator/Frame.h>
@@ -12,17 +12,17 @@
 namespace rl {
 namespace coordinator {
 
-class CompositorStatisticsRendererProgram;
-class CompositorStatisticsRenderer {
+class StatisticsRendererProgram;
+class StatisticsRenderer {
  public:
-  explicit CompositorStatisticsRenderer();
-  ~CompositorStatisticsRenderer();
+  explicit StatisticsRenderer();
+  ~StatisticsRenderer();
 
   void render(Statistics& stats, Frame& frame);
 
  private:
   bool _setupComplete;
-  std::unique_ptr<CompositorStatisticsRendererProgram> _program;
+  std::unique_ptr<StatisticsRendererProgram> _program;
   unsigned int _vbo;
   unsigned int _fontAtlas;
 
@@ -31,10 +31,10 @@ class CompositorStatisticsRenderer {
   void cleanup();
   static void drawLists(void* data);
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRenderer);
+  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRenderer);
 };
 
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICSRENDERER_H_
+#endif  // RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_

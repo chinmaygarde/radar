@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/CompositorStatisticsRenderer.h>
+#include <Coordinator/StatisticsRenderer.h>
 #include <Coordinator/Program.h>
 #include <imgui/imgui.h>
 
@@ -45,9 +45,9 @@ static const std::string RendererFragmentShader = R"--(
   }
 )--";
 
-class CompositorStatisticsRendererProgram : public Program {
+class StatisticsRendererProgram : public Program {
  public:
-  CompositorStatisticsRendererProgram()
+  StatisticsRendererProgram()
       : Program({"Position", "UV", "Color"},
                 RendererVertexShader,
                 RendererFragmentShader) {}
@@ -68,13 +68,13 @@ class CompositorStatisticsRendererProgram : public Program {
     colorAttribute = indexForAttribute("Color");
   }
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsRendererProgram);
+  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRendererProgram);
 };
 
-static CompositorStatisticsRenderer* _CompositorStatisticsRenderer = nullptr;
-void CompositorStatisticsRenderer::drawLists(void* data) {
-  RL_ASSERT(_CompositorStatisticsRenderer != nullptr);
-  CompositorStatisticsRenderer& renderer = *_CompositorStatisticsRenderer;
+static StatisticsRenderer* _StatisticsRenderer = nullptr;
+void StatisticsRenderer::drawLists(void* data) {
+  RL_ASSERT(_StatisticsRenderer != nullptr);
+  StatisticsRenderer& renderer = *_StatisticsRenderer;
   auto drawData = static_cast<ImDrawData*>(data);
 
   /*
@@ -164,21 +164,21 @@ void CompositorStatisticsRenderer::drawLists(void* data) {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-CompositorStatisticsRenderer::CompositorStatisticsRenderer()
+StatisticsRenderer::StatisticsRenderer()
     : _setupComplete(false),
       _program(nullptr),
       _vbo(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
   io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
-      &CompositorStatisticsRenderer::drawLists);
+      &StatisticsRenderer::drawLists);
 }
 
-CompositorStatisticsRenderer::~CompositorStatisticsRenderer() {
+StatisticsRenderer::~StatisticsRenderer() {
   cleanup();
 }
 
-void CompositorStatisticsRenderer::cleanup() {
+void StatisticsRenderer::cleanup() {
   /*
    *  GL_NONEs are ignored
    */
@@ -186,7 +186,7 @@ void CompositorStatisticsRenderer::cleanup() {
   glDeleteTextures(1, &_fontAtlas);
 }
 
-void CompositorStatisticsRenderer::performSetupIfNecessary() {
+void StatisticsRenderer::performSetupIfNecessary() {
   if (_setupComplete) {
     return;
   }
@@ -196,7 +196,7 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   /*
    *  Create and initialize the shader program
    */
-  _program = core::make_unique<CompositorStatisticsRendererProgram>();
+  _program = core::make_unique<StatisticsRendererProgram>();
 
   RL_GLAssert("There must be no errors prior to stat renderer setup");
 
@@ -233,7 +233,7 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void CompositorStatisticsRenderer::render(Statistics& stats, Frame& frame) {
+void StatisticsRenderer::render(Statistics& stats, Frame& frame) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -246,7 +246,8 @@ void CompositorStatisticsRenderer::render(Statistics& stats, Frame& frame) {
    *  callback function. Since the stats renderer is a singleton anyway, we set
    *  a static global for the duration of the call.
    */
-  _CompositorStatisticsRenderer = this;
+  RL_ASSERT(_StatisticsRenderer == nullptr);
+  _StatisticsRenderer = this;
 
   ImGui::NewFrame();
 
@@ -257,11 +258,11 @@ void CompositorStatisticsRenderer::render(Statistics& stats, Frame& frame) {
 
   ImGui::Render();
 
-  _CompositorStatisticsRenderer = nullptr;
+  _StatisticsRenderer = nullptr;
 }
 
-void CompositorStatisticsRenderer::buildStatsUI(Statistics& stats) {
-  if (ImGui::Begin("Compositor Statistics")) {
+void StatisticsRenderer::buildStatsUI(Statistics& stats) {
+  if (ImGui::Begin("Coordinator Statistics")) {
     ImGui::Text("Entities: %zu", stats.entityCount().count());
     ImGui::Text("Primitives: %zu", stats.primitiveCount().count());
     ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());

@@ -90,7 +90,7 @@
 		9E8655EA1BE45E2700997766 /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Compositor.h */; };
 		9E8655EB1BE45E2700997766 /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D61BE45E2700997766 /* Channel.h */; };
 		9E8655EC1BE45E2700997766 /* Statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* Statistics.h */; };
-		9E8655ED1BE45E2700997766 /* CompositorStatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */; };
+		9E8655ED1BE45E2700997766 /* StatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* StatisticsRenderer.h */; };
 		9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D91BE45E2700997766 /* EntityArena.h */; };
 		9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DA1BE45E2700997766 /* EntityLease.h */; };
 		9E8655F01BE45E2700997766 /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DB1BE45E2700997766 /* Frame.h */; };
@@ -111,7 +111,7 @@
 		9E8656151BE45E3A00997766 /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Compositor.cc */; };
 		9E8656161BE45E3A00997766 /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656011BE45E3A00997766 /* Channel.cc */; };
 		9E8656171BE45E3A00997766 /* Statistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* Statistics.cc */; };
-		9E8656181BE45E3A00997766 /* CompositorStatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */; };
+		9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */; };
 		9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656041BE45E3A00997766 /* EntityArena.cc */; };
 		9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656051BE45E3A00997766 /* EntityLease.cc */; };
 		9E86561B1BE45E3A00997766 /* Frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656061BE45E3A00997766 /* Frame.cc */; };
@@ -385,7 +385,7 @@
 		9E8655D51BE45E2700997766 /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
 		9E8655D61BE45E2700997766 /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9E8655D71BE45E2700997766 /* Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statistics.h; sourceTree = "<group>"; };
-		9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatisticsRenderer.h; sourceTree = "<group>"; };
+		9E8655D81BE45E2700997766 /* StatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsRenderer.h; sourceTree = "<group>"; };
 		9E8655D91BE45E2700997766 /* EntityArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityArena.h; sourceTree = "<group>"; };
 		9E8655DA1BE45E2700997766 /* EntityLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityLease.h; sourceTree = "<group>"; };
 		9E8655DB1BE45E2700997766 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		9E8656001BE45E3A00997766 /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
 		9E8656011BE45E3A00997766 /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9E8656021BE45E3A00997766 /* Statistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Statistics.cc; sourceTree = "<group>"; };
-		9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatisticsRenderer.cc; sourceTree = "<group>"; };
+		9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatisticsRenderer.cc; sourceTree = "<group>"; };
 		9E8656041BE45E3A00997766 /* EntityArena.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityArena.cc; sourceTree = "<group>"; };
 		9E8656051BE45E3A00997766 /* EntityLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLease.cc; sourceTree = "<group>"; };
 		9E8656061BE45E3A00997766 /* Frame.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cc; sourceTree = "<group>"; };
@@ -648,7 +648,7 @@
 				9E8655D51BE45E2700997766 /* Compositor.h */,
 				9E8655D61BE45E2700997766 /* Channel.h */,
 				9E8655D71BE45E2700997766 /* Statistics.h */,
-				9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */,
+				9E8655D81BE45E2700997766 /* StatisticsRenderer.h */,
 				9E8655D91BE45E2700997766 /* EntityArena.h */,
 				9E8655DA1BE45E2700997766 /* EntityLease.h */,
 				9E8655DB1BE45E2700997766 /* Frame.h */,
@@ -676,7 +676,7 @@
 				9E8656001BE45E3A00997766 /* Compositor.cc */,
 				9E8656011BE45E3A00997766 /* Channel.cc */,
 				9E8656021BE45E3A00997766 /* Statistics.cc */,
-				9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */,
+				9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */,
 				9E8656041BE45E3A00997766 /* EntityArena.cc */,
 				9E8656051BE45E3A00997766 /* EntityLease.cc */,
 				9E8656061BE45E3A00997766 /* Frame.cc */,
@@ -1062,7 +1062,7 @@
 				9EA674501B753CAD00C8A8B4 /* Core.h in Headers */,
 				9E16A6FD1BE2E9D700FFEDFC /* Row.h in Headers */,
 				9EBA79D61B87FF57005D84FA /* imconfig.h in Headers */,
-				9E8655ED1BE45E2700997766 /* CompositorStatisticsRenderer.h in Headers */,
+				9E8655ED1BE45E2700997766 /* StatisticsRenderer.h in Headers */,
 				9E16A7021BE2E9D700FFEDFC /* Tag.h in Headers */,
 				9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */,
 				9E8655F41BE45E2700997766 /* PresentationGraph.h in Headers */,
@@ -1312,7 +1312,7 @@
 				9E16A6F71BE2E9D700FFEDFC /* Constraint.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */,
-				9E8656181BE45E3A00997766 /* CompositorStatisticsRenderer.cc in Sources */,
+				9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
 				EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */,
