@@ -132,7 +132,7 @@ class Interface {
 
 #pragma mark - Setting up Gesture Recognizers
 
-  bool setupGestureRecognizer(GestureRecognizer&& recognizer);
+  bool setupGestureRecognizer(recognition::GestureRecognizer&& recognizer);
 
  private:
   core::EventLoop* _loop;

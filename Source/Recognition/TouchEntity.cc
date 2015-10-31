@@ -5,6 +5,7 @@
 #include <Recognition/TouchEntity.h>
 
 namespace rl {
+namespace recognition {
 
 TouchEntity::TouchEntity(const event::TouchEvent& event) : Entity(false) {
   setBounds({0.0, 0.0, 1.0, 1.0});
@@ -14,4 +15,5 @@ TouchEntity::TouchEntity(const event::TouchEvent& event) : Entity(false) {
 TouchEntity::~TouchEntity() {
 }
 
+}  // namespace recognition
 }  // namespace rl

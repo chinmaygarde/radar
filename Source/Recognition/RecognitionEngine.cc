@@ -5,6 +5,7 @@
 #include <Recognition/RecognitionEngine.h>
 
 namespace rl {
+namespace recognition {
 
 RecognitionEngine::RecognitionEngine() {
 }
@@ -138,4 +139,5 @@ bool RecognitionEngine::applyTouchMap(
   return true;
 }
 
+}  // namespace recognition
 }  // namespace rl

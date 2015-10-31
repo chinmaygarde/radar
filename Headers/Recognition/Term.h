@@ -9,6 +9,7 @@
 #include <Recognition/Variable.h>
 
 namespace rl {
+namespace recognition {
 
 class Term : public core::Serializable {
  public:
@@ -52,6 +53,7 @@ class Term : public core::Serializable {
   std::vector<VariableDegree> _variables;
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_TERM_H_

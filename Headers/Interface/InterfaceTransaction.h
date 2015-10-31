@@ -24,14 +24,14 @@ class InterfaceTransaction {
             Entity::Property property,
             Entity::Identifier);
 
-  void mark(GestureRecognizer&& recognizer);
+  void mark(recognition::GestureRecognizer&& recognizer);
 
   bool commit(core::Message& arena);
 
  private:
   Action _action;
   std::map<Entity::Identifier, std::unique_ptr<TransferEntity>> _entities;
-  std::vector<GestureRecognizer> _recognizers;
+  std::vector<recognition::GestureRecognizer> _recognizers;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };

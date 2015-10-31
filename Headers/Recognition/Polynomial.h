@@ -10,6 +10,7 @@
 #include <Recognition/Term.h>
 
 namespace rl {
+namespace recognition {
 
 class Polynomial : public core::Serializable {
  public:
@@ -51,6 +52,7 @@ class Polynomial : public core::Serializable {
   RL_DISALLOW_COPY_AND_ASSIGN(Polynomial);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_POLYNOMIAL_H_

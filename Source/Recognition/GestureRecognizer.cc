@@ -5,6 +5,7 @@
 #include <Recognition/GestureRecognizer.h>
 
 namespace rl {
+namespace recognition {
 
 static GestureRecognizer::Identifier LastGestureRecognizerIdentifier = 0;
 
@@ -203,4 +204,5 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
   return Continuation::Continue;
 }
 
+}  // namespace recognition
 }  // namespace rl

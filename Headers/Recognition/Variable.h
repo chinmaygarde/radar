@@ -12,6 +12,7 @@
 #include <set>
 
 namespace rl {
+namespace recognition {
 
 class ActiveTouchSet;
 class Variable : public core::Serializable {
@@ -73,6 +74,7 @@ class Variable : public core::Serializable {
   RL_DISALLOW_ASSIGN(Variable);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_VARIABLE_H_

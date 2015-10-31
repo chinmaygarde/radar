@@ -15,6 +15,8 @@
 #include <vector>
 
 namespace rl {
+namespace recognition {
+
 class GestureRecognizer : public core::Serializable {
  public:
   using Identifier = uint64_t;
@@ -69,6 +71,7 @@ class GestureRecognizer : public core::Serializable {
   RL_DISALLOW_COPY_AND_ASSIGN(GestureRecognizer);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_GESTURERECOGNIZER_H_

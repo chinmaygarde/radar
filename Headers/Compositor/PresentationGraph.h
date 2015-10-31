@@ -33,7 +33,7 @@ class PresentationGraph {
 
  private:
   PresentationEntity::IdentifierMap _entities;
-  RecognitionEngine _recognitionEngine;
+  recognition::RecognitionEngine _recognitionEngine;
 
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
@@ -55,7 +55,8 @@ class PresentationGraph {
   void onTransferRecordCommit(interface::Action& action,
                               TransferRecord& record,
                               const core::ClockPoint& commitTime);
-  void onRecognizerCommit(GestureRecognizer::Collection&& recognizers);
+  void onRecognizerCommit(
+      recognition::GestureRecognizer::Collection&& recognizers);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

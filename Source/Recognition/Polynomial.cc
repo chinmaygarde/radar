@@ -5,6 +5,7 @@
 #include <Recognition/Polynomial.h>
 
 namespace rl {
+namespace recognition {
 
 Polynomial::Polynomial(Polynomial::Terms terms, double constant)
     : _terms(std::move(terms)), _constant(constant) {
@@ -68,4 +69,5 @@ Variable::ValueType Polynomial::valueType() const {
   return resolvedType;
 }
 
+}  // namespace recognition
 }  // namespace rl

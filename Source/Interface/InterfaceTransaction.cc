@@ -25,7 +25,7 @@ void InterfaceTransaction::mark(const Entity& entity,
   transferEntity->record(entity, property, other);
 }
 
-void InterfaceTransaction::mark(GestureRecognizer&& recognizer) {
+void InterfaceTransaction::mark(recognition::GestureRecognizer&& recognizer) {
   _recognizers.emplace_back(std::move(recognizer));
 }
 

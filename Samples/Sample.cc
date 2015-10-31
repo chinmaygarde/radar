@@ -18,14 +18,16 @@ void SampleApplication::didFinishLaunching(
 
 static void AddPanRecognizer(rl::interface::Interface& interface,
                              rl::interface::Layer& layer) {
-  rl::Variable y(layer, rl::interface::Entity::Position);
-  rl::Variable x(rl::Variable::Proxy::Touch1, rl::interface::Entity::Position);
+  rl::recognition::Variable y(layer, rl::interface::Entity::Position);
+  rl::recognition::Variable x(rl::recognition::Variable::Proxy::Touch1,
+                              rl::interface::Entity::Position);
 
-  rl::Term::VariableDegree variableDegree(x, 1);
-  rl::Term term(1.0, {variableDegree});
-  rl::Polynomial polynomial({term}, 0.0);
+  rl::recognition::Term::VariableDegree variableDegree(x, 1);
+  rl::recognition::Term term(1.0, {variableDegree});
+  rl::recognition::Polynomial polynomial({term}, 0.0);
 
-  rl::GestureRecognizer recognizer(std::move(y), std::move(polynomial));
+  rl::recognition::GestureRecognizer recognizer(std::move(y),
+                                                std::move(polynomial));
 
   bool result = interface.setupGestureRecognizer(std::move(recognizer));
   RL_ASSERT(result);

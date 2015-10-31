@@ -12,6 +12,7 @@
 #include <map>
 
 namespace rl {
+namespace recognition {
 
 class TouchEntity : public interface::Entity {
  public:
@@ -25,6 +26,7 @@ class TouchEntity : public interface::Entity {
   RL_DISALLOW_COPY_AND_ASSIGN(TouchEntity);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_TOUCHENTITY_H_

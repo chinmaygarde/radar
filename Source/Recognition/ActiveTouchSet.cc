@@ -7,6 +7,7 @@
 #include <algorithm>
 
 namespace rl {
+namespace recognition {
 
 ActiveTouchSet::ActiveTouchSet() {
 }
@@ -89,4 +90,5 @@ TouchEntity* ActiveTouchSet::touchEntityForIndex(size_t index) const {
   return touchEvent.get();
 }
 
+}  // namespace recognition
 }  // namespace rl

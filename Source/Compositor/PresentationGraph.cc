@@ -66,7 +66,7 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
 }
 
 void PresentationGraph::onRecognizerCommit(
-    GestureRecognizer::Collection&& recognizers) {
+    recognition::GestureRecognizer::Collection&& recognizers) {
   _recognitionEngine.setupRecognizers(std::move(recognizers));
 }
 

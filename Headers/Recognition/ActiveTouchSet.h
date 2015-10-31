@@ -11,6 +11,7 @@
 #include <Recognition/TouchEntity.h>
 
 namespace rl {
+namespace recognition {
 
 class ActiveTouchSet {
  public:
@@ -37,6 +38,7 @@ class ActiveTouchSet {
   RL_DISALLOW_COPY_AND_ASSIGN(ActiveTouchSet);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_ACTIVETOUCHSET_H_

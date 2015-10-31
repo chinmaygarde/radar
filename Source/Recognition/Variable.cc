@@ -6,6 +6,7 @@
 #include <Recognition/ActiveTouchSet.h>
 
 namespace rl {
+namespace recognition {
 
 Variable::Variable()
     : _identifier(interface::Entity::IdentifierNone),
@@ -100,4 +101,5 @@ bool Variable::deserialize(core::Message& message) {
   return result;
 }
 
+}  // namespace recognition
 }  // namespace rl

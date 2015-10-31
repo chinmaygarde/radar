@@ -24,11 +24,12 @@ class TransactionPayload : public core::Serializable {
   using TransferRecordCallback = std::function<
       void(interface::Action&, TransferRecord&, const core::ClockPoint&)>;
   using RecognizerCallback =
-      std::function<void(GestureRecognizer::Collection&&)>;
+      std::function<void(recognition::GestureRecognizer::Collection&&)>;
 
-  explicit TransactionPayload(interface::Action&& action,
-                              EntityMap&& entities,
-                              GestureRecognizer::Collection&& recognizers);
+  explicit TransactionPayload(
+      interface::Action&& action,
+      EntityMap&& entities,
+      recognition::GestureRecognizer::Collection&& recognizers);
 
   explicit TransactionPayload(const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
@@ -44,7 +45,7 @@ class TransactionPayload : public core::Serializable {
    */
   interface::Action _action;
   EntityMap _entities;
-  GestureRecognizer::Collection _recognizers;
+  recognition::GestureRecognizer::Collection _recognizers;
 
   /*
    *  Used when reading

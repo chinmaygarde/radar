@@ -7,6 +7,7 @@
 #include <cmath>
 
 namespace rl {
+namespace recognition {
 
 Term::Term(double coefficient, Term::Variables&& variables)
     : _coefficient(coefficient), _variables(std::move(variables)) {
@@ -291,4 +292,5 @@ geom::Matrix Term::solve(
   return solution;
 }
 
+}  // namespace recognition
 }  // namespace rl

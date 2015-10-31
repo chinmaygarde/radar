@@ -12,6 +12,7 @@
 #include <map>
 
 namespace rl {
+namespace recognition {
 
 class RecognitionEngine {
  public:
@@ -44,6 +45,7 @@ class RecognitionEngine {
   RL_DISALLOW_COPY_AND_ASSIGN(RecognitionEngine);
 };
 
+}  // namespace recognition
 }  // namespace rl
 
 #endif  // RADARLOVE_RECOGNITION_RECOGNITIONENGINE_H_
