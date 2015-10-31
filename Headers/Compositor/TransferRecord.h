@@ -21,10 +21,10 @@ struct TransferRecord {
   union DataType {
     Entity::Identifier identifier;
     double number;
-    Point point;
-    Size size;
-    Rect rect;
-    Matrix matrix;
+    geom::Point point;
+    geom::Size size;
+    geom::Rect rect;
+    geom::Matrix matrix;
     Color color;
 
     template <typename T>

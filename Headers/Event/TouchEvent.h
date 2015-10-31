@@ -29,7 +29,7 @@ class TouchEvent : public Event {
    *  Create a touch event with the given identifier and absolute location
    */
   explicit TouchEvent(Identifier identifier,
-                      const Point& location,
+                      const geom::Point& location,
                       Phase phase);
 
   /**
@@ -51,7 +51,7 @@ class TouchEvent : public Event {
    *
    *  @return the absolute touch location
    */
-  const Point& location() const;
+  const geom::Point& location() const;
 
   /**
    *  The phase of the touch
@@ -66,7 +66,7 @@ class TouchEvent : public Event {
 
  private:
   Identifier _identifier;
-  Point _location;
+  geom::Point _location;
   Phase _phase;
 
   RL_DISALLOW_ASSIGN(TouchEvent);

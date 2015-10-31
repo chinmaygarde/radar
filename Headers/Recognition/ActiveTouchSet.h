@@ -21,7 +21,7 @@ class ActiveTouchSet {
   void update(const std::vector<event::TouchEvent>& touches);
   void clear(const std::vector<event::TouchEvent>& touches);
 
-  using PointResult = std::pair<bool /* result */, Point>;
+  using PointResult = std::pair<bool /* result */, geom::Point>;
   PointResult pointForIndex(size_t index) const;
 
   TouchEntity* touchEntityForProxy(Variable::Proxy proxy) const;

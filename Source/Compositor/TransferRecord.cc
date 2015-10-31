@@ -18,22 +18,22 @@ const double& TransferRecord::transferData<double>() const {
 }
 
 template <>
-const Point& TransferRecord::transferData<Point>() const {
+const geom::Point& TransferRecord::transferData<geom::Point>() const {
   return data.point;
 }
 
 template <>
-const Size& TransferRecord::transferData<Size>() const {
+const geom::Size& TransferRecord::transferData<geom::Size>() const {
   return data.size;
 }
 
 template <>
-const Rect& TransferRecord::transferData<Rect>() const {
+const geom::Rect& TransferRecord::transferData<geom::Rect>() const {
   return data.rect;
 }
 
 template <>
-const Matrix& TransferRecord::transferData<Matrix>() const {
+const geom::Matrix& TransferRecord::transferData<geom::Matrix>() const {
   return data.matrix;
 }
 

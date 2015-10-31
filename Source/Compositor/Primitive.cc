@@ -21,8 +21,8 @@ void Primitive::setContentColor(const Color& color) {
 }
 
 void Primitive::render(Frame& frame,
-                       const Matrix& modelViewMatrix,
-                       const Size& size) {
+                       const geom::Matrix& modelViewMatrix,
+                       const geom::Size& size) {
   /*
    *  Select the program to use
    */

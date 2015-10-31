@@ -6,6 +6,8 @@
 #define RADARLOVE_GEOMETRY_SIZE_
 
 namespace rl {
+namespace geom {
+
 struct Size {
   double width;
   double height;
@@ -37,6 +39,8 @@ struct Size {
 };
 
 static const Size SizeZero(0.0, 0.0);
+
+}  // namespace geom
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_SIZE_

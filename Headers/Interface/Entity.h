@@ -65,14 +65,14 @@ class Entity {
    *
    *  @return the frame of the entity
    */
-  Rect frame() const;
+  geom::Rect frame() const;
 
   /**
    *  Set the frame of the entity
    *
    *  @param frame the new frame
    */
-  void setFrame(const Rect& frame);
+  void setFrame(const geom::Rect& frame);
 
   /**
    *  The bounds specifies the origin and size of the entity in its own
@@ -80,14 +80,14 @@ class Entity {
    *
    *  @return the bounds of the entity
    */
-  const Rect& bounds() const;
+  const geom::Rect& bounds() const;
 
   /**
    *  Set the bounds of the entity
    *
    *  @param bounds the new bounds
    */
-  void setBounds(const Rect& bounds);
+  void setBounds(const geom::Rect& bounds);
 
   /**
    *  The position specifies the coordinates of the anchor position of the
@@ -95,49 +95,49 @@ class Entity {
    *
    *  @return the position of the entity
    */
-  const Point& position() const;
+  const geom::Point& position() const;
 
   /**
    *  Sets the position of the entity
    *
    *  @param point the new position
    */
-  void setPosition(const Point& point);
+  void setPosition(const geom::Point& point);
 
   /**
    *  The position of the anchor point within this node in unit space
    *
    *  @return the anchor point
    */
-  const Point& anchorPoint() const;
+  const geom::Point& anchorPoint() const;
 
   /**
    *  Sets the new anchor point of this node
    *
    *  @param anchorPoint the new anchor point
    */
-  void setAnchorPoint(const Point& anchorPoint);
+  void setAnchorPoint(const geom::Point& anchorPoint);
 
   /**
    *  The transformation that is applied to the entity about its anchor point
    *
    *  @return the transformation applied to the node
    */
-  const Matrix& transformation() const;
+  const geom::Matrix& transformation() const;
 
   /**
    *  Sets the transformation of the entity
    *
    *  @param transformation the new transformation
    */
-  void setTransformation(const Matrix& transformation);
+  void setTransformation(const geom::Matrix& transformation);
 
   /**
    *  The effective model matrix of the entity
    *
    *  @return the model matrix
    */
-  Matrix modelMatrix() const;
+  geom::Matrix modelMatrix() const;
 
 #pragma mark - Display Properties
 
@@ -183,10 +183,10 @@ class Entity {
 
  private:
   Identifier _identifier;
-  Rect _bounds;
-  Point _position;
-  Point _anchorPoint;
-  Matrix _transformation;
+  geom::Rect _bounds;
+  geom::Point _position;
+  geom::Point _anchorPoint;
+  geom::Matrix _transformation;
   Color _backgroundColor;
   double _opacity;
   bool _notifiesInterfaceOnUpdate;
@@ -194,10 +194,10 @@ class Entity {
   RL_DISALLOW_ASSIGN(Entity);
 };
 
-extern const Entity::Accessors<Rect> BoundsAccessors;
-extern const Entity::Accessors<Point> PositionAccessors;
-extern const Entity::Accessors<Point> AnchorPointAccessors;
-extern const Entity::Accessors<Matrix> TransformationAccessors;
+extern const Entity::Accessors<geom::Rect> BoundsAccessors;
+extern const Entity::Accessors<geom::Point> PositionAccessors;
+extern const Entity::Accessors<geom::Point> AnchorPointAccessors;
+extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
 extern const Entity::Accessors<Color> BackgroundColorAccessors;
 extern const Entity::Accessors<double> OpacityAccessors;
 

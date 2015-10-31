@@ -68,7 +68,7 @@ ActiveTouchSet::PointResult ActiveTouchSet::pointForIndex(size_t index) const {
     return PointResult(true, entity->position());
   }
 
-  return PointResult(false, PointZero);
+  return PointResult(false, geom::PointZero);
 }
 
 TouchEntity* ActiveTouchSet::touchEntityForProxy(Variable::Proxy proxy) const {

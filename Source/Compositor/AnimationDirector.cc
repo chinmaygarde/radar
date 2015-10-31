@@ -55,17 +55,17 @@ AnimationDirector::Interpolators<double>& AnimationDirector::collection() {
 }
 
 template <>
-AnimationDirector::Interpolators<Size>& AnimationDirector::collection() {
+AnimationDirector::Interpolators<geom::Size>& AnimationDirector::collection() {
   return _sizeInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<Point>& AnimationDirector::collection() {
+AnimationDirector::Interpolators<geom::Point>& AnimationDirector::collection() {
   return _pointInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<Rect>& AnimationDirector::collection() {
+AnimationDirector::Interpolators<geom::Rect>& AnimationDirector::collection() {
   return _rectInterpolators;
 }
 
@@ -75,7 +75,8 @@ AnimationDirector::Interpolators<Color>& AnimationDirector::collection() {
 }
 
 template <>
-AnimationDirector::Interpolators<Matrix>& AnimationDirector::collection() {
+AnimationDirector::Interpolators<geom::Matrix>&
+AnimationDirector::collection() {
   return _matrixInterpolators;
 }
 

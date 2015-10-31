@@ -8,6 +8,8 @@
 #include <Geometry/Size.h>
 
 namespace rl {
+namespace geom {
+
 struct Point {
   double x;
   double y;
@@ -46,6 +48,8 @@ struct Point {
 };
 
 static const Point PointZero(0.0, 0.0);
+
+}  // namespace geom
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_POINT_

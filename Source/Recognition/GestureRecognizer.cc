@@ -170,19 +170,19 @@ GestureRecognizer::Continuation GestureRecognizer::stepRecognition(
   auto& entity = _evaluationResult.presentationEntityRepresentation(entities);
   switch (evaluationResult().targetProperty()) {
     case Entity::Property::Bounds: {
-      auto bounds = _polynomial.solve<Rect>(touches, entities);
+      auto bounds = _polynomial.solve<geom::Rect>(touches, entities);
       entity.setBounds(bounds);
     } break;
     case Entity::Property::Position: {
-      auto pointInWindow = _polynomial.solve<Point>(touches, entities);
+      auto pointInWindow = _polynomial.solve<geom::Point>(touches, entities);
       entity.setPosition(pointInWindow);
     } break;
     case Entity::Property::AnchorPoint: {
-      auto anchorPoint = _polynomial.solve<Point>(touches, entities);
+      auto anchorPoint = _polynomial.solve<geom::Point>(touches, entities);
       entity.setAnchorPoint(anchorPoint);
     } break;
     case Entity::Property::Transformation: {
-      auto transformation = _polynomial.solve<Matrix>(touches, entities);
+      auto transformation = _polynomial.solve<geom::Matrix>(touches, entities);
       entity.setTransformation(transformation);
     } break;
     case Entity::Property::BackgroundColor: {

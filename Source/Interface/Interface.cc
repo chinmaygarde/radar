@@ -83,11 +83,11 @@ void Interface::shutdown(core::Latch& onShutdown) {
   });
 }
 
-const Size& Interface::size() const {
+const geom::Size& Interface::size() const {
   return _size;
 }
 
-void Interface::setSize(const Size& size) {
+void Interface::setSize(const geom::Size& size) {
   if (_size == size) {
     return;
   }

@@ -11,7 +11,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
                        event::TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
-      _surfaceSize(SizeZero),
+      _surfaceSize(geom::SizeZero),
       _programCatalog(nullptr),
       _interfaceChannel(nullptr),
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
@@ -62,7 +62,7 @@ void Compositor::surfaceWasCreated() {
   _loop->dispatchAsync([&] { startComposition(); });
 }
 
-void Compositor::surfaceSizeUpdated(const Size& size) {
+void Compositor::surfaceSizeUpdated(const geom::Size& size) {
   _loop->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
 }
 
@@ -77,7 +77,7 @@ void Compositor::startComposition() {
 void Compositor::stopComposition() {
 }
 
-void Compositor::commitCompositionSizeUpdate(const Size& size) {
+void Compositor::commitCompositionSizeUpdate(const geom::Size& size) {
   if (size == _surfaceSize) {
     return;
   }

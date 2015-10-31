@@ -7,6 +7,7 @@
 #include <climits>
 
 namespace rl {
+namespace geom {
 
 Matrix Matrix::Orthographic(double left,
                             double right,
@@ -89,4 +90,5 @@ Matrix Matrix::operator+(const Matrix& o) const {
   // clang-format on
 }
 
+}  // namespace geom
 }  // namespace rl

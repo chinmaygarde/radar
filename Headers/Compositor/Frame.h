@@ -17,7 +17,7 @@
 namespace rl {
 class Frame {
  public:
-  explicit Frame(Size size,
+  explicit Frame(geom::Size size,
                  std::shared_ptr<ProgramCatalog> catalog,
                  CompositorStatistics& stats);
 
@@ -35,14 +35,14 @@ class Frame {
    *
    *  @return the frame size
    */
-  const Size& size() const;
+  const geom::Size& size() const;
 
   /**
    *  Get the projection matrix of the current frame
    *
    *  @return the projection matrix
    */
-  const Matrix& projectionMatrix() const;
+  const geom::Matrix& projectionMatrix() const;
 
   /**
    *  Pop the last item off the opacity stack as the visitor backs out of the
@@ -72,8 +72,8 @@ class Frame {
   CompositorStatistics& statistics();
 
  private:
-  Size _size;
-  Matrix _projectionMatrix;
+  geom::Size _size;
+  geom::Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   CompositorStatistics& _stats;
 

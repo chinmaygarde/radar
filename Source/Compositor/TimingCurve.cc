@@ -119,7 +119,7 @@ TimingCurve TimingCurve::SystemTimingCurve(Type type) {
   return TimingCurve({0.0, 0.0}, {1.0, 1.0});
 }
 
-TimingCurve::TimingCurve(const Point& c1, const Point& c2) {
+TimingCurve::TimingCurve(const geom::Point& c1, const geom::Point& c2) {
   _cx = 3.0 * c1.x;
   _bx = 3.0 * (c2.x - c1.x) - _cx;
   _ax = 1.0 - _cx - _bx;

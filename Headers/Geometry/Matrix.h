@@ -12,6 +12,8 @@
 #include <cmath>
 
 namespace rl {
+namespace geom {
+
 struct Matrix {
   union {
     double m[16];
@@ -377,6 +379,7 @@ static inline Vector4 operator*(const Vector4& v, const Matrix& m) {
                  v.a * m.m[3] + v.b * m.m[7] + v.c * m.m[11] + v.d * m.m[15]);
 }
 
+}  // namespace geom
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_MATRIX_

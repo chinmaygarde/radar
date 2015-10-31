@@ -53,22 +53,22 @@ double Interpolator<double>::x(double t) const {
 }
 
 template <>
-Point Interpolator<Point>::x(double t) const {
-  return Point(_lerp(_from.x, _to.x, t), _lerp(_from.y, _to.y, t));
+geom::Point Interpolator<geom::Point>::x(double t) const {
+  return geom::Point(_lerp(_from.x, _to.x, t), _lerp(_from.y, _to.y, t));
 }
 
 template <>
-Size Interpolator<Size>::x(double t) const {
-  return Size(_lerp(_from.width, _to.width, t),
-              _lerp(_from.height, _to.height, t));
+geom::Size Interpolator<geom::Size>::x(double t) const {
+  return geom::Size(_lerp(_from.width, _to.width, t),
+                    _lerp(_from.height, _to.height, t));
 }
 
 template <>
-Rect Interpolator<Rect>::x(double t) const {
-  return Rect(_lerp(_from.origin.x, _to.origin.x, t),
-              _lerp(_from.origin.y, _to.origin.y, t),
-              _lerp(_from.size.width, _to.size.width, t),
-              _lerp(_from.size.height, _to.size.height, t));
+geom::Rect Interpolator<geom::Rect>::x(double t) const {
+  return geom::Rect(_lerp(_from.origin.x, _to.origin.x, t),
+                    _lerp(_from.origin.y, _to.origin.y, t),
+                    _lerp(_from.size.width, _to.size.width, t),
+                    _lerp(_from.size.height, _to.size.height, t));
 }
 
 template <>
@@ -86,12 +86,12 @@ Color Interpolator<Color>::x(double t) const {
 }
 
 template <>
-Matrix Interpolator<Matrix>::x(double t) const {
+geom::Matrix Interpolator<geom::Matrix>::x(double t) const {
   /*
    *  TODO: Create a specialization that interpolates naturally. This one is BS.
    *        Will cause skewing and volumetric distortions.
    */
-  return Matrix(
+  return geom::Matrix(
       _lerp(_from.m[0], _to.m[0], t), _lerp(_from.m[1], _to.m[1], t),
       _lerp(_from.m[2], _to.m[2], t), _lerp(_from.m[3], _to.m[3], t),
       _lerp(_from.m[4], _to.m[4], t), _lerp(_from.m[5], _to.m[5], t),
@@ -106,10 +106,10 @@ Matrix Interpolator<Matrix>::x(double t) const {
  * Explicit Template Specializations
  */
 template class Interpolator<double>;
-template class Interpolator<Point>;
-template class Interpolator<Size>;
-template class Interpolator<Rect>;
+template class Interpolator<geom::Point>;
+template class Interpolator<geom::Size>;
+template class Interpolator<geom::Rect>;
 template class Interpolator<Color>;
-template class Interpolator<Matrix>;
+template class Interpolator<geom::Matrix>;
 
 }  // namespace rl

@@ -166,9 +166,10 @@ double Term::solve(const ActiveTouchSet& touches,
 }
 
 template <>
-Point Term::solve(const ActiveTouchSet& touches,
-                  const PresentationEntity::IdentifierMap& entities) const {
-  auto solution = Point{1.0, 1.0};
+geom::Point Term::solve(
+    const ActiveTouchSet& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
+  auto solution = geom::Point{1.0, 1.0};
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
@@ -176,7 +177,7 @@ Point Term::solve(const ActiveTouchSet& touches,
     /*
      *  Fetch the value of the property to operate on
      */
-    Point value = PointZero;
+    geom::Point value = geom::PointZero;
 
     switch (item.variable.targetProperty()) {
       case Entity::Property::Position:
@@ -199,9 +200,10 @@ Point Term::solve(const ActiveTouchSet& touches,
 }
 
 template <>
-Rect Term::solve(const ActiveTouchSet& touches,
-                 const PresentationEntity::IdentifierMap& entities) const {
-  auto solution = Rect{{1.0, 1.0}, {1.0, 1.0}};
+geom::Rect Term::solve(
+    const ActiveTouchSet& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
+  auto solution = geom::Rect{{1.0, 1.0}, {1.0, 1.0}};
 
   for (auto const& item : _variables) {
     const auto& entity = item.variable.entityRepresentation(touches, entities);
@@ -209,7 +211,7 @@ Rect Term::solve(const ActiveTouchSet& touches,
     /*
      *  Fetch the value of the property to operate on
      */
-    Rect value = entity.bounds();
+    geom::Rect value = entity.bounds();
 
     /**
      *  Note: This should likely be augmented to include the computed 'frame'
@@ -256,8 +258,9 @@ Color Term::solve(const ActiveTouchSet& touches,
 }
 
 template <>
-Matrix Term::solve(const ActiveTouchSet& touches,
-                   const PresentationEntity::IdentifierMap& entities) const {
+geom::Matrix Term::solve(
+    const ActiveTouchSet& touches,
+    const PresentationEntity::IdentifierMap& entities) const {
   RL_ASSERT_MSG(
       _variables.size() == 1,
       "There may only be a single variable in a term operating on matrices");

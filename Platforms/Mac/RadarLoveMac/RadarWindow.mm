@@ -81,7 +81,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 
 - (void)windowWasResized {
   const CGSize boundsSize = self.surface.bounds.size;
-  rl::Size size(boundsSize.width, boundsSize.height);
+  rl::geom::Size size(boundsSize.width, boundsSize.height);
   _renderSurface->surfaceSizeUpdated(size);
   _shell->interface().setSize(size);
 }

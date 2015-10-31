@@ -9,6 +9,8 @@
 #include <Geometry/Size.h>
 
 namespace rl {
+namespace geom {
+
 struct Rect {
   Point origin;
   Size size;
@@ -52,6 +54,8 @@ struct Rect {
 };
 
 static const Rect RectZero(PointZero, SizeZero);
+
+}  // namespace geom
 }  // namespace rl
 
 #endif  // RADARLOVE_GEOMETRY_RECT_

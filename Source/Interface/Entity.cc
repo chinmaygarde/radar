@@ -12,10 +12,10 @@ static Entity::Identifier LastEntityIdentifier = 0;
 
 Entity::Entity(bool notifiesInterfaceOnUpdate)
     : _identifier(++LastEntityIdentifier),
-      _bounds(RectZero),
-      _position(PointZero),
-      _anchorPoint(Point(0.5, 0.5)),
-      _transformation(MatrixIdentity),
+      _bounds(geom::RectZero),
+      _position(geom::PointZero),
+      _anchorPoint(geom::Point(0.5, 0.5)),
+      _transformation(geom::MatrixIdentity),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
@@ -24,10 +24,10 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
 
 Entity::Entity(Identifier identifier)
     : _identifier(identifier),
-      _bounds(RectZero),
-      _position(PointZero),
-      _anchorPoint(Point(0.5, 0.5)),
-      _transformation(MatrixIdentity),
+      _bounds(geom::RectZero),
+      _position(geom::PointZero),
+      _anchorPoint(geom::Point(0.5, 0.5)),
+      _transformation(geom::MatrixIdentity),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _notifiesInterfaceOnUpdate(false) {
@@ -63,61 +63,62 @@ uint64_t Entity::identifier() const {
   return _identifier;
 }
 
-Rect Entity::frame() const {
-  Point origin(_position.x - (_bounds.size.width * _anchorPoint.x),
-               _position.y - (_bounds.size.height * _anchorPoint.y));
+geom::Rect Entity::frame() const {
+  geom::Point origin(_position.x - (_bounds.size.width * _anchorPoint.x),
+                     _position.y - (_bounds.size.height * _anchorPoint.y));
 
-  return Rect(origin, _bounds.size);
+  return geom::Rect(origin, _bounds.size);
 }
 
-void Entity::setFrame(const Rect& frame) {
-  setBounds(Rect(_bounds.origin, frame.size));
-  setPosition(Point(frame.origin.x + (_anchorPoint.x * frame.size.width),
-                    frame.origin.y + (_anchorPoint.y * frame.size.height)));
+void Entity::setFrame(const geom::Rect& frame) {
+  setBounds(geom::Rect(_bounds.origin, frame.size));
+  setPosition(
+      geom::Point(frame.origin.x + (_anchorPoint.x * frame.size.width),
+                  frame.origin.y + (_anchorPoint.y * frame.size.height)));
 }
 
-const Rect& Entity::bounds() const {
+const geom::Rect& Entity::bounds() const {
   return _bounds;
 }
 
-void Entity::setBounds(const Rect& bounds) {
+void Entity::setBounds(const geom::Rect& bounds) {
   _bounds = bounds;
   notifyInterfaceIfNecessary(Bounds);
 }
 
-const Point& Entity::position() const {
+const geom::Point& Entity::position() const {
   return _position;
 }
 
-void Entity::setPosition(const Point& position) {
+void Entity::setPosition(const geom::Point& position) {
   _position = position;
   notifyInterfaceIfNecessary(Position);
 }
 
-const Point& Entity::anchorPoint() const {
+const geom::Point& Entity::anchorPoint() const {
   return _anchorPoint;
 }
 
-void Entity::setAnchorPoint(const Point& anchorPoint) {
+void Entity::setAnchorPoint(const geom::Point& anchorPoint) {
   _anchorPoint = anchorPoint;
   notifyInterfaceIfNecessary(AnchorPoint);
 }
 
-const Matrix& Entity::transformation() const {
+const geom::Matrix& Entity::transformation() const {
   return _transformation;
 }
 
-void Entity::setTransformation(const Matrix& transformation) {
+void Entity::setTransformation(const geom::Matrix& transformation) {
   _transformation = transformation;
   notifyInterfaceIfNecessary(Transformation);
 }
 
-Matrix Entity::modelMatrix() const {
-  const Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
-                  _position.y - _anchorPoint.y * _bounds.size.height);
+geom::Matrix Entity::modelMatrix() const {
+  const geom::Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
+                        _position.y - _anchorPoint.y * _bounds.size.height);
 
   // clang-format off
-  Matrix translation(1.0,   0.0,   0.0, 0.0,
+  geom::Matrix translation(1.0,   0.0,   0.0, 0.0,
                      0.0,   1.0,   0.0, 0.0,
                      0.0,   0.0,   1.0, 0.0,
                      pos.x, pos.y, 0.0, 1.0);
@@ -155,19 +156,19 @@ void Entity::notifyInterfaceIfNecessary(Property property,
 #pragma mark - Constants
 
 // clang-format off
-const Entity::Accessors<Rect> BoundsAccessors{
+const Entity::Accessors<geom::Rect> BoundsAccessors{
   &Entity::bounds, &Entity::setBounds
 };
 
-const Entity::Accessors<Point> PositionAccessors{
+const Entity::Accessors<geom::Point> PositionAccessors{
   &Entity::position, &Entity::setPosition
 };
 
-const Entity::Accessors<Point> AnchorPointAccessors{
+const Entity::Accessors<geom::Point> AnchorPointAccessors{
   &Entity::anchorPoint, &Entity::setAnchorPoint
 };
 
-const Entity::Accessors<Matrix> TransformationAccessors{
+const Entity::Accessors<geom::Matrix> TransformationAccessors{
   &Entity::transformation, &Entity::setTransformation
 };
 

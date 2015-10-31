@@ -84,14 +84,14 @@ class Interface {
    *
    *  @return the current interface size
    */
-  const Size& size() const;
+  const geom::Size& size() const;
 
   /**
    *  Update the size of the interface
    *
    *  @param size the new interface size
    */
-  void setSize(const Size& size);
+  void setSize(const geom::Size& size);
 
 #pragma mark - Transaction Management
 
@@ -134,7 +134,7 @@ class Interface {
 
  private:
   core::EventLoop* _loop;
-  Size _size;
+  geom::Size _size;
   std::mutex _lock;
   Layer::Ref _rootLayer;
   std::deque<InterfaceTransaction> _transactionStack;

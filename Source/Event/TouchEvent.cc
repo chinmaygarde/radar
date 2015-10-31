@@ -8,7 +8,7 @@ namespace rl {
 namespace event {
 
 TouchEvent::TouchEvent(Identifier identifier,
-                       const Point& location,
+                       const geom::Point& location,
                        Phase phase)
     : Event(core::Clock::now()),
       _identifier(identifier),
@@ -26,7 +26,7 @@ TouchEvent::Identifier TouchEvent::identifier() const {
   return _identifier;
 }
 
-const Point& TouchEvent::location() const {
+const geom::Point& TouchEvent::location() const {
   return _location;
 }
 

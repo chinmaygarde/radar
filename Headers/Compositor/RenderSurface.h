@@ -26,7 +26,7 @@ class RenderSurfaceObserver {
    *
    *  @param size the new size of the surface
    */
-  virtual void surfaceSizeUpdated(const Size& size) = 0;
+  virtual void surfaceSizeUpdated(const geom::Size& size) = 0;
 
   /**
    *  Invoked after the surface is destroyed
@@ -60,7 +60,7 @@ class RenderSurface : RenderSurfaceObserver {
    *  Invoked by host on changes to underlying surface
    */
   void surfaceWasCreated() override;
-  void surfaceSizeUpdated(const Size& size) override;
+  void surfaceSizeUpdated(const geom::Size& size) override;
   void surfaceWasDestroyed() override;
 
  private:

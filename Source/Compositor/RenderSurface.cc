@@ -12,7 +12,7 @@ void RenderSurface::surfaceWasCreated() {
   }
 }
 
-void RenderSurface::surfaceSizeUpdated(const Size& size) {
+void RenderSurface::surfaceSizeUpdated(const geom::Size& size) {
   if (_observer != nullptr) {
     _observer->surfaceSizeUpdated(size);
   }

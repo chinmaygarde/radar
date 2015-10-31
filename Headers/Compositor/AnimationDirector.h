@@ -57,10 +57,10 @@ class AnimationDirector {
       unordered_map<Key, std::unique_ptr<Interpolator<T>>, KeyHash, KeyEqual>;
 
   Interpolators<double> _numberInterpolators;
-  Interpolators<Point> _pointInterpolators;
-  Interpolators<Size> _sizeInterpolators;
-  Interpolators<Rect> _rectInterpolators;
-  Interpolators<Matrix> _matrixInterpolators;
+  Interpolators<geom::Point> _pointInterpolators;
+  Interpolators<geom::Size> _sizeInterpolators;
+  Interpolators<geom::Rect> _rectInterpolators;
+  Interpolators<geom::Matrix> _matrixInterpolators;
   Interpolators<Color> _colorInterpolators;
 
   template <typename T>

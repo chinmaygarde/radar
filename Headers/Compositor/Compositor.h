@@ -65,7 +65,7 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   std::mutex _lock;
-  Size _surfaceSize;
+  geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::shared_ptr<CompositorChannel> _interfaceChannel;
   PresentationGraph _graph;
@@ -75,11 +75,11 @@ class Compositor : RenderSurfaceObserver {
   event::TouchEventChannel& _touchEventChannel;
 
   void surfaceWasCreated() override;
-  void surfaceSizeUpdated(const Size& size) override;
+  void surfaceSizeUpdated(const geom::Size& size) override;
   void surfaceWasDestroyed() override;
 
   void startComposition();
-  void commitCompositionSizeUpdate(const Size& size);
+  void commitCompositionSizeUpdate(const geom::Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
   bool applyTransactionMessages(core::Messages messages);

@@ -163,7 +163,7 @@ void PresentationGraph::render(Frame& frame) {
     return;
   }
   frame.statistics().entityCount().increment(_entities.size());
-  _root->render(frame, MatrixIdentity);
+  _root->render(frame, geom::MatrixIdentity);
 }
 
 AnimationDirector& PresentationGraph::animationDirector() {

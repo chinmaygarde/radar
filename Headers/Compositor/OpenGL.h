@@ -44,7 +44,7 @@ struct GLCoord {
 
 struct GLMatrix {
   GLfloat m[16];
-  GLMatrix(const Matrix& o)
+  GLMatrix(const geom::Matrix& o)
       : m{
             static_cast<GLfloat>(o.m[0]),
             static_cast<GLfloat>(o.m[1]),

@@ -23,7 +23,7 @@ class PresentationEntity : public Entity {
 
   explicit PresentationEntity(Identifier identifier);
 
-  const Matrix& lastModelViewMatrix() const;
+  const geom::Matrix& lastModelViewMatrix() const;
 
   ~PresentationEntity();
 
@@ -33,16 +33,16 @@ class PresentationEntity : public Entity {
 
   void removeChild(Borrowed entity);
 
-  bool isWindowPointInside(const Point& point) const;
+  bool isWindowPointInside(const geom::Point& point) const;
 
-  Point convertPointFromWindow(const Point& point) const;
+  geom::Point convertPointFromWindow(const geom::Point& point) const;
 
-  void render(Frame& frame, const Matrix& viewMatrix);
+  void render(Frame& frame, const geom::Matrix& viewMatrix);
 
  private:
   PresentationOrder _presentationOrder;
   std::vector<Borrowed> _children;
-  Matrix _lastModelViewMatrix;
+  geom::Matrix _lastModelViewMatrix;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };

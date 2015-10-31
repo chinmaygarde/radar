@@ -12,7 +12,7 @@ static const PresentationEntity::PresentationOrder PresentationOrderNone = 0;
 PresentationEntity::PresentationEntity(Identifier identifier)
     : Entity(identifier),
       _presentationOrder(PresentationOrderNone),
-      _lastModelViewMatrix(MatrixIdentity) {
+      _lastModelViewMatrix(geom::MatrixIdentity) {
 }
 
 PresentationEntity::~PresentationEntity() {
@@ -30,17 +30,18 @@ void PresentationEntity::removeChild(Borrowed entity) {
   entity->_presentationOrder = PresentationOrderNone;
 }
 
-bool PresentationEntity::isWindowPointInside(const Point& point) const {
+bool PresentationEntity::isWindowPointInside(const geom::Point& point) const {
   return bounds().contains(convertPointFromWindow(point));
 }
 
-Point PresentationEntity::convertPointFromWindow(const Point& point) const {
+geom::Point PresentationEntity::convertPointFromWindow(
+    const geom::Point& point) const {
   auto inverted = _lastModelViewMatrix.invert();
   auto pointInWindowVector = point * inverted;
-  return Point{pointInWindowVector.a, pointInWindowVector.b};
+  return geom::Point{pointInWindowVector.a, pointInWindowVector.b};
 }
 
-void PresentationEntity::render(Frame& frame, const Matrix& viewMatrix) {
+void PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
   frame.statistics().primitiveCount().increment();
 
   /*

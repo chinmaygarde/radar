@@ -35,7 +35,9 @@ class Primitive {
 
   void setOpacity(double opacity);
 
-  void render(Frame& frame, const Matrix& modelViewMatrix, const Size& size);
+  void render(Frame& frame,
+              const geom::Matrix& modelViewMatrix,
+              const geom::Size& size);
 
  private:
   Color _contentColor;

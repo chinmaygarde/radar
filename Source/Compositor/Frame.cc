@@ -10,11 +10,11 @@
 
 namespace rl {
 
-Frame::Frame(Size size,
+Frame::Frame(geom::Size size,
              std::shared_ptr<ProgramCatalog> catalog,
              CompositorStatistics& stats)
     : _size(size),
-      _projectionMatrix(Matrix::Orthographic(size)),
+      _projectionMatrix(geom::Matrix::Orthographic(size)),
       _programCatalog(catalog),
       _stats(stats) {
   RL_ASSERT_MSG(catalog != nullptr, "The program catalog must be valid");
@@ -24,7 +24,7 @@ bool Frame::isReady() const {
   return glGetError() == GL_NO_ERROR && _size.width * _size.height > 0.0;
 }
 
-const Size& Frame::size() const {
+const geom::Size& Frame::size() const {
   return _size;
 }
 
@@ -57,7 +57,7 @@ void Frame::setupFreshFrame() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-const Matrix& Frame::projectionMatrix() const {
+const geom::Matrix& Frame::projectionMatrix() const {
   return _projectionMatrix;
 }
 
