@@ -4,4 +4,8 @@
 
 #include <Core/Serializable.h>
 
-namespace rl {}  // namespace rl
+namespace rl {
+namespace core {
+
+}  // namespace core
+}  // namespace rl

@@ -17,7 +17,7 @@ TransactionPayload::TransactionPayload(
 }
 
 TransactionPayload::TransactionPayload(
-    const ClockPoint& commitTime,
+    const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     RecognizerCallback recognizerCallback)
@@ -27,7 +27,7 @@ TransactionPayload::TransactionPayload(
       _recognizerCallback(recognizerCallback) {
 }
 
-bool TransactionPayload::serialize(Message& message) const {
+bool TransactionPayload::serialize(core::Message& message) const {
   bool result = true;
 
   /*
@@ -70,7 +70,7 @@ bool TransactionPayload::serialize(Message& message) const {
   return result;
 }
 
-bool TransactionPayload::deserialize(Message& message) {
+bool TransactionPayload::deserialize(core::Message& message) {
   bool result = true;
   /*
    *  Step 1: Read the action

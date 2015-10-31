@@ -16,23 +16,23 @@ Shell::Shell(std::shared_ptr<RenderSurface> surface,
     : _compositorThread(),
       _compositor(surface, _host.touchEventChannel()),
       _interface(delegate, _compositor.acquireChannel()) {
-  clock::LoggingClockDuration();
+  core::clock::LoggingClockDuration();
   attachHostOnCurrentThread();
 }
 
 void Shell::attachHostOnCurrentThread() {
-  Latch readyLatch(3);
+  core::Latch readyLatch(3);
 
-  ThreadSetName("rl.host");
+  core::ThreadSetName("rl.host");
   _host.run(readyLatch);
 
   _compositorThread = std::move(std::thread([&]() {
-    ThreadSetName("rl.compositor");
+    core::ThreadSetName("rl.compositor");
     _compositor.run(readyLatch);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
-    ThreadSetName("rl.interface");
+    core::ThreadSetName("rl.interface");
     _interface.run(readyLatch);
   }));
 
@@ -59,7 +59,7 @@ void Shell::shutdown() {
      *  wind down as well as. Once that happens, join the threads hosting the
      *  subsystems.
      */
-    AutoLatch shutdownLatch(3);
+    core::AutoLatch shutdownLatch(3);
     _host.shutdown(shutdownLatch);
     _compositor.shutdown(shutdownLatch);
     _interface.shutdown(shutdownLatch);

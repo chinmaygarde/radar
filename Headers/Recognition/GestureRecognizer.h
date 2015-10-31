@@ -15,7 +15,7 @@
 #include <vector>
 
 namespace rl {
-class GestureRecognizer : public Serializable {
+class GestureRecognizer : public core::Serializable {
  public:
   using Identifier = uint64_t;
   using Collection = std::vector<GestureRecognizer>;
@@ -40,9 +40,9 @@ class GestureRecognizer : public Serializable {
 
   const Variable& evaluationResult() const;
 
-  bool serialize(Message& message) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(core::Message& message) override;
 
   bool isSolvable() const;
 

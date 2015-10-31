@@ -13,7 +13,7 @@ class EntityLease {
  public:
   explicit EntityLease(size_t entityCount);
 
-  std::shared_ptr<EventLoopSource> writeNotificationSource() const;
+  std::shared_ptr<core::EventLoopSource> writeNotificationSource() const;
 
   EntityArena& readArena() const;
   EntityArena& swapReadArena();
@@ -23,8 +23,8 @@ class EntityLease {
 
  private:
   const size_t _entityCount;
-  SharedMemory _sharedMemory;
-  std::shared_ptr<EventLoopSource> _writeNotificationSource;
+  core::SharedMemory _sharedMemory;
+  std::shared_ptr<core::EventLoopSource> _writeNotificationSource;
   std::unique_ptr<EntityArena> _readArena;
   std::unique_ptr<EntityArena> _writeArena;
 

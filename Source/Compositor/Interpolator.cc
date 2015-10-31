@@ -19,16 +19,16 @@ Interpolator<Type>::Interpolator(
       _setter(setter),
       _from(from),
       _to(to),
-      _start(ClockPoint::min()) {
+      _start(core::ClockPoint::min()) {
 }
 
 template <typename Type>
-void Interpolator<Type>::start(const ClockPoint& time) {
+void Interpolator<Type>::start(const core::ClockPoint& time) {
   _start = time;
 }
 
 template <typename Type>
-void Interpolator<Type>::step(const ClockPoint& time) {
+void Interpolator<Type>::step(const core::ClockPoint& time) {
   auto timeSinceStart = time - _start;
   _setter(*_entity, x(_action.unitInterpolation(timeSinceStart)));
 }

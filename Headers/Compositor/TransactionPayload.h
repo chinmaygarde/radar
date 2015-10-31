@@ -15,14 +15,14 @@
 
 namespace rl {
 
-class TransactionPayload : public Serializable {
+class TransactionPayload : public core::Serializable {
  public:
   using EntityMap =
       std::map<Entity::Identifier, std::unique_ptr<TransferEntity>>;
 
   using ActionCallback = std::function<void(Action&)>;
   using TransferRecordCallback =
-      std::function<void(Action&, TransferRecord&, const ClockPoint&)>;
+      std::function<void(Action&, TransferRecord&, const core::ClockPoint&)>;
   using RecognizerCallback =
       std::function<void(GestureRecognizer::Collection&&)>;
 
@@ -30,13 +30,13 @@ class TransactionPayload : public Serializable {
                               EntityMap&& entities,
                               GestureRecognizer::Collection&& recognizers);
 
-  explicit TransactionPayload(const ClockPoint& commitTime,
+  explicit TransactionPayload(const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
                               RecognizerCallback recognizerCallback);
 
-  bool serialize(Message& message) const override;
-  bool deserialize(Message& message) override;
+  bool serialize(core::Message& message) const override;
+  bool deserialize(core::Message& message) override;
 
  private:
   /*
@@ -49,7 +49,7 @@ class TransactionPayload : public Serializable {
   /*
    *  Used when reading
    */
-  ClockPoint _commitTime;
+  core::ClockPoint _commitTime;
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;
   RecognizerCallback _recognizerCallback;

@@ -9,11 +9,11 @@ namespace rl {
 Host::Host() {
 }
 
-void Host::run(Latch& readyLatch) {
+void Host::run(core::Latch& readyLatch) {
   readyLatch.countDown();
 }
 
-void Host::shutdown(Latch& shutdownLatch) {
+void Host::shutdown(core::Latch& shutdownLatch) {
   shutdownLatch.countDown();
 }
 

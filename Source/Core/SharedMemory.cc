@@ -17,6 +17,7 @@
 #include <unistd.h>
 
 namespace rl {
+namespace core {
 
 SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
     : _handle(handle),
@@ -150,6 +151,7 @@ SharedMemory::Handle SharedMemory::handle() const {
   return _handle;
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_MAC || RL_OS_LINUX

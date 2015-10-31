@@ -42,7 +42,7 @@ class Compositor : RenderSurfaceObserver {
    *  @param readyLatch the latch triggered when the compositor has finished
    *         starting up and is about to wait for the first time on its loop.
    */
-  void run(Latch& readyLatch);
+  void run(core::Latch& readyLatch);
 
   /**
    *  @return if the compositor is currently running
@@ -55,7 +55,7 @@ class Compositor : RenderSurfaceObserver {
    *  @param shutdownLatch the latch triggered when the compositor is done
    *  shutting down.
    */
-  void shutdown(Latch& shutdownLatch);
+  void shutdown(core::Latch& shutdownLatch);
 
 #pragma mark - Interface Lease Management
 
@@ -63,7 +63,7 @@ class Compositor : RenderSurfaceObserver {
 
  private:
   std::shared_ptr<RenderSurface> _surface;
-  EventLoop* _loop;
+  core::EventLoop* _loop;
   std::mutex _lock;
   Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
@@ -71,7 +71,7 @@ class Compositor : RenderSurfaceObserver {
   PresentationGraph _graph;
   CompositorStatistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
-  std::shared_ptr<EventLoopSource> _animationsSource;
+  std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
 
   void surfaceWasCreated() override;
@@ -82,7 +82,7 @@ class Compositor : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(const Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
-  bool applyTransactionMessages(Messages messages);
+  bool applyTransactionMessages(core::Messages messages);
   void setupChannels();
   void teardownChannels();
   void manageInterfaceUpdates(bool schedule);
@@ -90,7 +90,7 @@ class Compositor : RenderSurfaceObserver {
   void prepareSingleFrame();
   void drawSingleFrame();
 
-  void onInterfaceTransactionUpdate(Messages messages);
+  void onInterfaceTransactionUpdate(core::Messages messages);
   void onAnimationsStep();
   void drainPendingTouches();
 

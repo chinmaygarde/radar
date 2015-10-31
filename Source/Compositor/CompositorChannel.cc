@@ -7,20 +7,20 @@
 namespace rl {
 
 CompositorChannel::CompositorChannel()
-    : Channel(), _transactionMessage(new Message()) {
+    : Channel(), _transactionMessage(new core::Message()) {
 }
 
-Message& CompositorChannel::transactionMessage() {
+core::Message& CompositorChannel::transactionMessage() {
   return *_transactionMessage;
 }
 
 bool CompositorChannel::flushTransaction() {
   RL_ASSERT(_transactionMessage);
 
-  Messages messages;
+  core::Messages messages;
   messages.push_back(std::move(*_transactionMessage));
 
-  auto reset = rl::make_unique<Message>();
+  auto reset = core::make_unique<core::Message>();
   _transactionMessage.swap(reset);
 
   return sendMessages(std::move(messages));

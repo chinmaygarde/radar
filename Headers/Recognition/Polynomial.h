@@ -11,7 +11,7 @@
 
 namespace rl {
 
-class Polynomial : public Serializable {
+class Polynomial : public core::Serializable {
  public:
   using Terms = std::vector<Term>;
   explicit Polynomial(Terms terms, double constant);
@@ -40,9 +40,9 @@ class Polynomial : public Serializable {
     return solution;
   }
 
-  bool serialize(Message& message) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(core::Message& message) override;
 
  private:
   Terms _terms;

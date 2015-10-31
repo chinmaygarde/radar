@@ -41,7 +41,7 @@ void TransferEntity::record(const Entity& entity,
   merge(entity);
 }
 
-size_t TransferEntity::serialize(Message& message) {
+size_t TransferEntity::serialize(core::Message& message) {
   size_t encodedRecords = 0;
 
   const auto mask = _updateMask;

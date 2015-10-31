@@ -17,7 +17,7 @@ void InterfaceTransaction::mark(const Entity& entity,
   auto& transferEntity = _entities[entity.identifier()];
 
   if (!transferEntity) {
-    auto transfer = rl::make_unique<TransferEntity>(entity.identifier());
+    auto transfer = core::make_unique<TransferEntity>(entity.identifier());
     transferEntity.swap(transfer);
   }
 
@@ -28,7 +28,7 @@ void InterfaceTransaction::mark(GestureRecognizer&& recognizer) {
   _recognizers.emplace_back(std::move(recognizer));
 }
 
-bool InterfaceTransaction::commit(Message& arena) {
+bool InterfaceTransaction::commit(core::Message& arena) {
   TransactionPayload payload(std::move(_action), std::move(_entities),
                              std::move(_recognizers));
   return payload.serialize(arena);

@@ -33,25 +33,25 @@ class SimulationGroup : public Simulation {
    *
    *  @return the active simulation offset
    */
-  virtual const ClockDuration& currentIntervalOffset() = 0;
+  virtual const core::ClockDuration& currentIntervalOffset() = 0;
 
   /**
    *  Called when a significant change in the interval is detected. Subclasses
    *  must decide if the the current simulation must be switched (or updated).
    *  The result is whether the simulation was switched in this step.
    */
-  virtual bool step(const ClockDuration& time) = 0;
+  virtual bool step(const core::ClockDuration& time) = 0;
 
-  double x(const ClockDuration& time) override;
+  double x(const core::ClockDuration& time) override;
 
-  double dx(const ClockDuration& time) override;
+  double dx(const core::ClockDuration& time) override;
 
-  bool isDone(const ClockDuration& time) override;
+  bool isDone(const core::ClockDuration& time) override;
 
  private:
-  ClockDuration _lastStep;
+  core::ClockDuration _lastStep;
 
-  void stepIfNecessary(const ClockDuration& time);
+  void stepIfNecessary(const core::ClockDuration& time);
 };
 
 }  // namespace animation

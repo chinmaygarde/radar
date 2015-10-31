@@ -9,6 +9,7 @@
 #include <string>
 
 namespace rl {
+namespace core {
 
 class SharedMemory {
  public:
@@ -66,6 +67,8 @@ class SharedMemory {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SharedMemory);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_SHAREDMEMORY_

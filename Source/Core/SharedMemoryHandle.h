@@ -8,9 +8,11 @@
 #include <Core/SharedMemory.h>
 
 namespace rl {
+namespace core {
 
 SharedMemory::Handle SharedMemoryHandleCreate();
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_SHAREDMEMORYHANDLE_H__

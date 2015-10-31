@@ -14,6 +14,7 @@
 #include <vector>
 
 namespace rl {
+namespace core {
 
 class ChannelProvider;
 
@@ -109,6 +110,8 @@ class Channel {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Channel);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_CHANNEL_

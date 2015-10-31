@@ -24,7 +24,7 @@ class PresentationGraph {
   explicit PresentationGraph();
   ~PresentationGraph();
 
-  bool applyTransactions(Message& arena);
+  bool applyTransactions(core::Message& arena);
   bool applyTouchMap(event::TouchEvent::PhaseMap&& map);
 
   void render(Frame& frame);
@@ -38,22 +38,23 @@ class PresentationGraph {
   PresentationEntity* _root;
   AnimationDirector _animationDirector;
 
-  bool applyTransactionSingle(Message& arena, const ClockPoint& time);
+  bool applyTransactionSingle(core::Message& arena,
+                              const core::ClockPoint& time);
   void prepareActions(Action& action,
                       PresentationEntity& currentState,
                       const TransferRecord& record,
-                      const ClockPoint& time);
+                      const core::ClockPoint& time);
   template <typename T>
   void prepareActionSingle(Action& action,
                            PresentationEntity& entity,
                            const TransferRecord& record,
                            const Entity::Accessors<T>& accessors,
-                           const ClockPoint& start);
+                           const core::ClockPoint& start);
 
   void onActionCommit(Action& action);
   void onTransferRecordCommit(Action& action,
                               TransferRecord& record,
-                              const ClockPoint& commitTime);
+                              const core::ClockPoint& commitTime);
   void onRecognizerCommit(GestureRecognizer::Collection&& recognizers);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);

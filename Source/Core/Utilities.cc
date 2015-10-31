@@ -14,6 +14,8 @@
 #endif
 
 namespace rl {
+namespace core {
+
 void ThreadSetName(const char* name) {
 #if RL_OS_MAC
   pthread_setname_np(name);
@@ -25,4 +27,6 @@ void ThreadSetName(const char* name) {
 #error Unknown Platform
 #endif
 }
+
+}  // namespace core
 }  // namespace rl

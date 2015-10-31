@@ -10,6 +10,7 @@
 #include <unordered_set>
 
 namespace rl {
+namespace core {
 
 class InProcessTrivialSource : public EventLoopSource {
  public:
@@ -23,6 +24,7 @@ class InProcessTrivialSource : public EventLoopSource {
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessTrivialSource);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H__

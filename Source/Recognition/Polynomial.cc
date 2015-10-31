@@ -13,14 +13,14 @@ Polynomial::Polynomial(Polynomial::Terms terms, double constant)
 Polynomial::Polynomial() : _constant(0.0) {
 }
 
-bool Polynomial::serialize(Message& message) const {
+bool Polynomial::serialize(core::Message& message) const {
   auto result = true;
   result &= message.encode(_constant);
   result &= Serializable::SerializeVector(_terms, message);
   return result;
 }
 
-bool Polynomial::deserialize(Message& message) {
+bool Polynomial::deserialize(core::Message& message) {
   auto result = true;
   result &= message.decode(_constant);
   result &= Serializable::DeserializeVector(_terms, message);

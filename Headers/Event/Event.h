@@ -10,27 +10,27 @@
 namespace rl {
 namespace event {
 
-class Event : public Serializable {
+class Event : public core::Serializable {
  public:
   /**
    *  Create an event with the given timestamp
    *
    *  @param timestamp the timestamp of the event
    */
-  explicit Event(ClockPoint timestamp);
+  explicit Event(core::ClockPoint timestamp);
 
   /**
    *  Get the timestamp of the event
    *
    *  @return the event timestamp
    */
-  ClockPoint timestamp() const;
+  core::ClockPoint timestamp() const;
 
-  bool serialize(Message& m) const override;
-  bool deserialize(Message& m) override;
+  bool serialize(core::Message& m) const override;
+  bool deserialize(core::Message& m) override;
 
  private:
-  ClockPoint _timestamp;
+  core::ClockPoint _timestamp;
 };
 
 }  // namespace event

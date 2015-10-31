@@ -11,6 +11,8 @@
 #include "MachPort.h"
 
 namespace rl {
+namespace core {
+
 class MachPortChannel : public ChannelProvider {
  public:
   explicit MachPortChannel(Channel& owner);
@@ -27,6 +29,8 @@ class MachPortChannel : public ChannelProvider {
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__) */

@@ -45,7 +45,7 @@ struct TransferRecord {
   }
 
   template <typename T>
-  static bool EmplaceInMessage(Message& message,
+  static bool EmplaceInMessage(core::Message& message,
                                Entity::Identifier identity,
                                Entity::Property prop,
                                const T& varData) {
@@ -82,7 +82,7 @@ struct TransferRecord {
     return true;
   }
 
-  static TransferRecord& NextInMessage(Message& message) {
+  static TransferRecord& NextInMessage(core::Message& message) {
     /*
      *  Decode the size of the 'data' field
      */

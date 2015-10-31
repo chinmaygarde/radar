@@ -7,22 +7,22 @@
 namespace rl {
 namespace animation {
 
-double SimulationGroup::x(const ClockDuration& time) {
+double SimulationGroup::x(const core::ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->x(time - currentIntervalOffset());
 }
 
-double SimulationGroup::dx(const ClockDuration& time) {
+double SimulationGroup::dx(const core::ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->dx(time - currentIntervalOffset());
 }
 
-bool SimulationGroup::isDone(const ClockDuration& time) {
+bool SimulationGroup::isDone(const core::ClockDuration& time) {
   stepIfNecessary(time);
   return currentSimulation()->isDone(time - currentIntervalOffset());
 }
 
-void SimulationGroup::stepIfNecessary(const ClockDuration& time) {
+void SimulationGroup::stepIfNecessary(const core::ClockDuration& time) {
   if (NearEqual(_lastStep.count(), time.count(), TimeTolerance)) {
     return;
   }

@@ -15,6 +15,8 @@
 #include <memory>
 
 namespace rl {
+namespace core {
+
 class Serializable;
 class Message {
  public:
@@ -146,6 +148,8 @@ class Message {
 };
 
 using Messages = std::vector<Message>;
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_MESSAGE_

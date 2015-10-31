@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 namespace rl {
+namespace core {
 
 EPollWaitSet::EPollWaitSet() : _handle(-1) {
   _handle = RL_TEMP_FAILURE_RETRY(::epoll_create(1 /* unused */));
@@ -39,6 +40,7 @@ WaitSet::Handle EPollWaitSet::handle() const {
   return _handle;
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_LINUX

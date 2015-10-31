@@ -13,7 +13,7 @@ size_t AnimationDirector::stepInterpolations(
     instrumentation::Stopwatch& stopwatch) {
   instrumentation::AutoStopwatchLap lap(stopwatch);
 
-  const ClockPoint time = Clock::now();
+  const core::ClockPoint time = core::Clock::now();
   size_t count = 0;
 
   for (const auto& i : _numberInterpolators) {

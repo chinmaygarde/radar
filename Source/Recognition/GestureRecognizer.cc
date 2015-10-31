@@ -61,7 +61,7 @@ void GestureRecognizer::prepareForUse() {
   _preparedForUse = true;
 }
 
-bool GestureRecognizer::serialize(Message& message) const {
+bool GestureRecognizer::serialize(core::Message& message) const {
   auto result = true;
 
   result &= message.encode(_identifier);
@@ -71,7 +71,7 @@ bool GestureRecognizer::serialize(Message& message) const {
   return result;
 }
 
-bool GestureRecognizer::deserialize(Message& message) {
+bool GestureRecognizer::deserialize(core::Message& message) {
   auto result = true;
 
   result &= message.decode(_identifier);

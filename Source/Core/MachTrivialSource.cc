@@ -12,6 +12,7 @@
 #include <mach/mach.h>
 
 namespace rl {
+namespace core {
 
 /*
  *  Theory of Operation:
@@ -89,6 +90,7 @@ MachTrivialSource::~MachTrivialSource() {
   RL_ASSERT(res);
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  //  RL_CHANNELS == RL_CHANNELS_MACH

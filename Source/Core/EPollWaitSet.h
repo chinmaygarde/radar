@@ -9,6 +9,7 @@
 #include "WaitSetProvider.h"
 
 namespace rl {
+namespace core {
 
 class EPollWaitSet : public WaitSetProvider {
  public:
@@ -26,6 +27,7 @@ class EPollWaitSet : public WaitSetProvider {
   RL_DISALLOW_COPY_AND_ASSIGN(EPollWaitSet);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_EPOLLWAITSET_H__

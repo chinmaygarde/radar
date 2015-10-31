@@ -26,8 +26,8 @@
   (strrchr(file, '/') ? strrchr(file, '/') + 1 : file)
 
 #define _RL_LOG_FMT "%.3fs %s:%d: "
-#define _RL_LOG_ARG                          \
-  rl::clock::LoggingClockDuration().count(), \
+#define _RL_LOG_ARG                                \
+  rl::core::clock::LoggingClockDuration().count(), \
       _RL_FILE_LAST_COMPONENT(__FILE__), __LINE__
 
 #define RL_LOG(message, ...) \

@@ -14,15 +14,15 @@ class Stopwatch {
  public:
   explicit Stopwatch();
 
-  ClockDuration lastLap() const;
-  ClockDuration currentLap() const;
+  core::ClockDuration lastLap() const;
+  core::ClockDuration currentLap() const;
 
   void start();
   void stop();
 
  private:
-  ClockPoint _startPoint;
-  ClockDuration _lastLap;
+  core::ClockPoint _startPoint;
+  core::ClockDuration _lastLap;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };

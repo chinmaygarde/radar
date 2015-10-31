@@ -42,7 +42,7 @@ class AnimationDirector {
   template <typename T>
   void setInterpolator(Key key,
                        std::unique_ptr<Interpolator<T>> interpolator,
-                       const ClockPoint& startTime) {
+                       const core::ClockPoint& startTime) {
     auto result = collection<T>().emplace(key, std::move(interpolator));
     if (result.second) {
       (*(result.first)).second->start(startTime);

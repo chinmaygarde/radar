@@ -14,6 +14,7 @@
 #include <unordered_set>
 
 namespace rl {
+namespace core {
 
 class InProcessChannel : public ChannelProvider {
  public:
@@ -34,6 +35,7 @@ class InProcessChannel : public ChannelProvider {
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannel);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_INPROCESSCHANNEL_H__

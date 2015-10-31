@@ -7,6 +7,7 @@
 #include <algorithm>
 
 namespace rl {
+namespace core {
 
 InProcessWaitSet::InProcessWaitSet() : _idleWake(false) {
 }
@@ -193,4 +194,5 @@ void InProcessWaitSet::signalReadReadinessFromUserspace(
   _conditionVariable.notify_all();
 }
 
+}  // namespace core
 }  // namespace rl

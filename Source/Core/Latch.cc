@@ -5,6 +5,7 @@
 #include <Core/Latch.h>
 
 namespace rl {
+namespace core {
 
 Latch::Latch(unsigned int count) : _count(count), _condition(), _lock() {
 }
@@ -30,4 +31,5 @@ AutoLatch::~AutoLatch() {
   wait();
 }
 
+}  // namespace core
 }  // namespace rl

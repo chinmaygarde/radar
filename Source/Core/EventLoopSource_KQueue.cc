@@ -19,6 +19,7 @@
 #define HANDLE_CAST(x) static_cast<int>((x))
 
 namespace rl {
+namespace core {
 
 static inline void KEventInvoke(int queue,
                                 uintptr_t ident,
@@ -74,6 +75,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   return std::make_shared<MachTrivialSource>();
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif

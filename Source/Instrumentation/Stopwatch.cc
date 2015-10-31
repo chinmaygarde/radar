@@ -7,22 +7,22 @@
 namespace rl {
 namespace instrumentation {
 
-Stopwatch::Stopwatch() : _startPoint(ClockPoint::min()), _lastLap(0) {
+Stopwatch::Stopwatch() : _startPoint(core::ClockPoint::min()), _lastLap(0) {
 }
 
 void Stopwatch::start() {
-  _startPoint = Clock::now();
+  _startPoint = core::Clock::now();
 }
 
 void Stopwatch::stop() {
-  _lastLap = Clock::now() - _startPoint;
+  _lastLap = core::Clock::now() - _startPoint;
 }
 
-ClockDuration Stopwatch::currentLap() const {
-  return Clock::now() - _startPoint;
+core::ClockDuration Stopwatch::currentLap() const {
+  return core::Clock::now() - _startPoint;
 }
 
-ClockDuration Stopwatch::lastLap() const {
+core::ClockDuration Stopwatch::lastLap() const {
   return _lastLap;
 }
 

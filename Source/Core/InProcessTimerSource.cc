@@ -8,6 +8,7 @@
 #include <limits>
 
 namespace rl {
+namespace core {
 
 InProcessTimerSource::InProcessTimerSource(ClockDurationNano repeatInterval)
     : EventLoopSource() {
@@ -28,4 +29,5 @@ InProcessTimerSource::InProcessTimerSource(ClockDurationNano repeatInterval)
 InProcessTimerSource::~InProcessTimerSource() {
 }
 
+}  // namespace core
 }  // namespace rl

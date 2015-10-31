@@ -10,7 +10,7 @@
 
 namespace rl {
 
-class Term : public Serializable {
+class Term : public core::Serializable {
  public:
   using Degree = uint32_t;
   struct VariableDegree : public Serializable {
@@ -21,9 +21,9 @@ class Term : public Serializable {
     explicit VariableDegree(const Variable& v, Degree d)
         : variable(v), degree(d) {}
 
-    bool serialize(Message& message) const override;
+    bool serialize(core::Message& message) const override;
 
-    bool deserialize(Message& message) override;
+    bool deserialize(core::Message& message) override;
   };
 
   using Variables = std::vector<VariableDegree>;
@@ -43,9 +43,9 @@ class Term : public Serializable {
 
   Variable::ValueType valueType() const;
 
-  bool serialize(Message& message) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(core::Message& message) override;
 
  private:
   double _coefficient;

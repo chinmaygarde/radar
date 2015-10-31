@@ -14,6 +14,7 @@
 #include <sys/mman.h>
 
 namespace rl {
+namespace core {
 
 Message::Message(size_t length)
     : _buffer(nullptr), _bufferLength(0), _dataLength(0), _sizeRead(0) {
@@ -172,4 +173,5 @@ void Message::rewindRead() {
   _sizeRead = 0;
 }
 
+}  // namespace core
 }  // namespace rl

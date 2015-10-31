@@ -18,7 +18,7 @@ class Host {
    *
    *  @param readyLatch the latch to count down on when the subsystem has run
    */
-  void run(Latch& readyLatch);
+  void run(core::Latch& readyLatch);
 
   /**
    *  Gracefully shutdown the subsystem
@@ -26,7 +26,7 @@ class Host {
    *  @param shutdownLatch the latch to cound down on when the subsystem shuts
    *         down
    */
-  void shutdown(Latch& shutdownLatch);
+  void shutdown(core::Latch& shutdownLatch);
 
   event::TouchEventChannel& touchEventChannel();
 

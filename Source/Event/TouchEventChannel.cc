@@ -12,9 +12,9 @@ TouchEventChannel::TouchEventChannel() : Channel() {
 
 void TouchEventChannel::sendTouchEvents(
     const std::vector<TouchEvent>& touchEvents) {
-  Messages messages;
+  core::Messages messages;
   for (const auto& touch : touchEvents) {
-    Message m(sizeof(TouchEvent));
+    core::Message m(sizeof(TouchEvent));
     touch.serialize(m);
     messages.emplace_back(std::move(m));
   }

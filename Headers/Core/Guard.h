@@ -10,6 +10,8 @@
 #include <functional>
 
 namespace rl {
+namespace core {
+
 /**
  *  A guard that invokes the block when the variable goes out of scope
  */
@@ -31,6 +33,8 @@ class Guard {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Guard);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_GUARD_

@@ -10,6 +10,8 @@
 #include <condition_variable>
 
 namespace rl {
+namespace core {
+
 /**
  *  A simple countdown latch used as a thread synchronization primitive
  */
@@ -50,6 +52,8 @@ class AutoLatch : public Latch {
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(AutoLatch);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_LATCH_

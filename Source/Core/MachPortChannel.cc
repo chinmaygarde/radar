@@ -13,6 +13,7 @@
 #include <sys/event.h>
 
 namespace rl {
+namespace core {
 
 MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {
 }
@@ -97,6 +98,7 @@ bool MachPortChannel::doTerminate() {
   return _port.doTerminate();
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_MAC

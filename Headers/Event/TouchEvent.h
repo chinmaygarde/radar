@@ -35,7 +35,7 @@ class TouchEvent : public Event {
   /**
    *  Create a touch event from a channel message
    */
-  explicit TouchEvent(Message& message);
+  explicit TouchEvent(core::Message& message);
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to
@@ -60,9 +60,9 @@ class TouchEvent : public Event {
    */
   Phase phase() const;
 
-  bool serialize(Message& m) const override;
+  bool serialize(core::Message& m) const override;
 
-  bool deserialize(Message& m) override;
+  bool deserialize(core::Message& m) override;
 
  private:
   Identifier _identifier;

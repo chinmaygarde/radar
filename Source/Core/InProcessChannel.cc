@@ -5,6 +5,7 @@
 #include "InProcessChannel.h"
 
 namespace rl {
+namespace core {
 
 InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {
 }
@@ -82,4 +83,5 @@ bool InProcessChannel::doTerminate() {
   return true;
 }
 
+}  // namespace core
 }  // namespace rl

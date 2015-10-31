@@ -9,6 +9,7 @@
 #include <Core/Utilities.h>
 
 namespace rl {
+namespace core {
 
 class Serializable {
   virtual bool serialize(Message& message) const = 0;
@@ -42,6 +43,7 @@ class Serializable {
   }
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_SERIALIZABLE_H_

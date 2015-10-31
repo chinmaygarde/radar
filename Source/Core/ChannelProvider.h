@@ -12,6 +12,7 @@
 #include <memory>
 
 namespace rl {
+namespace core {
 
 class ChannelProvider {
  public:
@@ -56,6 +57,8 @@ class ChannelProvider {
 
   virtual ~ChannelProvider() {}
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_CHANNELPROVIDER__) */

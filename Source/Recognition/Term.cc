@@ -15,28 +15,28 @@ Term::Term(double coefficient, Term::Variables&& variables)
 Term::Term() : _coefficient(1.0), _variables() {
 }
 
-bool Term::serialize(Message& message) const {
+bool Term::serialize(core::Message& message) const {
   bool result = true;
   result &= message.encode(_coefficient);
   result &= SerializeVector(_variables, message);
   return result;
 }
 
-bool Term::deserialize(Message& message) {
+bool Term::deserialize(core::Message& message) {
   bool result = true;
   result &= message.decode(_coefficient);
   result &= DeserializeVector(_variables, message);
   return result;
 }
 
-bool Term::VariableDegree::serialize(Message& message) const {
+bool Term::VariableDegree::serialize(core::Message& message) const {
   auto result = true;
   result &= variable.serialize(message);
   result &= message.encode(degree);
   return result;
 }
 
-bool Term::VariableDegree::deserialize(Message& message) {
+bool Term::VariableDegree::deserialize(core::Message& message) {
   auto result = true;
   result &= variable.deserialize(message);
   result &= message.decode(degree);

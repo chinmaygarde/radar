@@ -15,11 +15,11 @@ Action::Action(double duration)
       _resolvedCurve(TimingCurve::SystemTimingCurve(_timingCurveType)) {
 }
 
-const ClockDuration& Action::duration() const {
+const core::ClockDuration& Action::duration() const {
   return _duration;
 }
 
-void Action::setDuration(const ClockDuration& duration) {
+void Action::setDuration(const core::ClockDuration& duration) {
   _duration = duration;
 }
 
@@ -60,7 +60,7 @@ void Action::resolveCurve() {
   _resolvedCurve = TimingCurve::SystemTimingCurve(_timingCurveType);
 }
 
-double Action::unitInterpolation(const ClockDuration& time) const {
+double Action::unitInterpolation(const core::ClockDuration& time) const {
   auto unitInterpolation =
       fmod(time.count(), _duration.count()) / _duration.count();
 
@@ -71,7 +71,7 @@ double Action::unitInterpolation(const ClockDuration& time) const {
   return _resolvedCurve.x(unitInterpolation);
 }
 
-bool Action::serialize(Message& message) const {
+bool Action::serialize(core::Message& message) const {
   bool result = true;
   result &= message.encode(_duration);
   result &= message.encode(_repeatCount);
@@ -81,7 +81,7 @@ bool Action::serialize(Message& message) const {
   return result;
 }
 
-bool Action::deserialize(Message& message) {
+bool Action::deserialize(core::Message& message) {
   bool result = true;
   result &= message.decode(_duration);
   result &= message.decode(_repeatCount);

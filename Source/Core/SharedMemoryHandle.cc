@@ -14,6 +14,7 @@
 #include <sstream>
 
 namespace rl {
+namespace core {
 
 static const int SharedMemoryTempHandleMaxRetries = 25;
 
@@ -62,6 +63,7 @@ SharedMemory::Handle SharedMemoryHandleCreate() {
   return newHandle;
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_NACL

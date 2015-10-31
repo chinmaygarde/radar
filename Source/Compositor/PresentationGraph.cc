@@ -14,8 +14,8 @@ PresentationGraph::PresentationGraph() : _root(nullptr) {
 PresentationGraph::~PresentationGraph() {
 }
 
-bool PresentationGraph::applyTransactions(Message& arena) {
-  auto applyTime = Clock::now();
+bool PresentationGraph::applyTransactions(core::Message& arena) {
+  auto applyTime = core::Clock::now();
   do {
     if (!applyTransactionSingle(arena, applyTime)) {
       return false;
@@ -25,8 +25,8 @@ bool PresentationGraph::applyTransactions(Message& arena) {
   return true;
 }
 
-bool PresentationGraph::applyTransactionSingle(Message& arena,
-                                               const ClockPoint& time) {
+bool PresentationGraph::applyTransactionSingle(core::Message& arena,
+                                               const core::ClockPoint& time) {
   namespace P = std::placeholders;
   using G = PresentationGraph;
   TransactionPayload payload(
@@ -46,10 +46,10 @@ void PresentationGraph::onActionCommit(Action& action) {
 
 void PresentationGraph::onTransferRecordCommit(Action& action,
                                                TransferRecord& record,
-                                               const ClockPoint& time) {
+                                               const core::ClockPoint& time) {
   if (record.property == Entity::Created) {
     _entities[record.identifier] =
-        rl::make_unique<PresentationEntity>(record.identifier);
+        core::make_unique<PresentationEntity>(record.identifier);
     return;
   }
 
@@ -76,7 +76,7 @@ void PresentationGraph::prepareActionSingle(
     PresentationEntity& entity,
     const TransferRecord& record,
     const Entity::Accessors<T>& accessors,
-    const ClockPoint& start) {
+    const core::ClockPoint& start) {
   /*
    *  Prepare the key for the animation in the animation director
    */
@@ -85,7 +85,7 @@ void PresentationGraph::prepareActionSingle(
   /*
    *  Prepare the interpolator
    */
-  auto interpolator = rl::make_unique<Interpolator<T>>(
+  auto interpolator = core::make_unique<Interpolator<T>>(
       &entity, action, accessors.setter, accessors.getter(entity),
       record.transferData<T>());
 
@@ -98,7 +98,7 @@ void PresentationGraph::prepareActionSingle(
 void PresentationGraph::prepareActions(Action& action,
                                        PresentationEntity& entity,
                                        const TransferRecord& record,
-                                       const ClockPoint& time) {
+                                       const core::ClockPoint& time) {
   switch (record.property) {
     case Entity::Bounds:
       if (action.propertyMask() & Entity::Bounds) {

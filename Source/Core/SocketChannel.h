@@ -11,6 +11,8 @@
 #include <mutex>
 
 namespace rl {
+namespace core {
+
 class SocketChannel : public ChannelProvider {
  public:
   using Handle = int;
@@ -38,6 +40,8 @@ class SocketChannel : public ChannelProvider {
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif /* defined(__RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__) */

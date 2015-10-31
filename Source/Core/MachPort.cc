@@ -11,6 +11,7 @@
 #include <mach/mach.h>
 
 namespace rl {
+namespace core {
 
 struct MachPayload {
   mach_msg_header_t header;
@@ -237,6 +238,7 @@ MachPort::ReadResult MachPort::readMessages(
   return ReadResult(res, std::move(messages));
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH

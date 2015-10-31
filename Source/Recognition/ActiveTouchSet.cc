@@ -21,7 +21,7 @@ size_t ActiveTouchSet::size() const {
 void ActiveTouchSet::add(const std::vector<event::TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
-    auto touchEntity = rl::make_unique<TouchEntity>(touch);
+    auto touchEntity = core::make_unique<TouchEntity>(touch);
 
     auto identifierTouchPair =
         std::make_pair(identifier, std::move(touchEntity));

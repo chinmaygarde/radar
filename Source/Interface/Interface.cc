@@ -42,20 +42,20 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
           #undef C
           // clang-format on
       }) {
-  _autoFlushObserver = std::make_shared<EventLoopObserver>(
+  _autoFlushObserver = std::make_shared<core::EventLoopObserver>(
       std::numeric_limits<uint64_t>::max(), [&] {
         flushTransactions();
         armAutoFlushTransactions(false);
       });
 }
 
-void Interface::run(Latch& readyLatch) {
+void Interface::run(core::Latch& readyLatch) {
   if (_loop != nullptr) {
     readyLatch.countDown();
     return;
   }
 
-  _loop = EventLoop::Current();
+  _loop = core::EventLoop::Current();
   _loop->loop([&]() {
     pthread_setspecific(InterfaceTLSKey(), this);
     scheduleChannels();
@@ -68,7 +68,7 @@ bool Interface::isRunning() const {
   return _loop != nullptr;
 }
 
-void Interface::shutdown(rl::Latch& onShutdown) {
+void Interface::shutdown(core::Latch& onShutdown) {
   if (_loop == nullptr) {
     onShutdown.countDown();
     return;
@@ -130,7 +130,7 @@ void Interface::popTransaction() {
 }
 
 void Interface::armAutoFlushTransactions(bool arm) {
-  const auto activity = EventLoopObserver::Activity::BeforeSleep;
+  const auto activity = core::EventLoopObserver::Activity::BeforeSleep;
 
   if (arm) {
     _loop->addObserver(_autoFlushObserver, activity);
@@ -161,7 +161,7 @@ void Interface::flushTransactions() {
 }
 
 void Interface::scheduleChannels() {
-  RL_ASSERT(_loop == EventLoop::Current());
+  RL_ASSERT(_loop == core::EventLoop::Current());
   /*
    *  The event loop is ready, schedule all event channels the interface cares
    *  about

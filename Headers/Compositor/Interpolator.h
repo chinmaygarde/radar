@@ -23,9 +23,9 @@ class Interpolator {
 
   const Type& to() const;
 
-  void start(const ClockPoint& time);
+  void start(const core::ClockPoint& time);
 
-  void step(const ClockPoint& time);
+  void step(const core::ClockPoint& time);
 
  private:
   PresentationEntity::Borrowed _entity;
@@ -33,7 +33,7 @@ class Interpolator {
   const typename Entity::Accessors<Type>::Setter _setter;
   Type _from;
   Type _to;
-  ClockPoint _start;
+  core::ClockPoint _start;
 
   Type x(double unitTime) const;
 

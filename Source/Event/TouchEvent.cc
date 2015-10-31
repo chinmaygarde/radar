@@ -10,14 +10,14 @@ namespace event {
 TouchEvent::TouchEvent(Identifier identifier,
                        const Point& location,
                        Phase phase)
-    : Event(Clock::now()),
+    : Event(core::Clock::now()),
       _identifier(identifier),
       _location(location),
       _phase(phase) {
 }
 
-TouchEvent::TouchEvent(Message& message)
-    : Event(ClockPoint::min()), _location(0.0, 0.0) {
+TouchEvent::TouchEvent(core::Message& message)
+    : Event(core::ClockPoint::min()), _location(0.0, 0.0) {
   deserialize(message);
   RL_ASSERT(message.size() == message.sizeRead());
 }
@@ -34,7 +34,7 @@ TouchEvent::Phase TouchEvent::phase() const {
   return _phase;
 }
 
-bool TouchEvent::serialize(Message& m) const {
+bool TouchEvent::serialize(core::Message& m) const {
   bool result = true;
   result &= Event::serialize(m);
   result &= m.encode(_identifier);
@@ -43,7 +43,7 @@ bool TouchEvent::serialize(Message& m) const {
   return result;
 }
 
-bool TouchEvent::deserialize(Message& m) {
+bool TouchEvent::deserialize(core::Message& m) {
   bool result = true;
   result &= Event::deserialize(m);
   result &= m.decode(_identifier);

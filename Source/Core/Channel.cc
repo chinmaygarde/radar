@@ -12,6 +12,7 @@
 #include "InProcessChannel.h"
 
 namespace rl {
+namespace core {
 
 Channel::Channel()
     : _messagesReceivedCallback(nullptr),
@@ -130,4 +131,5 @@ std::shared_ptr<EventLoopSource> Channel::source() {
   return _source;
 }
 
+}  // namespace core
 }  // namespace rl

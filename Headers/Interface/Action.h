@@ -9,7 +9,7 @@
 #include <Compositor/TimingCurve.h>
 
 namespace rl {
-class Action : public Serializable {
+class Action : public core::Serializable {
  public:
   /**
    *  Create a new action specification
@@ -22,14 +22,14 @@ class Action : public Serializable {
    *
    *  @return the action duration
    */
-  const ClockDuration& duration() const;
+  const core::ClockDuration& duration() const;
 
   /**
    *  Set the duration of a single iteration of the action
    *
    *  @param duration the action duration
    */
-  void setDuration(const ClockDuration& duration);
+  void setDuration(const core::ClockDuration& duration);
 
   /**
    *  Get the repeat count of the action. The default is 1
@@ -71,14 +71,14 @@ class Action : public Serializable {
 
   void setTimingCurveType(TimingCurve::Type type);
 
-  double unitInterpolation(const ClockDuration& time) const;
+  double unitInterpolation(const core::ClockDuration& time) const;
 
-  bool serialize(Message& message) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(core::Message& message) override;
 
  private:
-  ClockDuration _duration;
+  core::ClockDuration _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
   uint64_t _propertyMask;

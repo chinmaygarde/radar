@@ -7,6 +7,7 @@
 #include <Core/EventLoopSource.h>
 
 namespace rl {
+namespace core {
 
 void WaitSetProvider::updateSource(WaitSet& waitset,
                                    EventLoopSource& source,
@@ -25,4 +26,5 @@ void WaitSetProvider::signalReadReadinessFromUserspace(
 WaitSetProvider::~WaitSetProvider() {
 }
 
+}  // namespace core
 }  // namespace rl

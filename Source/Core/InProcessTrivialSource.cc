@@ -7,6 +7,7 @@
 #include <Core/WaitSet.h>
 
 namespace rl {
+namespace core {
 
 InProcessTrivialSource::InProcessTrivialSource() : EventLoopSource() {
   setHandlesProvider([&] {
@@ -35,4 +36,5 @@ InProcessTrivialSource::~InProcessTrivialSource() {
   RL_ASSERT(_activeWaitSets.size() == 0);
 }
 
+}  // namespace core
 }  // namespace rl

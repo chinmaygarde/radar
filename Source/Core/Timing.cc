@@ -6,17 +6,19 @@
 #include <Core/Timing.h>
 
 namespace rl {
+namespace core {
 namespace clock {
 
-ClockDurationSeconds LoggingClockDuration(void) {
-  static ClockPoint point;
+core::ClockDurationSeconds LoggingClockDuration(void) {
+  static core::ClockPoint point;
   static bool initialized = false;
   if (!initialized) {
-    point = Clock::now();
+    point = core::Clock::now();
     initialized = true;
   }
-  return Clock::now() - point;
+  return core::Clock::now() - point;
 }
 
 }  // namespace clock
+}  // namespace core
 }  // namespace rl

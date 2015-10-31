@@ -37,7 +37,7 @@ static inline size_t EntityLease_SharedMemorySize(size_t entityCount) {
 EntityLease::EntityLease(size_t requestedCount)
     : _entityCount(requestedCount),
       _sharedMemory(EntityLease_SharedMemorySize(requestedCount)),
-      _writeNotificationSource(EventLoopSource::Trivial()),
+      _writeNotificationSource(core::EventLoopSource::Trivial()),
       _readArena(nullptr),
       _writeArena(nullptr) {
   RL_ASSERT(_sharedMemory.isReady());
@@ -53,9 +53,9 @@ EntityLease::EntityLease(size_t requestedCount)
   /*
    *  Prepare initial arenas
    */
-  _readArena = rl::make_unique<EntityArena>(
+  _readArena = core::make_unique<EntityArena>(
       header->read, EntityArena::Size(_entityCount), true);
-  _writeArena = rl::make_unique<EntityArena>(
+  _writeArena = core::make_unique<EntityArena>(
       header->write, EntityArena::Size(_entityCount), false);
 }
 
@@ -81,18 +81,19 @@ EntityArena& EntityLease::swapWriteArena() {
 std::unique_ptr<EntityArena> EntityLease::swapRead() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->read.exchange(header->back);
-  return rl::make_unique<EntityArena>(header->read,
-                                      EntityArena::Size(_entityCount), true);
+  return core::make_unique<EntityArena>(header->read,
+                                        EntityArena::Size(_entityCount), true);
 }
 
 std::unique_ptr<EntityArena> EntityLease::swapWrite() {
   auto header = reinterpret_cast<LeaseHeader*>(_sharedMemory.address());
   header->back = header->write.exchange(header->back);
-  return rl::make_unique<EntityArena>(header->write,
-                                      EntityArena::Size(_entityCount), false);
+  return core::make_unique<EntityArena>(header->write,
+                                        EntityArena::Size(_entityCount), false);
 }
 
-std::shared_ptr<EventLoopSource> EntityLease::writeNotificationSource() const {
+std::shared_ptr<core::EventLoopSource> EntityLease::writeNotificationSource()
+    const {
   return _writeNotificationSource;
 }
 

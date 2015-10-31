@@ -12,6 +12,8 @@
 #include <mutex>
 
 namespace rl {
+namespace core {
+
 class EventLoopObserver {
  public:
   using Callback = std::function<void(void)>;
@@ -92,6 +94,8 @@ class EventLoopObserverCollection {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVER_CORE_EVENT_LOOP_OBSERVER_

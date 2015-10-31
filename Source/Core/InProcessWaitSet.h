@@ -14,6 +14,7 @@
 #include <condition_variable>
 
 namespace rl {
+namespace core {
 
 class InProcessWaitSet : public WaitSetProvider {
  public:
@@ -74,6 +75,7 @@ class InProcessWaitSet : public WaitSetProvider {
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_INPROCESSWAITSET_H__

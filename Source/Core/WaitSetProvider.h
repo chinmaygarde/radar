@@ -10,6 +10,7 @@
 #include <Core/EventLoopSource.h>
 
 namespace rl {
+namespace core {
 
 class WaitSetProvider {
  public:
@@ -27,6 +28,7 @@ class WaitSetProvider {
   virtual ~WaitSetProvider();
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_WAITSETPROVIDER_H__

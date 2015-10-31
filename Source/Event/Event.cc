@@ -7,18 +7,18 @@
 namespace rl {
 namespace event {
 
-Event::Event(ClockPoint timestamp) : _timestamp(timestamp) {
+Event::Event(core::ClockPoint timestamp) : _timestamp(timestamp) {
 }
 
-ClockPoint Event::timestamp() const {
+core::ClockPoint Event::timestamp() const {
   return _timestamp;
 }
 
-bool Event::serialize(Message& m) const {
+bool Event::serialize(core::Message& m) const {
   return m.encode(_timestamp);
 }
 
-bool Event::deserialize(Message& m) {
+bool Event::deserialize(core::Message& m) {
   return m.decode(_timestamp);
 }
 

@@ -11,6 +11,8 @@
 #include <vector>
 
 namespace rl {
+namespace core {
+
 class WaitSetProvider;
 class EventLoopSource;
 /**
@@ -65,6 +67,8 @@ class WaitSet {
 
   RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_WAITSET_

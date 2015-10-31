@@ -9,6 +9,7 @@
 #include <mutex>
 
 namespace rl {
+namespace core {
 
 EventLoop* EventLoop::Current() {
   static std::once_flag once;
@@ -169,4 +170,6 @@ void EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
   }
 }
 
+
+}  // namespace core
 }  // namespace rl

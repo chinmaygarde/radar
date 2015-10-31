@@ -11,7 +11,7 @@
 namespace rl {
 namespace event {
 
-class TouchEventChannel : public Channel {
+class TouchEventChannel : public core::Channel {
  public:
   explicit TouchEventChannel();
 

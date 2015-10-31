@@ -14,6 +14,7 @@
 #include "InProcessTimerSource.h"
 
 namespace rl {
+namespace core {
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
                                                    bool shouldAdd) {
@@ -33,6 +34,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   return std::make_shared<InProcessTrivialSource>();
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif

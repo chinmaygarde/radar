@@ -15,6 +15,7 @@
 #include <mutex>
 
 namespace rl {
+namespace core {
 
 class EventLoop {
  public:
@@ -103,6 +104,8 @@ class EventLoop {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoop);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_EVENTLOOP_

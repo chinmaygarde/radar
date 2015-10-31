@@ -29,14 +29,14 @@ class ScrollSimulation : public SimulationGroup {
  protected:
   Simulation* currentSimulation() override;
 
-  const ClockDuration& currentIntervalOffset() override;
+  const core::ClockDuration& currentIntervalOffset() override;
 
-  bool step(const ClockDuration& time) override;
+  bool step(const core::ClockDuration& time) override;
 
  private:
   bool chooseSimulation(double position,
                         double velocity,
-                        const ClockDuration& intervalOffset);
+                        const core::ClockDuration& intervalOffset);
 
   const double _leadingExtent;
   const double _trailingExtent;
@@ -44,7 +44,7 @@ class ScrollSimulation : public SimulationGroup {
   const double _drag;
   bool _isSpringing;
   std::unique_ptr<Simulation> _currentSimulation;
-  ClockDuration _offset;
+  core::ClockDuration _offset;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScrollSimulation);
 };

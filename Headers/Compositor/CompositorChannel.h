@@ -9,16 +9,16 @@
 
 namespace rl {
 
-class CompositorChannel : public Channel {
+class CompositorChannel : public core::Channel {
  public:
   CompositorChannel();
 
-  Message& transactionMessage();
+  core::Message& transactionMessage();
 
   bool flushTransaction();
 
  private:
-  std::unique_ptr<Message> _transactionMessage;
+  std::unique_ptr<core::Message> _transactionMessage;
 
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorChannel);
 };

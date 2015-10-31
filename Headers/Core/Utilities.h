@@ -9,6 +9,7 @@
 #include <type_traits>
 
 namespace rl {
+namespace core {
 
 /**
  *  std::make_unique replacement for C++11
@@ -33,6 +34,8 @@ using only_if = typename std::enable_if<B, T>::type;
  *  @param name the name to set
  */
 void ThreadSetName(const char* name);
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_UTILITIES_

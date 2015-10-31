@@ -12,6 +12,7 @@
 #include <chrono>
 
 namespace rl {
+namespace core {
 
 class WaitSet;
 
@@ -159,6 +160,8 @@ class EventLoopSource {
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopSource);
 };
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_EVENT_LOOP_SOURCE_

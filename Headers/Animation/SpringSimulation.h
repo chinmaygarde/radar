@@ -29,9 +29,9 @@ class SpringSimulation : public Simulation {
                             double end,
                             double velocity);
 
-  double x(const ClockDuration& time) override;
-  double dx(const ClockDuration& time) override;
-  bool isDone(const ClockDuration& time) override;
+  double x(const core::ClockDuration& time) override;
+  double dx(const core::ClockDuration& time) override;
+  bool isDone(const core::ClockDuration& time) override;
 
  private:
   const double _endPosition;

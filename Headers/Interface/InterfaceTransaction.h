@@ -27,7 +27,7 @@ class InterfaceTransaction {
 
   void mark(GestureRecognizer&& recognizer);
 
-  bool commit(Message& arena);
+  bool commit(core::Message& arena);
 
  private:
   Action _action;

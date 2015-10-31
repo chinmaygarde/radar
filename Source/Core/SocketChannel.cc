@@ -22,6 +22,7 @@
 #include <mutex>
 
 namespace rl {
+namespace core {
 
 static const size_t MaxInlineBufferSize = 4096;
 static const size_t MaxControlBufferItemCount = 8;
@@ -344,6 +345,7 @@ SocketChannel::Handle SocketChannel::writeHandle() const {
   return _handles.second;
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_LINUX || RL_OS_MAC

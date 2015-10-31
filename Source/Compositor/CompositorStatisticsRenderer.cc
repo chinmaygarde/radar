@@ -195,7 +195,7 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   /*
    *  Create and initialize the shader program
    */
-  _program = rl::make_unique<CompositorStatisticsRendererProgram>();
+  _program = core::make_unique<CompositorStatisticsRendererProgram>();
 
   RL_GLAssert("There must be no errors prior to stat renderer setup");
 

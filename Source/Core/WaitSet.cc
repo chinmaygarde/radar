@@ -14,14 +14,15 @@
 #include "InProcessWaitSet.h"
 
 namespace rl {
+namespace core {
 
 WaitSet::WaitSet() {
 #if RL_WAITSET == RL_WAITSET_KQUEUE
-  _provider = rl::make_unique<KQueueWaitSet>();
+  _provider = core::make_unique<KQueueWaitSet>();
 #elif RL_WAITSET == RL_WAITSET_EPOLL
-  _provider = rl::make_unique<EPollWaitSet>();
+  _provider = core::make_unique<EPollWaitSet>();
 #elif RL_WAITSET == RL_WAITSET_INPROCESS
-  _provider = rl::make_unique<InProcessWaitSet>();
+  _provider = core::make_unique<InProcessWaitSet>();
 #else
 #error Unknown WaitSet Implementation
 #endif
@@ -69,4 +70,5 @@ WaitSet::~WaitSet() {
   }
 }
 
+}  // namespace core
 }  // namespace rl

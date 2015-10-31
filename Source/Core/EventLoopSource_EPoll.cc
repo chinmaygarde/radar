@@ -23,6 +23,7 @@
 #endif
 
 namespace rl {
+namespace core {
 
 static inline void EPollInvoke(int eventsMask,
                                void* data,
@@ -133,6 +134,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
                                            nullptr);
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif

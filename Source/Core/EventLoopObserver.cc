@@ -5,6 +5,7 @@
 #include <Core/EventLoopObserver.h>
 
 namespace rl {
+namespace core {
 
 EventLoopObserver::EventLoopObserver(uint64_t priority, Callback callback)
     : _priority(priority), _callback(callback) {
@@ -57,4 +58,5 @@ void EventLoopObserverCollection::invokeAll() {
   }
 }
 
+}  // namespace core
 }  // namespace rl

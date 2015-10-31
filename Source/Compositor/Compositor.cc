@@ -14,7 +14,7 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
       _surfaceSize(SizeZero),
       _programCatalog(nullptr),
       _interfaceChannel(nullptr),
-      _animationsSource(EventLoopSource::Timer(ClockDurationGod)),
+      _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
       _touchEventChannel(touchEventChannel) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the compositor");
@@ -27,7 +27,7 @@ Compositor::~Compositor() {
   _surface->setObserver(nullptr);
 }
 
-void Compositor::run(Latch& readyLatch) {
+void Compositor::run(core::Latch& readyLatch) {
   auto ready = [&readyLatch]() { readyLatch.countDown(); };
 
   if (_loop != nullptr) {
@@ -35,12 +35,12 @@ void Compositor::run(Latch& readyLatch) {
     return;
   }
 
-  _loop = EventLoop::Current();
+  _loop = core::EventLoop::Current();
   setupChannels();
   _loop->loop(ready);
 }
 
-void Compositor::shutdown(Latch& shutdownLatch) {
+void Compositor::shutdown(core::Latch& shutdownLatch) {
   if (_loop == nullptr) {
     shutdownLatch.countDown();
     return;
@@ -147,7 +147,7 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   }
 }
 
-bool Compositor::applyTransactionMessages(Messages messages) {
+bool Compositor::applyTransactionMessages(core::Messages messages) {
   instrumentation::AutoStopwatchLap transactionUpdateTimer(
       _stats.transactionUpdateTimer());
   bool result = true;
@@ -157,7 +157,7 @@ bool Compositor::applyTransactionMessages(Messages messages) {
   return result;
 }
 
-void Compositor::onInterfaceTransactionUpdate(Messages messages) {
+void Compositor::onInterfaceTransactionUpdate(core::Messages messages) {
   if (applyTransactionMessages(std::move(messages))) {
     prepareSingleFrame();
   }

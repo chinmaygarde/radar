@@ -9,6 +9,7 @@
 #include "MachPort.h"
 
 namespace rl {
+namespace core {
 
 class MachTrivialSource : public EventLoopSource {
  public:
@@ -21,6 +22,7 @@ class MachTrivialSource : public EventLoopSource {
   RL_DISALLOW_COPY_AND_ASSIGN(MachTrivialSource);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_MACHTRIVIALSOURCE_H_

@@ -49,7 +49,7 @@ class Interface {
    *
    *  @param readyLatch the latch to count down on readiness
    */
-  void run(Latch& onReady);
+  void run(core::Latch& onReady);
 
   /**
    *  @return if the interface context running
@@ -59,7 +59,7 @@ class Interface {
   /**
    *  Gracefully shutdown the interface
    */
-  void shutdown(Latch& onShutdown);
+  void shutdown(core::Latch& onShutdown);
 
 #pragma mark - Managing the Root Layer
 
@@ -133,13 +133,13 @@ class Interface {
   bool setupGestureRecognizer(GestureRecognizer&& recognizer);
 
  private:
-  EventLoop* _loop;
+  core::EventLoop* _loop;
   Size _size;
   std::mutex _lock;
   Layer::Ref _rootLayer;
   std::deque<InterfaceTransaction> _transactionStack;
   size_t _popCount;
-  std::shared_ptr<EventLoopObserver> _autoFlushObserver;
+  std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::weak_ptr<CompositorChannel> _compositorChannel;
   toolbox::StateMachine _state;

@@ -8,6 +8,7 @@
 #include <chrono>
 
 namespace rl {
+namespace core {
 
 using Clock = std::chrono::high_resolution_clock;
 using ClockDuration = std::chrono::duration<double /*, std::ratio<1>*/>;
@@ -26,6 +27,8 @@ namespace clock {
 ClockDurationSeconds LoggingClockDuration(void);
 
 }  // namespace clock
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_TIME_

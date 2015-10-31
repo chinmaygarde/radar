@@ -21,25 +21,26 @@ ScrollSimulation::ScrollSimulation(double position,
       _isSpringing(false),
       _currentSimulation(nullptr),
       _offset(0.0) {
-  chooseSimulation(position, velocity, ClockDuration::zero());
+  chooseSimulation(position, velocity, core::ClockDuration::zero());
 }
 
 Simulation* ScrollSimulation::currentSimulation() {
   return _currentSimulation.get();
 }
 
-const ClockDuration& ScrollSimulation::currentIntervalOffset() {
+const core::ClockDuration& ScrollSimulation::currentIntervalOffset() {
   return _offset;
 }
 
-bool ScrollSimulation::step(const ClockDuration& time) {
+bool ScrollSimulation::step(const core::ClockDuration& time) {
   return chooseSimulation(_currentSimulation->x(time - _offset),
                           _currentSimulation->dx(time - _offset), time);
 }
 
-bool ScrollSimulation::chooseSimulation(double position,
-                                        double velocity,
-                                        const ClockDuration& intervalOffset) {
+bool ScrollSimulation::chooseSimulation(
+    double position,
+    double velocity,
+    const core::ClockDuration& intervalOffset) {
   if (position > _trailingExtent || position < _leadingExtent) {
     return false;
   }
@@ -51,13 +52,13 @@ bool ScrollSimulation::chooseSimulation(double position,
     if (position > _trailingExtent) {
       _isSpringing = true;
       _offset = intervalOffset;
-      _currentSimulation = make_unique<SpringSimulation>(
+      _currentSimulation = core::make_unique<SpringSimulation>(
           _springDesc, position, _trailingExtent, velocity);
       return true;
     } else if (position < _leadingExtent) {
       _isSpringing = true;
       _offset = intervalOffset;
-      _currentSimulation = make_unique<SpringSimulation>(
+      _currentSimulation = core::make_unique<SpringSimulation>(
           _springDesc, position, _leadingExtent, velocity);
       return true;
     }
@@ -65,7 +66,7 @@ bool ScrollSimulation::chooseSimulation(double position,
 
   if (_currentSimulation == nullptr) {
     _currentSimulation =
-        make_unique<FrictionSimulation>(_drag, position, velocity);
+        core::make_unique<FrictionSimulation>(_drag, position, velocity);
     return true;
   }
 

@@ -8,6 +8,7 @@
 #include "WaitSetProvider.h"
 
 namespace rl {
+namespace core {
 
 class KQueueWaitSet : public WaitSetProvider {
  public:
@@ -26,6 +27,7 @@ class KQueueWaitSet : public WaitSetProvider {
   RL_DISALLOW_COPY_AND_ASSIGN(KQueueWaitSet);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_KQUEUEWAITSET_H__

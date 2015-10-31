@@ -76,7 +76,7 @@ void ProgramCatalog::prepareIfNecessary() {
   _prepared = true;
 
   // Prepare Simple Primitive Program
-  _catalog[BasicPrimitve] = make_unique<BasicPrimitiveProgram>();
+  _catalog[BasicPrimitve] = core::make_unique<BasicPrimitiveProgram>();
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()

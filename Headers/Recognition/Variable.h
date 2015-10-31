@@ -14,7 +14,7 @@
 namespace rl {
 
 class ActiveTouchSet;
-class Variable : public Serializable {
+class Variable : public core::Serializable {
  public:
   enum class Proxy {
     Touch1,
@@ -59,9 +59,9 @@ class Variable : public Serializable {
   PresentationEntity& presentationEntityRepresentation(
       const PresentationEntity::IdentifierMap& entities) const;
 
-  bool serialize(Message& message) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(core::Message& message) override;
 
  private:
   Entity::Identifier _identifier;

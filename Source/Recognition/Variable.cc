@@ -82,7 +82,7 @@ PresentationEntity& Variable::presentationEntityRepresentation(
   return *presentationEntity.get();
 }
 
-bool Variable::serialize(Message& message) const {
+bool Variable::serialize(core::Message& message) const {
   auto result = true;
   result &= message.encode(_identifier);
   result &= message.encode(_property);
@@ -90,7 +90,7 @@ bool Variable::serialize(Message& message) const {
   return result;
 }
 
-bool Variable::deserialize(Message& message) {
+bool Variable::deserialize(core::Message& message) {
   auto result = true;
   result &= message.decode(_identifier);
   result &= message.decode(_property);

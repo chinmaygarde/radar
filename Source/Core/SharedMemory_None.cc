@@ -9,6 +9,7 @@
 #include <Core/SharedMemory.h>
 
 namespace rl {
+namespace core {
 
 SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
     : _handle(handle),
@@ -56,6 +57,7 @@ SharedMemory::Handle SharedMemory::handle() const {
   return -1;
 }
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_OS_NACL

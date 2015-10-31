@@ -17,19 +17,19 @@ class CriticalSolution : public SpringSolution {
     const double r = -desc.damping / (2.0 * desc.mass);
     const double c1 = distance;
     const double c2 = velocity / (r * distance);
-    return make_unique<CriticalSolution>(r, c1, c2);
+    return core::make_unique<CriticalSolution>(r, c1, c2);
   }
 
-  double x(const ClockDuration& time) override {
+  double x(const core::ClockDuration& time) override {
     return (_c1 + _c2 * time.count()) * pow(M_E, _r * time.count());
   }
 
-  double dx(const ClockDuration& time) override {
+  double dx(const core::ClockDuration& time) override {
     const double power = pow(M_E, _r * time.count());
     return _r * (_c1 + _c2 * time.count()) * power + _c2 * power;
   }
 
-  bool isDone(const ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration& time) override { return false; }
 
  private:
   const double _r;
@@ -55,20 +55,20 @@ class OverdampedSolution : public SpringSolution {
     const double c2 = (velocity - r1 * distance) / (r2 - r1);
     const double c1 = distance - c2;
 
-    return make_unique<OverdampedSolution>(r1, r2, c1, c2);
+    return core::make_unique<OverdampedSolution>(r1, r2, c1, c2);
   }
 
-  double x(const ClockDuration& time) override {
+  double x(const core::ClockDuration& time) override {
     return (_c1 * pow(M_E, _r1 * time.count()) +
             _c2 * pow(M_E, _r2 * time.count()));
   }
 
-  double dx(const ClockDuration& time) override {
+  double dx(const core::ClockDuration& time) override {
     return (_c1 * _r1 * pow(M_E, _r1 * time.count()) +
             _c2 * _r2 * pow(M_E, _r2 * time.count()));
   }
 
-  bool isDone(const ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration& time) override { return false; }
 
  private:
   const double _r1;
@@ -95,15 +95,15 @@ class UnderdampedSolution : public SpringSolution {
     const double c1 = distance;
     const double c2 = (velocity - r * distance) / w;
 
-    return make_unique<UnderdampedSolution>(w, r, c1, c2);
+    return core::make_unique<UnderdampedSolution>(w, r, c1, c2);
   }
 
-  double x(const ClockDuration& time) override {
+  double x(const core::ClockDuration& time) override {
     return pow(M_E, _r * time.count()) *
            (_c1 * cos(_w * time.count()) + _c2 * sin(_w * time.count()));
   }
 
-  double dx(const ClockDuration& time) override {
+  double dx(const core::ClockDuration& time) override {
     double power = pow(M_E, _r * time.count());
     double cosine = cos(_w * time.count());
     double sine = sin(_w * time.count());
@@ -112,7 +112,7 @@ class UnderdampedSolution : public SpringSolution {
            _r * power * (_c2 * sine + _c1 * cosine);
   }
 
-  bool isDone(const ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration& time) override { return false; }
 
  private:
   const double _w;

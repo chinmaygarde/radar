@@ -10,6 +10,7 @@
 #include <unordered_set>
 
 namespace rl {
+namespace core {
 
 class InProcessTimerSource : public EventLoopSource {
  public:
@@ -22,6 +23,8 @@ class InProcessTimerSource : public EventLoopSource {
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessTimerSource);
 };
 
+
+}  // namespace core
 }  // namespace rl
 
 #endif  // __RADARLOVE_CORE_INPROCESSTIMERSOURCE_H__

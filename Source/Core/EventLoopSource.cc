@@ -11,6 +11,7 @@
 #define HANDLE_CAST(x) static_cast<int>((x))
 
 namespace rl {
+namespace core {
 
 EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
                                  RWHandlesCollector handleCollector,
@@ -109,4 +110,5 @@ void EventLoopSource::setCustomWaitSetUpdateHandler(
   _customWaitSetUpdateHandler = updateHandler;
 }
 
+}  // namespace core
 }  // namespace rl

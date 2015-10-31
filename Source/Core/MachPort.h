@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 
 namespace rl {
+namespace core {
 
 class MachPort {
  public:
@@ -39,6 +40,7 @@ class MachPort {
   RL_DISALLOW_COPY_AND_ASSIGN(MachPort);
 };
 
+}  // namespace core
 }  // namespace rl
 
 #endif  // RADARLOVE_CORE_MACHPORT_H_
