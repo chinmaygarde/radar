@@ -10,7 +10,7 @@
 #include <Interface/InterfaceDelegate.h>
 #include <Toolbox/StateMachine.h>
 #include <Interface/Layer.h>
-#include <Coordinator/CompositorChannel.h>
+#include <Coordinator/Channel.h>
 
 #include <deque>
 #include <mutex>

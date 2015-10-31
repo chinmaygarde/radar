@@ -11,9 +11,9 @@
 namespace rl {
 namespace coordinator {
 
-class CompositorStatistics {
+class Statistics {
  public:
-  explicit CompositorStatistics();
+  explicit Statistics();
 
   instrumentation::Stopwatch& frameTimer();
 
@@ -42,18 +42,18 @@ class CompositorStatistics {
   instrumentation::Counter _primitiveCount;
   instrumentation::Counter _frameCount;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
+  RL_DISALLOW_COPY_AND_ASSIGN(Statistics);
 };
 
-class CompositorStatisticsFrame {
+class StatisticsFrame {
  public:
-  CompositorStatisticsFrame(CompositorStatistics& stats);
-  ~CompositorStatisticsFrame();
+  StatisticsFrame(Statistics& stats);
+  ~StatisticsFrame();
 
  private:
-  CompositorStatistics& _stats;
+  Statistics& _stats;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatisticsFrame);
+  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsFrame);
 };
 
 }  // namespace coordinator

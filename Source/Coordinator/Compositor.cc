@@ -179,7 +179,7 @@ void Compositor::prepareSingleFrame() {
 }
 
 void Compositor::drawSingleFrame() {
-  CompositorStatisticsFrame statistics(_stats);
+  StatisticsFrame statistics(_stats);
 
   ScopedRenderSurfaceAccess access(*_surface);
   ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);

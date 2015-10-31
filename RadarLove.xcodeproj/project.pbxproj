@@ -89,7 +89,7 @@
 		9E8655E91BE45E2700997766 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D41BE45E2700997766 /* Color.h */; };
 		9E8655EA1BE45E2700997766 /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Compositor.h */; };
 		9E8655EB1BE45E2700997766 /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D61BE45E2700997766 /* Channel.h */; };
-		9E8655EC1BE45E2700997766 /* CompositorStatistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* CompositorStatistics.h */; };
+		9E8655EC1BE45E2700997766 /* Statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* Statistics.h */; };
 		9E8655ED1BE45E2700997766 /* CompositorStatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */; };
 		9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D91BE45E2700997766 /* EntityArena.h */; };
 		9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655DA1BE45E2700997766 /* EntityLease.h */; };
@@ -110,7 +110,7 @@
 		9E8656141BE45E3A00997766 /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655FF1BE45E3A00997766 /* Color.cc */; };
 		9E8656151BE45E3A00997766 /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Compositor.cc */; };
 		9E8656161BE45E3A00997766 /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656011BE45E3A00997766 /* Channel.cc */; };
-		9E8656171BE45E3A00997766 /* CompositorStatistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* CompositorStatistics.cc */; };
+		9E8656171BE45E3A00997766 /* Statistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* Statistics.cc */; };
 		9E8656181BE45E3A00997766 /* CompositorStatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */; };
 		9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656041BE45E3A00997766 /* EntityArena.cc */; };
 		9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656051BE45E3A00997766 /* EntityLease.cc */; };
@@ -384,7 +384,7 @@
 		9E8655D41BE45E2700997766 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		9E8655D51BE45E2700997766 /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
 		9E8655D61BE45E2700997766 /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
-		9E8655D71BE45E2700997766 /* CompositorStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatistics.h; sourceTree = "<group>"; };
+		9E8655D71BE45E2700997766 /* Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statistics.h; sourceTree = "<group>"; };
 		9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositorStatisticsRenderer.h; sourceTree = "<group>"; };
 		9E8655D91BE45E2700997766 /* EntityArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityArena.h; sourceTree = "<group>"; };
 		9E8655DA1BE45E2700997766 /* EntityLease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityLease.h; sourceTree = "<group>"; };
@@ -405,7 +405,7 @@
 		9E8655FF1BE45E3A00997766 /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
 		9E8656001BE45E3A00997766 /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
 		9E8656011BE45E3A00997766 /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
-		9E8656021BE45E3A00997766 /* CompositorStatistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatistics.cc; sourceTree = "<group>"; };
+		9E8656021BE45E3A00997766 /* Statistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Statistics.cc; sourceTree = "<group>"; };
 		9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorStatisticsRenderer.cc; sourceTree = "<group>"; };
 		9E8656041BE45E3A00997766 /* EntityArena.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityArena.cc; sourceTree = "<group>"; };
 		9E8656051BE45E3A00997766 /* EntityLease.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityLease.cc; sourceTree = "<group>"; };
@@ -647,7 +647,7 @@
 				9E8655D41BE45E2700997766 /* Color.h */,
 				9E8655D51BE45E2700997766 /* Compositor.h */,
 				9E8655D61BE45E2700997766 /* Channel.h */,
-				9E8655D71BE45E2700997766 /* CompositorStatistics.h */,
+				9E8655D71BE45E2700997766 /* Statistics.h */,
 				9E8655D81BE45E2700997766 /* CompositorStatisticsRenderer.h */,
 				9E8655D91BE45E2700997766 /* EntityArena.h */,
 				9E8655DA1BE45E2700997766 /* EntityLease.h */,
@@ -675,7 +675,7 @@
 				9E8655FF1BE45E3A00997766 /* Color.cc */,
 				9E8656001BE45E3A00997766 /* Compositor.cc */,
 				9E8656011BE45E3A00997766 /* Channel.cc */,
-				9E8656021BE45E3A00997766 /* CompositorStatistics.cc */,
+				9E8656021BE45E3A00997766 /* Statistics.cc */,
 				9E8656031BE45E3A00997766 /* CompositorStatisticsRenderer.cc */,
 				9E8656041BE45E3A00997766 /* EntityArena.cc */,
 				9E8656051BE45E3A00997766 /* EntityLease.cc */,
@@ -1115,7 +1115,7 @@
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
 				9EAECE851B685460000FA38A /* Utilities.h in Headers */,
 				9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */,
-				9E8655EC1BE45E2700997766 /* CompositorStatistics.h in Headers */,
+				9E8655EC1BE45E2700997766 /* Statistics.h in Headers */,
 				EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
 				9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */,
@@ -1371,7 +1371,7 @@
 				EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
-				9E8656171BE45E3A00997766 /* CompositorStatistics.cc in Sources */,
+				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,

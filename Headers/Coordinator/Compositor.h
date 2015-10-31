@@ -12,10 +12,10 @@
 #include <Coordinator/RenderSurface.h>
 #include <Coordinator/ProgramCatalog.h>
 #include <Coordinator/EntityLease.h>
-#include <Coordinator/CompositorStatistics.h>
+#include <Coordinator/Statistics.h>
 #include <Coordinator/CompositorStatisticsRenderer.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Coordinator/CompositorChannel.h>
+#include <Coordinator/Channel.h>
 #include <Event/TouchEventChannel.h>
 
 #include <mutex>
@@ -71,7 +71,7 @@ class Compositor : RenderSurfaceObserver {
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::shared_ptr<Channel> _interfaceChannel;
   PresentationGraph _graph;
-  CompositorStatistics _stats;
+  Statistics _stats;
   CompositorStatisticsRenderer _statsRenderer;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;

@@ -8,7 +8,7 @@
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 #include <Coordinator/ProgramCatalog.h>
-#include <Coordinator/CompositorStatistics.h>
+#include <Coordinator/Statistics.h>
 #include <Coordinator/PresentationGraph.h>
 
 #include <mutex>
@@ -21,7 +21,7 @@ class Frame {
  public:
   explicit Frame(geom::Size size,
                  std::shared_ptr<ProgramCatalog> catalog,
-                 CompositorStatistics& stats);
+                 Statistics& stats);
 
   virtual ~Frame();
 
@@ -71,13 +71,13 @@ class Frame {
    */
   void end();
 
-  CompositorStatistics& statistics();
+  Statistics& statistics();
 
  private:
   geom::Size _size;
   geom::Matrix _projectionMatrix;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  CompositorStatistics& _stats;
+  Statistics& _stats;
 
   void setupFreshFrame();
 

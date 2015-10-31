@@ -233,8 +233,7 @@ void CompositorStatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void CompositorStatisticsRenderer::render(CompositorStatistics& stats,
-                                          Frame& frame) {
+void CompositorStatisticsRenderer::render(Statistics& stats, Frame& frame) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -261,7 +260,7 @@ void CompositorStatisticsRenderer::render(CompositorStatistics& stats,
   _CompositorStatisticsRenderer = nullptr;
 }
 
-void CompositorStatisticsRenderer::buildStatsUI(CompositorStatistics& stats) {
+void CompositorStatisticsRenderer::buildStatsUI(Statistics& stats) {
   if (ImGui::Begin("Compositor Statistics")) {
     ImGui::Text("Entities: %zu", stats.entityCount().count());
     ImGui::Text("Primitives: %zu", stats.primitiveCount().count());

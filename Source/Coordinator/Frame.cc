@@ -13,7 +13,7 @@ namespace coordinator {
 
 Frame::Frame(geom::Size size,
              std::shared_ptr<ProgramCatalog> catalog,
-             CompositorStatistics& stats)
+             Statistics& stats)
     : _size(size),
       _projectionMatrix(geom::Matrix::Orthographic(size)),
       _programCatalog(catalog),
@@ -66,7 +66,7 @@ std::shared_ptr<ProgramCatalog> Frame::programCatalog() const {
   return _programCatalog;
 }
 
-CompositorStatistics& Frame::statistics() {
+Statistics& Frame::statistics() {
   return _stats;
 }
 
