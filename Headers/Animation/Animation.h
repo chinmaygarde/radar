@@ -24,4 +24,4 @@
 #include <Animation/ScrollSimulation.h>
 #include <Animation/SpringSimulation.h>
 
-#endif // RADARLOVE_ANIMATION_ANIMATION_
+#endif  // RADARLOVE_ANIMATION_ANIMATION_
