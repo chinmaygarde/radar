@@ -7,11 +7,10 @@
 namespace rl {
 namespace animation {
 
-AnimationDirector::AnimationDirector() {
+Director::Director() {
 }
 
-size_t AnimationDirector::stepInterpolations(
-    instrumentation::Stopwatch& stopwatch) {
+size_t Director::stepInterpolations(instrumentation::Stopwatch& stopwatch) {
   instrumentation::AutoStopwatchLap lap(stopwatch);
 
   const core::ClockPoint time = core::Clock::now();
@@ -51,34 +50,32 @@ size_t AnimationDirector::stepInterpolations(
 }
 
 template <>
-AnimationDirector::Interpolators<double>& AnimationDirector::collection() {
+Director::Interpolators<double>& Director::collection() {
   return _numberInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<geom::Size>& AnimationDirector::collection() {
+Director::Interpolators<geom::Size>& Director::collection() {
   return _sizeInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<geom::Point>& AnimationDirector::collection() {
+Director::Interpolators<geom::Point>& Director::collection() {
   return _pointInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<geom::Rect>& AnimationDirector::collection() {
+Director::Interpolators<geom::Rect>& Director::collection() {
   return _rectInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<coordinator::Color>&
-AnimationDirector::collection() {
+Director::Interpolators<coordinator::Color>& Director::collection() {
   return _colorInterpolators;
 }
 
 template <>
-AnimationDirector::Interpolators<geom::Matrix>&
-AnimationDirector::collection() {
+Director::Interpolators<geom::Matrix>& Director::collection() {
   return _matrixInterpolators;
 }
 

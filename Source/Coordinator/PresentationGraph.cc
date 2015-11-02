@@ -81,7 +81,7 @@ void PresentationGraph::prepareActionSingle(
   /*
    *  Prepare the key for the animation in the animation director
    */
-  animation::AnimationDirector::Key key(record.identifier, record.property);
+  animation::Director::Key key(record.identifier, record.property);
 
   /*
    *  Prepare the interpolator
@@ -171,7 +171,7 @@ void PresentationGraph::render(Frame& frame) {
   _root->render(frame, geom::MatrixIdentity);
 }
 
-animation::AnimationDirector& PresentationGraph::animationDirector() {
+animation::Director& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 

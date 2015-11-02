@@ -15,7 +15,7 @@
 namespace rl {
 namespace animation {
 
-class AnimationDirector {
+class Director {
  public:
   struct Key {
     interface::Entity::Identifier entityIdentifier;
@@ -38,7 +38,7 @@ class AnimationDirector {
     }
   };
 
-  explicit AnimationDirector();
+  explicit Director();
 
   template <typename T>
   void setInterpolator(Key key,
@@ -67,7 +67,7 @@ class AnimationDirector {
   template <typename T>
   Interpolators<T>& collection();
 
-  RL_DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
+  RL_DISALLOW_COPY_AND_ASSIGN(Director);
 };
 
 }  // namespace animation

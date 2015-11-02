@@ -30,14 +30,14 @@ class PresentationGraph {
 
   void render(Frame& frame);
 
-  animation::AnimationDirector& animationDirector();
+  animation::Director& animationDirector();
 
  private:
   PresentationEntity::IdentifierMap _entities;
   recognition::RecognitionEngine _recognitionEngine;
 
   PresentationEntity* _root;
-  animation::AnimationDirector _animationDirector;
+  animation::Director _animationDirector;
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
