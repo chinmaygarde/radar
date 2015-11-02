@@ -11,19 +11,19 @@ TEST(LatchTest, SimpleLatch) {
   bool done[3]{false, false, false};
 
   std::thread one([&]() {
-    usleep(20);
+    std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
     done[0] = true;
     l.countDown();
   });
 
   std::thread two([&]() {
-    usleep(20);
+    std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
     done[1] = true;
     l.countDown();
   });
 
   std::thread three([&]() {
-    usleep(20);
+    std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
     done[2] = true;
     l.countDown();
   });
@@ -46,19 +46,19 @@ TEST(LatchTest, AutoLatch) {
     rl::core::AutoLatch l(3);
 
     one = std::thread([&]() {
-      usleep(20);
+      std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
       done[0] = true;
       l.countDown();
     });
 
     two = std::thread([&]() {
-      usleep(20);
+      std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
       done[1] = true;
       l.countDown();
     });
 
     three = std::thread([&]() {
-      usleep(20);
+      std::this_thread::sleep_for(rl::core::ClockDurationMicro(20));
       done[2] = true;
       l.countDown();
     });
