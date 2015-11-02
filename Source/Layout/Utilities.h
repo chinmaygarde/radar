@@ -2,22 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Layout/Tag.h>
+#ifndef RadarLove_Layout_Utilities_h_
+#define RadarLove_Layout_Utilities_h_
 
 namespace rl {
 namespace layout {
 
-Tag::Tag(const Symbol& marker, const Symbol& other)
-    : _marker(marker), _other(other) {
-}
-
-const Symbol& Tag::marker() const {
-  return _marker;
-}
-
-const Symbol& Tag::other() const {
-  return _other;
-}
+bool NearZero(double value);
 
 }  // namespace layout
 }  // namespace rl
+
+#endif  // RadarLove_Layout_Utilities_h_

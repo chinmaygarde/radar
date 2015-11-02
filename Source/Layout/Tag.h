@@ -6,13 +6,23 @@
 #define RADARLOVE_LAYOUT_TAG_H_
 
 #include <Core/Core.h>
+#include <Layout/Symbol.h>
 
 namespace rl {
 namespace layout {
 
 class Tag {
  public:
+  Tag(const Symbol& maker, const Symbol& other);
+
+  const Symbol& marker() const;
+
+  const Symbol& other() const;
+
  private:
+  const Symbol _marker;
+  const Symbol _other;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Tag);
 };
 

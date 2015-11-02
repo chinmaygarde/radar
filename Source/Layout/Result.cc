@@ -2,21 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Layout/Tag.h>
+#include <Layout/Result.h>
 
 namespace rl {
 namespace layout {
 
-Tag::Tag(const Symbol& marker, const Symbol& other)
-    : _marker(marker), _other(other) {
+Result::Result(const std::string& message, bool isError)
+    : _message(message), _isError(isError) {
 }
 
-const Symbol& Tag::marker() const {
-  return _marker;
+const std::string& Result::message() const {
+  return _message;
 }
 
-const Symbol& Tag::other() const {
-  return _other;
+bool Result::isError() const {
+  return _isError;
 }
 
 }  // namespace layout
