@@ -213,8 +213,8 @@
 		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
 		EA6B639A1B9D572D00256484 /* Polynomial.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Polynomial.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
-		EAB379D81BE70A7700A59948 /* AnimationDirector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB379D71BE70A7700A59948 /* AnimationDirector.cc */; };
-		EAB379DA1BE70A7F00A59948 /* AnimationDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB379D91BE70A7F00A59948 /* AnimationDirector.h */; };
+		EAB379D81BE70A7700A59948 /* Director.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB379D71BE70A7700A59948 /* Director.cc */; };
+		EAB379DA1BE70A7F00A59948 /* Director.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB379D91BE70A7F00A59948 /* Director.h */; };
 		EAB379DC1BE70B1700A59948 /* Interpolator.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB379DB1BE70B1700A59948 /* Interpolator.cc */; };
 		EAB379DE1BE70B1F00A59948 /* Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB379DD1BE70B1F00A59948 /* Interpolator.h */; };
 		EAB379E01BE70B5200A59948 /* TimingCurve.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB379DF1BE70B5200A59948 /* TimingCurve.cc */; };
@@ -511,8 +511,8 @@
 		EA6B63981B9D572D00256484 /* Polynomial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = "<group>"; };
 		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
 		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
-		EAB379D71BE70A7700A59948 /* AnimationDirector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationDirector.cc; sourceTree = "<group>"; };
-		EAB379D91BE70A7F00A59948 /* AnimationDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDirector.h; sourceTree = "<group>"; };
+		EAB379D71BE70A7700A59948 /* Director.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Director.cc; sourceTree = "<group>"; };
+		EAB379D91BE70A7F00A59948 /* Director.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Director.h; sourceTree = "<group>"; };
 		EAB379DB1BE70B1700A59948 /* Interpolator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cc; sourceTree = "<group>"; };
 		EAB379DD1BE70B1F00A59948 /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
 		EAB379DF1BE70B5200A59948 /* TimingCurve.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimingCurve.cc; sourceTree = "<group>"; };
@@ -734,7 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				9E16093C1B7ECF5B00DD06FE /* Animation.h */,
-				EAB379D91BE70A7F00A59948 /* AnimationDirector.h */,
+				EAB379D91BE70A7F00A59948 /* Director.h */,
 				9EAECE351B685460000FA38A /* FrictionSimulation.h */,
 				9EAECE361B685460000FA38A /* GravitySimulation.h */,
 				EAB379DD1BE70B1F00A59948 /* Interpolator.h */,
@@ -836,7 +836,7 @@
 		9EAECE901B685469000FA38A /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				EAB379D71BE70A7700A59948 /* AnimationDirector.cc */,
+				EAB379D71BE70A7700A59948 /* Director.cc */,
 				9EAECE911B685469000FA38A /* FrictionSimulation.cc */,
 				9EAECE921B685469000FA38A /* GravitySimulation.cc */,
 				EAB379DB1BE70B1700A59948 /* Interpolator.cc */,
@@ -1143,7 +1143,7 @@
 				9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
-				EAB379DA1BE70A7F00A59948 /* AnimationDirector.h in Headers */,
+				EAB379DA1BE70A7F00A59948 /* Director.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
 				9EBA79C21B87F1F8005D84FA /* Counter.h in Headers */,
 			);
@@ -1374,7 +1374,7 @@
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
-				EAB379D81BE70A7700A59948 /* AnimationDirector.cc in Sources */,
+				EAB379D81BE70A7700A59948 /* Director.cc in Sources */,
 				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				EAB379DC1BE70B1700A59948 /* Interpolator.cc in Sources */,

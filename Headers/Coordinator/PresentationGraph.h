@@ -10,7 +10,7 @@
 #include <Coordinator/Frame.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransferRecord.h>
-#include <Animation/AnimationDirector.h>
+#include <Animation/Director.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Interface/Action.h>
 #include <Recognition/RecognitionEngine.h>
