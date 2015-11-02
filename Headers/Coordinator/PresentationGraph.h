@@ -10,7 +10,7 @@
 #include <Coordinator/Frame.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransferRecord.h>
-#include <Coordinator/AnimationDirector.h>
+#include <Animation/AnimationDirector.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Interface/Action.h>
 #include <Recognition/RecognitionEngine.h>
@@ -30,14 +30,14 @@ class PresentationGraph {
 
   void render(Frame& frame);
 
-  AnimationDirector& animationDirector();
+  animation::AnimationDirector& animationDirector();
 
  private:
   PresentationEntity::IdentifierMap _entities;
   recognition::RecognitionEngine _recognitionEngine;
 
   PresentationEntity* _root;
-  AnimationDirector _animationDirector;
+  animation::AnimationDirector _animationDirector;
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);

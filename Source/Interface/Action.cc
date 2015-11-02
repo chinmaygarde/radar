@@ -12,9 +12,9 @@ Action::Action(double duration)
       _repeatCount(1),
       _autoReverses(false),
       _propertyMask(0),
-      _timingCurveType(coordinator::TimingCurve::Linear),
+      _timingCurveType(animation::TimingCurve::Linear),
       _resolvedCurve(
-          coordinator::TimingCurve::SystemTimingCurve(_timingCurveType)) {
+          animation::TimingCurve::SystemTimingCurve(_timingCurveType)) {
 }
 
 const core::ClockDuration& Action::duration() const {
@@ -49,18 +49,17 @@ void Action::setPropertyMask(uint64_t mask) {
   _propertyMask = mask;
 }
 
-coordinator::TimingCurve::Type Action::timingCurveType() const {
+animation::TimingCurve::Type Action::timingCurveType() const {
   return _timingCurveType;
 }
 
-void Action::setTimingCurveType(coordinator::TimingCurve::Type type) {
+void Action::setTimingCurveType(animation::TimingCurve::Type type) {
   _timingCurveType = type;
   resolveCurve();
 }
 
 void Action::resolveCurve() {
-  _resolvedCurve =
-      coordinator::TimingCurve::SystemTimingCurve(_timingCurveType);
+  _resolvedCurve = animation::TimingCurve::SystemTimingCurve(_timingCurveType);
 }
 
 double Action::unitInterpolation(const core::ClockDuration& time) const {

@@ -2,18 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_ANIMATIONDIRECTOR_H_
-#define RADARLOVE_COMPOSITOR_ANIMATIONDIRECTOR_H_
+#ifndef RADARLOVE_ANIMATION_DIRECTOR_H_
+#define RADARLOVE_ANIMATION_DIRECTOR_H_
 
 #include <Core/Core.h>
 #include <Coordinator/PresentationEntity.h>
-#include <Coordinator/Interpolator.h>
+#include <Animation/Interpolator.h>
 #include <Instrumentation/Stopwatch.h>
 
 #include <unordered_map>
 
 namespace rl {
-namespace coordinator {
+namespace animation {
 
 class AnimationDirector {
  public:
@@ -62,7 +62,7 @@ class AnimationDirector {
   Interpolators<geom::Size> _sizeInterpolators;
   Interpolators<geom::Rect> _rectInterpolators;
   Interpolators<geom::Matrix> _matrixInterpolators;
-  Interpolators<Color> _colorInterpolators;
+  Interpolators<coordinator::Color> _colorInterpolators;
 
   template <typename T>
   Interpolators<T>& collection();
@@ -70,7 +70,7 @@ class AnimationDirector {
   RL_DISALLOW_COPY_AND_ASSIGN(AnimationDirector);
 };
 
-}  // namespace coordinator
+}  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_ANIMATIONDIRECTOR_H_
+#endif  // RADARLOVE_ANIMATION_DIRECTOR_H_

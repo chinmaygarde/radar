@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_TIMINGCURVE_
-#define RADARLOVE_COMPOSITOR_TIMINGCURVE_
+#ifndef RADARLOVE_ANIMATION_TIMINGCURVE_
+#define RADARLOVE_ANIMATION_TIMINGCURVE_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 
 namespace rl {
-namespace coordinator {
+namespace animation {
 
 class TimingCurve {
  public:
@@ -35,7 +35,7 @@ class TimingCurve {
   explicit TimingCurve(const geom::Point& c1, const geom::Point& c2);
 };
 
-}  // namespace coordinator
+}  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_TIMINGCURVE_
+#endif  // RADARLOVE_ANIMATION_TIMINGCURVE_

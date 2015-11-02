@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/TimingCurve.h>
+#include <Animation/TimingCurve.h>
 
 #include <cmath>
 
 namespace rl {
-namespace coordinator {
+namespace animation {
 
 static inline double TimingCurve_SampleCurve(double a,
                                              double b,
@@ -134,5 +134,5 @@ double TimingCurve::x(double t) const {
   return TimingCurve_SolveX(_ax, _bx, _cx, _ay, _by, _cy, t, 1e-3);
 }
 
-}  // namespace coordinator
+}  // namespace animation
 }  // namespace rl

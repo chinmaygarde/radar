@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/Interpolator.h>
+#include <Animation/Interpolator.h>
 #include <Coordinator/Color.h>
 
 namespace rl {
-namespace coordinator {
+namespace animation {
 
 template <typename Type>
 Interpolator<Type>::Interpolator(
-    PresentationEntity::Borrowed entity,
+    coordinator::PresentationEntity::Borrowed entity,
     const interface::Action& action,
     const typename interface::Entity::Accessors<Type>::Setter& setter,
     const Type& from,
@@ -73,16 +73,17 @@ geom::Rect Interpolator<geom::Rect>::x(double t) const {
 }
 
 template <>
-Color Interpolator<Color>::x(double t) const {
+coordinator::Color Interpolator<coordinator::Color>::x(double t) const {
   /*
    *  TODO: Create a specialization that stores the from and to values in HSB
    */
-  ColorHSB from = ColorHSB::FromRGB(_from);
-  ColorHSB to = ColorHSB::FromRGB(_to);
-  auto interpolated = ColorHSB{_lerp(from.hue, to.hue, t),
-                               _lerp(from.saturation, to.saturation, t),
-                               _lerp(from.brightness, to.brightness, t),
-                               _lerp(from.alpha, to.alpha, t)};
+  auto from = coordinator::ColorHSB::FromRGB(_from);
+  auto to = coordinator::ColorHSB::FromRGB(_to);
+  auto interpolated =
+      coordinator::ColorHSB{_lerp(from.hue, to.hue, t),
+                            _lerp(from.saturation, to.saturation, t),
+                            _lerp(from.brightness, to.brightness, t),
+                            _lerp(from.alpha, to.alpha, t)};
   return interpolated.ToRGBA();
 }
 
@@ -110,8 +111,8 @@ template class Interpolator<double>;
 template class Interpolator<geom::Point>;
 template class Interpolator<geom::Size>;
 template class Interpolator<geom::Rect>;
-template class Interpolator<Color>;
 template class Interpolator<geom::Matrix>;
+template class Interpolator<coordinator::Color>;
 
-}  // namespace coordinator
+}  // namespace animation
 }  // namespace rl

@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/AnimationDirector.h>
+#include <Animation/AnimationDirector.h>
 
 namespace rl {
-namespace coordinator {
+namespace animation {
 
 AnimationDirector::AnimationDirector() {
 }
@@ -71,7 +71,8 @@ AnimationDirector::Interpolators<geom::Rect>& AnimationDirector::collection() {
 }
 
 template <>
-AnimationDirector::Interpolators<Color>& AnimationDirector::collection() {
+AnimationDirector::Interpolators<coordinator::Color>&
+AnimationDirector::collection() {
   return _colorInterpolators;
 }
 
@@ -81,5 +82,5 @@ AnimationDirector::collection() {
   return _matrixInterpolators;
 }
 
-}  // namespace coordinator
+}  // namespace animation
 }  // namespace rl

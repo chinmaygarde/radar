@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Animation/Interpolator.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Coordinator/Interpolator.h>
 #include <Coordinator/TransactionPayload.h>
 
 namespace rl {
@@ -81,12 +81,12 @@ void PresentationGraph::prepareActionSingle(
   /*
    *  Prepare the key for the animation in the animation director
    */
-  AnimationDirector::Key key(record.identifier, record.property);
+  animation::AnimationDirector::Key key(record.identifier, record.property);
 
   /*
    *  Prepare the interpolator
    */
-  auto interpolator = core::make_unique<Interpolator<T>>(
+  auto interpolator = core::make_unique<animation::Interpolator<T>>(
       &entity, action, accessors.setter, accessors.getter(entity),
       record.transferData<T>());
 
@@ -171,7 +171,7 @@ void PresentationGraph::render(Frame& frame) {
   _root->render(frame, geom::MatrixIdentity);
 }
 
-AnimationDirector& PresentationGraph::animationDirector() {
+animation::AnimationDirector& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 
