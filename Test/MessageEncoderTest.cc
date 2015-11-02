@@ -8,7 +8,7 @@
 #include <Core/Message.h>
 
 TEST(MessageEncoderTest, SimpleInitialization) {
-  rl::Message message;
+  rl::core::Message message;
 
   ASSERT_TRUE(message.encode(30.0));
 
@@ -16,7 +16,7 @@ TEST(MessageEncoderTest, SimpleInitialization) {
 }
 
 TEST(MessageEncoderTest, MultipleInitialization) {
-  rl::Message message;
+  rl::core::Message message;
 
   size_t s = 0;
   ASSERT_TRUE(message.encode(30.0));

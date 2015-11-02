@@ -9,16 +9,16 @@
 #include <thread>
 
 TEST(EventLoopTest, CurrentEventLoopAccess) {
-  rl::EventLoop* loop = rl::EventLoop::Current();
+  auto loop = rl::core::EventLoop::Current();
   ASSERT_TRUE(loop != nullptr);
-  ASSERT_TRUE(rl::EventLoop::Current() == loop);
+  ASSERT_TRUE(rl::core::EventLoop::Current() == loop);
 }
 
 TEST(EventLoopTest, EventLoopOnAnotherThread) {
-  rl::EventLoop* loop1 = rl::EventLoop::Current();
-  rl::EventLoop* loop2 = nullptr;
+  rl::core::EventLoop* loop1 = rl::core::EventLoop::Current();
+  rl::core::EventLoop* loop2 = nullptr;
 
-  std::thread thread([&] { loop2 = rl::EventLoop::Current(); });
+  std::thread thread([&] { loop2 = rl::core::EventLoop::Current(); });
 
   thread.join();
 
@@ -27,12 +27,12 @@ TEST(EventLoopTest, EventLoopOnAnotherThread) {
 
 TEST(EventLoopTest, SimpleLoop) {
   std::thread thread([] {
-    auto outer = rl::EventLoop::Current();
+    auto outer = rl::core::EventLoop::Current();
 
     bool terminatedFromInner = false;
 
     std::thread innerThread([&] {
-      std::this_thread::sleep_for(rl::ClockDurationMilli(10));
+      std::this_thread::sleep_for(rl::core::ClockDurationMilli(10));
       terminatedFromInner = true;
       outer->terminate();
       ASSERT_TRUE(true);
@@ -55,21 +55,22 @@ TEST(EventLoopTest, SimpleLoop) {
 TEST(EventLoopTest, Timer) {
   std::thread timerThread([] {
 
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
 
-    rl::Clock clock;
+    rl::core::Clock clock;
 
     auto start = clock.now();
 
-    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(10));
+    auto timer =
+        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(10));
 
     /*
      *  This test is extremely brittle :/
      */
     timer->setWakeFunction([clock, start]() {
-      auto duration = std::chrono::duration_cast<rl::ClockDurationMilli>(
+      auto duration = std::chrono::duration_cast<rl::core::ClockDurationMilli>(
           clock.now() - start);
-      rl::EventLoop::Current()->terminate();
+      rl::core::EventLoop::Current()->terminate();
       ASSERT_TRUE(duration.count() >= 5 && duration.count() <= 15);
     });
 
@@ -87,9 +88,10 @@ TEST(EventLoopTest, TimerRepetition) {
 
   std::thread timerThread([&count] {
 
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
 
-    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(1));
+    auto timer =
+        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(1));
 
     timer->setWakeFunction([&count, loop]() {
 
@@ -114,8 +116,8 @@ TEST(EventLoopTest, TimerRepetition) {
 TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   int count = 0;
   std::thread trivialThread([&count] {
-    auto loop = rl::EventLoop::Current();
-    auto trivial = rl::EventLoopSource::Trivial();
+    auto loop = rl::core::EventLoop::Current();
+    auto trivial = rl::core::EventLoopSource::Trivial();
     trivial->setWakeFunction([&count]() { count++; });
 
     /**
@@ -129,8 +131,11 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
     trivial->writer()(trivial->writeHandle());
     trivial->writer()(trivial->writeHandle());
 
-    auto timer = rl::EventLoopSource::Timer(rl::ClockDurationMilli(100));
-    timer->setWakeFunction([]() { rl::EventLoop::Current()->terminate(); });
+    auto timer =
+        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(100));
+
+    timer->setWakeFunction(
+        []() { rl::core::EventLoop::Current()->terminate(); });
 
     loop->addSource(trivial);
     loop->addSource(timer);

@@ -8,7 +8,7 @@
 #include <thread>
 
 TEST(ChannelTest, SimpleInitialization) {
-  rl::Channel channel;
+  rl::core::Channel channel;
   ASSERT_TRUE(channel.source() != nullptr);
 }
 
@@ -44,20 +44,20 @@ static bool MemorySetOrCheckPattern(uint8_t* buffer,
 }
 
 TEST(ChannelTest, TestSimpleReads) {
-  rl::Channel channel;
+  rl::core::Channel channel;
 
-  rl::Latch latch(1);
+  rl::core::Latch latch(1);
 
   std::thread thread([&] {
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
     ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::Messages m) {
+    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
       ASSERT_TRUE(m.size() == 1);
-      ASSERT_TRUE(loop == rl::EventLoop::Current());
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
       loop->terminate();
     });
 
@@ -66,8 +66,8 @@ TEST(ChannelTest, TestSimpleReads) {
 
   latch.wait();
 
-  rl::Messages messages;
-  rl::Message m;
+  rl::core::Messages messages;
+  rl::core::Message m;
 
   char c = 'c';
   ASSERT_TRUE(m.encode(c));
@@ -78,25 +78,25 @@ TEST(ChannelTest, TestSimpleReads) {
 }
 
 TEST(ChannelTest, TestLargeReadWrite) {
-  rl::Channel channel;
+  rl::core::Channel channel;
 
-  rl::Latch latch(1);
+  rl::core::Latch latch(1);
 
   size_t sizeWritten = 0;
 
   std::thread thread([&] {
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
     ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::Messages m) {
+    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
       ASSERT_TRUE(m.size() == 1);
       ASSERT_TRUE(m[0].size() == sizeWritten);
       ASSERT_TRUE(
           MemorySetOrCheckPattern(m[0].data(), sizeWritten, false /* check */));
-      ASSERT_TRUE(loop == rl::EventLoop::Current());
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
       loop->terminate();
     });
 
@@ -105,8 +105,8 @@ TEST(ChannelTest, TestLargeReadWrite) {
 
   latch.wait();
 
-  rl::Messages messages;
-  rl::Message m;
+  rl::core::Messages messages;
+  rl::core::Message m;
 
   const auto rawSize = 50000003;
   ASSERT_TRUE(MemorySetOrCheckPattern(m.encodeRawUnsafe(rawSize), rawSize,
@@ -120,22 +120,22 @@ TEST(ChannelTest, TestLargeReadWrite) {
 }
 
 TEST(ChannelTest, TestSimpleReadContents) {
-  rl::Channel channel;
+  rl::core::Channel channel;
 
-  rl::Latch latch(1);
+  rl::core::Latch latch(1);
 
   size_t sendSize = 0;
 
   std::thread thread([&] {
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
     ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::Messages messages) {
+    channel.setMessagesReceivedCallback([&](rl::core::Messages messages) {
       ASSERT_TRUE(messages.size() == 1);
-      ASSERT_TRUE(loop == rl::EventLoop::Current());
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
 
       auto& m = messages[0];
 
@@ -156,8 +156,8 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
   latch.wait();
 
-  rl::Messages messages;
-  rl::Message m;
+  rl::core::Messages messages;
+  rl::core::Message m;
 
   char c = 'c';
   int d = 222;

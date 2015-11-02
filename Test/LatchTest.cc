@@ -7,7 +7,7 @@
 #include <Core/Core.h>
 
 TEST(LatchTest, SimpleLatch) {
-  rl::Latch l(3);
+  rl::core::Latch l(3);
   bool done[3]{false, false, false};
 
   std::thread one([&]() {
@@ -43,7 +43,7 @@ TEST(LatchTest, AutoLatch) {
   std::thread one, two, three;
   bool done[3]{false, false, false};
   {
-    rl::AutoLatch l(3);
+    rl::core::AutoLatch l(3);
 
     one = std::thread([&]() {
       usleep(20);

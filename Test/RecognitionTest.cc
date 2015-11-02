@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <Core/Core.h>
-#include <Recognition/Equation.h>
+#include <Recognition/Polynomial.h>
 #include <Recognition/GestureRecognizer.h>
 
 #if 0

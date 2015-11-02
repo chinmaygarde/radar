@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <thread>
 #include <Core/Core.h>
-#include <Compositor/EntityLease.h>
+#include <Coordinator/EntityLease.h>
 
 #if 0
 

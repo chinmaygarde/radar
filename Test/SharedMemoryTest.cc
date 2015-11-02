@@ -10,7 +10,7 @@
 #include <gtest/gtest.h>
 
 TEST(SharedMemoryTest, SimpleInitialization) {
-  rl::SharedMemory memory(1024);
+  rl::core::SharedMemory memory(1024);
 
   ASSERT_TRUE(memory.isReady());
   ASSERT_TRUE(memory.size() == 1024);

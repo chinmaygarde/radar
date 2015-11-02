@@ -8,7 +8,7 @@
 #include <Core/Message.h>
 
 TEST(MessageDecoderTest, SimpleInitialization) {
-  rl::Message message;
+  rl::core::Message message;
 
   uint32_t val = 40;
 
@@ -16,14 +16,14 @@ TEST(MessageDecoderTest, SimpleInitialization) {
 
   val = 222;
 
-  rl::Message decoder(message.data(), message.size());
+  rl::core::Message decoder(message.data(), message.size());
 
   ASSERT_TRUE(decoder.decode(val));
   ASSERT_TRUE(val == 40);
 }
 
 TEST(MessageDecoderTest, MutltipleInitialization) {
-  rl::Message message;
+  rl::core::Message message;
 
   uint32_t val = 40;
   bool foo = true;
@@ -43,7 +43,7 @@ TEST(MessageDecoderTest, MutltipleInitialization) {
   b = 0.0;
   c = 'd';
 
-  rl::Message decoder(message.data(), message.size());
+  rl::core::Message decoder(message.data(), message.size());
 
   ASSERT_TRUE(decoder.decode(val));
   ASSERT_TRUE(decoder.decode(foo));
