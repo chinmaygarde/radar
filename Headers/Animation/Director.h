@@ -24,20 +24,6 @@ class Director {
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 
-  struct KeyHash {
-    std::size_t operator()(const Key& key) const {
-      return std::hash<interface::Entity::Identifier>()(key.entityIdentifier) ^
-             ((key.entityProperty) << 1);
-    }
-  };
-
-  struct KeyEqual {
-    bool operator()(const Key& lhs, const Key& rhs) const {
-      return lhs.entityIdentifier == rhs.entityIdentifier &&
-             lhs.entityProperty == rhs.entityProperty;
-    }
-  };
-
   explicit Director();
 
   template <typename T>
@@ -53,6 +39,20 @@ class Director {
   size_t stepInterpolations(instrumentation::Stopwatch& stopwatch);
 
  private:
+  struct KeyHash {
+    std::size_t operator()(const Key& key) const {
+      return std::hash<interface::Entity::Identifier>()(key.entityIdentifier) ^
+             ((key.entityProperty) << 1);
+    }
+  };
+
+  struct KeyEqual {
+    bool operator()(const Key& lhs, const Key& rhs) const {
+      return lhs.entityIdentifier == rhs.entityIdentifier &&
+             lhs.entityProperty == rhs.entityProperty;
+    }
+  };
+
   template <typename T>
   using Interpolators = std::
       unordered_map<Key, std::unique_ptr<Interpolator<T>>, KeyHash, KeyEqual>;
