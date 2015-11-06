@@ -6,13 +6,33 @@
 #define RADARLOVE_LAYOUT_CONSTRAINT_H_
 
 #include <Core/Core.h>
+#include <Layout/Expression.h>
 
 namespace rl {
 namespace layout {
 
 class Constraint {
  public:
+  enum class Relation {
+    EqualTo,
+    LessThanOrEqualTo,
+    GreaterThanOrEqualTo,
+  };
+
+  Constraint(const Expression& expression, Relation relation, double priority);
+  Constraint(Constraint&& constraint) = default;
+
+  Relation relation() const;
+
+  const Expression& expression() const;
+
+  double priority() const;
+
  private:
+  const Relation _relation;
+  const Expression _expression;
+  const double _priority;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Constraint);
 };
 

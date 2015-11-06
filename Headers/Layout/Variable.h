@@ -13,7 +13,7 @@ namespace layout {
 class Variable {
  public:
  private:
-  RL_DISALLOW_COPY_AND_ASSIGN(Variable);
+  RL_DISALLOW_ASSIGN(Variable);
 };
 
 }  // namespace layout

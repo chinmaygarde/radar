@@ -7,8 +7,16 @@
 namespace rl {
 namespace layout {
 
-Symbol::Symbol(Type type) : _type(type) {
+static Symbol::Identifier LastSymbolIdentifier = 0;
+
+Symbol::Symbol(Type type) : _type(type), _identifier(++LastSymbolIdentifier) {
 }
+
+Symbol::Type Symbol::type() const {
+  return _type;
+}
+
+const Symbol SymbolInvalid(Symbol::Type::Invalid);
 
 }  // namespace layout
 }  // namespace rl

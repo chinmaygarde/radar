@@ -23,34 +23,40 @@ namespace layout {
 
 class Solver {
  public:
-  Result addConstraints(const std::list<Constraint>& constraints);
+  const Result& addConstraints(const std::list<Constraint>& constraints);
 
-  Result addConstraint(const Constraint& constraint);
+  const Result& addConstraint(const Constraint& constraint);
 
-  Result removeConstraints(const std::list<Constraint>& constraints);
+  const Result& removeConstraints(const std::list<Constraint>& constraints);
 
-  Result removeConstraint(const Constraint& constraint);
+  const Result& removeConstraint(const Constraint& constraint);
 
-  bool hasConstraint() const;
+  bool hasConstraint(const Constraint& constraint) const;
 
-  Result addEditVariables(const std::list<Variable> variables, double priority);
+  const Result& addEditVariables(const std::list<Variable> variables,
+                                 double priority);
 
-  Result removeEditVariables(const std::list<Variable> variables);
+  const Result& addEditVariable(const Variable& variable, double priority);
+
+  const Result& removeEditVariables(const std::list<Variable> variables);
+
+  const Result& removeEditVariable(const Variable& variable);
 
   bool hasEditVariable(const Variable& variable) const;
 
-  Result suggestValueForVariable(const Variable& variable, double value);
+  const Result& suggestValueForVariable(const Variable& variable, double value);
 
   void flushUpdates();
 
  private:
   std::map<Constraint, Tag> _constraints;
-  std::map<Symbol, Row> _rows;
+  using SymbolRowMap = std::map<Symbol, std::unique_ptr<Row>>;
+  SymbolRowMap _rows;
   std::map<Variable, Symbol> _vars;
   std::map<Variable, EditInfo> _edits;
   std::list<Symbol> _infeasibleRows;
-  Row _objective;
-  Row _artificial;
+  std::unique_ptr<Row> _objective;
+  std::unique_ptr<Row> _artificial;
 
   template <class T>
   using UpdateCallback = std::function<void(const T&)>;
@@ -60,40 +66,39 @@ class Solver {
                          UpdateCallback<T> applier,
                          UpdateCallback<T> undoer);
 
-  const Symbol& symbolForVariable(const Variable& variable);
+  Symbol symbolForVariable(const Variable& variable);
 
-  const Row& createRow(const Constraint& constraint, const Tag& tag);
+  std::unique_ptr<Row> createRow(const Constraint& constraint, Tag& tag);
 
-  const Symbol& chooseSubjectForRow(const Row& row, const Tag& tag) const;
+  Symbol chooseSubjectForRow(const Row& row, const Tag& tag) const;
 
   bool allDummiesInRow(const Row& row) const;
 
-  bool addWithArtificialVariableInRow(const Row& row);
+  bool addWithArtificialVariableOnRow(const Row& row);
 
   const Result& optimizeObjectiveRow(const Row& row);
 
   const Symbol& enteringSymbolForObjectiveRow(const Row& objective);
 
-  using SymbolRowPair = std::pair<const Symbol&, const Row&>;
-
-  SymbolRowPair leavingRowForEnteringSymbol(const Symbol& entering) const;
+  SymbolRowMap::iterator leavingRowForEnteringSymbol(const Symbol& entering);
 
   void substitute(const Symbol& symbol, const Row& row);
 
-  const Symbol& anyPivtableSymbol(const Row& row) const;
+  Symbol anyPivotableSymbol(const Row& row) const;
 
   void removeConstraintEffects(const Constraint& constraint, const Tag& tag);
 
   void removeMarkerEffects(const Symbol& marker, double strength);
 
-  SymbolRowPair leavingRowPairForMarkerSymbol(const Symbol& marker) const;
+  SymbolRowMap::iterator leavingRowPairForMarkerSymbol(
+      const Symbol& marker) const;
 
-  void suggestValueForEditInfoWithoutDualOptimization(const EditInfo& info,
+  void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);
 
   const Result& dualOptimize();
 
-  const Symbol& dualEnteringSymbolForRow(const Row& row);
+  Symbol dualEnteringSymbolForRow(const Row& row);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Solver);
 };

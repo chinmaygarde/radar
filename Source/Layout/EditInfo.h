@@ -6,13 +6,31 @@
 #define RADARLOVE_LAYOUT_EDITINFO_H_
 
 #include <Core/Core.h>
+#include <Layout/Constraint.h>
+#include <Layout/Tag.h>
 
 namespace rl {
 namespace layout {
 
 class EditInfo {
  public:
+  EditInfo(const Tag& tag, const Constraint& constraint, double constant);
+
+  const Tag& tag() const;
+
+  void setTag(const Tag& tag);
+
+  const Constraint& constraint() const;
+
+  double constant() const;
+
+  void setConstant(double constant);
+
  private:
+  Tag _tag;
+  Constraint _constraint;
+  double _constant;
+
   RL_DISALLOW_COPY_AND_ASSIGN(EditInfo);
 };
 

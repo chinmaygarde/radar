@@ -11,8 +11,16 @@ Tag::Tag(const Symbol& marker, const Symbol& other)
     : _marker(marker), _other(other) {
 }
 
+void Tag::setMarker(const Symbol& marker) {
+  _marker = marker;
+}
+
 const Symbol& Tag::marker() const {
   return _marker;
+}
+
+void Tag::setOther(const Symbol& other) {
+  _other = other;
 }
 
 const Symbol& Tag::other() const {

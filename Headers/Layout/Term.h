@@ -6,14 +6,24 @@
 #define RADARLOVE_LAYOUT_TERM_H_
 
 #include <Core/Core.h>
+#include <Layout/Variable.h>
 
 namespace rl {
 namespace layout {
 
 class Term {
  public:
+  Term(const Variable& variable, double coefficient);
+
+  const Variable& variable() const;
+
+  double coefficient() const;
+
  private:
-  RL_DISALLOW_COPY_AND_ASSIGN(Term);
+  const Variable _variable;
+  const double _coefficient;
+
+  RL_DISALLOW_ASSIGN(Term);
 };
 
 }  // namespace layout

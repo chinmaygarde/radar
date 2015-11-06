@@ -5,5 +5,25 @@
 #include <Layout/Constraint.h>
 
 namespace rl {
-namespace layout {}  // namespace layout
+namespace layout {
+
+Constraint::Constraint(const Expression& expression,
+                       Relation relation,
+                       double priority)
+    : _expression(expression), _relation(relation), _priority(priority) {
+}
+
+Constraint::Relation Constraint::relation() const {
+  return _relation;
+}
+
+const Expression& Constraint::expression() const {
+  return _expression;
+}
+
+double Constraint::priority() const {
+  return _priority;
+}
+
+}  // namespace layout
 }  // namespace rl

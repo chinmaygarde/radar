@@ -7,8 +7,8 @@
 namespace rl {
 namespace layout {
 
-Result::Result(const std::string& message, bool isError)
-    : _message(message), _isError(isError) {
+Result::Result(Type type, const std::string& message, bool isError)
+    : _type(type), _message(message), _isError(isError) {
 }
 
 const std::string& Result::message() const {
@@ -19,5 +19,25 @@ bool Result::isError() const {
   return _isError;
 }
 
+// clang-format off
+extern const Result ResultSuccess(
+    Result::Type::Success, "Success", false);
+extern const Result ResultUnimplemented(
+    Result::Type::Unimplemented, "Unimplemented");
+extern const Result ResultDuplicateConstraint(
+    Result::Type::DuplicateConstraint, "Duplicate Constraint");
+extern const Result ResultUnsatisfiableConstraint(
+    Result::Type::UnsatisfiableConstraint, "Unsatisfiable Constraint");
+extern const Result ResultUnknownConstraint(
+    Result::Type::UnknownConstraint, "Unknown Constraint");
+extern const Result ResultDuplicateEditVariable(
+    Result::Type::DuplicateConstraint, "Duplicate Edit Variable");
+extern const Result ResultBadRequiredStrength(
+    Result::Type::BadRequiredStrength, "Bad Required Strength");
+extern const Result ResultUnknownEditVariable(
+    Result::Type::UnknownEditVariable, "Unknown Edit Variable");
+extern const Result ResultInternalSolverError(
+    Result::Type::InternalSolverError, "Internal Solver Error");
+// clang-format on
 }  // namespace layout
 }  // namespace rl

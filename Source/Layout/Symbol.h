@@ -12,15 +12,20 @@ namespace layout {
 
 class Symbol {
  public:
+  using Identifier = uint64_t;
+
   enum class Type { Invalid, External, Slack, Error, Dummy };
 
   Symbol(Type type);
 
- private:
-  const Type _type;
+  Type type() const;
 
-  RL_DISALLOW_ASSIGN(Symbol);
+ private:
+  Type _type;
+  Identifier _identifier;
 };
+
+extern const Symbol SymbolInvalid;
 
 }  // namespace layout
 }  // namespace rl

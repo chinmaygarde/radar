@@ -6,14 +6,26 @@
 #define RADARLOVE_LAYOUT_EXPRESSION_H_
 
 #include <Core/Core.h>
+#include <Layout/Term.h>
+
+#include <list>
 
 namespace rl {
 namespace layout {
 
 class Expression {
  public:
+  Expression(const std::list<Term>& terms, double constant);
+
+  const std::list<Term>& terms() const;
+
+  double constant() const;
+
  private:
-  RL_DISALLOW_COPY_AND_ASSIGN(Expression);
+  const std::list<Term> _terms;
+  const double _constant;
+
+  RL_DISALLOW_ASSIGN(Expression);
 };
 
 }  // namespace layout

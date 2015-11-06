@@ -15,15 +15,17 @@ class Tag {
  public:
   Tag(const Symbol& maker, const Symbol& other);
 
+  void setMarker(const Symbol& marker);
+
   const Symbol& marker() const;
+
+  void setOther(const Symbol& other);
 
   const Symbol& other() const;
 
  private:
-  const Symbol _marker;
-  const Symbol _other;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(Tag);
+  Symbol _marker;
+  Symbol _other;
 };
 
 }  // namespace layout

@@ -5,5 +5,19 @@
 #include <Layout/Term.h>
 
 namespace rl {
-namespace layout {}  // namespace layout
+namespace layout {
+
+Term::Term(const Variable& variable, double coefficient)
+    : _variable(variable), _coefficient(coefficient) {
+}
+
+const Variable& Term::variable() const {
+  return _variable;
+}
+
+double Term::coefficient() const {
+  return _coefficient;
+}
+
+}  // namespace layout
 }  // namespace rl

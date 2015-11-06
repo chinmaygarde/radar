@@ -25,7 +25,7 @@ class Row {
 
   double add(double value);
 
-  void insertSymbol(const Symbol& symbol, double coefficient);
+  void insertSymbol(const Symbol& symbol, double coefficient = 1.0);
 
   void insertRow(const Row& row, double coefficient);
 
