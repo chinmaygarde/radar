@@ -20,6 +20,14 @@ class Symbol {
 
   Type type() const;
 
+  bool operator==(const Symbol& other) const {
+    return _identifier == other._identifier;
+  }
+
+  bool operator!=(const Symbol& other) const {
+    return _identifier != other._identifier;
+  }
+
  private:
   Type _type;
   Identifier _identifier;

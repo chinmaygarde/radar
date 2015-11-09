@@ -20,6 +20,7 @@ class Constraint {
   };
 
   Constraint(const Expression& expression, Relation relation, double priority);
+
   Constraint(Constraint&& constraint) = default;
 
   Relation relation() const;

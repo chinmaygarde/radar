@@ -50,8 +50,7 @@ class Solver {
 
  private:
   std::map<Constraint, Tag> _constraints;
-  using SymbolRowMap = std::map<Symbol, std::unique_ptr<Row>>;
-  SymbolRowMap _rows;
+  std::map<Symbol, std::unique_ptr<Row>> _rows;
   std::map<Variable, Symbol> _vars;
   std::map<Variable, EditInfo> _edits;
   std::list<Symbol> _infeasibleRows;
@@ -80,7 +79,7 @@ class Solver {
 
   const Symbol& enteringSymbolForObjectiveRow(const Row& objective);
 
-  SymbolRowMap::iterator leavingRowForEnteringSymbol(const Symbol& entering);
+  Symbol leavingRowForEnteringSymbol(const Symbol& entering) const;
 
   void substitute(const Symbol& symbol, const Row& row);
 
@@ -90,8 +89,7 @@ class Solver {
 
   void removeMarkerEffects(const Symbol& marker, double strength);
 
-  SymbolRowMap::iterator leavingRowPairForMarkerSymbol(
-      const Symbol& marker) const;
+  Symbol leavingRowPairForMarkerSymbol(const Symbol& marker) const;
 
   void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);

@@ -58,8 +58,9 @@ const Result& Solver::removeConstraint(const Constraint& constraint) {
   if (foundRow != _rows.end()) {
     _rows.erase(foundRow);
   } else {
-    auto rowPair = leavingRowPairForMarkerSymbol(tag.marker());
+    auto leavingSymbol = leavingRowPairForMarkerSymbol(tag.marker());
 
+    auto rowPair = _rows.find(leavingSymbol);
     if (rowPair == _rows.end()) {
       return ResultInternalSolverError;
     }
@@ -312,8 +313,9 @@ const Result& Solver::optimizeObjectiveRow(const Row& objective) {
       return ResultSuccess;
     }
 
-    auto leavingPair = leavingRowForEnteringSymbol(entering);
+    auto leavingSymbol = leavingRowForEnteringSymbol(entering);
 
+    auto leavingPair = _rows.find(leavingSymbol);
     if (leavingPair == _rows.end()) {
       return ResultInternalSolverError;
     }
@@ -345,10 +347,9 @@ const Symbol& Solver::enteringSymbolForObjectiveRow(const Row& objective) {
 }
 
 #warning remove the word "pair" from these APIs
-Solver::SymbolRowMap::iterator Solver::leavingRowForEnteringSymbol(
-    const Symbol& entering) {
+Symbol Solver::leavingRowForEnteringSymbol(const Symbol& entering) const {
   auto ratio = std::numeric_limits<double>::max();
-  auto found = _rows.end();
+  auto found = SymbolInvalid;
   for (const auto& row : _rows) {
     if (row.first.type() != Symbol::Type::External) {
       auto temp = row.second->coefficientForSymbol(entering);
@@ -356,7 +357,7 @@ Solver::SymbolRowMap::iterator Solver::leavingRowForEnteringSymbol(
         auto temp_ratio = -row.second->constant() / temp;
         if (temp_ratio < ratio) {
           ratio = temp_ratio;
-          found = row;
+          found = row.first;
         }
       }
     }
@@ -414,15 +415,13 @@ void Solver::removeMarkerEffects(const Symbol& marker, double strength) {
   }
 }
 
-Solver::SymbolRowMap::iterator Solver::leavingRowPairForMarkerSymbol(
-    const Symbol& marker) const {
+Symbol Solver::leavingRowPairForMarkerSymbol(const Symbol& marker) const {
   auto r1 = std::numeric_limits<double>::max();
   auto r2 = std::numeric_limits<double>::max();
 
-  auto end = _rows.end();
-  auto first = end;
-  auto second = end;
-  auto third = end;
+  auto first = SymbolInvalid;
+  auto second = SymbolInvalid;
+  auto third = SymbolInvalid;
 
   for (const auto& i : _rows) {
     double c = i.second->coefficientForSymbol(marker);
@@ -430,27 +429,27 @@ Solver::SymbolRowMap::iterator Solver::leavingRowPairForMarkerSymbol(
       continue;
     }
     if (i.first.type() == Symbol::Type::External) {
-      third = i;
+      third = i.first;
     } else if (c < 0.0) {
       auto r = -i.second->constant() / c;
       if (r < r1) {
         r1 = r;
-        first = i;
+        first = i.first;
       }
     } else {
       auto r = i.second->constant() / c;
       if (r < r2) {
         r2 = r;
-        second = i;
+        second = i.first;
       }
     }
   }
 
-  if (first != end) {
+  if (first != SymbolInvalid) {
     return first;
   }
 
-  if (second != end) {
+  if (second != SymbolInvalid) {
     return second;
   }
 
@@ -514,6 +513,7 @@ const Result& Solver::dualOptimize() {
       _rows[entering].swap(row);
     }
   }
+  return ResultSuccess;
 }
 
 Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
