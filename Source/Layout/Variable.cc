@@ -12,5 +12,9 @@ Variable::Variable(interface::Entity* entity,
     : _entity(entity), _property(property) {
 }
 
+bool Variable::applyUpdate(double value) const {
+  return true;
+}
+
 }  // namespace layout
 }  // namespace rl

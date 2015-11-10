@@ -142,7 +142,12 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
 }
 
 void Solver::flushUpdates() {
-#warning WIP skipped
+  for (const auto& i : _vars) {
+    auto foundRow = _rows.find(i.second);
+    const double updated =
+        foundRow == _rows.end() ? 0.0 : foundRow->second->constant();
+    i.first.applyUpdate(updated);
+  }
 }
 
 Symbol Solver::symbolForVariable(const Variable& variable) {

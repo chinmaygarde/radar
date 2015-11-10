@@ -15,6 +15,8 @@ class Variable {
  public:
   Variable(interface::Entity* entity, interface::Entity::Property property);
 
+  bool applyUpdate(double value) const;
+
   struct Hash {
     std::size_t operator()(const Variable& v) const {
       return reinterpret_cast<size_t>(v._entity) ^ (v._property << 1);
