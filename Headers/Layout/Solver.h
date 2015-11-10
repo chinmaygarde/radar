@@ -58,7 +58,7 @@ class Solver {
   std::unique_ptr<Row> _artificial;
 
   template <class T>
-  using UpdateCallback = std::function<void(const T&)>;
+  using UpdateCallback = std::function<const Result&(const T&)>;
 
   template <class T>
   const Result& bulkEdit(const std::list<T>& items,

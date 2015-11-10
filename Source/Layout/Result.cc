@@ -7,12 +7,7 @@
 namespace rl {
 namespace layout {
 
-Result::Result(Type type, const std::string& message, bool isError)
-    : _type(type), _message(message), _isError(isError) {
-}
-
-const std::string& Result::message() const {
-  return _message;
+Result::Result(Type type, bool isError) : _type(type), _isError(isError) {
 }
 
 bool Result::isError() const {
@@ -21,23 +16,23 @@ bool Result::isError() const {
 
 // clang-format off
 extern const Result ResultSuccess(
-    Result::Type::Success, "Success", false);
+    Result::Type::Success, false);
 extern const Result ResultUnimplemented(
-    Result::Type::Unimplemented, "Unimplemented");
+    Result::Type::Unimplemented);
 extern const Result ResultDuplicateConstraint(
-    Result::Type::DuplicateConstraint, "Duplicate Constraint");
+    Result::Type::DuplicateConstraint);
 extern const Result ResultUnsatisfiableConstraint(
-    Result::Type::UnsatisfiableConstraint, "Unsatisfiable Constraint");
+    Result::Type::UnsatisfiableConstraint);
 extern const Result ResultUnknownConstraint(
-    Result::Type::UnknownConstraint, "Unknown Constraint");
+    Result::Type::UnknownConstraint);
 extern const Result ResultDuplicateEditVariable(
-    Result::Type::DuplicateConstraint, "Duplicate Edit Variable");
+    Result::Type::DuplicateConstraint);
 extern const Result ResultBadRequiredStrength(
-    Result::Type::BadRequiredStrength, "Bad Required Strength");
+    Result::Type::BadRequiredStrength);
 extern const Result ResultUnknownEditVariable(
-    Result::Type::UnknownEditVariable, "Unknown Edit Variable");
+    Result::Type::UnknownEditVariable);
 extern const Result ResultInternalSolverError(
-    Result::Type::InternalSolverError, "Internal Solver Error");
+    Result::Type::InternalSolverError);
 // clang-format on
 }  // namespace layout
 }  // namespace rl

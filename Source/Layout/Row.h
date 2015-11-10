@@ -15,7 +15,7 @@ namespace layout {
 
 class Row {
  public:
-  using Cells = std::map<Symbol, double>;
+  using Cells = std::map<Symbol, double, Symbol::Compare>;
 
   Row(double constant);
 
@@ -45,7 +45,7 @@ class Row {
   Cells _cells;
   double _constant;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Row);
+  RL_DISALLOW_ASSIGN(Row);
 };
 
 }  // namespace layout

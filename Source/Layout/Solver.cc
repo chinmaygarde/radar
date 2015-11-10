@@ -590,7 +590,7 @@ const Result& Solver::removeConstraints(
 const Result& Solver::addEditVariables(const std::list<Variable> variables,
                                        double priority) {
   UpdateCallback<Variable> applier = [&, priority](const Variable& variable) {
-    addEditVariable(variable, priority);
+    return addEditVariable(variable, priority);
   };
   UpdateCallback<Variable> undoer =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
@@ -602,7 +602,8 @@ const Result& Solver::removeEditVariables(const std::list<Variable> variables) {
   UpdateCallback<Variable> applier =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
   UpdateCallback<Variable> undoer = [&](const Variable& variable) {
-    addEditVariable(variable, _edits.at(variable).constraint().priority());
+    return addEditVariable(variable,
+                           _edits.at(variable).constraint().priority());
   };
 
   return bulkEdit(variables, applier, undoer);

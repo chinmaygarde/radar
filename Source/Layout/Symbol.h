@@ -28,6 +28,12 @@ class Symbol {
     return _identifier != other._identifier;
   }
 
+  struct Compare {
+    constexpr bool operator()(const Symbol& lhs, const Symbol& rhs) const {
+      return lhs._identifier < rhs._identifier;
+    }
+  };
+
  private:
   Type _type;
   Identifier _identifier;

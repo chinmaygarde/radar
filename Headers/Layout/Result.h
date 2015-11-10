@@ -26,9 +26,7 @@ class Result {
     InternalSolverError,
   };
 
-  Result(Type type, const std::string& message, bool isError = true);
-
-  const std::string& message() const;
+  Result(Type type, bool isError = true);
 
   bool isError() const;
 
@@ -38,10 +36,7 @@ class Result {
 
  private:
   const Type _type;
-  const std::string _message;
   const bool _isError;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(Result);
 };
 
 extern const Result ResultSuccess;
