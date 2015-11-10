@@ -80,7 +80,7 @@ class Solver {
 
   const Symbol& enteringSymbolForObjectiveRow(const Row& objective);
 
-  Symbol leavingRowForEnteringSymbol(const Symbol& entering) const;
+  Symbol leavingSymbolForEntering(const Symbol& entering) const;
 
   void substitute(const Symbol& symbol, const Row& row);
 
@@ -90,7 +90,7 @@ class Solver {
 
   void removeMarkerEffects(const Symbol& marker, double strength);
 
-  Symbol leavingRowPairForMarkerSymbol(const Symbol& marker) const;
+  Symbol leavingSymbolForMarker(const Symbol& marker) const;
 
   void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);

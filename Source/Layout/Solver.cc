@@ -58,7 +58,7 @@ Result Solver::removeConstraint(const Constraint& constraint) {
   if (foundRow != _rows.end()) {
     _rows.erase(foundRow);
   } else {
-    auto leavingSymbol = leavingRowPairForMarkerSymbol(tag.marker());
+    auto leavingSymbol = leavingSymbolForMarker(tag.marker());
 
     auto rowPair = _rows.find(leavingSymbol);
     if (rowPair == _rows.end()) {
@@ -312,7 +312,7 @@ const Result& Solver::optimizeObjectiveRow(const Row& objective) {
       return ResultSuccess;
     }
 
-    auto leavingPair = _rows.find(leavingRowForEnteringSymbol(entering));
+    auto leavingPair = _rows.find(leavingSymbolForEntering(entering));
     if (leavingPair == _rows.end()) {
       return ResultInternalSolverError;
     }
@@ -344,7 +344,7 @@ const Symbol& Solver::enteringSymbolForObjectiveRow(const Row& objective) {
 }
 
 #warning remove the word "pair" from these APIs
-Symbol Solver::leavingRowForEnteringSymbol(const Symbol& entering) const {
+Symbol Solver::leavingSymbolForEntering(const Symbol& entering) const {
   auto ratio = std::numeric_limits<double>::max();
   auto found = SymbolInvalid;
   for (const auto& row : _rows) {
@@ -412,7 +412,7 @@ void Solver::removeMarkerEffects(const Symbol& marker, double strength) {
   }
 }
 
-Symbol Solver::leavingRowPairForMarkerSymbol(const Symbol& marker) const {
+Symbol Solver::leavingSymbolForMarker(const Symbol& marker) const {
   auto r1 = std::numeric_limits<double>::max();
   auto r2 = std::numeric_limits<double>::max();
 
