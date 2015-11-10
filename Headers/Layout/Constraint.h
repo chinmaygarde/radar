@@ -23,6 +23,8 @@ class Constraint {
 
   Constraint(const Expression& expression, Relation relation, double priority);
 
+  Constraint(const Constraint& constraint);
+
   Relation relation() const;
 
   const Expression& expression() const;

@@ -18,6 +18,13 @@ Constraint::Constraint(const Expression& expression,
       _priority(priority) {
 }
 
+Constraint::Constraint(const Constraint& c)
+    : _identifier(++LastConstraintIdentifier),
+      _expression(c._expression),
+      _relation(c._relation),
+      _priority(c._priority) {
+}
+
 Constraint::Relation Constraint::relation() const {
   return _relation;
 }
