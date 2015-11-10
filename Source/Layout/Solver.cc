@@ -60,16 +60,18 @@ Result Solver::removeConstraint(const Constraint& constraint) {
   } else {
     auto leavingSymbol = leavingSymbolForMarker(tag.marker());
 
-    auto rowPair = _rows.find(leavingSymbol);
-    if (rowPair == _rows.end()) {
+    auto leavingRow = _rows.find(leavingSymbol);
+    if (leavingRow == _rows.end()) {
       return ResultInternalSolverError;
     }
 
-    auto leaving = rowPair->first;
-    std::unique_ptr<Row> row(std::move(rowPair->second));
-    RL_ASSERT(rowPair->second == nullptr);
-    _rows.erase(rowPair);
+    auto leaving = leavingRow->first;
+
+    std::unique_ptr<Row> row(std::move(leavingRow->second));
+    _rows.erase(leavingRow);
+
     row->solveForSymbols(leaving, tag.marker());
+
     substitute(tag.marker(), *row);
   }
 
@@ -312,17 +314,17 @@ const Result& Solver::optimizeObjectiveRow(const Row& objective) {
       return ResultSuccess;
     }
 
-    auto leavingPair = _rows.find(leavingSymbolForEntering(entering));
-    if (leavingPair == _rows.end()) {
+    auto foundRow = _rows.find(leavingSymbolForEntering(entering));
+    if (foundRow == _rows.end()) {
       return ResultInternalSolverError;
     }
 
-    auto leaving = Symbol{leavingPair->first};
+    auto leaving = Symbol{foundRow->first};
 
-    std::unique_ptr<Row> row(std::move(leavingPair->second));
-    RL_ASSERT(leavingPair->second == nullptr);
+    std::unique_ptr<Row> row(std::move(foundRow->second));
+    RL_ASSERT(foundRow->second == nullptr);
 
-    _rows.erase(leavingPair);
+    _rows.erase(foundRow);
 
     row->solveForSymbols(leaving, entering);
     substitute(entering, *row);
@@ -343,7 +345,6 @@ const Symbol& Solver::enteringSymbolForObjectiveRow(const Row& objective) {
   return SymbolInvalid;
 }
 
-#warning remove the word "pair" from these APIs
 Symbol Solver::leavingSymbolForEntering(const Symbol& entering) const {
   auto ratio = std::numeric_limits<double>::max();
   auto found = SymbolInvalid;
