@@ -39,9 +39,9 @@ class Symbol {
  private:
   Type _type;
   Identifier _identifier;
-};
 
-extern const Symbol SymbolInvalid;
+  Symbol(Type type, Identifier identifier);
+};
 
 }  // namespace layout
 }  // namespace rl

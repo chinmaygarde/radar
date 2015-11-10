@@ -44,7 +44,7 @@ class Solver {
 
   bool hasEditVariable(const Variable& variable) const;
 
-  const Result& suggestValueForVariable(const Variable& variable, double value);
+  Result suggestValueForVariable(const Variable& variable, double value);
 
   void flushUpdates();
 
@@ -76,9 +76,9 @@ class Solver {
 
   bool addWithArtificialVariableOnRow(const Row& row);
 
-  const Result& optimizeObjectiveRow(const Row& row);
+  Result optimizeObjectiveRow(const Row& row);
 
-  const Symbol& enteringSymbolForObjectiveRow(const Row& objective);
+  Symbol enteringSymbolForObjectiveRow(const Row& objective);
 
   Symbol leavingSymbolForEntering(const Symbol& entering) const;
 
@@ -95,7 +95,7 @@ class Solver {
   void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);
 
-  const Result& dualOptimize();
+  Result dualOptimize();
 
   Symbol dualEnteringSymbolForRow(const Row& row);
 

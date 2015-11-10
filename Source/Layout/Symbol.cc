@@ -9,17 +9,20 @@ namespace layout {
 
 static Symbol::Identifier LastSymbolIdentifier = 0;
 
-Symbol::Symbol() : Symbol(Type::Invalid) {
+Symbol::Symbol() : Symbol(Type::Invalid, 0) {
 }
 
-Symbol::Symbol(Type type) : _type(type), _identifier(++LastSymbolIdentifier) {
+Symbol::Symbol(Type type)
+    : Symbol(type, type == Symbol::Type::Invalid ? 0 : ++LastSymbolIdentifier) {
+}
+
+Symbol::Symbol(Type type, Identifier identifier)
+    : _type(type), _identifier(identifier) {
 }
 
 Symbol::Type Symbol::type() const {
   return _type;
 }
-
-const Symbol SymbolInvalid(Symbol::Type::Invalid);
 
 }  // namespace layout
 }  // namespace rl

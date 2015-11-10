@@ -11,10 +11,10 @@ namespace layout {
 
 Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
-    return ResultDuplicateConstraint;
+    return Result::Type::DuplicateConstraint;
   }
 
-  Tag tag(SymbolInvalid, SymbolInvalid);
+  Tag tag(Symbol::Type::Invalid, Symbol::Type::Invalid);
 
   auto row = createRow(constraint, tag);
 
@@ -22,7 +22,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 
   if (subject.type() == Symbol::Type::Invalid && allDummiesInRow(*row)) {
     if (!NearZero(row->constant())) {
-      return ResultUnsatisfiableConstraint;
+      return Result::Type::UnsatisfiableConstraint;
     } else {
       subject = tag.marker();
     }
@@ -30,7 +30,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 
   if (subject.type() == Symbol::Type::Invalid) {
     if (!addWithArtificialVariableOnRow(*row)) {
-      return ResultUnsatisfiableConstraint;
+      return Result::Type::UnsatisfiableConstraint;
     }
   } else {
     row->solveForSymbol(subject);
@@ -46,7 +46,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 Result Solver::removeConstraint(const Constraint& constraint) {
   auto foundConstraint = _constraints.find(constraint);
   if (foundConstraint == _constraints.end()) {
-    return ResultUnknownConstraint;
+    return Result::Type::UnknownConstraint;
   }
 
   Tag tag = foundConstraint->second;
@@ -62,7 +62,7 @@ Result Solver::removeConstraint(const Constraint& constraint) {
 
     auto leavingRow = _rows.find(leavingSymbol);
     if (leavingRow == _rows.end()) {
-      return ResultInternalSolverError;
+      return Result::Type::InternalSolverError;
     }
 
     auto leaving = leavingRow->first;
@@ -88,52 +88,52 @@ static inline bool IsValidNonRequiredPriority(double priority) {
 
 Result Solver::addEditVariable(const Variable& variable, double priority) {
   if (_edits.find(variable) != _edits.end()) {
-    return ResultDuplicateEditVariable;
+    return Result::Type::DuplicateEditVariable;
   }
 
   if (!IsValidNonRequiredPriority(priority)) {
-    return ResultBadRequiredStrength;
+    return Result::Type::BadRequiredStrength;
   }
 
   Constraint constraint(Expression{{Term{variable, 1.0}}, 0.0},
                         Constraint::Relation::EqualTo, priority);
 
-  if (addConstraint(constraint) != ResultSuccess) {
-    return ResultInternalSolverError;
+  if (addConstraint(constraint) != Result::Type::Success) {
+    return Result::Type::InternalSolverError;
   }
 
   _edits.emplace(
       std::piecewise_construct, std::forward_as_tuple(variable),
       std::forward_as_tuple(_constraints.at(constraint), constraint, 0.0));
 
-  return ResultSuccess;
+  return Result::Type::Success;
 }
 
 Result Solver::removeEditVariable(const Variable& variable) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
-    return ResultUnknownEditVariable;
+    return Result::Type::UnknownEditVariable;
   }
 
-  if (removeConstraint(foundEdit->second.constraint()) != ResultSuccess) {
-    return ResultInternalSolverError;
+  if (removeConstraint(foundEdit->second.constraint()) !=
+      Result::Type::Success) {
+    return Result::Type::InternalSolverError;
   }
 
   _edits.erase(foundEdit);
-  return ResultSuccess;
+  return Result::Type::Success;
 }
 
 bool Solver::hasEditVariable(const Variable& variable) const {
   return _edits.find(variable) != _edits.end();
 }
 
-const Result& Solver::suggestValueForVariable(const Variable& variable,
-                                              double value) {
+Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
-    return ResultUnknownEditVariable;
+    return Result::Type::UnknownEditVariable;
   }
 
   suggestValueForEditInfoWithoutDualOptimization(foundEdit->second, value);
@@ -254,7 +254,7 @@ Symbol Solver::chooseSubjectForRow(const Row& row, const Tag& tag) const {
       break;
   }
 
-  return SymbolInvalid;
+  return Symbol::Type::Invalid;
 }
 
 bool Solver::allDummiesInRow(const Row& row) const {
@@ -307,16 +307,16 @@ bool Solver::addWithArtificialVariableOnRow(const Row& row) {
   return success;
 }
 
-const Result& Solver::optimizeObjectiveRow(const Row& objective) {
+Result Solver::optimizeObjectiveRow(const Row& objective) {
   while (true) {
     auto entering = enteringSymbolForObjectiveRow(objective);
     if (entering.type() == Symbol::Type::Invalid) {
-      return ResultSuccess;
+      return Result::Type::Success;
     }
 
     auto foundRow = _rows.find(leavingSymbolForEntering(entering));
     if (foundRow == _rows.end()) {
-      return ResultInternalSolverError;
+      return Result::Type::InternalSolverError;
     }
 
     auto leaving = Symbol{foundRow->first};
@@ -333,7 +333,7 @@ const Result& Solver::optimizeObjectiveRow(const Row& objective) {
   }
 }
 
-const Symbol& Solver::enteringSymbolForObjectiveRow(const Row& objective) {
+Symbol Solver::enteringSymbolForObjectiveRow(const Row& objective) {
   const auto& cells = objective.cells();
 
   for (const auto& cell : cells) {
@@ -342,12 +342,12 @@ const Symbol& Solver::enteringSymbolForObjectiveRow(const Row& objective) {
     }
   }
 
-  return SymbolInvalid;
+  return Symbol::Type::Invalid;
 }
 
 Symbol Solver::leavingSymbolForEntering(const Symbol& entering) const {
   auto ratio = std::numeric_limits<double>::max();
-  auto found = SymbolInvalid;
+  Symbol found = Symbol::Type::Invalid;
   for (const auto& row : _rows) {
     if (row.first.type() != Symbol::Type::External) {
       auto temp = row.second->coefficientForSymbol(entering);
@@ -390,7 +390,7 @@ Symbol Solver::anyPivotableSymbol(const Row& row) const {
         break;
     }
   }
-  return SymbolInvalid;
+  return Symbol::Type::Invalid;
 }
 
 void Solver::removeConstraintEffects(const Constraint& constraint,
@@ -417,9 +417,9 @@ Symbol Solver::leavingSymbolForMarker(const Symbol& marker) const {
   auto r1 = std::numeric_limits<double>::max();
   auto r2 = std::numeric_limits<double>::max();
 
-  auto first = SymbolInvalid;
-  auto second = SymbolInvalid;
-  auto third = SymbolInvalid;
+  auto first = Symbol::Type::Invalid;
+  auto second = Symbol::Type::Invalid;
+  auto third = Symbol::Type::Invalid;
 
   for (const auto& i : _rows) {
     double c = i.second->coefficientForSymbol(marker);
@@ -427,27 +427,27 @@ Symbol Solver::leavingSymbolForMarker(const Symbol& marker) const {
       continue;
     }
     if (i.first.type() == Symbol::Type::External) {
-      third = i.first;
+      third = i.first.type();
     } else if (c < 0.0) {
       auto r = -i.second->constant() / c;
       if (r < r1) {
         r1 = r;
-        first = i.first;
+        first = i.first.type();
       }
     } else {
       auto r = i.second->constant() / c;
       if (r < r2) {
         r2 = r;
-        second = i.first;
+        second = i.first.type();
       }
     }
   }
 
-  if (first != SymbolInvalid) {
+  if (first != Symbol::Type::Invalid) {
     return first;
   }
 
-  if (second != SymbolInvalid) {
+  if (second != Symbol::Type::Invalid) {
     return second;
   }
 
@@ -490,7 +490,7 @@ void Solver::suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
   }
 }
 
-const Result& Solver::dualOptimize() {
+Result Solver::dualOptimize() {
   while (_infeasibleRows.size() != 0) {
     auto leaving = _infeasibleRows.back();
     _infeasibleRows.pop_back();
@@ -500,7 +500,7 @@ const Result& Solver::dualOptimize() {
       const auto& entering = dualEnteringSymbolForRow(*(foundRow->second));
 
       if (entering.type() == Symbol::Type::Invalid) {
-        return ResultInternalSolverError;
+        return Result::Type::InternalSolverError;
       }
 
       std::unique_ptr<Row> row(std::move(foundRow->second));
@@ -511,11 +511,11 @@ const Result& Solver::dualOptimize() {
       _rows[entering].swap(row);
     }
   }
-  return ResultSuccess;
+  return Result::Type::Success;
 }
 
 Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
-  auto entering = SymbolInvalid;
+  auto entering = Symbol::Type::Invalid;
   auto ratio = std::numeric_limits<double>::max();
 
   for (const auto& symbol : row.cells()) {
@@ -526,7 +526,7 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
 
       if (r < ratio) {
         ratio = r;
-        entering = symbol.first;
+        entering = symbol.first.type();
       }
     }
   }
@@ -545,11 +545,11 @@ Result Solver::bulkEdit(const std::list<T>& items,
   std::vector<std::reference_wrapper<const T>> applied;
   auto needsCleanup = false;
 
-  auto result = ResultSuccess;
+  Result result = Result::Type::Success;
 
   for (auto& item : items) {
     result = applier(item);
-    if (result == ResultSuccess) {
+    if (result == Result::Type::Success) {
       applied.push_back(std::cref(item));
     } else {
       needsCleanup = true;

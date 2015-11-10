@@ -26,7 +26,7 @@ class Result {
     InternalSolverError,
   };
 
-  Result(Type type, bool isError = true);
+  Result(Type type);
 
   bool isError() const;
 
@@ -36,18 +36,7 @@ class Result {
 
  private:
   Type _type;
-  bool _isError;
 };
-
-extern const Result ResultSuccess;
-extern const Result ResultUnimplemented;
-extern const Result ResultDuplicateConstraint;
-extern const Result ResultUnsatisfiableConstraint;
-extern const Result ResultUnknownConstraint;
-extern const Result ResultDuplicateEditVariable;
-extern const Result ResultBadRequiredStrength;
-extern const Result ResultUnknownEditVariable;
-extern const Result ResultInternalSolverError;
 
 }  // namespace layout
 }  // namespace rl

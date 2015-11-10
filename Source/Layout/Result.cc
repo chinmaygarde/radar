@@ -7,32 +7,12 @@
 namespace rl {
 namespace layout {
 
-Result::Result(Type type, bool isError) : _type(type), _isError(isError) {
+Result::Result(Type type) : _type(type) {
 }
 
 bool Result::isError() const {
-  return _isError;
+  return _type != Type::Success;
 }
 
-// clang-format off
-extern const Result ResultSuccess(
-    Result::Type::Success, false);
-extern const Result ResultUnimplemented(
-    Result::Type::Unimplemented);
-extern const Result ResultDuplicateConstraint(
-    Result::Type::DuplicateConstraint);
-extern const Result ResultUnsatisfiableConstraint(
-    Result::Type::UnsatisfiableConstraint);
-extern const Result ResultUnknownConstraint(
-    Result::Type::UnknownConstraint);
-extern const Result ResultDuplicateEditVariable(
-    Result::Type::DuplicateConstraint);
-extern const Result ResultBadRequiredStrength(
-    Result::Type::BadRequiredStrength);
-extern const Result ResultUnknownEditVariable(
-    Result::Type::UnknownEditVariable);
-extern const Result ResultInternalSolverError(
-    Result::Type::InternalSolverError);
-// clang-format on
 }  // namespace layout
 }  // namespace rl

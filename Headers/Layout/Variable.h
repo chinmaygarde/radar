@@ -8,8 +8,6 @@
 #include <Core/Core.h>
 #include <Interface/Entity.h>
 
-#include <functional>
-
 namespace rl {
 namespace layout {
 
@@ -19,7 +17,7 @@ class Variable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      return std::hash<interface::Entity*>()(v._entity) ^ (v._property << 1);
+      return reinterpret_cast<size_t>(v._entity) ^ (v._property << 1);
     }
   };
 
