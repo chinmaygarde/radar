@@ -9,7 +9,7 @@
 namespace rl {
 namespace layout {
 
-const Result& Solver::addConstraint(const Constraint& constraint) {
+Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
     return ResultDuplicateConstraint;
   }
@@ -35,7 +35,7 @@ const Result& Solver::addConstraint(const Constraint& constraint) {
   } else {
     row->solveForSymbol(subject);
     substitute(subject, *row);
-    _rows.insert({subject, std::move(row)});
+    _rows[subject] = std::move(row);
   }
 
   _constraints.insert({std::move(constraint), tag});
@@ -43,7 +43,7 @@ const Result& Solver::addConstraint(const Constraint& constraint) {
   return optimizeObjectiveRow(*_objective);
 }
 
-const Result& Solver::removeConstraint(const Constraint& constraint) {
+Result Solver::removeConstraint(const Constraint& constraint) {
   auto foundConstraint = _constraints.find(constraint);
   if (foundConstraint == _constraints.end()) {
     return ResultUnknownConstraint;
@@ -84,8 +84,7 @@ static inline bool IsValidNonRequiredPriority(double priority) {
   return (priority >= 0.0 && priority < priority::Required);
 }
 
-const Result& Solver::addEditVariable(const Variable& variable,
-                                      double priority) {
+Result Solver::addEditVariable(const Variable& variable, double priority) {
   if (_edits.find(variable) != _edits.end()) {
     return ResultDuplicateEditVariable;
   }
@@ -101,12 +100,14 @@ const Result& Solver::addEditVariable(const Variable& variable,
     return ResultInternalSolverError;
   }
 
-  _edits.emplace(variable, _constraints.at(constraint), constraint, 0.0);
+  _edits.emplace(
+      std::piecewise_construct, std::forward_as_tuple(variable),
+      std::forward_as_tuple(_constraints.at(constraint), constraint, 0.0));
 
   return ResultSuccess;
 }
 
-const Result& Solver::removeEditVariable(const Variable& variable) {
+Result Solver::removeEditVariable(const Variable& variable) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
@@ -267,7 +268,7 @@ bool Solver::allDummiesInRow(const Row& row) const {
 bool Solver::addWithArtificialVariableOnRow(const Row& row) {
   auto artificial = Symbol{Symbol::Type::Slack};
 #warning check if the row emplace and artificial setup is a copy
-  _rows.emplace(artificial, row);
+  _rows.emplace(artificial, core::make_unique<Row>(row));
   _artificial = core::make_unique<Row>(row);
 
   const auto& result = optimizeObjectiveRow(*_artificial);
@@ -541,18 +542,18 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
  */
 
 template <class T>
-const Result& Solver::bulkEdit(const std::list<T>& items,
-                               UpdateCallback<T> applier,
-                               UpdateCallback<T> undoer) {
-  std::vector<std::reference_wrapper<T>> applied;
+Result Solver::bulkEdit(const std::list<T>& items,
+                        UpdateCallback<T> applier,
+                        UpdateCallback<T> undoer) {
+  std::vector<std::reference_wrapper<const T>> applied;
   auto needsCleanup = false;
 
-  auto& result = ResultSuccess;
+  auto result = ResultSuccess;
 
-  for (const auto& item : items) {
+  for (auto& item : items) {
     result = applier(item);
     if (result == ResultSuccess) {
-      applied.push_back(item);
+      applied.push_back(std::cref(item));
     } else {
       needsCleanup = true;
       break;
@@ -568,7 +569,7 @@ const Result& Solver::bulkEdit(const std::list<T>& items,
   return result;
 }
 
-const Result& Solver::addConstraints(const std::list<Constraint>& constraints) {
+Result Solver::addConstraints(const std::list<Constraint>& constraints) {
   UpdateCallback<Constraint> applier =
       std::bind(&Solver::addConstraint, this, std::placeholders::_1);
   UpdateCallback<Constraint> undoer =
@@ -577,8 +578,7 @@ const Result& Solver::addConstraints(const std::list<Constraint>& constraints) {
   return bulkEdit(constraints, applier, undoer);
 }
 
-const Result& Solver::removeConstraints(
-    const std::list<Constraint>& constraints) {
+Result Solver::removeConstraints(const std::list<Constraint>& constraints) {
   UpdateCallback<Constraint> applier =
       std::bind(&Solver::removeConstraint, this, std::placeholders::_1);
   UpdateCallback<Constraint> undoer =
@@ -587,8 +587,8 @@ const Result& Solver::removeConstraints(
   return bulkEdit(constraints, applier, undoer);
 }
 
-const Result& Solver::addEditVariables(const std::list<Variable> variables,
-                                       double priority) {
+Result Solver::addEditVariables(const std::list<Variable> variables,
+                                double priority) {
   UpdateCallback<Variable> applier = [&, priority](const Variable& variable) {
     return addEditVariable(variable, priority);
   };
@@ -598,7 +598,7 @@ const Result& Solver::addEditVariables(const std::list<Variable> variables,
   return bulkEdit(variables, applier, undoer);
 }
 
-const Result& Solver::removeEditVariables(const std::list<Variable> variables) {
+Result Solver::removeEditVariables(const std::list<Variable> variables) {
   UpdateCallback<Variable> applier =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
   UpdateCallback<Variable> undoer = [&](const Variable& variable) {

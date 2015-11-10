@@ -19,6 +19,8 @@ class Row {
 
   Row(double constant);
 
+  Row(const Row& row) = default;
+
   double constant() const;
 
   const Cells& cells() const;

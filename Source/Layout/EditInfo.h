@@ -14,8 +14,7 @@ namespace layout {
 
 class EditInfo {
  public:
-#warning move these around
-  EditInfo(const Tag& tag, Constraint&& constraint, double constant);
+  EditInfo(const Tag& tag, const Constraint& constraint, double constant);
 
   const Tag& tag() const;
 

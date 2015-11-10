@@ -15,6 +15,7 @@
 #include <Layout/Result.h>
 
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <functional>
 
@@ -23,24 +24,23 @@ namespace layout {
 
 class Solver {
  public:
-  const Result& addConstraints(const std::list<Constraint>& constraints);
+  Result addConstraints(const std::list<Constraint>& constraints);
 
-  const Result& addConstraint(const Constraint& constraint);
+  Result addConstraint(const Constraint& constraint);
 
-  const Result& removeConstraints(const std::list<Constraint>& constraints);
+  Result removeConstraints(const std::list<Constraint>& constraints);
 
-  const Result& removeConstraint(const Constraint& constraint);
+  Result removeConstraint(const Constraint& constraint);
 
   bool hasConstraint(const Constraint& constraint) const;
 
-  const Result& addEditVariables(const std::list<Variable> variables,
-                                 double priority);
+  Result addEditVariables(const std::list<Variable> variables, double priority);
 
-  const Result& addEditVariable(const Variable& variable, double priority);
+  Result addEditVariable(const Variable& variable, double priority);
 
-  const Result& removeEditVariables(const std::list<Variable> variables);
+  Result removeEditVariables(const std::list<Variable> variables);
 
-  const Result& removeEditVariable(const Variable& variable);
+  Result removeEditVariable(const Variable& variable);
 
   bool hasEditVariable(const Variable& variable) const;
 
@@ -49,21 +49,22 @@ class Solver {
   void flushUpdates();
 
  private:
-  std::map<Constraint, Tag> _constraints;
-  std::map<Symbol, std::unique_ptr<Row>> _rows;
-  std::map<Variable, Symbol> _vars;
-  std::map<Variable, EditInfo> _edits;
+  std::map<Constraint, Tag, Constraint::Compare> _constraints;
+  std::map<Symbol, std::unique_ptr<Row>, Symbol::Compare> _rows;
+  std::unordered_map<Variable, Symbol, Variable::Hash, Variable::Equal> _vars;
+  std::unordered_map<Variable, EditInfo, Variable::Hash, Variable::Equal>
+      _edits;
   std::list<Symbol> _infeasibleRows;
   std::unique_ptr<Row> _objective;
   std::unique_ptr<Row> _artificial;
 
   template <class T>
-  using UpdateCallback = std::function<const Result&(const T&)>;
+  using UpdateCallback = std::function<Result(const T&)>;
 
   template <class T>
-  const Result& bulkEdit(const std::list<T>& items,
-                         UpdateCallback<T> applier,
-                         UpdateCallback<T> undoer);
+  Result bulkEdit(const std::list<T>& items,
+                  UpdateCallback<T> applier,
+                  UpdateCallback<T> undoer);
 
   Symbol symbolForVariable(const Variable& variable);
 

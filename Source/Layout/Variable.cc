@@ -5,5 +5,12 @@
 #include <Layout/Variable.h>
 
 namespace rl {
-namespace layout {}  // namespace layout
+namespace layout {
+
+Variable::Variable(interface::Entity* entity,
+                   interface::Entity::Property property)
+    : _entity(entity), _property(property) {
+}
+
+}  // namespace layout
 }  // namespace rl

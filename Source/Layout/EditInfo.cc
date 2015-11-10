@@ -7,8 +7,10 @@
 namespace rl {
 namespace layout {
 
-EditInfo::EditInfo(const Tag& tag, Constraint&& constraint, double constant)
-    : _tag(tag), _constraint(std::move(constraint)), _constant(constant) {
+EditInfo::EditInfo(const Tag& tag,
+                   const Constraint& constraint,
+                   double constant)
+    : _tag(tag), _constraint(constraint), _constant(constant) {
 }
 
 const Tag& EditInfo::tag() const {

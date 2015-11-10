@@ -7,10 +7,15 @@
 namespace rl {
 namespace layout {
 
+static Constraint::Identifier LastConstraintIdentifier = 0;
+
 Constraint::Constraint(const Expression& expression,
                        Relation relation,
                        double priority)
-    : _expression(expression), _relation(relation), _priority(priority) {
+    : _identifier(++LastConstraintIdentifier),
+      _expression(expression),
+      _relation(relation),
+      _priority(priority) {
 }
 
 Constraint::Relation Constraint::relation() const {

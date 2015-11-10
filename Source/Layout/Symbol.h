@@ -16,6 +16,8 @@ class Symbol {
 
   enum class Type { Invalid, External, Slack, Error, Dummy };
 
+  Symbol();
+
   Symbol(Type type);
 
   Type type() const;

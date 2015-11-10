@@ -35,8 +35,8 @@ class Result {
   bool operator!=(const Result& other) const { return _type != other._type; }
 
  private:
-  const Type _type;
-  const bool _isError;
+  Type _type;
+  bool _isError;
 };
 
 extern const Result ResultSuccess;

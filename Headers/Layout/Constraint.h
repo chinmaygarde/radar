@@ -13,6 +13,8 @@ namespace layout {
 
 class Constraint {
  public:
+  using Identifier = uint64_t;
+
   enum class Relation {
     EqualTo,
     LessThanOrEqualTo,
@@ -21,20 +23,26 @@ class Constraint {
 
   Constraint(const Expression& expression, Relation relation, double priority);
 
-  Constraint(Constraint&& constraint) = default;
-
   Relation relation() const;
 
   const Expression& expression() const;
 
   double priority() const;
 
+  struct Compare {
+    constexpr bool operator()(const Constraint& lhs,
+                              const Constraint& rhs) const {
+      return lhs._identifier < rhs._identifier;
+    }
+  };
+
  private:
+  const Identifier _identifier;
   const Relation _relation;
   const Expression _expression;
   const double _priority;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Constraint);
+  RL_DISALLOW_ASSIGN(Constraint);
 };
 
 }  // namespace layout

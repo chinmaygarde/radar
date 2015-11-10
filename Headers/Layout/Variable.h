@@ -6,13 +6,33 @@
 #define RADARLOVE_LAYOUT_VARIABLE_H_
 
 #include <Core/Core.h>
+#include <Interface/Entity.h>
+
+#include <functional>
 
 namespace rl {
 namespace layout {
 
 class Variable {
  public:
+  Variable(interface::Entity* entity, interface::Entity::Property property);
+
+  struct Hash {
+    std::size_t operator()(const Variable& v) const {
+      return std::hash<interface::Entity*>()(v._entity) ^ (v._property << 1);
+    }
+  };
+
+  struct Equal {
+    constexpr bool operator()(const Variable& lhs, const Variable& rhs) const {
+      return lhs._entity == rhs._entity && lhs._property == rhs._property;
+    }
+  };
+
  private:
+  interface::Entity* _entity;
+  interface::Entity::Property _property;
+
   RL_DISALLOW_ASSIGN(Variable);
 };
 
