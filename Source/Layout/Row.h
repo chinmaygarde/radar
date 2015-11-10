@@ -35,9 +35,9 @@ class Row {
 
   void reverseSign();
 
-  void solveForSymbol(const Symbol& symbol);
+  void solve(const Symbol& symbol);
 
-  void solveForSymbols(const Symbol& lhs, const Symbol& rhs);
+  void solve(const Symbol& lhs, const Symbol& rhs);
 
   double coefficientForSymbol(const Symbol& symbol) const;
 

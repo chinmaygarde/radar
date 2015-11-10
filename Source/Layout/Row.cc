@@ -49,7 +49,7 @@ void Row::reverseSign() {
   }
 }
 
-void Row::solveForSymbol(const Symbol& symbol) {
+void Row::solve(const Symbol& symbol) {
   RL_ASSERT(_cells.find(symbol) != _cells.end());
 
   double coefficient = -1.0 / _cells[symbol];
@@ -62,9 +62,9 @@ void Row::solveForSymbol(const Symbol& symbol) {
   }
 }
 
-void Row::solveForSymbols(const Symbol& lhs, const Symbol& rhs) {
+void Row::solve(const Symbol& lhs, const Symbol& rhs) {
   insertSymbol(lhs, -1.0);
-  solveForSymbol(rhs);
+  solve(rhs);
 }
 
 double Row::coefficientForSymbol(const Symbol& symbol) const {

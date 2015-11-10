@@ -33,7 +33,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
       return Result::Type::UnsatisfiableConstraint;
     }
   } else {
-    row->solveForSymbol(subject);
+    row->solve(subject);
     substitute(subject, *row);
     _rows[subject] = std::move(row);
   }
@@ -70,7 +70,7 @@ Result Solver::removeConstraint(const Constraint& constraint) {
     std::unique_ptr<Row> row(std::move(leavingRow->second));
     _rows.erase(leavingRow);
 
-    row->solveForSymbols(leaving, tag.marker());
+    row->solve(leaving, tag.marker());
 
     substitute(tag.marker(), *row);
   }
@@ -294,7 +294,7 @@ bool Solver::addWithArtificialVariableOnRow(const Row& row) {
       return false;
     }
 
-    foundRow->solveForSymbols(artificial, entering);
+    foundRow->solve(artificial, entering);
     substitute(entering, *foundRow);
     _rows[entering].swap(foundRow);
   }
@@ -326,7 +326,7 @@ Result Solver::optimizeObjectiveRow(const Row& objective) {
 
     _rows.erase(foundRow);
 
-    row->solveForSymbols(leaving, entering);
+    row->solve(leaving, entering);
     substitute(entering, *row);
 
     _rows[entering].swap(row);
@@ -506,7 +506,7 @@ Result Solver::dualOptimize() {
       std::unique_ptr<Row> row(std::move(foundRow->second));
       _rows.erase(foundRow);
 
-      row->solveForSymbols(leaving, entering);
+      row->solve(leaving, entering);
       substitute(entering, *row);
       _rows[entering].swap(row);
     }
