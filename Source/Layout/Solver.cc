@@ -1,7 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-#warning iterator "first" are stored in separate variables unnecessarily
+
 #include <Layout/Solver.h>
 #include <Layout/Utilities.h>
 #include <Layout/Priority.h>
@@ -164,13 +164,12 @@ std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
       continue;
     }
 
-    auto symbol = symbolForVariable(term.variable());
-    auto foundRow = _rows.find(symbol);
+    auto foundRow = _rows.find(symbolForVariable(term.variable()));
 
     if (foundRow != _rows.end()) {
       row->insertRow(*(foundRow->second), term.coefficient());
     } else {
-      row->insertSymbol(symbol, term.coefficient());
+      row->insertSymbol(foundRow->first, term.coefficient());
     }
   }
 
@@ -267,7 +266,6 @@ bool Solver::allDummiesInRow(const Row& row) const {
 
 bool Solver::addWithArtificialVariableOnRow(const Row& row) {
   auto artificial = Symbol{Symbol::Type::Slack};
-#warning check if the row emplace and artificial setup is a copy
   _rows.emplace(artificial, core::make_unique<Row>(row));
   _artificial = core::make_unique<Row>(row);
 
@@ -314,9 +312,7 @@ const Result& Solver::optimizeObjectiveRow(const Row& objective) {
       return ResultSuccess;
     }
 
-    auto leavingSymbol = leavingRowForEnteringSymbol(entering);
-
-    auto leavingPair = _rows.find(leavingSymbol);
+    auto leavingPair = _rows.find(leavingRowForEnteringSymbol(entering));
     if (leavingPair == _rows.end()) {
       return ResultInternalSolverError;
     }
