@@ -175,5 +175,36 @@ Term operator/(const Variable& variable, double m) {
   return Term{variable, 1.0 / m};
 }
 
+/*
+ *  Double
+ */
+Expression operator+(double value, const Variable& v) {
+  return {{Term{v}}, value};
+}
+
+Expression operator+(double value, const Term& t) {
+  return {{t}, value};
+}
+
+Expression operator+(double value, const Expression& e) {
+  return {e.terms(), e.constant() + value};
+}
+
+Expression operator-(double value, const Variable& v) {
+  return {{Term{v, -1.0}}, value};
+}
+
+Expression operator-(double value, const Term& t) {
+  return {{Term{t.variable(), -t.coefficient()}}, value};
+}
+
+Expression operator-(double value, const Expression& e) {
+  std::list<Term> terms;
+  for (const auto& term : e.terms()) {
+    terms.push_back(Term{term.variable(), -term.coefficient()});
+  }
+  return {std::move(terms), value - e.constant()};
+}
+
 }  // namespace layout
 }  // namespace rl
