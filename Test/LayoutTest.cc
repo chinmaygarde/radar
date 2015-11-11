@@ -54,8 +54,14 @@ TEST(LayoutTest, DoubleConstruction) {
   auto expr2 = 2.0 + v;
   auto expr3 = 3.0 + term2;
   auto expr4 = 4.0 + expr3;
+  auto term5 = -2.0 * v;
+  auto term6 = v * -2.0;
+  auto term = v / -2.0;
 
   ASSERT_EQ(expr2.terms().size(), 1);
   ASSERT_EQ(expr3.terms().size(), 1);
   ASSERT_EQ(expr4.terms().size(), 1);
+  ASSERT_EQ(term5.coefficient(), -2.0);
+  ASSERT_EQ(term6.coefficient(), -2.0);
+  ASSERT_EQ(term.coefficient(), -0.5);
 }
