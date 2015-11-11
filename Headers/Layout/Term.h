@@ -19,9 +19,6 @@ class Term {
 
   double coefficient() const;
 
-  Term operator*(double m) const;
-  Term operator/(double m) const;
-
  private:
   const Variable _variable;
   const double _coefficient;

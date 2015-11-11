@@ -125,6 +125,14 @@ Expression operator-(const Term& term, const Expression& e) {
   return {std::move(terms), -e.constant()};
 }
 
+Term operator*(const Term& term, double m) {
+  return {term.variable(), term.coefficient() * m};
+}
+
+Term operator/(const Term& term, double m) {
+  return {term.variable(), term.coefficient() / m};
+}
+
 /*
  *  Variables
  */

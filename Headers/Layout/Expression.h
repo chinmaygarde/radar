@@ -57,6 +57,9 @@ Expression operator-(const Term& term, const Variable& v);
 Expression operator-(const Term& term, const Term& t);
 Expression operator-(const Term& term, const Expression& e);
 
+Term operator*(const Term& term, double m);
+Term operator/(const Term& term, double m);
+
 /*
  *  Variables
  */
