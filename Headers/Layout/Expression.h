@@ -21,25 +21,28 @@ class Expression {
 
   double constant() const;
 
-  Expression operator+(double m) const;
-  Expression operator+(const Variable& v) const;
-  Expression operator+(const Term& t) const;
-  Expression operator+(const Expression& e) const;
-
-  Expression operator-(double m) const;
-  Expression operator-(const Variable& v) const;
-  Expression operator-(const Term& t) const;
-  Expression operator-(const Expression& e) const;
-
-  Expression operator*(double m) const;
-  Expression operator/(double m) const;
-
  private:
   const std::list<Term> _terms;
   const double _constant;
 
   RL_DISALLOW_ASSIGN(Expression);
 };
+
+/*
+ *  Expression
+ */
+Expression operator+(const Expression& expr, double m);
+Expression operator+(const Expression& expr, const Variable& v);
+Expression operator+(const Expression& expr, const Term& t);
+Expression operator+(const Expression& expr, const Expression& e);
+
+Expression operator-(const Expression& expr, double m);
+Expression operator-(const Expression& expr, const Variable& v);
+Expression operator-(const Expression& expr, const Term& t);
+Expression operator-(const Expression& expr, const Expression& e);
+
+Expression operator*(const Expression& expr, double m);
+Expression operator/(const Expression& expr, double m);
 
 /*
  *  Terms

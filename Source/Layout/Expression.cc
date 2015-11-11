@@ -19,69 +19,77 @@ double Expression::constant() const {
   return _constant;
 }
 
-Expression Expression::operator+(double m) const {
-  return {_terms, _constant + m};
+/*
+ *  Expression
+ */
+
+Expression operator+(const Expression& expr, double m) {
+  return {expr.terms(), expr.constant() + m};
 }
 
-Expression Expression::operator+(const Variable& v) const {
-  auto terms = _terms;
+Expression operator+(const Expression& expr, const Variable& v) {
+  auto terms = expr.terms();
   terms.push_back({v, 1.0});
-  return {std::move(terms), _constant};
+  return {std::move(terms), expr.constant()};
 }
 
-Expression Expression::operator+(const Term& t) const {
-  auto terms = _terms;
+Expression operator+(const Expression& expr, const Term& t) {
+  auto terms = expr.terms();
   terms.push_back(t);
-  return {std::move(terms), _constant};
+  return {std::move(terms), expr.constant()};
 }
 
-Expression Expression::operator+(const Expression& e) const {
-  auto terms = _terms;
-  for (const auto& term : e._terms) {
+Expression operator+(const Expression& expr, const Expression& e) {
+  auto terms = expr.terms();
+  for (const auto& term : e.terms()) {
     terms.push_back(term);
   }
-  return {std::move(terms), _constant + e._constant};
+  return {std::move(terms), expr.constant() + e.constant()};
 }
 
-Expression Expression::operator-(double m) const {
-  return {_terms, _constant - m};
+Expression operator-(const Expression& expr, double m) {
+  return {expr.terms(), expr.constant() - m};
 }
 
-Expression Expression::operator-(const Variable& v) const {
-  auto terms = _terms;
+Expression operator-(const Expression& expr, const Variable& v) {
+  auto terms = expr.terms();
   terms.push_back({v, -1.0});
-  return {std::move(terms), _constant};
+  return {std::move(terms), expr.constant()};
 }
 
-Expression Expression::operator-(const Term& t) const {
-  auto terms = _terms;
+Expression operator-(const Expression& expr, const Term& t) {
+  auto terms = expr.terms();
   terms.push_back({t.variable(), -t.coefficient()});
-  return {std::move(terms), _constant};
+  return {std::move(terms), expr.constant()};
 }
 
-Expression Expression::operator-(const Expression& e) const {
-  auto terms = _terms;
-  for (const auto& term : _terms) {
+Expression operator-(const Expression& expr, const Expression& e) {
+  auto terms = expr.terms();
+  for (const auto& term : e.terms()) {
     terms.push_back({term.variable(), -term.coefficient()});
   }
-  return {std::move(terms), _constant - e._constant};
+  return {std::move(terms), expr.constant() - e.constant()};
 }
 
-Expression Expression::operator*(double m) const {
+Expression operator*(const Expression& expr, double m) {
   std::list<Term> terms;
-  for (const auto& term : _terms) {
+  for (const auto& term : expr.terms()) {
     terms.push_back({term.variable(), term.coefficient() * m});
   }
-  return {std::move(terms), _constant * m};
+  return {std::move(terms), expr.constant() * m};
 }
 
-Expression Expression::operator/(double m) const {
-  return *this * (1.0 / m);
+Expression operator/(const Expression& expr, double m) {
+  return expr * (1.0 / m);
 }
 
 /*
  *  Terms
  */
+
+Expression operator+(const Term& term, double m) {
+  return {{term}, m};
+}
 
 Expression operator+(const Term& term, const Variable& v) {
   return {{term, Term{v, 1.0}}, 0.0};
