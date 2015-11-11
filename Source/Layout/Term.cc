@@ -19,5 +19,13 @@ double Term::coefficient() const {
   return _coefficient;
 }
 
+Term Term::operator*(double m) const {
+  return {_variable, _coefficient * m};
+}
+
+Term Term::operator/(double m) const {
+  return {_variable, _coefficient / m};
+}
+
 }  // namespace layout
 }  // namespace rl

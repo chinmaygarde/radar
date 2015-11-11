@@ -41,6 +41,20 @@ class Expression {
   RL_DISALLOW_ASSIGN(Expression);
 };
 
+/*
+ *  Terms
+ */
+
+Expression operator+(const Term& term, double m);
+Expression operator+(const Term& term, const Variable& v);
+Expression operator+(const Term& term, const Term& t);
+Expression operator+(const Term& term, const Expression& e);
+
+Expression operator-(const Term& term, double m);
+Expression operator-(const Term& term, const Variable& v);
+Expression operator-(const Term& term, const Term& t);
+Expression operator-(const Term& term, const Expression& e);
+
 }  // namespace layout
 }  // namespace rl
 

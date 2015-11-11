@@ -84,5 +84,43 @@ Expression Expression::operator/(double m) const {
   return *this * (1.0 / m);
 }
 
+Expression operator+(const Term& term, double m) {
+  return {{term}, m};
+}
+
+Expression operator+(const Term& term, const Variable& v) {
+  return {{term, Term{v, 1.0}}, 0.0};
+}
+
+Expression operator+(const Term& term, const Term& t) {
+  return {{term, t}, 0.0};
+}
+
+Expression operator+(const Term& term, const Expression& e) {
+  auto terms = e.terms();
+  terms.push_back(term);
+  return {std::move(terms), e.constant()};
+}
+
+Expression operator-(const Term& term, double m) {
+  return {{term}, -m};
+}
+
+Expression operator-(const Term& term, const Variable& v) {
+  return {{term, Term{v, -1.0}}, 0.0};
+}
+
+Expression operator-(const Term& term, const Term& t) {
+  return {{term, Term{t.variable(), -t.coefficient()}}, 0.0};
+}
+
+Expression operator-(const Term& term, const Expression& e) {
+  std::list<Term> terms = {term};
+  for (const auto& term : e.terms()) {
+    terms.push_back({term.variable(), -term.coefficient()});
+  }
+  return {std::move(terms), -e.constant()};
+}
+
 }  // namespace layout
 }  // namespace rl
