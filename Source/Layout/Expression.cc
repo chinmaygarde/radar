@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Layout/Expression.h>
-#include <Layout/Utilities.h>
 
 namespace rl {
 namespace layout {
@@ -69,10 +68,6 @@ Expression Expression::operator-(const Expression& e) const {
 }
 
 Expression Expression::operator*(double m) const {
-  if (NearZero(m)) {
-    return {{}, 0.0};
-  }
-
   std::list<Term> terms;
   for (const auto& term : _terms) {
     terms.push_back({term.variable(), term.coefficient() * m});
@@ -87,6 +82,10 @@ Expression Expression::operator/(double m) const {
 Expression operator+(const Term& term, double m) {
   return {{term}, m};
 }
+
+/*
+ *  Terms
+ */
 
 Expression operator+(const Term& term, const Variable& v) {
   return {{term, Term{v, 1.0}}, 0.0};
@@ -120,6 +119,56 @@ Expression operator-(const Term& term, const Expression& e) {
     terms.push_back({term.variable(), -term.coefficient()});
   }
   return {std::move(terms), -e.constant()};
+}
+
+/*
+ *  Variables
+ */
+
+Expression operator+(const Variable& variable, double m) {
+  return {{Term{variable}}, m};
+}
+
+Expression operator+(const Variable& variable, const Variable& v) {
+  return {{Term{variable}, Term{v}}, 0.0};
+}
+
+Expression operator+(const Variable& variable, const Term& t) {
+  return {{Term{variable}, t}, 0.0};
+}
+
+Expression operator+(const Variable& variable, const Expression& e) {
+  auto terms = e.terms();
+  terms.push_back(Term{variable});
+  return {std::move(terms), e.constant()};
+}
+
+Expression operator-(const Variable& variable, double m) {
+  return {{Term{variable}}, -m};
+}
+
+Expression operator-(const Variable& variable, const Variable& v) {
+  return {{Term{variable}, Term{v, -1.0}}, 0.0};
+}
+
+Expression operator-(const Variable& variable, const Term& t) {
+  return {{Term{variable}, Term{t.variable(), -t.coefficient()}}, 0.0};
+}
+
+Expression operator-(const Variable& variable, const Expression& e) {
+  std::list<Term> terms = {Term{variable}};
+  for (const auto& term : e.terms()) {
+    terms.push_back(Term{term.variable(), -term.coefficient()});
+  }
+  return {std::move(terms), -e.constant()};
+}
+
+Term operator*(const Variable& variable, double m) {
+  return Term{variable, m};
+}
+
+Term operator/(const Variable& variable, double m) {
+  return Term{variable, 1.0 / m};
 }
 
 }  // namespace layout

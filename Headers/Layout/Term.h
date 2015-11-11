@@ -13,7 +13,7 @@ namespace layout {
 
 class Term {
  public:
-  Term(const Variable& variable, double coefficient);
+  Term(const Variable& variable, double coefficient = 1.0);
 
   const Variable& variable() const;
 

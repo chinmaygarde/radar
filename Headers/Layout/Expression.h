@@ -55,6 +55,22 @@ Expression operator-(const Term& term, const Variable& v);
 Expression operator-(const Term& term, const Term& t);
 Expression operator-(const Term& term, const Expression& e);
 
+/*
+ *  Variables
+ */
+Expression operator+(const Variable& variable, double m);
+Expression operator+(const Variable& variable, const Variable& v);
+Expression operator+(const Variable& variable, const Term& t);
+Expression operator+(const Variable& variable, const Expression& e);
+
+Expression operator-(const Variable& variable, double m);
+Expression operator-(const Variable& variable, const Variable& v);
+Expression operator-(const Variable& variable, const Term& t);
+Expression operator-(const Variable& variable, const Expression& e);
+
+Term operator*(const Variable& variable, double m);
+Term operator/(const Variable& variable, double m);
+
 }  // namespace layout
 }  // namespace rl
 
