@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Layout/Expression.h>
+#include <Layout/Utilities.h>
 
 namespace rl {
 namespace layout {
@@ -17,6 +18,70 @@ const std::list<Term>& Expression::terms() const {
 
 double Expression::constant() const {
   return _constant;
+}
+
+Expression Expression::operator+(double m) const {
+  return {_terms, _constant + m};
+}
+
+Expression Expression::operator+(const Variable& v) const {
+  auto terms = _terms;
+  terms.push_back({v, 1.0});
+  return {std::move(terms), _constant};
+}
+
+Expression Expression::operator+(const Term& t) const {
+  auto terms = _terms;
+  terms.push_back(t);
+  return {std::move(terms), _constant};
+}
+
+Expression Expression::operator+(const Expression& e) const {
+  auto terms = _terms;
+  for (const auto& term : e._terms) {
+    terms.push_back(term);
+  }
+  return {std::move(terms), _constant + e._constant};
+}
+
+Expression Expression::operator-(double m) const {
+  return {_terms, _constant - m};
+}
+
+Expression Expression::operator-(const Variable& v) const {
+  auto terms = _terms;
+  terms.push_back({v, -1.0});
+  return {std::move(terms), _constant};
+}
+
+Expression Expression::operator-(const Term& t) const {
+  auto terms = _terms;
+  terms.push_back({t.variable(), -t.coefficient()});
+  return {std::move(terms), _constant};
+}
+
+Expression Expression::operator-(const Expression& e) const {
+  auto terms = _terms;
+  for (const auto& term : _terms) {
+    terms.push_back({term.variable(), -term.coefficient()});
+  }
+  return {std::move(terms), _constant - e._constant};
+}
+
+Expression Expression::operator*(double m) const {
+  if (NearZero(m)) {
+    return {{}, 0.0};
+  }
+
+  std::list<Term> terms;
+  for (const auto& term : _terms) {
+    terms.push_back({term.variable(), term.coefficient() * m});
+  }
+  return {std::move(terms), _constant * m};
+}
+
+Expression Expression::operator/(double m) const {
+  return *this * (1.0 / m);
 }
 
 }  // namespace layout

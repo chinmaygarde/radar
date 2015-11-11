@@ -21,6 +21,19 @@ class Expression {
 
   double constant() const;
 
+  Expression operator+(double m) const;
+  Expression operator+(const Variable& v) const;
+  Expression operator+(const Term& t) const;
+  Expression operator+(const Expression& e) const;
+
+  Expression operator-(double m) const;
+  Expression operator-(const Variable& v) const;
+  Expression operator-(const Term& t) const;
+  Expression operator-(const Expression& e) const;
+
+  Expression operator*(double m) const;
+  Expression operator/(double m) const;
+
  private:
   const std::list<Term> _terms;
   const double _constant;
