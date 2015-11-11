@@ -8,14 +8,14 @@
 #include <Core/Core.h>
 #include <Layout/Term.h>
 
-#include <list>
+#include <vector>
 
 namespace rl {
 namespace layout {
 
 class Expression {
  public:
-  using Terms = std::list<Term>;
+  using Terms = std::vector<Term>;
   Expression(const Terms& terms, double constant);
 
   const Terms& terms() const;
