@@ -79,10 +79,6 @@ Expression Expression::operator/(double m) const {
   return *this * (1.0 / m);
 }
 
-Expression operator+(const Term& term, double m) {
-  return {{term}, m};
-}
-
 /*
  *  Terms
  */
