@@ -87,6 +87,10 @@ Expression operator-(double value, const Variable& v);
 Expression operator-(double value, const Term& t);
 Expression operator-(double value, const Expression& e);
 
+Term operator*(double value, const Variable& v);
+Term operator*(double value, const Term& t);
+Expression operator*(double value, const Expression& e);
+
 }  // namespace layout
 }  // namespace rl
 
