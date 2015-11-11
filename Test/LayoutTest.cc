@@ -65,3 +65,40 @@ TEST(LayoutTest, DoubleConstruction) {
   ASSERT_EQ(term6.coefficient(), -2.0);
   ASSERT_EQ(term.coefficient(), -0.5);
 }
+
+TEST(LayoutTest, ComplexOperationOverload) {
+  rl::layout::Variable v1(nullptr, rl::interface::Entity::Property::Position);
+  rl::layout::Variable v2(nullptr, rl::interface::Entity::Property::Bounds);
+  rl::layout::Variable v3(nullptr,
+                          rl::interface::Entity::Property::BackgroundColor);
+  rl::layout::Variable v4(nullptr, rl::interface::Entity::Property::AddedTo);
+  rl::layout::Variable v5(nullptr,
+                          rl::interface::Entity::Property::RemovedFrom);
+  rl::layout::Variable v6(nullptr,
+                          rl::interface::Entity::Property::AnchorPoint);
+
+  auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
+  ASSERT_EQ(expr.constant(), -300.0);
+  ASSERT_EQ(expr.terms().size(), 3);
+  ASSERT_EQ((expr.terms()[0]).coefficient(), 2.0);
+  ASSERT_EQ((expr.terms()[1]).coefficient(), 2.0);
+  ASSERT_EQ((expr.terms()[2]).coefficient(), 3.0);
+
+  auto expr2 = (3.0 * v4) - (v5 / 0.25) + (v6 * -6.0) + 10.0;
+  ASSERT_EQ(expr2.constant(), 10);
+  ASSERT_EQ(expr2.terms().size(), 3);
+  ASSERT_EQ((expr2.terms()[0]).coefficient(), 3.0);
+  ASSERT_EQ((expr2.terms()[1]).coefficient(), -4.0);
+  ASSERT_EQ((expr2.terms()[2]).coefficient(), -6.0);
+
+  auto expr3 = (3.0 * v4) - 3.0 * ((v5 / 0.25) + (v6 * -6.0) - 10.0);
+  ASSERT_EQ(expr3.constant(), 30.0);
+  ASSERT_EQ(expr3.terms().size(), 3);
+  ASSERT_EQ((expr3.terms()[0]).coefficient(), 3.0);
+  ASSERT_EQ((expr3.terms()[1]).coefficient(), -12.0);
+  ASSERT_EQ((expr3.terms()[2]).coefficient(), 18.0);
+
+  auto expr4 = expr - 2 * expr3;
+  ASSERT_EQ(expr4.constant(), -360.0);
+  ASSERT_EQ(expr4.terms().size(), 6);
+}
