@@ -15,14 +15,15 @@ namespace layout {
 
 class Expression {
  public:
-  Expression(const std::list<Term>& terms, double constant);
+  using Terms = std::list<Term>;
+  Expression(const Terms& terms, double constant);
 
-  const std::list<Term>& terms() const;
+  const Terms& terms() const;
 
   double constant() const;
 
  private:
-  const std::list<Term> _terms;
+  const Terms _terms;
   const double _constant;
 
   RL_DISALLOW_ASSIGN(Expression);

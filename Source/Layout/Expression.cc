@@ -7,11 +7,11 @@
 namespace rl {
 namespace layout {
 
-Expression::Expression(const std::list<Term>& terms, double constant)
+Expression::Expression(const Terms& terms, double constant)
     : _terms(terms), _constant(constant) {
 }
 
-const std::list<Term>& Expression::terms() const {
+const Expression::Terms& Expression::terms() const {
   return _terms;
 }
 
@@ -72,7 +72,7 @@ Expression operator-(const Expression& expr, const Expression& e) {
 }
 
 Expression operator*(const Expression& expr, double m) {
-  std::list<Term> terms;
+  Expression::Terms terms;
   for (const auto& term : expr.terms()) {
     terms.push_back({term.variable(), term.coefficient() * m});
   }
@@ -118,7 +118,7 @@ Expression operator-(const Term& term, const Term& t) {
 }
 
 Expression operator-(const Term& term, const Expression& e) {
-  std::list<Term> terms = {term};
+  Expression::Terms terms = {term};
   for (const auto& term : e.terms()) {
     terms.push_back({term.variable(), -term.coefficient()});
   }
@@ -168,7 +168,7 @@ Expression operator-(const Variable& variable, const Term& t) {
 }
 
 Expression operator-(const Variable& variable, const Expression& e) {
-  std::list<Term> terms = {Term{variable}};
+  Expression::Terms terms = {Term{variable}};
   for (const auto& term : e.terms()) {
     terms.push_back(Term{term.variable(), -term.coefficient()});
   }
@@ -207,7 +207,7 @@ Expression operator-(double value, const Term& t) {
 }
 
 Expression operator-(double value, const Expression& e) {
-  std::list<Term> terms;
+  Expression::Terms terms;
   for (const auto& term : e.terms()) {
     terms.push_back(Term{term.variable(), -term.coefficient()});
   }
@@ -223,7 +223,7 @@ Term operator*(double value, const Term& t) {
 }
 
 Expression operator*(double value, const Expression& e) {
-  std::list<Term> terms;
+  Expression::Terms terms;
   for (const auto& term : e.terms()) {
     terms.push_back(Term{term.variable(), term.coefficient() * value});
   }
