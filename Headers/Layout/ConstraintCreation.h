@@ -11,18 +11,32 @@ namespace rl {
 namespace layout {
 
 // clang-format off
+
+/**
+ *  Determines if the type can be hoisted to a member that can take part in
+ *  expression construction
+ */
 template <class T>
 struct HoistableMember : public std::integral_constant<
     bool,
+    /* The member is either a variable, term or an expression itself */
     std::is_base_of<ExpressionMember, T>::value ||
+    /* The member is is a number */
     std::is_arithmetic<T>::value> {
 };
 
+/**
+ *  Determines if the pair of types should take part in operations that return
+ *  an expression
+ */
 template <class A, class B>
 struct Hoistable : public std::integral_constant<
     bool,
-    HoistableMember<A>::value ||
-    HoistableMember<B>::value> {
+    /* The pair members are hoistable */
+    HoistableMember<A>::value &&
+    HoistableMember<B>::value &&
+    /* Both are not numbers */
+    !(std::is_arithmetic<A>::value && std::is_arithmetic<B>::value)> {
 };
 // clang-format on
 
@@ -74,6 +88,22 @@ Expression operator/(const A& a, double m) {
     terms.push_back(Term{term.variable(), term.coefficient() / m});
   }
   return Expression{std::move(terms), expr.constant() / m};
+}
+
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Constraint operator==(const A& a, const B& b) {
+  return {a - b, Constraint::Relation::EqualTo, priority::Required};
+}
+
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Constraint operator>=(const A& a, const B& b) {
+  return {
+      a - b, Constraint::Relation::GreaterThanOrEqualTo, priority::Required};
+}
+
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Constraint operator<=(const A& a, const B& b) {
+  return {a - b, Constraint::Relation::LessThanOrEqualTo, priority::Required};
 }
 
 }  // namespace layout

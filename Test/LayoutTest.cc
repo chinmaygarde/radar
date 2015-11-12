@@ -105,3 +105,24 @@ TEST(LayoutTest, ComplexOperationOverload) {
   ASSERT_EQ(expr4.constant(), -360.0);
   ASSERT_EQ(expr4.terms().size(), 6);
 }
+
+TEST(LayoutTest, SimpleConstraintCreation) {
+  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds);
+
+  rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
+  ASSERT_EQ(constraint.expression().terms().size(), 1);
+  ASSERT_EQ(constraint.expression().constant(), 35);
+  ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
+
+  rl::layout::Constraint constraint2 = 2.0 * v + v * 2.5 >= 400;
+  ASSERT_EQ(constraint2.expression().terms().size(), 2);
+  ASSERT_EQ(constraint2.expression().constant(), -400);
+  ASSERT_EQ(constraint2.relation(),
+            rl::layout::Constraint::Relation::GreaterThanOrEqualTo);
+
+  rl::layout::Constraint constraint3 = 2.0 * v + v * 2.5 <= -400;
+  ASSERT_EQ(constraint3.expression().terms().size(), 2);
+  ASSERT_EQ(constraint3.expression().constant(), 400);
+  ASSERT_EQ(constraint3.relation(),
+            rl::layout::Constraint::Relation::LessThanOrEqualTo);
+}
