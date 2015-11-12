@@ -106,6 +106,10 @@ Constraint operator<=(const A& a, const B& b) {
   return {a - b, Constraint::Relation::LessThanOrEqualTo, priority::Required};
 }
 
+inline Constraint operator|(const Constraint& constraint, double priority) {
+  return {constraint.expression(), constraint.relation(), priority};
+}
+
 }  // namespace layout
 }  // namespace rl
 

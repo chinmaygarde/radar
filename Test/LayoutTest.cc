@@ -106,23 +106,45 @@ TEST(LayoutTest, ComplexOperationOverload) {
   ASSERT_EQ(expr4.terms().size(), 6);
 }
 
-TEST(LayoutTest, SimpleConstraintCreation) {
+TEST(LayoutTest, ConstraintCreation) {
   rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds);
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
   ASSERT_EQ(constraint.expression().constant(), 35);
   ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
+  ASSERT_EQ(constraint.priority(), rl::layout::priority::Required);
 
   rl::layout::Constraint constraint2 = 2.0 * v + v * 2.5 >= 400;
   ASSERT_EQ(constraint2.expression().terms().size(), 2);
   ASSERT_EQ(constraint2.expression().constant(), -400);
   ASSERT_EQ(constraint2.relation(),
             rl::layout::Constraint::Relation::GreaterThanOrEqualTo);
+  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Required);
 
   rl::layout::Constraint constraint3 = 2.0 * v + v * 2.5 <= -400;
   ASSERT_EQ(constraint3.expression().terms().size(), 2);
   ASSERT_EQ(constraint3.expression().constant(), 400);
   ASSERT_EQ(constraint3.relation(),
             rl::layout::Constraint::Relation::LessThanOrEqualTo);
+  ASSERT_EQ(constraint3.priority(), rl::layout::priority::Required);
+
+  rl::layout::Constraint constraint4 =
+      2.0 * v + v * 2.5 == 2 * (-400 + 5.0 * v);
+  ASSERT_EQ(constraint4.expression().terms().size(), 3);
+  ASSERT_EQ(constraint4.expression().constant(), 800);
+  ASSERT_EQ(constraint4.relation(), rl::layout::Constraint::Relation::EqualTo);
+  ASSERT_EQ(constraint4.priority(), rl::layout::priority::Required);
+  ASSERT_EQ(constraint4.expression().terms()[2].coefficient(), -10);
+}
+
+TEST(LayoutTest, ConstraintCreationAtPriority) {
+  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds);
+
+  rl::layout::Constraint constraint =
+      2.0 * v + 35 == 0 | rl::layout::priority::Strong;
+  ASSERT_EQ(constraint.expression().terms().size(), 1);
+  ASSERT_EQ(constraint.expression().constant(), 35);
+  ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
+  ASSERT_EQ(constraint.priority(), rl::layout::priority::Strong);
 }
