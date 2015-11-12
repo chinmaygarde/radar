@@ -200,6 +200,7 @@
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
 		9EEA38CC1BF53FC60074AC56 /* ExpressionMember.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */; };
 		9EEA38D61BF53FD40074AC56 /* ExpressionMember.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EEA38D51BF53FD40074AC56 /* ExpressionMember.cc */; };
+		9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EEA38D71BF556160074AC56 /* ConstraintCreation.h */; };
 		EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */; };
 		EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */; };
 		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
@@ -504,6 +505,7 @@
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
 		9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionMember.h; sourceTree = "<group>"; };
 		9EEA38D51BF53FD40074AC56 /* ExpressionMember.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionMember.cc; sourceTree = "<group>"; };
+		9EEA38D71BF556160074AC56 /* ConstraintCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstraintCreation.h; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_KQueue.cc; sourceTree = "<group>"; };
 		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_EPoll.cc; sourceTree = "<group>"; };
 		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */,
+				9EEA38D71BF556160074AC56 /* ConstraintCreation.h */,
 				9E16A6D51BE2E9BC00FFEDFC /* Expression.h */,
 				9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */,
 				9E16A6D61BE2E9BC00FFEDFC /* Priority.h */,
@@ -1111,6 +1114,7 @@
 				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
+				9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */,
 				9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */,
 				9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */,
 				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,

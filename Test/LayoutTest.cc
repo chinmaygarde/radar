@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <Layout/Constraint.h>
-#include <Layout/Expression.h>
+#include <Layout/ConstraintCreation.h>
 
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
   rl::layout::Expression expr({}, 1.0);
