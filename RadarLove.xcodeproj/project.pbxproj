@@ -198,6 +198,8 @@
 		9EBA79DD1B87FF57005D84FA /* stb_rect_pack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */; };
 		9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D41B87FF57005D84FA /* stb_textedit.h */; };
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
+		9EEA38CC1BF53FC60074AC56 /* ExpressionMember.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */; };
+		9EEA38D61BF53FD40074AC56 /* ExpressionMember.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EEA38D51BF53FD40074AC56 /* ExpressionMember.cc */; };
 		EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */; };
 		EA6090D71BA41E8C00C2E263 /* EventLoopSource_EPoll.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */; };
 		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
@@ -500,6 +502,8 @@
 		9EBA79D31B87FF57005D84FA /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = ThirdParty/imgui/stb_rect_pack.h; sourceTree = "<group>"; };
 		9EBA79D41B87FF57005D84FA /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = ThirdParty/imgui/stb_textedit.h; sourceTree = "<group>"; };
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
+		9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionMember.h; sourceTree = "<group>"; };
+		9EEA38D51BF53FD40074AC56 /* ExpressionMember.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionMember.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* EventLoopSource_KQueue.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_KQueue.cc; sourceTree = "<group>"; };
 		EA6090CF1BA41E8C00C2E263 /* EventLoopSource_EPoll.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopSource_EPoll.cc; sourceTree = "<group>"; };
 		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
@@ -557,6 +561,7 @@
 			children = (
 				9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */,
 				9E16A6D51BE2E9BC00FFEDFC /* Expression.h */,
+				9EEA38CB1BF53FC60074AC56 /* ExpressionMember.h */,
 				9E16A6D61BE2E9BC00FFEDFC /* Priority.h */,
 				EA7D30F31BE7271E0038BF5A /* Result.h */,
 				9E16A6D71BE2E9BC00FFEDFC /* Solver.h */,
@@ -573,6 +578,7 @@
 				9E16A6EA1BE2E9D700FFEDFC /* EditInfo.cc */,
 				9E16A6EB1BE2E9D700FFEDFC /* EditInfo.h */,
 				9E16A6EC1BE2E9D700FFEDFC /* Expression.cc */,
+				9EEA38D51BF53FD40074AC56 /* ExpressionMember.cc */,
 				9E16A6ED1BE2E9D700FFEDFC /* Priority.cc */,
 				EA7D30F51BE7273C0038BF5A /* Result.cc */,
 				9E16A6EE1BE2E9D700FFEDFC /* Row.cc */,
@@ -1144,6 +1150,7 @@
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
 				9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */,
+				9EEA38CC1BF53FC60074AC56 /* ExpressionMember.h in Headers */,
 				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
 				9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
@@ -1324,6 +1331,7 @@
 				9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */,
 				9E8656221BE45E3A00997766 /* ProgramCatalog.cc in Sources */,
 				9E8656161BE45E3A00997766 /* Channel.cc in Sources */,
+				9EEA38D61BF53FD40074AC56 /* ExpressionMember.cc in Sources */,
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
 				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,

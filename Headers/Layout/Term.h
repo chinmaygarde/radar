@@ -7,11 +7,12 @@
 
 #include <Core/Core.h>
 #include <Layout/Variable.h>
+#include <Layout/ExpressionMember.h>
 
 namespace rl {
 namespace layout {
 
-class Term {
+class Term : public ExpressionMember {
  public:
   Term(const Variable& variable, double coefficient = 1.0);
 

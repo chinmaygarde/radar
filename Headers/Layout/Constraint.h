@@ -7,6 +7,7 @@
 
 #include <Core/Core.h>
 #include <Layout/Expression.h>
+#include <Layout/Priority.h>
 
 namespace rl {
 namespace layout {

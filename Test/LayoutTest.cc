@@ -61,9 +61,12 @@ TEST(LayoutTest, DoubleConstruction) {
   ASSERT_EQ(expr2.terms().size(), 1);
   ASSERT_EQ(expr3.terms().size(), 1);
   ASSERT_EQ(expr4.terms().size(), 1);
-  ASSERT_EQ(term5.coefficient(), -2.0);
-  ASSERT_EQ(term6.coefficient(), -2.0);
-  ASSERT_EQ(term.coefficient(), -0.5);
+  ASSERT_EQ(term5.terms().size(), 1);
+  ASSERT_EQ(term5.terms()[0].coefficient(), -2.0);
+  ASSERT_EQ(term6.terms().size(), 1);
+  ASSERT_EQ(term6.terms()[0].coefficient(), -2.0);
+  ASSERT_EQ(term.terms().size(), 1);
+  ASSERT_EQ(term.terms()[0].coefficient(), -0.5);
 }
 
 TEST(LayoutTest, ComplexOperationOverload) {

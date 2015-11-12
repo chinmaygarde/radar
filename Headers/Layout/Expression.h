@@ -7,16 +7,24 @@
 
 #include <Core/Core.h>
 #include <Layout/Term.h>
+#include <Layout/ExpressionMember.h>
 
 #include <vector>
 
 namespace rl {
 namespace layout {
 
-class Expression {
+class Expression : public ExpressionMember {
  public:
   using Terms = std::vector<Term>;
+
   Expression(const Terms& terms, double constant);
+
+  Expression(const Term& term);
+
+  Expression(const Variable& variable);
+
+  Expression(double constant);
 
   const Terms& terms() const;
 
@@ -29,68 +37,69 @@ class Expression {
   RL_DISALLOW_ASSIGN(Expression);
 };
 
-/*
- *  Expression
- */
-Expression operator+(const Expression& expr, double m);
-Expression operator+(const Expression& expr, const Variable& v);
-Expression operator+(const Expression& expr, const Term& t);
-Expression operator+(const Expression& expr, const Expression& e);
+// clang-format off
+template <class T>
+struct HoistableMember : public std::integral_constant<
+    bool,
+    std::is_base_of<ExpressionMember, T>::value ||
+    std::is_arithmetic<T>::value> {};
 
-Expression operator-(const Expression& expr, double m);
-Expression operator-(const Expression& expr, const Variable& v);
-Expression operator-(const Expression& expr, const Term& t);
-Expression operator-(const Expression& expr, const Expression& e);
+template <class A, class B>
+struct Hoistable : public std::integral_constant<
+    bool,
+    HoistableMember<A>::value ||
+    HoistableMember<B>::value> {};
+// clang-format on
 
-Expression operator*(const Expression& expr, double m);
-Expression operator/(const Expression& expr, double m);
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Expression operator+(const A& a, const B& b) {
+  Expression exprA(a);
+  Expression exprB(b);
+  auto terms = exprA.terms();
+  for (const auto& term : exprB.terms()) {
+    terms.push_back(term);
+  }
+  return Expression{std::move(terms), exprA.constant() + exprB.constant()};
+}
 
-/*
- *  Terms
- */
-Expression operator+(const Term& term, double m);
-Expression operator+(const Term& term, const Variable& v);
-Expression operator+(const Term& term, const Term& t);
-Expression operator+(const Term& term, const Expression& e);
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Expression operator-(const A& a, const B& b) {
+  Expression exprA(a);
+  Expression exprB(b);
+  auto terms = exprA.terms();
+  for (const auto& term : exprB.terms()) {
+    terms.push_back(Term{term.variable(), -term.coefficient()});
+  }
+  return Expression{std::move(terms), exprA.constant() - exprB.constant()};
+}
 
-Expression operator-(const Term& term, double m);
-Expression operator-(const Term& term, const Variable& v);
-Expression operator-(const Term& term, const Term& t);
-Expression operator-(const Term& term, const Expression& e);
+template <class A,
+          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+Expression operator*(const A& a, double m) {
+  Expression expr(a);
+  Expression::Terms terms;
+  for (const auto& term : expr.terms()) {
+    terms.push_back(Term{term.variable(), term.coefficient() * m});
+  }
+  return Expression{std::move(terms), expr.constant() * m};
+}
 
-Term operator*(const Term& term, double m);
-Term operator/(const Term& term, double m);
+template <class A,
+          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+Expression operator*(double m, const A& a) {
+  return a * m;
+}
 
-/*
- *  Variables
- */
-Expression operator+(const Variable& variable, double m);
-Expression operator+(const Variable& variable, const Variable& v);
-Expression operator+(const Variable& variable, const Term& t);
-Expression operator+(const Variable& variable, const Expression& e);
-
-Expression operator-(const Variable& variable, double m);
-Expression operator-(const Variable& variable, const Variable& v);
-Expression operator-(const Variable& variable, const Term& t);
-Expression operator-(const Variable& variable, const Expression& e);
-
-Term operator*(const Variable& variable, double m);
-Term operator/(const Variable& variable, double m);
-
-/*
- *  Double
- */
-Expression operator+(double value, const Variable& v);
-Expression operator+(double value, const Term& t);
-Expression operator+(double value, const Expression& e);
-
-Expression operator-(double value, const Variable& v);
-Expression operator-(double value, const Term& t);
-Expression operator-(double value, const Expression& e);
-
-Term operator*(double value, const Variable& v);
-Term operator*(double value, const Term& t);
-Expression operator*(double value, const Expression& e);
+template <class A,
+          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+Expression operator/(const A& a, double m) {
+  Expression expr(a);
+  Expression::Terms terms;
+  for (const auto& term : expr.terms()) {
+    terms.push_back(Term{term.variable(), term.coefficient() / m});
+  }
+  return Expression{std::move(terms), expr.constant() / m};
+}
 
 }  // namespace layout
 }  // namespace rl
