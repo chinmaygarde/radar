@@ -147,4 +147,11 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
   ASSERT_EQ(constraint.expression().constant(), 35);
   ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
   ASSERT_EQ(constraint.priority(), rl::layout::priority::Strong);
+
+  rl::layout::Constraint constraint2 =
+      rl::layout::priority::Strong | 2.0 * v + 35 == 0;
+  ASSERT_EQ(constraint2.expression().terms().size(), 1);
+  ASSERT_EQ(constraint2.expression().constant(), 35);
+  ASSERT_EQ(constraint2.relation(), rl::layout::Constraint::Relation::EqualTo);
+  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Strong);
 }

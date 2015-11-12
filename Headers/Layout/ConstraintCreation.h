@@ -110,6 +110,10 @@ inline Constraint operator|(const Constraint& constraint, double priority) {
   return {constraint.expression(), constraint.relation(), priority};
 }
 
+inline Constraint operator|(double priority, const Constraint& constraint) {
+  return {constraint.expression(), constraint.relation(), priority};
+}
+
 }  // namespace layout
 }  // namespace rl
 
