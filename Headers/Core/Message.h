@@ -70,7 +70,7 @@ class Message {
    *  @return if the encode operation was successful
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  bool encode(T value) {
+  bool encode(const T& value) {
     if (auto buffer = encodeRawUnsafe(sizeof(T))) {
       memcpy(buffer, &value, sizeof(T));
       return true;
