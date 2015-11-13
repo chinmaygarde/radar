@@ -13,14 +13,25 @@ namespace layout {
 // clang-format off
 
 /**
- *  Determines if the type can be hoisted to a member that can take part in
- *  expression construction
+ *  Determines if this type is already an expression member
+ */
+template <class T>
+struct ExpressionMember : public std::integral_constant<
+    bool,
+    std::is_base_of<Variable, T>::value ||
+    std::is_base_of<Term, T>::value     ||
+    std::is_base_of<Expression, T>::value> {
+};
+
+/**
+ *  Determines if the member can be hoisted to a type that can take part in
+ *  expression construction for constraints
  */
 template <class T>
 struct HoistableMember : public std::integral_constant<
     bool,
     /* The member is either a variable, term or an expression itself */
-    std::is_base_of<ExpressionMember, T>::value ||
+    ExpressionMember<T>::value ||
     /* The member is is a number */
     std::is_arithmetic<T>::value> {
 };
@@ -62,8 +73,7 @@ Expression operator-(const A& a, const B& b) {
   return Expression{std::move(terms), exprA.constant() - exprB.constant()};
 }
 
-template <class A,
-          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
 Expression operator*(const A& a, double m) {
   Expression expr(a);
   Expression::Terms terms;
@@ -73,14 +83,12 @@ Expression operator*(const A& a, double m) {
   return Expression{std::move(terms), expr.constant() * m};
 }
 
-template <class A,
-          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
 Expression operator*(double m, const A& a) {
   return a * m;
 }
 
-template <class A,
-          class = core::only_if<(std::is_base_of<ExpressionMember, A>::value)>>
+template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
 Expression operator/(const A& a, double m) {
   Expression expr(a);
   Expression::Terms terms;
@@ -111,7 +119,7 @@ inline Constraint operator|(const Constraint& constraint, double priority) {
 }
 
 inline Constraint operator|(double priority, const Constraint& constraint) {
-  return {constraint.expression(), constraint.relation(), priority};
+  return constraint | priority;
 }
 
 }  // namespace layout

@@ -7,12 +7,11 @@
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
-#include <Layout/ExpressionMember.h>
 
 namespace rl {
 namespace layout {
 
-class Variable : public ExpressionMember {
+class Variable {
  public:
   Variable(interface::Entity* entity, interface::Entity::Property property);
 

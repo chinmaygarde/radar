@@ -7,14 +7,13 @@
 
 #include <Core/Core.h>
 #include <Layout/Term.h>
-#include <Layout/ExpressionMember.h>
 
 #include <vector>
 
 namespace rl {
 namespace layout {
 
-class Expression : public ExpressionMember {
+class Expression {
  public:
   using Terms = std::vector<Term>;
 
