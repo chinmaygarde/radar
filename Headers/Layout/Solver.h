@@ -88,7 +88,7 @@ class Solver {
 
   void substitute(const Symbol& symbol, const Row& row);
 
-  Symbol anyPivotableSymbol(const Row& row) const;
+  Symbol pivotableSymbol(const Row& row) const;
 
   void removeConstraintEffects(const Constraint& constraint, const Tag& tag);
 

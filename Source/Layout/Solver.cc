@@ -302,7 +302,7 @@ bool Solver::addWithArtificialVariableOnRow(const Row& row) {
       return success;
     }
 
-    const auto& entering = anyPivotableSymbol(*foundRow);
+    const auto& entering = pivotableSymbol(*foundRow);
     if (entering.type() == Symbol::Type::Invalid) {
       return false;
     }
@@ -392,7 +392,7 @@ void Solver::substitute(const Symbol& symbol, const Row& row) {
   }
 }
 
-Symbol Solver::anyPivotableSymbol(const Row& row) const {
+Symbol Solver::pivotableSymbol(const Row& row) const {
   for (const auto& symbol : row.cells()) {
     switch (symbol.first.type()) {
       case Symbol::Type::Slack:
