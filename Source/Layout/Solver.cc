@@ -9,7 +9,9 @@
 namespace rl {
 namespace layout {
 
-Solver::Solver() {
+Solver::Solver()
+    : _objective(core::make_unique<Row>(0.0)),
+      _artificial(core::make_unique<Row>(0.0)) {
 }
 
 Solver::~Solver() {
