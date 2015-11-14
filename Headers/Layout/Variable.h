@@ -11,11 +11,17 @@
 namespace rl {
 namespace layout {
 
-class Variable {
+class Variable : public core::Serializable {
  public:
+  Variable();
+
   Variable(interface::Entity* entity, interface::Entity::Property property);
 
   bool applyUpdate(double value) const;
+
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {

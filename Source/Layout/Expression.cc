@@ -7,6 +7,9 @@
 namespace rl {
 namespace layout {
 
+Expression::Expression() : _constant(0.0) {
+}
+
 Expression::Expression(const Terms& terms, double constant)
     : _terms(terms), _constant(constant) {
 }
@@ -27,6 +30,20 @@ const Expression::Terms& Expression::terms() const {
 
 double Expression::constant() const {
   return _constant;
+}
+
+bool Expression::serialize(core::Message& message) const {
+  auto success = true;
+  success &= message.encode(_terms);
+  success &= message.encode(_constant);
+  return success;
+}
+
+bool Expression::deserialize(core::Message& message) {
+  auto success = true;
+  success &= message.decode(_terms);
+  success &= message.decode(_constant);
+  return success;
 }
 
 }  // namespace layout

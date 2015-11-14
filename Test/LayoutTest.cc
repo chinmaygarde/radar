@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <gtest/gtest.h>
+#include <Core/Core.h>
 #include <Layout/Constraint.h>
 #include <Layout/ConstraintCreation.h>
 
@@ -154,4 +155,27 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
   ASSERT_EQ(constraint2.expression().constant(), 35);
   ASSERT_EQ(constraint2.relation(), rl::layout::Constraint::Relation::EqualTo);
   ASSERT_EQ(constraint2.priority(), rl::layout::priority::Strong);
+}
+
+TEST(LayoutTest, SerializeDeserializeConstraint) {
+  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds);
+  auto constraint =
+      2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
+
+  rl::core::Message message;
+  ASSERT_EQ(message.encode(constraint), true);
+  ASSERT_NE(message.size(), 0);
+
+  auto sizeWritten = message.size();
+  message.rewindRead();
+
+  rl::layout::Constraint decoded;
+  ASSERT_EQ(message.decode(decoded), true);
+  ASSERT_EQ(message.sizeRead(), sizeWritten);
+
+  ASSERT_EQ(decoded.expression().terms().size(), 3);
+  ASSERT_EQ(decoded.priority(), rl::layout::priority::Strong);
+  ASSERT_EQ(decoded.relation(),
+            rl::layout::Constraint::Relation::LessThanOrEqualTo);
+  ASSERT_EQ(decoded.expression().terms()[2].coefficient(), -10.0);
 }

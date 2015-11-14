@@ -11,17 +11,23 @@
 namespace rl {
 namespace layout {
 
-class Term {
+class Term : public core::Serializable {
  public:
+  Term();
+
   Term(const Variable& variable, double coefficient = 1.0);
 
   const Variable& variable() const;
 
   double coefficient() const;
 
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
+
  private:
-  const Variable _variable;
-  const double _coefficient;
+  Variable _variable;
+  double _coefficient;
 
   RL_DISALLOW_ASSIGN(Term);
 };

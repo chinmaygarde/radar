@@ -12,15 +12,17 @@
 namespace rl {
 namespace layout {
 
-class Constraint {
+class Constraint : public core::Serializable {
  public:
   using Identifier = uint64_t;
 
-  enum class Relation {
+  enum Relation {
     EqualTo,
     LessThanOrEqualTo,
     GreaterThanOrEqualTo,
   };
+
+  Constraint();
 
   Constraint(const Expression& expression, Relation relation, double priority);
 
@@ -32,6 +34,10 @@ class Constraint {
 
   double priority() const;
 
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
+
   struct Compare {
     constexpr bool operator()(const Constraint& lhs,
                               const Constraint& rhs) const {
@@ -40,10 +46,10 @@ class Constraint {
   };
 
  private:
-  const Identifier _identifier;
-  const Relation _relation;
-  const Expression _expression;
-  const double _priority;
+  Identifier _identifier;
+  Relation _relation;
+  Expression _expression;
+  double _priority;
 
   RL_DISALLOW_ASSIGN(Constraint);
 };

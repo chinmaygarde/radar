@@ -13,9 +13,11 @@
 namespace rl {
 namespace layout {
 
-class Expression {
+class Expression : public core::Serializable {
  public:
   using Terms = std::vector<Term>;
+
+  Expression();
 
   Expression(const Terms& terms, double constant);
 
@@ -29,9 +31,13 @@ class Expression {
 
   double constant() const;
 
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
+
  private:
-  const Terms _terms;
-  const double _constant;
+  Terms _terms;
+  double _constant;
 
   RL_DISALLOW_ASSIGN(Expression);
 };

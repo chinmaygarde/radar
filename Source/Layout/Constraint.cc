@@ -9,6 +9,10 @@ namespace layout {
 
 static Constraint::Identifier LastConstraintIdentifier = 0;
 
+Constraint::Constraint()
+    : _identifier(0), _relation(Relation::EqualTo), _priority(priority::Weak) {
+}
+
 Constraint::Constraint(const Expression& expression,
                        Relation relation,
                        double priority)
@@ -35,6 +39,24 @@ const Expression& Constraint::expression() const {
 
 double Constraint::priority() const {
   return _priority;
+}
+
+bool Constraint::serialize(core::Message& message) const {
+  auto success = true;
+  success &= message.encode(_identifier);
+  success &= message.encode(_expression);
+  success &= message.encode(_relation);
+  success &= message.encode(_priority);
+  return success;
+}
+
+bool Constraint::deserialize(core::Message& message) {
+  auto success = true;
+  success &= message.decode(_identifier);
+  success &= message.decode(_expression);
+  success &= message.decode(_relation);
+  success &= message.decode(_priority);
+  return success;
 }
 
 }  // namespace layout

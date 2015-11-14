@@ -7,6 +7,9 @@
 namespace rl {
 namespace layout {
 
+Term::Term() : _coefficient(1.0) {
+}
+
 Term::Term(const Variable& variable, double coefficient)
     : _variable(variable), _coefficient(coefficient) {
 }
@@ -17,6 +20,20 @@ const Variable& Term::variable() const {
 
 double Term::coefficient() const {
   return _coefficient;
+}
+
+bool Term::serialize(core::Message& message) const {
+  auto success = true;
+  success &= message.encode(_variable);
+  success &= message.encode(_coefficient);
+  return success;
+}
+
+bool Term::deserialize(core::Message& message) {
+  auto success = true;
+  success &= message.decode(_variable);
+  success &= message.decode(_coefficient);
+  return success;
 }
 
 }  // namespace layout
