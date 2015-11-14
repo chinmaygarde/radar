@@ -15,7 +15,7 @@ void TouchEventChannel::sendTouchEvents(
   core::Messages messages;
   for (const auto& touch : touchEvents) {
     core::Message m(sizeof(TouchEvent));
-    touch.serialize(m);
+    m.encode(touch);
     messages.emplace_back(std::move(m));
   }
   bool result = sendMessages(std::move(messages));

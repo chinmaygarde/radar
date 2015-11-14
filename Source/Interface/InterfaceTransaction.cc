@@ -33,7 +33,7 @@ void InterfaceTransaction::mark(recognition::GestureRecognizer&& recognizer) {
 bool InterfaceTransaction::commit(core::Message& arena) {
   coordinator::TransactionPayload payload(
       std::move(_action), std::move(_entities), std::move(_recognizers));
-  return payload.serialize(arena);
+  return arena.encode(payload);
 }
 
 }  // namespace interface

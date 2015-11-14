@@ -115,6 +115,10 @@ bool Message::resizeBuffer(size_t size) {
   return success;
 }
 
+bool Message::encode(const Serializable& value) {
+  return value.serialize(*this);
+}
+
 uint8_t* Message::encodeRawUnsafe(size_t size) {
   bool success = reserve(_dataLength + size);
 
@@ -133,6 +137,10 @@ size_t Message::encodeRawOffsetUnsafe(size_t size) {
   }
 
   return _dataLength - size;
+}
+
+bool Message::decode(Serializable& value) {
+  return value.deserialize(*this);
 }
 
 uint8_t* Message::decodeRawUnsafe(size_t size) {

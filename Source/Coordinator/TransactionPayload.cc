@@ -34,9 +34,9 @@ bool TransactionPayload::serialize(core::Message& message) const {
   /*
    *  Step 1: Encode the Action
    */
-  result &= _action.serialize(message);
+  result &= message.encode(_action);
 
-  result &= SerializeVector(_recognizers, message);
+  result &= message.encode(_recognizers);
 
   /*
    *  Step 2: Encode the transfer record count
@@ -86,7 +86,7 @@ bool TransactionPayload::deserialize(core::Message& message) {
   _actionCallback(action);
 
   recognition::GestureRecognizer::Collection recognizers;
-  result = DeserializeVector(recognizers, message);
+  result = message.decode(recognizers);
 
   if (!result) {
     return false;

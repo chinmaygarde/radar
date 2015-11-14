@@ -17,14 +17,14 @@ Polynomial::Polynomial() : _constant(0.0) {
 bool Polynomial::serialize(core::Message& message) const {
   auto result = true;
   result &= message.encode(_constant);
-  result &= Serializable::SerializeVector(_terms, message);
+  result &= message.encode(_terms);
   return result;
 }
 
 bool Polynomial::deserialize(core::Message& message) {
   auto result = true;
   result &= message.decode(_constant);
-  result &= Serializable::DeserializeVector(_terms, message);
+  result &= message.decode(_terms);
   return result;
 }
 

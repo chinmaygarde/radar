@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
+#include <Core/Serializable.h>
 
 #include <string.h>
 
@@ -17,7 +18,6 @@
 namespace rl {
 namespace core {
 
-class Serializable;
 class Message {
  public:
   /**
@@ -78,6 +78,19 @@ class Message {
     return false;
   }
 
+  bool encode(const Serializable& value);
+
+  template <typename T,
+            typename = only_if<std::is_base_of<Serializable, T>::value>>
+  bool encode(const std::vector<T>& vec) {
+    Serializable::EncodedSize count = vec.size();
+    auto result = encode(count);
+    for (const auto& item : vec) {
+      result &= item.serialize(*this);
+    }
+    return result;
+  }
+
   uint8_t* encodeRawUnsafe(size_t size);
 
   size_t encodeRawOffsetUnsafe(size_t size);
@@ -96,6 +109,21 @@ class Message {
       return true;
     }
     return false;
+  }
+
+  bool decode(Serializable& value);
+
+  template <typename T,
+            typename = only_if<std::is_base_of<Serializable, T>::value ||
+                               std::is_default_constructible<T>::value>>
+  bool decode(std::vector<T>& vec) {
+    Serializable::EncodedSize count = 0;
+    auto result = decode(count);
+    for (auto i = 0; i < count; i++) {
+      vec.emplace_back();
+      result &= vec.back().deserialize(*this);
+    }
+    return result;
   }
 
   uint8_t* decodeRawUnsafe(size_t size);

@@ -19,27 +19,27 @@ Term::Term() : _coefficient(1.0), _variables() {
 bool Term::serialize(core::Message& message) const {
   bool result = true;
   result &= message.encode(_coefficient);
-  result &= SerializeVector(_variables, message);
+  result &= message.encode(_variables);
   return result;
 }
 
 bool Term::deserialize(core::Message& message) {
   bool result = true;
   result &= message.decode(_coefficient);
-  result &= DeserializeVector(_variables, message);
+  result &= message.decode(_variables);
   return result;
 }
 
 bool Term::VariableDegree::serialize(core::Message& message) const {
   auto result = true;
-  result &= variable.serialize(message);
+  result &= message.encode(variable);
   result &= message.encode(degree);
   return result;
 }
 
 bool Term::VariableDegree::deserialize(core::Message& message) {
   auto result = true;
-  result &= variable.deserialize(message);
+  result &= message.decode(variable);
   result &= message.decode(degree);
   return result;
 }

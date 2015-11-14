@@ -66,8 +66,8 @@ bool GestureRecognizer::serialize(core::Message& message) const {
   auto result = true;
 
   result &= message.encode(_identifier);
-  result &= _evaluationResult.serialize(message);
-  result &= _polynomial.serialize(message);
+  result &= message.encode(_evaluationResult);
+  result &= message.encode(_polynomial);
 
   return result;
 }
@@ -76,8 +76,8 @@ bool GestureRecognizer::deserialize(core::Message& message) {
   auto result = true;
 
   result &= message.decode(_identifier);
-  result &= _evaluationResult.deserialize(message);
-  result &= _polynomial.deserialize(message);
+  result &= message.decode(_evaluationResult);
+  result &= message.decode(_polynomial);
 
   prepareForUse();
 
