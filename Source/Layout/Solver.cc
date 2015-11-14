@@ -9,6 +9,12 @@
 namespace rl {
 namespace layout {
 
+Solver::Solver() {
+}
+
+Solver::~Solver() {
+}
+
 Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
     return Result::Type::DuplicateConstraint;
@@ -142,7 +148,7 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
 }
 
 void Solver::flushUpdates() {
-  for (const auto& i : _vars) {
+  for (auto& i : _vars) {
     auto foundRow = _rows.find(i.second);
     const double updated =
         foundRow == _rows.end() ? 0.0 : foundRow->second->constant();

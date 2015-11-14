@@ -24,6 +24,10 @@ namespace layout {
 
 class Solver {
  public:
+  Solver();
+
+  ~Solver();
+
   Result addConstraints(const std::list<Constraint>& constraints);
 
   Result addConstraint(const Constraint& constraint);

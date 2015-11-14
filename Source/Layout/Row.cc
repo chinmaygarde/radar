@@ -8,6 +8,9 @@
 namespace rl {
 namespace layout {
 
+Row::Row(double constant) : _constant(constant) {
+}
+
 double Row::constant() const {
   return _constant;
 }

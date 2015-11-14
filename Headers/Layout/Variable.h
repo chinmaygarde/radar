@@ -15,7 +15,9 @@ class Variable : public core::Serializable {
  public:
   Variable();
 
-  Variable(interface::Entity* entity, interface::Entity::Property property);
+  Variable(interface::Entity* entity,
+           interface::Entity::Property property,
+           double value);
 
   bool applyUpdate(double value) const;
 
@@ -38,6 +40,7 @@ class Variable : public core::Serializable {
  private:
   interface::Entity* _entity;
   interface::Entity::Property _property;
+  double _value;
 
   RL_DISALLOW_ASSIGN(Variable);
 };
