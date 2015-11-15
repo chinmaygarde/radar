@@ -8,12 +8,12 @@
 
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Compositor/RenderSurface.h>
+#include <Coordinator/RenderSurface.h>
 #include "Sample.h"
 
 using SDLWindowAndRenderer = std::pair<SDL_Window*, SDL_Renderer*>;
 
-class RenderSurfaceLinux : public rl::RenderSurface {
+class RenderSurfaceLinux : public rl::coordinator::RenderSurface {
  public:
   explicit RenderSurfaceLinux(SDLWindowAndRenderer& windowAndRenderer)
       : RenderSurface(), _windowAndRenderer(windowAndRenderer) {
@@ -58,11 +58,11 @@ static SDLWindowAndRenderer SetupSDL(void) {
   return std::make_pair(window, renderer);
 }
 
-static void ResizeInterface(rl::Shell& shell,
+static void ResizeInterface(rl::shell::Shell& shell,
                             RenderSurfaceLinux& surface,
                             int width,
                             int height) {
-  rl::Size size(width, height);
+  rl::geom::Size size(width, height);
   surface.surfaceSizeUpdated(size);
   shell.interface().setSize(size);
 }
@@ -70,7 +70,7 @@ static void ResizeInterface(rl::Shell& shell,
 static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
   auto renderSurface = std::make_shared<RenderSurfaceLinux>(windowAndRenderer);
   auto application = std::make_shared<sample::SampleApplication>();
-  rl::Shell shell(renderSurface, application);
+  rl::shell::Shell shell(renderSurface, application);
 
   renderSurface->surfaceWasCreated();
 
