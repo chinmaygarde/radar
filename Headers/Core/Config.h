@@ -15,6 +15,8 @@
 #define RL_OS_LINUX 1
 #elif __native_client__
 #define RL_OS_NACL 1
+#elif _WIN32
+#define RL_OS_WINDOWS 1
 #else
 #error Unsupported Platform
 #endif
@@ -53,6 +55,8 @@
 #define RL_CHANNELS RL_CHANNELS_SOCKET
 #elif RL_OS_NACL
 #define RL_CHANNELS RL_CHANNELS_INPROCESS
+#elif RL_OS_WINDOWS
+#define RL_CHANNELS RL_CHANNELS_INPROCESS
 #else
 #error No Channel Implementation Found
 #endif
@@ -70,6 +74,8 @@
 #elif RL_OS_LINUX
 #define RL_WAITSET RL_WAITSET_EPOLL
 #elif RL_OS_NACL
+#define RL_WAITSET RL_WAITSET_INPROCESS
+#elif RL_OS_WINDOWS
 #define RL_WAITSET RL_WAITSET_INPROCESS
 #else
 #error No WaitSet Implementation Found

@@ -49,8 +49,6 @@ class EventLoopSource {
 
   void onAwoken();
 
-#pragma mark - Accessing the wait function
-
   /**
    *  Returns the function that is invoked when the event loop wakes up when
    *  this event loop source is signalled
@@ -66,8 +64,6 @@ class EventLoopSource {
    *  @param wakeFunction the wake function
    */
   void setWakeFunction(WakeFunction wakeFunction);
-
-#pragma mark - Accessing the underlying handles
 
   /**
    *  The raw IO handles this event loop source uses for reading and writing
@@ -90,8 +86,6 @@ class EventLoopSource {
   void setHandlesProvider(RWHandlesProvider provider);
 
   void setHandlesCollector(RWHandlesCollector collector);
-
-#pragma mark - Accessing the reader and writer procs
 
   /**
    *  @return the function that is invoked to read data from the raw read handle
@@ -118,13 +112,9 @@ class EventLoopSource {
    */
   void setWriter(const IOHandler& writer);
 
-#pragma mark - Interacting with a WaitSet
-
   void updateInWaitSet(WaitSet& waitset, bool shouldAdd);
 
   void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler updateHandler);
-
-#pragma mark - Common event loop sources
 
   /**
    *  Create a repeating timer source that fires at the given interval

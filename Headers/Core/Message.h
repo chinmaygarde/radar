@@ -60,8 +60,6 @@ class Message {
    */
   bool reserve(size_t length);
 
-#pragma mark - Encoding and decoding messages
-
   /**
    *  Encode the given value in the message
    *
@@ -130,8 +128,6 @@ class Message {
 
   uint8_t* operator[](size_t index);
 
-#pragma mark - Message Information Accessors
-
   /**
    *  A pointer to the underlying buffer of the message
    *
@@ -155,11 +151,7 @@ class Message {
 
   bool readCompleted() const;
 
-#pragma mark - Reserved Header Length
-
   size_t reservedHeaderSize() const;
-
-#pragma mark - Multiple Reads
 
   void rewindRead();
 

@@ -9,9 +9,11 @@
 
 #if RL_OS_MAC
 #include <mach/mach.h>
-#endif
-
+#elif RL_OS_LINUX || RL_OS_NACL
 #include <sys/mman.h>
+#else
+#error Unknown Platform
+#endif
 
 namespace rl {
 namespace core {

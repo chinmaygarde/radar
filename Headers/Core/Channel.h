@@ -23,15 +23,12 @@ class Channel {
   using MessagesReceivedCallback = std::function<void(Messages)>;
   using TerminationCallback = std::function<void(void)>;
 
-#pragma mark - Creating Channels
   /**
    *  Create a new channel
    */
   explicit Channel();
 
   virtual ~Channel();
-
-#pragma mark - Sending and receiving messages on channels
 
   /**
    *  Sends the specified messages down the channel
@@ -58,8 +55,6 @@ class Channel {
    */
   void setMessagesReceivedCallback(MessagesReceivedCallback callback);
 
-#pragma mark - Manual channel connection status management
-
   /**
    *  Terminate the channel connection and cleanup underlying resources
    */
@@ -79,8 +74,6 @@ class Channel {
    */
   void setTerminationCallback(TerminationCallback callback);
 
-#pragma mark - Event Loopinteraction
-
   /**
    *  Get a loop source for this channel. Channels need to be scheduled on
    *  loops to get message and lifecycle callbacks
@@ -88,8 +81,6 @@ class Channel {
    *  @return the loop source for this channel
    */
   std::shared_ptr<EventLoopSource> source();
-
-#pragma mark - Manual reads
 
   /**
    *  Read all pending messages on the channel immediately. The user rarely (if

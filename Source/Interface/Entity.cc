@@ -154,8 +154,6 @@ void Entity::notifyInterfaceIfNecessary(Property property,
   Interface::current().transaction().mark(*this, property, other);
 }
 
-#pragma mark - Constants
-
 // clang-format off
 const Entity::Accessors<geom::Rect> BoundsAccessors{
   &Entity::bounds, &Entity::setBounds

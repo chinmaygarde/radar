@@ -22,13 +22,10 @@ class Layer : public Entity {
  public:
   using Ref = std::shared_ptr<Layer>;
 
-#pragma mark - Construction
-
   explicit Layer();
 
   ~Layer() override;
 
-#pragma mark - Layer Hierarchy
   /**
    *  Adds the layer as a sublayer of the current layer. If the layer already
    *  has a parent, it is removed from the same.

@@ -44,8 +44,6 @@ class Interface {
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
                      std::weak_ptr<coordinator::Channel> compositorChannel);
 
-#pragma mark - Bootstrapping the interface
-
   /**
    *  Setup the interface context and count down on the latch when ready
    *
@@ -63,8 +61,6 @@ class Interface {
    */
   void shutdown(core::Latch& onShutdown);
 
-#pragma mark - Managing the Root Layer
-
   /**
    *  Return the current root layer for the interface
    *
@@ -79,8 +75,6 @@ class Interface {
    */
   void setRootLayer(Layer::Ref layer);
 
-#pragma mark - Changing Interface Properties
-
   /**
    *  Get the current size of the interface
    *
@@ -94,8 +88,6 @@ class Interface {
    *  @param size the new interface size
    */
   void setSize(const geom::Size& size);
-
-#pragma mark - Transaction Management
 
   /**
    *  Get the transaction on top of the interface transaction stack
@@ -116,11 +108,7 @@ class Interface {
    */
   void popTransaction();
 
-#pragma mark - Accessing State Information
-
   State state() const;
-
-#pragma mark - Accessing the thread local interface
 
   /**
    *  If the current thread has an interface attached to it, that interface is
@@ -129,8 +117,6 @@ class Interface {
    *  @return the current interface if one is present
    */
   static Interface& current();
-
-#pragma mark - Setting up Gesture Recognizers
 
   bool setupGestureRecognizer(recognition::GestureRecognizer&& recognizer);
 

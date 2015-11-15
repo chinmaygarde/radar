@@ -35,8 +35,6 @@ class Compositor : RenderSurfaceObserver {
 
   ~Compositor();
 
-#pragma mark - Managing Compositor Lifecycle
-
   /**
    *  Run the compositor on the current thread. This is a blocking operation and
    *  the compositor owns its loop.
@@ -58,8 +56,6 @@ class Compositor : RenderSurfaceObserver {
    *  shutting down.
    */
   void shutdown(core::Latch& shutdownLatch);
-
-#pragma mark - Interface Lease Management
 
   std::weak_ptr<Channel> acquireChannel();
 

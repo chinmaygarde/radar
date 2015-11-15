@@ -41,8 +41,6 @@ class Entity {
     Setter setter;
   };
 
-#pragma mark - Managing Entity Lifecycle
-
   /**
    *  Construct a default entity
    */
@@ -50,12 +48,9 @@ class Entity {
 
   virtual ~Entity();
 
-#pragma mark - Entity Identification
   using Identifier = uint64_t;
   static const Identifier IdentifierNone = 0;
   Identifier identifier() const;
-
-#pragma mark - Geometry
 
   /**
    *  The frame specifies the origin and size of the entity in the coordinate
@@ -138,8 +133,6 @@ class Entity {
    */
   geom::Matrix modelMatrix() const;
 
-#pragma mark - Display Properties
-
   /**
    *  The background color of the entity
    *
@@ -168,8 +161,6 @@ class Entity {
    *  @param opacity the new opacity
    */
   void setOpacity(double opacity);
-
-#pragma mark - Managing Entity Update
 
   void merge(const Entity& entity);
 

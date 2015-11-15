@@ -21,7 +21,7 @@ class EventLoopSource;
 class WaitSet {
  public:
   using Handle = uintptr_t;
-#pragma mark - Creating Wait Sets
+
   /**
    *  Create an empty wait set to which sources can be added
    */
@@ -29,7 +29,6 @@ class WaitSet {
 
   ~WaitSet();
 
-#pragma mark - Managing wait set sources
   /**
    *  Add a loop source to the wait set
    *
@@ -47,8 +46,6 @@ class WaitSet {
    *  @return if the source was successfully removed from the waitset
    */
   bool removeSource(std::shared_ptr<EventLoopSource> source);
-
-#pragma mark - Waiting on the waitset
 
   /**
    *  Waits for events to be signalled on the waitset

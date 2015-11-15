@@ -20,8 +20,6 @@
  *  Logging
  */
 
-#pragma mark - Logging
-
 #define _RL_FILE_LAST_COMPONENT(file) \
   (strrchr(file, '/') ? strrchr(file, '/') + 1 : file)
 
@@ -38,8 +36,6 @@
 /*
  *  Assertions
  */
-
-#pragma mark - Assertions
 
 static inline void _RL_AssertLog(const char* file,
                                  int line,
@@ -69,8 +65,6 @@ static inline void _RL_AssertLog(const char* file,
  *  Error Checking
  */
 
-#pragma mark - Error Checking
-
 #define _RL_CHECK_EXPECT(call, expected)    \
   {                                         \
     if ((call) != (expected)) {             \
@@ -80,8 +74,6 @@ static inline void _RL_AssertLog(const char* file,
   }
 
 #define RL_CHECK(call) _RL_CHECK_EXPECT(call, 0)
-
-#pragma mark - POSIX Retry
 
 /**
  *  Retries operation on `EINTR`. Just like `TEMP_FAILURE_RETRY` but available
@@ -109,8 +101,6 @@ static inline void _RL_AssertLog(const char* file,
 /*
  *  C++ Compiler Macros
  */
-
-#pragma mark - C++ Compiler Macros
 
 #define RL_DISALLOW_COPY(TypeName) TypeName(const TypeName&) = delete;
 
