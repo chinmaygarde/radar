@@ -7,9 +7,9 @@
 namespace rl {
 namespace animation {
 
-const float VelocityTolerance = 1e-3;
-const float DistanceTolerance = 1e-3;
-const float TimeTolerance = 1e-3;
+const double VelocityTolerance = 1e-3;
+const double DistanceTolerance = 1e-3;
+const double TimeTolerance = 1e-3;
 
 bool NearEqual(double a, double b, double epsilon) {
   return (a > (b - epsilon)) && (a < (b + epsilon));

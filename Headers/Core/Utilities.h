@@ -28,13 +28,15 @@ using only_if = typename std::enable_if<B, T>::type;
 
 #define rl_trivially_copyable(x) __has_trivial_copy(x)
 
+namespace thread {
 /**
  *  Set the name of current thread of execution
  *
  *  @param name the name to set
  */
-void ThreadSetName(const char* name);
+void SetName(const char* name);
 
+}  // namespace thread
 }  // namespace core
 }  // namespace rl
 

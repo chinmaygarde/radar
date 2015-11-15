@@ -23,16 +23,16 @@ Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
 void Shell::attachHostOnCurrentThread() {
   core::Latch readyLatch(3);
 
-  core::ThreadSetName("rl.host");
+  core::thread::SetName("rl.host");
   _host.run(readyLatch);
 
   _compositorThread = std::move(std::thread([&]() {
-    core::ThreadSetName("rl.compositor");
+    core::thread::SetName("rl.compositor");
     _compositor.run(readyLatch);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
-    core::ThreadSetName("rl.interface");
+    core::thread::SetName("rl.interface");
     _interface.run(readyLatch);
   }));
 

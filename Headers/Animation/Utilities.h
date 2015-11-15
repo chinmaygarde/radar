@@ -11,15 +11,15 @@ namespace animation {
 /**
  *  Acceptable tolerance for changes to velocity
  */
-extern const float VelocityTolerance;
+extern const double VelocityTolerance;
 /**
  *  Acceptable tolerance for changes to distance
  */
-extern const float DistanceTolerance;
+extern const double DistanceTolerance;
 /**
  *  Acceptable tolerance for changes to time intervals
  */
-extern const float TimeTolerance;
+extern const double TimeTolerance;
 
 /**
  *  Check equality within the specified tolerance

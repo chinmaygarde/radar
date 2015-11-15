@@ -7,26 +7,30 @@
 
 #if RL_OS_MAC
 #include <pthread/pthread.h>
-#elif RL_OS_LINUX || RL_OS_NACL
+#elif RL_OS_LINUX
 #include <pthread.h>
+#elif RL_OS_WINDOWS || RL_OS_NACL
+// No platform supported implementation
 #else
 #error Unsupported Platform
 #endif
 
 namespace rl {
 namespace core {
+namespace thread {
 
-void ThreadSetName(const char* name) {
+void SetName(const char* name) {
 #if RL_OS_MAC
   pthread_setname_np(name);
 #elif RL_OS_LINUX
   pthread_setname_np(pthread_self(), name);
-#elif RL_OS_NACL
-  // Unsupported on Native Client
+#elif RL_OS_WINDOWS || RL_OS_NACL
+// No platform supported implementation
 #else
 #error Unknown Platform
 #endif
 }
 
+}  // namespace thread
 }  // namespace core
 }  // namespace rl

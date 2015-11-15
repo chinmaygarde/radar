@@ -87,6 +87,8 @@ class EventLoop {
   void removeObserver(std::shared_ptr<EventLoopObserver> observer,
                       EventLoopObserver::Activity activity);
 
+  ~EventLoop();
+
  private:
   WaitSet _waitSet;
   std::shared_ptr<EventLoopSource> _trivialSource;
@@ -97,7 +99,6 @@ class EventLoop {
   EventLoopObserverCollection _afterSleepObservers;
 
   explicit EventLoop();
-  ~EventLoop();
   void beforeSleep();
   void afterSleep();
   void flushPendingDispatches();

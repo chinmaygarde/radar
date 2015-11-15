@@ -4,19 +4,12 @@
 
 #include <Interface/Interface.h>
 
-#include <pthread.h>
-
 #include <limits>
 
 namespace rl {
 namespace interface {
 
-static pthread_key_t InterfaceTLSKey() {
-  static std::once_flag once;
-  static pthread_key_t interfaceKey;
-  std::call_once(once, []() { pthread_key_create(&interfaceKey, nullptr); });
-  return interfaceKey;
-}
+thread_local Interface* CurrentInterface = nullptr;
 
 using LT = toolbox::StateMachine::LegalTransition;
 
@@ -58,7 +51,7 @@ void Interface::run(core::Latch& readyLatch) {
 
   _loop = core::EventLoop::Current();
   _loop->loop([&]() {
-    pthread_setspecific(InterfaceTLSKey(), this);
+    CurrentInterface = this;
     scheduleChannels();
     _state.setState(Active, true);
     readyLatch.countDown();
@@ -79,7 +72,7 @@ void Interface::shutdown(core::Latch& onShutdown) {
     performTerminationCleanup();
     unscheduleChannels();
     _loop->terminate();
-    pthread_setspecific(InterfaceTLSKey(), nullptr);
+    CurrentInterface = nullptr;
     onShutdown.countDown();
   });
 }
@@ -180,13 +173,10 @@ Interface::State Interface::state() const {
 }
 
 Interface& Interface::current() {
-  auto interface =
-      reinterpret_cast<Interface*>(pthread_getspecific(InterfaceTLSKey()));
-
-  RL_ASSERT_MSG(interface != nullptr,
+  RL_ASSERT_MSG(CurrentInterface != nullptr,
                 "Layer modification on a non-interface threads is forbidden");
 
-  return *interface;
+  return *CurrentInterface;
 }
 
 void Interface::didFinishLaunching() {

@@ -33,7 +33,9 @@ cmake_minimum_required(VERSION 2.8)
 ################################
 project(RadarLove)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
 file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"

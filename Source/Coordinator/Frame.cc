@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if !RL_OS_WINDOWS
+
 #include <Coordinator/Frame.h>
 #include <Coordinator/Primitive.h>
 
@@ -79,3 +83,5 @@ ScopedFrame::~ScopedFrame() {
 
 }  // namespace coordinator
 }  // namespace rl
+
+#endif  // !RL_OS_WINDOWS

@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if !RL_OS_WINDOWS
+
 #include <Coordinator/Program.h>
 
 #define RL_OPENGL_ALLOWED 1
@@ -148,3 +152,5 @@ Program::~Program() {
 
 }  // namespace coordinator
 }  // namespace rl
+
+#endif  // !RL_OS_WINDOWS

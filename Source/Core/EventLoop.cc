@@ -5,31 +5,21 @@
 #include <Core/EventLoop.h>
 #include <Core/Utilities.h>
 
-#include <pthread.h>
 #include <mutex>
 
 namespace rl {
 namespace core {
 
+thread_local std::unique_ptr<EventLoop> CurrentEventLoop = nullptr;
+
 EventLoop* EventLoop::Current() {
-  static std::once_flag once;
-  static pthread_key_t EventLoopTLSKey;
-
-  std::call_once(once, []() {
-    pthread_key_create(&EventLoopTLSKey, [](void* loop) {
-      delete static_cast<EventLoop*>(loop);
-    });
-  });
-
-  auto currentEventLoop =
-      static_cast<EventLoop*>(pthread_getspecific(EventLoopTLSKey));
-
-  if (currentEventLoop == nullptr) {
-    currentEventLoop = new EventLoop();
-    pthread_setspecific(EventLoopTLSKey, currentEventLoop);
+  if (CurrentEventLoop != nullptr) {
+    return CurrentEventLoop.get();
   }
 
-  return currentEventLoop;
+  CurrentEventLoop = std::unique_ptr<EventLoop>(new EventLoop());
+
+  return CurrentEventLoop.get();
 }
 
 EventLoop::EventLoop()
@@ -169,7 +159,6 @@ void EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
       break;
   }
 }
-
 
 }  // namespace core
 }  // namespace rl

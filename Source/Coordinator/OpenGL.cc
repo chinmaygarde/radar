@@ -2,8 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if !RL_OS_WINDOWS
+
 #define RL_OPENGL_ALLOWED 1
 #include <Coordinator/OpenGL.h>
+
 #include <cassert>
 #include <cstdarg>
 #include <cstring>
@@ -145,3 +150,5 @@ void GLDescribeFramebuffer(void) {
 
 }  // namespace coordinator
 }  // namespace rl
+
+#endif  // !RL_OS_WINDOWS
