@@ -21,7 +21,7 @@ static bool MemorySetOrCheckPattern(uint8_t* buffer,
 
   while ((start + size) - p >= 4) {
     if (setOrCheck) {
-      bcopy(pattern4, p, 4);
+      memmove(p, pattern4, 4);
     } else {
       if (memcmp(pattern4, p, 4) != 0) {
         return false;
@@ -32,7 +32,7 @@ static bool MemorySetOrCheckPattern(uint8_t* buffer,
 
   if ((start + size) - p != 0) {
     if (setOrCheck) {
-      bcopy(pattern4, p, (start + size) - p);
+      memmove(p, pattern4, (start + size) - p);
     } else {
       if (memcmp(pattern4, p, (start + size) - p) != 0) {
         return false;
