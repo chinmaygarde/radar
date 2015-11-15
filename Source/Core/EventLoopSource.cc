@@ -6,8 +6,6 @@
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
 
-#include <unistd.h>
-
 #define HANDLE_CAST(x) static_cast<int>((x))
 
 namespace rl {

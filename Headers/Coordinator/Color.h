@@ -7,8 +7,6 @@
 
 #include <stdint.h>
 
-#include <cmath>
-
 namespace rl {
 namespace coordinator {
 

@@ -4,6 +4,7 @@
 
 #include <Coordinator/Color.h>
 #include <algorithm>
+#include <cmath>
 
 namespace rl {
 namespace coordinator {
