@@ -52,7 +52,7 @@ Color ColorHSB::ToRGBA() const {
   if (h == 0.0)
     return Color(v, v, v, alpha);
 
-  i = floor(h);
+  i = static_cast<int64_t>(floor(h));
 
   f = h - i;
 

@@ -51,7 +51,7 @@ void GestureRecognizer::prepareForUse() {
          *  Identifiers of proxies are enum indices of said proxies
          */
         if (targetIdentifier + 1 > _touchCount) {
-          _touchCount = targetIdentifier + 1;
+          _touchCount = static_cast<size_t>(targetIdentifier + 1);
         }
       } else {
         _observedEntities.insert(targetIdentifier);

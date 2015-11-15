@@ -117,7 +117,7 @@ class Message {
   bool decode(std::vector<T>& vec) {
     Serializable::EncodedSize count = 0;
     auto result = decode(count);
-    for (auto i = 0; i < count; i++) {
+    for (Serializable::EncodedSize i = 0; i < count; i++) {
       vec.emplace_back();
       result &= vec.back().deserialize(*this);
     }

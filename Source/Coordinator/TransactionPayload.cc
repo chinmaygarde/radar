@@ -104,7 +104,7 @@ bool TransactionPayload::deserialize(core::Message& message) {
   /*
    *  Step 3: Read the transfer records
    */
-  for (auto i = 0; i < transferRecords; i++) {
+  for (size_t i = 0; i < transferRecords; i++) {
     _transferRecordCallback(action, TransferRecord::NextInMessage(message),
                             _commitTime);
   }
