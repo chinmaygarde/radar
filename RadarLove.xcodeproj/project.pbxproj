@@ -227,6 +227,9 @@
 		EAB379E21BE70B5A00A59948 /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB379E11BE70B5A00A59948 /* TimingCurve.h */; };
 		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; };
 		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; };
+		EAC90A7E1BF93C82001214C1 /* ThreadLocal.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */; };
+		EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */; };
+		EAC90A8A1BF949FB001214C1 /* ThreadLocalTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -531,6 +534,9 @@
 		EAB379E11BE70B5A00A59948 /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
 		EAB757321BABE585009AA97F /* InProcessTimerSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTimerSource.cc; sourceTree = "<group>"; };
 		EAB757331BABE585009AA97F /* InProcessTimerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTimerSource.h; sourceTree = "<group>"; };
+		EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadLocal.h; sourceTree = "<group>"; };
+		EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadLocal.cc; sourceTree = "<group>"; };
+		EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadLocalTest.cc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -607,6 +613,7 @@
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
 				9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */,
 				EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */,
+				EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -782,6 +789,7 @@
 				9EAECE521B685460000FA38A /* Message.h */,
 				9E029C7B1BA9E833007E5DF8 /* Serializable.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
+				EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */,
 				EA62B3221B6F2F31009F197F /* Timing.h */,
 				9EAECE571B685460000FA38A /* Utilities.h */,
 				9EAECE581B685460000FA38A /* WaitSet.h */,
@@ -892,6 +900,7 @@
 				9EA72CC41BBA12A1001A755C /* MachTrivialSource.h */,
 				EA6090D21BA41E8C00C2E263 /* SocketChannel.cc */,
 				EA6090D31BA41E8C00C2E263 /* SocketChannel.h */,
+				EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
 				9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */,
 				9EAECEB31B685469000FA38A /* SharedMemory.cc */,
@@ -1154,6 +1163,7 @@
 				9E8655E91BE45E2700997766 /* Color.h in Headers */,
 				9EAECE8A1B685460000FA38A /* Size.h in Headers */,
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
+				EAC90A7E1BF93C82001214C1 /* ThreadLocal.h in Headers */,
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
@@ -1316,6 +1326,7 @@
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
+				EAC90A8A1BF949FB001214C1 /* ThreadLocalTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
 				9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */,
 			);
@@ -1358,6 +1369,7 @@
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
 				9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
+				EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */,
 				EA6090D61BA41E8C00C2E263 /* EventLoopSource_KQueue.cc in Sources */,
 				9EAECEC51B685469000FA38A /* ScrollSimulation.cc in Sources */,
 				9EA72CC51BBA12A1001A755C /* MachTrivialSource.cc in Sources */,

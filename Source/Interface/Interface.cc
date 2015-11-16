@@ -3,13 +3,14 @@
 // found in the LICENSE file.
 
 #include <Interface/Interface.h>
+#include <Core/ThreadLocal.h>
 
 #include <limits>
 
 namespace rl {
 namespace interface {
 
-thread_local Interface* CurrentInterface = nullptr;
+static core::ThreadLocal CurrentInterface;
 
 using LT = toolbox::StateMachine::LegalTransition;
 
@@ -51,7 +52,7 @@ void Interface::run(core::Latch& readyLatch) {
 
   _loop = core::EventLoop::Current();
   _loop->loop([&]() {
-    CurrentInterface = this;
+    CurrentInterface.set(reinterpret_cast<uintptr_t>(this));
     scheduleChannels();
     _state.setState(Active, true);
     readyLatch.countDown();
@@ -72,7 +73,7 @@ void Interface::shutdown(core::Latch& onShutdown) {
     performTerminationCleanup();
     unscheduleChannels();
     _loop->terminate();
-    CurrentInterface = nullptr;
+    CurrentInterface.set(reinterpret_cast<uintptr_t>(nullptr));
     onShutdown.countDown();
   });
 }
@@ -173,10 +174,10 @@ Interface::State Interface::state() const {
 }
 
 Interface& Interface::current() {
-  RL_ASSERT_MSG(CurrentInterface != nullptr,
-                "Layer modification on a non-interface threads is forbidden");
-
-  return *CurrentInterface;
+  auto interface = reinterpret_cast<Interface*>(CurrentInterface.get());
+  RL_ASSERT_MSG(interface != nullptr,
+                "Layer modification on non-interface threads is forbidden");
+  return *interface;
 }
 
 void Interface::didFinishLaunching() {

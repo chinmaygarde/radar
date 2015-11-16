@@ -4,22 +4,26 @@
 
 #include <Core/EventLoop.h>
 #include <Core/Utilities.h>
+#include <Core/ThreadLocal.h>
 
 #include <mutex>
 
 namespace rl {
 namespace core {
 
-thread_local std::unique_ptr<EventLoop> CurrentEventLoop = nullptr;
+static ThreadLocal CurrentEventLoop([](uintptr_t value) {
+  delete reinterpret_cast<EventLoop*>(value);
+});
 
 EventLoop* EventLoop::Current() {
-  if (CurrentEventLoop != nullptr) {
-    return CurrentEventLoop.get();
+  auto loop = reinterpret_cast<EventLoop*>(CurrentEventLoop.get());
+  if (loop != nullptr) {
+    return loop;
   }
 
-  CurrentEventLoop = std::unique_ptr<EventLoop>(new EventLoop());
-
-  return CurrentEventLoop.get();
+  loop = new EventLoop();
+  CurrentEventLoop.set(reinterpret_cast<uintptr_t>(loop));
+  return loop;
 }
 
 EventLoop::EventLoop()
