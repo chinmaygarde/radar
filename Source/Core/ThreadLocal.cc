@@ -7,11 +7,15 @@
 namespace rl {
 namespace core {
 
+#if RL_THREAD_LOCAL_PTHREADS
+
 void ThreadLocal::ThreadLocalDestroy(Box* value) {
   RL_ASSERT(value != nullptr);
   value->destroyValue();
   delete value;
 }
+
+#endif
 
 }  // namespace core
 }  // namespace rl

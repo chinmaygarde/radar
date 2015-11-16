@@ -11,7 +11,7 @@
 namespace rl {
 namespace core {
 
-static ThreadLocal CurrentEventLoop([](uintptr_t value) {
+RL_THREAD_LOCAL ThreadLocal CurrentEventLoop([](uintptr_t value) {
   delete reinterpret_cast<EventLoop*>(value);
 });
 

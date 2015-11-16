@@ -5,22 +5,32 @@
 #ifndef RADARLOVE_CORE_THREADLOCAL_H_
 #define RADARLOVE_CORE_THREADLOCAL_H_
 
-#include <Core/Macros.h>
+#include <Core/Config.h>
 
-#include <pthread.h>
+#define RL_THREAD_LOCAL_PTHREADS RL_OS_MAC
+
+#include <Core/Macros.h>
 #include <functional>
+
+#if RL_THREAD_LOCAL_PTHREADS
+#include <pthread.h>
+#endif
 
 namespace rl {
 namespace core {
 
+using ThreadLocalDestroyCallback = std::function<void(uintptr_t)>;
+
+#if RL_THREAD_LOCAL_PTHREADS
+
+#define RL_THREAD_LOCAL static
+
 class ThreadLocal {
  public:
-  using DestroyCallback = std::function<void(uintptr_t)>;
-
  private:
   class Box {
    public:
-    Box(ThreadLocal::DestroyCallback destroy, uintptr_t value)
+    Box(ThreadLocalDestroyCallback destroy, uintptr_t value)
         : _destroy(destroy), _value(value) {}
 
     uintptr_t value() const { return _value; }
@@ -41,7 +51,7 @@ class ThreadLocal {
     }
 
    private:
-    ThreadLocal::DestroyCallback _destroy;
+    ThreadLocalDestroyCallback _destroy;
     uintptr_t _value;
 
     RL_DISALLOW_COPY_AND_ASSIGN(Box);
@@ -52,7 +62,7 @@ class ThreadLocal {
  public:
   ThreadLocal() : ThreadLocal(nullptr) {}
 
-  ThreadLocal(DestroyCallback destroy) : _destroy(destroy) {
+  ThreadLocal(ThreadLocalDestroyCallback destroy) : _destroy(destroy) {
     auto callback = reinterpret_cast<void (*)(void*)>(&ThreadLocalDestroy);
     RL_CHECK(pthread_key_create(&_key, callback));
   }
@@ -93,10 +103,54 @@ class ThreadLocal {
 
  private:
   pthread_key_t _key;
-  DestroyCallback _destroy;
+  ThreadLocalDestroyCallback _destroy;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ThreadLocal);
 };
+
+#else  // RL_THREAD_LOCAL_PTHREADS
+
+#define RL_THREAD_LOCAL thread_local
+
+class ThreadLocal {
+ public:
+  ThreadLocal() : ThreadLocal(nullptr) {}
+
+  ThreadLocal(ThreadLocalDestroyCallback destroy)
+      : _destroy(destroy), _value(0) {}
+
+  void set(uintptr_t value) {
+    if (_value == value) {
+      return;
+    }
+
+    if (_value != 0 && _destroy) {
+      _destroy(_value);
+    }
+
+    _value = value;
+  }
+
+  uintptr_t get() { return _value; }
+
+  ~ThreadLocal() {
+    if (_value != 0 && _destroy) {
+      _destroy(_value);
+    }
+  }
+
+ private:
+  ThreadLocalDestroyCallback _destroy;
+  uintptr_t _value;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(ThreadLocal);
+};
+
+#endif  // RL_THREAD_LOCAL_PTHREADS
+
+#ifndef RL_THREAD_LOCAL
+#error Thread local storage specifier undefined by implementation
+#endif
 
 }  // namespace core
 }  // namespace rl

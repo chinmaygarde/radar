@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include <Core/ThreadLocal.h>
 
+#if RL_THREAD_LOCAL_PTHREADS
+
 #include <thread>
 
 TEST(ThreadLocalTest, SimpleInitialization) {
@@ -76,3 +78,5 @@ TEST(ThreadLocalTest, SettingSameValue) {
 
   ASSERT_EQ(destroys, 1);
 }
+
+#endif  // RL_THREAD_LOCAL_PTHREADS

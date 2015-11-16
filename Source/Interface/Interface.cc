@@ -10,7 +10,7 @@
 namespace rl {
 namespace interface {
 
-static core::ThreadLocal CurrentInterface;
+RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 
 using LT = toolbox::StateMachine::LegalTransition;
 
