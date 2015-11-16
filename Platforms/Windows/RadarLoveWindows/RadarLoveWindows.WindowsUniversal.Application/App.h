@@ -1,4 +1,8 @@
-﻿#pragma once
+﻿// Copyright 2015 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+#pragma once
 
 #include <string>
 
@@ -6,41 +10,45 @@
 
 class SimpleRenderer;
 
-namespace RadarLoveWindows
-{
-    ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView
-    {
-    public:
-        App();
+namespace RadarLoveWindows {
+ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView {
+ public:
+  App();
 
-        // IFrameworkView Methods.
-        virtual void Initialize(Windows::ApplicationModel::Core::CoreApplicationView^ applicationView);
-        virtual void SetWindow(Windows::UI::Core::CoreWindow^ window);
-        virtual void Load(Platform::String^ entryPoint);
-        virtual void Run();
-        virtual void Uninitialize();
+  // IFrameworkView Methods.
+  virtual void Initialize(Windows::ApplicationModel::Core::CoreApplicationView ^
+                          applicationView);
+  virtual void SetWindow(Windows::UI::Core::CoreWindow ^ window);
+  virtual void Load(Platform::String ^ entryPoint);
+  virtual void Run();
+  virtual void Uninitialize();
 
-    private:
-        void RecreateRenderer();
+ private:
+  void RecreateRenderer();
 
-        // Application lifecycle event handlers.
-        void OnActivated(Windows::ApplicationModel::Core::CoreApplicationView^ applicationView, Windows::ApplicationModel::Activation::IActivatedEventArgs^ args);
+  // Application lifecycle event handlers.
+  void OnActivated(Windows::ApplicationModel::Core::CoreApplicationView ^
+                       applicationView,
+                   Windows::ApplicationModel::Activation::IActivatedEventArgs ^
+                       args);
 
-        // Window event handlers.
-        void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
-        void OnWindowClosed(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::CoreWindowEventArgs^ args);
+  // Window event handlers.
+  void OnVisibilityChanged(Windows::UI::Core::CoreWindow ^ sender,
+                           Windows::UI::Core::VisibilityChangedEventArgs ^
+                               args);
+  void OnWindowClosed(Windows::UI::Core::CoreWindow ^ sender,
+                      Windows::UI::Core::CoreWindowEventArgs ^ args);
 
-        void InitializeEGL(Windows::UI::Core::CoreWindow^ window);
-        void CleanupEGL();
+  void InitializeEGL(Windows::UI::Core::CoreWindow ^ window);
+  void CleanupEGL();
 
-        bool mWindowClosed;
-        bool mWindowVisible;
-        
-        EGLDisplay mEglDisplay;
-        EGLContext mEglContext;
-        EGLSurface mEglSurface;
+  bool mWindowClosed;
+  bool mWindowVisible;
 
-        std::unique_ptr<SimpleRenderer> mCubeRenderer;
-    };
+  EGLDisplay mEglDisplay;
+  EGLContext mEglContext;
+  EGLSurface mEglSurface;
 
+  std::unique_ptr<SimpleRenderer> mCubeRenderer;
+};
 }
