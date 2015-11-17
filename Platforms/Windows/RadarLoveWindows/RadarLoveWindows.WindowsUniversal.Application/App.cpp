@@ -2,9 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "pch.h"
 #include "app.h"
+
+#include <Core/Core.h>
+#include <Shell/Shell.h>
+#include <Interface/Entity.h>
+#include <Coordinator/RenderSurface.h>
 #include "..\RadarLoveWindows.Shared\SimpleRenderer.h"
+#include "../../../../Samples/Sample.h"
 
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::ApplicationModel::Activation;
@@ -17,6 +22,13 @@ using namespace Microsoft::WRL;
 using namespace Platform;
 
 using namespace RadarLoveWindows;
+
+class RenderSurfaceWindows : public rl::coordinator::RenderSurface {
+public:
+
+private:
+	RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceWindows);
+};
 
 /*
  *  Helper to convert a length in device-independent pixels (DIPs) to a length
@@ -105,15 +117,19 @@ void App::Load(Platform::String ^ entryPoint) {
 }
 
 void App::RecreateRenderer() {
-  if (!mCubeRenderer) {
-    mCubeRenderer.reset(new SimpleRenderer());
-  }
+  
 }
 
 /*
  *  This method is called after the window becomes active.
  */
 void App::Run() {
+
+  auto renderSurface = std::make_shared<RenderSurfaceWindows>();
+  auto application = std::make_shared<sample::SampleApplication>();
+  rl::shell::Shell shell(renderSurface, application);
+  renderSurface->surfaceWasCreated();
+
   while (!mWindowClosed) {
     if (mWindowVisible) {
       CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(
@@ -125,18 +141,11 @@ void App::Run() {
       eglQuerySurface(mEglDisplay, mEglSurface, EGL_HEIGHT, &panelHeight);
 
       /*
-       *  Logic to update the scene could go here
-       */
-      mCubeRenderer->UpdateWindowSize(panelWidth, panelHeight);
-      mCubeRenderer->Draw();
-
-      /*
        *  The call to eglSwapBuffers might not be successful (e.g. due to Device
        *  Lost) If the call fails, then we must reinitialize EGL and the GL
        *  resources.
        */
       if (eglSwapBuffers(mEglDisplay, mEglSurface) != GL_TRUE) {
-        mCubeRenderer.reset(nullptr);
         CleanupEGL();
 
         InitializeEGL(CoreWindow::GetForCurrentThread());
@@ -147,6 +156,9 @@ void App::Run() {
           CoreProcessEventsOption::ProcessOneAndAllPending);
     }
   }
+
+  renderSurface->surfaceWasDestroyed();
+  shell.shutdown();
 
   CleanupEGL();
 }

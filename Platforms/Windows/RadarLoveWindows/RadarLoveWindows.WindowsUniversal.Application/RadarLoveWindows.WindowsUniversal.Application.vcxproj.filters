@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\..\..\..\Samples\Sample.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="..\..\..\..\Samples\Sample.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\SmallLogo.scale-100.png">
@@ -31,6 +31,8 @@
   <ItemGroup>
     <None Include="RadarLoveWindows_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="$(angle-BinPath)\libEGL.dll" />
+    <None Include="$(angle-BinPath)\libGLESv2.dll" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
