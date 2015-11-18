@@ -19,10 +19,13 @@
 #include <errno.h>
 
 #include <EGL/egl.h>
-
 #include <android/sensor.h>
 #include <android/log.h>
 #include <android_native_app_glue.h>
+#include <Core/Core.h>
+#include <Shell/Shell.h>
+#include <Coordinator/RenderSurface.h>
+#include <Sample.h>
 
 #define LOGI(...) \
   ((void)__android_log_print(ANDROID_LOG_INFO, "radarlove", __VA_ARGS__))
@@ -50,6 +53,19 @@ struct engine {
   int32_t width;
   int32_t height;
   struct saved_state state;
+
+  rl::shell::Shell* shell;
+  rl::coordinator::RenderSurface* renderSurface;
+
+  engine()
+      : app(nullptr),
+        display(EGL_NO_DISPLAY),
+        surface(EGL_NO_SURFACE),
+        context(EGL_NO_CONTEXT),
+        width(0),
+        height(0),
+        shell(nullptr),
+        renderSurface(nullptr) {}
 };
 
 /**
@@ -119,20 +135,6 @@ static int engine_init_display(struct engine* engine) {
 }
 
 /**
- *  Just the current frame in the display.
- */
-static void engine_draw_frame(struct engine* engine) {
-  if (engine->display == NULL) {
-    /*
-     *  No display
-     */
-    return;
-  }
-
-  eglSwapBuffers(engine->display, engine->surface);
-}
-
-/**
  *  Tear down the EGL context currently associated with the display.
  */
 static void engine_term_display(struct engine* engine) {
@@ -186,7 +188,6 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
        */
       if (engine->app->window != NULL) {
         engine_init_display(engine);
-        engine_draw_frame(engine);
       }
       break;
     case APP_CMD_TERM_WINDOW:
@@ -206,6 +207,34 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
       break;
   }
 }
+
+class RenderSurfaceAndroid : public rl::coordinator::RenderSurface {
+ public:
+  explicit RenderSurfaceAndroid(struct engine* engine)
+      : RenderSurface(), _engine(engine) {
+    RL_ASSERT(_engine != nullptr);
+  }
+
+  bool makeCurrent() {
+    return isValid()
+               ? eglMakeCurrent(_engine->display, _engine->surface,
+                                _engine->surface, _engine->context) == EGL_TRUE
+               : false;
+  }
+
+  bool present() {
+    return isValid()
+               ? eglSwapBuffers(_engine->display, _engine->surface) == EGL_TRUE
+               : false;
+  }
+
+  bool isValid() const { return _engine->display != nullptr; }
+
+ private:
+  struct engine* _engine;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceAndroid);
+};
 
 /**
  *  This is the main entry point of a native application that is using
@@ -233,10 +262,20 @@ void android_main(struct android_app* state) {
     engine.state = *(struct saved_state*)state->savedState;
   }
 
+  auto renderSurface = std::make_shared<RenderSurfaceAndroid>(&engine);
+  auto application = std::make_shared<sample::SampleApplication>();
+  rl::shell::Shell shell(renderSurface, application);
+
+  renderSurface->surfaceWasCreated();
+
+  engine.shell = &shell;
+  engine.renderSurface = renderSurface.get();
+
   /*
    *  Setup Platform Event Loop
    */
-  while (1) {
+  bool running = true;
+  while (running) {
     /*
      *  Read all pending events.
      */
@@ -263,8 +302,12 @@ void android_main(struct android_app* state) {
        */
       if (state->destroyRequested != 0) {
         engine_term_display(&engine);
-        return;
+        running = false;
+        break;
       }
     }
   }
+
+  renderSurface->surfaceWasDestroyed();
+  shell.shutdown();
 }
