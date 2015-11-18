@@ -6,7 +6,7 @@ model {
         buildToolsVersion = "23.0.0"
 
         defaultConfig.with {
-            applicationId = "com.example.native_activity"
+            applicationId = "com.radarlove.shell"
             minSdkVersion.apiLevel    = 9
             targetSdkVersion.apiLevel = 23
         }
@@ -18,7 +18,7 @@ model {
     }
 
     android.ndk {
-        moduleName ="native-activity"
+        moduleName ="RadarLove"
         CFlags.add("-I${file("src/main/jni/native_app_glue")}".toString())
         ldLibs.addAll(["log", "android", "EGL", "GLESv1_CM"])
     }
