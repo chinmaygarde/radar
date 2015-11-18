@@ -30,14 +30,23 @@ void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
 }
 
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
-    : _surface(surface) {
-  bool result = _surface.makeCurrent();
-  RL_ASSERT(result);
+    : _surface(surface), _finalized(false) {
+  _acquired = _surface.makeCurrent();
 }
 
 ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
-  bool result = _surface.present();
-  RL_ASSERT(result);
+  if (_acquired && _finalized) {
+    bool result = _surface.present();
+    RL_ASSERT(result);
+  }
+}
+
+bool ScopedRenderSurfaceAccess::acquired() const {
+  return _acquired;
+}
+
+void ScopedRenderSurfaceAccess::finalize() {
+  _finalized = true;
 }
 
 }  // namespace coordinator

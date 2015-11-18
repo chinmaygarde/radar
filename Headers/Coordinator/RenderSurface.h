@@ -73,8 +73,14 @@ class ScopedRenderSurfaceAccess {
   explicit ScopedRenderSurfaceAccess(RenderSurface& surface);
   ~ScopedRenderSurfaceAccess();
 
+  bool acquired() const;
+
+  void finalize();
+
  private:
   RenderSurface& _surface;
+  bool _acquired;
+  bool _finalized;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedRenderSurfaceAccess);
 };

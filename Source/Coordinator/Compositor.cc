@@ -182,6 +182,11 @@ void Compositor::drawSingleFrame() {
   StatisticsFrame statistics(_stats);
 
   ScopedRenderSurfaceAccess access(*_surface);
+
+  if (!access.acquired()) {
+    return;
+  }
+
   ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
 
   if (!frame.isReady()) {
@@ -193,6 +198,8 @@ void Compositor::drawSingleFrame() {
   _graph.render(frame);
 
   _statsRenderer.render(_stats, frame);
+
+  access.finalize();
 }
 
 void Compositor::drainPendingTouches() {
