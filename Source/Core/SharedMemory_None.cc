@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_NACL || RL_OS_WINDOWS
+#if RL_OS_NACL || RL_OS_WINDOWS || RL_OS_ANDROID
 
 #include <Core/SharedMemory.h>
 
