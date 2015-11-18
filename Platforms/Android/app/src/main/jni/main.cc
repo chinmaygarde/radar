@@ -33,15 +33,6 @@
   ((void)__android_log_print(ANDROID_LOG_WARN, "radarlove", __VA_ARGS__))
 
 /**
- *  Our saved state data.
- */
-struct saved_state {
-  float angle;
-  int32_t x;
-  int32_t y;
-};
-
-/**
  *  Shared state for our app.
  */
 struct engine {
@@ -50,9 +41,6 @@ struct engine {
   EGLDisplay display;
   EGLSurface surface;
   EGLContext context;
-  int32_t width;
-  int32_t height;
-  struct saved_state state;
 
   rl::shell::Shell* shell;
   rl::coordinator::RenderSurface* renderSurface;
@@ -66,6 +54,78 @@ struct engine {
         height(0),
         shell(nullptr),
         renderSurface(nullptr) {}
+
+  void setSize(int32_t w, int32_t h) {
+    bool changed = w != width || h != height;
+
+    width = w;
+    height = h;
+
+    if (changed) {
+      rl::geom::Size size(w, h);
+
+      if (renderSurface != nullptr) {
+        renderSurface->surfaceSizeUpdated(size);
+      }
+
+      if (shell != nullptr) {
+        shell->interface().setSize(size);
+      }
+    }
+  }
+
+  void attemptSizeUpdate() {
+    EGLint newWidth = 0;
+    EGLint newHeight = 0;
+
+    EGLBoolean result = EGL_TRUE;
+
+    result &= eglQuerySurface(display, surface, EGL_WIDTH, &newWidth);
+    result &= eglQuerySurface(display, surface, EGL_HEIGHT, &newHeight);
+
+    if (result == EGL_FALSE) {
+      return;
+    }
+
+    setSize(newWidth, newHeight);
+  }
+
+  void handleMotionEvent(const AInputEvent* event) {
+    if (AInputEvent_getType(event) != AINPUT_EVENT_TYPE_MOTION ||
+        shell == nullptr) {
+      return;
+    }
+
+    using Phase = rl::event::TouchEvent::Phase;
+    int32_t action = AMotionEvent_getAction(event);
+    Phase phase = Phase::Cancelled;
+    switch (action & AMOTION_EVENT_ACTION_MASK) {
+      case AMOTION_EVENT_ACTION_DOWN:
+        phase = Phase::Began;
+        break;
+      case AMOTION_EVENT_ACTION_MOVE:
+        phase = Phase::Moved;
+        break;
+      case AMOTION_EVENT_ACTION_UP:
+        phase = Phase::Ended;
+        break;
+      default:
+        return;
+    }
+
+    int32_t pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+                           AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+    auto x = AMotionEvent_getX(event, pointerIndex);
+    auto y = AMotionEvent_getY(event, pointerIndex);
+    auto pointerIdentifier = AMotionEvent_getPointerId(event, pointerIndex);
+
+    shell->host().touchEventChannel().sendTouchEvents(
+        {rl::event::TouchEvent{pointerIdentifier, {x, y}, phase}});
+  }
+
+ private:
+  int32_t width;
+  int32_t height;
 };
 
 /**
@@ -86,7 +146,7 @@ static int engine_init_display(struct engine* engine) {
                             EGL_GREEN_SIZE,   8,
                             EGL_RED_SIZE,     8,
                             EGL_NONE};
-  EGLint w, h, dummy, format;
+  EGLint format;
   EGLint numConfigs;
   EGLConfig config;
   EGLSurface surface;
@@ -121,15 +181,11 @@ static int engine_init_display(struct engine* engine) {
     return -1;
   }
 
-  eglQuerySurface(display, surface, EGL_WIDTH, &w);
-  eglQuerySurface(display, surface, EGL_HEIGHT, &h);
-
   engine->display = display;
   engine->context = context;
   engine->surface = surface;
-  engine->width = w;
-  engine->height = h;
-  engine->state.angle = 0;
+
+  engine->attemptSizeUpdate();
 
   return 0;
 }
@@ -161,8 +217,7 @@ static int32_t engine_handle_input(struct android_app* app,
                                    AInputEvent* event) {
   struct engine* engine = (struct engine*)app->userData;
   if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
-    engine->state.x = AMotionEvent_getX(event, 0);
-    engine->state.y = AMotionEvent_getY(event, 0);
+    engine->handleMotionEvent(event);
     return 1;
   }
   return 0;
@@ -174,14 +229,6 @@ static int32_t engine_handle_input(struct android_app* app,
 static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
   struct engine* engine = (struct engine*)app->userData;
   switch (cmd) {
-    case APP_CMD_SAVE_STATE:
-      /*
-       *  The system has asked us to save our current state.  Do so.
-       */
-      engine->app->savedState = malloc(sizeof(struct saved_state));
-      *((struct saved_state*)engine->app->savedState) = engine->state;
-      engine->app->savedStateSize = sizeof(struct saved_state);
-      break;
     case APP_CMD_INIT_WINDOW:
       /*
        *  The window is being shown, get it ready.
@@ -189,6 +236,9 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
       if (engine->app->window != NULL) {
         engine_init_display(engine);
       }
+      break;
+    case APP_CMD_WINDOW_RESIZED:
+      engine->attemptSizeUpdate();
       break;
     case APP_CMD_TERM_WINDOW:
       /*
@@ -254,13 +304,6 @@ void android_main(struct android_app* state) {
   state->onAppCmd = engine_handle_cmd;
   state->onInputEvent = engine_handle_input;
   engine.app = state;
-
-  if (state->savedState != NULL) {
-    /*
-     *  We are starting with a previous saved state; restore from it.
-     */
-    engine.state = *(struct saved_state*)state->savedState;
-  }
 
   auto renderSurface = std::make_shared<RenderSurfaceAndroid>(&engine);
   auto application = std::make_shared<sample::SampleApplication>();
