@@ -18,9 +18,14 @@ model {
     }
 
     android.ndk {
-        moduleName ="RadarLove"
+        moduleName = "RadarLove"
         CFlags.add("-I${file("src/main/jni/native_app_glue")}".toString())
+        cppFlags.addAll(["-I${file("src/main/jni/RadarLove/Headers")}".toString(),
+                         "-I${file("src/main/jni/RadarLove/Source")}".toString(),
+                         "-I${file("src/main/jni/ThirdParty")}".toString(),
+                         "-I${file("src/main/jni/native_app_glue")}".toString()])
         ldLibs.addAll(["log", "android", "EGL", "GLESv1_CM"])
+        stl = "c++_static"
     }
     android.buildTypes {
         release {
