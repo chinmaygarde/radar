@@ -91,7 +91,7 @@ class Message {
 
   uint8_t* encodeRawUnsafe(size_t size);
 
-  size_t encodeRawOffsetUnsafe(size_t size);
+  size_t encodeOffsetRawUnsafe(size_t size);
 
   /**
    *  Decode the given value from the message

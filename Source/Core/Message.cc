@@ -137,7 +137,7 @@ uint8_t* Message::encodeRawUnsafe(size_t size) {
   return _buffer + oldLength;
 }
 
-size_t Message::encodeRawOffsetUnsafe(size_t size) {
+size_t Message::encodeOffsetRawUnsafe(size_t size) {
   if (encodeRawUnsafe(size) == nullptr) {
     return std::numeric_limits<size_t>::max();
   }

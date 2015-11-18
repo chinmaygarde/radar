@@ -44,7 +44,7 @@ bool TransactionPayload::serialize(core::Message& message) const {
    *          will decide to encode. So we just allocate space for the count and
    *          come back to it later.
    */
-  auto countOffset = message.encodeRawOffsetUnsafe(sizeof(size_t));
+  auto countOffset = message.encodeOffsetRawUnsafe(sizeof(size_t));
   result &= (countOffset != std::numeric_limits<size_t>::max());
 
   if (!result) {
