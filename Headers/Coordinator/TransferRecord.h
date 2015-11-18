@@ -65,8 +65,7 @@ struct TransferRecord {
      */
     const auto recordSize = TransferRecordInvariantsSize() + sizeof(T);
 
-    TransferRecord* allocation =
-        reinterpret_cast<TransferRecord*>(message.encodeRawUnsafe(recordSize));
+    auto allocation = message.encodeRaw<TransferRecord>(recordSize);
 
     if (allocation == nullptr) {
       return false;
@@ -96,9 +95,9 @@ struct TransferRecord {
      *  the data
      */
     const auto recordSize = TransferRecordInvariantsSize() + size;
-    auto allocation = message.decodeRawUnsafe(recordSize);
+    auto allocation = message.decodeRaw<TransferRecord>(recordSize);
     RL_ASSERT(allocation != nullptr);
-    return *reinterpret_cast<TransferRecord*>(allocation);
+    return *allocation;
   }
 
   template <typename T>

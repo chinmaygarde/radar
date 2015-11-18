@@ -89,7 +89,10 @@ class Message {
     return result;
   }
 
-  uint8_t* encodeRawUnsafe(size_t size);
+  template <typename T>
+  T* encodeRaw(size_t size) {
+    return reinterpret_cast<T*>(encodeRawUnsafe(size));
+  }
 
   size_t encodeOffsetRawUnsafe(size_t size);
 
@@ -124,7 +127,10 @@ class Message {
     return result;
   }
 
-  uint8_t* decodeRawUnsafe(size_t size);
+  template <typename T>
+  T* decodeRaw(size_t size) {
+    return reinterpret_cast<T*>(decodeRawUnsafe(size));
+  }
 
   uint8_t* operator[](size_t index);
 
@@ -163,6 +169,10 @@ class Message {
   bool _vmDeallocate = false;
 
   bool resizeBuffer(size_t size);
+
+  uint8_t* encodeRawUnsafe(size_t size);
+
+  uint8_t* decodeRawUnsafe(size_t size);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };
