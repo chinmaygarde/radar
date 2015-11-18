@@ -10,15 +10,32 @@
  */
 
 #if __APPLE__
+
 #define RL_OS_MAC 1
+
 #elif __linux__
+
 #define RL_OS_LINUX 1
+
+#if __ANDROID__
+/*
+ *  Android is a Linux subtype
+ */
+#define RL_OS_ANDROID 1
+#endif
+
 #elif __native_client__
+
 #define RL_OS_NACL 1
+
 #elif _WIN32
+
 #define RL_OS_WINDOWS 1
+
 #else
+
 #error Unsupported Platform
+
 #endif
 
 /*

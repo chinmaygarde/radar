@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_MAC || RL_OS_LINUX
+#if (RL_OS_MAC || RL_OS_LINUX) && !RL_OS_ANDROID
 
 #include "SharedMemoryHandle.h"
 
@@ -66,4 +66,4 @@ SharedMemory::Handle SharedMemoryHandleCreate() {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_NACL
+#endif  // (RL_OS_MAC || RL_OS_LINUX) && !RL_OS_ANDROID
