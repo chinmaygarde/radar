@@ -141,11 +141,19 @@ static int engine_init_display(struct engine* engine) {
    *  Below, we select an EGLConfig with at least 8 bits per color
    *  component compatible with on-screen windows
    */
-  const EGLint attribs[] = {EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-                            EGL_BLUE_SIZE,    8,
-                            EGL_GREEN_SIZE,   8,
-                            EGL_RED_SIZE,     8,
+  const EGLint attribs[] = {EGL_SURFACE_TYPE,
+                            EGL_WINDOW_BIT,
+                            EGL_RENDERABLE_TYPE,
+                            EGL_OPENGL_ES2_BIT,
+                            EGL_BLUE_SIZE,
+                            8,
+                            EGL_GREEN_SIZE,
+                            8,
+                            EGL_RED_SIZE,
+                            8,
                             EGL_NONE};
+
+  const EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
   EGLint format;
   EGLint numConfigs;
   EGLConfig config;
@@ -174,7 +182,7 @@ static int engine_init_display(struct engine* engine) {
   ANativeWindow_setBuffersGeometry(engine->app->window, 0, 0, format);
 
   surface = eglCreateWindowSurface(display, config, engine->app->window, NULL);
-  context = eglCreateContext(display, config, NULL, NULL);
+  context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
 
   if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
     LOGW("Unable to eglMakeCurrent");
@@ -186,6 +194,8 @@ static int engine_init_display(struct engine* engine) {
   engine->surface = surface;
 
   engine->attemptSizeUpdate();
+
+  eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 
   return 0;
 }
