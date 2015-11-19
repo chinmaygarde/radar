@@ -14,7 +14,7 @@
 namespace rl {
 namespace core {
 
-SharedMemory::Handle SharedMemoryHandleCreate() {
+SharedMemory::Handle SharedMemoryHandleCreate(size_t size) {
   RL_ASSERT(false);
   return -1;
 }

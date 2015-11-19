@@ -6,10 +6,12 @@
 
 #if RL_SHMEM == RL_SHMEM_POSIX
 
-#include "SharedMemoryHandle.h"
+#include <Core/SharedMemoryHandle.h>
 
-#include <sys/mman.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
 
 #include <sstream>
 
@@ -29,7 +31,7 @@ static std::string SharedMemory_RandomFileName() {
   return stream.str();
 }
 
-SharedMemory::Handle SharedMemoryHandleCreate() {
+SharedMemory::Handle SharedMemoryHandleCreate(size_t size) {
   SharedMemory::Handle newHandle = -1;
 
   auto tempFile = SharedMemory_RandomFileName();
@@ -58,6 +60,14 @@ SharedMemory::Handle SharedMemoryHandleCreate() {
    */
   if (newHandle != -1) {
     RL_CHECK(::shm_unlink(tempFile.c_str()));
+  }
+
+  /*
+   *  Set the size of the shared memory
+   */
+  if (RL_TEMP_FAILURE_RETRY(::ftruncate(newHandle, size)) == -1) {
+    RL_CHECK(::close(newHandle));
+    return -1;
   }
 
   return newHandle;

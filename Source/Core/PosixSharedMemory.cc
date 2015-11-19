@@ -11,15 +11,13 @@
  */
 #if (RL_SHMEM == RL_SHMEM_POSIX) || (RL_SHMEM == RL_SHMEM_ASHMEM)
 
-#include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
+#include <Core/SharedMemory.h>
+#include <Core/SharedMemoryHandle.h>
 
-#include "SharedMemoryHandle.h"
-
+#include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 namespace rl {
 namespace core {
@@ -66,24 +64,16 @@ SharedMemory::SharedMemory(size_t size)
    *  Step 1: Create a handle to shared memory
    */
 
-  _handle = SharedMemoryHandleCreate();
+  _handle = SharedMemoryHandleCreate(size);
 
   if (_handle == -1) {
-    goto failure;
-  }
-
-  /*
-   *  Step 2: Set the size of the shared memory
-   */
-
-  if (RL_TEMP_FAILURE_RETRY(::ftruncate(_handle, size)) == -1) {
     goto failure;
   }
 
   _size = size;
 
   /*
-   *  Step 3: Memory map a region with the given handle
+   *  Step 2: Memory map a region with the given handle
    */
 
   _address = static_cast<uint8_t*>(

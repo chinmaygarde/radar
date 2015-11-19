@@ -10,7 +10,7 @@
 namespace rl {
 namespace core {
 
-SharedMemory::Handle SharedMemoryHandleCreate();
+SharedMemory::Handle SharedMemoryHandleCreate(size_t size);
 
 }  // namespace core
 }  // namespace rl
