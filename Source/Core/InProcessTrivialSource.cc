@@ -2,7 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "InProcessTrivialSource.h"
+#include <Core/Config.h>
+
+#if RL_WAITSET == RL_WAITSET_INPROCESS
+
+#include <Core/InProcessTrivialSource.h>
 
 #include <Core/WaitSet.h>
 
@@ -38,3 +42,5 @@ InProcessTrivialSource::~InProcessTrivialSource() {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_WAITSET == RL_WAITSET_INPROCESS

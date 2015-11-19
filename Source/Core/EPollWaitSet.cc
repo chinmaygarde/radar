@@ -43,4 +43,4 @@ WaitSet::Handle EPollWaitSet::handle() const {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_LINUX
+#endif  // RL_WAITSET == RL_WAITSET_EPOLL

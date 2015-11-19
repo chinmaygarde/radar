@@ -4,7 +4,12 @@
 
 #include <Core/Config.h>
 
-#if (RL_OS_MAC || RL_OS_LINUX) && !RL_OS_ANDROID
+/*
+ *  The posix and ashmem shared memory implementations share the same underlying
+ *  infrastructure for managing memory maps and such. Only the handle
+ *  created is specialized for each.
+ */
+#if (RL_SHMEM == RL_SHMEM_POSIX) || (RL_SHMEM == RL_SHMEM_ASHMEM)
 
 #include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
@@ -154,4 +159,4 @@ SharedMemory::Handle SharedMemory::handle() const {
 }  // namespace core
 }  // namespace rl
 
-#endif  // (RL_OS_MAC || RL_OS_LINUX) && !RL_OS_ANDROID
+#endif  // (RL_SHMEM == RL_SHMEM_POSIX) || (RL_SHMEM == RL_SHMEM_ASHMEM)

@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_INPROCESS
+
 #include "InProcessChannel.h"
 
 namespace rl {
@@ -85,3 +89,5 @@ bool InProcessChannel::doTerminate() {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS

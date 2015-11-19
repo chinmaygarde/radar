@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_LINUX || RL_OS_MAC
+#if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
@@ -348,4 +348,4 @@ SocketChannel::Handle SocketChannel::writeHandle() const {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_LINUX || RL_OS_MAC
+#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET

@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_NACL || RL_OS_WINDOWS || RL_OS_ANDROID
+#if RL_SHMEM == RL_SHMEM_DISABLED
 
 #include <Core/SharedMemory.h>
 
@@ -60,4 +60,4 @@ SharedMemory::Handle SharedMemory::handle() const {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_NACL
+#endif  // RL_SHMEM == RL_SHMEM_DISABLED

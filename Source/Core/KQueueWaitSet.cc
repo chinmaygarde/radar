@@ -43,4 +43,4 @@ WaitSet::Handle KQueueWaitSet::handle() const {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_MAC
+#endif  // RL_WAITSET == RL_WAITSET_KQUEUE

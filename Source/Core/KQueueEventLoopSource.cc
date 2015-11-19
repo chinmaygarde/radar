@@ -78,4 +78,4 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
 }  // namespace core
 }  // namespace rl
 
-#endif
+#endif  // RL_WAITSET == RL_WAITSET_KQUEUE

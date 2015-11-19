@@ -41,7 +41,6 @@
 /*
  *  Channels
  */
-
 #define RL_CHANNELS_MACH 1
 #define RL_CHANNELS_SOCKET 2
 #define RL_CHANNELS_INPROCESS 3
@@ -49,21 +48,27 @@
 /*
  *  WaitSet
  */
-
 #define RL_WAITSET_KQUEUE 1
 #define RL_WAITSET_EPOLL 2
 #define RL_WAITSET_INPROCESS 3
+
+/*
+ *  Shared Memory
+ */
+#define RL_SHMEM_DISABLED 1
+#define RL_SHMEM_POSIX 2
+#define RL_SHMEM_ASHMEM 3
 
 /*
  *  Add overrides here...
  */
 // #define RL_CHANNELS RL_CHANNELS_INPROCESS
 // #define RL_WAITSET RL_WAITSET_INPROCESS
+// #define RL_SHMEM RL_SHMEM_POSIX
 
 /*
  *  Detect Channels by Platform
  */
-
 #if !defined(RL_CHANNELS)
 
 #if RL_OS_MAC
@@ -85,7 +90,6 @@
 /*
  *  Detect Waitset by Platform
  */
-
 #if !defined(RL_WAITSET)
 
 #if RL_OS_MAC
@@ -103,6 +107,27 @@
 #endif
 
 #endif  // !defined(RL_WAITSET)
+
+#if !defined(RL_SHMEM)
+
+/*
+ *  Detect Shared Memory by Platform
+ */
+#if RL_OS_MAC
+#define RL_SHMEM RL_SHMEM_POSIX
+#elif RL_OS_ANDROID
+#define RL_SHMEM RL_SHMEM_ASHMEM
+#elif RL_OS_LINUX
+#define RL_SHMEM RL_SHMEM_POSIX
+#elif RL_OS_NACL
+#define RL_SHMEM RL_SHMEM_DISABLED
+#elif RL_OS_WINDOWS
+#define RL_SHMEM RL_SHMEM_DISABLED
+#else
+#error No Shared Memory Implementation Found
+#endif
+
+#endif  // !defined(RL_SHMEM)
 
 /*
  *  Assertions against bad configurations

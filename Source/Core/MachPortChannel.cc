@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_OS_MAC
+#if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include <Core/MachPortChannel.h>
 #include <Core/Message.h>
@@ -101,4 +101,4 @@ bool MachPortChannel::doTerminate() {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_OS_MAC
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH

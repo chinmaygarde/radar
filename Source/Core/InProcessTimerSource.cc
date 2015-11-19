@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "InProcessTimerSource.h"
-#include "InProcessWaitSet.h"
+#include <Core/Config.h>
+
+#if RL_WAITSET == RL_WAITSET_INPROCESS
+
+#include <Core/InProcessTimerSource.h>
+#include <Core/InProcessWaitSet.h>
 
 #include <limits>
 
@@ -31,3 +35,5 @@ InProcessTimerSource::~InProcessTimerSource() {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_WAITSET == RL_WAITSET_INPROCESS
