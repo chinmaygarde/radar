@@ -159,6 +159,37 @@ uint8_t* Message::decodeRawUnsafe(size_t size) {
   return buffer;
 }
 
+uint8_t* Message::alignAllocation(uint8_t* allocation,
+                                  size_t alignment,
+                                  bool encoding) {
+  if (allocation == nullptr) {
+    return nullptr;
+  }
+
+  auto allocationPtr = reinterpret_cast<uintptr_t>(allocation);
+
+  const auto extra = allocationPtr % alignment;
+
+  if (extra != 0) {
+    const auto snap = alignment - extra;
+    uint8_t* snapAllocation = nullptr;
+
+    if (encoding) {
+      snapAllocation = encodeRawUnsafe(snap);
+    } else {
+      snapAllocation = decodeRawUnsafe(snap);
+    }
+
+    if (snapAllocation == nullptr) {
+      return nullptr;
+    }
+
+    allocationPtr += snap;
+  }
+
+  return reinterpret_cast<uint8_t*>(allocationPtr);
+}
+
 uint8_t* Message::operator[](size_t index) {
   if (index >= _dataLength) {
     return nullptr;

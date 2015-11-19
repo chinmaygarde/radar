@@ -91,7 +91,8 @@ class Message {
 
   template <typename T>
   T* encodeRaw(size_t size) {
-    return reinterpret_cast<T*>(encodeRawUnsafe(size));
+    return reinterpret_cast<T*>(
+        alignAllocation(encodeRawUnsafe(size), alignof(T), true));
   }
 
   size_t encodeOffsetRawUnsafe(size_t size);
@@ -129,7 +130,8 @@ class Message {
 
   template <typename T>
   T* decodeRaw(size_t size) {
-    return reinterpret_cast<T*>(decodeRawUnsafe(size));
+    return reinterpret_cast<T*>(
+        alignAllocation(decodeRawUnsafe(size), alignof(T), false));
   }
 
   uint8_t* operator[](size_t index);
@@ -173,6 +175,10 @@ class Message {
   uint8_t* encodeRawUnsafe(size_t size);
 
   uint8_t* decodeRawUnsafe(size_t size);
+
+  uint8_t* alignAllocation(uint8_t* allocation,
+                           size_t alignment,
+                           bool encoding);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };

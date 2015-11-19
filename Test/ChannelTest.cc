@@ -109,7 +109,7 @@ TEST(ChannelTest, TestLargeReadWrite) {
   rl::core::Message m;
 
   const auto rawSize = 50000003;
-  ASSERT_TRUE(MemorySetOrCheckPattern(m.encodeRawUnsafe(rawSize), rawSize,
+  ASSERT_TRUE(MemorySetOrCheckPattern(m.encodeRaw<uint8_t>(rawSize), rawSize,
                                       true /* set */));
 
   sizeWritten = m.size();
