@@ -9,11 +9,12 @@ namespace layout {
 
 static Symbol::Identifier LastSymbolIdentifier = 0;
 
-Symbol::Symbol() : Symbol(Type::Invalid, 0) {
+Symbol::Symbol() : _type(Type::Invalid), _identifier(0) {
 }
 
 Symbol::Symbol(Type type)
-    : Symbol(type, type == Symbol::Type::Invalid ? 0 : ++LastSymbolIdentifier) {
+    : _type(type),
+      _identifier(type == Type::Invalid ? 0 : ++LastSymbolIdentifier) {
 }
 
 Symbol::Symbol(Type type, Identifier identifier)

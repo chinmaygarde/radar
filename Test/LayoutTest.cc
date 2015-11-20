@@ -16,7 +16,7 @@ TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
 }
 
 TEST(LayoutTest, TermConstruction) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(0);
   rl::layout::Term term(v, 1.0);
   rl::layout::Term term2(v, 2.0);
 
@@ -33,7 +33,7 @@ TEST(LayoutTest, TermConstruction) {
 }
 
 TEST(LayoutTest, VariableConstruction) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(1);
   rl::layout::Term term2(v, 2.0);
 
   auto expr = v + 1.0;
@@ -49,7 +49,7 @@ TEST(LayoutTest, VariableConstruction) {
 }
 
 TEST(LayoutTest, DoubleConstruction) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(1);
   rl::layout::Term term2(v, 2.0);
 
   auto expr2 = 2.0 + v;
@@ -71,18 +71,12 @@ TEST(LayoutTest, DoubleConstruction) {
 }
 
 TEST(LayoutTest, ComplexOperationOverload) {
-  rl::layout::Variable v1(nullptr, rl::interface::Entity::Property::Position,
-                          0.0);
-  rl::layout::Variable v2(nullptr, rl::interface::Entity::Property::Bounds,
-                          0.0);
-  rl::layout::Variable v3(
-      nullptr, rl::interface::Entity::Property::BackgroundColor, 0.0);
-  rl::layout::Variable v4(nullptr, rl::interface::Entity::Property::AddedTo,
-                          0.0);
-  rl::layout::Variable v5(nullptr, rl::interface::Entity::Property::RemovedFrom,
-                          0.0);
-  rl::layout::Variable v6(nullptr, rl::interface::Entity::Property::AnchorPoint,
-                          0.0);
+  rl::layout::Variable v1(1);
+  rl::layout::Variable v2(2);
+  rl::layout::Variable v3(3);
+  rl::layout::Variable v4(4);
+  rl::layout::Variable v5(5);
+  rl::layout::Variable v6(6);
 
   auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
   ASSERT_EQ(expr.constant(), -300.0);
@@ -111,7 +105,7 @@ TEST(LayoutTest, ComplexOperationOverload) {
 }
 
 TEST(LayoutTest, ConstraintCreation) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(1);
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -143,7 +137,7 @@ TEST(LayoutTest, ConstraintCreation) {
 }
 
 TEST(LayoutTest, ConstraintCreationAtPriority) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(1);
 
   rl::layout::Constraint constraint =
       2.0 * v + 35 == 0 | rl::layout::priority::Strong;
@@ -161,7 +155,7 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
 }
 
 TEST(LayoutTest, SerializeDeserializeConstraint) {
-  rl::layout::Variable v(nullptr, rl::interface::Entity::Property::Bounds, 0.0);
+  rl::layout::Variable v(1);
   auto constraint =
       2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
 
@@ -183,17 +177,11 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
   ASSERT_EQ(decoded.expression().terms()[2].coefficient(), -10.0);
 }
 
-#if 0
 TEST(LayoutTest, ConstraintsAdd) {
-  rl::layout::Variable left, mid, right;
+  rl::layout::Variable left(1), mid(2), right(3);
   rl::layout::Solver solver;
-  // clang-format off
-  auto res = solver.addConstraints({
-      right + left == 2.0 * mid,
-      right - left >= 100,
-      left >= 0,
-  });
-  // clang-format on
-  ASSERT_EQ(res.isError(), false);
+
+  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid).isError(), false);
+  ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
+  ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
 }
-#endif

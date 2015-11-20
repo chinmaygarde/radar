@@ -13,11 +13,7 @@ namespace layout {
 
 class Variable : public core::Serializable {
  public:
-  Variable();
-
-  Variable(interface::Entity* entity,
-           interface::Entity::Property property,
-           double value);
+  Variable(interface::Entity::Identifier identifier);
 
   bool applyUpdate(double value) const;
 
@@ -27,18 +23,19 @@ class Variable : public core::Serializable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      return reinterpret_cast<size_t>(v._entity) ^ (v._property << 1);
+      return v._entityIdentifier ^ (v._property << 1);
     }
   };
 
   struct Equal {
     constexpr bool operator()(const Variable& lhs, const Variable& rhs) const {
-      return lhs._entity == rhs._entity && lhs._property == rhs._property;
+      return lhs._entityIdentifier == rhs._entityIdentifier &&
+             lhs._property == rhs._property;
     }
   };
 
  private:
-  interface::Entity* _entity;
+  interface::Entity::Identifier _entityIdentifier;
   interface::Entity::Property _property;
   double _value;
 
