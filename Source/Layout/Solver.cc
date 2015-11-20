@@ -179,12 +179,13 @@ std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
       continue;
     }
 
-    auto foundRow = _rows.find(symbolForVariable(term.variable()));
+    auto symbol = symbolForVariable(term.variable());
+    auto foundRow = _rows.find(symbol);
 
     if (foundRow != _rows.end()) {
       row->insertRow(*(foundRow->second), term.coefficient());
     } else {
-      row->insertSymbol(foundRow->first, term.coefficient());
+      row->insertSymbol(symbol, term.coefficient());
     }
   }
 
