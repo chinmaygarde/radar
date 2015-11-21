@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <Core/Core.h>
 #include <Layout/Solver.h>
+#include <Layout/Parameter.h>
 #include <Layout/ConstraintCreation.h>
 
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
@@ -33,7 +34,7 @@ TEST(LayoutTest, TermConstruction) {
 }
 
 TEST(LayoutTest, VariableConstruction) {
-  rl::layout::Variable v(1);
+  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
   rl::layout::Term term2(v, 2.0);
 
   auto expr = v + 1.0;
@@ -49,7 +50,7 @@ TEST(LayoutTest, VariableConstruction) {
 }
 
 TEST(LayoutTest, DoubleConstruction) {
-  rl::layout::Variable v(1);
+  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
   rl::layout::Term term2(v, 2.0);
 
   auto expr2 = 2.0 + v;
@@ -71,12 +72,12 @@ TEST(LayoutTest, DoubleConstruction) {
 }
 
 TEST(LayoutTest, ComplexOperationOverload) {
-  rl::layout::Variable v1(1);
-  rl::layout::Variable v2(2);
-  rl::layout::Variable v3(3);
-  rl::layout::Variable v4(4);
-  rl::layout::Variable v5(5);
-  rl::layout::Variable v6(6);
+  rl::layout::Variable v1(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v2(reinterpret_cast<rl::layout::Parameter*>(2));
+  rl::layout::Variable v3(reinterpret_cast<rl::layout::Parameter*>(3));
+  rl::layout::Variable v4(reinterpret_cast<rl::layout::Parameter*>(4));
+  rl::layout::Variable v5(reinterpret_cast<rl::layout::Parameter*>(5));
+  rl::layout::Variable v6(reinterpret_cast<rl::layout::Parameter*>(6));
 
   auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
   ASSERT_EQ(expr.constant(), -300.0);
@@ -105,7 +106,7 @@ TEST(LayoutTest, ComplexOperationOverload) {
 }
 
 TEST(LayoutTest, ConstraintCreation) {
-  rl::layout::Variable v(1);
+  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -137,7 +138,7 @@ TEST(LayoutTest, ConstraintCreation) {
 }
 
 TEST(LayoutTest, ConstraintCreationAtPriority) {
-  rl::layout::Variable v(1);
+  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
 
   rl::layout::Constraint constraint =
       2.0 * v + 35 == 0 | rl::layout::priority::Strong;
@@ -155,7 +156,7 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
 }
 
 TEST(LayoutTest, SerializeDeserializeConstraint) {
-  rl::layout::Variable v(1);
+  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
   auto constraint =
       2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
 
@@ -178,10 +179,21 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
 }
 
 TEST(LayoutTest, ConstraintsAdd) {
-  rl::layout::Variable left(1), mid(2), right(3);
+  rl::layout::Parameter p1, p2, p3;
+
+  rl::layout::Variable left = p1.asVariable();
+  rl::layout::Variable mid = p2.asVariable();
+  rl::layout::Variable right = p3.asVariable();
+
   rl::layout::Solver solver;
 
   ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid).isError(), false);
   ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
   ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
+
+  solver.flushUpdates();
+
+  ASSERT_EQ(p1.value(), 0.0);
+  ASSERT_EQ(p2.value(), 50.0);
+  ASSERT_EQ(p3.value(), 100.0);
 }

@@ -7,7 +7,7 @@
 namespace rl {
 namespace layout {
 
-Term::Term() : _variable(interface::Entity::IdentifierNone), _coefficient(1.0) {
+Term::Term() : _variable(nullptr), _coefficient(1.0) {
 }
 
 Term::Term(const Variable& variable, double coefficient)

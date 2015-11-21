@@ -3,33 +3,31 @@
 // found in the LICENSE file.
 
 #include <Layout/Variable.h>
+#include <Layout/Utilities.h>
+#include <Layout/Parameter.h>
 
 namespace rl {
 namespace layout {
 
-Variable::Variable(interface::Entity::Identifier identifier)
-    : _entityIdentifier(identifier),
-      _property(interface::Entity::Property::None),
-      _value(0.0) {
+Variable::Variable(Parameter* parameter) : _parameter(parameter) {
 }
 
 bool Variable::applyUpdate(double value) const {
-  return true;
+  if (_parameter == nullptr) {
+    return false;
+  }
+  return _parameter->setValue(value);
 }
 
 bool Variable::serialize(core::Message& message) const {
   auto success = true;
-  success &= message.encode(_entityIdentifier);
-  success &= message.encode(_property);
-  success &= message.encode(_value);
+  // TODO: WIP
   return success;
 }
 
 bool Variable::deserialize(core::Message& message) {
   auto success = true;
-  success &= message.decode(_entityIdentifier);
-  success &= message.decode(_property);
-  success &= message.decode(_value);
+  // TODO: WIP
   return success;
 }
 
