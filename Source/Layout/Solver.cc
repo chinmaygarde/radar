@@ -149,13 +149,17 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   return dualOptimize();
 }
 
-void Solver::flushUpdates() {
+bool Solver::flushUpdates() {
+  size_t updates = 0;
   for (auto& i : _vars) {
     auto foundRow = _rows.find(i.second);
     const double updated =
         foundRow == _rows.end() ? 0.0 : foundRow->second->constant();
-    i.first.applyUpdate(updated);
+    if (i.first.applyUpdate(updated)) {
+      updates++;
+    }
   }
+  return updates > 0;
 }
 
 Symbol Solver::symbolForVariable(const Variable& variable) {

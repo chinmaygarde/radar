@@ -260,3 +260,30 @@ TEST(LayoutTest, EditUpdates) {
   ASSERT_EQ(solver.removeEditVariable(mid.asVariable()).type(),
             rl::layout::Result::Type::UnknownEditVariable);
 }
+
+TEST(LayoutTest, EditConstraintFlush) {
+  rl::layout::Parameter left, right, mid;
+
+  rl::layout::Solver solver;
+
+  auto res = solver.addConstraints({
+      right + left == 2.0 * mid,  //
+      right - left >= 100.0,      //
+      left >= 0.0,                //
+  });
+
+  ASSERT_EQ(res.type(), rl::layout::Result::Type::Success);
+
+  ASSERT_EQ(
+      solver.addEditVariable(mid.asVariable(), rl::layout::priority::Strong)
+          .type(),
+      rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.suggestValueForVariable(mid.asVariable(), 300.0).type(),
+            rl::layout::Result::Type::Success);
+
+  ASSERT_EQ(solver.flushUpdates(), true);
+
+  ASSERT_EQ(left.value(), 0.0);
+  ASSERT_EQ(mid.value(), 300.0);
+  ASSERT_EQ(right.value(), 600.0);
+}

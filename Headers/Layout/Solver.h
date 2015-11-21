@@ -50,7 +50,7 @@ class Solver {
 
   Result suggestValueForVariable(const Variable& variable, double value);
 
-  void flushUpdates();
+  bool flushUpdates();
 
  private:
   std::map<Constraint, Tag, Constraint::Compare> _constraints;
