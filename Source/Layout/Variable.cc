@@ -12,6 +12,10 @@ namespace layout {
 Variable::Variable(Parameter* parameter) : _parameter(parameter) {
 }
 
+Variable::Variable(const Parameter& parameter)
+    : _parameter(const_cast<Parameter*>(&parameter)) {
+}
+
 bool Variable::applyUpdate(double value) const {
   if (_parameter == nullptr) {
     return false;

@@ -16,6 +16,8 @@ class Variable : public core::Serializable {
  public:
   Variable(Parameter* parameter);
 
+  Variable(const Parameter& parameter);
+
   bool applyUpdate(double value) const;
 
   bool serialize(core::Message& message) const override;

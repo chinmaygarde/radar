@@ -19,7 +19,7 @@ class Parameter {
 
   double value() const;
 
-  Variable asVariable();
+  Variable asVariable() const;
 
  private:
   double _value;

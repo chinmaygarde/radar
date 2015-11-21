@@ -197,3 +197,27 @@ TEST(LayoutTest, ConstraintsAdd) {
   ASSERT_EQ(p2.value(), 50.0);
   ASSERT_EQ(p3.value(), 100.0);
 }
+
+TEST(LayoutTest, ParameterHoisting) {
+  rl::layout::Parameter p1(100.0);
+  rl::layout::Constraint constraint = p1 >= 10;
+
+  ASSERT_EQ(constraint.expression().terms().size(), 1);
+  ASSERT_EQ(constraint.expression().constant(), -10.0);
+}
+
+TEST(LayoutTest, ConstraintsAddParameterConst) {
+  rl::layout::Parameter left, mid, right;
+
+  rl::layout::Solver solver;
+
+  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid).isError(), false);
+  ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
+  ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
+
+  solver.flushUpdates();
+
+  ASSERT_EQ(left.value(), 0.0);
+  ASSERT_EQ(mid.value(), 50.0);
+  ASSERT_EQ(right.value(), 100.0);
+}

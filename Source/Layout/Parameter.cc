@@ -24,8 +24,8 @@ double Parameter::value() const {
   return _value;
 }
 
-Variable Parameter::asVariable() {
-  return this;
+Variable Parameter::asVariable() const {
+  return *this;
 }
 
 }  // namespace layout
