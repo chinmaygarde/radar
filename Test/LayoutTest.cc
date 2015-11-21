@@ -241,3 +241,22 @@ TEST(LayoutTest, UpdatesInSolver) {
   ASSERT_EQ(solver.removeConstraint(c1).type(),
             rl::layout::Result::Type::UnknownConstraint);
 }
+
+TEST(LayoutTest, EditUpdates) {
+  rl::layout::Solver solver;
+
+  rl::layout::Parameter left(0.0);
+  rl::layout::Parameter right(100.0);
+  rl::layout::Parameter mid(0.0);
+
+  auto c = left + right >= 2.0 * mid;
+  ASSERT_EQ(solver.addConstraint(c).type(), rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.addEditVariable(mid.asVariable(), 999).type(),
+            rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.addEditVariable(mid.asVariable(), 999).type(),
+            rl::layout::Result::Type::DuplicateEditVariable);
+  ASSERT_EQ(solver.removeEditVariable(mid.asVariable()).type(),
+            rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.removeEditVariable(mid.asVariable()).type(),
+            rl::layout::Result::Type::UnknownEditVariable);
+}
