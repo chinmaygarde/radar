@@ -22,7 +22,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
     return Result::Type::DuplicateConstraint;
   }
 
-  Tag tag(Symbol::Type::Invalid, Symbol::Type::Invalid);
+  Tag tag(Symbol{}, Symbol{});
 
   auto row = createRow(constraint, tag);
 
@@ -268,7 +268,7 @@ Symbol Solver::chooseSubjectForRow(const Row& row, const Tag& tag) const {
       break;
   }
 
-  return Symbol::Type::Invalid;
+  return Symbol{};
 }
 
 bool Solver::allDummiesInRow(const Row& row) const {
@@ -356,12 +356,12 @@ Symbol Solver::enteringSymbolForObjectiveRow(const Row& objective) {
     }
   }
 
-  return Symbol::Type::Invalid;
+  return Symbol{};
 }
 
 Symbol Solver::leavingSymbolForEntering(const Symbol& entering) const {
   auto ratio = std::numeric_limits<double>::max();
-  Symbol found = Symbol::Type::Invalid;
+  Symbol found;
   for (const auto& row : _rows) {
     if (row.first.type() != Symbol::Type::External) {
       auto temp = row.second->coefficientForSymbol(entering);
@@ -404,7 +404,7 @@ Symbol Solver::pivotableSymbol(const Row& row) const {
         break;
     }
   }
-  return Symbol::Type::Invalid;
+  return Symbol{};
 }
 
 void Solver::removeConstraintEffects(const Constraint& constraint,
@@ -431,9 +431,7 @@ Symbol Solver::leavingSymbolForMarker(const Symbol& marker) const {
   auto r1 = std::numeric_limits<double>::max();
   auto r2 = std::numeric_limits<double>::max();
 
-  auto first = Symbol::Type::Invalid;
-  auto second = Symbol::Type::Invalid;
-  auto third = Symbol::Type::Invalid;
+  Symbol first, second, third;
 
   for (const auto& i : _rows) {
     double c = i.second->coefficientForSymbol(marker);
@@ -441,27 +439,27 @@ Symbol Solver::leavingSymbolForMarker(const Symbol& marker) const {
       continue;
     }
     if (i.first.type() == Symbol::Type::External) {
-      third = i.first.type();
+      third = i.first;
     } else if (c < 0.0) {
       auto r = -i.second->constant() / c;
       if (r < r1) {
         r1 = r;
-        first = i.first.type();
+        first = i.first;
       }
     } else {
       auto r = i.second->constant() / c;
       if (r < r2) {
         r2 = r;
-        second = i.first.type();
+        second = i.first;
       }
     }
   }
 
-  if (first != Symbol::Type::Invalid) {
+  if (first.type() != Symbol::Type::Invalid) {
     return first;
   }
 
-  if (second != Symbol::Type::Invalid) {
+  if (second.type() != Symbol::Type::Invalid) {
     return second;
   }
 
@@ -529,7 +527,7 @@ Result Solver::dualOptimize() {
 }
 
 Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
-  auto entering = Symbol::Type::Invalid;
+  Symbol entering;
   auto ratio = std::numeric_limits<double>::max();
 
   for (const auto& symbol : row.cells()) {
@@ -540,7 +538,7 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
 
       if (r < ratio) {
         ratio = r;
-        entering = symbol.first.type();
+        entering = symbol.first;
       }
     }
   }

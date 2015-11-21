@@ -221,3 +221,23 @@ TEST(LayoutTest, ConstraintsAddParameterConst) {
   ASSERT_EQ(mid.value(), 50.0);
   ASSERT_EQ(right.value(), 100.0);
 }
+
+TEST(LayoutTest, UpdatesInSolver) {
+  rl::layout::Solver solver;
+
+  rl::layout::Parameter left(2.0);
+  rl::layout::Parameter right(100.0);
+
+  auto c1 = right - left >= 200.0;
+  auto c2 = right >= right;
+
+  ASSERT_EQ(solver.addConstraint(c1).type(), rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.addConstraint(c1).type(),
+            rl::layout::Result::Type::DuplicateConstraint);
+  ASSERT_EQ(solver.removeConstraint(c2).type(),
+            rl::layout::Result::Type::UnknownConstraint);
+  ASSERT_EQ(solver.removeConstraint(c1).type(),
+            rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.removeConstraint(c1).type(),
+            rl::layout::Result::Type::UnknownConstraint);
+}
