@@ -287,3 +287,34 @@ TEST(LayoutTest, EditConstraintFlush) {
   ASSERT_EQ(mid.value(), 300.0);
   ASSERT_EQ(right.value(), 600.0);
 }
+
+TEST(LayoutTest, SolverSolutionWithOptimize) {
+  rl::layout::Parameter p1, p2, p3, container;
+
+  rl::layout::Solver solver;
+
+  auto res = solver.addEditVariable(container.asVariable(),
+                                    rl::layout::priority::Strong);
+
+  ASSERT_EQ(res.isError(), false);
+
+  res = solver.suggestValueForVariable(container.asVariable(), 100.0);
+
+  ASSERT_EQ(res.isError(), false);
+
+  res = solver.addConstraints({
+      p1 >= 30.0 | rl::layout::priority::Strong,  //
+      p1 == p3 | rl::layout::priority::Medium,    //
+      p2 == 2.0 * p1,                             //
+      container == p1 + p2 + p3                   //
+  });
+
+  ASSERT_EQ(res.isError(), false);
+
+  ASSERT_EQ(solver.flushUpdates(), true);
+
+  ASSERT_EQ(container.value(), 100.0);
+  ASSERT_EQ(p1.value(), 30.0);
+  ASSERT_EQ(p2.value(), 60.0);
+  ASSERT_EQ(p3.value(), 10.0);
+}
