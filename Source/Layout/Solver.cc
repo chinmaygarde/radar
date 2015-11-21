@@ -46,7 +46,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
     _rows[subject] = std::move(row);
   }
 
-  _constraints.insert({std::move(constraint), tag});
+  _constraints.insert({constraint, tag});
 
   return optimizeObjectiveRow(*_objective);
 }
@@ -198,7 +198,7 @@ std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
               : -1.0;
 
       auto slack = Symbol{Symbol::Type::Slack};
-      tag.setOther(slack);
+      tag.setMarker(slack);
       row->insertSymbol(slack, coeffcient);
 
       if (constraint.priority() < priority::Required) {

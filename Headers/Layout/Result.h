@@ -30,6 +30,8 @@ class Result {
 
   bool isError() const;
 
+  Type type() const;
+
   bool operator==(const Result& other) const { return _type == other._type; }
 
   bool operator!=(const Result& other) const { return _type != other._type; }

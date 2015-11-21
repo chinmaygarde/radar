@@ -14,5 +14,9 @@ bool Result::isError() const {
   return _type != Type::Success;
 }
 
+Result::Type Result::type() const {
+  return _type;
+}
+
 }  // namespace layout
 }  // namespace rl

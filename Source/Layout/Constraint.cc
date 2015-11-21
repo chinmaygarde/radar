@@ -23,7 +23,7 @@ Constraint::Constraint(const Expression& expression,
 }
 
 Constraint::Constraint(const Constraint& c)
-    : _identifier(++LastConstraintIdentifier),
+    : _identifier(c._identifier),
       _expression(c._expression),
       _relation(c._relation),
       _priority(c._priority) {
