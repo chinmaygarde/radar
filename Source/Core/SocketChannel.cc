@@ -161,7 +161,8 @@ ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
     }
   }
 
-  if (sent != expectedSendSize || errno != 0) {
+  if (sent != expectedSendSize) {
+    RL_LOG_ERRNO();
     return errno == EPIPE ? ChannelProvider::Result::PermanentFailure
                           : ChannelProvider::Result::TemporaryFailure;
   }
