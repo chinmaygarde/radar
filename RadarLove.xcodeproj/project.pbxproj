@@ -229,6 +229,8 @@
 		EAB379E21BE70B5A00A59948 /* TimingCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB379E11BE70B5A00A59948 /* TimingCurve.h */; };
 		EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB757321BABE585009AA97F /* InProcessTimerSource.cc */; };
 		EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB757331BABE585009AA97F /* InProcessTimerSource.h */; };
+		EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAB906AC1C02584700BCA377 /* PipeTrivialSource.cc */; };
+		EAB906AF1C02584700BCA377 /* PipeTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB906AD1C02584700BCA377 /* PipeTrivialSource.h */; };
 		EAC90A7E1BF93C82001214C1 /* ThreadLocal.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */; };
 		EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */; };
 		EAC90A8A1BF949FB001214C1 /* ThreadLocalTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */; };
@@ -539,6 +541,8 @@
 		EAB379E11BE70B5A00A59948 /* TimingCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimingCurve.h; sourceTree = "<group>"; };
 		EAB757321BABE585009AA97F /* InProcessTimerSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTimerSource.cc; sourceTree = "<group>"; };
 		EAB757331BABE585009AA97F /* InProcessTimerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTimerSource.h; sourceTree = "<group>"; };
+		EAB906AC1C02584700BCA377 /* PipeTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PipeTrivialSource.cc; sourceTree = "<group>"; };
+		EAB906AD1C02584700BCA377 /* PipeTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PipeTrivialSource.h; sourceTree = "<group>"; };
 		EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadLocal.h; sourceTree = "<group>"; };
 		EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadLocal.cc; sourceTree = "<group>"; };
 		EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadLocalTest.cc; sourceTree = "<group>"; };
@@ -910,6 +914,8 @@
 				EA6090D31BA41E8C00C2E263 /* SocketChannel.h */,
 				EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */,
 				9EAECEB01B685469000FA38A /* Message.cc */,
+				EAB906AC1C02584700BCA377 /* PipeTrivialSource.cc */,
+				EAB906AD1C02584700BCA377 /* PipeTrivialSource.h */,
 				9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */,
 				9EAECEB31B685469000FA38A /* PosixSharedMemory.cc */,
 				9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */,
@@ -1107,6 +1113,7 @@
 				9E8655F81BE45E2700997766 /* RenderSurface.h in Headers */,
 				9E8655F31BE45E2700997766 /* PresentationEntity.h in Headers */,
 				9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */,
+				EAB906AF1C02584700BCA377 /* PipeTrivialSource.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
 				9E8655F71BE45E2700997766 /* ProgramCatalog.h in Headers */,
 				9E8655EB1BE45E2700997766 /* Channel.h in Headers */,
@@ -1371,6 +1378,7 @@
 				9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */,
 				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
+				EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */,

@@ -7,11 +7,11 @@
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 
 #include <Core/Macros.h>
-#include <Core/EventLoopSource.h>
 #include <Core/WaitSet.h>
 #include <Core/Utilities.h>
-
-#include "MachTrivialSource.h"
+#include <Core/EventLoopSource.h>
+#include <Core/MachTrivialSource.h>
+#include <Core/PipeTrivialSource.h>
 
 #include <sys/event.h>
 #include <unistd.h>
@@ -72,7 +72,15 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
+/*
+ *  Mach sources are preferred over dumb pipes but the BSDs also use kqueue
+ *  but dont have Mach. Fallback to pipes on the same.
+ */
+#if RL_CHANNELS == RL_CHANNELS_MACH
   return std::make_shared<MachTrivialSource>();
+#else
+  return MakePipeBasedTrivialSource();
+#endif
 }
 
 }  // namespace core

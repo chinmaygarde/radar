@@ -65,7 +65,7 @@ static inline void _RL_AssertLog(const char* file,
  *  Error Checking
  */
 
-#define _RL_CHECK_EXPECT(call, expected)    \
+#define RL_CHECK_EXPECT(call, expected)     \
   {                                         \
     if ((call) != (expected)) {             \
       RL_LOG_ERRNO();                       \
@@ -73,7 +73,7 @@ static inline void _RL_AssertLog(const char* file,
     }                                       \
   }
 
-#define RL_CHECK(call) _RL_CHECK_EXPECT(call, 0)
+#define RL_CHECK(call) RL_CHECK_EXPECT(call, 0)
 
 /**
  *  Retries operation on `EINTR`. Just like `TEMP_FAILURE_RETRY` but available
@@ -94,11 +94,12 @@ static inline void _RL_AssertLog(const char* file,
     do {                                     \
       _rc = (exp);                           \
     } while (_rc == -1 && errno == EINTR);   \
-    _RL_CHECK_EXPECT(_rc, 0);                \
+    RL_CHECK_EXPECT(_rc, 0);                 \
     _rc;                                     \
   })
 
 /*
+                     \
  *  C++ Compiler Macros
  */
 
