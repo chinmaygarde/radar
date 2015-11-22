@@ -9,9 +9,9 @@
 
 #if RL_OS_MAC
 #include <mach/mach.h>
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX || RL_OS_BSD
 #include <sys/mman.h>
-#elif RL_OS_WINDOWS || RL_OS_NACL || RL_OS_BSD
+#elif RL_OS_WINDOWS || RL_OS_NACL
 // No platform owned buffer implementation
 #else
 #error Unknown Platform
@@ -58,9 +58,9 @@ Message::~Message() {
           vm_deallocate(mach_task_self(),
                         reinterpret_cast<vm_address_t>(_buffer), _bufferLength);
       RL_ASSERT(res == KERN_SUCCESS);
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX || RL_OS_BSD
       RL_CHECK(::munmap(_buffer, _bufferLength));
-#elif RL_OS_WINDOWS || RL_OS_NACL || RL_OS_BSD
+#elif RL_OS_WINDOWS || RL_OS_NACL
       RL_ASSERT_MSG(false, "No platform owned buffer implementation");
 #else
 #error Unknown Platform
