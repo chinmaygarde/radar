@@ -31,13 +31,16 @@ cmake_minimum_required(VERSION 2.8)
 ################################
 # RadarLove Library
 ################################
+
 project(RadarLove)
+
+if(CMAKE_SYSTEM_NAME MATCHES ".*Linux")
+  set(LINUX TRUE)
+endif()
 
 if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"
@@ -56,12 +59,12 @@ include_directories ("ThirdParty")
 
 add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_IMGUI_SRC})
 
-if(UNIX AND NOT APPLE)
+if(LINUX)
   target_link_libraries(RadarLove rt GL)
 endif()
 
 ################################
-# Google Test
+# Google Test Library
 ################################
 
 add_subdirectory (Test/GoogleTest)
@@ -69,7 +72,7 @@ enable_testing ()
 include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 ################################
-# Unit Tests
+# Unit Tests Target
 ################################
 
 file(GLOB RADARLOVE_TEST_SRC
@@ -86,7 +89,7 @@ add_test( RadarLoveTestAll RadarLoveTest )
 # Linux Desktop Shell
 ################################
 
-if(UNIX AND NOT APPLE)
+if(LINUX)
   file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
     "Platforms/Linux/*.h"
     "Platforms/Linux/*.cc"
