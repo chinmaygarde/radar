@@ -37,6 +37,8 @@ if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"
   "Source/*.h"
