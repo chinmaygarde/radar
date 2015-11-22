@@ -32,6 +32,10 @@
 
 #define RL_OS_WINDOWS 1
 
+#elif __FreeBSD__
+
+#define RL_OS_BSD 1
+
 #else
 
 #error Unsupported Platform
@@ -81,6 +85,8 @@
 #define RL_CHANNELS RL_CHANNELS_INPROCESS
 #elif RL_OS_WINDOWS
 #define RL_CHANNELS RL_CHANNELS_INPROCESS
+#elif RL_OS_BSD
+#define RL_CHANNELS RL_CHANNELS_INPROCESS
 #else
 #error No Channel Implementation Found
 #endif
@@ -102,6 +108,8 @@
 #define RL_WAITSET RL_WAITSET_INPROCESS
 #elif RL_OS_WINDOWS
 #define RL_WAITSET RL_WAITSET_INPROCESS
+#elif RL_OS_BSD
+#define RL_WAITSET RL_WAITSET_INPROCESS
 #else
 #error No WaitSet Implementation Found
 #endif
@@ -122,6 +130,8 @@
 #elif RL_OS_NACL
 #define RL_SHMEM RL_SHMEM_DISABLED
 #elif RL_OS_WINDOWS
+#define RL_SHMEM RL_SHMEM_DISABLED
+#elif RL_OS_BSD
 #define RL_SHMEM RL_SHMEM_DISABLED
 #else
 #error No Shared Memory Implementation Found

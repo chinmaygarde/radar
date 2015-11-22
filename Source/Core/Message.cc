@@ -11,7 +11,7 @@
 #include <mach/mach.h>
 #elif RL_OS_LINUX
 #include <sys/mman.h>
-#elif RL_OS_WINDOWS || RL_OS_NACL
+#elif RL_OS_WINDOWS || RL_OS_NACL || RL_OS_BSD
 // No platform owned buffer implementation
 #else
 #error Unknown Platform
@@ -60,7 +60,7 @@ Message::~Message() {
       RL_ASSERT(res == KERN_SUCCESS);
 #elif RL_OS_LINUX
       RL_CHECK(::munmap(_buffer, _bufferLength));
-#elif RL_OS_WINDOWS || RL_OS_NACL
+#elif RL_OS_WINDOWS || RL_OS_NACL || RL_OS_BSD
       RL_ASSERT_MSG(false, "No platform owned buffer implementation");
 #else
 #error Unknown Platform

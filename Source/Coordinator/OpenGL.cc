@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_WINDOWS
+#if !RL_OS_WINDOWS && !RL_OS_BSD
 
 #define RL_OPENGL_ALLOWED 1
 #include <Coordinator/OpenGL.h>

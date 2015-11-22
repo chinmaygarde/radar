@@ -9,6 +9,9 @@
 #include <pthread/pthread.h>
 #elif RL_OS_LINUX
 #include <pthread.h>
+#elif RL_OS_BSD
+#include <pthread.h>
+#include <pthread_np.h>
 #elif RL_OS_WINDOWS || RL_OS_NACL
 // No platform supported implementation
 #else
@@ -24,6 +27,8 @@ void SetName(const char* name) {
   pthread_setname_np(name);
 #elif RL_OS_LINUX
   pthread_setname_np(pthread_self(), name);
+#elif RL_OS_BSD
+  pthread_set_name_np(pthread_self(), name);
 #elif RL_OS_WINDOWS || RL_OS_NACL
 // No platform supported implementation
 #else

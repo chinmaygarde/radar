@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_WINDOWS
+#if !RL_OS_WINDOWS && !RL_OS_BSD
 
 #include <Coordinator/Frame.h>
 #include <Coordinator/Primitive.h>
