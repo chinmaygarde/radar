@@ -30,4 +30,26 @@ Vagrant.configure(2) do |config|
       v.memory = 2048
     end
   end
+
+  #
+  #  Define a FreeBSD 10.2 VM
+  #
+  config.vm.define "freebsd" do |freebsd|
+    freebsd.vm.guest = :freebsd
+    freebsd.vm.box = "freebsd/FreeBSD-10.2-RELEASE"
+    freebsd.vm.network "private_network", ip: "192.168.50.4"
+    freebsd.vm.synced_folder ".", "/vagrant", type: "nfs"
+    freebsd.ssh.shell = "sh"
+    freebsd.vm.base_mac = "080027D14C66"
+
+    freebsd.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+      vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
+      vb.customize ["modifyvm", :id, "--audio", "none"]
+      vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+      vb.customize ["modifyvm", :id, "--nictype2", "virtio"]
+    end
+  end
+
 end
