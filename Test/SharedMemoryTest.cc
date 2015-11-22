@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_NACL
+#if RL_SHMEM != RL_SHMEM_DISABLED
 
 #include <Core/SharedMemory.h>
 #include <gtest/gtest.h>
@@ -16,4 +16,4 @@ TEST(SharedMemoryTest, SimpleInitialization) {
   ASSERT_TRUE(memory.size() == 1024);
 }
 
-#endif  // !RL_OS_NACL
+#endif  // RL_SHMEM != RL_SHMEM_DISABLED
