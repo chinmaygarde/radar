@@ -86,7 +86,7 @@
 #elif RL_OS_WINDOWS
 #define RL_CHANNELS RL_CHANNELS_INPROCESS
 #elif RL_OS_BSD
-#define RL_CHANNELS RL_CHANNELS_INPROCESS
+#define RL_CHANNELS RL_CHANNELS_SOCKET
 #else
 #error No Channel Implementation Found
 #endif
@@ -109,7 +109,7 @@
 #elif RL_OS_WINDOWS
 #define RL_WAITSET RL_WAITSET_INPROCESS
 #elif RL_OS_BSD
-#define RL_WAITSET RL_WAITSET_INPROCESS
+#define RL_WAITSET RL_WAITSET_KQUEUE
 #else
 #error No WaitSet Implementation Found
 #endif
@@ -132,7 +132,7 @@
 #elif RL_OS_WINDOWS
 #define RL_SHMEM RL_SHMEM_DISABLED
 #elif RL_OS_BSD
-#define RL_SHMEM RL_SHMEM_DISABLED
+#define RL_SHMEM RL_SHMEM_POSIX
 #else
 #error No Shared Memory Implementation Found
 #endif
