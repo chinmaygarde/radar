@@ -131,7 +131,6 @@ if(LINUX)
   file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
     "Platforms/Linux/*.h"
     "Platforms/Linux/*.cc"
-
     "Samples/*.h"
     "Samples/*.cc"
   )
@@ -150,6 +149,28 @@ if(LINUX)
     pthread
     ${SDL2_LIBRARIES}
     rt
+  )
+endif()
+
+################################
+# FreeBSD Desktop Shell
+################################
+
+if(FREEBSD)
+  file(GLOB RADARLOVE_BSD_DESKTOP_SOURCES
+    "Samples/*.h"
+    "Samples/*.cc"
+  )
+  include_directories ("Samples")
+
+  add_executable( RadarLoveBSDDesktop ${RADARLOVE_BSD_DESKTOP_SOURCES} )
+
+  include_directories("/usr/local/include")
+  link_directories("/usr/local/lib")
+
+  target_link_libraries(RadarLoveBSDDesktop
+    RadarLove
+    pthread
   )
 endif()
 
