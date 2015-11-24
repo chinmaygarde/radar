@@ -10,6 +10,7 @@
 #include <Coordinator/TransferEntity.h>
 #include <Coordinator/TransferRecord.h>
 #include <Recognition/GestureRecognizer.h>
+#include <Layout/Constraint.h>
 
 #include <map>
 
@@ -26,16 +27,20 @@ class TransactionPayload : public core::Serializable {
       void(interface::Action&, TransferRecord&, const core::ClockPoint&)>;
   using RecognizerCallback =
       std::function<void(recognition::GestureRecognizer::Collection&&)>;
+  using ConstraintsCallback =
+      std::function<void(std::vector<layout::Constraint>&&)>;
 
   explicit TransactionPayload(
       interface::Action&& action,
       EntityMap&& entities,
-      recognition::GestureRecognizer::Collection&& recognizers);
+      recognition::GestureRecognizer::Collection&& recognizers,
+      std::vector<layout::Constraint>&& constraints);
 
   explicit TransactionPayload(const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
-                              RecognizerCallback recognizerCallback);
+                              RecognizerCallback recognizerCallback,
+                              ConstraintsCallback constraintsCallback);
 
   bool serialize(core::Message& message) const override;
   bool deserialize(core::Message& message) override;
@@ -47,6 +52,7 @@ class TransactionPayload : public core::Serializable {
   interface::Action _action;
   EntityMap _entities;
   recognition::GestureRecognizer::Collection _recognizers;
+  std::vector<layout::Constraint> _constraints;
 
   /*
    *  Used when reading
@@ -55,6 +61,7 @@ class TransactionPayload : public core::Serializable {
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;
   RecognizerCallback _recognizerCallback;
+  ConstraintsCallback _constraintsCallback;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TransactionPayload);
 };

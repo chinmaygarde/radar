@@ -7,6 +7,7 @@
 
 #include <Core/Core.h>
 #include <Layout/Variable.h>
+#include <Interface/Entity.h>
 
 namespace rl {
 namespace layout {
@@ -15,13 +16,20 @@ class Parameter {
  public:
   Parameter(double value = 0.0);
 
+  Parameter(const interface::Entity& entity,
+            interface::Entity::Property property);
+
   bool setValue(double value);
 
   double value() const;
 
+  interface::Entity::Property property() const;
+
   Variable asVariable() const;
 
  private:
+  interface::Entity::Identifier _identifier;
+  interface::Entity::Property _property;
   double _value;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Parameter);

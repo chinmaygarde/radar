@@ -10,6 +10,7 @@
 #include <Interface/Entity.h>
 #include <Coordinator/EntityArena.h>
 #include <Recognition/GestureRecognizer.h>
+#include <Layout/Constraint.h>
 
 #include <map>
 
@@ -26,6 +27,8 @@ class InterfaceTransaction {
 
   void mark(recognition::GestureRecognizer&& recognizer);
 
+  void mark(const std::vector<layout::Constraint>& constraints);
+
   bool commit(core::Message& arena);
 
  private:
@@ -33,6 +36,7 @@ class InterfaceTransaction {
   std::map<Entity::Identifier, std::unique_ptr<coordinator::TransferEntity>>
       _entities;
   std::vector<recognition::GestureRecognizer> _recognizers;
+  std::vector<layout::Constraint> _constraints;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };

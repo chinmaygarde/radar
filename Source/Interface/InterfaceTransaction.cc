@@ -30,9 +30,17 @@ void InterfaceTransaction::mark(recognition::GestureRecognizer&& recognizer) {
   _recognizers.emplace_back(std::move(recognizer));
 }
 
+void InterfaceTransaction::mark(
+    const std::vector<layout::Constraint>& constraints) {
+  for (const auto& constraint : constraints) {
+    _constraints.emplace_back(constraint);
+  }
+}
+
 bool InterfaceTransaction::commit(core::Message& arena) {
   coordinator::TransactionPayload payload(
-      std::move(_action), std::move(_entities), std::move(_recognizers));
+      std::move(_action), std::move(_entities), std::move(_recognizers),
+      std::move(_constraints));
   return arena.encode(payload);
 }
 

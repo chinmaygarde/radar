@@ -247,5 +247,10 @@ bool Interface::setupGestureRecognizer(
   return true;
 }
 
+void Interface::setupConstraints(
+    const std::vector<layout::Constraint>& constraints) {
+  transaction().mark(constraints);
+}
+
 }  // namespace interface
 }  // namespace rl

@@ -11,6 +11,7 @@
 #include <Toolbox/StateMachine.h>
 #include <Interface/Layer.h>
 #include <Coordinator/Channel.h>
+#include <Layout/Constraint.h>
 
 #include <deque>
 #include <mutex>
@@ -119,6 +120,8 @@ class Interface {
   static Interface& current();
 
   bool setupGestureRecognizer(recognition::GestureRecognizer&& recognizer);
+
+  void setupConstraints(const std::vector<layout::Constraint>& constraints);
 
  private:
   core::EventLoop* _loop;

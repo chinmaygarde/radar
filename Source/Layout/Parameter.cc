@@ -7,7 +7,15 @@
 namespace rl {
 namespace layout {
 
-Parameter::Parameter(double value) : _value(value) {
+Parameter::Parameter(double value)
+    : _identifier(interface::Entity::IdentifierNone),
+      _property(interface::Entity::Property::None),
+      _value(value) {
+}
+
+Parameter::Parameter(const interface::Entity& entity,
+                     interface::Entity::Property property)
+    : _identifier(entity.identifier()), _property(property), _value(0.0) {
 }
 
 bool Parameter::setValue(double value) {
@@ -22,6 +30,10 @@ bool Parameter::setValue(double value) {
 
 double Parameter::value() const {
   return _value;
+}
+
+interface::Entity::Property Parameter::property() const {
+  return _property;
 }
 
 Variable Parameter::asVariable() const {

@@ -59,6 +59,8 @@ class PresentationGraph {
   void onRecognizerCommit(
       recognition::GestureRecognizer::Collection&& recognizers);
 
+  void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
+
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 

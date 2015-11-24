@@ -34,7 +34,8 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
       time,  //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
-      std::bind(&G::onRecognizerCommit, this, P::_1));
+      std::bind(&G::onRecognizerCommit, this, P::_1),
+      std::bind(&G::onConstraintsCommit, this, P::_1));
   return payload.deserialize(arena);
 }
 
@@ -69,6 +70,10 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
 void PresentationGraph::onRecognizerCommit(
     recognition::GestureRecognizer::Collection&& recognizers) {
   _recognitionEngine.setupRecognizers(std::move(recognizers));
+}
+
+void PresentationGraph::onConstraintsCommit(
+    std::vector<layout::Constraint>&& constraints) {
 }
 
 template <typename T>

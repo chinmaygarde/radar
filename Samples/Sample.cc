@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 #include <Recognition/GestureRecognizer.h>
+#include <Layout/Parameter.h>
+#include <Layout/ConstraintCreation.h>
 
 namespace sample {
 
@@ -33,6 +35,25 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
 
   bool result = interface.setupGestureRecognizer(std::move(recognizer));
   RL_ASSERT(result);
+}
+
+static void AddDockedPanel(rl::interface::Interface& interface) {
+  auto layer = interface.rootLayer();
+  auto child = std::make_shared<rl::interface::Layer>();
+
+  child->setBackgroundColor(rl::coordinator::ColorBlue);
+  child->setFrame({35, 35, 200, 200});
+
+  layer->addSublayer(child);
+
+  rl::layout::Parameter containerWidth(*layer,
+                                       rl::interface::Entity::Property::Bounds);
+  rl::layout::Parameter childWidth(*child,
+                                   rl::interface::Entity::Property::Bounds);
+
+  interface.setupConstraints({
+      containerWidth == childWidth,  //
+  });
 }
 
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
@@ -66,6 +87,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   }
 
   interface.popTransaction();
+
+  AddDockedPanel(interface);
 
   auto sub1 = std::make_shared<rl::interface::Layer>();
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});

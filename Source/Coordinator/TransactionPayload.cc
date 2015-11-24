@@ -11,32 +11,38 @@ namespace coordinator {
 TransactionPayload::TransactionPayload(
     interface::Action&& action,
     EntityMap&& entities,
-    recognition::GestureRecognizer::Collection&& recognizers)
+    recognition::GestureRecognizer::Collection&& recognizers,
+    std::vector<layout::Constraint>&& constraints)
     : _action(std::move(action)),
       _entities(std::move(entities)),
-      _recognizers(std::move(recognizers)) {
+      _recognizers(std::move(recognizers)),
+      _constraints(std::move(constraints)) {
 }
 
 TransactionPayload::TransactionPayload(
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
-    RecognizerCallback recognizerCallback)
+    RecognizerCallback recognizerCallback,
+    ConstraintsCallback constraintsCallback)
     : _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
-      _recognizerCallback(recognizerCallback) {
+      _recognizerCallback(recognizerCallback),
+      _constraintsCallback(constraintsCallback) {
 }
 
 bool TransactionPayload::serialize(core::Message& message) const {
   bool result = true;
 
   /*
-   *  Step 1: Encode the Action
+   *  Step 1: Encode the Action, Recognizers and Constraints
    */
   result &= message.encode(_action);
 
   result &= message.encode(_recognizers);
+
+  result &= message.encode(_constraints);
 
   /*
    *  Step 2: Encode the transfer record count
@@ -92,6 +98,13 @@ bool TransactionPayload::deserialize(core::Message& message) {
     return false;
   }
 
+  std::vector<layout::Constraint> constraints;
+  result = message.decode(constraints);
+
+  if (!result) {
+    return false;
+  }
+
   /*
    *  Step 2: Read the transfer record count
    */
@@ -111,6 +124,10 @@ bool TransactionPayload::deserialize(core::Message& message) {
 
   if (recognizers.size() > 0) {
     _recognizerCallback(std::move(recognizers));
+  }
+
+  if (constraints.size() > 0) {
+    _constraintsCallback(std::move(constraints));
   }
 
   return true;
