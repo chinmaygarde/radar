@@ -555,7 +555,7 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
  */
 
 template <class T>
-Result Solver::bulkEdit(const std::list<T>& items,
+Result Solver::bulkEdit(const std::vector<T>& items,
                         UpdateCallback<T> applier,
                         UpdateCallback<T> undoer) {
   std::vector<std::reference_wrapper<const T>> applied;
@@ -582,7 +582,7 @@ Result Solver::bulkEdit(const std::list<T>& items,
   return result;
 }
 
-Result Solver::addConstraints(const std::list<Constraint>& constraints) {
+Result Solver::addConstraints(const std::vector<Constraint>& constraints) {
   UpdateCallback<Constraint> applier =
       std::bind(&Solver::addConstraint, this, std::placeholders::_1);
   UpdateCallback<Constraint> undoer =
@@ -591,7 +591,7 @@ Result Solver::addConstraints(const std::list<Constraint>& constraints) {
   return bulkEdit(constraints, applier, undoer);
 }
 
-Result Solver::removeConstraints(const std::list<Constraint>& constraints) {
+Result Solver::removeConstraints(const std::vector<Constraint>& constraints) {
   UpdateCallback<Constraint> applier =
       std::bind(&Solver::removeConstraint, this, std::placeholders::_1);
   UpdateCallback<Constraint> undoer =
@@ -600,7 +600,7 @@ Result Solver::removeConstraints(const std::list<Constraint>& constraints) {
   return bulkEdit(constraints, applier, undoer);
 }
 
-Result Solver::addEditVariables(const std::list<Variable> variables,
+Result Solver::addEditVariables(const std::vector<Variable> variables,
                                 double priority) {
   UpdateCallback<Variable> applier = [&, priority](const Variable& variable) {
     return addEditVariable(variable, priority);
@@ -611,7 +611,7 @@ Result Solver::addEditVariables(const std::list<Variable> variables,
   return bulkEdit(variables, applier, undoer);
 }
 
-Result Solver::removeEditVariables(const std::list<Variable> variables) {
+Result Solver::removeEditVariables(const std::vector<Variable> variables) {
   UpdateCallback<Variable> applier =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
   UpdateCallback<Variable> undoer = [&](const Variable& variable) {

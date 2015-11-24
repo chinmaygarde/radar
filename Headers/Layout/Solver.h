@@ -16,7 +16,7 @@
 
 #include <map>
 #include <unordered_map>
-#include <list>
+#include <vector>
 #include <functional>
 
 namespace rl {
@@ -28,21 +28,22 @@ class Solver {
 
   ~Solver();
 
-  Result addConstraints(const std::list<Constraint>& constraints);
+  Result addConstraints(const std::vector<Constraint>& constraints);
 
   Result addConstraint(const Constraint& constraint);
 
-  Result removeConstraints(const std::list<Constraint>& constraints);
+  Result removeConstraints(const std::vector<Constraint>& constraints);
 
   Result removeConstraint(const Constraint& constraint);
 
   bool hasConstraint(const Constraint& constraint) const;
 
-  Result addEditVariables(const std::list<Variable> variables, double priority);
+  Result addEditVariables(const std::vector<Variable> variables,
+                          double priority);
 
   Result addEditVariable(const Variable& variable, double priority);
 
-  Result removeEditVariables(const std::list<Variable> variables);
+  Result removeEditVariables(const std::vector<Variable> variables);
 
   Result removeEditVariable(const Variable& variable);
 
@@ -66,7 +67,7 @@ class Solver {
   using UpdateCallback = std::function<Result(const T&)>;
 
   template <class T>
-  Result bulkEdit(const std::list<T>& items,
+  Result bulkEdit(const std::vector<T>& items,
                   UpdateCallback<T> applier,
                   UpdateCallback<T> undoer);
 

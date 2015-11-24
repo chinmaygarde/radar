@@ -74,7 +74,8 @@ void PresentationGraph::onRecognizerCommit(
 
 void PresentationGraph::onConstraintsCommit(
     std::vector<layout::Constraint>&& constraints) {
-  // TODO: WIP
+  auto res = _layoutSolver.addConstraints(constraints);
+  RL_ASSERT(!res.isError());
 }
 
 template <typename T>
