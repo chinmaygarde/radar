@@ -14,6 +14,7 @@
 #include <Coordinator/TransactionPayload.h>
 #include <Interface/Action.h>
 #include <Recognition/RecognitionEngine.h>
+#include <Layout/Solver.h>
 
 #include <map>
 
@@ -34,10 +35,10 @@ class PresentationGraph {
 
  private:
   PresentationEntity::IdentifierMap _entities;
-  recognition::RecognitionEngine _recognitionEngine;
-
   PresentationEntity* _root;
   animation::Director _animationDirector;
+  recognition::RecognitionEngine _recognitionEngine;
+  layout::Solver _layoutSolver;
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
