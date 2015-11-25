@@ -62,7 +62,6 @@ class Coordinator : RenderSurfaceObserver {
  private:
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
-  std::mutex _lock;
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   std::shared_ptr<Channel> _interfaceChannel;
