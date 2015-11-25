@@ -24,3 +24,5 @@ build/
 xcuserdata
 
 *.moved-aside
+
+*.pyc
