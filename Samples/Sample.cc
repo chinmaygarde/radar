@@ -8,7 +8,6 @@
 
 #include <stdlib.h>
 #include <Recognition/GestureRecognizer.h>
-#include <Layout/Parameter.h>
 #include <Layout/ConstraintCreation.h>
 
 namespace sample {
@@ -46,10 +45,10 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
 
   layer->addSublayer(child);
 
-  rl::layout::Parameter containerWidth(*layer,
-                                       rl::interface::Entity::Property::Bounds);
-  rl::layout::Parameter childWidth(*child,
-                                   rl::interface::Entity::Property::Bounds);
+  rl::layout::Variable containerWidth(layer->identifier(),
+                                      rl::interface::Entity::Property::Bounds);
+  rl::layout::Variable childWidth(child->identifier(),
+                                  rl::interface::Entity::Property::Bounds);
 
   interface.setupConstraints({
       containerWidth == childWidth,  //

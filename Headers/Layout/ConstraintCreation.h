@@ -6,7 +6,9 @@
 #define RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
 
 #include <Layout/Constraint.h>
-#include <Layout/Parameter.h>
+#include <Layout/Variable.h>
+#include <Layout/Term.h>
+#include <Layout/Expression.h>
 
 namespace rl {
 namespace layout {
@@ -21,8 +23,7 @@ struct ExpressionMember : public std::integral_constant<
     bool,
     std::is_base_of<Variable, T>::value   ||
     std::is_base_of<Term, T>::value       ||
-    std::is_base_of<Expression, T>::value ||
-    std::is_base_of<Parameter, T>::value> {
+    std::is_base_of<Expression, T>::value> {
 };
 
 /**

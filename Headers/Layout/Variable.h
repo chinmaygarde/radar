@@ -11,14 +11,17 @@
 namespace rl {
 namespace layout {
 
-class Parameter;
 class Variable : public core::Serializable {
  public:
-  Variable(Parameter* parameter);
+  Variable();
 
-  Variable(const Parameter& parameter);
+  Variable(
+      interface::Entity::Identifier identifier,
+      interface::Entity::Property property = interface::Entity::Property::None);
 
-  bool applyUpdate(double value) const;
+  interface::Entity::Identifier identifier() const;
+
+  interface::Entity::Property property() const;
 
   bool serialize(core::Message& message) const override;
 
@@ -26,18 +29,20 @@ class Variable : public core::Serializable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      return reinterpret_cast<size_t>(v._parameter);
+      return v._identifier ^ v._property;
     }
   };
 
   struct Equal {
     constexpr bool operator()(const Variable& lhs, const Variable& rhs) const {
-      return lhs._parameter == rhs._parameter;
+      return lhs._identifier == rhs._identifier &&
+             lhs._property == rhs._property;
     }
   };
 
  private:
-  Parameter* _parameter;
+  interface::Entity::Identifier _identifier;
+  interface::Entity::Property _property;
 
   RL_DISALLOW_ASSIGN(Variable);
 };

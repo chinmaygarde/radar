@@ -51,7 +51,9 @@ class Solver {
 
   Result suggestValueForVariable(const Variable& variable, double value);
 
-  bool flushUpdates();
+  using SolverUpdateCallback =
+      std::function<void(const Variable&, double value)>;
+  void flushUpdates(SolverUpdateCallback callback);
 
  private:
   std::map<Constraint, Tag, Constraint::Compare> _constraints;

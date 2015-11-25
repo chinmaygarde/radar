@@ -5,8 +5,9 @@
 #include <gtest/gtest.h>
 #include <Core/Core.h>
 #include <Layout/Solver.h>
-#include <Layout/Parameter.h>
 #include <Layout/ConstraintCreation.h>
+
+#include <map>
 
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
   rl::layout::Expression expr({}, 1.0);
@@ -17,7 +18,7 @@ TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
 }
 
 TEST(LayoutTest, TermConstruction) {
-  rl::layout::Variable v(0);
+  rl::layout::Variable v(1);
   rl::layout::Term term(v, 1.0);
   rl::layout::Term term2(v, 2.0);
 
@@ -34,7 +35,7 @@ TEST(LayoutTest, TermConstruction) {
 }
 
 TEST(LayoutTest, VariableConstruction) {
-  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v(1);
   rl::layout::Term term2(v, 2.0);
 
   auto expr = v + 1.0;
@@ -50,7 +51,7 @@ TEST(LayoutTest, VariableConstruction) {
 }
 
 TEST(LayoutTest, DoubleConstruction) {
-  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v(1);
   rl::layout::Term term2(v, 2.0);
 
   auto expr2 = 2.0 + v;
@@ -72,12 +73,12 @@ TEST(LayoutTest, DoubleConstruction) {
 }
 
 TEST(LayoutTest, ComplexOperationOverload) {
-  rl::layout::Variable v1(reinterpret_cast<rl::layout::Parameter*>(1));
-  rl::layout::Variable v2(reinterpret_cast<rl::layout::Parameter*>(2));
-  rl::layout::Variable v3(reinterpret_cast<rl::layout::Parameter*>(3));
-  rl::layout::Variable v4(reinterpret_cast<rl::layout::Parameter*>(4));
-  rl::layout::Variable v5(reinterpret_cast<rl::layout::Parameter*>(5));
-  rl::layout::Variable v6(reinterpret_cast<rl::layout::Parameter*>(6));
+  rl::layout::Variable v1(1);
+  rl::layout::Variable v2(2);
+  rl::layout::Variable v3(3);
+  rl::layout::Variable v4(4);
+  rl::layout::Variable v5(5);
+  rl::layout::Variable v6(6);
 
   auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
   ASSERT_EQ(expr.constant(), -300.0);
@@ -106,7 +107,7 @@ TEST(LayoutTest, ComplexOperationOverload) {
 }
 
 TEST(LayoutTest, ConstraintCreation) {
-  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v(1);
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -138,7 +139,7 @@ TEST(LayoutTest, ConstraintCreation) {
 }
 
 TEST(LayoutTest, ConstraintCreationAtPriority) {
-  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v(1);
 
   rl::layout::Constraint constraint =
       2.0 * v + 35 == 0 | rl::layout::priority::Strong;
@@ -156,7 +157,7 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
 }
 
 TEST(LayoutTest, SerializeDeserializeConstraint) {
-  rl::layout::Variable v(reinterpret_cast<rl::layout::Parameter*>(1));
+  rl::layout::Variable v(1);
   auto constraint =
       2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
 
@@ -179,11 +180,11 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
 }
 
 TEST(LayoutTest, ConstraintsAdd) {
-  rl::layout::Parameter p1, p2, p3;
+  rl::layout::Variable p1(1), p2(2), p3(3);
 
-  rl::layout::Variable left = p1.asVariable();
-  rl::layout::Variable mid = p2.asVariable();
-  rl::layout::Variable right = p3.asVariable();
+  rl::layout::Variable left = p1;
+  rl::layout::Variable mid = p2;
+  rl::layout::Variable right = p3;
 
   rl::layout::Solver solver;
 
@@ -191,15 +192,19 @@ TEST(LayoutTest, ConstraintsAdd) {
   ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
   ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
 
-  solver.flushUpdates();
+  std::map<rl::interface::Entity::Identifier, double> updates;
+  solver.flushUpdates(
+      [&updates](const rl::layout::Variable& var, double value) {
+        updates[var.identifier()] = value;
+      });
 
-  ASSERT_EQ(p1.value(), 0.0);
-  ASSERT_EQ(p2.value(), 50.0);
-  ASSERT_EQ(p3.value(), 100.0);
+  ASSERT_EQ(updates[1], 0.0);
+  ASSERT_EQ(updates[2], 50.0);
+  ASSERT_EQ(updates[3], 100.0);
 }
 
 TEST(LayoutTest, ParameterHoisting) {
-  rl::layout::Parameter p1(100.0);
+  rl::layout::Variable p1(100);
   rl::layout::Constraint constraint = p1 >= 10;
 
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -207,7 +212,7 @@ TEST(LayoutTest, ParameterHoisting) {
 }
 
 TEST(LayoutTest, ConstraintsAddParameterConst) {
-  rl::layout::Parameter left, mid, right;
+  rl::layout::Variable left(1), mid(2), right(3);
 
   rl::layout::Solver solver;
 
@@ -215,18 +220,22 @@ TEST(LayoutTest, ConstraintsAddParameterConst) {
   ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
   ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
 
-  solver.flushUpdates();
+  std::map<rl::interface::Entity::Identifier, double> updates;
+  solver.flushUpdates(
+      [&updates](const rl::layout::Variable& var, double value) {
+        updates[var.identifier()] = value;
+      });
 
-  ASSERT_EQ(left.value(), 0.0);
-  ASSERT_EQ(mid.value(), 50.0);
-  ASSERT_EQ(right.value(), 100.0);
+  ASSERT_EQ(updates[1], 0.0);
+  ASSERT_EQ(updates[2], 50.0);
+  ASSERT_EQ(updates[3], 100.0);
 }
 
 TEST(LayoutTest, UpdatesInSolver) {
   rl::layout::Solver solver;
 
-  rl::layout::Parameter left(2.0);
-  rl::layout::Parameter right(100.0);
+  rl::layout::Variable left(1);
+  rl::layout::Variable right(2);
 
   auto c1 = right - left >= 200.0;
   auto c2 = right >= right;
@@ -245,24 +254,24 @@ TEST(LayoutTest, UpdatesInSolver) {
 TEST(LayoutTest, EditUpdates) {
   rl::layout::Solver solver;
 
-  rl::layout::Parameter left(0.0);
-  rl::layout::Parameter right(100.0);
-  rl::layout::Parameter mid(0.0);
+  rl::layout::Variable left(1);
+  rl::layout::Variable right(2);
+  rl::layout::Variable mid(3);
 
   auto c = left + right >= 2.0 * mid;
   ASSERT_EQ(solver.addConstraint(c).type(), rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.addEditVariable(mid.asVariable(), 999).type(),
+  ASSERT_EQ(solver.addEditVariable(mid, 999).type(),
             rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.addEditVariable(mid.asVariable(), 999).type(),
+  ASSERT_EQ(solver.addEditVariable(mid, 999).type(),
             rl::layout::Result::Type::DuplicateEditVariable);
-  ASSERT_EQ(solver.removeEditVariable(mid.asVariable()).type(),
+  ASSERT_EQ(solver.removeEditVariable(mid).type(),
             rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.removeEditVariable(mid.asVariable()).type(),
+  ASSERT_EQ(solver.removeEditVariable(mid).type(),
             rl::layout::Result::Type::UnknownEditVariable);
 }
 
 TEST(LayoutTest, EditConstraintFlush) {
-  rl::layout::Parameter left, right, mid;
+  rl::layout::Variable left(1), right(2), mid(3);
 
   rl::layout::Solver solver;
 
@@ -274,31 +283,32 @@ TEST(LayoutTest, EditConstraintFlush) {
 
   ASSERT_EQ(res.type(), rl::layout::Result::Type::Success);
 
-  ASSERT_EQ(
-      solver.addEditVariable(mid.asVariable(), rl::layout::priority::Strong)
-          .type(),
-      rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.suggestValueForVariable(mid.asVariable(), 300.0).type(),
+  ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong).type(),
+            rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.suggestValueForVariable(mid, 300.0).type(),
             rl::layout::Result::Type::Success);
 
-  ASSERT_EQ(solver.flushUpdates(), true);
+  std::map<rl::interface::Entity::Identifier, double> updates;
+  solver.flushUpdates(
+      [&updates](const rl::layout::Variable& var, double value) {
+        updates[var.identifier()] = value;
+      });
 
-  ASSERT_EQ(left.value(), 0.0);
-  ASSERT_EQ(mid.value(), 300.0);
-  ASSERT_EQ(right.value(), 600.0);
+  ASSERT_EQ(updates[1], 0.0);
+  ASSERT_EQ(updates[3], 300.0);
+  ASSERT_EQ(updates[2], 600.0);
 }
 
 TEST(LayoutTest, SolverSolutionWithOptimize) {
-  rl::layout::Parameter p1, p2, p3, container;
+  rl::layout::Variable p1(1), p2(2), p3(3), container(4);
 
   rl::layout::Solver solver;
 
-  auto res = solver.addEditVariable(container.asVariable(),
-                                    rl::layout::priority::Strong);
+  auto res = solver.addEditVariable(container, rl::layout::priority::Strong);
 
   ASSERT_EQ(res.isError(), false);
 
-  res = solver.suggestValueForVariable(container.asVariable(), 100.0);
+  res = solver.suggestValueForVariable(container, 100.0);
 
   ASSERT_EQ(res.isError(), false);
 
@@ -311,10 +321,14 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 
   ASSERT_EQ(res.isError(), false);
 
-  ASSERT_EQ(solver.flushUpdates(), true);
+  std::map<rl::interface::Entity::Identifier, double> updates;
+  solver.flushUpdates(
+      [&updates](const rl::layout::Variable& var, double value) {
+        updates[var.identifier()] = value;
+      });
 
-  ASSERT_EQ(container.value(), 100.0);
-  ASSERT_EQ(p1.value(), 30.0);
-  ASSERT_EQ(p2.value(), 60.0);
-  ASSERT_EQ(p3.value(), 10.0);
+  ASSERT_EQ(updates[4], 100.0);
+  ASSERT_EQ(updates[1], 30.0);
+  ASSERT_EQ(updates[2], 60.0);
+  ASSERT_EQ(updates[3], 10.0);
 }

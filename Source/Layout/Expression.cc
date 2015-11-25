@@ -21,10 +21,6 @@ Expression::Expression(const Variable& variable)
     : _terms({Term{variable, 1.0}}), _constant(0.0) {
 }
 
-Expression::Expression(const Parameter& parameter)
-    : _terms({Term{parameter.asVariable(), 1.0}}), _constant(0.0) {
-}
-
 Expression::Expression(double constant) : _constant(constant) {
 }
 

@@ -7,7 +7,6 @@
 
 #include <Core/Core.h>
 #include <Layout/Term.h>
-#include <Layout/Parameter.h>
 
 #include <vector>
 
@@ -25,8 +24,6 @@ class Expression : public core::Serializable {
   Expression(const Term& term);
 
   Expression(const Variable& variable);
-
-  Expression(const Parameter& parameter);
 
   Expression(double constant);
 

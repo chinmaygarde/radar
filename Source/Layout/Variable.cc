@@ -4,34 +4,39 @@
 
 #include <Layout/Variable.h>
 #include <Layout/Utilities.h>
-#include <Layout/Parameter.h>
 
 namespace rl {
 namespace layout {
 
-Variable::Variable(Parameter* parameter) : _parameter(parameter) {
+Variable::Variable()
+    : _identifier(interface::Entity::IdentifierNone),
+      _property(interface::Entity::Property::None) {
 }
 
-Variable::Variable(const Parameter& parameter)
-    : _parameter(const_cast<Parameter*>(&parameter)) {
+Variable::Variable(interface::Entity::Identifier identifier,
+                   interface::Entity::Property property)
+    : _identifier(identifier), _property(property) {
 }
 
-bool Variable::applyUpdate(double value) const {
-  if (_parameter == nullptr) {
-    return false;
-  }
-  return _parameter->setValue(value);
+interface::Entity::Identifier Variable::identifier() const {
+  return _identifier;
+}
+
+interface::Entity::Property Variable::property() const {
+  return _property;
 }
 
 bool Variable::serialize(core::Message& message) const {
   auto success = true;
-  // TODO: WIP
+  success &= message.encode(_identifier);
+  success &= message.encode(_property);
   return success;
 }
 
 bool Variable::deserialize(core::Message& message) {
   auto success = true;
-  // TODO: WIP
+  success &= message.decode(_identifier);
+  success &= message.decode(_property);
   return success;
 }
 
