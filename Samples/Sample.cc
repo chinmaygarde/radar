@@ -45,13 +45,13 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
 
   layer->addSublayer(child);
 
-  rl::layout::Variable containerWidth(layer->identifier(),
-                                      rl::interface::Entity::Property::Bounds);
-  rl::layout::Variable childWidth(child->identifier(),
-                                  rl::interface::Entity::Property::Bounds);
+  rl::layout::Variable containerPosition(
+      layer->identifier(), rl::interface::Entity::Property::Position);
+  rl::layout::Variable childPosition(child->identifier(),
+                                     rl::interface::Entity::Property::Position);
 
   interface.setupConstraints({
-      containerWidth == childWidth,  //
+      containerPosition == childPosition,  //
   });
 }
 
