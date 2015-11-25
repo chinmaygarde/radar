@@ -34,6 +34,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(RadarLove)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 if(WIN32)
   if(NOT WINDOWS)
     set(WINDOWS TRUE)
