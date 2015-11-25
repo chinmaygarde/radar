@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_ENTITYARENA_
-#define RADARLOVE_COMPOSITOR_ENTITYARENA_
+#ifndef RADARLOVE_COORDINATOR_ENTITYARENA_
+#define RADARLOVE_COORDINATOR_ENTITYARENA_
 
 #include <Core/Core.h>
 #include <Coordinator/TransferEntity.h>
@@ -47,4 +47,4 @@ class EntityArena {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_ENTITYARENA_
+#endif  // RADARLOVE_COORDINATOR_ENTITYARENA_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_COMPOSITOR_
-#define RADARLOVE_COMPOSITOR_COMPOSITOR_
+#ifndef RADARLOVE_COORDINATOR_COORDINATOR_
+#define RADARLOVE_COORDINATOR_COORDINATOR_
 
 #include <Core/Core.h>
 
@@ -23,36 +23,36 @@
 namespace rl {
 namespace coordinator {
 
-class Compositor : RenderSurfaceObserver {
+class Coordinator : RenderSurfaceObserver {
  public:
   /**
-   *  Create a compositor instance with the given render surface implementation.
-   *  No operations on the surface are performed till the compositor is run
-   *  however.
+   *  Create a coordinator instance with the given render surface
+   *  implementation. No operations on the surface are performed till the
+   *  coordinator is run however.
    */
-  explicit Compositor(std::shared_ptr<RenderSurface> surface,
-                      event::TouchEventChannel& touchEventChannel);
+  explicit Coordinator(std::shared_ptr<RenderSurface> surface,
+                       event::TouchEventChannel& touchEventChannel);
 
-  ~Compositor();
+  ~Coordinator();
 
   /**
-   *  Run the compositor on the current thread. This is a blocking operation and
-   *  the compositor owns its loop.
+   *  Run the coordinator on the current thread. This is a blocking operation
+   *  and the coordinator owns its loop.
    *
-   *  @param readyLatch the latch triggered when the compositor has finished
+   *  @param readyLatch the latch triggered when the coordinator has finished
    *         starting up and is about to wait for the first time on its loop.
    */
   void run(core::Latch& readyLatch);
 
   /**
-   *  @return if the compositor is currently running
+   *  @return if the coordinator is currently running
    */
   bool isRunning() const;
 
   /**
-   *  Gracefully shutdown the compositor
+   *  Gracefully shutdown the coordinator
    *
-   *  @param shutdownLatch the latch triggered when the compositor is done
+   *  @param shutdownLatch the latch triggered when the coordinator is done
    *  shutting down.
    */
   void shutdown(core::Latch& shutdownLatch);
@@ -92,10 +92,10 @@ class Compositor : RenderSurfaceObserver {
   void onAnimationsStep();
   void drainPendingTouches();
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Compositor);
+  RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };
 
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_COMPOSITOR_
+#endif  // RADARLOVE_COORDINATOR_COORDINATOR_

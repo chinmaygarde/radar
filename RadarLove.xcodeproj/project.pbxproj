@@ -87,7 +87,7 @@
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
 		9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655801BE2F17F00997766 /* StateMachine.cc */; };
 		9E8655E91BE45E2700997766 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D41BE45E2700997766 /* Color.h */; };
-		9E8655EA1BE45E2700997766 /* Compositor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Compositor.h */; };
+		9E8655EA1BE45E2700997766 /* Coordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Coordinator.h */; };
 		9E8655EB1BE45E2700997766 /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D61BE45E2700997766 /* Channel.h */; };
 		9E8655EC1BE45E2700997766 /* Statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* Statistics.h */; };
 		9E8655ED1BE45E2700997766 /* StatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* StatisticsRenderer.h */; };
@@ -105,7 +105,7 @@
 		9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E61BE45E2700997766 /* TransferEntity.h */; };
 		9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E71BE45E2700997766 /* TransferRecord.h */; };
 		9E8656141BE45E3A00997766 /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655FF1BE45E3A00997766 /* Color.cc */; };
-		9E8656151BE45E3A00997766 /* Compositor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Compositor.cc */; };
+		9E8656151BE45E3A00997766 /* Coordinator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Coordinator.cc */; };
 		9E8656161BE45E3A00997766 /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656011BE45E3A00997766 /* Channel.cc */; };
 		9E8656171BE45E3A00997766 /* Statistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* Statistics.cc */; };
 		9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */; };
@@ -199,6 +199,8 @@
 		9EBA79DE1B87FF57005D84FA /* stb_textedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D41B87FF57005D84FA /* stb_textedit.h */; };
 		9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBA79D51B87FF57005D84FA /* stb_truetype.h */; };
 		9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EEA38D71BF556160074AC56 /* ConstraintCreation.h */; };
+		9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EF07B691C0641BD00735CAA /* InterfaceController.h */; };
+		9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF07B6B1C0641C600735CAA /* InterfaceController.cc */; };
 		EA6090D61BA41E8C00C2E263 /* KQueueEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */; };
 		EA6090D71BA41E8C00C2E263 /* EPollEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CF1BA41E8C00C2E263 /* EPollEventLoopSource.cc */; };
 		EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */; };
@@ -394,7 +396,7 @@
 		9E86557D1BE2F16F00997766 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E8655801BE2F17F00997766 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E8655D41BE45E2700997766 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		9E8655D51BE45E2700997766 /* Compositor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compositor.h; sourceTree = "<group>"; };
+		9E8655D51BE45E2700997766 /* Coordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinator.h; sourceTree = "<group>"; };
 		9E8655D61BE45E2700997766 /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9E8655D71BE45E2700997766 /* Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statistics.h; sourceTree = "<group>"; };
 		9E8655D81BE45E2700997766 /* StatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsRenderer.h; sourceTree = "<group>"; };
@@ -412,7 +414,7 @@
 		9E8655E61BE45E2700997766 /* TransferEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferEntity.h; sourceTree = "<group>"; };
 		9E8655E71BE45E2700997766 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
 		9E8655FF1BE45E3A00997766 /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
-		9E8656001BE45E3A00997766 /* Compositor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compositor.cc; sourceTree = "<group>"; };
+		9E8656001BE45E3A00997766 /* Coordinator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinator.cc; sourceTree = "<group>"; };
 		9E8656011BE45E3A00997766 /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9E8656021BE45E3A00997766 /* Statistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Statistics.cc; sourceTree = "<group>"; };
 		9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatisticsRenderer.cc; sourceTree = "<group>"; };
@@ -508,6 +510,8 @@
 		9EBA79D41B87FF57005D84FA /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = ThirdParty/imgui/stb_textedit.h; sourceTree = "<group>"; };
 		9EBA79D51B87FF57005D84FA /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = ThirdParty/imgui/stb_truetype.h; sourceTree = "<group>"; };
 		9EEA38D71BF556160074AC56 /* ConstraintCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstraintCreation.h; sourceTree = "<group>"; };
+		9EF07B691C0641BD00735CAA /* InterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		9EF07B6B1C0641C600735CAA /* InterfaceController.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceController.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KQueueEventLoopSource.cc; sourceTree = "<group>"; };
 		EA6090CF1BA41E8C00C2E263 /* EPollEventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EPollEventLoopSource.cc; sourceTree = "<group>"; };
 		EA6090D01BA41E8C00C2E263 /* MachPortChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPortChannel.cc; sourceTree = "<group>"; };
@@ -675,13 +679,14 @@
 			isa = PBXGroup;
 			children = (
 				9E8655D41BE45E2700997766 /* Color.h */,
-				9E8655D51BE45E2700997766 /* Compositor.h */,
+				9E8655D51BE45E2700997766 /* Coordinator.h */,
 				9E8655D61BE45E2700997766 /* Channel.h */,
 				9E8655D71BE45E2700997766 /* Statistics.h */,
 				9E8655D81BE45E2700997766 /* StatisticsRenderer.h */,
 				9E8655D91BE45E2700997766 /* EntityArena.h */,
 				9E8655DA1BE45E2700997766 /* EntityLease.h */,
 				9E8655DB1BE45E2700997766 /* Frame.h */,
+				9EF07B691C0641BD00735CAA /* InterfaceController.h */,
 				9E8655DD1BE45E2700997766 /* OpenGL.h */,
 				9E8655DE1BE45E2700997766 /* PresentationEntity.h */,
 				9E8655DF1BE45E2700997766 /* PresentationGraph.h */,
@@ -700,13 +705,14 @@
 			isa = PBXGroup;
 			children = (
 				9E8655FF1BE45E3A00997766 /* Color.cc */,
-				9E8656001BE45E3A00997766 /* Compositor.cc */,
+				9E8656001BE45E3A00997766 /* Coordinator.cc */,
 				9E8656011BE45E3A00997766 /* Channel.cc */,
 				9E8656021BE45E3A00997766 /* Statistics.cc */,
 				9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */,
 				9E8656041BE45E3A00997766 /* EntityArena.cc */,
 				9E8656051BE45E3A00997766 /* EntityLease.cc */,
 				9E8656061BE45E3A00997766 /* Frame.cc */,
+				9EF07B6B1C0641C600735CAA /* InterfaceController.cc */,
 				9E8656081BE45E3A00997766 /* OpenGL.cc */,
 				9E8656091BE45E3A00997766 /* PresentationEntity.cc */,
 				9E86560A1BE45E3A00997766 /* PresentationGraph.cc */,
@@ -1084,7 +1090,7 @@
 				9E16A6F91BE2E9D700FFEDFC /* EditInfo.h in Headers */,
 				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
 				9EAECE661B685460000FA38A /* GravitySimulation.h in Headers */,
-				9E8655EA1BE45E2700997766 /* Compositor.h in Headers */,
+				9E8655EA1BE45E2700997766 /* Coordinator.h in Headers */,
 				9EAECE7B1B685460000FA38A /* Guard.h in Headers */,
 				9EAECE691B685460000FA38A /* SimulationGroup.h in Headers */,
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
@@ -1136,6 +1142,7 @@
 				9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */,
 				9E8655FA1BE45E2700997766 /* TransactionPayload.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
+				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
 				9E8655F61BE45E2700997766 /* Program.h in Headers */,
@@ -1369,6 +1376,7 @@
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
 				9E86561B1BE45E3A00997766 /* Frame.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */,
+				9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */,
 				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */,
@@ -1446,7 +1454,7 @@
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */,
 				9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */,
-				9E8656151BE45E3A00997766 /* Compositor.cc in Sources */,
+				9E8656151BE45E3A00997766 /* Coordinator.cc in Sources */,
 				9EAECEE91B685469000FA38A /* Vector.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

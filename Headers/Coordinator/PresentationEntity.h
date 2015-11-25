@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
-#define RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
+#ifndef RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
+#define RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
 
 #include <Core/Core.h>
 #include <Interface/Entity.h>
@@ -52,4 +52,4 @@ class PresentationEntity : public interface::Entity {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
+#endif  // RADARLOVE_COORDINATOR_PRESENTATIONENTITY_

@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/Compositor.h>
+#include <Coordinator/Coordinator.h>
 #include <Coordinator/Frame.h>
 
 namespace rl {
 namespace coordinator {
 
-Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
-                       event::TouchEventChannel& touchEventChannel)
+Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
+                         event::TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
       _surfaceSize(geom::SizeZero),
@@ -18,17 +18,17 @@ Compositor::Compositor(std::shared_ptr<RenderSurface> surface,
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
       _touchEventChannel(touchEventChannel) {
   RL_ASSERT_MSG(_surface != nullptr,
-                "A surface must be provided to the compositor");
+                "A surface must be provided to the coordinator");
   _surface->setObserver(this);
   _animationsSource->setWakeFunction(
-      std::bind(&Compositor::onAnimationsStep, this));
+      std::bind(&Coordinator::onAnimationsStep, this));
 }
 
-Compositor::~Compositor() {
+Coordinator::~Coordinator() {
   _surface->setObserver(nullptr);
 }
 
-void Compositor::run(core::Latch& readyLatch) {
+void Coordinator::run(core::Latch& readyLatch) {
   auto ready = [&readyLatch]() { readyLatch.countDown(); };
 
   if (_loop != nullptr) {
@@ -41,7 +41,7 @@ void Compositor::run(core::Latch& readyLatch) {
   _loop->loop(ready);
 }
 
-void Compositor::shutdown(core::Latch& shutdownLatch) {
+void Coordinator::shutdown(core::Latch& shutdownLatch) {
   if (_loop == nullptr) {
     shutdownLatch.countDown();
     return;
@@ -55,30 +55,30 @@ void Compositor::shutdown(core::Latch& shutdownLatch) {
   });
 }
 
-bool Compositor::isRunning() const {
+bool Coordinator::isRunning() const {
   return _loop != nullptr;
 }
 
-void Compositor::surfaceWasCreated() {
+void Coordinator::surfaceWasCreated() {
   _loop->dispatchAsync([&] { startComposition(); });
 }
 
-void Compositor::surfaceSizeUpdated(const geom::Size& size) {
+void Coordinator::surfaceSizeUpdated(const geom::Size& size) {
   _loop->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
 }
 
-void Compositor::surfaceWasDestroyed() {
+void Coordinator::surfaceWasDestroyed() {
   _loop->dispatchAsync([&] { stopComposition(); });
 }
 
-void Compositor::startComposition() {
+void Coordinator::startComposition() {
   prepareSingleFrame();
 }
 
-void Compositor::stopComposition() {
+void Coordinator::stopComposition() {
 }
 
-void Compositor::commitCompositionSizeUpdate(const geom::Size& size) {
+void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
   if (size == _surfaceSize) {
     return;
   }
@@ -90,12 +90,12 @@ void Compositor::commitCompositionSizeUpdate(const geom::Size& size) {
 }
 
 /**
- *  Initializes and returns the compositor program catalog. Must be accessed
- *  on the compositor thread
+ *  Initializes and returns the coordinator program catalog. Must be accessed
+ *  on the coordinator thread
  *
  *  @return the program catalog
  */
-std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
+std::shared_ptr<ProgramCatalog> Coordinator::accessCatalog() {
   if (_programCatalog != nullptr) {
     return _programCatalog;
   }
@@ -108,17 +108,17 @@ std::shared_ptr<ProgramCatalog> Compositor::accessCatalog() {
   return _programCatalog;
 }
 
-void Compositor::setupChannels() {
+void Coordinator::setupChannels() {
   manageInterfaceUpdates(true);
   _loop->addSource(_animationsSource);
 }
 
-void Compositor::teardownChannels() {
+void Coordinator::teardownChannels() {
   manageInterfaceUpdates(false);
   _loop->removeSource(_animationsSource);
 }
 
-std::weak_ptr<Channel> Compositor::acquireChannel() {
+std::weak_ptr<Channel> Coordinator::acquireChannel() {
   if (_interfaceChannel != nullptr) {
     return _interfaceChannel;
   }
@@ -130,7 +130,7 @@ std::weak_ptr<Channel> Compositor::acquireChannel() {
   return _interfaceChannel;
 }
 
-void Compositor::manageInterfaceUpdates(bool schedule) {
+void Coordinator::manageInterfaceUpdates(bool schedule) {
   if (_loop == nullptr || _interfaceChannel == nullptr) {
     return;
   }
@@ -140,7 +140,7 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   if (schedule) {
     namespace P = std::placeholders;
     _interfaceChannel->setMessagesReceivedCallback(
-        std::bind(&Compositor::onInterfaceTransactionUpdate, this, P::_1));
+        std::bind(&Coordinator::onInterfaceTransactionUpdate, this, P::_1));
     _loop->addSource(source);
   } else {
     _interfaceChannel->setMessagesReceivedCallback(nullptr);
@@ -148,7 +148,7 @@ void Compositor::manageInterfaceUpdates(bool schedule) {
   }
 }
 
-bool Compositor::applyTransactionMessages(core::Messages messages) {
+bool Coordinator::applyTransactionMessages(core::Messages messages) {
   instrumentation::AutoStopwatchLap transactionUpdateTimer(
       _stats.transactionUpdateTimer());
   bool result = true;
@@ -158,13 +158,13 @@ bool Compositor::applyTransactionMessages(core::Messages messages) {
   return result;
 }
 
-void Compositor::onInterfaceTransactionUpdate(core::Messages messages) {
+void Coordinator::onInterfaceTransactionUpdate(core::Messages messages) {
   if (applyTransactionMessages(std::move(messages))) {
     prepareSingleFrame();
   }
 }
 
-void Compositor::onAnimationsStep() {
+void Coordinator::onAnimationsStep() {
   const auto count =
       _graph.animationDirector().stepInterpolations(_stats.interpolations());
   if (count > 0) {
@@ -173,12 +173,12 @@ void Compositor::onAnimationsStep() {
   }
 }
 
-void Compositor::prepareSingleFrame() {
+void Coordinator::prepareSingleFrame() {
   drainPendingTouches();
   drawSingleFrame();
 }
 
-void Compositor::drawSingleFrame() {
+void Coordinator::drawSingleFrame() {
   StatisticsFrame statistics(_stats);
 
   ScopedRenderSurfaceAccess access(*_surface);
@@ -202,7 +202,7 @@ void Compositor::drawSingleFrame() {
   access.finalize();
 }
 
-void Compositor::drainPendingTouches() {
+void Coordinator::drainPendingTouches() {
   auto touchMap = _touchEventChannel.drainPendingTouches();
 
   if (touchMap.size() == 0) {

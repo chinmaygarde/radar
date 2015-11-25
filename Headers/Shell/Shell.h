@@ -6,7 +6,7 @@
 #define RADARLOVE_SHELL_SHELL_
 
 #include <Core/Core.h>
-#include <Coordinator/Compositor.h>
+#include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
@@ -22,11 +22,11 @@ class Shell {
                  std::weak_ptr<interface::InterfaceDelegate> delegate);
 
   /**
-   *  Get a reference to the compositor
+   *  Get a reference to the coordinator
    *
-   *  @return the compositor
+   *  @return the coordinator
    */
-  coordinator::Compositor& compositor();
+  coordinator::Coordinator& coordinator();
 
   /**
    *  Get a reference to the interface
@@ -59,7 +59,7 @@ class Shell {
    *  Compositor variables
    */
   std::thread _compositorThread;
-  coordinator::Compositor _compositor;
+  coordinator::Coordinator _coordinator;
 
   /*
    *  Interface variables

@@ -19,6 +19,8 @@ class Variable : public core::Serializable {
       interface::Entity::Identifier identifier,
       interface::Entity::Property property = interface::Entity::Property::None);
 
+  interface::Entity::Identifier identifier() const;
+
   interface::Entity::Property property() const;
 
   bool serialize(core::Message& message) const override;

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_TRANSFERRECORD_H_
-#define RADARLOVE_COMPOSITOR_TRANSFERRECORD_H_
+#ifndef RADARLOVE_COORDINATOR_TRANSFERRECORD_H_
+#define RADARLOVE_COORDINATOR_TRANSFERRECORD_H_
 
 #include <Interface/Entity.h>
 #include <Geometry/Geometry.h>
@@ -109,4 +109,4 @@ static_assert(rl_trivially_copyable(TransferRecord), "");
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_TRANSFERRECORD_H_
+#endif  // RADARLOVE_COORDINATOR_TRANSFERRECORD_H_

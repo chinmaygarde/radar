@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_OPENGL_
-#define RADARLOVE_COMPOSITOR_OPENGL_
+#ifndef RADARLOVE_COORDINATOR_OPENGL_
+#define RADARLOVE_COORDINATOR_OPENGL_
 
 #if !RL_OPENGL_ALLOWED
 /*
@@ -70,4 +70,4 @@ static_assert(sizeof(rl::coordinator::GLMatrix) == 16 * sizeof(GLfloat),
 #define RL_GLAssert(x, ...) \
   rl::coordinator::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
-#endif  // RADARLOVE_COMPOSITOR_OPENGL_
+#endif  // RADARLOVE_COORDINATOR_OPENGL_

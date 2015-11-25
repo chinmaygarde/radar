@@ -4,7 +4,7 @@
 
 #include <Shell/Shell.h>
 
-#include <Coordinator/Compositor.h>
+#include <Coordinator/Coordinator.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
 
@@ -14,8 +14,8 @@ namespace shell {
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
              std::weak_ptr<interface::InterfaceDelegate> delegate)
     : _compositorThread(),
-      _compositor(surface, _host.touchEventChannel()),
-      _interface(delegate, _compositor.acquireChannel()) {
+      _coordinator(surface, _host.touchEventChannel()),
+      _interface(delegate, _coordinator.acquireChannel()) {
   core::clock::LoggingClockDuration();
   attachHostOnCurrentThread();
 }
@@ -27,8 +27,8 @@ void Shell::attachHostOnCurrentThread() {
   _host.run(readyLatch);
 
   _compositorThread = std::move(std::thread([&]() {
-    core::thread::SetName("rl.compositor");
-    _compositor.run(readyLatch);
+    core::thread::SetName("rl.coordinator");
+    _coordinator.run(readyLatch);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
@@ -39,8 +39,8 @@ void Shell::attachHostOnCurrentThread() {
   readyLatch.wait();
 }
 
-coordinator::Compositor& Shell::compositor() {
-  return _compositor;
+coordinator::Coordinator& Shell::coordinator() {
+  return _coordinator;
 }
 
 interface::Interface& Shell::interface() {
@@ -61,7 +61,7 @@ void Shell::shutdown() {
      */
     core::AutoLatch shutdownLatch(3);
     _host.shutdown(shutdownLatch);
-    _compositor.shutdown(shutdownLatch);
+    _coordinator.shutdown(shutdownLatch);
     _interface.shutdown(shutdownLatch);
   }
 

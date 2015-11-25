@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_PRIMITIVE_
-#define RADARLOVE_COMPOSITOR_PRIMITIVE_
+#ifndef RADARLOVE_COORDINATOR_PRIMITIVE_
+#define RADARLOVE_COORDINATOR_PRIMITIVE_
 
 #include <Core/Core.h>
 
@@ -51,4 +51,4 @@ class Primitive {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_PRIMITIVE_
+#endif  // RADARLOVE_COORDINATOR_PRIMITIVE_
