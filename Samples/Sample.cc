@@ -69,7 +69,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
                          rl::interface::Entity::Opacity);
   interface.pushTransaction(std::move(action));
 
-  for (auto i = 0; i < 1; i++) {
+  for (auto i = 0; i < 500; i++) {
     auto layer = std::make_shared<rl::interface::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),
                      static_cast<double>(rand() % 1200),

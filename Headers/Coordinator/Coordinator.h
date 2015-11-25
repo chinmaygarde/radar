@@ -12,13 +12,14 @@
 #include <Coordinator/RenderSurface.h>
 #include <Coordinator/ProgramCatalog.h>
 #include <Coordinator/EntityLease.h>
-#include <Coordinator/Statistics.h>
-#include <Coordinator/StatisticsRenderer.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/Channel.h>
+#include <Coordinator/InterfaceController.h>
+#include <Coordinator/Statistics.h>
+#include <Coordinator/StatisticsRenderer.h>
 #include <Event/TouchEventChannel.h>
 
-#include <mutex>
+#include <list>
 
 namespace rl {
 namespace coordinator {
@@ -64,12 +65,11 @@ class Coordinator : RenderSurfaceObserver {
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::shared_ptr<Channel> _interfaceChannel;
-  PresentationGraph _graph;
-  Statistics _stats;
-  StatisticsRenderer _statsRenderer;
+  std::list<InterfaceController> _interfaces;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
+  Statistics _stats;
+  StatisticsRenderer _statsRenderer;
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const geom::Size& size) override;
@@ -79,17 +79,13 @@ class Coordinator : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(const geom::Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
-  bool applyTransactionMessages(core::Messages messages);
   void setupChannels();
   void teardownChannels();
-  void manageInterfaceUpdates(bool schedule);
+  void scheduleInterfaceChannels(bool schedule);
 
-  void prepareSingleFrame();
-  void drawSingleFrame();
+  void renderFrame();
 
-  void onInterfaceTransactionUpdate(core::Messages messages);
-  void onAnimationsStep();
-  void drainPendingTouches();
+  void onDisplayLinkPulse();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };

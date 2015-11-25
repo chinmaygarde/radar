@@ -27,7 +27,8 @@ class PresentationGraph {
   ~PresentationGraph();
 
   bool applyTransactions(core::Message& arena);
-  bool applyTouchMap(event::TouchEvent::PhaseMap&& map);
+  recognition::RecognitionEngine::Result applyTouchMap(
+      const event::TouchEvent::PhaseMap& touches);
 
   void render(Frame& frame);
 

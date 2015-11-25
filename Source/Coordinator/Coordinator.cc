@@ -12,16 +12,13 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
                          event::TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
-      _surfaceSize(geom::SizeZero),
-      _programCatalog(nullptr),
-      _interfaceChannel(nullptr),
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
       _touchEventChannel(touchEventChannel) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
   _surface->setObserver(this);
   _animationsSource->setWakeFunction(
-      std::bind(&Coordinator::onAnimationsStep, this));
+      std::bind(&Coordinator::onDisplayLinkPulse, this));
 }
 
 Coordinator::~Coordinator() {
@@ -72,10 +69,11 @@ void Coordinator::surfaceWasDestroyed() {
 }
 
 void Coordinator::startComposition() {
-  prepareSingleFrame();
+  // TODO: Prepare for removal
 }
 
 void Coordinator::stopComposition() {
+  // TODO: Prepare for removal
 }
 
 void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
@@ -109,81 +107,54 @@ std::shared_ptr<ProgramCatalog> Coordinator::accessCatalog() {
 }
 
 void Coordinator::setupChannels() {
-  manageInterfaceUpdates(true);
+  scheduleInterfaceChannels(true);
   _loop->addSource(_animationsSource);
 }
 
 void Coordinator::teardownChannels() {
-  manageInterfaceUpdates(false);
+  scheduleInterfaceChannels(false);
   _loop->removeSource(_animationsSource);
 }
 
 std::weak_ptr<Channel> Coordinator::acquireChannel() {
-  if (_interfaceChannel != nullptr) {
-    return _interfaceChannel;
+  if (_interfaces.size() > 0) {
+    return _interfaces.front().channel();
   }
 
-  _interfaceChannel = std::make_shared<Channel>();
-  manageInterfaceUpdates(true);
+  _interfaces.emplace_back();
+  scheduleInterfaceChannels(true);
 
-  RL_ASSERT(_interfaceChannel != nullptr);
-  return _interfaceChannel;
+  return _interfaces.front().channel();
 }
 
-void Coordinator::manageInterfaceUpdates(bool schedule) {
-  if (_loop == nullptr || _interfaceChannel == nullptr) {
+void Coordinator::scheduleInterfaceChannels(bool schedule) {
+  if (_loop == nullptr) {
     return;
   }
 
-  auto source = _interfaceChannel->source();
-
-  if (schedule) {
-    namespace P = std::placeholders;
-    _interfaceChannel->setMessagesReceivedCallback(
-        std::bind(&Coordinator::onInterfaceTransactionUpdate, this, P::_1));
-    _loop->addSource(source);
-  } else {
-    _interfaceChannel->setMessagesReceivedCallback(nullptr);
-    _loop->removeSource(source);
+  for (auto& interface : _interfaces) {
+    interface.scheduleChannel(*_loop, schedule);
   }
 }
 
-bool Coordinator::applyTransactionMessages(core::Messages messages) {
-  instrumentation::AutoStopwatchLap transactionUpdateTimer(
-      _stats.transactionUpdateTimer());
-  bool result = true;
-  for (auto& message : messages) {
-    result &= _graph.applyTransactions(message);
-  }
-  return result;
-}
+void Coordinator::onDisplayLinkPulse() {
+  auto touchesIfAny = _touchEventChannel.drainPendingTouches();
 
-void Coordinator::onInterfaceTransactionUpdate(core::Messages messages) {
-  if (applyTransactionMessages(std::move(messages))) {
-    prepareSingleFrame();
+  auto wasUpdated = false;
+
+  for (auto& interface : _interfaces) {
+    wasUpdated |= interface.updateInterface(touchesIfAny);
+  }
+
+  if (wasUpdated) {
+    renderFrame();
   }
 }
 
-void Coordinator::onAnimationsStep() {
-  const auto count =
-      _graph.animationDirector().stepInterpolations(_stats.interpolations());
-  if (count > 0) {
-    prepareSingleFrame();
-    _stats.interpolationsCount().reset(count);
-  }
-}
+void Coordinator::renderFrame() {
+  ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 
-void Coordinator::prepareSingleFrame() {
-  drainPendingTouches();
-  drawSingleFrame();
-}
-
-void Coordinator::drawSingleFrame() {
-  StatisticsFrame statistics(_stats);
-
-  ScopedRenderSurfaceAccess access(*_surface);
-
-  if (!access.acquired()) {
+  if (!surfaceAccess.acquired()) {
     return;
   }
 
@@ -193,24 +164,20 @@ void Coordinator::drawSingleFrame() {
     return;
   }
 
+  StatisticsFrame statistics(_stats);
+
   _stats.frameCount().increment();
 
-  _graph.render(frame);
+  bool wasRendered = false;
 
-  _statsRenderer.render(_stats, frame);
-
-  access.finalize();
-}
-
-void Coordinator::drainPendingTouches() {
-  auto touchMap = _touchEventChannel.drainPendingTouches();
-
-  if (touchMap.size() == 0) {
-    return;
+  for (auto& interface : _interfaces) {
+    wasRendered |= interface.renderCurrentInterfaceState(frame);
   }
 
-  auto res = _graph.applyTouchMap(std::move(touchMap));
-  RL_ASSERT(res);
+  if (wasRendered) {
+    _statsRenderer.render(_stats, frame);
+    surfaceAccess.finalizeForPresentation();
+  }
 }
 
 }  // namespace coordinator

@@ -74,8 +74,9 @@ class ScopedRenderSurfaceAccess {
   ~ScopedRenderSurfaceAccess();
 
   bool acquired() const;
+  bool finalized() const;
 
-  void finalize();
+  void finalizeForPresentation();
 
  private:
   RenderSurface& _surface;

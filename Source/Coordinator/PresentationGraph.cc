@@ -182,10 +182,9 @@ animation::Director& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 
-bool PresentationGraph::applyTouchMap(event::TouchEvent::PhaseMap&& map) {
-  RL_ASSERT(map.size() > 0);
-
-  return _recognitionEngine.applyTouchMap(std::move(map), _entities);
+recognition::RecognitionEngine::Result PresentationGraph::applyTouchMap(
+    const event::TouchEvent::PhaseMap& touches) {
+  return _recognitionEngine.applyTouchMap(touches, _entities);
 }
 
 }  // namespace coordinator

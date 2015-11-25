@@ -92,7 +92,7 @@ class ScopedFrame : public Frame {
     begin();
   }
 
-  ~ScopedFrame();
+  ~ScopedFrame() { end(); }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);

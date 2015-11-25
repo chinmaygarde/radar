@@ -21,8 +21,13 @@ class RecognitionEngine {
 
   void setupRecognizers(GestureRecognizer::Collection&& recognizers);
 
-  bool applyTouchMap(
-      event::TouchEvent::PhaseMap&& map,
+  enum class Result {
+    NoUpdates,
+    Updated,
+  };
+
+  Result applyTouchMap(
+      const event::TouchEvent::PhaseMap& map,
       const coordinator::PresentationEntity::IdentifierMap& entities);
 
  private:
@@ -30,18 +35,18 @@ class RecognitionEngine {
   std::set<GestureRecognizer::Identifier> _activeRecognizers;
   ActiveTouchSet _activeTouches;
 
-  void stepActiveRecognizers(
+  Result stepActiveRecognizers(
       const coordinator::PresentationEntity::IdentifierMap& entities);
-  void processAddedTouches(
+  Result processAddedTouches(
       const std::vector<event::TouchEvent>& touches,
       const coordinator::PresentationEntity::IdentifierMap& entities);
-  void processMovedTouches(
+  Result processMovedTouches(
       const std::vector<event::TouchEvent>& touches,
       const coordinator::PresentationEntity::IdentifierMap& entities);
-  void processEndedTouches(
+  Result processEndedTouches(
       const std::vector<event::TouchEvent>& touches,
       const coordinator::PresentationEntity::IdentifierMap& entities);
-  void processCancelledTouches(
+  Result processCancelledTouches(
       const std::vector<event::TouchEvent>& touches,
       const coordinator::PresentationEntity::IdentifierMap& entities);
 

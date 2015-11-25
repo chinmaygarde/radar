@@ -45,7 +45,11 @@ bool ScopedRenderSurfaceAccess::acquired() const {
   return _acquired;
 }
 
-void ScopedRenderSurfaceAccess::finalize() {
+bool ScopedRenderSurfaceAccess::finalized() const {
+  return _finalized;
+}
+
+void ScopedRenderSurfaceAccess::finalizeForPresentation() {
   _finalized = true;
 }
 

@@ -77,10 +77,6 @@ Statistics& Frame::statistics() {
 Frame::~Frame() {
 }
 
-ScopedFrame::~ScopedFrame() {
-  end();
-}
-
 }  // namespace coordinator
 }  // namespace rl
 
