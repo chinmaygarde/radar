@@ -10,40 +10,33 @@
 #include <thread>
 
 TEST(ThreadLocalTest, SimpleInitialization) {
-  rl::core::ThreadLocal local;
-
-  auto value = 100;
-  local.set(value);
-  ASSERT_EQ(local.get(), value);
+  std::thread thread([] {
+    rl::core::ThreadLocal local;
+    auto value = 100;
+    local.set(value);
+    ASSERT_EQ(local.get(), value);
+  });
+  thread.join();
 }
 
 TEST(ThreadLocalTest, DestroyCallback) {
-  int destroys = 0;
-  rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+  std::thread thread([] {
+    int destroys = 0;
+    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
-  auto value = 100;
-  local.set(value);
-  ASSERT_EQ(local.get(), value);
-  ASSERT_EQ(destroys, 0);
+    auto value = 100;
+    local.set(value);
+    ASSERT_EQ(local.get(), value);
+    ASSERT_EQ(destroys, 0);
+  });
+  thread.join();
 }
 
 TEST(ThreadLocalTest, DestroyCallback2) {
-  int destroys = 0;
-  rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+  std::thread thread([] {
+    int destroys = 0;
+    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
-  local.set(100);
-  ASSERT_EQ(local.get(), 100);
-  ASSERT_EQ(destroys, 0);
-  local.set(200);
-  ASSERT_EQ(local.get(), 200);
-  ASSERT_EQ(destroys, 1);
-}
-
-TEST(ThreadLocalTest, DestroyThreadTimeline) {
-  int destroys = 0;
-  rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
-
-  std::thread thread([&destroys, &local]() {
     local.set(100);
     ASSERT_EQ(local.get(), 100);
     ASSERT_EQ(destroys, 0);
@@ -51,32 +44,53 @@ TEST(ThreadLocalTest, DestroyThreadTimeline) {
     ASSERT_EQ(local.get(), 200);
     ASSERT_EQ(destroys, 1);
   });
-  ASSERT_EQ(local.get(), 0);
   thread.join();
-  ASSERT_EQ(local.get(), 0);
-  ASSERT_EQ(destroys, 2);
+}
+
+TEST(ThreadLocalTest, DestroyThreadTimeline) {
+  std::thread thread([] {
+    int destroys = 0;
+    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+
+    std::thread thread([&destroys, &local]() {
+      local.set(100);
+      ASSERT_EQ(local.get(), 100);
+      ASSERT_EQ(destroys, 0);
+      local.set(200);
+      ASSERT_EQ(local.get(), 200);
+      ASSERT_EQ(destroys, 1);
+    });
+    ASSERT_EQ(local.get(), 0);
+    thread.join();
+    ASSERT_EQ(local.get(), 0);
+    ASSERT_EQ(destroys, 2);
+  });
+  thread.join();
 }
 
 TEST(ThreadLocalTest, SettingSameValue) {
-  int destroys = 0;
-  {
-    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+  std::thread thread([] {
+    int destroys = 0;
+    {
+      rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
-    local.set(100);
-    ASSERT_EQ(destroys, 0);
-    local.set(100);
-    local.set(100);
-    local.set(100);
-    ASSERT_EQ(local.get(), 100);
-    local.set(100);
-    local.set(100);
-    ASSERT_EQ(destroys, 0);
-    local.set(200);
+      local.set(100);
+      ASSERT_EQ(destroys, 0);
+      local.set(100);
+      local.set(100);
+      local.set(100);
+      ASSERT_EQ(local.get(), 100);
+      local.set(100);
+      local.set(100);
+      ASSERT_EQ(destroys, 0);
+      local.set(200);
+      ASSERT_EQ(destroys, 1);
+      ASSERT_EQ(local.get(), 200);
+    }
+
     ASSERT_EQ(destroys, 1);
-    ASSERT_EQ(local.get(), 200);
-  }
-
-  ASSERT_EQ(destroys, 1);
+  });
+  thread.join();
 }
 
 #endif  // RL_THREAD_LOCAL_PTHREADS
