@@ -24,6 +24,15 @@
 #define RL_OS_ANDROID 1
 #endif
 
+#if __raspberrypi__
+/*
+ *  RaspberryPi is considered a linux subtype (for Raspbian). Unlike other
+ *  targets. The define this option is swithed on is specified manually in the
+ *  build manifest.
+ */
+#define RL_OS_RASPBERRYPI 1
+#endif
+
 #elif __native_client__
 
 #define RL_OS_NACL 1
@@ -77,8 +86,6 @@
 
 #if RL_OS_MAC
 #define RL_CHANNELS RL_CHANNELS_MACH
-#elif RL_OS_ANDROID
-#define RL_CHANNELS RL_CHANNELS_SOCKET
 #elif RL_OS_LINUX
 #define RL_CHANNELS RL_CHANNELS_SOCKET
 #elif RL_OS_NACL
@@ -100,8 +107,6 @@
 
 #if RL_OS_MAC
 #define RL_WAITSET RL_WAITSET_KQUEUE
-#elif RL_OS_ANDROID
-#define RL_WAITSET RL_WAITSET_EPOLL
 #elif RL_OS_LINUX
 #define RL_WAITSET RL_WAITSET_EPOLL
 #elif RL_OS_NACL

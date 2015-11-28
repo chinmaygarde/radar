@@ -7,7 +7,8 @@
 
 #include <Core/Config.h>
 
-#define RL_THREAD_LOCAL_PTHREADS (RL_OS_MAC || RL_OS_ANDROID || RL_OS_BSD)
+#define RL_THREAD_LOCAL_PTHREADS \
+  (RL_OS_MAC || RL_OS_ANDROID || RL_OS_BSD || RL_OS_RASPBERRYPI)
 
 #include <Core/Macros.h>
 #include <functional>
