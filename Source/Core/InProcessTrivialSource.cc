@@ -13,25 +13,45 @@
 namespace rl {
 namespace core {
 
-InProcessTrivialSource::InProcessTrivialSource() : EventLoopSource() {
+InProcessTrivialSource::InProcessTrivialSource()
+    : EventLoopSource(), _signalled(false) {
   setHandlesProvider([&] {
     auto handle = reinterpret_cast<EventLoopSource::Handle>(this);
     return EventLoopSource::Handles(handle, handle);
   });
 
   setWriter([&](Handle handle) {
+    std::lock_guard<std::mutex> lock(_lock);
+    _signalled = true;
     for (const auto& waitset : _activeWaitSets) {
       waitset->signalReadReadinessFromUserspace(
           reinterpret_cast<EventLoopSource::Handle>(this));
     }
   });
 
+  setReader([&](Handle) {
+    std::lock_guard<std::mutex> lock(_lock);
+    _signalled = false;
+  });
+
   setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,
                                     Handle readHandle, bool adding) {
+    std::lock_guard<std::mutex> lock(_lock);
+
     if (adding) {
       _activeWaitSets.insert(&waitset);
     } else {
       _activeWaitSets.erase(&waitset);
+    }
+
+    /*
+     *  The source could have been signalled before being added to the waitset.
+     *  In this case, the writer failed to notify any waitsets. Now that we
+     *  have a waitset, manually trigger readiness.
+     */
+    if (_signalled && _activeWaitSets.size() == 1) {
+      waitset.signalReadReadinessFromUserspace(
+          reinterpret_cast<EventLoopSource::Handle>(this));
     }
   });
 }

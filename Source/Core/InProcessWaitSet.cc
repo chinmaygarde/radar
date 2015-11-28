@@ -45,28 +45,35 @@ WaitSet::Handle InProcessWaitSet::handle() const {
 void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     EventLoopSource& source,
                                     bool added) {
-  WaitSetProvider::updateSource(waitset, source, added);
+  {
+    std::lock_guard<std::mutex> lock(_lock);
 
-  std::lock_guard<std::mutex> lock(_lock);
-
-  if (IsTimer(source.handles())) {
-    if (added) {
-      setupTimer(source);
+    if (IsTimer(source.handles())) {
+      if (added) {
+        setupTimer(source);
+      } else {
+        teardownTimer(source);
+      }
+      /*
+       *  in case timer re-arms are required, notify an idle wake
+       */
+      _idleWake = true;
+      _conditionVariable.notify_all();
     } else {
-      teardownTimer(source);
-    }
-    /*
-     *  in case timer re-arms are required, notify an idle wake
-     */
-    _idleWake = true;
-    _conditionVariable.notify_all();
-  } else {
-    if (added) {
-      setupSource(source);
-    } else {
-      teardownSource(source);
+      if (added) {
+        setupSource(source);
+      } else {
+        teardownSource(source);
+      }
     }
   }
+
+  /*
+   *  Custom wait set update handlers may trigger a "userspace" signal. We don't
+   *  want to be holding onto the lock in case this happens. This is why the
+   *  additional scope is introduced.
+   */
+  WaitSetProvider::updateSource(waitset, source, added);
 }
 
 void InProcessWaitSet::setupTimer(EventLoopSource& source,

@@ -9,6 +9,8 @@
 
 #include <unordered_set>
 
+#include <mutex>
+
 namespace rl {
 namespace core {
 
@@ -19,6 +21,8 @@ class InProcessTrivialSource : public EventLoopSource {
   ~InProcessTrivialSource();
 
  private:
+  std::mutex _lock;
+  bool _signalled;
   std::unordered_set<WaitSet*> _activeWaitSets;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessTrivialSource);
