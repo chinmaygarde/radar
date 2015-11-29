@@ -26,3 +26,5 @@ xcuserdata
 *.moved-aside
 
 *.pyc
+*sync/
+Icon?
