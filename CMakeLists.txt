@@ -42,7 +42,9 @@ if(WIN32)
   endif()
 elseif(UNIX AND NOT APPLE)
   if(CMAKE_SYSTEM_NAME MATCHES ".*Linux")
-    set(LINUX TRUE)
+    if(NOT RASPBERRY)
+      set(LINUX TRUE)
+    endif()
   elseif(CMAKE_SYSTEM_NAME MATCHES "kFreeBSD.*")
     set(FREEBSD TRUE)
   elseif(CMAKE_SYSTEM_NAME MATCHES "kNetBSD.*|NetBSD.*")
@@ -103,6 +105,10 @@ if(LINUX)
   target_link_libraries(RadarLove rt GL)
 endif()
 
+if(RASPBERRY)
+  add_definitions("-D__raspberrypi__=1")
+endif()
+
 ################################
 # Google Test Library
 ################################
@@ -151,6 +157,46 @@ if(LINUX)
     pthread
     ${SDL2_LIBRARIES}
     rt
+  )
+endif()
+
+################################
+# Rasperry Pi Shell
+################################
+
+if(RASPBERRY)
+  file(GLOB RADARLOVE_RASPBERRY_DESKTOP_SOURCES
+    "Platforms/RaspberryPi/Source/*.h"
+    "Platforms/RaspberryPi/Source/*.cc"
+    "Samples/*.h"
+    "Samples/*.cc"
+  )
+
+  include_directories (
+    "Samples"
+    "/opt/vc/include"
+    "/opt/vc/include/interface/vcos/pthreads"
+    "/opt/vc/include/interface/vmcs_host/linux"
+  )
+
+  link_directories(
+    "/opt/vc/lib"
+  )
+
+  add_executable( RadarLoveRaspberryPi ${RADARLOVE_RASPBERRY_DESKTOP_SOURCES} )
+
+  include_directories(${SDL2_INCLUDE_DIRS})
+
+  target_link_libraries(RadarLoveRaspberryPi
+    RadarLove
+    pthread
+    rt
+    EGL
+    GLESv2
+    openmaxil
+    bcm_host
+    vcos
+    vchiq_arm
   )
 endif()
 
