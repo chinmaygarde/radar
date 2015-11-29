@@ -63,13 +63,26 @@ SharedMemory::Handle SharedMemoryHandleCreate(size_t size) {
     RL_CHECK(::shm_unlink(tempFile.c_str()));
   }
 
-  /*
-   *  Set the size of the shared memory
-   */
+/*
+ *  Set the size of the shared memory
+ */
+#if RL_OS_MAC
   if (RL_TEMP_FAILURE_RETRY(::ftruncate(newHandle, size)) == -1) {
     RL_CHECK(::close(newHandle));
     return -1;
   }
+#else
+  int result = ::posix_fallocate(newHandle, 0, size);
+  if (result != 0) {
+    /*
+     *  `posix_fallocate` does not set errno
+     */
+    RL_LOG("Could not resize shared memory handle: %s (%d)", strerror(result),
+           result);
+    RL_CHECK(::close(newHandle));
+    return -1;
+  }
+#endif
 
   return newHandle;
 }
