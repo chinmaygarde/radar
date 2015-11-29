@@ -22,12 +22,7 @@
 class PlatformEngine : public rl::coordinator::RenderSurface {
  public:
   PlatformEngine()
-      : screen_width(0),
-        screen_height(0),
-        display(0),
-        surface(0),
-        context(0),
-        mouseEventDescriptor(-1) {
+      : screen_width(0), screen_height(0), display(0), surface(0), context(0) {
     bcm_host_init();
 
     int32_t success = 0;
@@ -116,10 +111,40 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
     RL_ASSERT(surface != EGL_NO_SURFACE);
 
     /*
+     *  attemptMouseConnection();
+     *  
+     *  This platform uses in process wait sets currently that cannot wait on
+     *  external descriptors
+     */
+  }
+
+  void attemptMouseConnection() {
+    /*
      *  Connect to the mouse event descriptor
      */
-    mouseEventDescriptor = open("/dev/input/mouse0", O_RDONLY | O_NONBLOCK);
-    RL_ASSERT(mouseEventDescriptor >= 0);
+    int mouseFD = open("/dev/input/mouse0", O_RDONLY | O_NONBLOCK);
+    if (mouseFD <= 0) {
+      RL_LOG("Did not detect or connect to a mouse...");
+      return;
+    }
+
+    auto provider = [&mouseFD]() {
+      return rl::core::EventLoopSource::Handles(mouseFD, -1);
+    };
+
+    auto collector = [](rl::core::EventLoopSource::Handles handles) {
+      RL_CHECK(::close(static_cast<int>(handles.first)));
+      RL_ASSERT(handles.second == -1);
+    };
+
+    auto reader = [&](rl::core::EventLoopSource::Handle readFD) {
+      waitEvents(readFD);
+    };
+
+    auto source = std::make_shared<rl::core::EventLoopSource>(
+        provider, collector, reader, nullptr, nullptr);
+
+    rl::core::EventLoop::Current()->addSource(source);
   }
 
   bool makeCurrent() {
@@ -138,12 +163,15 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
     surfaceSizeUpdated(size);
     shell->interface().setSize(size);
 
-    while (true) {
-      waitEvents();
-    }
+    /*
+     *  Start the main event loop
+     */
+    rl::core::EventLoop::Current()->loop();
 
+    /*
+     *  Teardown the shell
+     */
     surfaceWasDestroyed();
-
     shell->shutdown();
 
     return EXIT_SUCCESS;
@@ -159,9 +187,7 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
   EGLSurface surface;
   EGLContext context;
 
-  int mouseEventDescriptor;
-
-  void waitEvents() {
+  void waitEvents(int descriptor) {
     const int width = screen_width, height = screen_height;
     int x = 800, y = 400;
     const int XSIGN = 1 << 4, YSIGN = 1 << 5;
@@ -171,7 +197,7 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
     } payload;
 
     while (true) {
-      int bytes = read(mouseEventDescriptor, &payload, sizeof(payload));
+      int bytes = read(descriptor, &payload, sizeof(payload));
 
       if (bytes < sizeof(payload)) {
         dispatchMouseEvent(x, y);
@@ -188,7 +214,7 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
       /*
        *  Try to sync up again
        */
-      read(mouseEventDescriptor, &payload, 1);
+      read(descriptor, &payload, 1);
     }
 
     if (payload.buttons & 3) {
