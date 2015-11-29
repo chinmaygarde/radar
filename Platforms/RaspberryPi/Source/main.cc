@@ -110,12 +110,7 @@ class PlatformEngine : public rl::coordinator::RenderSurface {
     surface = eglCreateWindowSurface(display, config, &nativewindow, nullptr);
     RL_ASSERT(surface != EGL_NO_SURFACE);
 
-    /*
-     *  attemptMouseConnection();
-     *  
-     *  This platform uses in process wait sets currently that cannot wait on
-     *  external descriptors
-     */
+    attemptMouseConnection();
   }
 
   void attemptMouseConnection() {

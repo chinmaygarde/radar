@@ -107,6 +107,7 @@ endif()
 
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
+  target_link_libraries(RadarLove rt)
 endif()
 
 ################################
