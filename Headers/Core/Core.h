@@ -44,4 +44,9 @@
  */
 #include <Core/SharedMemory.h>
 
+/*
+ *  Work Queues
+ */
+#include <Core/WorkQueue.h>
+
 #endif  // RADARLOVE_CORE_
