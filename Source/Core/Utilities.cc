@@ -4,6 +4,8 @@
 
 #include <Core/Config.h>
 #include <Core/Utilities.h>
+#include <Core/Macros.h>
+#include <string>
 
 #if RL_OS_MAC
 #include <pthread/pthread.h>
@@ -31,6 +33,16 @@ void SetName(const char* name) {
   pthread_set_name_np(pthread_self(), name);
 #elif RL_OS_WINDOWS || RL_OS_NACL
 // No platform supported implementation
+#else
+#error Unknown Platform
+#endif
+}
+
+std::string GetName() {
+#if RL_OS_MAC
+  char name[24] = {0};
+  RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
+  return name;
 #else
 #error Unknown Platform
 #endif

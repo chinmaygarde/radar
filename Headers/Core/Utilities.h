@@ -36,6 +36,13 @@ namespace thread {
  */
 void SetName(const char* name);
 
+/**
+ *  Get the name of the current thread of execution
+ *
+ *  @return the name of the thread
+ */
+std::string GetName();
+
 }  // namespace thread
 }  // namespace core
 }  // namespace rl
