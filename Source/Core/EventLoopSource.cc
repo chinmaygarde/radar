@@ -35,12 +35,6 @@ EventLoopSource::~EventLoopSource() {
   }
 }
 
-void EventLoopSource::onAwoken() {
-  if (_wakeFunction) {
-    _wakeFunction();
-  }
-}
-
 void EventLoopSource::setWakeFunction(WakeFunction wakeFunction) {
   _wakeFunction = wakeFunction;
 }
@@ -106,6 +100,42 @@ void EventLoopSource::updateInWaitSet(WaitSet& waitset, bool shouldAdd) {
 void EventLoopSource::setCustomWaitSetUpdateHandler(
     WaitSetUpdateHandler updateHandler) {
   _customWaitSetUpdateHandler = updateHandler;
+}
+
+void EventLoopSource::setReadAttemptCallback(ReadAttemptCallback callback) {
+  _readAttemptCallback = callback;
+}
+
+EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
+    const {
+  return _readAttemptCallback;
+}
+
+void EventLoopSource::attemptRead() {
+  /*
+   *  Acquire the read. Make sure to go through the accessor as it lazily
+   *  initializes the handle.
+   */
+  auto readHandle = this->readHandle();
+
+  /*
+   *  First, ask the instance if it wants to read on the handle at this time
+   */
+  bool shouldAttemptRead =
+      _readAttemptCallback ? _readAttemptCallback(readHandle) : true;
+
+  auto result = IOHandlerResult::Timeout;
+
+  if (shouldAttemptRead && _readHandler) {
+    result = _readHandler(readHandle);
+  }
+
+  /*
+   *  Perform wake callbacks for the source
+   */
+  if (_wakeFunction) {
+    _wakeFunction(result);
+  }
 }
 
 }  // namespace core

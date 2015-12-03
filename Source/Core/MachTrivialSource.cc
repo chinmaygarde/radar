@@ -40,21 +40,23 @@ MachTrivialSource::MachTrivialSource()
     messages.emplace_back();
     auto result =
         _port.sendMessages(std::move(messages), ClockDurationMilli(0));
-    RL_ASSERT(result != MachPort::Result::Failure);
+    RL_ASSERT(result != EventLoopSource::IOHandlerResult::Failure);
 
     /*
      *  Timeouts are fine, and expected if the port is already signalled
      *  but the send rejected due to the q limit being hit.
      */
+    return result;
   });
 
   setReader([&](Handle handle) {
     auto result = _port.readMessages(ClockDurationMilli(0));
-    RL_ASSERT(result.first != MachPort::Result::Failure);
+    RL_ASSERT(result.first != EventLoopSource::IOHandlerResult::Failure);
     /*
      *  We don't actually care about the message contents. Just need to
      *  ensure that a round trip was made
      */
+    return result.first;
   });
 
   /*

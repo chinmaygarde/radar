@@ -72,16 +72,9 @@ void EventLoop::loop(std::function<void(void)> onReady) {
     afterSleep();
 
     /*
-     *  Read the data for the signalled source
+     *  Attempt read on the signalled source
      */
-    if (auto reader = source.reader()) {
-      reader(source.readHandle());
-    }
-
-    /*
-     *  Perform on wake callbacks for the source
-     */
-    source.onAwoken();
+    source.attemptRead();
 
     /*
      *  Flush loop observer (pre-sleep)

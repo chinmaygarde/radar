@@ -24,12 +24,19 @@ class WaitSet;
  */
 class EventLoopSource {
  public:
+  enum class IOHandlerResult {
+    Success,
+    Timeout,
+    Failure,
+  };
+
   using Handle = uintptr_t;
   using Handles = std::pair<Handle, Handle>;
-  using IOHandler = std::function<void(Handle)>;
-  using WakeFunction = std::function<void(void)>;
   using RWHandlesProvider = std::function<Handles(void)>;
   using RWHandlesCollector = std::function<void(Handles)>;
+  using IOHandler = std::function<IOHandlerResult(Handle)>;
+  using WakeFunction = std::function<void(IOHandlerResult)>;
+  using ReadAttemptCallback = std::function<bool(Handle)>;
   using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
                                                   WaitSet& waitset,
                                                   Handle readHandle,
@@ -46,8 +53,6 @@ class EventLoopSource {
                            WaitSetUpdateHandler waitsetUpdateHandler);
 
   virtual ~EventLoopSource();
-
-  void onAwoken();
 
   /**
    *  Returns the function that is invoked when the event loop wakes up when
@@ -116,6 +121,12 @@ class EventLoopSource {
 
   void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler updateHandler);
 
+  void setReadAttemptCallback(ReadAttemptCallback callback);
+
+  ReadAttemptCallback readAttemptCallback() const;
+
+  void attemptRead();
+
   /**
    *  Create a repeating timer source that fires at the given interval
    *
@@ -144,6 +155,7 @@ class EventLoopSource {
   IOHandler _writeHandler;
   WaitSetUpdateHandler _customWaitSetUpdateHandler;
   WakeFunction _wakeFunction;
+  ReadAttemptCallback _readAttemptCallback;
   bool _handlesAllocated;
 
   void updateInWaitSetForSimpleRead(WaitSet& waitset, bool shouldAdd);

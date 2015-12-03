@@ -80,7 +80,7 @@ void Channel::setMessagesReceivedCallback(MessagesReceivedCallback callback) {
   _messagesReceivedCallback = callback;
 }
 
-void Channel::readPendingMessageNow() {
+bool Channel::readPendingMessageNow() {
   ChannelProvider::Result status;
   Messages messages;
 
@@ -99,8 +99,10 @@ void Channel::readPendingMessageNow() {
    */
   if (status == ChannelProvider::Result::PermanentFailure) {
     terminate();
-    return;
+    return false;
   }
+
+  return true;
 }
 
 Messages Channel::drainPendingMessages() {

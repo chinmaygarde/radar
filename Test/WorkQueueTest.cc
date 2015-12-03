@@ -12,7 +12,7 @@ TEST(WorkQueue, SimpleInitialization) {
 }
 
 TEST(WorkQueue, SimpleWork) {
-  auto size = 500;
+  auto size = 5000;
   std::atomic<int> count(0);
 
   {
@@ -20,7 +20,10 @@ TEST(WorkQueue, SimpleWork) {
     ASSERT_GE(queue.workerCount(), 0);
 
     for (int i = 0; i < size; i++) {
-      queue.dispatch([&count]() { count++; });
+      queue.dispatch([&count]() {
+        count++;
+        RL_LOG("%s", rl::core::thread::GetName().c_str());
+      });
     }
   }
 

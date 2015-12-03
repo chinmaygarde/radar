@@ -30,6 +30,8 @@ class WorkQueue {
   std::shared_ptr<EventLoopSource> _workSource;
   std::list<std::pair<std::thread, std::shared_ptr<EventLoopSource>>> _workers;
   std::list<WorkItem> _workItems;
+  bool _shuttingDown;
+  std::condition_variable _idleness;
 
   void workerMain(std::string name,
                   Latch& latch,
@@ -37,6 +39,9 @@ class WorkQueue {
   void workerTerminate();
   void work();
   WorkItem acquireWork();
+  void waitForAllPendingWorkFlushed();
+  bool areWorkItemsPending();
+  bool shouldReadWorkSourceHandle();
 
   void shutdown();
 

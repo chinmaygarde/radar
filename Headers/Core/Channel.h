@@ -90,7 +90,7 @@ class Channel {
    *  ever) needs to call this. Instead, it is usually called by the channel
    *  provider when it detects an available read.
    */
-  void readPendingMessageNow();
+  bool readPendingMessageNow();
 
  protected:
   Messages drainPendingMessages();

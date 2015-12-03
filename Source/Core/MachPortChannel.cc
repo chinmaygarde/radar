@@ -29,8 +29,10 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
 
   auto setHandle = _port.setHandle();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
-  auto readHandler =
-      [&](ELS::Handle handle) { _channel.readPendingMessageNow(); };
+  auto readHandler = [&](ELS::Handle handle) {
+    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
+                                            : ELS::IOHandlerResult::Failure;
+  };
 
   // clang-format off
   auto updateHandler = [](EventLoopSource& source,
@@ -69,11 +71,11 @@ ChannelProvider::Result MachPortChannel::WriteMessages(
   auto result = _port.sendMessages(std::move(messages), timeout);
 
   switch (result) {
-    case MachPort::Success:
+    case EventLoopSource::IOHandlerResult::Success:
       return ChannelProvider::Result::Success;
-    case MachPort::Timeout:
+    case EventLoopSource::IOHandlerResult::Timeout:
       return ChannelProvider::Result::TemporaryFailure;
-    case MachPort::Failure:
+    case EventLoopSource::IOHandlerResult::Failure:
       return ChannelProvider::Result::PermanentFailure;
   }
 
@@ -84,7 +86,7 @@ ChannelProvider::ReadResult MachPortChannel::ReadMessages(
     ClockDurationNano timeout) {
   auto result = _port.readMessages(timeout);
 
-  if (result.first == MachPort::Result::Failure) {
+  if (result.first == EventLoopSource::IOHandlerResult::Failure) {
     return ChannelProvider::ReadResult(Result::PermanentFailure,
                                        std::move(result.second));
   }

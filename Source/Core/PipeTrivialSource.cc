@@ -58,6 +58,8 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
     };
 
     RL_ASSERT(readCount >= 1);
+
+    return EventLoopSource::IOHandlerResult::Success;
   };
 
   EventLoopSource::IOHandler writer = [](EventLoopSource::Handle writeHandle) {
@@ -67,6 +69,8 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
     RL_CHECK_EXPECT(
         ::write(static_cast<int>(writeHandle), payload, sizeof(payload)),
         sizeof(payload));
+
+    return EventLoopSource::IOHandlerResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,

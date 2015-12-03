@@ -10,11 +10,13 @@ namespace rl {
 namespace core {
 
 WorkQueue::WorkQueue(std::string queueName)
-    : _workSource(EventLoopSource::Trivial()) {
+    : _workSource(EventLoopSource::Trivial()), _shuttingDown(false) {
   /*
    *  Set source handlers
    */
   _workSource->setWakeFunction(std::bind(&WorkQueue::work, this));
+  _workSource->setReadAttemptCallback(
+      std::bind(&WorkQueue::shouldReadWorkSourceHandle, this));
 
   /*
    *  Start worker threads
@@ -32,7 +34,7 @@ WorkQueue::WorkQueue(std::string queueName)
     terminationSource->setWakeFunction(
         std::bind(&WorkQueue::workerTerminate, this));
 
-    std::string name = "rl." + queueName + " .worker" + std::to_string(i + 1);
+    std::string name = "rl." + queueName + ".worker" + std::to_string(i + 1);
 
     std::thread worker(std::bind(&WorkQueue::workerMain, this, name,
                                  std::ref(ready), terminationSource));
@@ -67,11 +69,14 @@ void WorkQueue::workerTerminate() {
 }
 
 void WorkQueue::work() {
-  auto item = acquireWork();
-
-  if (item) {
+  while (auto item = acquireWork()) {
     item();
   }
+}
+
+bool WorkQueue::shouldReadWorkSourceHandle() {
+  std::lock_guard<std::mutex> lock(_lock);
+  return _workItems.size() == 0;
 }
 
 WorkQueue::WorkItem WorkQueue::acquireWork() {
@@ -81,12 +86,23 @@ WorkQueue::WorkItem WorkQueue::acquireWork() {
    */
   std::lock_guard<std::mutex> lock(_lock);
 
-  if (_workItems.size() == 0) {
+  auto count = _workItems.size();
+
+  if (count == 0) {
     return nullptr;
   }
 
   auto item = _workItems.front();
   _workItems.pop_front();
+
+  if (count == 1) {
+    /*
+     *  The last work item has been acquired. Notify the idleness condition
+     *  variable
+     */
+    _idleness.notify_all();
+  }
+
   return item;
 }
 
@@ -95,6 +111,8 @@ size_t WorkQueue::workerCount() const {
 }
 
 void WorkQueue::dispatch(WorkItem item) {
+  RL_ASSERT_MSG(!_shuttingDown, "Cannot add work items while shutting down");
+
   if (item == nullptr) {
     return;
   }
@@ -103,16 +121,37 @@ void WorkQueue::dispatch(WorkItem item) {
    *  Enqueue pending work
    */
   std::lock_guard<std::mutex> lock(_lock);
+
+  auto initialCount = _workItems.size();
+
   _workItems.push_back(item);
 
-  /*
-   *  Perform a trivial write on the work source. A waiting worker will wake
-   *  to service this
-   */
-  _workSource->writer()(_workSource->writeHandle());
+  if (initialCount == 0) {
+    /*
+     *  Perform a trivial write on the work source. A waiting worker will wake
+     *  to service this
+     */
+    _workSource->writer()(_workSource->writeHandle());
+  }
+}
+
+bool WorkQueue::areWorkItemsPending() {
+  std::lock_guard<std::mutex> itemsLock(_lock);
+  return _workItems.size() != 0;
+}
+
+void WorkQueue::waitForAllPendingWorkFlushed() {
+  if (areWorkItemsPending()) {
+    std::unique_lock<std::mutex> uniqueLock(_lock);
+    _idleness.wait(uniqueLock, [&] { return _workItems.size() == 0; });
+  }
 }
 
 void WorkQueue::shutdown() {
+  _shuttingDown = true;
+
+  waitForAllPendingWorkFlushed();
+
   std::lock_guard<std::mutex> lock(_lock);
 
   if (_workers.size() == 0) {

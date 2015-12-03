@@ -42,8 +42,8 @@ struct MachPayload {
         mem(),
         trailer() {}
 
-  MachPort::Result send(mach_msg_option_t timeoutOption,
-                        mach_msg_timeout_t timeout) {
+  EventLoopSource::IOHandlerResult send(mach_msg_option_t timeoutOption,
+                                        mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     // clang-format off
@@ -58,19 +58,19 @@ struct MachPayload {
 
     switch (res) {
       case MACH_MSG_SUCCESS:
-        return MachPort::Result::Success;
+        return EventLoopSource::IOHandlerResult::Success;
       case MACH_SEND_TIMED_OUT:
-        return MachPort::Result::Timeout;
+        return EventLoopSource::IOHandlerResult::Timeout;
       default:
         RL_LOG("Mach Send Failed: %s", mach_error_string(res));
-        return MachPort::Result::Failure;
+        return EventLoopSource::IOHandlerResult::Failure;
     }
 
-    return MachPort::Result::Failure;
+    return EventLoopSource::IOHandlerResult::Failure;
   }
 
-  MachPort::Result receive(mach_msg_option_t timeoutOption,
-                           mach_msg_timeout_t timeout) {
+  EventLoopSource::IOHandlerResult receive(mach_msg_option_t timeoutOption,
+                                           mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     // clang-format off
@@ -85,16 +85,16 @@ struct MachPayload {
 
     switch (res) {
       case MACH_MSG_SUCCESS:
-        return MachPort::Result::Success;
+        return EventLoopSource::IOHandlerResult::Success;
       case MACH_RCV_TIMED_OUT:
       case MACH_RCV_TOO_LARGE:
-        return MachPort::Result::Timeout;
+        return EventLoopSource::IOHandlerResult::Timeout;
       default:
         RL_LOG("Mach Recv Failed: %s", mach_error_string(res));
-        return MachPort::Result::Failure;
+        return EventLoopSource::IOHandlerResult::Failure;
     }
 
-    return MachPort::Result::Failure;
+    return EventLoopSource::IOHandlerResult::Failure;
   }
 
   Message asMessage() const {
@@ -181,8 +181,9 @@ static inline mach_msg_timeout_t MachMessageTimeOutFromDuration(
       std::chrono::duration_cast<ClockDurationMilli>(timeout).count());
 }
 
-MachPort::Result MachPort::sendMessages(Messages&& messages,
-                                        ClockDurationNano requestedTimeout) {
+EventLoopSource::IOHandlerResult MachPort::sendMessages(
+    Messages&& messages,
+    ClockDurationNano requestedTimeout) {
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
 
@@ -191,7 +192,7 @@ MachPort::Result MachPort::sendMessages(Messages&& messages,
     timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
-  auto result = MachPort::Failure;
+  auto result = EventLoopSource::IOHandlerResult::Failure;
   /*
    *  This is incorrect. Multiple messages need to be sent in one call
    */
@@ -199,7 +200,7 @@ MachPort::Result MachPort::sendMessages(Messages&& messages,
     MachPayload payload(message, _handle);
     result = payload.send(timeoutOption, timeout);
 
-    if (result == MachPort::Failure) {
+    if (result == EventLoopSource::IOHandlerResult::Failure) {
       return result;
     }
   }
@@ -222,17 +223,17 @@ MachPort::ReadResult MachPort::readMessages(
     timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
-  auto res = MachPort::Result::Failure;
+  auto res = EventLoopSource::IOHandlerResult::Failure;
 
   do {
     res = payload.receive(timeoutOption, timeout);
-    if (res == MachPort::Result::Success) {
+    if (res == EventLoopSource::IOHandlerResult::Success) {
       messages.emplace_back(std::move(payload.asMessage()));
     }
-  } while (res == MachPort::Result::Success && hasTimeout);
+  } while (res == EventLoopSource::IOHandlerResult::Success && hasTimeout);
 
-  if (res == MachPort::Result::Timeout && messages.size() > 0) {
-    res = MachPort::Result::Success;
+  if (res == EventLoopSource::IOHandlerResult::Timeout && messages.size() > 0) {
+    res = EventLoopSource::IOHandlerResult::Success;
   }
 
   return ReadResult(res, std::move(messages));
