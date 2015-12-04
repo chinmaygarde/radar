@@ -152,8 +152,6 @@ void WorkQueue::shutdown() {
 
   waitForAllPendingWorkFlushed();
 
-  std::lock_guard<std::mutex> lock(_lock);
-
   if (_workers.size() == 0) {
     return;
   }
