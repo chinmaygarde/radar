@@ -20,10 +20,7 @@ TEST(WorkQueue, SimpleWork) {
     ASSERT_GE(queue.workerCount(), 0);
 
     for (int i = 0; i < size; i++) {
-      queue.dispatch([&count]() {
-        count++;
-        RL_LOG("%s", rl::core::thread::GetName().c_str());
-      });
+      queue.dispatch([&count]() { count++; });
     }
   }
 
