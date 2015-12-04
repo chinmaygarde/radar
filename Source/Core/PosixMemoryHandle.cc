@@ -66,7 +66,7 @@ SharedMemory::Handle SharedMemoryHandleCreate(size_t size) {
 /*
  *  Set the size of the shared memory
  */
-#if RL_OS_MAC
+#if RL_OS_MAC || RL_OS_BSD
   if (RL_TEMP_FAILURE_RETRY(::ftruncate(newHandle, size)) == -1) {
     RL_CHECK(::close(newHandle));
     return -1;

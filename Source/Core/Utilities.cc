@@ -47,6 +47,9 @@ std::string GetName() {
   char name[24] = {0};
   RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
   return name;
+#elif RL_OS_BSD || RL_OS_WINDOWS || RL_OS_NACL
+  // No platform supported implementation
+  return "";
 #else
 #error Unknown Platform
 #endif
