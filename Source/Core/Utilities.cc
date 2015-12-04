@@ -43,6 +43,10 @@ std::string GetName() {
   char name[24] = {0};
   RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
   return name;
+#elif RL_OS_LINUX
+  char name[24] = {0};
+  RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
+  return name;
 #else
 #error Unknown Platform
 #endif

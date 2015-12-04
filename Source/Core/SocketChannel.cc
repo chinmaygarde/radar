@@ -93,8 +93,10 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
     return ELS::Handles(readHandle(), writeHandle()); /* bi-di connection */
   };
 
-  ELS::IOHandler readHandler =
-      [this](ELS::Handle handle) { _channel.readPendingMessageNow(); };
+  ELS::IOHandler readHandler = [this](ELS::Handle handle) {
+    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
+                                            : ELS::IOHandlerResult::Failure;
+  };
 
   /**
    *  We are specifying a null write handler since we will

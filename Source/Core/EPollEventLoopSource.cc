@@ -87,6 +87,8 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
         RL_TEMP_FAILURE_RETRY(::read(r, &fireCount, sizeof(uint64_t)));
 
     RL_ASSERT(size == sizeof(uint64_t));
+
+    return EventLoopSource::IOHandlerResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, nullptr,
@@ -115,6 +117,8 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
         ::read(HANDLE_CAST(r), &signalCount, sizeof(signalCount)));
 
     RL_ASSERT(signalCount > 0);
+
+    return EventLoopSource::IOHandlerResult::Success;
   };
 
   IOHandler writer = [](Handle w) {
@@ -128,6 +132,8 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
         ::write(HANDLE_CAST(w), &writeCount, sizeof(writeCount)));
 
     RL_ASSERT(size == sizeof(writeCount));
+
+    return EventLoopSource::IOHandlerResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,
