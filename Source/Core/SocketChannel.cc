@@ -336,7 +336,6 @@ SocketChannel::ReadResult SocketChannel::ReadMessages(
     }
   }
 
-  RL_ASSERT(messages.size() > 0);
   return ReadResult(Result::Success, std::move(messages));
 }
 
