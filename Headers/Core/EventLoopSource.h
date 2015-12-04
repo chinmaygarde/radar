@@ -36,7 +36,7 @@ class EventLoopSource {
   using RWHandlesCollector = std::function<void(Handles)>;
   using IOHandler = std::function<IOHandlerResult(Handle)>;
   using WakeFunction = std::function<void(IOHandlerResult)>;
-  using ReadAttemptCallback = std::function<bool(Handle)>;
+  using ReadAttemptCallback = std::function<bool(void)>;
   using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
                                                   WaitSet& waitset,
                                                   Handle readHandle,

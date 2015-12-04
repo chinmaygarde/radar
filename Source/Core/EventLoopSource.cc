@@ -112,22 +112,22 @@ EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
 }
 
 void EventLoopSource::attemptRead() {
-  /*
-   *  Acquire the read. Make sure to go through the accessor as it lazily
-   *  initializes the handle.
-   */
-  auto readHandle = this->readHandle();
-
-  /*
-   *  First, ask the instance if it wants to read on the handle at this time
-   */
-  bool shouldAttemptRead =
-      _readAttemptCallback ? _readAttemptCallback(readHandle) : true;
-
   auto result = IOHandlerResult::Timeout;
 
-  if (shouldAttemptRead && _readHandler) {
-    result = _readHandler(readHandle);
+  if (_readHandler) {
+    /*
+     *  First, ask the instance if it wants to read on the handle at this time
+     */
+    bool shouldAttemptRead =
+        _readAttemptCallback ? _readAttemptCallback() : true;
+
+    if (shouldAttemptRead) {
+      /*
+       *  Perform the actual read. Make sure to go through the accessor for the
+       *  read handle as it initializes the handle.
+       */
+      result = _readHandler(this->readHandle());
+    }
   }
 
   /*
