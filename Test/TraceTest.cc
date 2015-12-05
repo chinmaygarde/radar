@@ -21,6 +21,4 @@ TEST(TraceTest, SimpleSetup) {
   std::stringstream stream;
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0);
-
-  RL_LOG("%s", stream.str().c_str());
 }

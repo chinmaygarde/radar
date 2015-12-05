@@ -99,7 +99,6 @@ static inline void _RL_AssertLog(const char* file,
   })
 
 /*
-                     \
  *  C++ Compiler Macros
  */
 
