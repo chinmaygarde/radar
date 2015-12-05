@@ -22,8 +22,8 @@ WorkQueue::WorkQueue(std::string queueName)
   /*
    *  Start worker threads
    */
-  uint32_t processorCount = std::thread::hardware_concurrency();
-  auto poolSize = std::min(processorCount, static_cast<uint32_t>(8));
+  const uint32_t processorCount = std::thread::hardware_concurrency();
+  const auto poolSize = std::min(processorCount, static_cast<uint32_t>(8));
 
   Latch ready(poolSize);
 
