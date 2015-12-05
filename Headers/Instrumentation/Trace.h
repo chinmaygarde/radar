@@ -17,9 +17,20 @@ namespace instrumentation {
 
 class ThreadTrace {
  public:
-  explicit ThreadTrace();
+  size_t eventCount() const;
 
   ~ThreadTrace();
+
+ private:
+  std::thread::id _threadID;
+  std::list<TraceEvent> _events;
+  std::mutex _eventsLock;
+
+  friend class TraceEvent;
+  friend class ProcessTrace;
+
+  explicit ThreadTrace();
+  void recordToStream(int pid, std::stringstream& stream);
 
   template <class... T>
   void recordEvent(T&&... args) {
@@ -27,16 +38,7 @@ class ThreadTrace {
     _events.emplace_back(std::forward<T>(args)...);
   }
 
-  size_t eventCount() const;
-
-  void recordToStream(int pid, std::stringstream& stream);
-
   static ThreadTrace& Current();
-
- private:
-  std::thread::id _threadID;
-  std::list<TraceEvent> _events;
-  std::mutex _eventsLock;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ThreadTrace);
 };
@@ -45,19 +47,20 @@ class ProcessTrace {
  public:
   ProcessTrace();
 
-  void addTrace(ThreadTrace& trace);
-
-  void removeTrace(ThreadTrace& trace);
-
   size_t traceCount() const;
 
-  void recordToStream(std::stringstream& stream);
-
   static ProcessTrace& Current();
+
+  void recordToStream(std::stringstream& stream);
 
  private:
   std::mutex _lock;
   std::list<ThreadTrace*> _treadTraces;
+
+  friend class ThreadTrace;
+
+  void addTrace(ThreadTrace& trace);
+  void removeTrace(ThreadTrace& trace);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ProcessTrace);
 };

@@ -39,10 +39,13 @@ class TraceEvent {
   void recordToStream(int pid, std::thread::id tid, std::stringstream& stream);
 
  private:
-  const Type _type;
-  const Category _category;
-  const std::string _name;
-  const TraceClockPoint _timestamp;
+  Type _type;
+  Category _category;
+  std::string _name;
+  TraceClockPoint _timestamp;
+  std::map<std::string, std::string> _arguments;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(TraceEvent);
 };
 
 }  // namespace instrumentation
