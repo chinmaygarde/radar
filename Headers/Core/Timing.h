@@ -11,14 +11,19 @@ namespace rl {
 namespace core {
 
 using Clock = std::chrono::high_resolution_clock;
-using ClockDuration = std::chrono::duration<double /*, std::ratio<1>*/>;
 
-using ClockDurationSeconds = ClockDuration;
+using ClockDurationSeconds = std::chrono::duration<double /*, std::ratio<1>*/>;
 using ClockDurationNano = std::chrono::nanoseconds;
 using ClockDurationMilli = std::chrono::milliseconds;
 using ClockDurationMicro = std::chrono::microseconds;
 
-using ClockPoint = std::chrono::time_point<Clock, ClockDuration>;
+using ClockPointSeconds = std::chrono::time_point<Clock, ClockDurationSeconds>;
+using ClockPointNano = std::chrono::time_point<Clock, ClockDurationNano>;
+using ClockPointMilli = std::chrono::time_point<Clock, ClockDurationMilli>;
+using ClockPointMicro = std::chrono::time_point<Clock, ClockDurationMicro>;
+
+using ClockDuration = ClockDurationSeconds;
+using ClockPoint = ClockPointSeconds;
 
 static const ClockDurationMilli ClockDurationGod = ClockDurationMilli(16);
 

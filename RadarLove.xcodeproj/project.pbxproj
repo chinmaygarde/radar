@@ -84,6 +84,9 @@
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
 		9E6745EA1BF2BB3200D110DE /* LayoutTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745E91BF2BB3200D110DE /* LayoutTest.cc */; };
+		9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E84818A1C126B2D006DE159 /* TraceEvent.h */; };
+		9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8481941C126B3D006DE159 /* TraceEvent.cc */; };
+		9E8481981C1272DF006DE159 /* TraceTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8481961C1272DD006DE159 /* TraceTest.cc */; };
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
 		9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655801BE2F17F00997766 /* StateMachine.cc */; };
 		9E8655E91BE45E2700997766 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D41BE45E2700997766 /* Color.h */; };
@@ -397,6 +400,9 @@
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9E6745E91BF2BB3200D110DE /* LayoutTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutTest.cc; sourceTree = "<group>"; };
+		9E84818A1C126B2D006DE159 /* TraceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraceEvent.h; sourceTree = "<group>"; };
+		9E8481941C126B3D006DE159 /* TraceEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceEvent.cc; sourceTree = "<group>"; };
+		9E8481961C1272DD006DE159 /* TraceTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceTest.cc; sourceTree = "<group>"; };
 		9E86557D1BE2F16F00997766 /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		9E8655801BE2F17F00997766 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E8655D41BE45E2700997766 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
@@ -633,6 +639,7 @@
 				EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */,
 				EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */,
 				EA68B32C1C11711400607934 /* ThreadTest.cc */,
+				9E8481961C1272DD006DE159 /* TraceTest.cc */,
 				9EC1CE481C0E7E6A00DBAA91 /* WorkQueueTest.cc */,
 			);
 			path = Test;
@@ -1001,6 +1008,7 @@
 				9EBA79A61B87D856005D84FA /* Instrumentation.h */,
 				9EBA79A71B87D856005D84FA /* Stopwatch.h */,
 				9EBA79A81B87D856005D84FA /* Trace.h */,
+				9E84818A1C126B2D006DE159 /* TraceEvent.h */,
 			);
 			path = Instrumentation;
 			sourceTree = "<group>";
@@ -1011,6 +1019,7 @@
 				9EBA79C31B87F203005D84FA /* Counter.cc */,
 				9EBA79B51B87D864005D84FA /* Stopwatch.cc */,
 				9EBA79B61B87D864005D84FA /* Trace.cc */,
+				9E8481941C126B3D006DE159 /* TraceEvent.cc */,
 			);
 			path = Instrumentation;
 			sourceTree = "<group>";
@@ -1195,6 +1204,7 @@
 				9EAECE6A1B685460000FA38A /* SpringSimulation.h in Headers */,
 				EAC90A7E1BF93C82001214C1 /* ThreadLocal.h in Headers */,
 				EA62B3161B6F2402009F197F /* Event.h in Headers */,
+				9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */,
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
 				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
@@ -1359,6 +1369,7 @@
 				9E62F8D91B796ED3008DE08E /* SharedMemoryTest.cc in Sources */,
 				EAC90A8A1BF949FB001214C1 /* ThreadLocalTest.cc in Sources */,
 				9E62F8DB1B796ED3008DE08E /* TestMain.cc in Sources */,
+				9E8481981C1272DF006DE159 /* TraceTest.cc in Sources */,
 				9E62F8FA1B7983A2008DE08E /* LatchTest.cc in Sources */,
 				EA68B32D1C11711400607934 /* ThreadTest.cc in Sources */,
 			);
@@ -1377,6 +1388,7 @@
 				9E16A6F71BE2E9D700FFEDFC /* Constraint.cc in Sources */,
 				9E62F9111B7C199D008DE08E /* Entity.cc in Sources */,
 				9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */,
+				9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */,
 				9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
