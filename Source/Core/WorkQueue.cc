@@ -5,6 +5,7 @@
 #include <Core/WorkQueue.h>
 
 #include <string>
+#include <algorithm>
 
 namespace rl {
 namespace core {
@@ -21,7 +22,8 @@ WorkQueue::WorkQueue(std::string queueName)
   /*
    *  Start worker threads
    */
-  const auto poolSize = std::thread::hardware_concurrency();
+  uint32_t processorCount = std::thread::hardware_concurrency();
+  auto poolSize = std::min(processorCount, static_cast<uint32_t>(8));
 
   Latch ready(poolSize);
 
