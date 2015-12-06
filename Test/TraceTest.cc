@@ -24,11 +24,29 @@ TEST(TraceTest, SimpleTraceCapture) {
   Event::MarkDurationEnd(Event::Category::Default, "trace");
 
   auto& trace = rl::instrumentation::ProcessTrace::Current();
-  ASSERT_EQ(trace.traceCount(), 1);
-
   std::stringstream stream;
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0);
+}
 
-  RL_LOG("%s", stream.str().c_str());
+TEST(TraceTest, TraceUsingMacros) {
+  {
+    RL_TRACE_AUTO("auto");
+    {
+      RL_TRACE_AUTO("auto2");
+      RL_TRACE_ASYNC_INSTANT("instant");
+      RL_TRACE_BEGIN("something");
+      RL_TRACE_END("something");
+      RL_TRACE_ASYNC_END("instant");
+      RL_TRACE_COUNT("count", 22);
+      RL_TRACE_COUNT("count", 55);
+      RL_TRACE_COUNT("count", 1);
+      RL_TRACE_COUNT("count", 200);
+    }
+  }
+
+  auto& trace = rl::instrumentation::ProcessTrace::Current();
+  std::stringstream stream;
+  trace.recordToStream(stream);
+  ASSERT_GE(stream.str().size(), 0);
 }
