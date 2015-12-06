@@ -29,7 +29,7 @@
 #define RL_TRACE_COUNT(name, count) _RL_E::MarkCounter(_RL_C, (name), (count));
 
 #define RL_TRACE_AUTO(name) \
-  rl::instrumentation::AutoDurationEvent auto_##__LINE__(_RL_C, name);
+  rl::instrumentation::AutoDurationEvent _rl_trace_##__LINE__(_RL_C, name);
 
 #else  // RL_TRACING_ENABLE
 

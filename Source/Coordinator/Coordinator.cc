@@ -4,6 +4,7 @@
 
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/Frame.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {
@@ -18,7 +19,7 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
                 "A surface must be provided to the coordinator");
   _surface->setObserver(this);
   _animationsSource->setWakeFunction(
-      std::bind(&Coordinator::onDisplayLinkPulse, this));
+      std::bind(&Coordinator::onDisplayLink, this));
 }
 
 Coordinator::~Coordinator() {
@@ -137,7 +138,9 @@ void Coordinator::scheduleInterfaceChannels(bool schedule) {
   }
 }
 
-void Coordinator::onDisplayLinkPulse() {
+void Coordinator::onDisplayLink() {
+  RL_TRACE_AUTO(__func__);
+
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
 
   auto wasUpdated = false;
@@ -152,6 +155,8 @@ void Coordinator::onDisplayLinkPulse() {
 }
 
 void Coordinator::renderFrame() {
+  RL_TRACE_AUTO(__func__);
+
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 
   if (!surfaceAccess.acquired()) {

@@ -7,6 +7,7 @@
 #include <Coordinator/Coordinator.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace shell {
@@ -16,6 +17,8 @@ Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
     : _compositorThread(),
       _coordinator(surface, _host.touchEventChannel()),
       _interface(delegate, _coordinator.acquireChannel()) {
+  RL_TRACE_INSTANT("ShellInitialization");
+
   core::clock::LoggingClockDuration();
   attachHostOnCurrentThread();
 }
@@ -37,6 +40,8 @@ void Shell::attachHostOnCurrentThread() {
   }));
 
   readyLatch.wait();
+
+  RL_TRACE_INSTANT("ShellAttached");
 }
 
 coordinator::Coordinator& Shell::coordinator() {

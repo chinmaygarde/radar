@@ -6,6 +6,8 @@
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
 
+#include <Instrumentation/TraceEvent.h>
+
 #define HANDLE_CAST(x) static_cast<int>((x))
 
 namespace rl {
@@ -112,6 +114,8 @@ EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
 }
 
 void EventLoopSource::attemptRead() {
+  RL_TRACE_AUTO(__func__);
+
   auto result = IOHandlerResult::Timeout;
 
   if (_readHandler) {

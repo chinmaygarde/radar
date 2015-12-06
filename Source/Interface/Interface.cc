@@ -4,6 +4,7 @@
 
 #include <Interface/Interface.h>
 #include <Core/ThreadLocal.h>
+#include <Instrumentation/TraceEvent.h>
 
 #include <limits>
 
@@ -135,6 +136,8 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
+  RL_TRACE_AUTO("Interface::FlushTransactions")
+
   std::lock_guard<std::mutex> lock(_lock);
 
   auto compositor = _compositorChannel.lock();

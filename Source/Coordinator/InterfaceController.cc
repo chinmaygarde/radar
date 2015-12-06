@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/InterfaceController.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {
@@ -46,6 +47,8 @@ void InterfaceController::scheduleChannel(core::EventLoop& loop,
 }
 
 void InterfaceController::onChannelMessage(core::Messages messages) {
+  RL_TRACE_AUTO("OnTransactionReceived");
+
   instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
 
   bool success = true;
@@ -70,6 +73,8 @@ void InterfaceController::setNeedsUpdate() {
 
 bool InterfaceController::updateInterface(
     const event::TouchEvent::PhaseMap& touches) {
+  RL_TRACE_AUTO("UpdateInterface");
+
   if (!_needsUpdate && touches.size() == 0) {
     /*
      *  The interface was asked to update but there is no pending service call.
@@ -101,6 +106,8 @@ bool InterfaceController::updateInterface(
 
 bool InterfaceController::applyPendingTouchEvents(
     const event::TouchEvent::PhaseMap& touches) {
+  RL_TRACE_AUTO("ApplyPendingTouches");
+
   RL_ASSERT_MSG(_isUpdating,
                 "Can only apply touch updates within an update phase");
 
@@ -109,6 +116,8 @@ bool InterfaceController::applyPendingTouchEvents(
 }
 
 bool InterfaceController::applyAnimations() {
+  RL_TRACE_AUTO("ApplyAnimations");
+
   RL_ASSERT_MSG(
       _isUpdating,
       "Can only apply animation interpolations within an update phase");
@@ -122,12 +131,16 @@ bool InterfaceController::applyAnimations() {
 }
 
 bool InterfaceController::enforceConstraints() {
+  RL_TRACE_AUTO("EnforceConstraints");
+
   RL_ASSERT_MSG(_isUpdating,
                 "Can only enforce constraints within an update phase");
   return false;
 }
 
 bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {
+  RL_TRACE_AUTO("RenderInterfaceState");
+
   RL_ASSERT_MSG(!_isUpdating,
                 "Must not render in the middle of an interface update");
   _graph.render(frame);

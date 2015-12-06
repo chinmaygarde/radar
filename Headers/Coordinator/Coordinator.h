@@ -85,7 +85,7 @@ class Coordinator : RenderSurfaceObserver {
 
   void renderFrame();
 
-  void onDisplayLinkPulse();
+  void onDisplayLink();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };
