@@ -17,6 +17,7 @@ class TraceEvent {
  public:
   using TraceClockPoint = core::ClockPointMicro;
   using TraceClockDuration = core::ClockDurationMicro;
+  using Arguments = std::map<std::string, std::string>;
 
   enum class Type : char {
     DurationBegin = 'B',
@@ -32,9 +33,20 @@ class TraceEvent {
     Default,
   };
 
-  TraceEvent(Type type, Category category, const std::string& name);
+  TraceEvent(Type type,
+             Category category,
+             const std::string& name,
+             Arguments&& args);
 
-  static void Record(Type type, Category category, const std::string& name);
+  static void MarkDurationBegin(Category category, const std::string& name);
+  static void MarkDurationEnd(Category category, const std::string& name);
+  static void MarkInstant(Category category, const std::string& name);
+  static void MarkAsyncStart(Category category, const std::string& name);
+  static void MarkAsyncInstant(Category category, const std::string& name);
+  static void MarkAsyncEnd(Category category, const std::string& name);
+  static void MarkCounter(Category category,
+                          const std::string& name,
+                          int64_t count);
 
   void recordToStream(int pid, std::thread::id tid, std::stringstream& stream);
 
@@ -43,7 +55,7 @@ class TraceEvent {
   Category _category;
   std::string _name;
   TraceClockPoint _timestamp;
-  std::map<std::string, std::string> _arguments;
+  Arguments _arguments;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TraceEvent);
 };

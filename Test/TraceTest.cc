@@ -10,15 +10,25 @@
 
 using Event = rl::instrumentation::TraceEvent;
 
-TEST(TraceTest, SimpleSetup) {
-  Event::Record(Event::Type::Counter, Event::Category::Default, "counter1");
-  Event::Record(Event::Type::Counter, Event::Category::Default, "counter2");
-  Event::Record(Event::Type::Counter, Event::Category::Default, "counter3");
-  Event::Record(Event::Type::Counter, Event::Category::Default, "counter4");
+TEST(TraceTest, SimpleTraceCapture) {
+  Event::MarkDurationBegin(Event::Category::Default, "trace");
+  Event::MarkCounter(Event::Category::Default, "counter1", 400);
+  Event::MarkCounter(Event::Category::Default, "counter2", 200);
+  Event::MarkCounter(Event::Category::Default, "counter3", 22);
+  Event::MarkCounter(Event::Category::Default, "counter4", 88);
+  Event::MarkCounter(Event::Category::Default, "counter4", 666);
+  Event::MarkCounter(Event::Category::Default, "counter4", 999);
+  Event::MarkCounter(Event::Category::Default, "counter4", 990);
+  Event::MarkCounter(Event::Category::Default, "counter4", 222);
+  Event::MarkCounter(Event::Category::Default, "counter4", 2);
+  Event::MarkDurationEnd(Event::Category::Default, "trace");
+
   auto& trace = rl::instrumentation::ProcessTrace::Current();
   ASSERT_EQ(trace.traceCount(), 1);
 
   std::stringstream stream;
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0);
+
+  RL_LOG("%s", stream.str().c_str());
 }
