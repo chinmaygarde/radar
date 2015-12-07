@@ -62,6 +62,7 @@ class TraceEvent {
     AsyncStart = 'b',
     AsyncInstant = 'n',
     AsyncEnd = 'e',
+    Metadata = 'M',
   };
 
   enum class Category : uint8_t {
@@ -79,6 +80,7 @@ class TraceEvent {
   static void MarkAsyncStart(Category category, const std::string& name);
   static void MarkAsyncInstant(Category category, const std::string& name);
   static void MarkAsyncEnd(Category category, const std::string& name);
+  static void MarkMetadata(const std::string& name, Arguments&& args);
   static void MarkCounter(Category category,
                           const std::string& name,
                           int64_t count);
@@ -94,6 +96,10 @@ class TraceEvent {
 
   RL_DISALLOW_COPY_AND_ASSIGN(TraceEvent);
 };
+
+extern const char* TraceEventMetadataNameKey;
+extern const char* TraceEventMetadataThreadName;
+extern const char* TraceEventMetadataProcessName;
 
 class AutoDurationEvent {
  public:

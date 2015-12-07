@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Event/TouchEventChannel.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace event {
@@ -12,12 +13,16 @@ TouchEventChannel::TouchEventChannel() : Channel() {
 
 void TouchEventChannel::sendTouchEvents(
     const std::vector<TouchEvent>& touchEvents) {
+  RL_TRACE_AUTO("SendTouchEvents");
+
   core::Messages messages;
+
   for (const auto& touch : touchEvents) {
     core::Message m(sizeof(TouchEvent));
     m.encode(touch);
     messages.emplace_back(std::move(m));
   }
+
   bool result = sendMessages(std::move(messages));
   RL_ASSERT(result);
 }

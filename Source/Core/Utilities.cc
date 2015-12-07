@@ -5,6 +5,7 @@
 #include <Core/Config.h>
 #include <Core/Utilities.h>
 #include <Core/Macros.h>
+#include <Instrumentation/Trace.h>
 #include <string>
 
 #if RL_OS_MAC
@@ -36,6 +37,8 @@ void SetName(const char* name) {
 #else
 #error Unknown Platform
 #endif
+
+  instrumentation::ThreadTrace::UpdateMetadata();
 }
 
 std::string GetName() {

@@ -30,6 +30,31 @@ static ProcessTrace CurrentProcessTrace;
 
 ThreadTrace::ThreadTrace() : _threadID(std::this_thread::get_id()) {
   CurrentProcessTrace.addTrace(*this);
+
+  updateMetadata();
+}
+
+void ThreadTrace::UpdateMetadata() {
+  auto trace = reinterpret_cast<ThreadTrace*>(CurrentThreadTrace.get());
+
+  if (trace == nullptr) {
+    /*
+     *  Updating metadata does not itself initialize tracing.
+     */
+    return;
+  }
+
+  trace->updateMetadata();
+}
+
+void ThreadTrace::updateMetadata() {
+  /*
+   *  Record the thread name
+   */
+  recordEvent(TraceEvent::Type::Metadata, TraceEvent::Category::Default,
+              TraceEventMetadataThreadName,
+              TraceEvent::Arguments(
+                  {{TraceEventMetadataNameKey, core::thread::GetName()}}));
 }
 
 ThreadTrace::~ThreadTrace() {

@@ -56,6 +56,11 @@ void TraceEvent::MarkAsyncEnd(Category category, const std::string& name) {
                                      Arguments());
 }
 
+void TraceEvent::MarkMetadata(const std::string& name, Arguments&& args) {
+  ThreadTrace::Current().recordEvent(Type::Metadata, Category::Default, name,
+                                     std::move(args));
+}
+
 void TraceEvent::MarkCounter(Category category,
                              const std::string& name,
                              int64_t count) {
@@ -119,6 +124,10 @@ void TraceEvent::recordToStream(int pid,
 
   stream << "}";
 }
+
+const char* TraceEventMetadataNameKey = "name";
+const char* TraceEventMetadataThreadName = "thread_name";
+const char* TraceEventMetadataProcessName = "process_name";
 
 }  // namespace instrumentation
 }  // namespace rl

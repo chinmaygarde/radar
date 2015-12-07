@@ -19,6 +19,8 @@ class ThreadTrace {
  public:
   size_t eventCount() const;
 
+  static void UpdateMetadata();
+
   ~ThreadTrace();
 
  private:
@@ -39,6 +41,8 @@ class ThreadTrace {
   }
 
   static ThreadTrace& Current();
+
+  void updateMetadata();
 
   RL_DISALLOW_COPY_AND_ASSIGN(ThreadTrace);
 };
