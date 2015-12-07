@@ -13,7 +13,7 @@
 /*
  *  Tracing
  */
-#define RL_TRACING_ENABLE 1
+#define RL_TRACING_ENABLE 0
 
 #if RL_TRACING_ENABLE
 
