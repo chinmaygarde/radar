@@ -92,6 +92,13 @@ void TraceEvent::recordToStream(int pid,
 
   stream << "{";
 
+  /*
+   *  All instant events are treated as process scoped
+   */
+  if (_type == Type::Instant) {
+    StreamAppend(stream, "s", "p", true);
+  }
+
   StreamAppend(stream, "name", _name, true);
   StreamAppend(stream, "cat", NameForCategory(_category), true);
   StreamAppend(stream, "ph", static_cast<char>(_type), true);
