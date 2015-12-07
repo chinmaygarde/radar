@@ -139,7 +139,8 @@ void Coordinator::scheduleInterfaceChannels(bool schedule) {
 }
 
 void Coordinator::onDisplayLink() {
-  RL_TRACE_AUTO(__func__);
+  RL_TRACE_INSTANT("OnDisplayLink");
+  RL_TRACE_AUTO("OnDisplayLink");
 
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
 
@@ -155,7 +156,7 @@ void Coordinator::onDisplayLink() {
 }
 
 void Coordinator::renderFrame() {
-  RL_TRACE_AUTO(__func__);
+  RL_TRACE_AUTO("RenderFrame");
 
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 

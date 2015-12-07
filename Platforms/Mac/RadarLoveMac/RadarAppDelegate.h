@@ -2,14 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "AppDelegate.h"
+#import <Cocoa/Cocoa.h>
 
-@interface AppDelegate ()<NSWindowDelegate>
+@interface RadarAppDelegate : NSObject<NSApplicationDelegate>
 
-@property(weak) IBOutlet NSWindow* window;
-
-@end
-
-@implementation AppDelegate
+- (IBAction)onCaptureTraceSelected:(id)sender;
 
 @end

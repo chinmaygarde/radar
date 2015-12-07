@@ -55,7 +55,7 @@ class ProcessTrace {
 
  private:
   std::mutex _lock;
-  std::list<ThreadTrace*> _treadTraces;
+  std::list<ThreadTrace*> _threadTraces;
 
   friend class ThreadTrace;
 

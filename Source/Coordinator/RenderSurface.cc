@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/RenderSurface.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {
@@ -31,11 +32,13 @@ void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
 
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
     : _surface(surface), _finalized(false) {
+  RL_TRACE_AUTO("SurfaceMakeCurrent");
   _acquired = _surface.makeCurrent();
 }
 
 ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
   if (_acquired && _finalized) {
+    RL_TRACE_AUTO("SurfacePresent");
     bool result = _surface.present();
     RL_ASSERT(result);
   }

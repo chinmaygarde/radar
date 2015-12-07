@@ -114,7 +114,7 @@ EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
 }
 
 void EventLoopSource::attemptRead() {
-  RL_TRACE_AUTO(__func__);
+  RL_TRACE_AUTO("EventLoopSource::AttemptRead");
 
   auto result = IOHandlerResult::Timeout;
 
