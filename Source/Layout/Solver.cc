@@ -135,6 +135,20 @@ bool Solver::hasEditVariable(const Variable& variable) const {
   return _edits.find(variable) != _edits.end();
 }
 
+Result Solver::applySuggestions(const std::vector<Suggestion>& suggestions) {
+  Result result(Result::Type::Success);
+
+  for (const auto& suggestion : suggestions) {
+    auto currentResult =
+        suggestValueForVariable(suggestion.variable(), suggestion.value());
+    if (currentResult.type() != Result::Type::Success) {
+      result = currentResult;
+    }
+  }
+
+  return result;
+}
+
 Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   auto foundEdit = _edits.find(variable);
 

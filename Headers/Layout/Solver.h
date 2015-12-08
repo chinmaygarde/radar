@@ -10,6 +10,7 @@
 #include <Layout/EditInfo.h>
 #include <Layout/Result.h>
 #include <Layout/Row.h>
+#include <Layout/Suggestion.h>
 #include <Layout/Symbol.h>
 #include <Layout/Tag.h>
 #include <Layout/Variable.h>
@@ -49,7 +50,7 @@ class Solver {
 
   bool hasEditVariable(const Variable& variable) const;
 
-  Result suggestValueForVariable(const Variable& variable, double value);
+  Result applySuggestions(const std::vector<Suggestion>& suggestions);
 
   enum class FlushResult {
     NoUpdates,
@@ -105,6 +106,8 @@ class Solver {
   void removeMarkerEffects(const Symbol& marker, double strength);
 
   Symbol leavingSymbolForMarker(const Symbol& marker) const;
+
+  Result suggestValueForVariable(const Variable& variable, double value);
 
   void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);
