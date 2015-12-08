@@ -6,18 +6,16 @@
 
 #include "Sample.h"
 
-#include <stdlib.h>
-#include <Recognition/GestureRecognizer.h>
 #include <Layout/ConstraintCreation.h>
+#include <Recognition/GestureRecognizer.h>
+#include <stdlib.h>
 
 namespace sample {
 
-SampleApplication::SampleApplication() {
-}
+SampleApplication::SampleApplication() {}
 
 void SampleApplication::didFinishLaunching(
-    rl::interface::Interface& interface) {
-}
+    rl::interface::Interface& interface) {}
 
 static void AddPanRecognizer(rl::interface::Interface& interface,
                              rl::interface::Layer& layer) {
@@ -77,10 +75,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
                      static_cast<double>(10 + rand() % 120)});
     layer->setTransformation(
         rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
-    layer->setBackgroundColor({(rand() % 100) / 100.0,
-                               (rand() % 100) / 100.0,
-                               (rand() % 100) / 100.0,
-                               1.0});
+    layer->setBackgroundColor({(rand() % 100) / 100.0, (rand() % 100) / 100.0,
+                               (rand() % 100) / 100.0, 1.0});
     layer->setOpacity(((rand() % 10) / 10.0));
     root->addSublayer(layer);
   }
@@ -109,16 +105,13 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 }
 
 void SampleApplication::didEnterBackground(
-    rl::interface::Interface& interface) {
-}
+    rl::interface::Interface& interface) {}
 
-void SampleApplication::didTerminate(rl::interface::Interface& interface) {
-}
+void SampleApplication::didTerminate(rl::interface::Interface& interface) {}
 
 void SampleApplication::didBecomeInactive(rl::interface::Interface& interface) {
 }
 
-void SampleApplication::didUpdateSize(rl::interface::Interface& interface) {
-}
+void SampleApplication::didUpdateSize(rl::interface::Interface& interface) {}
 
 }  // namespace sample

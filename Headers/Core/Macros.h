@@ -6,13 +6,13 @@
 #define RADARLOVE_CORE_MACROS_
 
 #include <Core/Config.h>
-#include <Core/Utilities.h>
 #include <Core/Timing.h>
+#include <Core/Utilities.h>
 
-#include <string.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <cstdarg>
 
@@ -109,5 +109,14 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_DISALLOW_COPY_AND_ASSIGN(TypeName) \
   RL_DISALLOW_COPY(TypeName)                  \
   RL_DISALLOW_ASSIGN(TypeName)
+
+/*
+ *  Extra Warnings
+ */
+#if defined(__GNUC__)
+#define RL_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+#else
+#define RL_WARN_UNUSED_RESULT
+#endif
 
 #endif  // RADARLOVE_CORE_MACROS_

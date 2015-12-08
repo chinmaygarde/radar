@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Interface/Interface.h>
 #include <Core/ThreadLocal.h>
 #include <Instrumentation/TraceEvent.h>
+#include <Interface/Interface.h>
 
 #include <limits>
 
@@ -16,7 +16,8 @@ RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<coordinator::Channel> compositorChannel)
+                     std::weak_ptr<coordinator::Channel>
+                         compositorChannel)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -222,6 +223,7 @@ void Interface::didUpdateSize() {
 
   if (_rootLayer) {
     _rootLayer->setFrame({{0.0, 0.0}, size()});
+    setupConstraints(layout::Constraint::AnchorConstraints(*_rootLayer));
   }
 }
 

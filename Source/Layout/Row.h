@@ -43,9 +43,16 @@ class Row {
 
   void substitute(const Symbol& symbol, const Row& row);
 
+  bool constantHasUpdate() const;
+
+  void resolveConstantUpdate();
+
  private:
   Cells _cells;
   double _constant;
+  bool _constantHasUpdate;
+
+  void setConstantUpdated(bool updated);
 
   RL_DISALLOW_ASSIGN(Row);
 };

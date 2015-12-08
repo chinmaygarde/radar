@@ -38,6 +38,12 @@ class Constraint : public core::Serializable {
 
   bool deserialize(core::Message& message) override;
 
+  static std::vector<Constraint> AnchorConstraints(
+      interface::Entity& entity,
+      interface::Entity::Property property);
+
+  static std::vector<Constraint> AnchorConstraints(interface::Entity& entity);
+
   struct Compare {
     constexpr bool operator()(const Constraint& lhs,
                               const Constraint& rhs) const {

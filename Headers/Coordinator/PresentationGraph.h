@@ -5,16 +5,16 @@
 #ifndef RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 #define RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 
-#include <Core/Core.h>
+#include <Animation/Director.h>
 #include <Coordinator/EntityArena.h>
 #include <Coordinator/Frame.h>
 #include <Coordinator/PresentationEntity.h>
-#include <Coordinator/TransferRecord.h>
-#include <Animation/Director.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Coordinator/TransferRecord.h>
+#include <Core/Core.h>
 #include <Interface/Action.h>
-#include <Recognition/RecognitionEngine.h>
 #include <Layout/Solver.h>
+#include <Recognition/RecognitionEngine.h>
 
 #include <map>
 
@@ -27,8 +27,11 @@ class PresentationGraph {
   ~PresentationGraph();
 
   bool applyTransactions(core::Message& arena);
+
   recognition::RecognitionEngine::Result applyTouchMap(
       const event::TouchEvent::PhaseMap& touches);
+
+  layout::Solver::FlushResult applyConstraints();
 
   void render(Frame& frame);
 
@@ -62,6 +65,8 @@ class PresentationGraph {
       recognition::GestureRecognizer::Collection&& recognizers);
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
+
+  void resolveConstraintUpdate(const layout::Variable& variable, double value);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

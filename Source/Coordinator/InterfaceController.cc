@@ -24,8 +24,7 @@ class ScopedUpdate {
 };
 
 InterfaceController::InterfaceController()
-    : _channel(std::make_shared<Channel>()), _needsUpdate(false) {
-}
+    : _channel(std::make_shared<Channel>()), _needsUpdate(false) {}
 
 std::weak_ptr<Channel> InterfaceController::channel() const {
   return _channel;
@@ -135,7 +134,8 @@ bool InterfaceController::enforceConstraints() {
 
   RL_ASSERT_MSG(_isUpdating,
                 "Can only enforce constraints within an update phase");
-  return false;
+
+  return _graph.applyConstraints() == layout::Solver::FlushResult::Updated;
 }
 
 bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {

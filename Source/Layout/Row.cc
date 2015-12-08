@@ -8,8 +8,7 @@
 namespace rl {
 namespace layout {
 
-Row::Row(double constant) : _constant(constant) {
-}
+Row::Row(double constant) : _constant(constant), _constantHasUpdate(true) {}
 
 double Row::constant() const {
   return _constant;
@@ -20,6 +19,7 @@ const Row::Cells& Row::cells() const {
 }
 
 double Row::add(double value) {
+  setConstantUpdated(!NearZero(value));
   _constant += value;
   return _constant;
 }
@@ -35,7 +35,9 @@ void Row::insertSymbol(const Symbol& symbol, double coefficient) {
 }
 
 void Row::insertRow(const Row& other, double coefficient) {
-  _constant += other.constant() * coefficient;
+  auto delta = other.constant() * coefficient;
+  _constant += delta;
+  setConstantUpdated(!NearZero(delta));
   for (auto const& cell : other.cells()) {
     insertSymbol(cell.first, cell.second * coefficient);
   }
@@ -47,6 +49,7 @@ void Row::removeSymbol(const Symbol& symbol) {
 
 void Row::reverseSign() {
   _constant = -_constant;
+  setConstantUpdated(!NearZero(_constant));
   for (auto& cell : _cells) {
     cell.second = -cell.second;
   }
@@ -58,6 +61,8 @@ void Row::solve(const Symbol& symbol) {
   double coefficient = -1.0 / _cells[symbol];
 
   _cells.erase(symbol);
+
+  setConstantUpdated(coefficient != 1.0);
 
   _constant *= coefficient;
   for (auto& cell : _cells) {
@@ -88,6 +93,18 @@ void Row::substitute(const Symbol& symbol, const Row& row) {
 
   _cells.erase(cell);
   insertRow(row, cell->second /* coefficient */);
+}
+
+bool Row::constantHasUpdate() const {
+  return _constantHasUpdate;
+}
+
+void Row::resolveConstantUpdate() {
+  _constantHasUpdate = false;
+}
+
+void Row::setConstantUpdated(bool updated) {
+  _constantHasUpdate = _constantHasUpdate || updated;
 }
 
 }  // namespace layout

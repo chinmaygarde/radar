@@ -7,17 +7,17 @@
 
 #include <Core/Core.h>
 #include <Layout/Constraint.h>
-#include <Layout/Tag.h>
-#include <Layout/Symbol.h>
-#include <Layout/Row.h>
-#include <Layout/Variable.h>
 #include <Layout/EditInfo.h>
 #include <Layout/Result.h>
+#include <Layout/Row.h>
+#include <Layout/Symbol.h>
+#include <Layout/Tag.h>
+#include <Layout/Variable.h>
 
+#include <functional>
 #include <map>
 #include <unordered_map>
 #include <vector>
-#include <functional>
 
 namespace rl {
 namespace layout {
@@ -51,9 +51,14 @@ class Solver {
 
   Result suggestValueForVariable(const Variable& variable, double value);
 
+  enum class FlushResult {
+    NoUpdates,
+    Updated,
+  };
+
   using SolverUpdateCallback =
       std::function<void(const Variable&, double value)>;
-  void flushUpdates(SolverUpdateCallback callback);
+  FlushResult flushUpdates(SolverUpdateCallback callback) const;
 
  private:
   std::map<Constraint, Tag, Constraint::Compare> _constraints;
@@ -70,8 +75,10 @@ class Solver {
 
   template <class T>
   Result bulkEdit(const std::vector<T>& items,
-                  UpdateCallback<T> applier,
-                  UpdateCallback<T> undoer);
+                  UpdateCallback<T>
+                      applier,
+                  UpdateCallback<T>
+                      undoer);
 
   Symbol symbolForVariable(const Variable& variable);
 

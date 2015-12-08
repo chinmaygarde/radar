@@ -2,20 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Layout/Priority.h>
 #include <Layout/Solver.h>
 #include <Layout/Utilities.h>
-#include <Layout/Priority.h>
 
 namespace rl {
 namespace layout {
 
 Solver::Solver()
     : _objective(core::make_unique<Row>(0.0)),
-      _artificial(core::make_unique<Row>(0.0)) {
-}
+      _artificial(core::make_unique<Row>(0.0)) {}
 
-Solver::~Solver() {
-}
+Solver::~Solver() {}
 
 Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
@@ -149,13 +147,26 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   return dualOptimize();
 }
 
-void Solver::flushUpdates(SolverUpdateCallback callback) {
+Solver::FlushResult Solver::flushUpdates(SolverUpdateCallback callback) const {
+  FlushResult result = FlushResult::NoUpdates;
+
   for (auto& i : _vars) {
     auto foundRow = _rows.find(i.second);
-    const double updatedValue =
-        foundRow == _rows.end() ? 0.0 : foundRow->second->constant();
-    callback(i.first, updatedValue);
+
+    if (foundRow == _rows.end()) {
+      continue;
+    }
+
+    auto& row = foundRow->second;
+
+    if (row->constantHasUpdate()) {
+      callback(i.first, row->constant());
+      row->resolveConstantUpdate();
+      result = FlushResult::Updated;
+    }
   }
+
+  return result;
 }
 
 Symbol Solver::symbolForVariable(const Variable& variable) {
@@ -552,8 +563,10 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
 
 template <class T>
 Result Solver::bulkEdit(const std::vector<T>& items,
-                        UpdateCallback<T> applier,
-                        UpdateCallback<T> undoer) {
+                        UpdateCallback<T>
+                            applier,
+                        UpdateCallback<T>
+                            undoer) {
   std::vector<std::reference_wrapper<const T>> applied;
   auto needsCleanup = false;
 

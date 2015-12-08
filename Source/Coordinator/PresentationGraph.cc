@@ -9,11 +9,9 @@
 namespace rl {
 namespace coordinator {
 
-PresentationGraph::PresentationGraph() : _root(nullptr) {
-}
+PresentationGraph::PresentationGraph() : _root(nullptr) {}
 
-PresentationGraph::~PresentationGraph() {
-}
+PresentationGraph::~PresentationGraph() {}
 
 bool PresentationGraph::applyTransactions(core::Message& arena) {
   auto applyTime = core::Clock::now();
@@ -185,6 +183,27 @@ animation::Director& PresentationGraph::animationDirector() {
 recognition::RecognitionEngine::Result PresentationGraph::applyTouchMap(
     const event::TouchEvent::PhaseMap& touches) {
   return _recognitionEngine.applyTouchMap(touches, _entities);
+}
+
+layout::Solver::FlushResult PresentationGraph::applyConstraints() {
+  namespace P = std::placeholders;
+  return _layoutSolver.flushUpdates(std::bind(
+      &PresentationGraph::resolveConstraintUpdate, this, P::_1, P::_2));
+}
+
+void PresentationGraph::resolveConstraintUpdate(
+    const layout::Variable& variable,
+    double value) {
+  auto& entity = _entities[variable.identifier()];
+  switch (variable.property()) {
+    case interface::Entity::Position: {
+      auto position = entity->position();
+      position.x = value;
+      entity->setPosition(position);
+    } break;
+    default:
+      break;
+  }
 }
 
 }  // namespace coordinator

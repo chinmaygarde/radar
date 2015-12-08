@@ -5,9 +5,9 @@
 #ifndef RADARLOVE_INTERFACE_ENTITY_
 #define RADARLOVE_INTERFACE_ENTITY_
 
+#include <Coordinator/Color.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Coordinator/Color.h>
 
 namespace rl {
 namespace interface {
