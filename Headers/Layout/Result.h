@@ -12,32 +12,16 @@
 namespace rl {
 namespace layout {
 
-class Result {
- public:
-  enum class Type {
-    Success,
-    Unimplemented,
-    DuplicateConstraint,
-    UnsatisfiableConstraint,
-    UnknownConstraint,
-    DuplicateEditVariable,
-    BadRequiredStrength,
-    UnknownEditVariable,
-    InternalSolverError,
-  };
-
-  Result(Type type);
-
-  bool isError() const;
-
-  Type type() const;
-
-  bool operator==(const Result& other) const { return _type == other._type; }
-
-  bool operator!=(const Result& other) const { return _type != other._type; }
-
- private:
-  Type _type;
+enum class Result {
+  Success,
+  Unimplemented,
+  DuplicateConstraint,
+  UnsatisfiableConstraint,
+  UnknownConstraint,
+  DuplicateEditVariable,
+  BadRequiredStrength,
+  UnknownEditVariable,
+  InternalSolverError,
 };
 
 }  // namespace layout

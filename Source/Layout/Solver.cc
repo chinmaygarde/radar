@@ -17,7 +17,7 @@ Solver::~Solver() {}
 
 Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
-    return Result::Type::DuplicateConstraint;
+    return Result::DuplicateConstraint;
   }
 
   Tag tag(Symbol{}, Symbol{});
@@ -28,7 +28,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 
   if (subject.type() == Symbol::Type::Invalid && allDummiesInRow(*row)) {
     if (!NearZero(row->constant())) {
-      return Result::Type::UnsatisfiableConstraint;
+      return Result::UnsatisfiableConstraint;
     } else {
       subject = tag.marker();
     }
@@ -36,7 +36,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 
   if (subject.type() == Symbol::Type::Invalid) {
     if (!addWithArtificialVariableOnRow(*row)) {
-      return Result::Type::UnsatisfiableConstraint;
+      return Result::UnsatisfiableConstraint;
     }
   } else {
     row->solve(subject);
@@ -52,7 +52,7 @@ Result Solver::addConstraint(const Constraint& constraint) {
 Result Solver::removeConstraint(const Constraint& constraint) {
   auto foundConstraint = _constraints.find(constraint);
   if (foundConstraint == _constraints.end()) {
-    return Result::Type::UnknownConstraint;
+    return Result::UnknownConstraint;
   }
 
   Tag tag = foundConstraint->second;
@@ -68,7 +68,7 @@ Result Solver::removeConstraint(const Constraint& constraint) {
 
     auto leavingRow = _rows.find(leavingSymbol);
     if (leavingRow == _rows.end()) {
-      return Result::Type::InternalSolverError;
+      return Result::InternalSolverError;
     }
 
     auto leaving = leavingRow->first;
@@ -94,41 +94,40 @@ static inline bool IsValidNonRequiredPriority(double priority) {
 
 Result Solver::addEditVariable(const Variable& variable, double priority) {
   if (_edits.find(variable) != _edits.end()) {
-    return Result::Type::DuplicateEditVariable;
+    return Result::DuplicateEditVariable;
   }
 
   if (!IsValidNonRequiredPriority(priority)) {
-    return Result::Type::BadRequiredStrength;
+    return Result::BadRequiredStrength;
   }
 
   Constraint constraint(Expression{{Term{variable, 1.0}}, 0.0},
                         Constraint::Relation::EqualTo, priority);
 
-  if (addConstraint(constraint) != Result::Type::Success) {
-    return Result::Type::InternalSolverError;
+  if (addConstraint(constraint) != Result::Success) {
+    return Result::InternalSolverError;
   }
 
   _edits.emplace(
       std::piecewise_construct, std::forward_as_tuple(variable),
       std::forward_as_tuple(_constraints.at(constraint), constraint, 0.0));
 
-  return Result::Type::Success;
+  return Result::Success;
 }
 
 Result Solver::removeEditVariable(const Variable& variable) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
-    return Result::Type::UnknownEditVariable;
+    return Result::UnknownEditVariable;
   }
 
-  if (removeConstraint(foundEdit->second.constraint()) !=
-      Result::Type::Success) {
-    return Result::Type::InternalSolverError;
+  if (removeConstraint(foundEdit->second.constraint()) != Result::Success) {
+    return Result::InternalSolverError;
   }
 
   _edits.erase(foundEdit);
-  return Result::Type::Success;
+  return Result::Success;
 }
 
 bool Solver::hasEditVariable(const Variable& variable) const {
@@ -136,12 +135,12 @@ bool Solver::hasEditVariable(const Variable& variable) const {
 }
 
 Result Solver::applySuggestions(const std::vector<Suggestion>& suggestions) {
-  Result result(Result::Type::Success);
+  Result result = Result::Success;
 
   for (const auto& suggestion : suggestions) {
     auto currentResult =
         suggestValueForVariable(suggestion.variable(), suggestion.value());
-    if (currentResult.type() != Result::Type::Success) {
+    if (currentResult != Result::Success) {
       result = currentResult;
     }
   }
@@ -153,7 +152,7 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
-    return Result::Type::UnknownEditVariable;
+    return Result::UnknownEditVariable;
   }
 
   suggestValueForEditInfoWithoutDualOptimization(foundEdit->second, value);
@@ -312,7 +311,7 @@ bool Solver::addWithArtificialVariableOnRow(const Row& row) {
 
   const auto& result = optimizeObjectiveRow(*_artificial);
 
-  if (result.isError()) {
+  if (result != Result::Success) {
     return false;
   }
 
@@ -350,12 +349,12 @@ Result Solver::optimizeObjectiveRow(const Row& objective) {
   while (true) {
     auto entering = enteringSymbolForObjectiveRow(objective);
     if (entering.type() == Symbol::Type::Invalid) {
-      return Result::Type::Success;
+      return Result::Success;
     }
 
     auto foundRow = _rows.find(leavingSymbolForEntering(entering));
     if (foundRow == _rows.end()) {
-      return Result::Type::InternalSolverError;
+      return Result::InternalSolverError;
     }
 
     auto leaving = Symbol{foundRow->first};
@@ -537,7 +536,7 @@ Result Solver::dualOptimize() {
       const auto& entering = dualEnteringSymbolForRow(*(foundRow->second));
 
       if (entering.type() == Symbol::Type::Invalid) {
-        return Result::Type::InternalSolverError;
+        return Result::InternalSolverError;
       }
 
       std::unique_ptr<Row> row(std::move(foundRow->second));
@@ -548,7 +547,7 @@ Result Solver::dualOptimize() {
       _rows[entering].swap(row);
     }
   }
-  return Result::Type::Success;
+  return Result::Success;
 }
 
 Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
@@ -584,11 +583,11 @@ Result Solver::bulkEdit(const std::vector<T>& items,
   std::vector<std::reference_wrapper<const T>> applied;
   auto needsCleanup = false;
 
-  Result result = Result::Type::Success;
+  Result result = Result::Success;
 
   for (auto& item : items) {
     result = applier(item);
-    if (result == Result::Type::Success) {
+    if (result == Result::Success) {
       applied.push_back(std::cref(item));
     } else {
       needsCleanup = true;
