@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
 #include <Core/Core.h>
-#include <Layout/Solver.h>
 #include <Layout/ConstraintCreation.h>
+#include <Layout/Solver.h>
+#include <gtest/gtest.h>
 
 #include <map>
 
@@ -188,9 +188,11 @@ TEST(LayoutTest, ConstraintsAdd) {
 
   rl::layout::Solver solver;
 
-  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid).isError(), false);
-  ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
-  ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
+  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid),
+            rl::layout::Result::Success);
+  ASSERT_EQ(solver.addConstraint(right - left >= 100),
+            rl::layout::Result::Success);
+  ASSERT_EQ(solver.addConstraint(left >= 0), rl::layout::Result::Success);
 
   std::map<rl::interface::Entity::Identifier, double> updates;
   solver.flushUpdates(
@@ -216,9 +218,11 @@ TEST(LayoutTest, ConstraintsAddParameterConst) {
 
   rl::layout::Solver solver;
 
-  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid).isError(), false);
-  ASSERT_EQ(solver.addConstraint(right - left >= 100).isError(), false);
-  ASSERT_EQ(solver.addConstraint(left >= 0).isError(), false);
+  ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid),
+            rl::layout::Result::Success);
+  ASSERT_EQ(solver.addConstraint(right - left >= 100),
+            rl::layout::Result::Success);
+  ASSERT_EQ(solver.addConstraint(left >= 0), rl::layout::Result::Success);
 
   std::map<rl::interface::Entity::Identifier, double> updates;
   solver.flushUpdates(
@@ -240,15 +244,11 @@ TEST(LayoutTest, UpdatesInSolver) {
   auto c1 = right - left >= 200.0;
   auto c2 = right >= right;
 
-  ASSERT_EQ(solver.addConstraint(c1).type(), rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.addConstraint(c1).type(),
-            rl::layout::Result::Type::DuplicateConstraint);
-  ASSERT_EQ(solver.removeConstraint(c2).type(),
-            rl::layout::Result::Type::UnknownConstraint);
-  ASSERT_EQ(solver.removeConstraint(c1).type(),
-            rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.removeConstraint(c1).type(),
-            rl::layout::Result::Type::UnknownConstraint);
+  ASSERT_EQ(solver.addConstraint(c1), rl::layout::Result::Success);
+  ASSERT_EQ(solver.addConstraint(c1), rl::layout::Result::DuplicateConstraint);
+  ASSERT_EQ(solver.removeConstraint(c2), rl::layout::Result::UnknownConstraint);
+  ASSERT_EQ(solver.removeConstraint(c1), rl::layout::Result::Success);
+  ASSERT_EQ(solver.removeConstraint(c1), rl::layout::Result::UnknownConstraint);
 }
 
 TEST(LayoutTest, EditUpdates) {
@@ -259,15 +259,13 @@ TEST(LayoutTest, EditUpdates) {
   rl::layout::Variable mid(3);
 
   auto c = left + right >= 2.0 * mid;
-  ASSERT_EQ(solver.addConstraint(c).type(), rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.addEditVariable(mid, 999).type(),
-            rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.addEditVariable(mid, 999).type(),
-            rl::layout::Result::Type::DuplicateEditVariable);
-  ASSERT_EQ(solver.removeEditVariable(mid).type(),
-            rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.removeEditVariable(mid).type(),
-            rl::layout::Result::Type::UnknownEditVariable);
+  ASSERT_EQ(solver.addConstraint(c), rl::layout::Result::Success);
+  ASSERT_EQ(solver.addEditVariable(mid, 999), rl::layout::Result::Success);
+  ASSERT_EQ(solver.addEditVariable(mid, 999),
+            rl::layout::Result::DuplicateEditVariable);
+  ASSERT_EQ(solver.removeEditVariable(mid), rl::layout::Result::Success);
+  ASSERT_EQ(solver.removeEditVariable(mid),
+            rl::layout::Result::UnknownEditVariable);
 }
 
 TEST(LayoutTest, EditConstraintFlush) {
@@ -281,12 +279,12 @@ TEST(LayoutTest, EditConstraintFlush) {
       left >= 0.0,                //
   });
 
-  ASSERT_EQ(res.type(), rl::layout::Result::Type::Success);
+  ASSERT_EQ(res, rl::layout::Result::Success);
 
-  ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong).type(),
-            rl::layout::Result::Type::Success);
-  ASSERT_EQ(solver.suggestValueForVariable(mid, 300.0).type(),
-            rl::layout::Result::Type::Success);
+  ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong),
+            rl::layout::Result::Success);
+
+  ASSERT_EQ(solver.applySuggestions({{mid, 300}}), rl::layout::Result::Success);
 
   std::map<rl::interface::Entity::Identifier, double> updates;
   solver.flushUpdates(
@@ -306,11 +304,11 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 
   auto res = solver.addEditVariable(container, rl::layout::priority::Strong);
 
-  ASSERT_EQ(res.isError(), false);
+  ASSERT_EQ(res, rl::layout::Result::Success);
 
-  res = solver.suggestValueForVariable(container, 100.0);
+  res = solver.applySuggestions({{container, 100.0}});
 
-  ASSERT_EQ(res.isError(), false);
+  ASSERT_EQ(res, rl::layout::Result::Success);
 
   res = solver.addConstraints({
       p1 >= 30.0 | rl::layout::priority::Strong,  //
@@ -319,7 +317,7 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
       container == p1 + p2 + p3                   //
   });
 
-  ASSERT_EQ(res.isError(), false);
+  ASSERT_EQ(res, rl::layout::Result::Success);
 
   std::map<rl::interface::Entity::Identifier, double> updates;
   solver.flushUpdates(

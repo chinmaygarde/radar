@@ -13,7 +13,7 @@ namespace layout {
 
 class Suggestion {
  public:
-  explicit Suggestion();
+  Suggestion(const Variable& variable, double value);
 
   const Variable& variable() const;
 
@@ -23,7 +23,7 @@ class Suggestion {
   Variable _variable;
   double _value;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Suggestion);
+  RL_DISALLOW_ASSIGN(Suggestion);
 };
 
 }  // namespace layout

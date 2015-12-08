@@ -7,7 +7,8 @@
 namespace rl {
 namespace layout {
 
-Suggestion::Suggestion() {}
+Suggestion::Suggestion(const Variable& variable, double value)
+    : _variable(variable), _value(value) {}
 
 const Variable& Suggestion::variable() const {
   return _variable;
