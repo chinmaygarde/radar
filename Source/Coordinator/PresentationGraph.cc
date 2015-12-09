@@ -94,6 +94,9 @@ void PresentationGraph::onSuggestionsCommit(
         suggestionResult = _layoutSolver.applySuggestion(suggestion);
       }
     }
+
+    RL_ASSERT_MSG(suggestionResult == layout::Result::Success,
+                  "Must be able to apply constraint suggestion");
   }
 }
 
