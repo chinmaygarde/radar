@@ -51,10 +51,15 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
       layer->identifier(), rl::layout::Variable::Property::PositionY);
   rl::layout::Variable childPositionY(
       child->identifier(), rl::layout::Variable::Property::PositionY);
+  rl::layout::Variable childWidth(child->identifier(),
+                                  rl::layout::Variable::Property::BoundsWidth);
+  rl::layout::Variable containerWidth(
+      layer->identifier(), rl::layout::Variable::Property::BoundsWidth);
 
   interface.setupConstraints({
       containerPositionX == childPositionX,  //
       containerPositionY == childPositionY,  //
+      childWidth == 0.75 * containerWidth,   //
   });
 }
 
@@ -63,28 +68,44 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
+  rl::layout::Variable rootWidth(root->identifier(),
+                                 rl::layout::Variable::Property::BoundsWidth);
+  rl::layout::Variable rootHeight(root->identifier(),
+                                  rl::layout::Variable::Property::BoundsHeight);
+
   rl::interface::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::EaseInEaseOut);
   action.setAutoReverses(true);
-  action.setDuration(rl::core::ClockDuration(1.0));
+  action.setDuration(rl::core::ClockDuration(0.5));
   action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);
-  action.setPropertyMask(rl::interface::Entity::Transformation |
-                         rl::interface::Entity::Opacity);
+  action.setPropertyMask(rl::interface::Entity::Transformation);
 
   interface.pushTransaction(std::move(action));
 
-  for (auto i = 0; i < 1; i++) {
-    auto layer = std::make_shared<rl::interface::Layer>();
-    layer->setFrame({static_cast<double>(rand() % 1600),
-                     static_cast<double>(rand() % 1200),
-                     static_cast<double>(10 + rand() % 120),
-                     static_cast<double>(10 + rand() % 120)});
-    layer->setTransformation(
-        rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
-    layer->setBackgroundColor({(rand() % 100) / 100.0, (rand() % 100) / 100.0,
-                               (rand() % 100) / 100.0, 1.0});
-    layer->setOpacity(((rand() % 10) / 10.0));
-    root->addSublayer(layer);
+  const auto rows = 25;
+  const auto cols = 25;
+
+  for (auto i = 0; i < rows; i++) {
+    for (auto j = 0; j < cols; j++) {
+      auto layer = std::make_shared<rl::interface::Layer>();
+      layer->setFrame({0.0, 0.0, 25, 25});
+      layer->setBackgroundColor({(rand() % 100) / 100.0, (rand() % 100) / 100.0,
+                                 (rand() % 100) / 100.0, 1.0});
+      layer->setTransformation(
+          rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
+
+      rl::layout::Variable childPositionX(
+          layer->identifier(), rl::layout::Variable::Property::PositionX);
+      rl::layout::Variable childPositionY(
+          layer->identifier(), rl::layout::Variable::Property::PositionY);
+
+      interface.setupConstraints({
+          childPositionX == ((i + 1) / (double)rows) * rootWidth,   //
+          childPositionY == ((j + 1) / (double)cols) * rootHeight,  //
+      });
+
+      root->addSublayer(layer);
+    }
   }
 
   interface.popTransaction();
