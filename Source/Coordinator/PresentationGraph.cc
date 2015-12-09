@@ -222,6 +222,8 @@ void PresentationGraph::resolveConstraintUpdate(
 
   auto& entity = _entities[variable.identifier()];
   switch (variable.property()) {
+    case Property::None:
+      break;
     case Property::BoundsOriginX: {
       auto bounds = entity->bounds();
       bounds.origin.x = value;
@@ -252,8 +254,16 @@ void PresentationGraph::resolveConstraintUpdate(
       position.y = value;
       entity->setPosition(position);
     } break;
-    default:
-      break;
+    case Property::AnchorPointX: {
+      auto anchor = entity->anchorPoint();
+      anchor.x = value;
+      entity->setAnchorPoint(anchor);
+    } break;
+    case Property::AnchorPointY: {
+      auto anchor = entity->anchorPoint();
+      anchor.y = value;
+      entity->setAnchorPoint(anchor);
+    } break;
   }
 }
 
