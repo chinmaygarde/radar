@@ -13,15 +13,27 @@ namespace layout {
 
 class Variable : public core::Serializable {
  public:
+  using PropertyType = uint32_t;
+  enum class Property : PropertyType {
+    None,
+    BoundsOriginX,
+    BoundsOriginY,
+    BoundsWidth,
+    BoundsHeight,
+    PositionX,
+    PositionY,
+    AnchorPointX,
+    AnchorPointY,
+  };
+
   Variable();
 
-  Variable(
-      interface::Entity::Identifier identifier,
-      interface::Entity::Property property = interface::Entity::Property::None);
+  Variable(interface::Entity::Identifier identifier,
+           Property property = Property::None);
 
   interface::Entity::Identifier identifier() const;
 
-  interface::Entity::Property property() const;
+  Property property() const;
 
   bool serialize(core::Message& message) const override;
 
@@ -29,7 +41,7 @@ class Variable : public core::Serializable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      return v._identifier ^ v._property;
+      return v._identifier ^ static_cast<PropertyType>(v._property);
     }
   };
 
@@ -42,7 +54,7 @@ class Variable : public core::Serializable {
 
  private:
   interface::Entity::Identifier _identifier;
-  interface::Entity::Property _property;
+  Property _property;
 
   RL_DISALLOW_ASSIGN(Variable);
 };

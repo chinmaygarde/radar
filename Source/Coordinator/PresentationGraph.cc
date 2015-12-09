@@ -218,11 +218,38 @@ layout::Solver::FlushResult PresentationGraph::applyConstraints() {
 void PresentationGraph::resolveConstraintUpdate(
     const layout::Variable& variable,
     double value) {
+  using Property = layout::Variable::Property;
+
   auto& entity = _entities[variable.identifier()];
   switch (variable.property()) {
-    case interface::Entity::Position: {
+    case Property::BoundsOriginX: {
+      auto bounds = entity->bounds();
+      bounds.origin.x = value;
+      entity->setBounds(bounds);
+    } break;
+    case Property::BoundsOriginY: {
+      auto bounds = entity->bounds();
+      bounds.origin.y = value;
+      entity->setBounds(bounds);
+    } break;
+    case Property::BoundsWidth: {
+      auto bounds = entity->bounds();
+      bounds.size.width = value;
+      entity->setBounds(bounds);
+    } break;
+    case Property::BoundsHeight: {
+      auto bounds = entity->bounds();
+      bounds.size.height = value;
+      entity->setBounds(bounds);
+    } break;
+    case Property::PositionX: {
       auto position = entity->position();
       position.x = value;
+      entity->setPosition(position);
+    } break;
+    case Property::PositionY: {
+      auto position = entity->position();
+      position.y = value;
       entity->setPosition(position);
     } break;
     default:

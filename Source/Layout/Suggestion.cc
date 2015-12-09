@@ -64,6 +64,7 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
                                            interface::Entity::Property property,
                                            double priority) {
   using Entity = interface::Entity;
+  using Property = layout::Variable::Property;
 
   std::vector<Suggestion> suggestions;
   auto identifier = entity.identifier();
@@ -75,17 +76,21 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
   switch (property) {
     case Entity::Property::Bounds: {
       auto bounds = entity.bounds();
-      if (!NearZero(bounds.size.width)) {
-        Variable width(identifier, property);
-        suggestions.push_back({width, bounds.size.width, priority});
-      }
+      suggestions.push_back(
+          {{identifier, Property::BoundsOriginX}, bounds.origin.x, priority});
+      suggestions.push_back(
+          {{identifier, Property::BoundsOriginY}, bounds.origin.y, priority});
+      suggestions.push_back(
+          {{identifier, Property::BoundsWidth}, bounds.size.width, priority});
+      suggestions.push_back(
+          {{identifier, Property::BoundsHeight}, bounds.size.height, priority});
     } break;
     case interface::Entity::Property::Position: {
       auto position = entity.position();
-      if (!NearZero(position.x)) {
-        Variable positionX(identifier, property);
-        suggestions.push_back({positionX, position.x, priority});
-      }
+      suggestions.push_back(
+          {{identifier, Property::PositionX}, position.x, priority});
+      suggestions.push_back(
+          {{identifier, Property::PositionY}, position.y, priority});
     } break;
     default:
       break;

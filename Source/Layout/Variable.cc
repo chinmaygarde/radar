@@ -2,27 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Layout/Variable.h>
 #include <Layout/Utilities.h>
+#include <Layout/Variable.h>
 
 namespace rl {
 namespace layout {
 
 Variable::Variable()
     : _identifier(interface::Entity::IdentifierNone),
-      _property(interface::Entity::Property::None) {
-}
+      _property(Property::None) {}
 
-Variable::Variable(interface::Entity::Identifier identifier,
-                   interface::Entity::Property property)
-    : _identifier(identifier), _property(property) {
-}
+Variable::Variable(interface::Entity::Identifier identifier, Property property)
+    : _identifier(identifier), _property(property) {}
 
 interface::Entity::Identifier Variable::identifier() const {
   return _identifier;
 }
 
-interface::Entity::Property Variable::property() const {
+Variable::Property Variable::property() const {
   return _property;
 }
 

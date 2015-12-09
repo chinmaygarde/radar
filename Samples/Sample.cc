@@ -43,13 +43,18 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
 
   layer->addSublayer(child);
 
-  rl::layout::Variable containerPosition(
-      layer->identifier(), rl::interface::Entity::Property::Position);
-  rl::layout::Variable childPosition(child->identifier(),
-                                     rl::interface::Entity::Property::Position);
+  rl::layout::Variable containerPositionX(
+      layer->identifier(), rl::layout::Variable::Property::PositionX);
+  rl::layout::Variable childPositionX(
+      child->identifier(), rl::layout::Variable::Property::PositionX);
+  rl::layout::Variable containerPositionY(
+      layer->identifier(), rl::layout::Variable::Property::PositionY);
+  rl::layout::Variable childPositionY(
+      child->identifier(), rl::layout::Variable::Property::PositionY);
 
   interface.setupConstraints({
-      containerPosition == childPosition,  //
+      containerPositionX == childPositionX,  //
+      containerPositionY == childPositionY,  //
   });
 }
 
@@ -65,9 +70,10 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::interface::Entity::Transformation |
                          rl::interface::Entity::Opacity);
+
   interface.pushTransaction(std::move(action));
 
-  for (auto i = 0; i < 500; i++) {
+  for (auto i = 0; i < 1; i++) {
     auto layer = std::make_shared<rl::interface::Layer>();
     layer->setFrame({static_cast<double>(rand() % 1600),
                      static_cast<double>(rand() % 1200),
@@ -82,8 +88,6 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   }
 
   interface.popTransaction();
-
-  AddDockedPanel(interface);
 
   auto sub1 = std::make_shared<rl::interface::Layer>();
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});
@@ -102,6 +106,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
   sub2->addSublayer(sub3);
   AddPanRecognizer(interface, *sub3);
+
+  AddDockedPanel(interface);
 }
 
 void SampleApplication::didEnterBackground(
