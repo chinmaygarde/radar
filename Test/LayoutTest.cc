@@ -284,7 +284,8 @@ TEST(LayoutTest, EditConstraintFlush) {
   ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong),
             rl::layout::Result::Success);
 
-  ASSERT_EQ(solver.applySuggestions({{mid, 300}}), rl::layout::Result::Success);
+  ASSERT_EQ(solver.applySuggestion({mid, 300, rl::layout::priority::Strong}),
+            rl::layout::Result::Success);
 
   std::map<rl::interface::Entity::Identifier, double> updates;
   solver.flushUpdates(
@@ -306,7 +307,8 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
-  res = solver.applySuggestions({{container, 100.0}});
+  res =
+      solver.applySuggestion({container, 100.0, rl::layout::priority::Strong});
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
