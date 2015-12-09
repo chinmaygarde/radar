@@ -11,13 +11,24 @@
 namespace rl {
 namespace layout {
 
-class Suggestion {
+class Suggestion : public core::Serializable {
  public:
+  Suggestion();
+
   Suggestion(const Variable& variable, double value);
 
   const Variable& variable() const;
 
   double value() const;
+
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
+
+  static std::vector<Suggestion> Anchor(interface::Entity& entity,
+                                        interface::Entity::Property property);
+
+  static std::vector<Suggestion> Anchor(interface::Entity& entity);
 
  private:
   Variable _variable;

@@ -3,8 +3,6 @@
 // found in the LICENSE file.
 
 #include <Layout/Constraint.h>
-#include <Layout/ConstraintCreation.h>
-#include <Layout/Utilities.h>
 
 namespace rl {
 namespace layout {
@@ -38,55 +36,6 @@ const Expression& Constraint::expression() const {
 
 double Constraint::priority() const {
   return _priority;
-}
-
-std::vector<Constraint> Constraint::AnchorConstraints(
-    interface::Entity& entity) {
-  using Property = interface::Entity::Property;
-  std::vector<Property> properties = {Property::Position, Property::Bounds};
-
-  std::vector<Constraint> constraints;
-  for (const auto& property : properties) {
-    auto propertyConstraints = AnchorConstraints(entity, property);
-    std::move(propertyConstraints.begin(), propertyConstraints.end(),
-              std::back_inserter(constraints));
-  }
-
-  return constraints;
-}
-
-std::vector<Constraint> Constraint::AnchorConstraints(
-    interface::Entity& entity,
-    interface::Entity::Property property) {
-  using Entity = interface::Entity;
-
-  std::vector<Constraint> constraints;
-  auto identifier = entity.identifier();
-
-  /*
-   *  WIP: Add constraint dimensions
-   */
-
-  switch (property) {
-    case Entity::Property::Bounds: {
-      auto bounds = entity.bounds();
-      if (!NearZero(bounds.size.width)) {
-        Variable width(identifier, property);
-        constraints.push_back(width == bounds.size.width);
-      }
-    } break;
-    case interface::Entity::Property::Position: {
-      auto position = entity.position();
-      if (!NearZero(position.x)) {
-        Variable positionX(identifier, property);
-        constraints.push_back(positionX == position.x);
-      }
-    } break;
-    default:
-      break;
-  }
-
-  return std::move(constraints);
 }
 
 bool Constraint::serialize(core::Message& message) const {

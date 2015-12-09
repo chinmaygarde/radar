@@ -5,12 +5,13 @@
 #ifndef RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_
 #define RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_
 
-#include <Core/Core.h>
-#include <Interface/Action.h>
 #include <Coordinator/TransferEntity.h>
 #include <Coordinator/TransferRecord.h>
-#include <Recognition/GestureRecognizer.h>
+#include <Core/Core.h>
+#include <Interface/Action.h>
 #include <Layout/Constraint.h>
+#include <Layout/Suggestion.h>
+#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
@@ -29,18 +30,22 @@ class TransactionPayload : public core::Serializable {
       std::function<void(recognition::GestureRecognizer::Collection&&)>;
   using ConstraintsCallback =
       std::function<void(std::vector<layout::Constraint>&&)>;
+  using SuggestionsCallback =
+      std::function<void(std::vector<layout::Suggestion>&&)>;
 
   explicit TransactionPayload(
       interface::Action&& action,
       EntityMap&& entities,
       recognition::GestureRecognizer::Collection&& recognizers,
-      std::vector<layout::Constraint>&& constraints);
+      std::vector<layout::Constraint>&& constraints,
+      std::vector<layout::Suggestion>&& suggestions);
 
   explicit TransactionPayload(const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
                               RecognizerCallback recognizerCallback,
-                              ConstraintsCallback constraintsCallback);
+                              ConstraintsCallback constraintsCallback,
+                              SuggestionsCallback suggestionsCallback);
 
   bool serialize(core::Message& message) const override;
   bool deserialize(core::Message& message) override;
@@ -53,6 +58,7 @@ class TransactionPayload : public core::Serializable {
   EntityMap _entities;
   recognition::GestureRecognizer::Collection _recognizers;
   std::vector<layout::Constraint> _constraints;
+  std::vector<layout::Suggestion> _suggestions;
 
   /*
    *  Used when reading
@@ -62,6 +68,7 @@ class TransactionPayload : public core::Serializable {
   TransferRecordCallback _transferRecordCallback;
   RecognizerCallback _recognizerCallback;
   ConstraintsCallback _constraintsCallback;
+  SuggestionsCallback _suggestionsCallback;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TransactionPayload);
 };

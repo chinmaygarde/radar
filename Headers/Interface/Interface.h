@@ -5,13 +5,13 @@
 #ifndef RADARLOVE_INTERFACE_INTERFACE_
 #define RADARLOVE_INTERFACE_INTERFACE_
 
-#include <Core/Core.h>
-#include <Interface/InterfaceTransaction.h>
-#include <Interface/InterfaceDelegate.h>
-#include <Toolbox/StateMachine.h>
-#include <Interface/Layer.h>
 #include <Coordinator/Channel.h>
+#include <Core/Core.h>
+#include <Interface/InterfaceDelegate.h>
+#include <Interface/InterfaceTransaction.h>
+#include <Interface/Layer.h>
 #include <Layout/Constraint.h>
+#include <Toolbox/StateMachine.h>
 
 #include <deque>
 #include <mutex>
@@ -43,7 +43,8 @@ class Interface {
   };
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<coordinator::Channel> compositorChannel);
+                     std::weak_ptr<coordinator::Channel>
+                         compositorChannel);
 
   /**
    *  Setup the interface context and count down on the latch when ready
@@ -122,6 +123,9 @@ class Interface {
   bool setupGestureRecognizer(recognition::GestureRecognizer&& recognizer);
 
   void setupConstraints(const std::vector<layout::Constraint>& constraints);
+
+  void setupConstraintSuggestions(
+      const std::vector<layout::Suggestion>& suggestions);
 
  private:
   core::EventLoop* _loop;

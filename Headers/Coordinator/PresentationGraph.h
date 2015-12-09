@@ -14,6 +14,7 @@
 #include <Core/Core.h>
 #include <Interface/Action.h>
 #include <Layout/Solver.h>
+#include <Layout/Suggestion.h>
 #include <Recognition/RecognitionEngine.h>
 
 #include <map>
@@ -46,10 +47,12 @@ class PresentationGraph {
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
+
   void prepareActions(interface::Action& action,
                       PresentationEntity& currentState,
                       const TransferRecord& record,
                       const core::ClockPoint& time);
+
   template <typename T>
   void prepareActionSingle(interface::Action& action,
                            PresentationEntity& entity,
@@ -58,6 +61,7 @@ class PresentationGraph {
                            const core::ClockPoint& start);
 
   void onActionCommit(interface::Action& action);
+
   void onTransferRecordCommit(interface::Action& action,
                               TransferRecord& record,
                               const core::ClockPoint& commitTime);
@@ -65,6 +69,8 @@ class PresentationGraph {
       recognition::GestureRecognizer::Collection&& recognizers);
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
+
+  void onSuggestionsCommit(std::vector<layout::Suggestion>&& suggestions);
 
   void resolveConstraintUpdate(const layout::Variable& variable, double value);
 

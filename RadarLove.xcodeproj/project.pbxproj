@@ -127,6 +127,7 @@
 		9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656121BE45E3A00997766 /* TransferRecord.cc */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
+		9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA039EB1C179B4500F36467 /* OpenGL.framework */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
 		9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744F1B753CAD00C8A8B4 /* Macros.h */; };
 		9EA72CBF1BBA03A7001A755C /* MachPort.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA72CBD1BBA03A7001A755C /* MachPort.cc */; };
@@ -445,6 +446,7 @@
 		9E8656121BE45E3A00997766 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
+		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9EA6744E1B753CAD00C8A8B4 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		9EA6744F1B753CAD00C8A8B4 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		9EA72CBD1BBA03A7001A755C /* MachPort.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachPort.cc; sourceTree = "<group>"; };
@@ -572,6 +574,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */,
 				9E62F8DF1B796FC8008DE08E /* CoreFoundation.framework in Frameworks */,
 				9E62F8DC1B796EDD008DE08E /* libRadarLove.a in Frameworks */,
 				9E62F8DD1B796EDD008DE08E /* libgtest.a in Frameworks */,
@@ -654,6 +657,7 @@
 		9E62F8A11B796DFA008DE08E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EA039EB1C179B4500F36467 /* OpenGL.framework */,
 				9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */,
 				9E62F8A21B796E0A008DE08E /* Test */,
 			);

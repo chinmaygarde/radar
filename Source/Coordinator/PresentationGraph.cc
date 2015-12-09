@@ -33,7 +33,8 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
       std::bind(&G::onRecognizerCommit, this, P::_1),
-      std::bind(&G::onConstraintsCommit, this, P::_1));
+      std::bind(&G::onConstraintsCommit, this, P::_1),
+      std::bind(&G::onSuggestionsCommit, this, P::_1));
   return payload.deserialize(arena);
 }
 
@@ -74,6 +75,11 @@ void PresentationGraph::onConstraintsCommit(
     std::vector<layout::Constraint>&& constraints) {
   auto res = _layoutSolver.addConstraints(constraints);
   RL_ASSERT(res == layout::Result::Success);
+}
+
+void PresentationGraph::onSuggestionsCommit(
+    std::vector<layout::Suggestion>&& suggestions) {
+  // WIP
 }
 
 template <typename T>

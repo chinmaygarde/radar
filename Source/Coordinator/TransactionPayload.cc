@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/TransactionPayload.h>
 #include <Coordinator/PresentationEntity.h>
+#include <Coordinator/TransactionPayload.h>
 
 namespace rl {
 namespace coordinator {
@@ -12,37 +12,41 @@ TransactionPayload::TransactionPayload(
     interface::Action&& action,
     EntityMap&& entities,
     recognition::GestureRecognizer::Collection&& recognizers,
-    std::vector<layout::Constraint>&& constraints)
+    std::vector<layout::Constraint>&& constraints,
+    std::vector<layout::Suggestion>&& suggestions)
     : _action(std::move(action)),
       _entities(std::move(entities)),
       _recognizers(std::move(recognizers)),
-      _constraints(std::move(constraints)) {
-}
+      _constraints(std::move(constraints)),
+      _suggestions(std::move(suggestions)) {}
 
 TransactionPayload::TransactionPayload(
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     RecognizerCallback recognizerCallback,
-    ConstraintsCallback constraintsCallback)
+    ConstraintsCallback constraintsCallback,
+    SuggestionsCallback suggestionsCallback)
     : _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
       _recognizerCallback(recognizerCallback),
-      _constraintsCallback(constraintsCallback) {
-}
+      _constraintsCallback(constraintsCallback),
+      _suggestionsCallback(suggestionsCallback) {}
 
 bool TransactionPayload::serialize(core::Message& message) const {
   bool result = true;
 
   /*
-   *  Step 1: Encode the Action, Recognizers and Constraints
+   *  Step 1: Encode the Action, Recognizers, Constraints and Suggestions
    */
   result &= message.encode(_action);
 
   result &= message.encode(_recognizers);
 
   result &= message.encode(_constraints);
+
+  result &= message.encode(_suggestions);
 
   /*
    *  Step 2: Encode the transfer record count
@@ -105,6 +109,13 @@ bool TransactionPayload::deserialize(core::Message& message) {
     return false;
   }
 
+  std::vector<layout::Suggestion> suggestions;
+  result = message.decode(suggestions);
+
+  if (!result) {
+    return false;
+  }
+
   /*
    *  Step 2: Read the transfer record count
    */
@@ -128,6 +139,10 @@ bool TransactionPayload::deserialize(core::Message& message) {
 
   if (constraints.size() > 0) {
     _constraintsCallback(std::move(constraints));
+  }
+
+  if (suggestions.size() > 0) {
+    _suggestionsCallback(std::move(suggestions));
   }
 
   return true;

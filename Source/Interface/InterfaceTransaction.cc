@@ -2,15 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Interface/InterfaceTransaction.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Interface/InterfaceTransaction.h>
 
 namespace rl {
 namespace interface {
 
 InterfaceTransaction::InterfaceTransaction(const Action&& action)
-    : _action(action) {
-}
+    : _action(action) {}
 
 void InterfaceTransaction::mark(const Entity& entity,
                                 Entity::Property property,
@@ -37,10 +36,17 @@ void InterfaceTransaction::mark(
   }
 }
 
+void InterfaceTransaction::mark(
+    const std::vector<layout::Suggestion>& suggestions) {
+  for (const auto& suggestion : suggestions) {
+    _suggestions.emplace_back(suggestion);
+  }
+}
+
 bool InterfaceTransaction::commit(core::Message& arena) {
   coordinator::TransactionPayload payload(
       std::move(_action), std::move(_entities), std::move(_recognizers),
-      std::move(_constraints));
+      std::move(_constraints), std::move(_suggestions));
   return arena.encode(payload);
 }
 

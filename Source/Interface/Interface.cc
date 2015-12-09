@@ -223,7 +223,7 @@ void Interface::didUpdateSize() {
 
   if (_rootLayer) {
     _rootLayer->setFrame({{0.0, 0.0}, size()});
-    setupConstraints(layout::Constraint::AnchorConstraints(*_rootLayer));
+    setupConstraintSuggestions(layout::Suggestion::Anchor(*_rootLayer));
   }
 }
 
@@ -255,6 +255,11 @@ bool Interface::setupGestureRecognizer(
 void Interface::setupConstraints(
     const std::vector<layout::Constraint>& constraints) {
   transaction().mark(constraints);
+}
+
+void Interface::setupConstraintSuggestions(
+    const std::vector<layout::Suggestion>& suggestions) {
+  transaction().mark(suggestions);
 }
 
 }  // namespace interface

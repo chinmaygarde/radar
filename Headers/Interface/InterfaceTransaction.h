@@ -5,12 +5,13 @@
 #ifndef RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 #define RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 
+#include <Coordinator/EntityArena.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
 #include <Interface/Entity.h>
-#include <Coordinator/EntityArena.h>
-#include <Recognition/GestureRecognizer.h>
 #include <Layout/Constraint.h>
+#include <Layout/Suggestion.h>
+#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
@@ -29,6 +30,8 @@ class InterfaceTransaction {
 
   void mark(const std::vector<layout::Constraint>& constraints);
 
+  void mark(const std::vector<layout::Suggestion>& suggestions);
+
   bool commit(core::Message& arena);
 
  private:
@@ -37,6 +40,7 @@ class InterfaceTransaction {
       _entities;
   std::vector<recognition::GestureRecognizer> _recognizers;
   std::vector<layout::Constraint> _constraints;
+  std::vector<layout::Suggestion> _suggestions;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };
