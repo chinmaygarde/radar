@@ -10,8 +10,11 @@ namespace layout {
 
 Suggestion::Suggestion() : _variable(), _value(0.0) {}
 
-Suggestion::Suggestion(const Variable& variable, double value)
-    : _variable(variable), _value(value) {}
+Suggestion::Suggestion(const Variable& variable, double value, double priority)
+    : _variable(variable), _value(value), _priority(priority) {
+  RL_ASSERT_MSG(priority != priority::Required,
+                "Suggestions cannot be at required priority");
+}
 
 const Variable& Suggestion::variable() const {
   return _variable;
@@ -21,10 +24,15 @@ double Suggestion::value() const {
   return _value;
 }
 
+double Suggestion::priority() const {
+  return _priority;
+}
+
 bool Suggestion::serialize(core::Message& message) const {
   auto result = true;
   result &= message.encode(_variable);
   result &= message.encode(_value);
+  result &= message.encode(_priority);
   return result;
 }
 
@@ -32,17 +40,19 @@ bool Suggestion::deserialize(core::Message& message) {
   auto result = true;
   result &= message.decode(_variable);
   result &= message.decode(_value);
+  result &= message.decode(_priority);
   return result;
 }
 
-std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity) {
+std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
+                                           double priority) {
   using Property = interface::Entity::Property;
 
   std::vector<Property> properties = {Property::Position, Property::Bounds};
   std::vector<Suggestion> suggestions;
 
   for (const auto& property : properties) {
-    auto propertySuggestions = Anchor(entity, property);
+    auto propertySuggestions = Anchor(entity, property, priority);
     std::move(propertySuggestions.begin(), propertySuggestions.end(),
               std::back_inserter(suggestions));
   }
@@ -50,9 +60,9 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity) {
   return suggestions;
 }
 
-std::vector<Suggestion> Suggestion::Anchor(
-    interface::Entity& entity,
-    interface::Entity::Property property) {
+std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
+                                           interface::Entity::Property property,
+                                           double priority) {
   using Entity = interface::Entity;
 
   std::vector<Suggestion> suggestions;
@@ -67,14 +77,14 @@ std::vector<Suggestion> Suggestion::Anchor(
       auto bounds = entity.bounds();
       if (!NearZero(bounds.size.width)) {
         Variable width(identifier, property);
-        suggestions.push_back({width, bounds.size.width});
+        suggestions.push_back({width, bounds.size.width, priority});
       }
     } break;
     case interface::Entity::Property::Position: {
       auto position = entity.position();
       if (!NearZero(position.x)) {
         Variable positionX(identifier, property);
-        suggestions.push_back({positionX, position.x});
+        suggestions.push_back({positionX, position.x, priority});
       }
     } break;
     default:

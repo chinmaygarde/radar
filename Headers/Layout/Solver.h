@@ -50,7 +50,7 @@ class Solver {
 
   bool hasEditVariable(const Variable& variable) const;
 
-  Result applySuggestions(const std::vector<Suggestion>& suggestions);
+  Result applySuggestion(const Suggestion& suggestion);
 
   enum class FlushResult {
     NoUpdates,

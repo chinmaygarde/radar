@@ -79,7 +79,22 @@ void PresentationGraph::onConstraintsCommit(
 
 void PresentationGraph::onSuggestionsCommit(
     std::vector<layout::Suggestion>&& suggestions) {
-  // WIP
+  for (const auto& suggestion : suggestions) {
+    /*
+     *  If the edit variable for the suggestion does not exist yet in the
+     *  solver. Add it and make a suggestion.
+     */
+    auto suggestionResult = _layoutSolver.applySuggestion(suggestion);
+
+    if (suggestionResult == layout::Result::UnknownEditVariable) {
+      const auto editAddResult = _layoutSolver.addEditVariable(
+          suggestion.variable(), suggestion.priority());
+
+      if (editAddResult == layout::Result::Success) {
+        suggestionResult = _layoutSolver.applySuggestion(suggestion);
+      }
+    }
+  }
 }
 
 template <typename T>

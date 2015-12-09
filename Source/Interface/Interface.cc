@@ -223,7 +223,8 @@ void Interface::didUpdateSize() {
 
   if (_rootLayer) {
     _rootLayer->setFrame({{0.0, 0.0}, size()});
-    setupConstraintSuggestions(layout::Suggestion::Anchor(*_rootLayer));
+    setupConstraintSuggestions(
+        layout::Suggestion::Anchor(*_rootLayer, layout::priority::Strong));
   }
 }
 
