@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Core.h>
+#include <Interface/Entity.h>
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>
 #include <gtest/gtest.h>
@@ -331,4 +332,11 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
   ASSERT_EQ(updates[1], 30.0);
   ASSERT_EQ(updates[2], 60.0);
   ASSERT_EQ(updates[3], 10.0);
+}
+
+TEST(LayoutTest, VariableCreationViaOverloading) {
+  rl::interface::Entity entity(false);
+  auto variable = entity | rl::layout::Variable::Property::BoundsOriginX;
+  ASSERT_EQ(variable.property(), rl::layout::Variable::Property::BoundsOriginX);
+  ASSERT_EQ(variable.identifier(), entity.identifier());
 }

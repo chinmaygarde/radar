@@ -5,10 +5,11 @@
 #ifndef RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
 #define RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
 
+#include <Interface/Entity.h>
 #include <Layout/Constraint.h>
-#include <Layout/Variable.h>
-#include <Layout/Term.h>
 #include <Layout/Expression.h>
+#include <Layout/Term.h>
+#include <Layout/Variable.h>
 
 namespace rl {
 namespace layout {
@@ -108,8 +109,8 @@ Constraint operator==(const A& a, const B& b) {
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator>=(const A& a, const B& b) {
-  return {
-      a - b, Constraint::Relation::GreaterThanOrEqualTo, priority::Required};
+  return {a - b, Constraint::Relation::GreaterThanOrEqualTo,
+          priority::Required};
 }
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
@@ -123,6 +124,11 @@ inline Constraint operator|(const Constraint& constraint, double priority) {
 
 inline Constraint operator|(double priority, const Constraint& constraint) {
   return constraint | priority;
+}
+
+inline Variable operator|(const interface::Entity& entity,
+                          Variable::Property property) {
+  return {entity.identifier(), property};
 }
 
 }  // namespace layout
