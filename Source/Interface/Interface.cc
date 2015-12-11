@@ -244,15 +244,6 @@ void Interface::setRootLayer(Layer::Ref layer) {
   }
 }
 
-bool Interface::setupGestureRecognizer(
-    rl::recognition::GestureRecognizer&& recognizer) {
-  if (!recognizer.isSolvable()) {
-    return false;
-  }
-  transaction().mark(std::move(recognizer));
-  return true;
-}
-
 void Interface::setupConstraints(
     const std::vector<layout::Constraint>& constraints) {
   transaction().mark(constraints);

@@ -13,7 +13,7 @@ namespace layout {
 
 class Variable : public core::Serializable {
  public:
-  using PropertyType = uint32_t;
+  using PropertyType = uint8_t;
   enum class Property : PropertyType {
     None,
     BoundsOriginX,
@@ -26,14 +26,32 @@ class Variable : public core::Serializable {
     AnchorPointY,
   };
 
+  using ProxyType = uint8_t;
+  enum class Proxy : ProxyType {
+    Touch0,
+    Touch1,
+    Touch2,
+    Touch3,
+    Touch4,
+    Touch5,
+    Touch6,
+    Touch7,
+    Touch8,
+    Touch9,
+  };
+
   Variable();
 
   Variable(interface::Entity::Identifier identifier,
            Property property = Property::None);
 
+  Variable(Proxy proxy, Property property);
+
   interface::Entity::Identifier identifier() const;
 
   Property property() const;
+
+  bool isProxy() const;
 
   bool serialize(core::Message& message) const override;
 
@@ -55,6 +73,7 @@ class Variable : public core::Serializable {
  private:
   interface::Entity::Identifier _identifier;
   Property _property;
+  bool _isProxy;
 
   RL_DISALLOW_ASSIGN(Variable);
 };

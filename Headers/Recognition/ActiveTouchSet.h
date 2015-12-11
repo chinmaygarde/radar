@@ -7,8 +7,9 @@
 
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
-#include <Recognition/Variable.h>
+#include <Layout/Constraint.h>
 #include <Recognition/TouchEntity.h>
+#include <Recognition/Variable.h>
 
 namespace rl {
 namespace recognition {
@@ -16,24 +17,28 @@ namespace recognition {
 class ActiveTouchSet {
  public:
   ActiveTouchSet();
-  ~ActiveTouchSet();
 
-  void add(const std::vector<event::TouchEvent>& touches);
-  void update(const std::vector<event::TouchEvent>& touches);
-  void clear(const std::vector<event::TouchEvent>& touches);
+  void registerProxyConstraint(layout::Constraint&& constraint);
+
+  void applyTouchMap(const event::TouchEvent::PhaseMap& map);
+
+ private:
+  TouchEntity::IdentifierMap _activeTouches;
+  std::vector<event::TouchEvent::Identifier> _indexedTouches;
+  std::vector<layout::Constraint> _proxiedConstraints;
+
+  void addTouches(const std::vector<event::TouchEvent>& touches);
+  void updateTouches(const std::vector<event::TouchEvent>& touches);
+  void clearTouches(const std::vector<event::TouchEvent>& touches);
 
   using PointResult = std::pair<bool /* result */, geom::Point>;
   PointResult pointForIndex(size_t index) const;
 
   TouchEntity* touchEntityForProxy(Variable::Proxy proxy) const;
 
-  size_t size() const;
-
- private:
-  TouchEntity::IdentifierMap _activeTouches;
-  std::vector<event::TouchEvent::Identifier> _indexedTouches;
-
   TouchEntity* touchEntityForIndex(size_t index) const;
+
+  size_t size() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ActiveTouchSet);
 };

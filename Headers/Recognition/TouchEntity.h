@@ -6,15 +6,15 @@
 #define RADARLOVE_RECOGNITION_TOUCHENTITY_H_
 
 #include <Core/Core.h>
-#include <Interface/Entity.h>
 #include <Event/TouchEvent.h>
+#include <Interface/Entity.h>
 
 #include <map>
 
 namespace rl {
 namespace recognition {
 
-class TouchEntity : public interface::Entity {
+class TouchEntity /* deletion */ : public interface::Entity {
  public:
   using IdentifierMap =
       std::map<Entity::Identifier, std::unique_ptr<TouchEntity>>;

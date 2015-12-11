@@ -9,17 +9,13 @@
 namespace rl {
 namespace recognition {
 
-ActiveTouchSet::ActiveTouchSet() {
-}
-
-ActiveTouchSet::~ActiveTouchSet() {
-}
+ActiveTouchSet::ActiveTouchSet() {}
 
 size_t ActiveTouchSet::size() const {
   return _activeTouches.size();
 }
 
-void ActiveTouchSet::add(const std::vector<event::TouchEvent>& touches) {
+void ActiveTouchSet::addTouches(const std::vector<event::TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
     auto touchEntity = core::make_unique<TouchEntity>(touch);
@@ -35,7 +31,8 @@ void ActiveTouchSet::add(const std::vector<event::TouchEvent>& touches) {
   }
 }
 
-void ActiveTouchSet::update(const std::vector<event::TouchEvent>& touches) {
+void ActiveTouchSet::updateTouches(
+    const std::vector<event::TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto& entity = _activeTouches.at(touch.identifier());
     RL_ASSERT(entity != nullptr);
@@ -46,7 +43,8 @@ void ActiveTouchSet::update(const std::vector<event::TouchEvent>& touches) {
   }
 }
 
-void ActiveTouchSet::clear(const std::vector<event::TouchEvent>& touches) {
+void ActiveTouchSet::clearTouches(
+    const std::vector<event::TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
 
@@ -88,6 +86,50 @@ TouchEntity* ActiveTouchSet::touchEntityForIndex(size_t index) const {
   RL_ASSERT(touchEvent != nullptr);
 
   return touchEvent.get();
+}
+
+void ActiveTouchSet::registerProxyConstraint(layout::Constraint&& constraint) {
+  _proxiedConstraints.emplace_back(std::move(constraint));
+}
+
+void ActiveTouchSet::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
+  using Phase = event::TouchEvent::Phase;
+
+  /*
+   *  Phase::Began
+   */
+  auto found = map.find(Phase::Began);
+  if (found != map.end()) {
+    RL_ASSERT(found->second.size() != 0);
+    addTouches(found->second);
+  }
+
+  /*
+   *  Phase::Moved
+   */
+  found = map.find(Phase::Moved);
+  if (found != map.end()) {
+    RL_ASSERT(found->second.size() != 0);
+    updateTouches(found->second);
+  }
+
+  /*
+   *  Phase::Ended
+   */
+  found = map.find(Phase::Ended);
+  if (found != map.end()) {
+    RL_ASSERT(found->second.size() != 0);
+    clearTouches(found->second);
+  }
+
+  /*
+   *  Phase::Cancelled
+   */
+  found = map.find(Phase::Cancelled);
+  if (found != map.end()) {
+    RL_ASSERT(found->second.size() != 0);
+    clearTouches(found->second);
+  }
 }
 
 }  // namespace recognition

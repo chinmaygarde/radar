@@ -10,8 +10,6 @@
 		9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */; };
 		9E029C691BA8ED6E007E5DF8 /* PosixMemoryHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C671BA8ED6E007E5DF8 /* PosixMemoryHandle.cc */; };
 		9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */; };
-		9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */; };
-		9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */; };
 		9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C7B1BA9E833007E5DF8 /* Serializable.h */; };
 		9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */; };
 		9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA11BAB5CF8007E5DF8 /* InProcessChannel.h */; };
@@ -28,10 +26,7 @@
 		9E092BE11BC301B400FE79BA /* ActiveTouchSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */; };
 		9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */; };
 		9E0F717A1BAE3AF90021CEEF /* Term.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E0F71791BAE3AF90021CEEF /* Term.h */; };
-		9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E0F71831BAE3B0A0021CEEF /* Term.cc */; };
 		9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
-		9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */; };
-		9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */; };
@@ -223,8 +218,6 @@
 		EA62B3231B6F2F31009F197F /* Timing.h in Headers */ = {isa = PBXBuildFile; fileRef = EA62B3221B6F2F31009F197F /* Timing.h */; };
 		EA62B3251B6F2F41009F197F /* Timing.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA62B3241B6F2F41009F197F /* Timing.cc */; };
 		EA68B32D1C11711400607934 /* ThreadTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA68B32C1C11711400607934 /* ThreadTest.cc */; };
-		EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63931B9D571F00256484 /* Polynomial.cc */; };
-		EA6B63961B9D571F00256484 /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B63941B9D571F00256484 /* Variable.cc */; };
 		EA6B639A1B9D572D00256484 /* Polynomial.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63981B9D572D00256484 /* Polynomial.h */; };
 		EA6B639B1B9D572D00256484 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = EA6B63991B9D572D00256484 /* Variable.h */; };
 		EA7D30F41BE7271E0038BF5A /* Result.h in Headers */ = {isa = PBXBuildFile; fileRef = EA7D30F31BE7271E0038BF5A /* Result.h */; };
@@ -329,8 +322,6 @@
 		9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisabledSharedMemory.cc; sourceTree = "<group>"; };
 		9E029C671BA8ED6E007E5DF8 /* PosixMemoryHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PosixMemoryHandle.cc; sourceTree = "<group>"; };
 		9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemoryHandle.h; sourceTree = "<group>"; };
-		9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
-		9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cc; sourceTree = "<group>"; };
 		9E029C7B1BA9E833007E5DF8 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serializable.h; sourceTree = "<group>"; };
 		9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serializable.cc; sourceTree = "<group>"; };
 		9E029CA01BAB5CF8007E5DF8 /* InProcessChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessChannel.cc; sourceTree = "<group>"; };
@@ -348,9 +339,6 @@
 		9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveTouchSet.h; sourceTree = "<group>"; };
 		9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActiveTouchSet.cc; sourceTree = "<group>"; };
 		9E0F71791BAE3AF90021CEEF /* Term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Term.h; sourceTree = "<group>"; };
-		9E0F71831BAE3B0A0021CEEF /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
-		9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionEngine.cc; sourceTree = "<group>"; };
-		9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognitionEngine.h; sourceTree = "<group>"; };
 		9E1609321B7ECDF700DD06FE /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		9E16093C1B7ECF5B00DD06FE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constraint.h; sourceTree = "<group>"; };
@@ -544,8 +532,6 @@
 		EA62B3221B6F2F31009F197F /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
 		EA62B3241B6F2F41009F197F /* Timing.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timing.cc; sourceTree = "<group>"; };
 		EA68B32C1C11711400607934 /* ThreadTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadTest.cc; sourceTree = "<group>"; };
-		EA6B63931B9D571F00256484 /* Polynomial.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Polynomial.cc; sourceTree = "<group>"; };
-		EA6B63941B9D571F00256484 /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
 		EA6B63981B9D572D00256484 /* Polynomial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = "<group>"; };
 		EA6B63991B9D572D00256484 /* Variable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variable.h; sourceTree = "<group>"; };
 		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
@@ -1084,12 +1070,7 @@
 			isa = PBXGroup;
 			children = (
 				9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */,
-				EA6B63931B9D571F00256484 /* Polynomial.cc */,
-				9E029C791BA9E2B1007E5DF8 /* GestureRecognizer.cc */,
-				9E1100A91BBB42D60014A967 /* RecognitionEngine.cc */,
-				9E0F71831BAE3B0A0021CEEF /* Term.cc */,
 				9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */,
-				EA6B63941B9D571F00256484 /* Variable.cc */,
 			);
 			path = Recognition;
 			sourceTree = "<group>";
@@ -1099,8 +1080,6 @@
 			children = (
 				9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */,
 				EA6B63981B9D572D00256484 /* Polynomial.h */,
-				9E029C6F1BA9E29E007E5DF8 /* GestureRecognizer.h */,
-				9E1100B31BBB42ED0014A967 /* RecognitionEngine.h */,
 				9E0F71791BAE3AF90021CEEF /* Term.h */,
 				9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */,
 				EA6B63991B9D572D00256484 /* Variable.h */,
@@ -1166,7 +1145,6 @@
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */,
-				9E1100B41BBB42ED0014A967 /* RecognitionEngine.h in Headers */,
 				9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */,
 				9EBA79AB1B87D856005D84FA /* Trace.h in Headers */,
 				9EAECE891B685460000FA38A /* Rect.h in Headers */,
@@ -1206,7 +1184,6 @@
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
 				9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */,
-				9E029C701BA9E29E007E5DF8 /* GestureRecognizer.h in Headers */,
 				9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */,
 				9E62F9131B7C19AF008DE08E /* Entity.h in Headers */,
 				9E8655E91BE45E2700997766 /* Color.h in Headers */,
@@ -1426,7 +1403,6 @@
 				9E8656201BE45E3A00997766 /* Primitive.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
-				9E0F71841BAE3B0A0021CEEF /* Term.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,
 				EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */,
 				EA6090D61BA41E8C00C2E263 /* KQueueEventLoopSource.cc in Sources */,
@@ -1443,14 +1419,12 @@
 				9E092BEB1BC301C200FE79BA /* ActiveTouchSet.cc in Sources */,
 				9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
-				9E1100AA1BBB42D60014A967 /* RecognitionEngine.cc in Sources */,
 				9EAECEE11B685469000FA38A /* PosixSharedMemory.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
 				9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */,
 				9E8656231BE45E3A00997766 /* RenderSurface.cc in Sources */,
 				9EBA79D71B87FF57005D84FA /* imgui_demo.cpp in Sources */,
-				EA6B63951B9D571F00256484 /* Polynomial.cc in Sources */,
 				9E8656211BE45E3A00997766 /* Program.cc in Sources */,
 				9E8656141BE45E3A00997766 /* Color.cc in Sources */,
 				9EAECEE51B685469000FA38A /* Matrix.cc in Sources */,
@@ -1462,14 +1436,12 @@
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
-				EA6B63961B9D571F00256484 /* Variable.cc in Sources */,
 				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				EA7D30F91BE736FE0038BF5A /* Utilities.cc in Sources */,
 				EAB379D81BE70A7700A59948 /* Director.cc in Sources */,
-				9E029C7A1BA9E2B1007E5DF8 /* GestureRecognizer.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,
 				EAB379DC1BE70B1700A59948 /* Interpolator.cc in Sources */,
 				9EC1CE471C0E723F00DBAA91 /* WorkQueue.cc in Sources */,

@@ -15,7 +15,7 @@
 #include <Interface/Action.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>
-#include <Recognition/RecognitionEngine.h>
+#include <Recognition/ActiveTouchSet.h>
 
 #include <map>
 
@@ -29,8 +29,7 @@ class PresentationGraph {
 
   bool applyTransactions(core::Message& arena);
 
-  recognition::RecognitionEngine::Result applyTouchMap(
-      const event::TouchEvent::PhaseMap& touches);
+  void applyTouchMap(const event::TouchEvent::PhaseMap& touches);
 
   layout::Solver::FlushResult applyConstraints();
 
@@ -42,7 +41,7 @@ class PresentationGraph {
   PresentationEntity::IdentifierMap _entities;
   PresentationEntity* _root;
   animation::Director _animationDirector;
-  recognition::RecognitionEngine _recognitionEngine;
+  recognition::ActiveTouchSet _activeTouchSet;
   layout::Solver _layoutSolver;
 
   bool applyTransactionSingle(core::Message& arena,
@@ -65,8 +64,6 @@ class PresentationGraph {
   void onTransferRecordCommit(interface::Action& action,
                               TransferRecord& record,
                               const core::ClockPoint& commitTime);
-  void onRecognizerCommit(
-      recognition::GestureRecognizer::Collection&& recognizers);
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
 

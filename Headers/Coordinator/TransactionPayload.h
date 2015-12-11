@@ -11,7 +11,6 @@
 #include <Interface/Action.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
-#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
@@ -26,24 +25,19 @@ class TransactionPayload : public core::Serializable {
   using ActionCallback = std::function<void(interface::Action&)>;
   using TransferRecordCallback = std::function<
       void(interface::Action&, TransferRecord&, const core::ClockPoint&)>;
-  using RecognizerCallback =
-      std::function<void(recognition::GestureRecognizer::Collection&&)>;
   using ConstraintsCallback =
       std::function<void(std::vector<layout::Constraint>&&)>;
   using SuggestionsCallback =
       std::function<void(std::vector<layout::Suggestion>&&)>;
 
-  explicit TransactionPayload(
-      interface::Action&& action,
-      EntityMap&& entities,
-      recognition::GestureRecognizer::Collection&& recognizers,
-      std::vector<layout::Constraint>&& constraints,
-      std::vector<layout::Suggestion>&& suggestions);
+  explicit TransactionPayload(interface::Action&& action,
+                              EntityMap&& entities,
+                              std::vector<layout::Constraint>&& constraints,
+                              std::vector<layout::Suggestion>&& suggestions);
 
   explicit TransactionPayload(const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
-                              RecognizerCallback recognizerCallback,
                               ConstraintsCallback constraintsCallback,
                               SuggestionsCallback suggestionsCallback);
 
@@ -56,7 +50,6 @@ class TransactionPayload : public core::Serializable {
    */
   interface::Action _action;
   EntityMap _entities;
-  recognition::GestureRecognizer::Collection _recognizers;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;
 
@@ -66,7 +59,6 @@ class TransactionPayload : public core::Serializable {
   core::ClockPoint _commitTime;
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;
-  RecognizerCallback _recognizerCallback;
   ConstraintsCallback _constraintsCallback;
   SuggestionsCallback _suggestionsCallback;
 

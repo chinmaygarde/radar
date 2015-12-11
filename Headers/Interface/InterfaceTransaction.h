@@ -11,7 +11,6 @@
 #include <Interface/Entity.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
-#include <Recognition/GestureRecognizer.h>
 
 #include <map>
 
@@ -26,8 +25,6 @@ class InterfaceTransaction {
             Entity::Property property,
             Entity::Identifier);
 
-  void mark(recognition::GestureRecognizer&& recognizer);
-
   void mark(const std::vector<layout::Constraint>& constraints);
 
   void mark(const std::vector<layout::Suggestion>& suggestions);
@@ -38,7 +35,6 @@ class InterfaceTransaction {
   Action _action;
   std::map<Entity::Identifier, std::unique_ptr<coordinator::TransferEntity>>
       _entities;
-  std::vector<recognition::GestureRecognizer> _recognizers;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;
 

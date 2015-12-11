@@ -32,7 +32,6 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
       time,  //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
-      std::bind(&G::onRecognizerCommit, this, P::_1),
       std::bind(&G::onConstraintsCommit, this, P::_1),
       std::bind(&G::onSuggestionsCommit, this, P::_1));
   return payload.deserialize(arena);
@@ -66,15 +65,23 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
   prepareActions(action, *_entities[record.identifier], record, time);
 }
 
-void PresentationGraph::onRecognizerCommit(
-    recognition::GestureRecognizer::Collection&& recognizers) {
-  _recognitionEngine.setupRecognizers(std::move(recognizers));
-}
-
 void PresentationGraph::onConstraintsCommit(
     std::vector<layout::Constraint>&& constraints) {
-  auto res = _layoutSolver.addConstraints(constraints);
-  RL_ASSERT(res == layout::Result::Success);
+  for (auto& constraint : constraints) {
+    if (constraint.hasProxies()) {
+      /*
+       *  If the constraint has proxies, they are collected for and applied
+       *  later as the proxies are resolved
+       */
+      _activeTouchSet.registerProxyConstraint(std::move(constraint));
+    } else {
+      /*
+       *  If there are no proxy variable, use direct constraint application
+       */
+      auto addResult = _layoutSolver.addConstraint(std::move(constraint));
+      RL_ASSERT(addResult == layout::Result::Success);
+    }
+  }
 }
 
 void PresentationGraph::onSuggestionsCommit(
@@ -204,9 +211,9 @@ animation::Director& PresentationGraph::animationDirector() {
   return _animationDirector;
 }
 
-recognition::RecognitionEngine::Result PresentationGraph::applyTouchMap(
+void PresentationGraph::applyTouchMap(
     const event::TouchEvent::PhaseMap& touches) {
-  return _recognitionEngine.applyTouchMap(touches, _entities);
+  _activeTouchSet.applyTouchMap(touches);
 }
 
 layout::Solver::FlushResult PresentationGraph::applyConstraints() {

@@ -7,7 +7,6 @@
 #include "Sample.h"
 
 #include <Layout/ConstraintCreation.h>
-#include <Recognition/GestureRecognizer.h>
 #include <stdlib.h>
 
 namespace sample {
@@ -19,22 +18,20 @@ void SampleApplication::didFinishLaunching(
 
 static void AddPanRecognizer(rl::interface::Interface& interface,
                              rl::interface::Layer& layer) {
-  rl::recognition::Variable y(layer, rl::interface::Entity::Position);
-  rl::recognition::Variable x(rl::recognition::Variable::Proxy::Touch1,
-                              rl::interface::Entity::Position);
+  using Variable = rl::layout::Variable;
 
-  rl::recognition::Term::VariableDegree variableDegree(x, 1);
-  rl::recognition::Term term(1.0, {variableDegree});
-  rl::recognition::Polynomial polynomial({term}, 0.0);
+  Variable touchX(Variable::Proxy::Touch0, Variable::Property::PositionX);
+  Variable touchY(Variable::Proxy::Touch0, Variable::Property::PositionY);
 
-  rl::recognition::GestureRecognizer recognizer(std::move(y),
-                                                std::move(polynomial));
-
-  bool result = interface.setupGestureRecognizer(std::move(recognizer));
-  RL_ASSERT(result);
+  interface.setupConstraints({
+      (layer | Variable::Property::PositionX) == touchX,  //
+      (layer | Variable::Property::PositionY) == touchY,  //
+  });
 }
 
 static void AddDockedPanel(rl::interface::Interface& interface) {
+  using Property = rl::layout::Variable::Property;
+
   auto layer = interface.rootLayer();
   auto child = std::make_shared<rl::interface::Layer>();
 
@@ -43,18 +40,12 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
 
   layer->addSublayer(child);
 
-  rl::layout::Variable containerPositionX(
-      layer->identifier(), rl::layout::Variable::Property::PositionX);
-  rl::layout::Variable childPositionX(
-      child->identifier(), rl::layout::Variable::Property::PositionX);
-  rl::layout::Variable containerPositionY(
-      layer->identifier(), rl::layout::Variable::Property::PositionY);
-  rl::layout::Variable childPositionY(
-      child->identifier(), rl::layout::Variable::Property::PositionY);
-  rl::layout::Variable childWidth(child->identifier(),
-                                  rl::layout::Variable::Property::BoundsWidth);
-  rl::layout::Variable containerWidth(
-      layer->identifier(), rl::layout::Variable::Property::BoundsWidth);
+  auto containerPositionX = *layer | Property::PositionX;
+  auto childPositionX = *child | Property::PositionX;
+  auto containerPositionY = *layer | Property::PositionY;
+  auto childPositionY = *child | Property::PositionY;
+  auto childWidth = *child | Property::BoundsWidth;
+  auto containerWidth = *layer | Property::BoundsWidth;
 
   interface.setupConstraints({
       containerPositionX == childPositionX,  //
@@ -64,14 +55,23 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
 }
 
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
+  using Property = rl::layout::Variable::Property;
+
   auto root = std::make_shared<rl::interface::Layer>();
   root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
   interface.setRootLayer(root);
 
-  rl::layout::Variable rootWidth(root->identifier(),
-                                 rl::layout::Variable::Property::BoundsWidth);
-  rl::layout::Variable rootHeight(root->identifier(),
-                                  rl::layout::Variable::Property::BoundsHeight);
+  auto sub1 = std::make_shared<rl::interface::Layer>();
+  sub1->setFrame({10.0, 10.0, 100.0, 100.0});
+  sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
+  root->addSublayer(sub1);
+  AddPanRecognizer(interface, *sub1);
+
+  auto draggedX = *sub1 | Property::PositionX;
+  auto draggedY = *sub1 | Property::PositionY;
+
+  auto rootWidth = *root | Property::BoundsWidth;
+  auto rootHeight = *root | Property::BoundsHeight;
 
   rl::interface::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::EaseInEaseOut);
@@ -82,8 +82,9 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   interface.pushTransaction(std::move(action));
 
-  const auto rows = 25;
-  const auto cols = 25;
+  const auto rows = 5;
+  const auto cols = 5;
+  const auto delta = 100;
 
   for (auto i = 0; i < rows; i++) {
     for (auto j = 0; j < cols; j++) {
@@ -94,14 +95,14 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
       layer->setTransformation(
           rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
 
-      rl::layout::Variable childPositionX(
-          layer->identifier(), rl::layout::Variable::Property::PositionX);
-      rl::layout::Variable childPositionY(
-          layer->identifier(), rl::layout::Variable::Property::PositionY);
+      auto childPositionX = *layer | Property::PositionX;
+      auto childPositionY = *layer | Property::PositionY;
 
       interface.setupConstraints({
-          childPositionX == ((i + 1) / (double)rows) * rootWidth,   //
-          childPositionY == ((j + 1) / (double)cols) * rootHeight,  //
+          childPositionX == ((i + 1) / (double)rows) * rootWidth |
+              rl::layout::priority::Medium,  //
+          childPositionY == ((j + 1) / (double)cols) * rootHeight |
+              rl::layout::priority::Medium,  //
       });
 
       root->addSublayer(layer);
@@ -110,25 +111,17 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   interface.popTransaction();
 
-  auto sub1 = std::make_shared<rl::interface::Layer>();
-  sub1->setFrame({10.0, 10.0, 100.0, 100.0});
-  sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
-  root->addSublayer(sub1);
-  AddPanRecognizer(interface, *sub1);
-
   auto sub2 = std::make_shared<rl::interface::Layer>();
   sub2->setFrame({10.0, 10.0, 80.0, 80.0});
   sub2->setBackgroundColor({0.0, 1.0, 0.0, 1.0});
   sub1->addSublayer(sub2);
-  AddPanRecognizer(interface, *sub2);
 
   auto sub3 = std::make_shared<rl::interface::Layer>();
   sub3->setFrame({10.0, 10.0, 60.0, 60.0});
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
   sub2->addSublayer(sub3);
-  AddPanRecognizer(interface, *sub3);
 
-  AddDockedPanel(interface);
+  //  AddDockedPanel(interface);
 }
 
 void SampleApplication::didEnterBackground(

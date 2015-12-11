@@ -84,14 +84,14 @@ bool InterfaceController::updateInterface(
   ScopedUpdate update(_isUpdating);
 
   /*
-   *  Step 1: Flush pending touches on the current state of the graph
-   */
-  bool touchesUpdated = applyPendingTouchEvents(touches);
-
-  /*
-   *  Step 2: Apply animations
+   *  Step 1: Apply animations
    */
   bool animationsUpdated = applyAnimations();
+
+  /*
+   *  Step 2: Flush pending touches on the current state of the graph
+   */
+  applyPendingTouchEvents(touches);
 
   /*
    *  Step 3: Enforce constraints
@@ -100,18 +100,19 @@ bool InterfaceController::updateInterface(
 
   _needsUpdate = animationsUpdated;
 
-  return touchesUpdated || animationsUpdated || constraintsEnforced;
+  return animationsUpdated || constraintsEnforced;
 }
 
-bool InterfaceController::applyPendingTouchEvents(
+void InterfaceController::applyPendingTouchEvents(
     const event::TouchEvent::PhaseMap& touches) {
   RL_TRACE_AUTO("ApplyPendingTouches");
 
   RL_ASSERT_MSG(_isUpdating,
                 "Can only apply touch updates within an update phase");
 
-  return _graph.applyTouchMap(touches) ==
-         recognition::RecognitionEngine::Result::Updated;
+  if (touches.size() != 0) {
+    _graph.applyTouchMap(touches);
+  }
 }
 
 bool InterfaceController::applyAnimations() {

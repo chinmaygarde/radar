@@ -4,7 +4,6 @@
 
 #include <Interface/Entity.h>
 #include <Interface/Interface.h>
-#include <Recognition/GestureRecognizer.h>
 
 namespace rl {
 namespace interface {
@@ -31,8 +30,7 @@ Entity::Entity(Identifier identifier)
       _transformation(geom::MatrixIdentity),
       _backgroundColor(coordinator::ColorWhiteTransparent),
       _opacity(1.0),
-      _notifiesInterfaceOnUpdate(false) {
-}
+      _notifiesInterfaceOnUpdate(false) {}
 
 Entity::Entity(const Entity& entity)
     : _identifier(entity._identifier),
@@ -42,8 +40,7 @@ Entity::Entity(const Entity& entity)
       _transformation(entity._transformation),
       _backgroundColor(entity._backgroundColor),
       _opacity(entity._opacity),
-      _notifiesInterfaceOnUpdate(false) {
-}
+      _notifiesInterfaceOnUpdate(false) {}
 
 void Entity::merge(const interface::Entity& entity) {
   RL_ASSERT(_identifier == entity._identifier);

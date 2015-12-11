@@ -11,12 +11,10 @@ namespace coordinator {
 TransactionPayload::TransactionPayload(
     interface::Action&& action,
     EntityMap&& entities,
-    recognition::GestureRecognizer::Collection&& recognizers,
     std::vector<layout::Constraint>&& constraints,
     std::vector<layout::Suggestion>&& suggestions)
     : _action(std::move(action)),
       _entities(std::move(entities)),
-      _recognizers(std::move(recognizers)),
       _constraints(std::move(constraints)),
       _suggestions(std::move(suggestions)) {}
 
@@ -24,13 +22,11 @@ TransactionPayload::TransactionPayload(
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
-    RecognizerCallback recognizerCallback,
     ConstraintsCallback constraintsCallback,
     SuggestionsCallback suggestionsCallback)
     : _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
-      _recognizerCallback(recognizerCallback),
       _constraintsCallback(constraintsCallback),
       _suggestionsCallback(suggestionsCallback) {}
 
@@ -38,11 +34,9 @@ bool TransactionPayload::serialize(core::Message& message) const {
   bool result = true;
 
   /*
-   *  Step 1: Encode the Action, Recognizers, Constraints and Suggestions
+   *  Step 1: Encode the Action, Constraints and Suggestions
    */
   result &= message.encode(_action);
-
-  result &= message.encode(_recognizers);
 
   result &= message.encode(_constraints);
 
@@ -95,13 +89,6 @@ bool TransactionPayload::deserialize(core::Message& message) {
 
   _actionCallback(action);
 
-  recognition::GestureRecognizer::Collection recognizers;
-  result = message.decode(recognizers);
-
-  if (!result) {
-    return false;
-  }
-
   std::vector<layout::Constraint> constraints;
   result = message.decode(constraints);
 
@@ -131,10 +118,6 @@ bool TransactionPayload::deserialize(core::Message& message) {
   for (size_t i = 0; i < transferRecords; i++) {
     _transferRecordCallback(action, TransferRecord::NextInMessage(message),
                             _commitTime);
-  }
-
-  if (recognizers.size() > 0) {
-    _recognizerCallback(std::move(recognizers));
   }
 
   if (constraints.size() > 0) {

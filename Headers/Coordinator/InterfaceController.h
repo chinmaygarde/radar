@@ -5,10 +5,10 @@
 #ifndef RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 #define RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 
-#include <Core/Core.h>
+#include <Coordinator/Channel.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/Statistics.h>
-#include <Coordinator/Channel.h>
+#include <Core/Core.h>
 #include <Event/TouchEvent.h>
 
 namespace rl {
@@ -38,7 +38,7 @@ class InterfaceController {
   void onChannelMessage(core::Messages messages);
   void setNeedsUpdate();
 
-  bool applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches);
+  void applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches);
   bool applyAnimations();
   bool enforceConstraints();
 

@@ -38,6 +38,8 @@ class Constraint : public core::Serializable {
 
   bool deserialize(core::Message& message) override;
 
+  bool hasProxies() const;
+
   struct Compare {
     constexpr bool operator()(const Constraint& lhs,
                               const Constraint& rhs) const {

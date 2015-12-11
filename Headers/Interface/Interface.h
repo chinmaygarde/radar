@@ -120,8 +120,6 @@ class Interface {
    */
   static Interface& current();
 
-  bool setupGestureRecognizer(recognition::GestureRecognizer&& recognizer);
-
   void setupConstraints(const std::vector<layout::Constraint>& constraints);
 
   void setupConstraintSuggestions(

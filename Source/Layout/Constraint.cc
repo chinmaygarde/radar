@@ -38,6 +38,16 @@ double Constraint::priority() const {
   return _priority;
 }
 
+bool Constraint::hasProxies() const {
+  for (const auto& term : _expression.terms()) {
+    if (term.variable().isProxy()) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 bool Constraint::serialize(core::Message& message) const {
   auto success = true;
   success &= message.encode(_identifier);
