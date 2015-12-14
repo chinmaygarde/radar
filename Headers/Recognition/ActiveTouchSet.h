@@ -9,7 +9,6 @@
 #include <Event/TouchEvent.h>
 #include <Layout/Constraint.h>
 #include <Recognition/TouchEntity.h>
-#include <Recognition/Variable.h>
 
 namespace rl {
 namespace recognition {
