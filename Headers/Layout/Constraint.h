@@ -40,6 +40,10 @@ class Constraint : public core::Serializable {
 
   bool hasProxies() const;
 
+  using ProxyVariableReplacementCallback =
+      std::function<Variable(const Variable&)>;
+  Constraint resolveProxies(ProxyVariableReplacementCallback replacement) const;
+
   struct Compare {
     constexpr bool operator()(const Constraint& lhs,
                               const Constraint& rhs) const {

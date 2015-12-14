@@ -67,6 +67,12 @@ class PresentationGraph {
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
 
+  void onProxyConstraintsAddition(
+      const std::vector<layout::Constraint>& constraint);
+
+  void onProxyConstraintsRemoval(
+      const std::vector<layout::Constraint>& constraint);
+
   void onSuggestionsCommit(std::vector<layout::Suggestion>&& suggestions);
 
   void resolveConstraintUpdate(const layout::Variable& variable, double value);

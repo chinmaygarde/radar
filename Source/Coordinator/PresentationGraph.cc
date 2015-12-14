@@ -9,7 +9,16 @@
 namespace rl {
 namespace coordinator {
 
-PresentationGraph::PresentationGraph() : _root(nullptr) {}
+PresentationGraph::PresentationGraph()
+    : _root(nullptr),
+      _activeTouchSet(
+          // clang-format off
+          std::bind(&PresentationGraph::onProxyConstraintsAddition,
+                    this, std::placeholders::_1),
+          std::bind(&PresentationGraph::onProxyConstraintsRemoval,
+                    this, std::placeholders::_1)
+          // clang-format on
+          ) {}
 
 PresentationGraph::~PresentationGraph() {}
 
@@ -84,6 +93,18 @@ void PresentationGraph::onConstraintsCommit(
       RL_ASSERT(addResult == layout::Result::Success);
     }
   }
+}
+
+void PresentationGraph::onProxyConstraintsAddition(
+    const std::vector<layout::Constraint>& constraints) {
+  auto addResult = _layoutSolver.addConstraints(constraints);
+  RL_ASSERT(addResult == layout::Result::Success);
+}
+
+void PresentationGraph::onProxyConstraintsRemoval(
+    const std::vector<layout::Constraint>& constraints) {
+  auto removeResult = _layoutSolver.removeConstraints(constraints);
+  RL_ASSERT(removeResult == layout::Result::Success);
 }
 
 void PresentationGraph::onSuggestionsCommit(

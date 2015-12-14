@@ -33,6 +33,10 @@ bool Variable::isProxy() const {
   return _isProxy;
 }
 
+Variable::Proxy Variable::proxy() const {
+  return _isProxy ? static_cast<Proxy>(_identifier) : Proxy::None;
+}
+
 bool Variable::serialize(core::Message& message) const {
   auto success = true;
   success &= message.encode(_identifier);

@@ -28,7 +28,7 @@ class Variable : public core::Serializable {
 
   using ProxyType = uint8_t;
   enum class Proxy : ProxyType {
-    Touch0,
+    None,
     Touch1,
     Touch2,
     Touch3,
@@ -38,6 +38,7 @@ class Variable : public core::Serializable {
     Touch7,
     Touch8,
     Touch9,
+    Touch10,
   };
 
   Variable();
@@ -52,6 +53,8 @@ class Variable : public core::Serializable {
   Property property() const;
 
   bool isProxy() const;
+
+  Proxy proxy() const;
 
   bool serialize(core::Message& message) const override;
 

@@ -16,27 +16,49 @@ namespace recognition {
 
 class ActiveTouchSet {
  public:
-  ActiveTouchSet();
+  using ProxyConstraintCallback =
+      std::function<void(const std::vector<layout::Constraint>&)>;
+
+  ActiveTouchSet(ProxyConstraintCallback addCallback,
+                 ProxyConstraintCallback removeCallback);
 
   void registerProxyConstraint(layout::Constraint&& constraint);
 
   void applyTouchMap(const event::TouchEvent::PhaseMap& map);
 
  private:
-  TouchEntity::IdentifierMap _activeTouches;
+  using ConstraintConditionsMap = std::map<layout::Constraint,
+                                           std::set<layout::Variable::Proxy>,
+                                           layout::Constraint::Compare>;
+  using ConditionConstraintsMap = std::map<std::set<layout::Variable::Proxy>,
+                                           std::vector<layout::Constraint>>;
+
+  ProxyConstraintCallback _addConstraintCallback;
+  ProxyConstraintCallback _removeConstraintCallback;
+  TouchEntity::IdentifierMap _touchEntities;
   std::vector<event::TouchEvent::Identifier> _indexedTouches;
-  std::vector<layout::Constraint> _proxiedConstraints;
+  ConstraintConditionsMap _conditionsByConstraint;
+  ConditionConstraintsMap _activeConstraintsByCondition;
 
   void addTouches(const std::vector<event::TouchEvent>& touches);
   void updateTouches(const std::vector<event::TouchEvent>& touches);
   void clearTouches(const std::vector<event::TouchEvent>& touches);
 
-  using PointResult = std::pair<bool /* result */, geom::Point>;
-  PointResult pointForIndex(size_t index) const;
+  void setupConstraintsForProxies();
+  void clearConstraintsForProxies();
 
-  TouchEntity* touchEntityForProxy(Variable::Proxy proxy) const;
+  void addConstraintForProxy(const layout::Constraint& proxyConstraint);
+  void removeConstraintForProxy(const layout::Constraint& proxyConstraint);
 
-  TouchEntity* touchEntityForIndex(size_t index) const;
+  using ConstraintOperation =
+      std::function<void(const layout::Constraint&,
+                         const std::set<layout::Variable::Proxy>&)>;
+  void performOperationOnProxiesSatisfyingCurrentCondition(
+      ConstraintOperation operation);
+  layout::Variable resolvedVariableForProxy(const layout::Variable& variable);
+
+  TouchEntity* touchEntityForProxy(layout::Variable::Proxy proxy) const;
+  TouchEntity* touchEntityForTouchNumber(size_t index) const;
 
   size_t size() const;
 

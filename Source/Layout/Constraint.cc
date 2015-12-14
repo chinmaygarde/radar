@@ -44,8 +44,24 @@ bool Constraint::hasProxies() const {
       return true;
     }
   }
-
   return false;
+}
+
+Constraint Constraint::resolveProxies(
+    ProxyVariableReplacementCallback replacement) const {
+  Expression::Terms terms;
+  for (const auto& term : _expression.terms()) {
+    if (term.variable().isProxy()) {
+      auto replaced = replacement(term.variable());
+      RL_ASSERT_MSG(
+          !replaced.isProxy(),
+          "The results of proxy replacement must not itself be a proxy");
+      terms.push_back({replaced, term.coefficient()});
+    } else {
+      terms.push_back(term);
+    }
+  }
+  return {{std::move(terms), _expression.constant()}, _relation, _priority};
 }
 
 bool Constraint::serialize(core::Message& message) const {

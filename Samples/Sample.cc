@@ -20,8 +20,8 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
                              rl::interface::Layer& layer) {
   using Variable = rl::layout::Variable;
 
-  Variable touchX(Variable::Proxy::Touch0, Variable::Property::PositionX);
-  Variable touchY(Variable::Proxy::Touch0, Variable::Property::PositionY);
+  Variable touchX(Variable::Proxy::Touch1, Variable::Property::PositionX);
+  Variable touchY(Variable::Proxy::Touch1, Variable::Property::PositionY);
 
   interface.setupConstraints({
       (layer | Variable::Property::PositionX) == touchX,  //
@@ -82,8 +82,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   interface.pushTransaction(std::move(action));
 
-  const auto rows = 5;
-  const auto cols = 5;
+  const auto rows = 25;
+  const auto cols = 25;
   const auto delta = 100;
 
   for (auto i = 0; i < rows; i++) {
@@ -99,10 +99,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
       auto childPositionY = *layer | Property::PositionY;
 
       interface.setupConstraints({
-          childPositionX == ((i + 1) / (double)rows) * rootWidth |
-              rl::layout::priority::Medium,  //
-          childPositionY == ((j + 1) / (double)cols) * rootHeight |
-              rl::layout::priority::Medium,  //
+          childPositionX == (i / (double)rows) * rootWidth + 25,   //
+          childPositionY == (j / (double)cols) * rootHeight + 25,  //
       });
 
       root->addSublayer(layer);
@@ -121,7 +119,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
   sub2->addSublayer(sub3);
 
-  //  AddDockedPanel(interface);
+  AddDockedPanel(interface);
 }
 
 void SampleApplication::didEnterBackground(
