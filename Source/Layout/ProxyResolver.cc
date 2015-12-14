@@ -2,26 +2,26 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Recognition/ActiveTouchSet.h>
+#include <Layout/ProxyResolver.h>
 
 #include <algorithm>
 
 namespace rl {
-namespace recognition {
+namespace layout {
 
-ActiveTouchSet::ActiveTouchSet(ProxyConstraintCallback addCallback,
-                               ProxyConstraintCallback removeCallback)
+ProxyResolver::ProxyResolver(ProxyConstraintCallback addCallback,
+                             ProxyConstraintCallback removeCallback)
     : _addConstraintCallback(addCallback),
       _removeConstraintCallback(removeCallback) {
   RL_ASSERT(addCallback != nullptr);
   RL_ASSERT(removeCallback != nullptr);
 }
 
-size_t ActiveTouchSet::size() const {
+size_t ProxyResolver::size() const {
   return _touchEntities.size();
 }
 
-void ActiveTouchSet::addTouches(const std::vector<event::TouchEvent>& touches) {
+void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
   if (touches.size() == 0) {
     return;
   }
@@ -57,7 +57,7 @@ void ActiveTouchSet::addTouches(const std::vector<event::TouchEvent>& touches) {
   }
 }
 
-void ActiveTouchSet::clearTouches(
+void ProxyResolver::clearTouches(
     const std::vector<event::TouchEvent>& touches) {
   if (touches.size() == 0) {
     return;
@@ -81,7 +81,7 @@ void ActiveTouchSet::clearTouches(
   RL_ASSERT(_indexedTouches.size() == _touchEntities.size());
 }
 
-void ActiveTouchSet::updateTouches(
+void ProxyResolver::updateTouches(
     const std::vector<event::TouchEvent>& touches) {
   for (const auto& touch : touches) {
     auto& entity = _touchEntities.at(touch.identifier());
@@ -93,13 +93,13 @@ void ActiveTouchSet::updateTouches(
   }
 }
 
-interface::Entity* ActiveTouchSet::touchEntityForProxy(
+interface::Entity* ProxyResolver::touchEntityForProxy(
     layout::Variable::Proxy proxy) const {
   return touchEntityForTouchNumber(
       static_cast<layout::Variable::ProxyType>(proxy));
 }
 
-interface::Entity* ActiveTouchSet::touchEntityForTouchNumber(
+interface::Entity* ProxyResolver::touchEntityForTouchNumber(
     size_t number) const {
   if (number == 0) {
     return nullptr;
@@ -118,7 +118,7 @@ interface::Entity* ActiveTouchSet::touchEntityForTouchNumber(
   return touchEvent.get();
 }
 
-void ActiveTouchSet::registerProxyConstraint(layout::Constraint&& constraint) {
+void ProxyResolver::registerProxyConstraint(layout::Constraint&& constraint) {
   std::set<layout::Variable::Proxy> proxies;
 
   for (const auto& term : constraint.expression().terms()) {
@@ -143,7 +143,7 @@ static bool ProxyConditionsSatisfied(
   return proxies.size() == touchCount;
 }
 
-void ActiveTouchSet::performOperationOnProxiesSatisfyingCurrentCondition(
+void ProxyResolver::performOperationOnProxiesSatisfyingCurrentCondition(
     ConstraintOperation operation) {
   const auto activeTouches = _indexedTouches.size();
   for (const auto& proxies : _conditionsByConstraint) {
@@ -157,14 +157,14 @@ void ActiveTouchSet::performOperationOnProxiesSatisfyingCurrentCondition(
   }
 }
 
-layout::Variable ActiveTouchSet::resolvedVariableForProxy(
+layout::Variable ProxyResolver::resolvedVariableForProxy(
     const layout::Variable& variable) {
   auto result = touchEntityForProxy(variable.proxy());
   RL_ASSERT(result != nullptr);
   return {result->identifier(), variable.property()};
 }
 
-void ActiveTouchSet::setupConstraintsForProxies() {
+void ProxyResolver::setupConstraintsForProxies() {
   std::vector<layout::Constraint> constraintsToAdd;
   /*
    *  Perform proxy resolution on each constraint for which all conditions are
@@ -177,7 +177,7 @@ void ActiveTouchSet::setupConstraintsForProxies() {
      *  Resolve the proxy constraint
      */
     layout::Constraint::ProxyVariableReplacementCallback replacement =
-        std::bind(&ActiveTouchSet::resolvedVariableForProxy, this,
+        std::bind(&ProxyResolver::resolvedVariableForProxy, this,
                   std::placeholders::_1);
     auto resolvedConstraint = proxyConstraint.resolveProxies(replacement);
 
@@ -204,7 +204,7 @@ void ActiveTouchSet::setupConstraintsForProxies() {
  *  disrupted. All proxies that were inflated for this condition must be cleaned
  *  up.
  */
-void ActiveTouchSet::clearConstraintsForProxies() {
+void ProxyResolver::clearConstraintsForProxies() {
   std::vector<layout::Constraint> constraintsToRemove;
   performOperationOnProxiesSatisfyingCurrentCondition(
       [&](const layout::Constraint& proxyConstraint,
@@ -225,13 +225,13 @@ void ActiveTouchSet::clearConstraintsForProxies() {
   }
 }
 
-void ActiveTouchSet::addConstraintForProxy(
+void ProxyResolver::addConstraintForProxy(
     const layout::Constraint& proxyConstraint) {}
 
-void ActiveTouchSet::removeConstraintForProxy(
+void ProxyResolver::removeConstraintForProxy(
     const layout::Constraint& proxyConstraint) {}
 
-void ActiveTouchSet::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
+void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   using Phase = event::TouchEvent::Phase;
 
   /*
@@ -271,5 +271,5 @@ void ActiveTouchSet::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   }
 }
 
-}  // namespace recognition
+}  // namespace layout
 }  // namespace rl

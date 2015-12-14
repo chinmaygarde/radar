@@ -11,7 +11,7 @@ namespace coordinator {
 
 PresentationGraph::PresentationGraph()
     : _root(nullptr),
-      _activeTouchSet(
+      _proxyResolver(
           // clang-format off
           std::bind(&PresentationGraph::onProxyConstraintsAddition,
                     this, std::placeholders::_1),
@@ -84,7 +84,7 @@ void PresentationGraph::onConstraintsCommit(
        *  If the constraint has proxies, they are collected for and applied
        *  later as the proxies are resolved
        */
-      _activeTouchSet.registerProxyConstraint(std::move(constraint));
+      _proxyResolver.registerProxyConstraint(std::move(constraint));
     } else {
       /*
        *  If there are no proxy variable, use direct constraint application
@@ -237,7 +237,7 @@ animation::Director& PresentationGraph::animationDirector() {
 
 void PresentationGraph::applyTouchMap(
     const event::TouchEvent::PhaseMap& touches) {
-  _activeTouchSet.applyTouchMap(touches);
+  _proxyResolver.applyTouchMap(touches);
 }
 
 layout::Solver::FlushResult PresentationGraph::applyConstraints() {

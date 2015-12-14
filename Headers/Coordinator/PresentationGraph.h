@@ -13,9 +13,9 @@
 #include <Coordinator/TransferRecord.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
+#include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>
-#include <Recognition/ActiveTouchSet.h>
 
 #include <map>
 
@@ -41,7 +41,7 @@ class PresentationGraph {
   PresentationEntity::IdentifierMap _entities;
   PresentationEntity* _root;
   animation::Director _animationDirector;
-  recognition::ActiveTouchSet _activeTouchSet;
+  layout::ProxyResolver _proxyResolver;
   layout::Solver _layoutSolver;
 
   bool applyTransactionSingle(core::Message& arena,

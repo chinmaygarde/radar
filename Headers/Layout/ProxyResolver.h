@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_RECOGNITION_ACTIVETOUCHSET_H_
-#define RADARLOVE_RECOGNITION_ACTIVETOUCHSET_H_
+#ifndef RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
+#define RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
 
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
@@ -11,15 +11,15 @@
 #include <Layout/Constraint.h>
 
 namespace rl {
-namespace recognition {
+namespace layout {
 
-class ActiveTouchSet {
+class ProxyResolver {
  public:
   using ProxyConstraintCallback =
       std::function<void(const std::vector<layout::Constraint>&)>;
 
-  ActiveTouchSet(ProxyConstraintCallback addCallback,
-                 ProxyConstraintCallback removeCallback);
+  ProxyResolver(ProxyConstraintCallback addCallback,
+                ProxyConstraintCallback removeCallback);
 
   void registerProxyConstraint(layout::Constraint&& constraint);
 
@@ -63,10 +63,10 @@ class ActiveTouchSet {
 
   size_t size() const;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(ActiveTouchSet);
+  RL_DISALLOW_COPY_AND_ASSIGN(ProxyResolver);
 };
 
-}  // namespace recognition
+}  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_RECOGNITION_ACTIVETOUCHSET_H_
+#endif  // RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
