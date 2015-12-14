@@ -30,7 +30,14 @@ void ActiveTouchSet::addTouches(const std::vector<event::TouchEvent>& touches) {
 
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
-    auto touchEntity = core::make_unique<TouchEntity>(touch);
+
+    /*
+     *  Create a new touch entity for this identifier
+     */
+    auto touchEntity =
+        core::make_unique<interface::Entity>(false /* notifies interface */);
+    touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});
+    touchEntity->setPosition(touch.location());
 
     auto identifierTouchPair =
         std::make_pair(identifier, std::move(touchEntity));
@@ -86,13 +93,14 @@ void ActiveTouchSet::updateTouches(
   }
 }
 
-TouchEntity* ActiveTouchSet::touchEntityForProxy(
+interface::Entity* ActiveTouchSet::touchEntityForProxy(
     layout::Variable::Proxy proxy) const {
   return touchEntityForTouchNumber(
       static_cast<layout::Variable::ProxyType>(proxy));
 }
 
-TouchEntity* ActiveTouchSet::touchEntityForTouchNumber(size_t number) const {
+interface::Entity* ActiveTouchSet::touchEntityForTouchNumber(
+    size_t number) const {
   if (number == 0) {
     return nullptr;
   }

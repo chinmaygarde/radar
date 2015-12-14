@@ -48,8 +48,6 @@
 		9E16A7021BE2E9D700FFEDFC /* Tag.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6F41BE2E9D700FFEDFC /* Tag.h */; };
 		9E16A7031BE2E9D700FFEDFC /* Term.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F51BE2E9D700FFEDFC /* Term.cc */; };
 		9E16A7041BE2E9D700FFEDFC /* Variable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E16A6F61BE2E9D700FFEDFC /* Variable.cc */; };
-		9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */; };
-		9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */; };
 		9E222CD81B69ABCF005D02EE /* EventLoopObserver.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */; };
 		9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */; };
 		9E222CDD1B6A9387005D02EE /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDB1B6A9387005D02EE /* Action.cc */; };
@@ -357,8 +355,6 @@
 		9E16A6F41BE2E9D700FFEDFC /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		9E16A6F51BE2E9D700FFEDFC /* Term.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Term.cc; sourceTree = "<group>"; };
 		9E16A6F61BE2E9D700FFEDFC /* Variable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cc; sourceTree = "<group>"; };
-		9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEntity.cc; sourceTree = "<group>"; };
-		9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEntity.h; sourceTree = "<group>"; };
 		9E222CD71B69ABCF005D02EE /* EventLoopObserver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserver.cc; sourceTree = "<group>"; };
 		9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLoopObserver.h; sourceTree = "<group>"; };
 		9E222CDB1B6A9387005D02EE /* Action.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
@@ -1064,7 +1060,6 @@
 			isa = PBXGroup;
 			children = (
 				9E092BEA1BC301C200FE79BA /* ActiveTouchSet.cc */,
-				9E1DDB0D1BD1DBF800E853D3 /* TouchEntity.cc */,
 			);
 			path = Recognition;
 			sourceTree = "<group>";
@@ -1073,7 +1068,6 @@
 			isa = PBXGroup;
 			children = (
 				9E092BE01BC301B400FE79BA /* ActiveTouchSet.h */,
-				9E1DDB0F1BD1DC0D00E853D3 /* TouchEntity.h */,
 			);
 			path = Recognition;
 			sourceTree = "<group>";
@@ -1166,7 +1160,6 @@
 				9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
-				9E1DDB101BD1DC0D00E853D3 /* TouchEntity.h in Headers */,
 				9E8655F21BE45E2700997766 /* OpenGL.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
@@ -1426,7 +1419,6 @@
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
-				9E1DDB0E1BD1DBF800E853D3 /* TouchEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				EA7D30F91BE736FE0038BF5A /* Utilities.cc in Sources */,
 				EAB379D81BE70A7700A59948 /* Director.cc in Sources */,

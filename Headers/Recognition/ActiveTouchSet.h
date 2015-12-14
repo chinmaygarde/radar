@@ -7,8 +7,8 @@
 
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
+#include <Interface/Entity.h>
 #include <Layout/Constraint.h>
-#include <Recognition/TouchEntity.h>
 
 namespace rl {
 namespace recognition {
@@ -31,10 +31,12 @@ class ActiveTouchSet {
                                            layout::Constraint::Compare>;
   using ConditionConstraintsMap = std::map<std::set<layout::Variable::Proxy>,
                                            std::vector<layout::Constraint>>;
+  using IdentifierEntityMap = std::map<interface::Entity::Identifier,
+                                       std::unique_ptr<interface::Entity>>;
 
   ProxyConstraintCallback _addConstraintCallback;
   ProxyConstraintCallback _removeConstraintCallback;
-  TouchEntity::IdentifierMap _touchEntities;
+  IdentifierEntityMap _touchEntities;
   std::vector<event::TouchEvent::Identifier> _indexedTouches;
   ConstraintConditionsMap _conditionsByConstraint;
   ConditionConstraintsMap _activeConstraintsByCondition;
@@ -56,8 +58,8 @@ class ActiveTouchSet {
       ConstraintOperation operation);
   layout::Variable resolvedVariableForProxy(const layout::Variable& variable);
 
-  TouchEntity* touchEntityForProxy(layout::Variable::Proxy proxy) const;
-  TouchEntity* touchEntityForTouchNumber(size_t index) const;
+  interface::Entity* touchEntityForProxy(layout::Variable::Proxy proxy) const;
+  interface::Entity* touchEntityForTouchNumber(size_t index) const;
 
   size_t size() const;
 
