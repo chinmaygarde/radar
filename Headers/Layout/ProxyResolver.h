@@ -16,21 +16,20 @@ namespace layout {
 class ProxyResolver {
  public:
   using ProxyConstraintCallback =
-      std::function<void(const std::vector<layout::Constraint>&)>;
+      std::function<void(const std::vector<Constraint>&)>;
 
   ProxyResolver(ProxyConstraintCallback addCallback,
                 ProxyConstraintCallback removeCallback);
 
-  void registerProxyConstraint(layout::Constraint&& constraint);
+  void registerProxyConstraint(Constraint&& constraint);
 
   void applyTouchMap(const event::TouchEvent::PhaseMap& map);
 
  private:
-  using ConstraintConditionsMap = std::map<layout::Constraint,
-                                           std::set<layout::Variable::Proxy>,
-                                           layout::Constraint::Compare>;
-  using ConditionConstraintsMap = std::map<std::set<layout::Variable::Proxy>,
-                                           std::vector<layout::Constraint>>;
+  using ConstraintConditionsMap =
+      std::map<Constraint, std::set<Variable::Proxy>, Constraint::Compare>;
+  using ConditionConstraintsMap =
+      std::map<std::set<Variable::Proxy>, std::vector<Constraint>>;
   using IdentifierEntityMap = std::map<interface::Entity::Identifier,
                                        std::unique_ptr<interface::Entity>>;
 
@@ -48,17 +47,16 @@ class ProxyResolver {
   void setupConstraintsForProxies();
   void clearConstraintsForProxies();
 
-  void addConstraintForProxy(const layout::Constraint& proxyConstraint);
-  void removeConstraintForProxy(const layout::Constraint& proxyConstraint);
+  void addConstraintForProxy(const Constraint& proxyConstraint);
+  void removeConstraintForProxy(const Constraint& proxyConstraint);
 
   using ConstraintOperation =
-      std::function<void(const layout::Constraint&,
-                         const std::set<layout::Variable::Proxy>&)>;
+      std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;
   void performOperationOnProxiesSatisfyingCurrentCondition(
       ConstraintOperation operation);
-  layout::Variable resolvedVariableForProxy(const layout::Variable& variable);
+  Variable resolvedVariableForProxy(const Variable& variable);
 
-  interface::Entity* touchEntityForProxy(layout::Variable::Proxy proxy) const;
+  interface::Entity* touchEntityForProxy(Variable::Proxy proxy) const;
   interface::Entity* touchEntityForTouchNumber(size_t index) const;
 
   size_t size() const;

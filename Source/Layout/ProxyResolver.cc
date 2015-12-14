@@ -94,9 +94,8 @@ void ProxyResolver::updateTouches(
 }
 
 interface::Entity* ProxyResolver::touchEntityForProxy(
-    layout::Variable::Proxy proxy) const {
-  return touchEntityForTouchNumber(
-      static_cast<layout::Variable::ProxyType>(proxy));
+    Variable::Proxy proxy) const {
+  return touchEntityForTouchNumber(static_cast<Variable::ProxyType>(proxy));
 }
 
 interface::Entity* ProxyResolver::touchEntityForTouchNumber(
@@ -118,12 +117,12 @@ interface::Entity* ProxyResolver::touchEntityForTouchNumber(
   return touchEvent.get();
 }
 
-void ProxyResolver::registerProxyConstraint(layout::Constraint&& constraint) {
-  std::set<layout::Variable::Proxy> proxies;
+void ProxyResolver::registerProxyConstraint(Constraint&& constraint) {
+  std::set<Variable::Proxy> proxies;
 
   for (const auto& term : constraint.expression().terms()) {
     auto proxy = term.variable().proxy();
-    if (proxy != layout::Variable::Proxy::None) {
+    if (proxy != Variable::Proxy::None) {
       proxies.insert(proxy);
     }
   }
@@ -137,9 +136,8 @@ void ProxyResolver::registerProxyConstraint(layout::Constraint&& constraint) {
   RL_ASSERT(result.second);
 }
 
-static bool ProxyConditionsSatisfied(
-    const std::set<layout::Variable::Proxy>& proxies,
-    size_t touchCount) {
+static bool ProxyConditionsSatisfied(const std::set<Variable::Proxy>& proxies,
+                                     size_t touchCount) {
   return proxies.size() == touchCount;
 }
 
@@ -157,28 +155,26 @@ void ProxyResolver::performOperationOnProxiesSatisfyingCurrentCondition(
   }
 }
 
-layout::Variable ProxyResolver::resolvedVariableForProxy(
-    const layout::Variable& variable) {
+Variable ProxyResolver::resolvedVariableForProxy(const Variable& variable) {
   auto result = touchEntityForProxy(variable.proxy());
   RL_ASSERT(result != nullptr);
   return {result->identifier(), variable.property()};
 }
 
 void ProxyResolver::setupConstraintsForProxies() {
-  std::vector<layout::Constraint> constraintsToAdd;
+  std::vector<Constraint> constraintsToAdd;
   /*
    *  Perform proxy resolution on each constraint for which all conditions are
    *  satisfied
    */
   performOperationOnProxiesSatisfyingCurrentCondition([&](
-      const layout::Constraint& proxyConstraint,
-      const std::set<layout::Variable::Proxy>& conditions) {
+      const Constraint& proxyConstraint,
+      const std::set<Variable::Proxy>& conditions) {
     /*
      *  Resolve the proxy constraint
      */
-    layout::Constraint::ProxyVariableReplacementCallback replacement =
-        std::bind(&ProxyResolver::resolvedVariableForProxy, this,
-                  std::placeholders::_1);
+    Constraint::ProxyVariableReplacementCallback replacement = std::bind(
+        &ProxyResolver::resolvedVariableForProxy, this, std::placeholders::_1);
     auto resolvedConstraint = proxyConstraint.resolveProxies(replacement);
 
     /*
@@ -205,10 +201,10 @@ void ProxyResolver::setupConstraintsForProxies() {
  *  up.
  */
 void ProxyResolver::clearConstraintsForProxies() {
-  std::vector<layout::Constraint> constraintsToRemove;
+  std::vector<Constraint> constraintsToRemove;
   performOperationOnProxiesSatisfyingCurrentCondition(
-      [&](const layout::Constraint& proxyConstraint,
-          const std::set<layout::Variable::Proxy>& conditions) {
+      [&](const Constraint& proxyConstraint,
+          const std::set<Variable::Proxy>& conditions) {
         /*
          *  Find all the constraints that were previously added for the given
          *  condition and attempt to remove the same from the solver hosted by
@@ -225,11 +221,10 @@ void ProxyResolver::clearConstraintsForProxies() {
   }
 }
 
-void ProxyResolver::addConstraintForProxy(
-    const layout::Constraint& proxyConstraint) {}
+void ProxyResolver::addConstraintForProxy(const Constraint& proxyConstraint) {}
 
 void ProxyResolver::removeConstraintForProxy(
-    const layout::Constraint& proxyConstraint) {}
+    const Constraint& proxyConstraint) {}
 
 void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   using Phase = event::TouchEvent::Phase;
