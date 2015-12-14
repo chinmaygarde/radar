@@ -9,6 +9,7 @@
 #include <Event/TouchEvent.h>
 #include <Interface/Entity.h>
 #include <Layout/Constraint.h>
+#include <Layout/Suggestion.h>
 
 namespace rl {
 namespace layout {
@@ -17,9 +18,12 @@ class ProxyResolver {
  public:
   using ProxyConstraintCallback =
       std::function<void(const std::vector<Constraint>&)>;
+  using ProxySuggestionCallback =
+      std::function<void(std::vector<Suggestion>&&)>;
 
   ProxyResolver(ProxyConstraintCallback addCallback,
-                ProxyConstraintCallback removeCallback);
+                ProxyConstraintCallback removeCallback,
+                ProxySuggestionCallback suggestionsCallback);
 
   void registerProxyConstraint(Constraint&& constraint);
 
@@ -35,6 +39,7 @@ class ProxyResolver {
 
   ProxyConstraintCallback _addConstraintCallback;
   ProxyConstraintCallback _removeConstraintCallback;
+  ProxySuggestionCallback _suggestionsCallback;
   IdentifierEntityMap _touchEntities;
   std::vector<event::TouchEvent::Identifier> _indexedTouches;
   ConstraintConditionsMap _conditionsByConstraint;
@@ -47,8 +52,8 @@ class ProxyResolver {
   void setupConstraintsForProxies();
   void clearConstraintsForProxies();
 
-  void addConstraintForProxy(const Constraint& proxyConstraint);
-  void removeConstraintForProxy(const Constraint& proxyConstraint);
+  void updateEntityPosition(interface::Entity& entity,
+                            const geom::Point& position);
 
   using ConstraintOperation =
       std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;

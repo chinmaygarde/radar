@@ -10,11 +10,14 @@ namespace rl {
 namespace layout {
 
 ProxyResolver::ProxyResolver(ProxyConstraintCallback addCallback,
-                             ProxyConstraintCallback removeCallback)
+                             ProxyConstraintCallback removeCallback,
+                             ProxySuggestionCallback suggestionsCallback)
     : _addConstraintCallback(addCallback),
-      _removeConstraintCallback(removeCallback) {
+      _removeConstraintCallback(removeCallback),
+      _suggestionsCallback(suggestionsCallback) {
   RL_ASSERT(addCallback != nullptr);
   RL_ASSERT(removeCallback != nullptr);
+  RL_ASSERT(suggestionsCallback != nullptr);
 }
 
 size_t ProxyResolver::size() const {
@@ -54,6 +57,14 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
 
   if (addedNewIndexedTouches) {
     setupConstraintsForProxies();
+
+    /*
+     *  Setup initial suggestions
+     */
+    for (auto& touchEntry : _touchEntities) {
+      auto& entity = *touchEntry.second;
+      updateEntityPosition(entity, entity.position());
+    }
   }
 }
 
@@ -86,11 +97,25 @@ void ProxyResolver::updateTouches(
   for (const auto& touch : touches) {
     auto& entity = _touchEntities.at(touch.identifier());
     RL_ASSERT(entity != nullptr);
-    /*
-     *  These are touch entities, so no view matrix conversions are necessary
-     */
-    entity->setPosition(touch.location());
+
+    updateEntityPosition(*entity, touch.location());
   }
+}
+
+void ProxyResolver::updateEntityPosition(interface::Entity& entity,
+                                         const geom::Point& position) {
+  /*
+   *  These are touch entities, so no view matrix conversions are necessary
+   */
+  entity.setPosition(position);
+
+  Variable positionX = {entity.identifier(), Variable::Property::PositionX};
+  Variable positionY = {entity.identifier(), Variable::Property::PositionY};
+
+  auto priority = layout::priority::Required - 1.0;
+
+  _suggestionsCallback(
+      {{positionX, position.x, priority}, {positionY, position.y, priority}});
 }
 
 interface::Entity* ProxyResolver::touchEntityForProxy(
@@ -220,11 +245,6 @@ void ProxyResolver::clearConstraintsForProxies() {
     _removeConstraintCallback(std::move(constraintsToRemove));
   }
 }
-
-void ProxyResolver::addConstraintForProxy(const Constraint& proxyConstraint) {}
-
-void ProxyResolver::removeConstraintForProxy(
-    const Constraint& proxyConstraint) {}
 
 void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   using Phase = event::TouchEvent::Phase;

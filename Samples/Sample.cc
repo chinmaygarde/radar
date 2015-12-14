@@ -9,6 +9,8 @@
 #include <Layout/ConstraintCreation.h>
 #include <stdlib.h>
 
+#define RND ((rand() % 100) / 100.0)
+
 namespace sample {
 
 SampleApplication::SampleApplication() {}
@@ -35,7 +37,7 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
   auto layer = interface.rootLayer();
   auto child = std::make_shared<rl::interface::Layer>();
 
-  child->setBackgroundColor(rl::coordinator::ColorBlue);
+  child->setBackgroundColor({0.0, 0.0, 1.0, 0.5});
   child->setFrame({35, 35, 200, 200});
 
   layer->addSublayer(child);
@@ -90,10 +92,10 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
     for (double j = 0; j < cols; j++) {
       auto layer = std::make_shared<rl::interface::Layer>();
       layer->setFrame({0.0, 0.0, 25, 25});
-      layer->setBackgroundColor({(rand() % 100) / 100.0, (rand() % 100) / 100.0,
-                                 (rand() % 100) / 100.0, 1.0});
-      layer->setTransformation(
-          rl::geom::Matrix::RotationZ(((rand() % 10) / 10.0) * M_PI * 2.0));
+      layer->setBackgroundColor({RND, RND, RND, 1.0});
+
+      auto rotation = rl::geom::Matrix::RotationZ(RND * M_PI * 2.0);
+      layer->setTransformation(rotation);
 
       auto childPositionX = *layer | Property::PositionX;
       auto childPositionY = *layer | Property::PositionY;
