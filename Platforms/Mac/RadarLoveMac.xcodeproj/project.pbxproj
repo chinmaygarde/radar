@@ -43,7 +43,7 @@
 /* Begin PBXFileReference section */
 		9E02AF481BA3A24500BA1AEA /* Sample.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sample.cc; sourceTree = "<group>"; };
 		9E02AF491BA3A24500BA1AEA /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
-		9E26F1B31B59CBB50016A899 /* RadarLoveMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RadarLoveMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E26F1B31B59CBB50016A899 /* Radar Love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Radar Love.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E26F1B61B59CBB50016A899 /* RadarAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarAppDelegate.h; sourceTree = "<group>"; };
 		9E26F1B71B59CBB50016A899 /* RadarAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarAppDelegate.mm; sourceTree = "<group>"; };
 		9E26F1BA1B59CBB50016A899 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 		9E26F1B41B59CBB50016A899 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9E26F1B31B59CBB50016A899 /* RadarLoveMac.app */,
+				9E26F1B31B59CBB50016A899 /* Radar Love.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,7 +154,7 @@
 			);
 			name = RadarLoveMac;
 			productName = RadarLoveMac;
-			productReference = 9E26F1B31B59CBB50016A899 /* RadarLoveMac.app */;
+			productReference = 9E26F1B31B59CBB50016A899 /* Radar Love.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -356,8 +356,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = RadarLoveMac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.domokit.RadarLoveMac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
+				PRODUCT_NAME = "Radar Love";
 			};
 			name = Debug;
 		};
@@ -368,8 +368,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = RadarLoveMac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.domokit.RadarLoveMac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
+				PRODUCT_NAME = "Radar Love";
 			};
 			name = Release;
 		};
