@@ -37,7 +37,7 @@ static void AddDockedPanel(rl::interface::Interface& interface) {
   auto layer = interface.rootLayer();
   auto child = std::make_shared<rl::interface::Layer>();
 
-  child->setBackgroundColor({0.0, 0.0, 1.0, 0.5});
+  child->setBackgroundColor({1.0, 1.0, 1.0, 0.5});
   child->setFrame({35, 35, 200, 200});
 
   layer->addSublayer(child);
@@ -67,10 +67,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});
   sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
   root->addSublayer(sub1);
-  AddPanRecognizer(interface, *sub1);
 
-  auto draggedX = *sub1 | Property::PositionX;
-  auto draggedY = *sub1 | Property::PositionY;
+  AddPanRecognizer(interface, *sub1);
 
   auto rootWidth = *root | Property::BoundsWidth;
   auto rootHeight = *root | Property::BoundsHeight;
@@ -86,7 +84,6 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   const auto rows = 25;
   const auto cols = 25;
-  const auto delta = 100;
 
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
