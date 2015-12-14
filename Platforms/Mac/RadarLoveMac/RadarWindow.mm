@@ -4,9 +4,9 @@
 
 #import "RadarWindow.h"
 
+#include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Coordinator/RenderSurface.h>
 #include "Sample.h"
 
 namespace rl {
@@ -17,11 +17,13 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 
   bool makeCurrent() {
     [_context makeCurrentContext];
+    CGLLockContext(_context.CGLContextObj);
     return true;
   }
 
   bool present() {
     [_context flushBuffer];
+    CGLUnlockContext(_context.CGLContextObj);
     return true;
   }
 
