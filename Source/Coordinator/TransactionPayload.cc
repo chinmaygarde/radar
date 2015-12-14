@@ -4,6 +4,7 @@
 
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Instrumentation/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {
@@ -115,9 +116,12 @@ bool TransactionPayload::deserialize(core::Message& message) {
   /*
    *  Step 3: Read the transfer records
    */
-  for (size_t i = 0; i < transferRecords; i++) {
-    _transferRecordCallback(action, TransferRecord::NextInMessage(message),
-                            _commitTime);
+  {
+    RL_TRACE_AUTO("TransferRecordsCommit");
+    for (size_t i = 0; i < transferRecords; i++) {
+      _transferRecordCallback(action, TransferRecord::NextInMessage(message),
+                              _commitTime);
+    }
   }
 
   if (constraints.size() > 0) {

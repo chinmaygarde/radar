@@ -42,6 +42,7 @@ void PresentationGraph::onActionCommit(interface::Action& action) {
    *  Nothing to do on its own. Its only when we see transfer records with this
    *  action do we need to do some configuration.
    */
+  RL_TRACE_AUTO("ActionCommit");
 }
 
 void PresentationGraph::onTransferRecordCommit(interface::Action& action,
@@ -67,6 +68,7 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
 
 void PresentationGraph::onConstraintsCommit(
     std::vector<layout::Constraint>&& constraints) {
+  RL_TRACE_AUTO("ConstraintsCommit");
   for (auto& constraint : constraints) {
     if (constraint.hasProxies()) {
       /*
@@ -86,6 +88,7 @@ void PresentationGraph::onConstraintsCommit(
 
 void PresentationGraph::onSuggestionsCommit(
     std::vector<layout::Suggestion>&& suggestions) {
+  RL_TRACE_AUTO("ConstraintSuggestionsCommit");
   for (const auto& suggestion : suggestions) {
     /*
      *  If the edit variable for the suggestion does not exist yet in the
