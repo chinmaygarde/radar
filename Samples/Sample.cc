@@ -86,8 +86,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   const auto cols = 25;
   const auto delta = 100;
 
-  for (auto i = 0; i < rows; i++) {
-    for (auto j = 0; j < cols; j++) {
+  for (double i = 0; i < rows; i++) {
+    for (double j = 0; j < cols; j++) {
       auto layer = std::make_shared<rl::interface::Layer>();
       layer->setFrame({0.0, 0.0, 25, 25});
       layer->setBackgroundColor({(rand() % 100) / 100.0, (rand() % 100) / 100.0,
@@ -99,8 +99,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
       auto childPositionY = *layer | Property::PositionY;
 
       interface.setupConstraints({
-          childPositionX == (i / (double)rows) * rootWidth + 25,   //
-          childPositionY == (j / (double)cols) * rootHeight + 25,  //
+          childPositionX == (i / rows) * rootWidth + 25,   //
+          childPositionY == (j / cols) * rootHeight + 25,  //
       });
 
       root->addSublayer(layer);
