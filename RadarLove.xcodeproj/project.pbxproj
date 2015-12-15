@@ -23,7 +23,6 @@
 		9E029CB51BAB74FD007E5DF8 /* InProcessWaitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CB31BAB74FD007E5DF8 /* InProcessWaitSet.h */; };
 		9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB61BAB8457007E5DF8 /* WaitSetProvider.cc */; };
 		9E029CB91BAB953D007E5DF8 /* InProcessEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029CB81BAB953D007E5DF8 /* InProcessEventLoopSource.cc */; };
-		9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */; };
 		9E1609331B7ECDF700DD06FE /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1609321B7ECDF700DD06FE /* Geometry.h */; };
 		9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16093C1B7ECF5B00DD06FE /* Animation.h */; };
 		9E16A6DA1BE2E9BC00FFEDFC /* Constraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E16A6D41BE2E9BC00FFEDFC /* Constraint.h */; };
@@ -524,7 +523,6 @@
 		EA62B3221B6F2F31009F197F /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
 		EA62B3241B6F2F41009F197F /* Timing.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timing.cc; sourceTree = "<group>"; };
 		EA68B32C1C11711400607934 /* ThreadTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadTest.cc; sourceTree = "<group>"; };
-		EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RecognitionTest.cc; sourceTree = "<group>"; };
 		EA7D30F31BE7271E0038BF5A /* Result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Result.h; sourceTree = "<group>"; };
 		EA7D30F51BE7273C0038BF5A /* Result.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Result.cc; sourceTree = "<group>"; };
 		EA7D30F71BE736FE0038BF5A /* Utilities.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cc; sourceTree = "<group>"; };
@@ -623,7 +621,6 @@
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
 				9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.cc */,
-				EA6B639C1B9E06AC00256484 /* RecognitionTest.cc */,
 				EAC90A891BF949FB001214C1 /* ThreadLocalTest.cc */,
 				EA68B32C1C11711400607934 /* ThreadTest.cc */,
 				9E8481961C1272DD006DE159 /* TraceTest.cc */,
@@ -1314,7 +1311,6 @@
 				9E62F8D41B796ED3008DE08E /* LayerTest.cc in Sources */,
 				9E6745EA1BF2BB3200D110DE /* LayoutTest.cc in Sources */,
 				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
-				9E0F71901BAF681E0021CEEF /* RecognitionTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
 				9EC1CE491C0E7E6A00DBAA91 /* WorkQueueTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,

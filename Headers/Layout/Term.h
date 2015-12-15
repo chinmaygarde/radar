@@ -15,7 +15,7 @@ class Term : public core::Serializable {
  public:
   Term();
 
-  Term(const Variable& variable, double coefficient = 1.0);
+  Term(const Variable& variable, double coefficient);
 
   const Variable& variable() const;
 
