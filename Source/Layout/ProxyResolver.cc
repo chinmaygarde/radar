@@ -37,9 +37,15 @@ double ProxyResolver::constantResolutionCallback(const Variable& variable) {
   /*
    *  Try to resolve the entity in the set of proxy resolved entities.
    */
-  auto found = _touchEntities.find(variable.identifier());
-  if (found != _touchEntities.end()) {
-    return Variable::GetProperty(*found->second, variable.property());
+
+  for (const auto& entity : _touchEntities) {
+    /*
+     *  Touch entities are keyed by their proxy identifiers. So we cannot use
+     *  std::find
+     */
+    if (entity.second->identifier() == variable.identifier()) {
+      return Variable::GetProperty(*entity.second, variable.property());
+    }
   }
 
   /*
