@@ -25,9 +25,15 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
   Variable touchX(Variable::Proxy::Touch1, Variable::Property::PositionX);
   Variable touchY(Variable::Proxy::Touch1, Variable::Property::PositionY);
 
+  auto layerX = layer | Variable::Property::PositionX;
+  auto layerY = layer | Variable::Property::PositionY;
+
+  auto constOffsetX = rl::layout::MakeConst(layerX - touchX);
+  auto constOffsetY = rl::layout::MakeConst(layerY - touchY);
+
   interface.setupConstraints({
-      (layer | Variable::Property::PositionX) == touchX,  //
-      (layer | Variable::Property::PositionY) == touchY,  //
+      layerX == touchX + constOffsetX,  //
+      layerY == touchY + constOffsetY,  //
   });
 }
 
