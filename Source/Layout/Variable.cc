@@ -37,6 +37,81 @@ Variable::Proxy Variable::proxy() const {
   return _isProxy ? static_cast<Proxy>(_identifier) : Proxy::None;
 }
 
+double Variable::GetProperty(interface::Entity& entity, Property property) {
+  switch (property) {
+    case Property::BoundsOriginX:
+      return entity.bounds().origin.x;
+    case Property::BoundsOriginY:
+      return entity.bounds().origin.y;
+    case Property::BoundsWidth:
+      return entity.bounds().size.width;
+    case Property::BoundsHeight:
+      return entity.bounds().size.height;
+    case Property::PositionX:
+      return entity.position().x;
+    case Property::PositionY:
+      return entity.position().y;
+    case Property::AnchorPointX:
+      return entity.anchorPoint().x;
+    case Property::AnchorPointY:
+      return entity.anchorPoint().y;
+    case Property::None:
+      RL_ASSERT(false);
+      return 0.0;
+  }
+  return 0.0;
+}
+
+void Variable::SetProperty(interface::Entity& entity,
+                           Property property,
+                           double value) {
+  switch (property) {
+    case Property::BoundsOriginX: {
+      auto bounds = entity.bounds();
+      bounds.origin.x = value;
+      entity.setBounds(bounds);
+    } break;
+    case Property::BoundsOriginY: {
+      auto bounds = entity.bounds();
+      bounds.origin.y = value;
+      entity.setBounds(bounds);
+    } break;
+    case Property::BoundsWidth: {
+      auto bounds = entity.bounds();
+      bounds.size.width = value;
+      entity.setBounds(bounds);
+    } break;
+    case Property::BoundsHeight: {
+      auto bounds = entity.bounds();
+      bounds.size.height = value;
+      entity.setBounds(bounds);
+    } break;
+    case Property::PositionX: {
+      auto position = entity.position();
+      position.x = value;
+      entity.setPosition(position);
+    } break;
+    case Property::PositionY: {
+      auto position = entity.position();
+      position.y = value;
+      entity.setPosition(position);
+    } break;
+    case Property::AnchorPointX: {
+      auto anchor = entity.anchorPoint();
+      anchor.x = value;
+      entity.setAnchorPoint(anchor);
+    } break;
+    case Property::AnchorPointY: {
+      auto anchor = entity.anchorPoint();
+      anchor.y = value;
+      entity.setAnchorPoint(anchor);
+    } break;
+    case Property::None:
+      RL_ASSERT(false);
+      break;
+  }
+}
+
 bool Variable::serialize(core::Message& message) const {
   auto success = true;
   success &= message.encode(_identifier);

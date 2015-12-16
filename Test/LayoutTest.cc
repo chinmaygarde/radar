@@ -20,8 +20,8 @@ TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
 
 TEST(LayoutTest, TermConstruction) {
   rl::layout::Variable v(1);
-  rl::layout::Term term(v, 1.0);
-  rl::layout::Term term2(v, 2.0);
+  rl::layout::Term term(v, 1.0, false);
+  rl::layout::Term term2(v, 2.0, false);
 
   auto expr = term + 1.0;
   auto expr2 = term + v;
@@ -37,7 +37,7 @@ TEST(LayoutTest, TermConstruction) {
 
 TEST(LayoutTest, VariableConstruction) {
   rl::layout::Variable v(1);
-  rl::layout::Term term2(v, 2.0);
+  rl::layout::Term term2(v, 2.0, false);
 
   auto expr = v + 1.0;
   auto expr2 = v + v;
@@ -53,7 +53,7 @@ TEST(LayoutTest, VariableConstruction) {
 
 TEST(LayoutTest, DoubleConstruction) {
   rl::layout::Variable v(1);
-  rl::layout::Term term2(v, 2.0);
+  rl::layout::Term term2(v, 2.0, false);
 
   auto expr2 = 2.0 + v;
   auto expr3 = 3.0 + term2;

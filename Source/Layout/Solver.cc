@@ -101,7 +101,7 @@ Result Solver::addEditVariable(const Variable& variable, double priority) {
     return Result::BadRequiredStrength;
   }
 
-  Constraint constraint(Expression{{Term{variable, 1.0}}, 0.0},
+  Constraint constraint(Expression{{Term{variable, 1.0, false}}, 0.0},
                         Constraint::Relation::EqualTo, priority);
 
   if (addConstraint(constraint) != Result::Success) {

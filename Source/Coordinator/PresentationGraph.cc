@@ -18,6 +18,8 @@ PresentationGraph::PresentationGraph()
           std::bind(&PresentationGraph::onProxyConstraintsRemoval,
                     this, std::placeholders::_1),
           std::bind(&PresentationGraph::onSuggestionsCommit,
+                    this, std::placeholders::_1),
+          std::bind(&PresentationGraph::resolveConstraintConstant,
                     this, std::placeholders::_1)
           // clang-format on
           ) {}
@@ -251,63 +253,25 @@ layout::Solver::FlushResult PresentationGraph::applyConstraints() {
 void PresentationGraph::resolveConstraintUpdate(
     const layout::Variable& variable,
     double value) {
-  using Property = layout::Variable::Property;
-
   auto found = _entities.find(variable.identifier());
-
   if (found == _entities.end()) {
     /*
      *  In case the entity created as a result of proxy resolution, it will not
-     *  be present in the graph own collection of entities.
+     *  be present in the graph owned collection of entities.
      */
     return;
   }
+  /*
+   *  Actually update the property
+   */
+  layout::Variable::SetProperty(*found->second, variable.property(), value);
+}
 
-  auto& entity = *found->second;
-  switch (variable.property()) {
-    case Property::None:
-      break;
-    case Property::BoundsOriginX: {
-      auto bounds = entity.bounds();
-      bounds.origin.x = value;
-      entity.setBounds(bounds);
-    } break;
-    case Property::BoundsOriginY: {
-      auto bounds = entity.bounds();
-      bounds.origin.y = value;
-      entity.setBounds(bounds);
-    } break;
-    case Property::BoundsWidth: {
-      auto bounds = entity.bounds();
-      bounds.size.width = value;
-      entity.setBounds(bounds);
-    } break;
-    case Property::BoundsHeight: {
-      auto bounds = entity.bounds();
-      bounds.size.height = value;
-      entity.setBounds(bounds);
-    } break;
-    case Property::PositionX: {
-      auto position = entity.position();
-      position.x = value;
-      entity.setPosition(position);
-    } break;
-    case Property::PositionY: {
-      auto position = entity.position();
-      position.y = value;
-      entity.setPosition(position);
-    } break;
-    case Property::AnchorPointX: {
-      auto anchor = entity.anchorPoint();
-      anchor.x = value;
-      entity.setAnchorPoint(anchor);
-    } break;
-    case Property::AnchorPointY: {
-      auto anchor = entity.anchorPoint();
-      anchor.y = value;
-      entity.setAnchorPoint(anchor);
-    } break;
-  }
+double PresentationGraph::resolveConstraintConstant(
+    const layout::Variable& variable) const {
+  auto found = _entities.find(variable.identifier());
+  RL_ASSERT(found != _entities.end());
+  return layout::Variable::GetProperty(*found->second, variable.property());
 }
 
 }  // namespace coordinator

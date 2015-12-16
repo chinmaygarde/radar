@@ -77,6 +77,8 @@ class PresentationGraph {
 
   void resolveConstraintUpdate(const layout::Variable& variable, double value);
 
+  double resolveConstraintConstant(const layout::Variable& variable) const;
+
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };
 

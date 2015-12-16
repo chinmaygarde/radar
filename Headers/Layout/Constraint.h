@@ -40,9 +40,14 @@ class Constraint : public core::Serializable {
 
   bool hasProxies() const;
 
+  bool hasConstantTerms() const;
+
   using ProxyVariableReplacementCallback =
       std::function<Variable(const Variable&)>;
-  Constraint resolveProxies(ProxyVariableReplacementCallback replacement) const;
+  using ConstantResolutionCallback = std::function<double(const Variable&)>;
+  Constraint resolveProxies(
+      ProxyVariableReplacementCallback replacement,
+      ConstantResolutionCallback constantResolution) const;
 
   struct Compare {
     constexpr bool operator()(const Constraint& lhs,

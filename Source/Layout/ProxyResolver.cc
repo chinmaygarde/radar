@@ -9,19 +9,43 @@
 namespace rl {
 namespace layout {
 
-ProxyResolver::ProxyResolver(ProxyConstraintCallback addCallback,
-                             ProxyConstraintCallback removeCallback,
-                             ProxySuggestionCallback suggestionsCallback)
+ProxyResolver::ProxyResolver(
+    ProxyConstraintCallback addCallback,
+    ProxyConstraintCallback removeCallback,
+    ProxySuggestionCallback suggestionsCallback,
+    Constraint::ConstantResolutionCallback constantResolutionCallback)
     : _addConstraintCallback(addCallback),
       _removeConstraintCallback(removeCallback),
-      _suggestionsCallback(suggestionsCallback) {
+      _suggestionsCallback(suggestionsCallback),
+      _constantResolutionCallback(constantResolutionCallback) {
   RL_ASSERT(addCallback != nullptr);
   RL_ASSERT(removeCallback != nullptr);
   RL_ASSERT(suggestionsCallback != nullptr);
+  RL_ASSERT(constantResolutionCallback != nullptr);
 }
 
 size_t ProxyResolver::size() const {
   return _touchEntities.size();
+}
+
+/**
+ *  This just wraps the constant resolution callback provided in the constructor
+ *  to check if any of the entities inflated as a result of proxy resolution
+ *  can take part in constants resolution
+ */
+double ProxyResolver::constantResolutionCallback(const Variable& variable) {
+  /*
+   *  Try to resolve the entity in the set of proxy resolved entities.
+   */
+  auto found = _touchEntities.find(variable.identifier());
+  if (found != _touchEntities.end()) {
+    return Variable::GetProperty(*found->second, variable.property());
+  }
+
+  /*
+   *  Ask the caller for constant resolution.
+   */
+  return _constantResolutionCallback(variable);
 }
 
 void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
@@ -200,7 +224,11 @@ void ProxyResolver::setupConstraintsForProxies() {
      */
     Constraint::ProxyVariableReplacementCallback replacement = std::bind(
         &ProxyResolver::resolvedVariableForProxy, this, std::placeholders::_1);
-    auto resolvedConstraint = proxyConstraint.resolveProxies(replacement);
+    Constraint::ConstantResolutionCallback constResolution =
+        std::bind(&ProxyResolver::constantResolutionCallback, this,
+                  std::placeholders::_1);
+    auto resolvedConstraint =
+        proxyConstraint.resolveProxies(replacement, constResolution);
 
     /*
      *  Register the resolved constraint for later deletion and notify the

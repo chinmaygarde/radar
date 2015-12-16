@@ -56,6 +56,11 @@ class Variable : public core::Serializable {
 
   Proxy proxy() const;
 
+  static double GetProperty(interface::Entity& entity, Property property);
+  static void SetProperty(interface::Entity& entity,
+                          Property property,
+                          double value);
+
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message) override;
@@ -77,8 +82,6 @@ class Variable : public core::Serializable {
   interface::Entity::Identifier _identifier;
   Property _property;
   bool _isProxy;
-
-  RL_DISALLOW_ASSIGN(Variable);
 };
 
 }  // namespace layout

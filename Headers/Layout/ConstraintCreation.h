@@ -72,7 +72,7 @@ Expression operator-(const A& a, const B& b) {
   Expression exprB(b);
   auto terms = exprA.terms();
   for (const auto& term : exprB.terms()) {
-    terms.push_back(Term{term.variable(), -term.coefficient()});
+    terms.push_back(Term{term.variable(), -term.coefficient(), false});
   }
   return Expression{std::move(terms), exprA.constant() - exprB.constant()};
 }
@@ -82,7 +82,7 @@ Expression operator*(const A& a, double m) {
   Expression expr(a);
   Expression::Terms terms;
   for (const auto& term : expr.terms()) {
-    terms.push_back(Term{term.variable(), term.coefficient() * m});
+    terms.push_back(Term{term.variable(), term.coefficient() * m, false});
   }
   return Expression{std::move(terms), expr.constant() * m};
 }
@@ -97,7 +97,7 @@ Expression operator/(const A& a, double m) {
   Expression expr(a);
   Expression::Terms terms;
   for (const auto& term : expr.terms()) {
-    terms.push_back(Term{term.variable(), term.coefficient() / m});
+    terms.push_back(Term{term.variable(), term.coefficient() / m, false});
   }
   return Expression{std::move(terms), expr.constant() / m};
 }

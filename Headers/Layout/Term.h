@@ -15,11 +15,13 @@ class Term : public core::Serializable {
  public:
   Term();
 
-  Term(const Variable& variable, double coefficient);
+  Term(const Variable& variable, double coefficient, bool constant);
 
   const Variable& variable() const;
 
   double coefficient() const;
+
+  bool isConstant() const;
 
   bool serialize(core::Message& message) const override;
 
@@ -28,8 +30,7 @@ class Term : public core::Serializable {
  private:
   Variable _variable;
   double _coefficient;
-
-  RL_DISALLOW_ASSIGN(Term);
+  bool _constant;
 };
 
 }  // namespace layout

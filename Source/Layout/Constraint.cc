@@ -47,21 +47,52 @@ bool Constraint::hasProxies() const {
   return false;
 }
 
-Constraint Constraint::resolveProxies(
-    ProxyVariableReplacementCallback replacement) const {
-  Expression::Terms terms;
+bool Constraint::hasConstantTerms() const {
   for (const auto& term : _expression.terms()) {
+    if (term.isConstant()) {
+      return true;
+    }
+  }
+  return false;
+}
+
+Constraint Constraint::resolveProxies(
+    ProxyVariableReplacementCallback replacement,
+    ConstantResolutionCallback constantResolution) const {
+  double accumulatedConstant = 0.0;
+
+  Expression::Terms terms;
+  for (auto term : _expression.terms()) {
+    /*
+     *  Perform proxy replacement over all variables
+     */
     if (term.variable().isProxy()) {
       auto replaced = replacement(term.variable());
       RL_ASSERT_MSG(
           !replaced.isProxy(),
           "The results of proxy replacement must not itself be a proxy");
-      terms.push_back({replaced, term.coefficient()});
+      term = {replaced, term.coefficient(), term.isConstant()};
+    }
+
+    /*
+     *  If any of the terms after proxy resolution are constants, perform
+     *  constant resolution now
+     */
+    if (term.isConstant()) {
+      /*
+       *  We are going to eliminate the term entirely and use a constant in its
+       *  place in the final equation.
+       */
+      auto constantReplacement = constantResolution(term.variable());
+      accumulatedConstant += term.coefficient() * constantReplacement;
     } else {
       terms.push_back(term);
     }
   }
-  return {{std::move(terms), _expression.constant()}, _relation, _priority};
+
+  return {{std::move(terms), _expression.constant() + accumulatedConstant},
+          _relation,
+          _priority};
 }
 
 bool Constraint::serialize(core::Message& message) const {
