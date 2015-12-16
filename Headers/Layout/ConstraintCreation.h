@@ -118,6 +118,16 @@ Constraint operator<=(const A& a, const B& b) {
   return {a - b, Constraint::Relation::LessThanOrEqualTo, priority::Required};
 }
 
+template <class A, class = core::only_if<(HoistableMember<A>::value)>>
+Expression MakeConst(const A& a) {
+  Expression expr(a);
+  Expression::Terms terms;
+  for (const auto& term : expr.terms()) {
+    terms.push_back(Term{term.variable(), term.coefficient(), true});
+  }
+  return Expression{std::move(terms), expr.constant()};
+}
+
 inline Constraint operator|(const Constraint& constraint, double priority) {
   return {constraint.expression(), constraint.relation(), priority};
 }

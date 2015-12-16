@@ -340,3 +340,21 @@ TEST(LayoutTest, VariableCreationViaOverloading) {
   ASSERT_EQ(variable.property(), rl::layout::Variable::Property::BoundsOriginX);
   ASSERT_EQ(variable.identifier(), entity.identifier());
 }
+
+TEST(LayoutTest, MakeConstantHoistableVariants) {
+  auto expr1 = rl::layout::MakeConst(10.0);
+  ASSERT_EQ(expr1.constant(), 10.0);
+
+  rl::layout::Variable var(1);
+  auto expr2 = rl::layout::MakeConst(var);
+  ASSERT_EQ(expr2.terms().size(), 1);
+
+  rl::layout::Term term(var, 1.0, false);
+  auto expr3 = rl::layout::MakeConst(term);
+  ASSERT_EQ(expr3.terms().size(), 1);
+  ASSERT_EQ(expr3.terms()[0].isConstant(), true);
+
+  auto expr4 = rl::layout::MakeConst(expr3);
+  ASSERT_EQ(expr4.terms().size(), 1);
+  ASSERT_EQ(expr4.terms()[0].isConstant(), true);
+}
