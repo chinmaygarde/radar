@@ -6,7 +6,7 @@ body {
   width: 960px;
 }
 
-body, table, div, p, dl {
+body, table, div, p, dl, tr, td {
   font: 16px 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   line-height: 1.6;
 }

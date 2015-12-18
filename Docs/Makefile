@@ -14,6 +14,9 @@ all: clean build
 build:
 	@doxygen
 	@(cd html && $(MAKE))
+	@(cd html && rm -rf Radar.tar.gz)
+	@(cd html && tar --exclude='.DS_Store' -cvzf Radar.tar.gz com.chinmaygarde.radarlove.docset)
+	@(cd html && rm -rf com.chinmaygarde.radarlove.docset)
 
 clean:
 	@echo Cleaning...
