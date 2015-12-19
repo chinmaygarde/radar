@@ -7,7 +7,6 @@ script:
 
 os:
   - linux
-  - osx
 
 compiler:
   - clang
@@ -24,6 +23,7 @@ addons:
     - gcc-4.8
     - g++-4.8
     - clang
-    - sdl2
+    - libgles2-mesa-dev
+    - libsdl2-dev
 
 sudo: false
