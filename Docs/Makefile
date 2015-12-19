@@ -11,6 +11,9 @@ help:
 all: clean build
 	@echo "Full Build Done"
 
+htmlonly: clean
+	@doxygen
+
 build:
 	@doxygen
 	@(cd html && $(MAKE))
