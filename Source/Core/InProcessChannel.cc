@@ -11,8 +11,7 @@
 namespace rl {
 namespace core {
 
-InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {
-}
+InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {}
 
 InProcessChannel::~InProcessChannel() {
   RL_ASSERT(_activeWaitSets.size() == 0);
@@ -29,8 +28,12 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
      */
     return ELS::Handles(handle, handle);
   };
-  auto readHandler =
-      [&](ELS::Handle handle) { _channel.readPendingMessageNow(); };
+
+  auto readHandler = [&](ELS::Handle handle) {
+    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
+                                            : ELS::IOHandlerResult::Failure;
+  };
+
   auto updateHandler = [&](EventLoopSource& source, WaitSet& waitset,
                            ELS::Handle ident, bool adding) {
     if (adding) {
