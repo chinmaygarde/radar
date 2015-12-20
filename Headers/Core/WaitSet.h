@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_CORE_WAITSET_
 #define RADARLOVE_CORE_WAITSET_
 
-#include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
 
 #include <vector>
 
@@ -50,9 +50,10 @@ class WaitSet {
   /**
    *  Waits for events to be signalled on the waitset
    *
-   *  @return the first loop source signalled on the waitset
+   *  @return the first loop source signalled on the waitset or nullptr
+   *          on timeout
    */
-  EventLoopSource& wait();
+  EventLoopSource* wait(ClockDurationNano timeout);
 
   Handle handle() const;
 

@@ -5,16 +5,17 @@
 #ifndef __RADARLOVE_CORE_WAITSETPROVIDER_H__
 #define __RADARLOVE_CORE_WAITSETPROVIDER_H__
 
-#include <Core/Macros.h>
-#include <Core/WaitSet.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
+#include <Core/Timing.h>
+#include <Core/WaitSet.h>
 
 namespace rl {
 namespace core {
 
 class WaitSetProvider {
  public:
-  virtual EventLoopSource& wait() = 0;
+  virtual EventLoopSource* wait(ClockDurationNano timeout) = 0;
 
   virtual WaitSet::Handle handle() const = 0;
 

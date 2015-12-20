@@ -130,7 +130,7 @@ TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
   rl::core::EventLoopSource::WakeFunction wake = [&](
       rl::core::EventLoopSource::IOHandlerResult res) {
     reads++;
-    if (reads == 3) {
+    if (reads == 5) {
       rl::core::EventLoop::Current()->terminate();
     }
   };
@@ -144,12 +144,20 @@ TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
   auto trivial3 = rl::core::EventLoopSource::Trivial();
   trivial3->setWakeFunction(wake);
 
+  auto trivial4 = rl::core::EventLoopSource::Trivial();
+  trivial4->setWakeFunction(wake);
+
+  auto trivial5 = rl::core::EventLoopSource::Trivial();
+  trivial5->setWakeFunction(wake);
+
   /*
    *  All handles have data waiting on them
    */
   trivial1->writer()(trivial1->writeHandle());
   trivial2->writer()(trivial2->writeHandle());
   trivial3->writer()(trivial3->writeHandle());
+  trivial4->writer()(trivial4->writeHandle());
+  trivial5->writer()(trivial5->writeHandle());
 
   std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
@@ -177,13 +185,15 @@ TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
     loop->addSource(trivial1);
     loop->addSource(trivial2);
     loop->addSource(trivial3);
+    loop->addSource(trivial4);
+    loop->addSource(trivial5);
 
     loop->loop();
   });
 
   thread.join();
 
-  ASSERT_EQ(beforeSleep, 1);
-  ASSERT_EQ(afterSleep, 1);
-  ASSERT_EQ(reads, 3);
+  ASSERT_EQ(beforeSleep, 2);
+  ASSERT_EQ(afterSleep, 2);
+  ASSERT_EQ(reads, 5);
 }

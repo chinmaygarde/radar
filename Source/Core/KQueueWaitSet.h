@@ -15,7 +15,7 @@ class KQueueWaitSet : public WaitSetProvider {
   KQueueWaitSet();
   ~KQueueWaitSet();
 
-  EventLoopSource& wait() override;
+  EventLoopSource* wait(ClockDurationNano timeout) override;
 
   WaitSet::Handle handle() const override;
 

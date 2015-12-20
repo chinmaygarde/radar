@@ -61,25 +61,74 @@ void EventLoop::loop(std::function<void(void)> onReady) {
   beforeSleep();
 
   while (!_shouldTerminate) {
-    /*
-     *  Sleep
-     */
-    auto& source = _waitSet.wait();
+    auto timeout = ClockDurationNano::max();
 
-    /*
-     *  Flush loop observers (post-sleep)
-     */
-    afterSleep();
+    while (true) {
+      /*
+       * =======================================================================
+       * Step 0: Wait
+       * =======================================================================
+       */
 
-    /*
-     *  Attempt read on the signalled source
-     */
-    source.attemptRead();
+      /*
+       *  Sleep indefinitely the first time around
+       */
+      auto* source = _waitSet.wait(timeout);
 
-    /*
-     *  Flush loop observer (pre-sleep)
-     */
-    beforeSleep();
+      /*
+       * =======================================================================
+       * Step 1: Notify observers on wake
+       * =======================================================================
+       */
+
+      if (timeout == ClockDurationNano::max()) {
+        /*
+         *  The first wake after an indefinite sleep means that the eventloop
+         *  is about to service all pending reads. Notify our loop observers of
+         *  the wake
+         */
+        afterSleep();
+      }
+
+      /*
+       * =======================================================================
+       * Step 2: Attempt reading on source
+       * =======================================================================
+       */
+      if (source != nullptr) {
+        /*
+         *  Attempt read on the signalled source. The source may be `nullptr` if
+         *  this is not the first read (with a zero timeout)
+         */
+        source->attemptRead();
+      }
+
+      /*
+       * =======================================================================
+       * Step 3: Retry or sleep
+       * =======================================================================
+       */
+      if (timeout == ClockDurationNano::max()) {
+        /*
+         *  After the first read, all subsequent reads are with a zero timeout.
+         */
+        timeout = ClockDurationNano(0);
+      } else {
+        /*
+         *  We are here because of a zero timeout read. If the source is not
+         *  nullptr, try again to see if any pending reads are available.
+         */
+        if (source == nullptr) {
+          /*
+           *  We got a nullptr source on a zero timeout read on the waitset.
+           *  There is absolutely nothing to be read on the waitset and we may
+           *  go to sleep now. Notify our observers accordingly.
+           */
+          beforeSleep();
+          break;
+        }
+      }
+    }
   }
 
   afterSleep();

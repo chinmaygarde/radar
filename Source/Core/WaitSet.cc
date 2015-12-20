@@ -3,15 +3,15 @@
 // found in the LICENSE file.
 
 #include <Core/Config.h>
-#include <Core/WaitSet.h>
-#include <Core/Utilities.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Utilities.h>
+#include <Core/WaitSet.h>
 
 #include <algorithm>
 
-#include "KQueueWaitSet.h"
 #include "EPollWaitSet.h"
 #include "InProcessWaitSet.h"
+#include "KQueueWaitSet.h"
 
 namespace rl {
 namespace core {
@@ -51,8 +51,8 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   return true;
 }
 
-EventLoopSource& WaitSet::wait() {
-  return _provider->wait();
+EventLoopSource* WaitSet::wait(ClockDurationNano timeout) {
+  return _provider->wait(timeout);
 }
 
 WaitSet::Handle WaitSet::handle() const {

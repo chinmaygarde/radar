@@ -8,10 +8,10 @@
 #include <Core/Macros.h>
 #include <Core/WaitSetProvider.h>
 
+#include <condition_variable>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
-#include <queue>
-#include <condition_variable>
 
 namespace rl {
 namespace core {
@@ -24,7 +24,7 @@ class InProcessWaitSet : public WaitSetProvider {
   static EventLoopSource::Handles TimerHandles(
       const std::chrono::nanoseconds& interval);
 
-  EventLoopSource& wait() override;
+  EventLoopSource* wait(ClockDurationNano timeout) override;
   WaitSet::Handle handle() const override;
   void signalReadReadinessFromUserspace(
       EventLoopSource::Handle writeHandle) override;

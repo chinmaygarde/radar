@@ -11,6 +11,10 @@
 #include <sys/event.h>
 #include <unistd.h>
 
+#ifndef NSEC_PER_SEC
+#define NSEC_PER_SEC 1000000000
+#endif
+
 namespace rl {
 namespace core {
 
@@ -24,16 +28,25 @@ KQueueWaitSet::~KQueueWaitSet() {
   _handle = -1;
 }
 
-EventLoopSource& KQueueWaitSet::wait() {
+EventLoopSource* KQueueWaitSet::wait(ClockDurationNano timeout) {
   struct kevent event = {0};
 
-  int val =
-      RL_TEMP_FAILURE_RETRY(::kevent(_handle, nullptr, 0, &event, 1, nullptr));
+  struct timespec timeoutTS = {
+      .tv_sec = timeout.count() / NSEC_PER_SEC,
+      .tv_nsec = timeout.count() % NSEC_PER_SEC,
+  };
 
-  RL_ASSERT(val == 1);
-  RL_ASSERT(event.udata != nullptr);
+  const struct timespec* ts =
+      timeout == ClockDurationNano::max() ? nullptr : &timeoutTS;
 
-  return *static_cast<EventLoopSource*>(event.udata);
+  int val = RL_TEMP_FAILURE_RETRY(::kevent(_handle, nullptr, 0, &event, 1, ts));
+
+  RL_ASSERT(val != -1);
+
+  /*
+   *  A kevent return value of zero indicates a timeout was encountered.
+   */
+  return val == 0 ? nullptr : static_cast<EventLoopSource*>(event.udata);
 }
 
 WaitSet::Handle KQueueWaitSet::handle() const {

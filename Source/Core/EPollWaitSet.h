@@ -16,7 +16,7 @@ class EPollWaitSet : public WaitSetProvider {
   EPollWaitSet();
   ~EPollWaitSet();
 
-  EventLoopSource& wait() override;
+  EventLoopSource* wait(ClockDurationNano timeout) override;
   WaitSet::Handle handle() const override;
 
  private:
