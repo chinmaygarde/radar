@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
 #include <Core/Core.h>
+#include <gtest/gtest.h>
 
 #include <thread>
 
@@ -175,21 +175,21 @@ TEST(ChannelTest, TestSimpleReadContents) {
 #if 0
 
 TEST(ChannelTest, TestMultipleQueuedReads) {
-  rl::Channel channel;
+  rl::core::Channel channel;
 
-  rl::Latch latch(1);
-  rl::Latch readLatch(1);
+  rl::core::Latch latch(1);
+  rl::core::Latch readLatch(1);
 
   std::thread thread([&] {
-    auto loop = rl::EventLoop::Current();
+    auto loop = rl::core::EventLoop::Current();
     ASSERT_TRUE(loop != nullptr);
 
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::Messages m) {
-      ASSERT_TRUE(m.size() == 3);
-      ASSERT_TRUE(loop == rl::EventLoop::Current());
+    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
+      ASSERT_EQ(m.size(), 3);
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
 
       char r = '\0';
       m[0].decode(r);
@@ -212,19 +212,19 @@ TEST(ChannelTest, TestMultipleQueuedReads) {
 
   latch.wait();
 
-  rl::Messages messages;
+  rl::core::Messages messages;
 
-  rl::Message m1;
+  rl::core::Message m1;
   char c = 'a';
   ASSERT_TRUE(m1.encode(c));
   messages.emplace_back(std::move(m1));
 
-  rl::Message m2;
+  rl::core::Message m2;
   c = 'b';
   ASSERT_TRUE(m2.encode(c));
   messages.emplace_back(std::move(m2));
 
-  rl::Message m3;
+  rl::core::Message m3;
   c = 'c';
   ASSERT_TRUE(m3.encode(c));
   messages.emplace_back(std::move(m3));
