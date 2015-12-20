@@ -87,6 +87,7 @@ struct MachPayload {
       case MACH_MSG_SUCCESS:
         return EventLoopSource::IOHandlerResult::Success;
       case MACH_RCV_TIMED_OUT:
+      // TODO: This is hiding a bug on flushed reads
       case MACH_RCV_TOO_LARGE:
         return EventLoopSource::IOHandlerResult::Timeout;
       default:
