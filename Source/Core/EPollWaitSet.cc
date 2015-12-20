@@ -13,6 +13,8 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 
+#define RL_NSEC_PER_MSEC 1000000
+
 namespace rl {
 namespace core {
 
@@ -25,15 +27,18 @@ EPollWaitSet::~EPollWaitSet() {
   RL_CHECK(::close(_handle));
 }
 
-EventLoopSource& EPollWaitSet::wait() {
+EventLoopSource* EPollWaitSet::wait(ClockDurationNano timeout) {
   struct epoll_event event = {0};
 
-  int val = RL_TEMP_FAILURE_RETRY(
-      ::epoll_wait(_handle, &event, 1, -1 /* infinite timeout */));
+  int timeoutMS = timeout == ClockDurationNano::max()
+                      ? -1 /* infinite timeout */
+                      : timeout.count() / RL_NSEC_PER_MSEC;
 
-  RL_ASSERT(val == 1);
+  int val = RL_TEMP_FAILURE_RETRY(::epoll_wait(_handle, &event, 1, timeoutMS));
 
-  return *static_cast<EventLoopSource*>(event.data.ptr);
+  RL_ASSERT(val != -1);
+
+  return val == 0 ? nullptr : static_cast<EventLoopSource*>(event.data.ptr);
 }
 
 WaitSet::Handle EPollWaitSet::handle() const {
