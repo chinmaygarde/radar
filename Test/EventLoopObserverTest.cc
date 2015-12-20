@@ -121,3 +121,69 @@ TEST(EventLoopObserverTest, LoopObserverPriorities) {
   thread.join();
   ASSERT_EQ(orderCount, 4);
 }
+
+TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
+  auto beforeSleep = 0;
+  auto afterSleep = 0;
+  auto reads = 0;
+
+  rl::core::EventLoopSource::WakeFunction wake = [&](
+      rl::core::EventLoopSource::IOHandlerResult res) {
+    reads++;
+    if (reads == 3) {
+      rl::core::EventLoop::Current()->terminate();
+    }
+  };
+
+  auto trivial1 = rl::core::EventLoopSource::Trivial();
+  trivial1->setWakeFunction(wake);
+
+  auto trivial2 = rl::core::EventLoopSource::Trivial();
+  trivial2->setWakeFunction(wake);
+
+  auto trivial3 = rl::core::EventLoopSource::Trivial();
+  trivial3->setWakeFunction(wake);
+
+  /*
+   *  All handles have data waiting on them
+   */
+  trivial1->writer()(trivial1->writeHandle());
+  trivial2->writer()(trivial2->writeHandle());
+  trivial3->writer()(trivial3->writeHandle());
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+  std::thread thread([&] {
+    auto loop = rl::core::EventLoop::Current();
+    ASSERT_NE(loop, nullptr);
+    auto obs = std::make_shared<rl::core::EventLoopObserver>(
+        [&](rl::core::EventLoopObserver::Activity activity) {
+          switch (activity) {
+            case rl::core::EventLoopObserver::Activity::BeforeSleep:
+              beforeSleep++;
+              break;
+            case rl::core::EventLoopObserver::Activity::AfterSleep:
+              afterSleep++;
+              break;
+          }
+        });
+    ASSERT_EQ(loop->addObserver(
+                  obs, rl::core::EventLoopObserver::Activity::BeforeSleep),
+              true);
+    ASSERT_EQ(loop->addObserver(
+                  obs, rl::core::EventLoopObserver::Activity::AfterSleep),
+              true);
+
+    loop->addSource(trivial1);
+    loop->addSource(trivial2);
+    loop->addSource(trivial3);
+
+    loop->loop();
+  });
+
+  thread.join();
+
+  ASSERT_EQ(beforeSleep, 1);
+  ASSERT_EQ(afterSleep, 1);
+  ASSERT_EQ(reads, 3);
+}
