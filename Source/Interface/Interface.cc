@@ -40,10 +40,12 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
           // clang-format on
       }) {
   _autoFlushObserver = std::make_shared<core::EventLoopObserver>(
-      std::numeric_limits<uint64_t>::max(), [&] {
+      [&](core::EventLoopObserver::Activity activity) {
+        RL_ASSERT(activity == core::EventLoopObserver::Activity::BeforeSleep);
         flushTransactions();
         armAutoFlushTransactions(false);
-      });
+      },
+      std::numeric_limits<int64_t>::max());
 }
 
 void Interface::run(core::Latch& readyLatch) {

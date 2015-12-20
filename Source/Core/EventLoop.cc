@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 #include <Core/EventLoop.h>
-#include <Core/Utilities.h>
 #include <Core/ThreadLocal.h>
+#include <Core/Utilities.h>
 
 #include <mutex>
 
@@ -30,11 +30,11 @@ EventLoop::EventLoop()
     : _waitSet(),
       _trivialSource(nullptr),
       _shouldTerminate(false),
-      _pendingDispatches(make_unique<PendingBlocks>()) {
-}
+      _pendingDispatches(make_unique<PendingBlocks>()),
+      _beforeSleepObservers(EventLoopObserver::Activity::BeforeSleep),
+      _afterSleepObservers(EventLoopObserver::Activity::AfterSleep) {}
 
-EventLoop::~EventLoop() {
-}
+EventLoop::~EventLoop() {}
 
 bool EventLoop::addSource(std::shared_ptr<EventLoopSource> source) {
   return _waitSet.addSource(source);
@@ -82,10 +82,16 @@ void EventLoop::loop(std::function<void(void)> onReady) {
     beforeSleep();
   }
 
+  afterSleep();
+
   _shouldTerminate = false;
 }
 
 void EventLoop::terminate() {
+  if (_shouldTerminate) {
+    return;
+  }
+
   _shouldTerminate = true;
   _trivialSource->writer()(_trivialSource->writeHandle());
 }
@@ -133,27 +139,25 @@ void EventLoop::dispatchAsync(std::function<void()> block) {
   _trivialSource->writer()(_trivialSource->writeHandle());
 }
 
-void EventLoop::addObserver(std::shared_ptr<EventLoopObserver> observer,
+bool EventLoop::addObserver(std::shared_ptr<EventLoopObserver> observer,
                             EventLoopObserver::Activity activity) {
   switch (activity) {
     case EventLoopObserver::Activity::BeforeSleep:
-      _beforeSleepObservers.addObserver(observer);
-      break;
+      return _beforeSleepObservers.addObserver(observer);
     case EventLoopObserver::Activity::AfterSleep:
-      _afterSleepObservers.addObserver(observer);
-      break;
+      return _afterSleepObservers.addObserver(observer);
   }
+
+  return false;
 }
 
-void EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
+bool EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
                                EventLoopObserver::Activity activity) {
   switch (activity) {
     case EventLoopObserver::Activity::BeforeSleep:
-      _beforeSleepObservers.removeObserver(observer);
-      break;
+      return _beforeSleepObservers.removeObserver(observer);
     case EventLoopObserver::Activity::AfterSleep:
-      _afterSleepObservers.removeObserver(observer);
-      break;
+      return _afterSleepObservers.removeObserver(observer);
   }
 }
 

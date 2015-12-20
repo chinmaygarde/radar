@@ -5,10 +5,10 @@
 #ifndef RADARLOVE_CORE_EVENTLOOP_
 #define RADARLOVE_CORE_EVENTLOOP_
 
-#include <Core/Macros.h>
-#include <Core/EventLoopSource.h>
-#include <Core/WaitSet.h>
 #include <Core/EventLoopObserver.h>
+#include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
+#include <Core/WaitSet.h>
 
 #include <functional>
 #include <list>
@@ -74,7 +74,7 @@ class EventLoop {
    *  @param observer the observer to add
    *  @param activity the activity to observe
    */
-  void addObserver(std::shared_ptr<EventLoopObserver> observer,
+  bool addObserver(std::shared_ptr<EventLoopObserver> observer,
                    EventLoopObserver::Activity activity);
 
   /**
@@ -84,7 +84,7 @@ class EventLoop {
    *  @param observer the observer to remove
    *  @param activity the activity that was being observed
    */
-  void removeObserver(std::shared_ptr<EventLoopObserver> observer,
+  bool removeObserver(std::shared_ptr<EventLoopObserver> observer,
                       EventLoopObserver::Activity activity);
 
   ~EventLoop();

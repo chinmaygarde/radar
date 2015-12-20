@@ -8,16 +8,14 @@
 #include <Core/Macros.h>
 
 #include <functional>
-#include <set>
 #include <mutex>
+#include <set>
 
 namespace rl {
 namespace core {
 
 class EventLoopObserver {
  public:
-  using Callback = std::function<void(void)>;
-
   enum Activity {
     /**
      *  Event loop activities that take place just after the loop has processed
@@ -32,38 +30,41 @@ class EventLoopObserver {
     AfterSleep,
   };
 
+  using Callback = std::function<void(Activity)>;
+
   /**
    *  Create an event loop observer at the specified absolute priority
    */
-  explicit EventLoopObserver(uint64_t priority, Callback callback);
+  explicit EventLoopObserver(Callback callback, int64_t priority = 0);
 
   /*
    *  Invoke the event loop observer callback
    */
-  void invoke() const;
+  void invoke(Activity activity) const;
 
   /**
    *  The absolute priority of the observer
    *
    *  @return the priority
    */
-  uint64_t priority() const;
+  int64_t priority() const;
 
  private:
   const Callback _callback;
-  const uint64_t _priority;
+  const int64_t _priority;
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserver);
 };
 
 struct EventLoopObserverComparer {
   bool operator()(std::shared_ptr<EventLoopObserver> a,
-                  std::shared_ptr<EventLoopObserver> b) const;
+                  std::shared_ptr<EventLoopObserver>
+                      b) const;
 };
 
 class EventLoopObserverCollection {
  public:
-  explicit EventLoopObserverCollection();
+  explicit EventLoopObserverCollection(EventLoopObserver::Activity activity);
 
   /**
    *  Adds an observer to the collection.
@@ -71,7 +72,7 @@ class EventLoopObserverCollection {
    *
    *  @param observer the observer to add
    */
-  void addObserver(std::shared_ptr<EventLoopObserver> observer);
+  bool addObserver(std::shared_ptr<EventLoopObserver> observer);
 
   /**
    *  Removes an observer from the collection.
@@ -79,7 +80,7 @@ class EventLoopObserverCollection {
    *
    *  @param observer the observer to remove
    */
-  void removeObserver(std::shared_ptr<EventLoopObserver> observer);
+  bool removeObserver(std::shared_ptr<EventLoopObserver> observer);
 
   /**
    *  Invokes all member callbacks.
@@ -90,6 +91,7 @@ class EventLoopObserverCollection {
   using EventLoopObserversSet =
       std::set<std::shared_ptr<EventLoopObserver>, EventLoopObserverComparer>;
   std::mutex _lock;
+  EventLoopObserver::Activity _activity;
   EventLoopObserversSet _observers;
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);

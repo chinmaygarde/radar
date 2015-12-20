@@ -7,38 +7,47 @@
 namespace rl {
 namespace core {
 
-EventLoopObserver::EventLoopObserver(uint64_t priority, Callback callback)
+EventLoopObserver::EventLoopObserver(Callback callback, int64_t priority)
     : _priority(priority), _callback(callback) {
   RL_ASSERT_MSG(_callback, "A callback must be provided to the loop observer");
 }
 
-uint64_t EventLoopObserver::priority() const {
+int64_t EventLoopObserver::priority() const {
   return _priority;
 }
 
-void EventLoopObserver::invoke() const {
-  _callback();
+void EventLoopObserver::invoke(Activity activity) const {
+  _callback(activity);
 }
 
-bool EventLoopObserverComparer::operator()(
-    std::shared_ptr<EventLoopObserver> a,
-    std::shared_ptr<EventLoopObserver> b) const {
+bool EventLoopObserverComparer::operator()(std::shared_ptr<EventLoopObserver> a,
+                                           std::shared_ptr<EventLoopObserver>
+                                               b) const {
   return a->priority() < b->priority();
 }
 
-EventLoopObserverCollection::EventLoopObserverCollection() : _observers() {
+EventLoopObserverCollection::EventLoopObserverCollection(
+    EventLoopObserver::Activity activity)
+    : _activity(activity) {}
+
+bool EventLoopObserverCollection::addObserver(std::shared_ptr<EventLoopObserver>
+                                                  observer) {
+  std::lock_guard<std::mutex> lock(_lock);
+  auto result = _observers.insert(observer);
+  return result.second;
 }
 
-void EventLoopObserverCollection::addObserver(
-    std::shared_ptr<EventLoopObserver> observer) {
+bool EventLoopObserverCollection::removeObserver(
+    std::shared_ptr<EventLoopObserver>
+        observer) {
   std::lock_guard<std::mutex> lock(_lock);
-  _observers.insert(observer);
-}
 
-void EventLoopObserverCollection::removeObserver(
-    std::shared_ptr<EventLoopObserver> observer) {
-  std::lock_guard<std::mutex> lock(_lock);
-  _observers.erase(observer);
+  auto found = _observers.find(observer);
+  if (found == _observers.end()) {
+    return false;
+  }
+  _observers.erase(found);
+  return true;
 }
 
 void EventLoopObserverCollection::invokeAll() {
@@ -54,7 +63,7 @@ void EventLoopObserverCollection::invokeAll() {
   _lock.unlock();
 
   for (const auto& observer : copied) {
-    observer->invoke();
+    observer->invoke(_activity);
   }
 }
 
