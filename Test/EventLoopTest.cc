@@ -135,7 +135,7 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
     trivial->writer()(trivial->writeHandle());
 
     auto timer =
-        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(100));
+        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
 
     timer->setWakeFunction(
         [](rl::core::EventLoopSource::IOHandlerResult cause) {
