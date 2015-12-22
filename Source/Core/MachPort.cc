@@ -19,6 +19,15 @@ struct MachPayload {
   mach_msg_ool_descriptor_t mem;
   mach_msg_trailer_info_t trailer;
 
+  /**
+   *  Initialize the mach message payload when sending a message to a remote
+   *  port
+   *
+   *  @param message the message to send
+   *  @param remote  the port to send the message to
+   *
+   *  @return the initialized mach message payload for the message and port
+   */
   explicit MachPayload(const Message& message, mach_port_t remote)
       : header({
             .msgh_size = sizeof(MachPayload) - sizeof(mach_msg_trailer_info_t),
@@ -36,6 +45,14 @@ struct MachPayload {
         }),
         trailer() {}
 
+  /**
+   *  Initialize the mach message payload for receiving messages on a local
+   *  port
+   *
+   *  @param local the local port to receive the message on
+   *
+   *  @return the initialized mach message payload for recieving the message
+   */
   explicit MachPayload(mach_port_t local)
       : header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
         body(),
