@@ -166,3 +166,9 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
   thread.join();
 }
+
+TEST(ChannelTest, ZeroTimeoutReadsDontHang) {
+  rl::core::Channel channel;
+  rl::core::Messages messages = channel.drainPendingMessages();
+  ASSERT_EQ(messages.size(), 0);
+}

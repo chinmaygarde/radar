@@ -92,7 +92,6 @@ class Channel {
    */
   bool readPendingMessageNow();
 
- protected:
   Messages drainPendingMessages();
 
  private:
