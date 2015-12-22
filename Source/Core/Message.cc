@@ -87,6 +87,10 @@ bool Message::Attachment::isValid() const {
   return _handle != 0;
 }
 
+Message::Attachment::Handle Message::Attachment::handle() const {
+  return _handle;
+}
+
 Message::Attachment::Attachment(Attachment&& other) = default;
 
 static inline size_t Message_NextPOTSize(size_t x) {
@@ -236,7 +240,7 @@ void Message::rewindRead() {
   _sizeRead = 0;
 }
 
-bool Message::readyToSend() const {
+bool Message::isValid() const {
   if (_attachment.isValid()) {
     return size() == 0;
   }

@@ -30,6 +30,7 @@ struct MachPayload {
    */
   mach_msg_body_t type;
   union {
+    mach_msg_port_descriptor_t port;
     mach_msg_ool_descriptor_t memory;
   } body;
 
@@ -58,7 +59,11 @@ struct MachPayload {
        *  Configure this message as an out of line port descriptor
        */
       header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
-      RL_ASSERT(false);  // WIP
+      body.port = (const mach_msg_port_descriptor_t){
+          .name = static_cast<mach_port_t>(message.attachment().handle()),
+          .disposition = MACH_MSG_TYPE_PORT_SEND,
+          .type = MACH_MSG_PORT_DESCRIPTOR,
+      };
     } else {
       /*
        *  Configure this message as an out of line memory descriptor
@@ -153,8 +158,7 @@ struct MachPayload {
         return Message(static_cast<uint8_t*>(body.memory.address),
                        body.memory.size, true);
       case MachPayloadKind::Port:
-        RL_ASSERT(false);  // WIP
-        return Message(0, 0);
+        return Message(Message::Attachment{body.port.name});
     }
   }
 };

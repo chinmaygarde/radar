@@ -30,6 +30,8 @@ class Message {
 
     bool isValid() const;
 
+    Handle handle() const;
+
    private:
     Handle _handle;
 
@@ -196,11 +198,16 @@ class Message {
   void rewindRead();
 
   /**
-   *  @return if the message in its current configuration is ready to be sent
-   *          down a channel
+   *  @return if the message in its current configuration represents a valid
+   *          message that is suitable to be sent down a channel
    */
-  bool readyToSend() const;
+  bool isValid() const;
 
+  /**
+   *  An optional message attachment
+   *
+   *  @return the message attachment
+   */
   const Attachment& attachment() const;
 
  private:

@@ -91,7 +91,7 @@ ChannelProvider::ReadResult MachPortChannel::readMessage(
   }
 
   return ChannelProvider::ReadResult(
-      result.second.size() == 0 ? Result::TemporaryFailure : Result::Success,
+      result.second.isValid() ? Result::Success : Result::TemporaryFailure,
       std::move(result.second));
 }
 

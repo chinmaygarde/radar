@@ -61,7 +61,7 @@ bool Channel::sendMessages(Messages messages) {
    *  a check too paranoid.
    */
   for (const auto& message : messages) {
-    if (!message.readyToSend()) {
+    if (!message.isValid()) {
       return false;
     }
   }
