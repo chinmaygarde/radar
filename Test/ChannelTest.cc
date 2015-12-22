@@ -55,8 +55,7 @@ TEST(ChannelTest, TestSimpleReads) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
-      ASSERT_TRUE(m.size() == 1);
+    channel.setMessageCallback([&](rl::core::Message m) {
       ASSERT_TRUE(loop == rl::core::EventLoop::Current());
       loop->terminate();
     });
@@ -91,11 +90,10 @@ TEST(ChannelTest, TestLargeReadWrite) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
-      ASSERT_TRUE(m.size() == 1);
-      ASSERT_TRUE(m[0].size() == sizeWritten);
+    channel.setMessageCallback([&](rl::core::Message m) {
+      ASSERT_TRUE(m.size() == sizeWritten);
       ASSERT_TRUE(
-          MemorySetOrCheckPattern(m[0].data(), sizeWritten, false /* check */));
+          MemorySetOrCheckPattern(m.data(), sizeWritten, false /* check */));
       ASSERT_TRUE(loop == rl::core::EventLoop::Current());
       loop->terminate();
     });
@@ -133,11 +131,8 @@ TEST(ChannelTest, TestSimpleReadContents) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessagesReceivedCallback([&](rl::core::Messages messages) {
-      ASSERT_TRUE(messages.size() == 1);
+    channel.setMessageCallback([&](rl::core::Message m) {
       ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-
-      auto& m = messages[0];
 
       char c = 'a';
       int d = 22;
@@ -171,68 +166,3 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
   thread.join();
 }
-
-#if 0
-
-TEST(ChannelTest, TestMultipleQueuedReads) {
-  rl::core::Channel channel;
-
-  rl::core::Latch latch(1);
-  rl::core::Latch readLatch(1);
-
-  std::thread thread([&] {
-    auto loop = rl::core::EventLoop::Current();
-    ASSERT_TRUE(loop != nullptr);
-
-    auto source = channel.source();
-    ASSERT_TRUE(loop->addSource(source));
-
-    channel.setMessagesReceivedCallback([&](rl::core::Messages m) {
-      ASSERT_EQ(m.size(), 3);
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-
-      char r = '\0';
-      m[0].decode(r);
-      ASSERT_TRUE(r == 'a');
-
-      m[1].decode(r);
-      ASSERT_TRUE(r == 'b');
-
-      m[2].decode(r);
-      ASSERT_TRUE(r == 'c');
-
-      loop->terminate();
-    });
-
-    loop->loop([&] {
-      latch.countDown();
-      readLatch.wait();
-    });
-  });
-
-  latch.wait();
-
-  rl::core::Messages messages;
-
-  rl::core::Message m1;
-  char c = 'a';
-  ASSERT_TRUE(m1.encode(c));
-  messages.emplace_back(std::move(m1));
-
-  rl::core::Message m2;
-  c = 'b';
-  ASSERT_TRUE(m2.encode(c));
-  messages.emplace_back(std::move(m2));
-
-  rl::core::Message m3;
-  c = 'c';
-  ASSERT_TRUE(m3.encode(c));
-  messages.emplace_back(std::move(m3));
-
-  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
-  readLatch.countDown();
-
-  thread.join();
-}
-
-#endif
