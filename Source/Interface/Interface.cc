@@ -16,8 +16,8 @@ RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<coordinator::Channel>
-                         compositorChannel)
+                     std::shared_ptr<core::Channel>
+                         coordinatorChannel)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -25,7 +25,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _transactionStack(),
       _popCount(0),
       _delegate(delegate),
-      _compositorChannel(compositorChannel),
+      _coordinatorChannel(coordinatorChannel),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -143,22 +143,25 @@ void Interface::flushTransactions() {
 
   std::lock_guard<std::mutex> lock(_lock);
 
-  auto compositor = _compositorChannel.lock();
-  RL_ASSERT_MSG(compositor, "Compositor channel must be present");
-  auto& arena = compositor->transactionMessage();
+  auto result = true;
 
-  bool result = true;
+  /*
+   *  Create a message to encode all the transaction items into
+   */
+  core::Message arena;
 
   for (auto& transaction : _transactionStack) {
     result &= transaction.commit(arena);
   }
 
-  result &= compositor->flushTransaction();
+  core::Messages messages;
+  messages.push_back(std::move(arena));
+  result &= _coordinatorChannel->sendMessages(std::move(messages));
 
   _popCount = 0;
   _transactionStack.clear();
 
-  RL_ASSERT_MSG(result, "Must be able to flush the compositor transaction");
+  RL_ASSERT_MSG(result, "Must be able to flush the coordinator transaction");
 }
 
 void Interface::scheduleChannels() {

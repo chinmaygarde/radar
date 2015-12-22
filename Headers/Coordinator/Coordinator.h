@@ -9,12 +9,12 @@
 
 #include <Geometry/Geometry.h>
 
-#include <Coordinator/RenderSurface.h>
-#include <Coordinator/ProgramCatalog.h>
+#include <Bootstrap/Server.h>
 #include <Coordinator/EntityLease.h>
-#include <Coordinator/PresentationGraph.h>
-#include <Coordinator/Channel.h>
 #include <Coordinator/InterfaceController.h>
+#include <Coordinator/PresentationGraph.h>
+#include <Coordinator/ProgramCatalog.h>
+#include <Coordinator/RenderSurface.h>
 #include <Coordinator/Statistics.h>
 #include <Coordinator/StatisticsRenderer.h>
 #include <Event/TouchEventChannel.h>
@@ -58,8 +58,6 @@ class Coordinator : RenderSurfaceObserver {
    */
   void shutdown(core::Latch& shutdownLatch);
 
-  std::weak_ptr<Channel> acquireChannel();
-
  private:
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
@@ -68,8 +66,12 @@ class Coordinator : RenderSurfaceObserver {
   std::list<InterfaceController> _interfaces;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
+  std::shared_ptr<bootstrap::Server> _bootstrapServer;
+
   Statistics _stats;
   StatisticsRenderer _statsRenderer;
+
+  std::shared_ptr<core::Channel> acquireFreshInterfaceChannel();
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const geom::Size& size) override;
@@ -89,6 +91,8 @@ class Coordinator : RenderSurfaceObserver {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };
+
+extern const char* CoordinatorInterfaceChannelVendorName;
 
 }  // namespace coordinator
 }  // namespace rl

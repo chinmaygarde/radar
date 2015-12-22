@@ -24,9 +24,9 @@ class ScopedUpdate {
 };
 
 InterfaceController::InterfaceController()
-    : _channel(std::make_shared<Channel>()), _needsUpdate(false) {}
+    : _channel(std::make_shared<core::Channel>()), _needsUpdate(false) {}
 
-std::weak_ptr<Channel> InterfaceController::channel() const {
+std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;
 }
 

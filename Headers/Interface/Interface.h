@@ -5,7 +5,6 @@
 #ifndef RADARLOVE_INTERFACE_INTERFACE_
 #define RADARLOVE_INTERFACE_INTERFACE_
 
-#include <Coordinator/Channel.h>
 #include <Core/Core.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
@@ -43,8 +42,8 @@ class Interface {
   };
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::weak_ptr<coordinator::Channel>
-                         compositorChannel);
+                     std::shared_ptr<core::Channel>
+                         coordinatorChannel);
 
   /**
    *  Setup the interface context and count down on the latch when ready
@@ -134,11 +133,12 @@ class Interface {
   size_t _popCount;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
-  std::weak_ptr<coordinator::Channel> _compositorChannel;
+  std::shared_ptr<core::Channel> _coordinatorChannel;
   toolbox::StateMachine _state;
 
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
+  bool sendTransactionMessage();
   void scheduleChannels();
   void unscheduleChannels();
   void performTerminationCleanup();

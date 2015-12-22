@@ -4,21 +4,24 @@
 
 #include <Shell/Shell.h>
 
+#include <Bootstrap/Server.h>
 #include <Coordinator/Coordinator.h>
 #include <Host/Host.h>
-#include <Interface/Interface.h>
 #include <Instrumentation/TraceEvent.h>
+#include <Interface/Interface.h>
 
 namespace rl {
 namespace shell {
 
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
-             std::weak_ptr<interface::InterfaceDelegate> delegate)
+             std::weak_ptr<interface::InterfaceDelegate>
+                 delegate)
     : _compositorThread(),
       _coordinator(surface, _host.touchEventChannel()),
-      _interface(delegate, _coordinator.acquireChannel()) {
+      _interface(delegate,
+                 bootstrap::Server::Acquire().channelForName(
+                     rl::coordinator::CoordinatorInterfaceChannelVendorName)) {
   RL_TRACE_INSTANT("ShellInitialization");
-
   core::clock::LoggingClockDuration();
   attachHostOnCurrentThread();
 }

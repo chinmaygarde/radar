@@ -5,7 +5,6 @@
 #ifndef RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 #define RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 
-#include <Coordinator/Channel.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/Statistics.h>
 #include <Core/Core.h>
@@ -20,7 +19,7 @@ class InterfaceController {
 
   void scheduleChannel(core::EventLoop& loop, bool schedule);
 
-  std::weak_ptr<Channel> channel() const;
+  std::shared_ptr<core::Channel> channel() const;
 
   bool needsUpdate() const;
 
@@ -31,7 +30,7 @@ class InterfaceController {
  private:
   bool _needsUpdate;
   bool _isUpdating;
-  std::shared_ptr<Channel> _channel;
+  std::shared_ptr<core::Channel> _channel;
   PresentationGraph _graph;
   Statistics _stats;
 

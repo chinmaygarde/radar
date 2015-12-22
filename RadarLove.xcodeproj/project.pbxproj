@@ -80,7 +80,6 @@
 		9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655801BE2F17F00997766 /* StateMachine.cc */; };
 		9E8655E91BE45E2700997766 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D41BE45E2700997766 /* Color.h */; };
 		9E8655EA1BE45E2700997766 /* Coordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D51BE45E2700997766 /* Coordinator.h */; };
-		9E8655EB1BE45E2700997766 /* Channel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D61BE45E2700997766 /* Channel.h */; };
 		9E8655EC1BE45E2700997766 /* Statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D71BE45E2700997766 /* Statistics.h */; };
 		9E8655ED1BE45E2700997766 /* StatisticsRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D81BE45E2700997766 /* StatisticsRenderer.h */; };
 		9E8655EE1BE45E2700997766 /* EntityArena.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655D91BE45E2700997766 /* EntityArena.h */; };
@@ -98,7 +97,6 @@
 		9E8655FC1BE45E2700997766 /* TransferRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8655E71BE45E2700997766 /* TransferRecord.h */; };
 		9E8656141BE45E3A00997766 /* Color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8655FF1BE45E3A00997766 /* Color.cc */; };
 		9E8656151BE45E3A00997766 /* Coordinator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656001BE45E3A00997766 /* Coordinator.cc */; };
-		9E8656161BE45E3A00997766 /* Channel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656011BE45E3A00997766 /* Channel.cc */; };
 		9E8656171BE45E3A00997766 /* Statistics.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656021BE45E3A00997766 /* Statistics.cc */; };
 		9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */; };
 		9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656041BE45E3A00997766 /* EntityArena.cc */; };
@@ -114,6 +112,8 @@
 		9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656101BE45E3A00997766 /* TransactionPayload.cc */; };
 		9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656111BE45E3A00997766 /* TransferEntity.cc */; };
 		9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656121BE45E3A00997766 /* TransferRecord.cc */; };
+		9E9543D11C28C60C002EEC68 /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543D01C28C60C002EEC68 /* Server.h */; };
+		9E9543DC1C28C61B002EEC68 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543DB1C28C61B002EEC68 /* Server.cc */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
 		9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA039EB1C179B4500F36467 /* OpenGL.framework */; };
@@ -388,7 +388,6 @@
 		9E8655801BE2F17F00997766 /* StateMachine.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cc; sourceTree = "<group>"; };
 		9E8655D41BE45E2700997766 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		9E8655D51BE45E2700997766 /* Coordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinator.h; sourceTree = "<group>"; };
-		9E8655D61BE45E2700997766 /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
 		9E8655D71BE45E2700997766 /* Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statistics.h; sourceTree = "<group>"; };
 		9E8655D81BE45E2700997766 /* StatisticsRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsRenderer.h; sourceTree = "<group>"; };
 		9E8655D91BE45E2700997766 /* EntityArena.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityArena.h; sourceTree = "<group>"; };
@@ -406,7 +405,6 @@
 		9E8655E71BE45E2700997766 /* TransferRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferRecord.h; sourceTree = "<group>"; };
 		9E8655FF1BE45E3A00997766 /* Color.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cc; sourceTree = "<group>"; };
 		9E8656001BE45E3A00997766 /* Coordinator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinator.cc; sourceTree = "<group>"; };
-		9E8656011BE45E3A00997766 /* Channel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Channel.cc; sourceTree = "<group>"; };
 		9E8656021BE45E3A00997766 /* Statistics.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Statistics.cc; sourceTree = "<group>"; };
 		9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StatisticsRenderer.cc; sourceTree = "<group>"; };
 		9E8656041BE45E3A00997766 /* EntityArena.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityArena.cc; sourceTree = "<group>"; };
@@ -422,6 +420,8 @@
 		9E8656101BE45E3A00997766 /* TransactionPayload.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransactionPayload.cc; sourceTree = "<group>"; };
 		9E8656111BE45E3A00997766 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
 		9E8656121BE45E3A00997766 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
+		9E9543D01C28C60C002EEC68 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
+		9E9543DB1C28C61B002EEC68 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
 		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -685,7 +685,6 @@
 			children = (
 				9E8655D41BE45E2700997766 /* Color.h */,
 				9E8655D51BE45E2700997766 /* Coordinator.h */,
-				9E8655D61BE45E2700997766 /* Channel.h */,
 				9E8655D71BE45E2700997766 /* Statistics.h */,
 				9E8655D81BE45E2700997766 /* StatisticsRenderer.h */,
 				9E8655D91BE45E2700997766 /* EntityArena.h */,
@@ -711,7 +710,6 @@
 			children = (
 				9E8655FF1BE45E3A00997766 /* Color.cc */,
 				9E8656001BE45E3A00997766 /* Coordinator.cc */,
-				9E8656011BE45E3A00997766 /* Channel.cc */,
 				9E8656021BE45E3A00997766 /* Statistics.cc */,
 				9E8656031BE45E3A00997766 /* StatisticsRenderer.cc */,
 				9E8656041BE45E3A00997766 /* EntityArena.cc */,
@@ -730,6 +728,23 @@
 				9E8656121BE45E3A00997766 /* TransferRecord.cc */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		9E9543CF1C28C60C002EEC68 /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				9E9543D01C28C60C002EEC68 /* Server.h */,
+			);
+			name = Bootstrap;
+			path = Headers/Bootstrap;
+			sourceTree = SOURCE_ROOT;
+		};
+		9E9543DA1C28C61B002EEC68 /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				9E9543DB1C28C61B002EEC68 /* Server.cc */,
+			);
+			path = Bootstrap;
 			sourceTree = "<group>";
 		};
 		9EAECE1E1B68543F000FA38A = {
@@ -757,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECE341B685460000FA38A /* Animation */,
+				9E9543CF1C28C60C002EEC68 /* Bootstrap */,
 				9E8655D21BE45E2700997766 /* Coordinator */,
 				9EAECE471B685460000FA38A /* Core */,
 				EA62B3141B6F2402009F197F /* Event */,
@@ -861,6 +877,7 @@
 			isa = PBXGroup;
 			children = (
 				9EAECE901B685469000FA38A /* Animation */,
+				9E9543DA1C28C61B002EEC68 /* Bootstrap */,
 				9E8655FD1BE45E3A00997766 /* Coordinator */,
 				9EAECEA31B685469000FA38A /* Core */,
 				EA62B3171B6F241A009F197F /* Event */,
@@ -1095,7 +1112,6 @@
 				EAB906AF1C02584700BCA377 /* PipeTrivialSource.h in Headers */,
 				9E16093D1B7ECF5B00DD06FE /* Animation.h in Headers */,
 				9E8655F71BE45E2700997766 /* ProgramCatalog.h in Headers */,
-				9E8655EB1BE45E2700997766 /* Channel.h in Headers */,
 				9E029CB11BAB74EF007E5DF8 /* EPollWaitSet.h in Headers */,
 				9EAECE7E1B685460000FA38A /* EventLoop.h in Headers */,
 				9EBA79DB1B87FF57005D84FA /* imgui.h in Headers */,
@@ -1144,6 +1160,7 @@
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9E8655F21BE45E2700997766 /* OpenGL.h in Headers */,
+				9E9543D11C28C60C002EEC68 /* Server.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
@@ -1334,7 +1351,6 @@
 			files = (
 				9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */,
 				9E8656221BE45E3A00997766 /* ProgramCatalog.cc in Sources */,
-				9E8656161BE45E3A00997766 /* Channel.cc in Sources */,
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
 				9EAECEEA1B685469000FA38A /* Host.cc in Sources */,
 				9EBA79D81B87FF57005D84FA /* imgui_draw.cpp in Sources */,
@@ -1361,6 +1377,7 @@
 				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */,
+				9E9543DC1C28C61B002EEC68 /* Server.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */,

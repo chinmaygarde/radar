@@ -14,12 +14,18 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
     : _surface(surface),
       _loop(nullptr),
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
-      _touchEventChannel(touchEventChannel) {
+      _touchEventChannel(touchEventChannel),
+      _bootstrapServer(bootstrap::Server::Setup()) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
   _surface->setObserver(this);
+
   _animationsSource->setWakeFunction(
       std::bind(&Coordinator::onDisplayLink, this));
+
+  _bootstrapServer->setVendorForName(
+      std::bind(&Coordinator::acquireFreshInterfaceChannel, this),
+      CoordinatorInterfaceChannelVendorName);
 }
 
 Coordinator::~Coordinator() {
@@ -117,14 +123,9 @@ void Coordinator::teardownChannels() {
   _loop->removeSource(_animationsSource);
 }
 
-std::weak_ptr<Channel> Coordinator::acquireChannel() {
-  if (_interfaces.size() > 0) {
-    return _interfaces.front().channel();
-  }
-
+std::shared_ptr<core::Channel> Coordinator::acquireFreshInterfaceChannel() {
   _interfaces.emplace_back();
   scheduleInterfaceChannels(true);
-
   return _interfaces.front().channel();
 }
 
@@ -185,6 +186,9 @@ void Coordinator::renderFrame() {
     surfaceAccess.finalizeForPresentation();
   }
 }
+
+const char* CoordinatorInterfaceChannelVendorName =
+    "com.radarlove.coordinator.interface";
 
 }  // namespace coordinator
 }  // namespace rl
