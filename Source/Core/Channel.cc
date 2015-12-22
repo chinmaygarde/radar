@@ -57,7 +57,7 @@ bool Channel::sendMessages(Messages messages) {
   }
 
   auto writeStatus =
-      _provider->WriteMessages(std::move(messages), ClockDurationNano::max());
+      _provider->writeMessages(std::move(messages), ClockDurationNano::max());
 
   if (writeStatus == ChannelProvider::Result::PermanentFailure) {
     /*
@@ -80,7 +80,7 @@ void Channel::setMessageCallback(MessageCallback callback) {
 }
 
 bool Channel::readPendingMessageNow() {
-  auto result = _provider->ReadMessage(ClockDurationNano::max());
+  auto result = _provider->readMessage(ClockDurationNano::max());
 
   /*
    *  Dispatch all successfully read messages
@@ -104,7 +104,7 @@ Messages Channel::drainPendingMessages() {
   Messages messages;
 
   while (true) {
-    auto result = _provider->ReadMessage(ClockDurationNano(0));
+    auto result = _provider->readMessage(ClockDurationNano(0));
 
     if (result.first == ChannelProvider::Result::Success) {
       messages.emplace_back(std::move(result.second));

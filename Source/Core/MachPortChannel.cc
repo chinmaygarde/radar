@@ -64,7 +64,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   // clang-format on
 }
 
-ChannelProvider::Result MachPortChannel::WriteMessages(
+ChannelProvider::Result MachPortChannel::writeMessages(
     Messages&& messages,
     ClockDurationNano timeout) {
   auto result = _port.sendMessages(std::move(messages), timeout);
@@ -81,7 +81,7 @@ ChannelProvider::Result MachPortChannel::WriteMessages(
   return ChannelProvider::Result::PermanentFailure;
 }
 
-ChannelProvider::ReadResult MachPortChannel::ReadMessage(
+ChannelProvider::ReadResult MachPortChannel::readMessage(
     ClockDurationNano timeout) {
   auto result = _port.readMessage(timeout);
 
