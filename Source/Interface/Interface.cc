@@ -109,6 +109,10 @@ void Interface::setSize(const geom::Size& size) {
 
 void Interface::coordinatorChannelAcquired(std::shared_ptr<core::Channel>
                                                channel) {
+  if (channel == nullptr) {
+    return;
+  }
+
   _coordinatorChannel = channel;
 
   if (!isRunning()) {
