@@ -15,8 +15,11 @@ namespace core {
 
 struct MachPayload {
   mach_msg_header_t header;
-  mach_msg_body_t body;
-  mach_msg_ool_descriptor_t mem;
+  /*
+   *  All mach payloads are complex with one descriptor
+   */
+  mach_msg_body_t type;
+  mach_msg_ool_descriptor_t body;
   mach_msg_trailer_info_t trailer;
 
   /**
@@ -30,13 +33,13 @@ struct MachPayload {
    */
   explicit MachPayload(const Message& message, mach_port_t remote)
       : header({
-            .msgh_size = sizeof(MachPayload) - sizeof(mach_msg_trailer_info_t),
+            .msgh_size = sizeof(MachPayload) - sizeof(trailer),
             .msgh_remote_port = remote,
             .msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND) |
                          MACH_MSGH_BITS_COMPLEX,
         }),
-        body({.msgh_descriptor_count = 1}),
-        mem({
+        type({.msgh_descriptor_count = 1}),
+        body({
             .address = message.data(),
             .size = static_cast<mach_msg_size_t>(message.size()),
             .deallocate = false,
@@ -55,8 +58,8 @@ struct MachPayload {
    */
   explicit MachPayload(mach_port_t local)
       : header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
+        type(),
         body(),
-        mem(),
         trailer() {}
 
   EventLoopSource::IOHandlerResult send(mach_msg_option_t timeoutOption,
@@ -66,6 +69,7 @@ struct MachPayload {
     // clang-format off
     auto res = mach_msg(header,
                         MACH_SEND_MSG | timeoutOption,
+                        /* The msgh_size in the header is ignored */
                         header->msgh_size,
                         0,
                         MACH_PORT_NULL,
@@ -114,7 +118,7 @@ struct MachPayload {
   }
 
   Message asMessage() const {
-    return Message(static_cast<uint8_t*>(mem.address), mem.size, true);
+    return Message(static_cast<uint8_t*>(body.address), body.size, true);
   }
 };
 

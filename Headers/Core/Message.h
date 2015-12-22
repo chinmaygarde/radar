@@ -6,14 +6,14 @@
 #define RADARLOVE_CORE_MESSAGE_
 
 #include <Core/Macros.h>
-#include <Core/Utilities.h>
 #include <Core/Serializable.h>
+#include <Core/Utilities.h>
 
 #include <string.h>
 
-#include <vector>
-#include <utility>
 #include <memory>
+#include <utility>
+#include <vector>
 
 namespace rl {
 namespace core {
@@ -158,8 +158,6 @@ class Message {
   size_t sizeRead() const;
 
   bool readCompleted() const;
-
-  size_t reservedHeaderSize() const;
 
   void rewindRead();
 
