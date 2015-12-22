@@ -75,7 +75,7 @@ struct MachPayload {
 
     // clang-format off
     auto res = mach_msg(header,
-                        MACH_RCV_MSG | MACH_RCV_LARGE | timeoutOption,
+                        MACH_RCV_MSG | timeoutOption,
                         0,
                         header->msgh_size,
                         header->msgh_local_port,
@@ -87,8 +87,6 @@ struct MachPayload {
       case MACH_MSG_SUCCESS:
         return EventLoopSource::IOHandlerResult::Success;
       case MACH_RCV_TIMED_OUT:
-      // TODO: This is hiding a bug on flushed reads
-      case MACH_RCV_TOO_LARGE:
         return EventLoopSource::IOHandlerResult::Timeout;
       default:
         RL_LOG("Mach Recv Failed: %s", mach_error_string(res));
@@ -224,20 +222,13 @@ MachPort::ReadResult MachPort::readMessages(
     timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
-  auto res = EventLoopSource::IOHandlerResult::Failure;
+  auto result = payload.receive(timeoutOption, timeout);
 
-  do {
-    res = payload.receive(timeoutOption, timeout);
-    if (res == EventLoopSource::IOHandlerResult::Success) {
-      messages.emplace_back(std::move(payload.asMessage()));
-    }
-  } while (res == EventLoopSource::IOHandlerResult::Success && hasTimeout);
-
-  if (res == EventLoopSource::IOHandlerResult::Timeout && messages.size() > 0) {
-    res = EventLoopSource::IOHandlerResult::Success;
+  if (result == EventLoopSource::IOHandlerResult::Success) {
+    messages.emplace_back(std::move(payload.asMessage()));
   }
 
-  return ReadResult(res, std::move(messages));
+  return ReadResult(result, std::move(messages));
 }
 
 }  // namespace core
