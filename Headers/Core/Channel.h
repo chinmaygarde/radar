@@ -92,7 +92,18 @@ class Channel {
    */
   bool readPendingMessageNow();
 
+  /**
+   *  Directly drain all pending messages on this channel bypassing all the
+   *  message callbacks
+   *
+   *  @return the messages on the channel that were drained
+   */
   Messages drainPendingMessages();
+
+  /**
+   *  @return get the channel representation as a message attachment
+   */
+  Message::Attachment asMessageAttachment() const;
 
  private:
   MessageCallback _messageCallback;

@@ -131,6 +131,10 @@ Messages Channel::drainPendingMessages() {
   return std::move(messages);
 }
 
+Message::Attachment Channel::asMessageAttachment() const {
+  return _provider->handle();
+}
+
 Channel::TerminationCallback Channel::terminationCallback() const {
   return _terminationCallback;
 }

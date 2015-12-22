@@ -55,6 +55,17 @@ class ChannelProvider {
    */
   virtual bool doTerminate() = 0;
 
+  /**
+   *  Since channels can be sent as message down other channels, providers must
+   *  return a handle appropriate for transport
+   *
+   *  @return the attachment handle for this provider
+   */
+  virtual Message::Attachment::Handle handle() = 0;
+
+  /**
+   *  The desctuctor
+   */
   virtual ~ChannelProvider() {}
 };
 

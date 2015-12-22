@@ -95,6 +95,10 @@ ChannelProvider::ReadResult MachPortChannel::readMessage(
       std::move(result.second));
 }
 
+Message::Attachment::Handle MachPortChannel::handle() {
+  return static_cast<Message::Attachment::Handle>(_port.portHandle());
+}
+
 bool MachPortChannel::doTerminate() {
   return _port.doTerminate();
 }

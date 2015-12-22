@@ -21,6 +21,7 @@ class MachPortChannel : public ChannelProvider {
   std::shared_ptr<EventLoopSource> createSource() const override;
   Result writeMessages(Messages&& message, ClockDurationNano timeout) override;
   ReadResult readMessage(ClockDurationNano timeout) override;
+  Message::Attachment::Handle handle() override;
   bool doTerminate() override;
 
  private:
