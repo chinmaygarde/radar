@@ -15,8 +15,7 @@
 namespace rl {
 namespace core {
 
-MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {
-}
+MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {}
 
 MachPortChannel::~MachPortChannel() {
   /*
@@ -82,9 +81,9 @@ ChannelProvider::Result MachPortChannel::WriteMessages(
   return ChannelProvider::Result::PermanentFailure;
 }
 
-ChannelProvider::ReadResult MachPortChannel::ReadMessages(
+ChannelProvider::ReadResult MachPortChannel::ReadMessage(
     ClockDurationNano timeout) {
-  auto result = _port.readMessages(timeout);
+  auto result = _port.readMessage(timeout);
 
   if (result.first == EventLoopSource::IOHandlerResult::Failure) {
     return ChannelProvider::ReadResult(Result::PermanentFailure,

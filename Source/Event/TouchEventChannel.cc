@@ -8,8 +8,7 @@
 namespace rl {
 namespace event {
 
-TouchEventChannel::TouchEventChannel() : Channel() {
-}
+TouchEventChannel::TouchEventChannel() : Channel() {}
 
 void TouchEventChannel::sendTouchEvents(
     const std::vector<TouchEvent>& touchEvents) {

@@ -207,10 +207,8 @@ EventLoopSource::IOHandlerResult MachPort::sendMessages(
   return result;
 }
 
-MachPort::ReadResult MachPort::readMessages(
-    ClockDurationNano requestedTimeout) {
+MachPort::ReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
   MachPayload payload(_handle);
-  Messages messages;
 
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
@@ -225,10 +223,11 @@ MachPort::ReadResult MachPort::readMessages(
   auto result = payload.receive(timeoutOption, timeout);
 
   if (result == EventLoopSource::IOHandlerResult::Success) {
-    messages.emplace_back(std::move(payload.asMessage()));
+    return ReadResult(result, std::move(payload.asMessage()));
   }
 
-  return ReadResult(result, std::move(messages));
+  Message empty;
+  return ReadResult(result, std::move(empty));
 }
 
 }  // namespace core

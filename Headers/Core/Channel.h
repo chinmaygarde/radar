@@ -5,12 +5,12 @@
 #ifndef RADARLOVE_CORE_CHANNEL_
 #define RADARLOVE_CORE_CHANNEL_
 
-#include <Core/Macros.h>
 #include <Core/EventLoop.h>
+#include <Core/Macros.h>
 #include <Core/Message.h>
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace rl {
@@ -20,7 +20,7 @@ class ChannelProvider;
 
 class Channel {
  public:
-  using MessagesReceivedCallback = std::function<void(Messages)>;
+  using MessageCallback = std::function<void(Message)>;
   using TerminationCallback = std::function<void(void)>;
 
   /**
@@ -40,20 +40,20 @@ class Channel {
   bool sendMessages(Messages message);
 
   /**
-   *  When messages arrive on this channel, a callback may be invoked on the
-   *  loop where this channel is scheduled. Get this callback
+   *  When a message arrive on this channel, a callback may be invoked on the
+   *  loop where this channel is scheduled. Get this callback.
    *
    *  @return the message received callback
    */
-  const MessagesReceivedCallback& messagesReceivedCallback() const;
+  const MessageCallback& messageCallback() const;
 
   /**
-   *  Update the callback that will be invoked when messages arrive on this
+   *  Update the callback that will be invoked when a message arrives on this
    *  channel. The channel must be scheduled in a loop
    *
-   *  @param callback the new messages received callback
+   *  @param callback the new message received callback
    */
-  void setMessagesReceivedCallback(MessagesReceivedCallback callback);
+  void setMessageCallback(MessageCallback callback);
 
   /**
    *  Terminate the channel connection and cleanup underlying resources
@@ -96,7 +96,7 @@ class Channel {
   Messages drainPendingMessages();
 
  private:
-  MessagesReceivedCallback _messagesReceivedCallback;
+  MessageCallback _messageCallback;
   TerminationCallback _terminationCallback;
   bool _terminated;
   std::unique_ptr<ChannelProvider> _provider;

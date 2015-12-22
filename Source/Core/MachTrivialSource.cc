@@ -8,8 +8,8 @@
 
 #include "MachTrivialSource.h"
 
-#include <sys/event.h>
 #include <mach/mach.h>
+#include <sys/event.h>
 
 namespace rl {
 namespace core {
@@ -50,7 +50,7 @@ MachTrivialSource::MachTrivialSource()
   });
 
   setReader([&](Handle handle) {
-    auto result = _port.readMessages(ClockDurationMilli(0));
+    auto result = _port.readMessage(ClockDurationMilli(0));
     RL_ASSERT(result.first != EventLoopSource::IOHandlerResult::Failure);
     /*
      *  We don't actually care about the message contents. Just need to

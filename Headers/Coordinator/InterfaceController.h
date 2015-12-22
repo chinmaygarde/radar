@@ -34,7 +34,7 @@ class InterfaceController {
   PresentationGraph _graph;
   Statistics _stats;
 
-  void onChannelMessage(core::Messages messages);
+  void onChannelMessage(core::Message message);
   void setNeedsUpdate();
 
   void applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches);

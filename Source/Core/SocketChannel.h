@@ -22,7 +22,7 @@ class SocketChannel : public ChannelProvider {
   ~SocketChannel();
   std::shared_ptr<EventLoopSource> createSource() const override;
   Result WriteMessages(Messages&& message, ClockDurationNano timeout) override;
-  ReadResult ReadMessages(ClockDurationNano timeout) override;
+  ReadResult ReadMessage(ClockDurationNano timeout) override;
   bool doTerminate() override;
 
  private:

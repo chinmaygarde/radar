@@ -36,27 +36,21 @@ void InterfaceController::scheduleChannel(core::EventLoop& loop,
 
   if (schedule) {
     namespace P = std::placeholders;
-    _channel->setMessagesReceivedCallback(
+    _channel->setMessageCallback(
         std::bind(&InterfaceController::onChannelMessage, this, P::_1));
     loop.addSource(source);
   } else {
-    _channel->setMessagesReceivedCallback(nullptr);
+    _channel->setMessageCallback(nullptr);
     loop.removeSource(source);
   }
 }
 
-void InterfaceController::onChannelMessage(core::Messages messages) {
+void InterfaceController::onChannelMessage(core::Message message) {
   RL_TRACE_AUTO("OnTransactionReceived");
 
   instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
 
-  bool success = true;
-
-  for (auto& message : messages) {
-    success &= _graph.applyTransactions(message);
-  }
-
-  if (success) {
+  if (_graph.applyTransactions(message)) {
     setNeedsUpdate();
   }
 }

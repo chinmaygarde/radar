@@ -8,8 +8,8 @@
 #include <Core/EventLoopSource.h>
 #include <Core/Message.h>
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace rl {
 namespace core {
@@ -22,7 +22,7 @@ class ChannelProvider {
     PermanentFailure,
   };
 
-  using ReadResult = std::pair<Result, Messages>;
+  using ReadResult = std::pair<Result, Message>;
 
   /**
    *  Get a loop source for this channel provider
@@ -46,7 +46,7 @@ class ChannelProvider {
    *
    *  @return the read result
    */
-  virtual ReadResult ReadMessages(ClockDurationNano timeout) = 0;
+  virtual ReadResult ReadMessage(ClockDurationNano timeout) = 0;
 
   /**
    *  Perform the actual channel connection termination

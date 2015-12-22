@@ -2,20 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
 #include <Core/Channel.h>
+#include <Core/Config.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
 
-#include "SocketChannel.h"
-#include "MachPortChannel.h"
 #include "InProcessChannel.h"
+#include "MachPortChannel.h"
+#include "SocketChannel.h"
 
 namespace rl {
 namespace core {
 
 Channel::Channel()
-    : _messagesReceivedCallback(nullptr),
+    : _messageCallback(nullptr),
       _terminationCallback(nullptr),
       _terminated(false),
       _provider(nullptr),
@@ -71,33 +71,28 @@ bool Channel::sendMessages(Messages messages) {
   return writeStatus == ChannelProvider::Result::Success;
 }
 
-const Channel::MessagesReceivedCallback& Channel::messagesReceivedCallback()
-    const {
-  return _messagesReceivedCallback;
+const Channel::MessageCallback& Channel::messageCallback() const {
+  return _messageCallback;
 }
 
-void Channel::setMessagesReceivedCallback(MessagesReceivedCallback callback) {
-  _messagesReceivedCallback = callback;
+void Channel::setMessageCallback(MessageCallback callback) {
+  _messageCallback = callback;
 }
 
 bool Channel::readPendingMessageNow() {
-  ChannelProvider::Result status;
-  Messages messages;
-
-  std::tie(status, messages) =
-      _provider->ReadMessages(ClockDurationNano::max());
+  auto result = _provider->ReadMessage(ClockDurationNano::max());
 
   /*
    *  Dispatch all successfully read messages
    */
-  if (_messagesReceivedCallback && messages.size() > 0) {
-    _messagesReceivedCallback(std::move(messages));
+  if (result.first == ChannelProvider::Result::Success && _messageCallback) {
+    _messageCallback(std::move(result.second));
   }
 
   /*
    *  On fatal errors, terminate the channel
    */
-  if (status == ChannelProvider::Result::PermanentFailure) {
+  if (result.first == ChannelProvider::Result::PermanentFailure) {
     terminate();
     return false;
   }
@@ -106,13 +101,24 @@ bool Channel::readPendingMessageNow() {
 }
 
 Messages Channel::drainPendingMessages() {
-  auto result = _provider->ReadMessages(ClockDurationNano(0));
+  Messages messages;
 
-  if (result.first == ChannelProvider::Result::PermanentFailure) {
-    terminate();
+  while (true) {
+    auto result = _provider->ReadMessage(ClockDurationNano(0));
+
+    if (result.first == ChannelProvider::Result::Success) {
+      messages.emplace_back(std::move(result.second));
+      continue;
+    }
+
+    if (result.first == ChannelProvider::Result::PermanentFailure) {
+      terminate();
+    }
+
+    break;
   }
 
-  return std::move(result.second);
+  return std::move(messages);
 }
 
 Channel::TerminationCallback Channel::terminationCallback() const {
