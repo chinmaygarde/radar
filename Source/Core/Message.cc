@@ -46,9 +46,18 @@ Message::Message(Message&& message) noexcept
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
-      _vmDeallocate(message._vmDeallocate) {
+      _vmDeallocate(message._vmDeallocate),
+      _attachment(std::move(message._attachment)) {
   message._buffer = nullptr;
 }
+
+Message::Message(Attachment&& attachment)
+    : _buffer(nullptr),
+      _bufferLength(0),
+      _dataLength(0),
+      _sizeRead(0),
+      _vmDeallocate(false),
+      _attachment(std::move(attachment)) {}
 
 Message::~Message() {
   if (_vmDeallocate) {
@@ -70,6 +79,15 @@ Message::~Message() {
     free(_buffer);
   }
 }
+
+Message::Attachment::Attachment(Message::Attachment::Handle handle)
+    : _handle(handle) {}
+
+bool Message::Attachment::isValid() const {
+  return _handle != 0;
+}
+
+Message::Attachment::Attachment(Attachment&& other) = default;
 
 static inline size_t Message_NextPOTSize(size_t x) {
   --x;
@@ -216,6 +234,18 @@ bool Message::readCompleted() const {
 
 void Message::rewindRead() {
   _sizeRead = 0;
+}
+
+bool Message::readyToSend() const {
+  if (_attachment.isValid()) {
+    return size() == 0;
+  }
+
+  return size() > 0;
+}
+
+const Message::Attachment& Message::attachment() const {
+  return _attachment;
 }
 
 }  // namespace core

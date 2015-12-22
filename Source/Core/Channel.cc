@@ -56,6 +56,16 @@ bool Channel::sendMessages(Messages messages) {
     return true;
   }
 
+  /*
+   *  All messages must be ready to sent down this channel. This is possibly
+   *  a check too paranoid.
+   */
+  for (const auto& message : messages) {
+    if (!message.readyToSend()) {
+      return false;
+    }
+  }
+
   auto writeStatus =
       _provider->writeMessages(std::move(messages), ClockDurationNano::max());
 

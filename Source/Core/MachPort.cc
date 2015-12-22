@@ -13,13 +13,26 @@
 namespace rl {
 namespace core {
 
+enum class MachPayloadKind : mach_msg_id_t {
+  Data = 1,
+  Port,
+};
+
+/**
+ *  A MachPayload takes an instance of a `core::Message` and intializes itself
+ *  so that it can be cast to a mac_msg_header_t suitable for use with a
+ *  mach_msg call.
+ */
 struct MachPayload {
   mach_msg_header_t header;
   /*
    *  All mach payloads are complex with one descriptor
    */
   mach_msg_body_t type;
-  mach_msg_ool_descriptor_t body;
+  union {
+    mach_msg_ool_descriptor_t memory;
+  } body;
+
   mach_msg_trailer_info_t trailer;
 
   /**
@@ -39,14 +52,27 @@ struct MachPayload {
                          MACH_MSGH_BITS_COMPLEX,
         }),
         type({.msgh_descriptor_count = 1}),
-        body({
-            .address = message.data(),
-            .size = static_cast<mach_msg_size_t>(message.size()),
-            .deallocate = false,
-            .copy = MACH_MSG_VIRTUAL_COPY,
-            .type = MACH_MSG_OOL_DESCRIPTOR,
-        }),
-        trailer() {}
+        trailer() {
+    if (message.attachment().isValid()) {
+      /*
+       *  Configure this message as an out of line port descriptor
+       */
+      header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
+      RL_ASSERT(false);  // WIP
+    } else {
+      /*
+       *  Configure this message as an out of line memory descriptor
+       */
+      header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Data);
+      body.memory = (const mach_msg_ool_descriptor_t){
+          .address = message.data(),
+          .size = static_cast<mach_msg_size_t>(message.size()),
+          .deallocate = false,
+          .copy = MACH_MSG_VIRTUAL_COPY,
+          .type = MACH_MSG_OOL_DESCRIPTOR,
+      };
+    }
+  }
 
   /**
    *  Initialize the mach message payload for receiving messages on a local
@@ -117,8 +143,19 @@ struct MachPayload {
     return EventLoopSource::IOHandlerResult::Failure;
   }
 
+  MachPayloadKind kind() const {
+    return static_cast<MachPayloadKind>(header.msgh_id);
+  }
+
   Message asMessage() const {
-    return Message(static_cast<uint8_t*>(body.address), body.size, true);
+    switch (kind()) {
+      case MachPayloadKind::Data:
+        return Message(static_cast<uint8_t*>(body.memory.address),
+                       body.memory.size, true);
+      case MachPayloadKind::Port:
+        RL_ASSERT(false);  // WIP
+        return Message(0, 0);
+    }
   }
 };
 

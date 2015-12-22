@@ -20,6 +20,22 @@ namespace core {
 
 class Message {
  public:
+  class Attachment {
+   public:
+    using Handle = uintptr_t;
+
+    Attachment(Handle handle = 0);
+
+    Attachment(Attachment&& other);
+
+    bool isValid() const;
+
+   private:
+    Handle _handle;
+
+    RL_DISALLOW_COPY_AND_ASSIGN(Attachment);
+  };
+
   /**
    *  Create an uninitialized message with the given reserved length.
    *
@@ -46,8 +62,19 @@ class Message {
    */
   explicit Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate);
 
-  Message(Message&& message) noexcept;
+  /**
+   *  Moves a given message
+   */
+  Message(Message&& message);
 
+  /**
+   *  Construct a message with the given attachment
+   */
+  Message(Attachment&& attachment);
+
+  /**
+   *  Collect the message
+   */
   ~Message();
 
   /**
@@ -157,12 +184,28 @@ class Message {
    */
   size_t sizeRead() const;
 
+  /**
+   *  @return if the entire data buffer has been read
+   */
   bool readCompleted() const;
 
+  /**
+   *  Reset the read cursor used for reading. This makes it so that the same
+   *  message may be read again.
+   */
   void rewindRead();
+
+  /**
+   *  @return if the message in its current configuration is ready to be sent
+   *          down a channel
+   */
+  bool readyToSend() const;
+
+  const Attachment& attachment() const;
 
  private:
   uint8_t* _buffer;
+  Attachment _attachment;
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
