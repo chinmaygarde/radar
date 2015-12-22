@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Bootstrap/Server.h>
+#include <Coordinator/Coordinator.h>
 #include <Core/ThreadLocal.h>
 #include <Instrumentation/TraceEvent.h>
 #include <Interface/Interface.h>
@@ -15,9 +17,7 @@ RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 
 using LT = toolbox::StateMachine::LegalTransition;
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::shared_ptr<core::Channel>
-                         coordinatorChannel)
+Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _loop(nullptr),
       _size(0.0, 0.0),
       _lock(),
@@ -25,7 +25,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
       _transactionStack(),
       _popCount(0),
       _delegate(delegate),
-      _coordinatorChannel(coordinatorChannel),
       _state({
 // clang-format off
           #define C(x) std::bind(&Interface::x, this)
@@ -39,13 +38,23 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
           #undef C
           // clang-format on
       }) {
+
+  /*
+   *  Implicit interface transactions are flushed at the maximum available
+   *  priority. This is so that loop observers setup by application code can
+   *  be serviced before the implicit flush.
+   */
   _autoFlushObserver = std::make_shared<core::EventLoopObserver>(
-      [&](core::EventLoopObserver::Activity activity) {
-        RL_ASSERT(activity == core::EventLoopObserver::Activity::BeforeSleep);
-        flushTransactions();
-        armAutoFlushTransactions(false);
-      },
+      std::bind(&Interface::autoFlushObserver, this, std::placeholders::_1),
       std::numeric_limits<int64_t>::max());
+
+  /*
+   *  Ask the bootstrap server for the coordinator channel
+   */
+  bootstrap::Server::Acquire().channelForName(
+      coordinator::CoordinatorInterfaceChannelVendorName,
+      std::bind(&Interface::coordinatorChannelAcquired, this,
+                std::placeholders::_1));
 }
 
 void Interface::run(core::Latch& readyLatch) {
@@ -98,6 +107,19 @@ void Interface::setSize(const geom::Size& size) {
   }
 }
 
+void Interface::coordinatorChannelAcquired(std::shared_ptr<core::Channel>
+                                               channel) {
+  _coordinatorChannel = channel;
+
+  if (!isRunning()) {
+    return;
+  }
+
+  if (core::EventLoop::Current() != _loop) {
+    _loop->dispatchAsync([] {});
+  }
+}
+
 InterfaceTransaction& Interface::transaction() {
   std::lock_guard<std::mutex> lock(_lock);
 
@@ -128,6 +150,12 @@ void Interface::popTransaction() {
   _popCount++;
 }
 
+void Interface::autoFlushObserver(core::EventLoopObserver::Activity activity) {
+  RL_ASSERT(activity == core::EventLoopObserver::Activity::BeforeSleep);
+  flushTransactions();
+  armAutoFlushTransactions(false);
+}
+
 void Interface::armAutoFlushTransactions(bool arm) {
   const auto activity = core::EventLoopObserver::Activity::BeforeSleep;
 
@@ -139,7 +167,12 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
+  if (_transactionStack.size() == 0 || _coordinatorChannel == nullptr) {
+    return;
+  }
+
   RL_TRACE_AUTO("Interface::FlushTransactions")
+  RL_ASSERT(_coordinatorChannel != nullptr);
 
   std::lock_guard<std::mutex> lock(_lock);
 

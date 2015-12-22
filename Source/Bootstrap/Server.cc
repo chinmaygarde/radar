@@ -26,17 +26,18 @@ std::shared_ptr<Server> Server::Setup() {
   return _GlobalServer;
 }
 
-std::shared_ptr<core::Channel> Server::channelForName(const std::string& name) {
+void Server::channelForName(const std::string& name,
+                            ChannelResolutionCallback callback) {
   auto found = _vendors.find(name);
 
   if (found == _vendors.end()) {
     /*
      *  Could not find service for the given name
      */
-    return nullptr;
+    return callback(nullptr);
   }
 
-  return found->second();
+  return callback(found->second());
 }
 
 bool Server::setVendorForName(ChannelVendor vendor, const std::string& name) {

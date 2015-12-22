@@ -41,9 +41,7 @@ class Interface {
     Background,
   };
 
-  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::shared_ptr<core::Channel>
-                         coordinatorChannel);
+  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
   /**
    *  Setup the interface context and count down on the latch when ready
@@ -136,11 +134,14 @@ class Interface {
   std::shared_ptr<core::Channel> _coordinatorChannel;
   toolbox::StateMachine _state;
 
+  void coordinatorChannelAcquired(std::shared_ptr<core::Channel> channel);
+  void scheduleChannels();
+  void unscheduleChannels();
+
+  void autoFlushObserver(core::EventLoopObserver::Activity activity);
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
   bool sendTransactionMessage();
-  void scheduleChannels();
-  void unscheduleChannels();
   void performTerminationCleanup();
 
   void didFinishLaunching();

@@ -15,12 +15,15 @@ namespace bootstrap {
 class Server {
  public:
   using ChannelVendor = std::function<std::shared_ptr<core::Channel>(void)>;
+  using ChannelResolutionCallback =
+      std::function<void(std::shared_ptr<core::Channel>)>;
 
   static Server& Acquire();
 
   static std::shared_ptr<Server> Setup();
 
-  std::shared_ptr<core::Channel> channelForName(const std::string& name);
+  void channelForName(const std::string& name,
+                      ChannelResolutionCallback callback);
 
   bool setVendorForName(ChannelVendor vendor, const std::string& name);
 
