@@ -61,7 +61,7 @@ struct MachPayload {
       header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
       body.port = (const mach_msg_port_descriptor_t){
           .name = static_cast<mach_port_t>(message.attachment().handle()),
-          .disposition = MACH_MSG_TYPE_MAKE_SEND,
+          .disposition = MACH_MSG_TYPE_COPY_SEND,
           .type = MACH_MSG_PORT_DESCRIPTOR,
       };
     } else {
@@ -250,6 +250,15 @@ static inline bool MachPortModRef(mach_port_name_t name,
   return result == KERN_SUCCESS;
 }
 
+static inline mach_port_urefs_t MachPortGetRef(mach_port_name_t name,
+                                               mach_port_right_t right) {
+  mach_port_urefs_t refs = 0;
+  kern_return_t result =
+      mach_port_get_refs(mach_task_self(), name, right, &refs);
+  RL_ASSERT(result == KERN_SUCCESS);
+  return refs;
+}
+
 bool MachPort::doTerminate() {
   auto success = true;
 
@@ -260,7 +269,10 @@ bool MachPort::doTerminate() {
   }
 
   bool releaseSend = MachPortModRef(_handle, MACH_PORT_RIGHT_SEND, -1);
-  bool releaseReceive = MachPortModRef(_handle, MACH_PORT_RIGHT_RECEIVE, -1);
+  auto refs = MachPortGetRef(_handle, MACH_PORT_RIGHT_SEND);
+  bool releaseReceive =
+      refs == 0 ? MachPortModRef(_handle, MACH_PORT_RIGHT_RECEIVE, -1) : true;
+
   if (!releaseSend || !releaseReceive) {
     success = false;
   } else {
