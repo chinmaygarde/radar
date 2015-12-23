@@ -202,14 +202,34 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 }
 
 TEST(ChannelTest, AliasingChannels) {
+  /*
+   *  Create two channels and pass the handle of one as a message. Read that
+   *  message on a separate runloop and create an alias of the original channel
+   *  from just the message attachment handle. Write on that aliased channel and
+   *  verify the same message was read on the source of the alias.
+   */
   rl::core::Channel chan;
 
+  rl::core::Latch aliasLatch(1);
   chan.setMessageCallback([&](rl::core::Message message) {
     ASSERT_EQ(message.attachment().isValid(), true);
     rl::core::EventLoop::Current()->terminate();
 
+    /*
+     *  Alias of the channel
+     */
     rl::core::Channel aliasOther(message.attachment());
     ASSERT_NE(aliasOther.source(), nullptr);
+
+    rl::core::Message messageToAlias;
+    char x = 'x';
+    messageToAlias.encode(x);
+
+    rl::core::Messages messages;
+    messages.emplace_back(std::move(messageToAlias));
+
+    ASSERT_EQ(aliasOther.sendMessages(std::move(messages)), true);
+    aliasLatch.countDown();
   });
 
   rl::core::Latch latch(1);
@@ -222,12 +242,29 @@ TEST(ChannelTest, AliasingChannels) {
 
   latch.wait();
 
+  /*
+   *  Source channel
+   */
   rl::core::Channel other;
 
   rl::core::Message message(other.asMessageAttachment());
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   chan.sendMessages(std::move(messages));
+
+  bool otherMessageRead = false;
+  other.setMessageCallback([&](rl::core::Message message) {
+    otherMessageRead = true;
+
+    char someChar = 'a';
+    ASSERT_EQ(message.decode(someChar), true);
+    ASSERT_EQ(someChar, 'x');
+  });
+
+  aliasLatch.wait();
+  other.readPendingMessageNow();
+
+  ASSERT_EQ(otherMessageRead, true);
 
   thread.join();
 }
