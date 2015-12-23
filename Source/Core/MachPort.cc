@@ -61,7 +61,7 @@ struct MachPayload {
       header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
       body.port = (const mach_msg_port_descriptor_t){
           .name = static_cast<mach_port_t>(message.attachment().handle()),
-          .disposition = MACH_MSG_TYPE_PORT_SEND,
+          .disposition = MACH_MSG_TYPE_MAKE_SEND,
           .type = MACH_MSG_PORT_DESCRIPTOR,
       };
     } else {
@@ -137,6 +137,7 @@ struct MachPayload {
 
     switch (res) {
       case MACH_MSG_SUCCESS:
+        RL_ASSERT(MACH_MSGH_BITS_IS_COMPLEX(header->msgh_bits));
         return EventLoopSource::IOHandlerResult::Success;
       case MACH_RCV_TIMED_OUT:
         return EventLoopSource::IOHandlerResult::Timeout;
@@ -163,7 +164,54 @@ struct MachPayload {
   }
 };
 
+MachPort::MachPort(const Message::Attachment& attachment) {
+  RL_ASSERT_MSG(attachment.isValid(),
+                "Mach ports can only be created from valid channel handles");
+
+  setupWithPortHandle(static_cast<MachPort::Handle>(attachment.handle()));
+}
+
+static MachPort::Handle MachPortCreateSendPortWithLimit(size_t queueLimit) {
+  mach_port_name_t handle = MACH_PORT_NULL;
+
+  /*
+   *  Step 1: Allocate the port that will be used to send and receive messages
+   */
+  kern_return_t res =
+      mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &handle);
+  RL_ASSERT(res == KERN_SUCCESS && handle != MACH_PORT_NULL);
+
+  /*
+   *  Step 2: Insert the send port right
+   */
+  res = mach_port_insert_right(mach_task_self(), handle, handle,
+                               MACH_MSG_TYPE_MAKE_SEND);
+  RL_ASSERT(res == KERN_SUCCESS);
+
+  /*
+   *  Step 3: Set the q limit if it differs from the default
+   */
+  if (queueLimit != MACH_PORT_QLIMIT_DEFAULT) {
+    mach_port_limits_t limits = {0};
+    limits.mpl_qlimit = static_cast<mach_port_msgcount_t>(queueLimit);
+    res = mach_port_set_attributes(
+        mach_task_self(), handle, MACH_PORT_LIMITS_INFO,
+        (mach_port_info_t)&limits, MACH_PORT_LIMITS_INFO_COUNT);
+    RL_ASSERT(res == KERN_SUCCESS);
+  }
+
+  return handle;
+}
+
 MachPort::MachPort(size_t queueLimit) {
+  setupWithPortHandle(MachPortCreateSendPortWithLimit(queueLimit));
+}
+
+void MachPort::setupWithPortHandle(Handle handle) {
+  RL_ASSERT(handle != MACH_PORT_NULL);
+
+  _handle = handle;
+
   /*
    *  Step 1: Allocate the port set that will be used as the observer in the
    *          waitset
@@ -173,32 +221,7 @@ MachPort::MachPort(size_t queueLimit) {
   RL_ASSERT(res == KERN_SUCCESS && _setHandle != MACH_PORT_NULL);
 
   /*
-   *  Step 2: Allocate the port that will be used to send and receive messages
-   */
-  res = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &_handle);
-  RL_ASSERT(res == KERN_SUCCESS && _handle != MACH_PORT_NULL);
-
-  /*
-   *  Step 2: Insert the send port right
-   */
-  res = mach_port_insert_right(mach_task_self(), _handle, _handle,
-                               MACH_MSG_TYPE_MAKE_SEND);
-  RL_ASSERT(res == KERN_SUCCESS);
-
-  /*
-   *  Step 3: Increase the q limit. The default is 5 which is a bit low. This
-   *  may need to be tweaked.
-   */
-
-  mach_port_limits_t limits = {0};
-  limits.mpl_qlimit = static_cast<mach_port_msgcount_t>(queueLimit);
-  res = mach_port_set_attributes(
-      mach_task_self(), _handle, MACH_PORT_LIMITS_INFO,
-      (mach_port_info_t)&limits, MACH_PORT_LIMITS_INFO_COUNT);
-  RL_ASSERT(res == KERN_SUCCESS);
-
-  /*
-   *  Step 4: Insert the port into the port set. And we are all done.
+   *  Step 2: Insert the port into the port set. And we are all done.
    */
   res = mach_port_insert_member(mach_task_self(), _handle, _setHandle);
   RL_ASSERT(res == KERN_SUCCESS);
@@ -219,17 +242,35 @@ MachPort::Handle MachPort::setHandle() const {
   return _setHandle;
 }
 
+static inline bool MachPortModRef(mach_port_name_t name,
+                                  mach_port_right_t right,
+                                  mach_port_delta_t delta) {
+  kern_return_t result =
+      mach_port_mod_refs(mach_task_self(), name, right, delta);
+  return result == KERN_SUCCESS;
+}
+
 bool MachPort::doTerminate() {
-  kern_return_t res0 =
+  auto success = true;
+
+  kern_return_t result =
       mach_port_extract_member(mach_task_self(), _handle, _setHandle);
-  kern_return_t res1 = mach_port_destroy(mach_task_self(), _handle);
-  kern_return_t res2 = mach_port_destroy(mach_task_self(), _setHandle);
+  if (result != KERN_SUCCESS) {
+    success = false;
+  }
 
-  auto success =
-      res0 == KERN_SUCCESS && res1 == KERN_SUCCESS && res2 == KERN_SUCCESS;
-
-  if (success) {
+  bool releaseSend = MachPortModRef(_handle, MACH_PORT_RIGHT_SEND, -1);
+  bool releaseReceive = MachPortModRef(_handle, MACH_PORT_RIGHT_RECEIVE, -1);
+  if (!releaseSend || !releaseReceive) {
+    success = false;
+  } else {
     _handle = MACH_PORT_NULL;
+  }
+
+  result = mach_port_destroy(mach_task_self(), _setHandle);
+  if (result != KERN_SUCCESS) {
+    success = false;
+  } else {
     _setHandle = MACH_PORT_NULL;
   }
 
@@ -290,6 +331,49 @@ MachPort::ReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
 
   Message empty;
   return ReadResult(result, std::move(empty));
+}
+
+void MachPort::LogRights(Handle name) {
+  kern_return_t result = KERN_SUCCESS;
+  mach_port_urefs_t refs = 0;
+
+  RL_LOG("~~~~~~~~~~ Logging Rights for %d", name);
+
+  refs = 0;
+  result =
+      mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND, &refs);
+
+  if (result == KERN_INVALID_NAME) {
+    RL_LOG("This name is invalid");
+    return;
+  }
+
+  RL_ASSERT(result == KERN_SUCCESS);
+  RL_LOG("Send %d", refs);
+
+  refs = 0;
+  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_RECEIVE,
+                              &refs);
+  RL_ASSERT(result == KERN_SUCCESS);
+  RL_LOG("Receive %d", refs);
+
+  refs = 0;
+  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND_ONCE,
+                              &refs);
+  RL_ASSERT(result == KERN_SUCCESS);
+  RL_LOG("Send Once %d", refs);
+
+  refs = 0;
+  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_PORT_SET,
+                              &refs);
+  RL_ASSERT(result == KERN_SUCCESS);
+  RL_LOG("Port Set %d", refs);
+
+  refs = 0;
+  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_DEAD_NAME,
+                              &refs);
+  RL_ASSERT(result == KERN_SUCCESS);
+  RL_LOG("Dead %d", refs);
 }
 
 }  // namespace core

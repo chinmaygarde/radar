@@ -7,8 +7,8 @@
 
 #include <Core/Channel.h>
 
-#include "ChannelProvider.h"
-#include "MachPort.h"
+#include <Core/ChannelProvider.h>
+#include <Core/MachPort.h>
 
 namespace rl {
 namespace core {
@@ -16,6 +16,8 @@ namespace core {
 class MachPortChannel : public ChannelProvider {
  public:
   explicit MachPortChannel(Channel& owner);
+  explicit MachPortChannel(Channel& owner,
+                           const Message::Attachment& attachment);
   ~MachPortChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;

@@ -14,22 +14,25 @@
 namespace rl {
 namespace core {
 
-Channel::Channel()
-    : _messageCallback(nullptr),
-      _terminationCallback(nullptr),
-      _terminated(false),
-      _provider(nullptr),
-      _source(nullptr) {
+template <typename... Args>
+static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
 #if RL_CHANNELS == RL_CHANNELS_MACH
-  _provider = make_unique<MachPortChannel>(*this);
+  return make_unique<MachPortChannel>(std::forward<Args>(args)...);
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
-  _provider = make_unique<SocketChannel>(*this);
+  return make_unique<SocketChannel>(std::forward<Args>(args)...);
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS
-  _provider = make_unique<InProcessChannel>(*this);
+  return make_unique<InProcessChannel>(std::forward<Args>(args)...);
 #else
 #error Unknown Channels Implementation
+  return nullptr;
 #endif
 }
+
+Channel::Channel(const Message::Attachment& attachment)
+    : _terminated(false), _provider(ChannelSelectProvider(*this, attachment)) {}
+
+Channel::Channel()
+    : _terminated(false), _provider(ChannelSelectProvider(*this)) {}
 
 Channel::~Channel() {
   terminate();
@@ -41,7 +44,6 @@ void Channel::terminate() {
   }
 
   bool closed = _provider->doTerminate();
-
   RL_ASSERT(closed);
 
   _terminated = true;

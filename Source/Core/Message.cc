@@ -80,11 +80,13 @@ Message::~Message() {
   }
 }
 
+Message::Attachment::Attachment() : _handle(MessageAttachmentHandleNull) {}
+
 Message::Attachment::Attachment(Message::Attachment::Handle handle)
     : _handle(handle) {}
 
 bool Message::Attachment::isValid() const {
-  return _handle != 0;
+  return _handle != MessageAttachmentHandleNull;
 }
 
 Message::Attachment::Handle Message::Attachment::handle() const {
@@ -251,6 +253,8 @@ bool Message::isValid() const {
 const Message::Attachment& Message::attachment() const {
   return _attachment;
 }
+
+const Message::Attachment::Handle MessageAttachmentHandleNull = 0;
 
 }  // namespace core
 }  // namespace rl

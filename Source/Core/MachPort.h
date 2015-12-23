@@ -16,7 +16,10 @@ class MachPort {
 
   using ReadResult = std::pair<EventLoopSource::IOHandlerResult, Message>;
 
-  explicit MachPort(size_t queueLimit = 1024);
+  explicit MachPort(size_t queueLimit);
+
+  explicit MachPort(const Message::Attachment& attachment);
+
   ~MachPort();
 
   Handle portHandle() const;
@@ -29,9 +32,13 @@ class MachPort {
 
   bool doTerminate();
 
+  static void LogRights(Handle handle);
+
  private:
   Handle _setHandle;
   Handle _handle;
+
+  void setupWithPortHandle(Handle handle);
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPort);
 };

@@ -15,7 +15,12 @@
 namespace rl {
 namespace core {
 
-MachPortChannel::MachPortChannel(Channel& channel) : _channel(channel) {}
+MachPortChannel::MachPortChannel(Channel& channel)
+    : _channel(channel), _port(1024) {}
+
+MachPortChannel::MachPortChannel(Channel& channel,
+                                 const Message::Attachment& attachment)
+    : _channel(channel), _port(attachment) {}
 
 MachPortChannel::~MachPortChannel() {
   /*

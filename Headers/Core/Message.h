@@ -24,7 +24,9 @@ class Message {
    public:
     using Handle = uintptr_t;
 
-    Attachment(Handle handle = 0);
+    Attachment();
+
+    Attachment(Handle handle);
 
     Attachment(Attachment&& other);
 
@@ -232,6 +234,8 @@ class Message {
 };
 
 using Messages = std::vector<Message>;
+
+extern const Message::Attachment::Handle MessageAttachmentHandleNull;
 
 }  // namespace core
 }  // namespace rl

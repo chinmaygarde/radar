@@ -28,6 +28,16 @@ class Channel {
    */
   explicit Channel();
 
+  /**
+   *  Create a channel from a message attachment
+   *
+   *  @param attachment the attachment. Must be valid.
+   */
+  explicit Channel(const Message::Attachment& attachment);
+
+  /**
+   *  The channel destructor
+   */
   virtual ~Channel();
 
   /**

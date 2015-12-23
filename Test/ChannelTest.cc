@@ -200,3 +200,34 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
   thread.join();
 }
+
+TEST(ChannelTest, AliasingChannels) {
+  rl::core::Channel chan;
+
+  chan.setMessageCallback([&](rl::core::Message message) {
+    ASSERT_EQ(message.attachment().isValid(), true);
+    rl::core::EventLoop::Current()->terminate();
+
+    rl::core::Channel aliasOther(message.attachment());
+    ASSERT_NE(aliasOther.source(), nullptr);
+  });
+
+  rl::core::Latch latch(1);
+  std::thread thread([&]() {
+    auto loop = rl::core::EventLoop::Current();
+    loop->addSource(chan.source());
+
+    loop->loop([&]() { latch.countDown(); });
+  });
+
+  latch.wait();
+
+  rl::core::Channel other;
+
+  rl::core::Message message(other.asMessageAttachment());
+  rl::core::Messages messages;
+  messages.emplace_back(std::move(message));
+  chan.sendMessages(std::move(messages));
+
+  thread.join();
+}
