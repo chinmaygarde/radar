@@ -37,7 +37,25 @@ void Server::channelForName(const std::string& name,
     return callback(nullptr);
   }
 
-  return callback(found->second());
+  /*
+   *  Create an alias for the channel provided by the vendor
+   */
+  auto sourceChannel = found->second();
+
+  if (sourceChannel == nullptr) {
+    callback(nullptr);
+    return;
+  }
+
+  /*
+   *  WIP: In multiprocessing scenarios, the message attachment used directly
+   *       below will be sent over the process boundary
+   */
+
+  auto aliased =
+      std::make_shared<core::Channel>(sourceChannel->asMessageAttachment());
+
+  callback(aliased);
 }
 
 bool Server::setVendorForName(ChannelVendor vendor, const std::string& name) {
