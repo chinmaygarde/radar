@@ -85,9 +85,6 @@ class Channel {
   void setTerminationCallback(TerminationCallback callback);
 
   /**
-   *  TODO: Marked for deletion. Channels can have multiple sources. This
-   *  accessor provides functionality the channel should not be responsible for
-   *
    *  Get a loop source for this channel. Channels need to be scheduled on
    *  loops to get message and lifecycle callbacks
    *
