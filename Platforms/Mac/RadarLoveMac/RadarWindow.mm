@@ -17,13 +17,11 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 
   bool makeCurrent() {
     [_context makeCurrentContext];
-    CGLLockContext(_context.CGLContextObj);
     return true;
   }
 
   bool present() {
     [_context flushBuffer];
-    CGLUnlockContext(_context.CGLContextObj);
     return true;
   }
 
