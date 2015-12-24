@@ -264,7 +264,7 @@ bool MachPort::doTerminate() {
 
   kern_return_t result =
       mach_port_extract_member(mach_task_self(), _handle, _setHandle);
-  if (result != KERN_SUCCESS) {
+  if (result != KERN_SUCCESS && result != KERN_NOT_IN_SET) {
     success = false;
   }
 
