@@ -112,8 +112,7 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
   };
 
   ELS::IOHandler readHandler = [this](ELS::Handle handle) {
-    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
-                                            : ELS::IOHandlerResult::Failure;
+    return _channel.readPendingMessageNow();
   };
 
   /**
@@ -134,24 +133,23 @@ bool SocketChannel::doTerminate() {
   return readClosed && writeClosed;
 }
 
-SocketChannel::Result SocketChannel::writeMessages(Messages&& messages,
-                                                   ClockDurationNano timeout) {
+IOResult SocketChannel::writeMessages(Messages&& messages,
+                                      ClockDurationNano timeout) {
   for (const auto& message : messages) {
-    Result res = writeMessageSingle(message);
-    if (res != Result::Success) {
-      return res;
+    auto result = writeMessageSingle(message);
+    if (result != IOResult::Success) {
+      return result;
     }
   }
 
-  return Result::Success;
+  return IOResult::Success;
 }
 
 /*
  *  Temporary workaround till we can optimize sending multiple messages in one
  *  call. We already use scatter gather arrays, so should stick it in there.
  */
-ChannelProvider::Result SocketChannel::writeMessageSingle(
-    const Message& message) {
+IOResult SocketChannel::writeMessageSingle(const Message& message) {
   /*
    *  If the messages has an attachment, those take priority
    */
@@ -172,9 +170,9 @@ ChannelProvider::Result SocketChannel::writeMessageSingle(
   }
 }
 
-ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
-                                          struct msghdr* messageHeader,
-                                          size_t expectedSendSize) {
+IOResult SocketSendMessage(SocketChannel::Handle writer,
+                           struct msghdr* messageHeader,
+                           size_t expectedSendSize) {
   int64_t sent = 0;
   while (true) {
     sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, messageHeader, 0));
@@ -193,16 +191,13 @@ ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
   }
 
   if (sent != expectedSendSize) {
-    RL_LOG_ERRNO();
-    return errno == EPIPE ? ChannelProvider::Result::PermanentFailure
-                          : ChannelProvider::Result::TemporaryFailure;
+    return IOResult::Failure;
   }
 
-  return ChannelProvider::Result::Success;
+  return IOResult::Success;
 }
 
-ChannelProvider::Result SocketChannel::writeDataMessageInline(
-    const Message& message) {
+IOResult SocketChannel::writeDataMessageInline(const Message& message) {
   struct iovec vec[1] = {{0}};
 
   /*
@@ -224,8 +219,7 @@ ChannelProvider::Result SocketChannel::writeDataMessageInline(
   return SocketSendMessage(writeHandle(), &messageHeader, message.size());
 }
 
-ChannelProvider::Result SocketChannel::writeDataMessageOutOfLine(
-    const Message& message) {
+IOResult SocketChannel::writeDataMessageOutOfLine(const Message& message) {
   /*
    *  Create a shared memory region and copy over the contents of the message
    *  over to that region
@@ -237,7 +231,7 @@ ChannelProvider::Result SocketChannel::writeDataMessageOutOfLine(
   return writeDescriptorOutOfLine(memory.handle(), OOLDescriptor::Data);
 }
 
-ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
+IOResult SocketChannel::writeDescriptorOutOfLine(
     SocketChannel::Handle descriptor,
     OOLDescriptor desc) {
   /*
@@ -286,8 +280,7 @@ ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
   return result;
 }
 
-SocketChannel::ReadResult SocketChannel::readMessage(
-    ClockDurationNano timeout) {
+IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_readBufferMutex);
 
   struct iovec vec[1] = {{0}};
@@ -328,7 +321,7 @@ SocketChannel::ReadResult SocketChannel::readMessage(
      *  Finally! We have the entire inline message and have verified that there
      *  were no attachments
      */
-    return ReadResult(Result::Success, std::move(message));
+    return IOReadResult(IOResult::Success, std::move(message));
   }
 
   /*
@@ -381,18 +374,17 @@ SocketChannel::ReadResult SocketChannel::readMessage(
    *  ==========================================================================
    */
   if (received == -1) {
-    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? TemporaryFailure
-                                                            : PermanentFailure;
-    return ReadResult(result, Message{});
+    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? IOResult::Timeout
+                                                            : IOResult::Failure;
+    return IOReadResult(result, Message{});
   }
 
 PermanentFailure: /* :( */
-  return ReadResult(Result::PermanentFailure, Message{});
+  return IOReadResult(IOResult::Failure, Message{});
 }
 
-SocketChannel::ReadResult SocketChannel::readFromHandle(
-    SocketChannel::Handle handle,
-    OOLDescriptor desc) {
+IOReadResult SocketChannel::readFromHandle(SocketChannel::Handle handle,
+                                           OOLDescriptor desc) {
   switch (desc) {
     case OOLDescriptor::Data: {
       /*
@@ -409,14 +401,14 @@ SocketChannel::ReadResult SocketChannel::readFromHandle(
          *  The isReady check is equivalent to an EBADF guard
          */
         RL_CHECK(::close(handle));
-        return ReadResult(Result::Success,
-                          Message{memory.address(), memory.size(), true});
+        return IOReadResult(IOResult::Success,
+                            Message{memory.address(), memory.size(), true});
       }
     } break;
     case OOLDescriptor::Handle: {
       auto attachment = static_cast<Message::Attachment::Handle>(handle);
-      return ReadResult(Result::Success,
-                        Message{Message::Attachment{attachment}});
+      return IOReadResult(IOResult::Success,
+                          Message{Message::Attachment{attachment}});
     } break;
     default:
       RL_LOG("Unexpected descriptor type: %d",
@@ -424,7 +416,7 @@ SocketChannel::ReadResult SocketChannel::readFromHandle(
       break;
   }
 
-  return ReadResult(Result::PermanentFailure, Message{});
+  return IOReadResult(IOResult::Failure, Message{});
 }
 
 Message::Attachment::Handle SocketChannel::handle() {

@@ -6,14 +6,14 @@
 
 #if RL_WAITSET == RL_WAITSET_EPOLL
 
-#include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
-#include <Core/WaitSet.h>
+#include <Core/Macros.h>
 #include <Core/Utilities.h>
+#include <Core/WaitSet.h>
 
 #include <sys/epoll.h>
-#include <sys/timerfd.h>
 #include <sys/eventfd.h>
+#include <sys/timerfd.h>
 #include <unistd.h>
 
 #define HANDLE_CAST(x) static_cast<int>((x))
@@ -88,7 +88,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
 
     RL_ASSERT(size == sizeof(uint64_t));
 
-    return EventLoopSource::IOHandlerResult::Success;
+    return IOResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, nullptr,
@@ -118,7 +118,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
 
     RL_ASSERT(signalCount > 0);
 
-    return EventLoopSource::IOHandlerResult::Success;
+    return IOResult::Success;
   };
 
   IOHandler writer = [](Handle w) {
@@ -133,7 +133,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
 
     RL_ASSERT(size == sizeof(writeCount));
 
-    return EventLoopSource::IOHandlerResult::Success;
+    return IOResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,
