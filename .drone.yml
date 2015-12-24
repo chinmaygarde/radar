@@ -1,0 +1,5 @@
+build:
+  commands:
+    - cmake .
+    - make
+    - ./RadarLoveTest
