@@ -132,7 +132,11 @@ bool SocketChannel::doTerminate() {
 IOResult SocketChannel::writeMessages(Messages&& messages,
                                       ClockDurationNano timeout) {
   for (const auto& message : messages) {
-    auto result = writeMessageSingle(message);
+    /*
+     *  TODO: All messages need to be written in one shot so that timeout
+     *        guarantees hold.
+     */
+    auto result = writeMessageSingle(message, timeout);
     if (result != IOResult::Success) {
       return result;
     }
@@ -145,14 +149,15 @@ IOResult SocketChannel::writeMessages(Messages&& messages,
  *  Temporary workaround till we can optimize sending multiple messages in one
  *  call. We already use scatter gather arrays, so should stick it in there.
  */
-IOResult SocketChannel::writeMessageSingle(const Message& message) {
+IOResult SocketChannel::writeMessageSingle(const Message& message,
+                                           ClockDurationNano timeout) {
   /*
    *  If the messages has an attachment, those take priority
    */
   if (message.attachment().isValid()) {
     auto handle =
         static_cast<SocketChannel::Handle>(message.attachment().handle());
-    return writeDescriptorOutOfLine(handle, OOLDescriptor::Handle);
+    return writeDescriptorOutOfLine(handle, OOLDescriptor::Handle, timeout);
   }
 
   /*
@@ -160,40 +165,62 @@ IOResult SocketChannel::writeMessageSingle(const Message& message) {
    *  shared memory arena needs to be allocated for the transfer
    */
   if (message.size() < MaxInlineBufferSize) {
-    return writeDataMessageInline(message);
+    return writeDataMessageInline(message, timeout);
   } else {
-    return writeDataMessageOutOfLine(message);
+    return writeDataMessageOutOfLine(message, timeout);
   }
 }
 
-IOResult SocketSendMessage(SocketChannel::Handle writer,
-                           struct msghdr* messageHeader,
-                           size_t expectedSendSize) {
+static IOResult SocketSendMessage(SocketChannel::Handle writer,
+                                  struct msghdr* messageHeader,
+                                  size_t expectedSendSize,
+                                  ClockDurationNano timeout) {
   int64_t sent = 0;
   while (true) {
     sent = RL_TEMP_FAILURE_RETRY(::sendmsg(writer, messageHeader, 0));
 
-    if (sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+    if (sent == -1 && errno == EAGAIN) {
+      if (timeout.count() == 0) {
+        /*
+         *  No need for an extra syscall if the timeout is zero.
+         */
+        return IOResult::Timeout;
+      }
+
+      /*
+       *  We definitely need to poll for write, setup the poll structure
+       */
       struct pollfd pollFd = {
           .fd = writer, .events = POLLOUT, .revents = 0,
       };
 
-      int res = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, -1 /* timeout */));
+      auto timeoutMS = ToUnixTimeoutMS(timeout);
 
-      RL_ASSERT(res == 1);
-    } else {
-      break;
+      auto pollResult = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, timeoutMS));
+
+      if (pollResult == 0) {
+        /*
+         *  Poll timeout expired
+         */
+        return IOResult::Timeout;
+      }
+
+      if (pollResult == 1) {
+        /*
+         *  Socket write is available
+         */
+        continue;
+      }
     }
+
+    break;
   }
 
-  if (sent != expectedSendSize) {
-    return IOResult::Failure;
-  }
-
-  return IOResult::Success;
+  return sent == expectedSendSize ? IOResult::Success : IOResult::Failure;
 }
 
-IOResult SocketChannel::writeDataMessageInline(const Message& message) {
+IOResult SocketChannel::writeDataMessageInline(const Message& message,
+                                               ClockDurationNano timeout) {
   struct iovec vec[1] = {{0}};
 
   /*
@@ -212,10 +239,12 @@ IOResult SocketChannel::writeDataMessageInline(const Message& message) {
       .msg_flags = 0,
   };
 
-  return SocketSendMessage(writeHandle(), &messageHeader, message.size());
+  return SocketSendMessage(writeHandle(), &messageHeader, message.size(),
+                           timeout);
 }
 
-IOResult SocketChannel::writeDataMessageOutOfLine(const Message& message) {
+IOResult SocketChannel::writeDataMessageOutOfLine(const Message& message,
+                                                  ClockDurationNano timeout) {
   /*
    *  Create a shared memory region and copy over the contents of the message
    *  over to that region
@@ -224,12 +253,14 @@ IOResult SocketChannel::writeDataMessageOutOfLine(const Message& message) {
   RL_ASSERT(memory.isReady() && memory.size() == message.size());
   memcpy(memory.address(), message.data(), message.size());
 
-  return writeDescriptorOutOfLine(memory.handle(), OOLDescriptor::Data);
+  return writeDescriptorOutOfLine(memory.handle(), OOLDescriptor::Data,
+                                  timeout);
 }
 
 IOResult SocketChannel::writeDescriptorOutOfLine(
     SocketChannel::Handle descriptor,
-    OOLDescriptor desc) {
+    OOLDescriptor desc,
+    ClockDurationNano timeout) {
   /*
    *  Theory of Operation:
    *
@@ -268,8 +299,8 @@ IOResult SocketChannel::writeDescriptorOutOfLine(
   *((SocketChannel::Handle*)CMSG_DATA(cmsg)) = descriptor;
   messageHeader.msg_controllen = cmsg->cmsg_len;
 
-  auto result =
-      SocketSendMessage(writeHandle(), &messageHeader, sizeof(descriptorType));
+  auto result = SocketSendMessage(writeHandle(), &messageHeader,
+                                  sizeof(descriptorType), timeout);
 
   free(controlBuffer);
 

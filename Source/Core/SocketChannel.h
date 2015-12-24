@@ -47,10 +47,15 @@ class SocketChannel : public ChannelProvider {
   Handle readHandle() const;
   Handle writeHandle() const;
 
-  IOResult writeMessageSingle(const Message& message);
-  IOResult writeDescriptorOutOfLine(Handle descriptor, OOLDescriptor desc);
-  IOResult writeDataMessageInline(const Message& message);
-  IOResult writeDataMessageOutOfLine(const Message& message);
+  IOResult writeMessageSingle(const Message& message,
+                              ClockDurationNano timeout);
+  IOResult writeDescriptorOutOfLine(Handle descriptor,
+                                    OOLDescriptor desc,
+                                    ClockDurationNano timeout);
+  IOResult writeDataMessageInline(const Message& message,
+                                  ClockDurationNano timeout);
+  IOResult writeDataMessageOutOfLine(const Message& message,
+                                     ClockDurationNano timeout);
 
   IOReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
 
