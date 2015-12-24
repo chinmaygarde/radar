@@ -68,7 +68,9 @@ SocketChannel::SocketChannel(Channel& channel,
                 "Can only create channels from valid message attachments");
 
   Handle handle = static_cast<Handle>(attachment.handle());
-  setupWithHandles(handle, handle);
+  Handle other = static_cast<Handle>(RL_TEMP_FAILURE_RETRY(::dup(handle)));
+
+  setupWithHandles(handle, other);
 }
 
 SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
@@ -80,11 +82,10 @@ SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
 }
 
 void SocketChannel::setupWithHandles(Handle a, Handle b) {
-  SocketChannel_ConfigureHandle(a);
+  RL_ASSERT(a != b);
 
-  if (a != b) {
-    SocketChannel_ConfigureHandle(b);
-  }
+  SocketChannel_ConfigureHandle(a);
+  SocketChannel_ConfigureHandle(b);
 
   _handles = std::make_pair(a, b);
 
@@ -128,8 +129,8 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
 }
 
 bool SocketChannel::doTerminate() {
-  bool readClosed = SocketChannel_CloseHandle(readHandle());
-  bool writeClosed = SocketChannel_CloseHandle(writeHandle());
+  auto readClosed = SocketChannel_CloseHandle(readHandle());
+  auto writeClosed = SocketChannel_CloseHandle(writeHandle());
   return readClosed && writeClosed;
 }
 
