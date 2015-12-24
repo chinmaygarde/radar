@@ -94,22 +94,20 @@ void Channel::setMessageCallback(MessageCallback callback) {
 bool Channel::readPendingMessageNow() {
   auto result = _provider->readMessage(ClockDurationNano::max());
 
-  /*
-   *  Dispatch all successfully read messages
-   */
-  if (result.first == ChannelProvider::Result::Success && _messageCallback) {
-    _messageCallback(std::move(result.second));
+  switch (result.first) {
+    case ChannelProvider::Result::Success:
+      if (_messageCallback) {
+        _messageCallback(std::move(result.second));
+      }
+      return true;
+    case ChannelProvider::Result::PermanentFailure:
+      terminate();
+      return false;
+    case ChannelProvider::Result::TemporaryFailure:
+      return false;
   }
 
-  /*
-   *  On fatal errors, terminate the channel
-   */
-  if (result.first == ChannelProvider::Result::PermanentFailure) {
-    terminate();
-    return false;
-  }
-
-  return true;
+  return false;
 }
 
 Messages Channel::drainPendingMessages() {

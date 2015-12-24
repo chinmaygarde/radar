@@ -262,7 +262,7 @@ TEST(ChannelTest, AliasingChannels) {
   });
 
   aliasLatch.wait();
-  other.readPendingMessageNow();
+  ASSERT_EQ(other.readPendingMessageNow(), true);
 
   ASSERT_EQ(otherMessageRead, true);
 
