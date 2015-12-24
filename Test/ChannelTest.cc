@@ -196,7 +196,7 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
   rl::core::Message message(other.asMessageAttachment());
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
-  chan.sendMessages(std::move(messages));
+  ASSERT_EQ(chan.sendMessages(std::move(messages)), true);
 
   thread.join();
 }
