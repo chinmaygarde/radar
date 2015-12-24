@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 #include <Core/Config.h>
-#include <Core/Utilities.h>
 #include <Core/Macros.h>
+#include <Core/Utilities.h>
 #include <Instrumentation/Trace.h>
 #include <string>
 
@@ -23,6 +23,14 @@
 
 namespace rl {
 namespace core {
+
+int ToUnixTimeoutMS(ClockDurationNano nano) {
+  if (nano.count() >= std::numeric_limits<int>::max()) {
+    return -1;
+  }
+  return static_cast<int>(nano.count() / 1000000);
+}
+
 namespace thread {
 
 void SetName(const char* name) {

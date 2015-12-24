@@ -40,16 +40,12 @@ static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
   const int size = MaxInlineBufferSize;
 
   RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
-
   RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
 
   /*
-   *  Make the sockets non blocking since we plan to receive all messages
-   *  instead of hitting the waitset for each message in the queue. This is
-   *  important since reads will block if we dont.
+   *  Make sockets non blocking. We will explicitly poll if reads or writes with
+   *  timeouts need to be serviced.
    */
-  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
-
   RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
 }
 
@@ -298,8 +294,64 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       .msg_flags = 0,
   };
 
-  auto received =
-      RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
+  /*
+   *  ==========================================================================
+   *  Step 0: Make the call to `recvmsg`. Optionally, if a timeout is specified,
+   *          poll on read availability on the socket for the given duration.
+   *  ==========================================================================
+   */
+  ssize_t received = 0;
+  while (true) {
+    received =
+        RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
+
+    if (received == -1 && errno == EAGAIN) {
+      /*
+       *  The non blocking socket has nothing to receive. Depending on the
+       *  timeout, try again
+       */
+      if (timeout.count() == 0) {
+        /*
+         *  Dont bother with a syscall for a zero timeout receive
+         */
+        return IOReadResult(IOResult::Timeout, Message{});
+      }
+
+      /*
+       *  Poll on the socket for the given timeout
+       */
+      struct pollfd pollFd = {
+          .fd = readHandle(), .events = POLLIN, .revents = 0,
+      };
+
+      auto timeoutMS = ToUnixTimeoutMS(timeout);
+
+      auto pollResult = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, timeoutMS));
+
+      if (pollResult == 1) {
+        /*
+         *  Finally, the descriptor is available for reading. Try the recvmsg
+         *  again
+         */
+        continue;
+      }
+
+      if (pollResult == 0) {
+        /*
+         *  We tried waiting on the descriptor but did not succeed to find
+         *  anything to read
+         */
+        return IOReadResult(IOResult::Timeout, Message{});
+      }
+
+      /*
+       *  Paranoid assertion to check that we did not mess up the poll
+       */
+      goto PermanentFailure;
+    }
+
+    break;
+  }
 
   /*
    *  ==========================================================================
@@ -368,16 +420,11 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     return readFromHandle(handle, desc);
   }
 
-  /*
-   *  ==========================================================================
-   *  Step 3: Check for other errors and determine if the failure is temporary
-   *  ==========================================================================
-   */
-  if (received == -1) {
-    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? IOResult::Timeout
-                                                            : IOResult::Failure;
-    return IOReadResult(result, Message{});
-  }
+/*
+ *  ============================================================================
+ *  Step 3: All other errors are fatal
+ *  ============================================================================
+ */
 
 PermanentFailure: /* :( */
   return IOReadResult(IOResult::Failure, Message{});
@@ -433,5 +480,8 @@ SocketChannel::Handle SocketChannel::writeHandle() const {
 
 }  // namespace core
 }  // namespace rl
+
+static_assert(EAGAIN == EWOULDBLOCK,
+              "EAGAIN should be the same as EWOULDBLOCK");
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET

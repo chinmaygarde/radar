@@ -5,6 +5,8 @@
 #ifndef RADARLOVE_CORE_UTILITIES_
 #define RADARLOVE_CORE_UTILITIES_
 
+#include <Core/Timing.h>
+
 #include <memory>
 #include <type_traits>
 
@@ -27,6 +29,16 @@ template <bool B, class T = void>
 using only_if = typename std::enable_if<B, T>::type;
 
 #define rl_trivially_copyable(x) __has_trivial_copy(x)
+
+/**
+ *  Converts the given clock duration to a duration in milliseconds that is
+ *  suitable for passing to a unix call. Returns -1 for indefinite duration.
+ *
+ *  @param nano the duration to convert from
+ *
+ *  @return the duration in milliseconds
+ */
+int ToUnixTimeoutMS(ClockDurationNano nano);
 
 namespace thread {
 /**
