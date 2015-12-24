@@ -19,14 +19,16 @@ class SocketChannel : public ChannelProvider {
 
   explicit SocketChannel(Channel& owner);
 
+  explicit SocketChannel(Channel& owner, const Message::Attachment& attachment);
+
   ~SocketChannel();
   std::shared_ptr<EventLoopSource> createSource() const override;
   Result writeMessages(Messages&& message, ClockDurationNano timeout) override;
   ReadResult readMessage(ClockDurationNano timeout) override;
+  Message::Attachment::Handle handle() override;
   bool doTerminate() override;
 
  private:
-  std::mutex _lock;
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
   std::pair<Handle, Handle> _handles;

@@ -6,18 +6,18 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/SocketChannel.h>
-#include <Core/Utilities.h>
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
+#include <Core/SocketChannel.h>
+#include <Core/Utilities.h>
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <poll.h>
 #include <stdlib.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <mutex>
 
@@ -59,6 +59,12 @@ static bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
     return true;
   }
   return false;
+}
+
+SocketChannel::SocketChannel(Channel& channel,
+                             const Message::Attachment& attachment)
+    : _channel(channel) {
+  RL_ASSERT_MSG(false, "WIP");
 }
 
 SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
@@ -116,10 +122,8 @@ bool SocketChannel::doTerminate() {
   return readClosed && writeClosed;
 }
 
-SocketChannel::Result SocketChannel::WriteMessages(Messages&& messages,
+SocketChannel::Result SocketChannel::writeMessages(Messages&& messages,
                                                    ClockDurationNano timeout) {
-  std::lock_guard<std::mutex> lock(_lock);
-
   for (const auto& message : messages) {
     Result res = writeMessageSingle(message);
     if (res != Result::Success) {
@@ -235,108 +239,112 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
   return result;
 }
 
-SocketChannel::ReadResult SocketChannel::ReadMessages(
+SocketChannel::ReadResult SocketChannel::readMessage(
     ClockDurationNano timeout) {
-  std::lock_guard<std::mutex> lock(_lock);
-
   struct iovec vec[1] = {{0}};
 
   vec[0].iov_base = _buffer;
   vec[0].iov_len = MaxInlineBufferSize;
 
-  Messages messages;
+  struct msghdr messageHeader = {
+      .msg_name = nullptr,
+      .msg_namelen = 0,
+      .msg_iov = vec,
+      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
+      .msg_control = _controlBuffer,
+      .msg_controllen = static_cast<socklen_t>(MaxControlBufferSize),
+      .msg_flags = 0,
+  };
 
-  while (true) {
-    struct msghdr messageHeader = {
-        .msg_name = nullptr,
-        .msg_namelen = 0,
-        .msg_iov = vec,
-        .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
-        .msg_control = _controlBuffer,
-        .msg_controllen = static_cast<socklen_t>(MaxControlBufferSize),
-        .msg_flags = 0,
-    };
+  auto received =
+      RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
-    int64_t received =
-        RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
+  /*
+   *  ==========================================================================
+   *  Step 1: Check if there is an in-line buffer
+   *  ==========================================================================
+   */
+  if (received > 0) {
+    Message message(_buffer, received);
 
-    if (received > 0) {
-      Message message(_buffer, received);
+    /*
+     *  We do not support sending message attachments yet. Assert the same.
+     */
+    RL_ASSERT(messageHeader.msg_controllen == 0);
+
+    /*
+     *  Since we dont handle partial writes of the control messages,
+     *  assert that the same was not truncated.
+     */
+    RL_ASSERT((messageHeader.msg_flags & MSG_CTRUNC) == 0);
+
+    /*
+     *  Finally! We have the message and possible attachments. Try for
+     *  more.
+     */
+    return ReadResult(Result::Success, std::move(message));
+  }
+
+  /*
+   *  ==========================================================================
+   *  Step 2: Check if there is an out-of-line buffer
+   *  ==========================================================================
+   */
+  if (received == 0) {
+    if (messageHeader.msg_controllen == 0) {
+      /*
+       *  If no messages are available to be received and the peer
+       *  has performed an orderly shutdown, and there are no control messages,
+       *  recvmsg() returns 0.
+       */
+      return ReadResult(Result::PermanentFailure, Message{});
+    } else {
+      /*
+       *  We only ever send either inline data or a descriptor. An OOL shared
+       *  memory descriptor is present in this message. Read that!
+       */
+      struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+      RL_ASSERT(cmsg != nullptr);
+      SharedMemory::Handle handle = *((SharedMemory::Handle*)CMSG_DATA(cmsg));
 
       /*
-       *  We do not support sending message attachments yet. Assert the same.
+       *  We create a shared memory instance from the handle but make it not
+       *  own its handle or the address mapping. We then manually close the
+       *  handle and create a message from the same with a "vm allocated"
+       *  backing. This message unmaps the allocation when it is done.
+       *
+       *  This way, there are no more copies!
        */
-      RL_ASSERT(messageHeader.msg_controllen == 0);
-
-      /*
-       *  Since we dont handle partial writes of the control messages,
-       *  assert that the same was not truncated.
-       */
-      RL_ASSERT((messageHeader.msg_flags & MSG_CTRUNC) == 0);
-
-      /*
-       *  Finally! We have the message and possible attachments. Try for
-       *  more.
-       */
-      messages.push_back(std::move(message));
-
-      continue;
-    }
-
-    if (received == -1) {
-      /*
-       *  All pending messages have been read. poll for more
-       *  in subsequent calls. We are finally done!
-       */
-      if (errno == EAGAIN || errno == EWOULDBLOCK) {
+      SharedMemory memory(handle, false /* assume ownership */);
+      if (memory.isReady()) {
         /*
-         *  Return as a successful read
+         *  The isReady check is equivalent to an EBADF guard
          */
-        break;
-      }
-
-      return ReadResult(Result::TemporaryFailure, std::move(messages));
-    }
-
-    if (received == 0) {
-      if (messageHeader.msg_controllen == 0) {
-        /*
-         *  If no messages are available to be received and the peer
-         *  has performed an orderly shutdown, recvmsg() returns 0
-         */
-        return ReadResult(Result::PermanentFailure, std::move(messages));
+        RL_CHECK(::close(handle));
+        return ReadResult(Result::Success,
+                          Message{memory.address(), memory.size(), true});
       } else {
-        /*
-         *  We only ever send either inline data or a descriptor. An OOL shared
-         *  memory descriptor is present in this message. Read that!
-         */
-        struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
-        RL_ASSERT(cmsg != nullptr);
-        SharedMemory::Handle handle = *((SharedMemory::Handle*)CMSG_DATA(cmsg));
-
-        /*
-         *  We create a shared memory instance from the handle but make it not
-         *  own its handle or the address mapping. We then manually close the
-         *  handle and create a message from the same with a "vm allocated"
-         *  backing. This message unmaps the allocation when it is done.
-         *
-         *  This way, there are no more copies!
-         */
-        SharedMemory memory(handle, false /* assume ownership */);
-        if (memory.isReady()) {
-          /*
-           *  The isReady check is equivalent to an EBADF guard
-           */
-          RL_CHECK(::close(handle));
-          Message message(memory.address(), memory.size(), true);
-          messages.push_back(std::move(message));
-          continue;
-        }
+        return ReadResult(Result::PermanentFailure, Message{});
       }
     }
   }
 
-  return ReadResult(Result::Success, std::move(messages));
+  /*
+   *  ==========================================================================
+   *  Step 3: Check for other errors and determine if the failure is temporary
+   *  ==========================================================================
+   */
+  if (received == -1) {
+    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? TemporaryFailure
+                                                            : PermanentFailure;
+    return ReadResult(result, Message{});
+  }
+
+  return ReadResult(Result::PermanentFailure, Message{});
+}
+
+Message::Attachment::Handle SocketChannel::handle() {
+  return _handles.first;
 }
 
 SocketChannel::Handle SocketChannel::readHandle() const {

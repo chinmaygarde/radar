@@ -41,7 +41,7 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate)
   RL_ASSERT(vmDeallocate);
 }
 
-Message::Message(Message&& message) noexcept
+Message::Message(Message&& message)
     : _buffer(message._buffer),
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
