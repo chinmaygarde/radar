@@ -1,4 +1,5 @@
 build:
+  image: chinmaygarde/radar
   commands:
     - cmake .
     - make
