@@ -140,10 +140,23 @@ SocketChannel::Result SocketChannel::writeMessages(Messages&& messages,
  */
 ChannelProvider::Result SocketChannel::writeMessageSingle(
     const Message& message) {
+  /*
+   *  If the messages has an attachment, those take priority
+   */
+  if (message.attachment().isValid()) {
+    auto handle =
+        static_cast<SocketChannel::Handle>(message.attachment().handle());
+    return writeDescriptorOutOfLine(handle);
+  }
+
+  /*
+   *  Check if the message is small enough to be sent inline or if a separate
+   *  shared memory arena needs to be allocated for the transfer
+   */
   if (message.size() < MaxInlineBufferSize) {
-    return writeMessageInline(message);
+    return writeDataMessageInline(message);
   } else {
-    return writeMessageOutOfLine(message);
+    return writeDataMessageOutOfLine(message);
   }
 }
 
@@ -176,7 +189,7 @@ ChannelProvider::Result SocketSendMessage(SocketChannel::Handle writer,
   return ChannelProvider::Result::Success;
 }
 
-ChannelProvider::Result SocketChannel::writeMessageInline(
+ChannelProvider::Result SocketChannel::writeDataMessageInline(
     const Message& message) {
   struct iovec vec[1] = {{0}};
 
@@ -199,7 +212,7 @@ ChannelProvider::Result SocketChannel::writeMessageInline(
   return SocketSendMessage(writeHandle(), &messageHeader, message.size());
 }
 
-ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
+ChannelProvider::Result SocketChannel::writeDataMessageOutOfLine(
     const Message& message) {
   /*
    *  Create a shared memory region and copy over the contents of the message
@@ -209,11 +222,16 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
   RL_ASSERT(memory.isReady() && memory.size() == message.size());
   memcpy(memory.address(), message.data(), message.size());
 
+  return writeDescriptorOutOfLine(memory.handle());
+}
+
+ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
+    SocketChannel::Handle descriptor) {
   /*
    *  Create the message header structure containing the descriptor to send over
    *  the channel
    */
-  const socklen_t controlBufferSize = CMSG_SPACE(sizeof(SharedMemory::Handle));
+  const socklen_t controlBufferSize = CMSG_SPACE(sizeof(SocketChannel::Handle));
   void* controlBuffer = calloc(1, controlBufferSize);
   struct msghdr messageHeader = {
       .msg_name = nullptr,
@@ -228,8 +246,8 @@ ChannelProvider::Result SocketChannel::writeMessageOutOfLine(
   struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
   cmsg->cmsg_level = SOL_SOCKET;
   cmsg->cmsg_type = SCM_RIGHTS;
-  cmsg->cmsg_len = CMSG_LEN(sizeof(SharedMemory::Handle));
-  *((SharedMemory::Handle*)CMSG_DATA(cmsg)) = memory.handle();
+  cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));
+  *((SocketChannel::Handle*)CMSG_DATA(cmsg)) = descriptor;
   messageHeader.msg_controllen = cmsg->cmsg_len;
 
   auto result = SocketSendMessage(writeHandle(), &messageHeader, 0);

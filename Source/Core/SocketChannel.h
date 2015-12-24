@@ -37,8 +37,9 @@ class SocketChannel : public ChannelProvider {
   Handle readHandle() const;
   Handle writeHandle() const;
   Result writeMessageSingle(const Message& message);
-  Result writeMessageInline(const Message& message);
-  Result writeMessageOutOfLine(const Message& message);
+  Result writeDescriptorOutOfLine(Handle descriptor);
+  Result writeDataMessageInline(const Message& message);
+  Result writeDataMessageOutOfLine(const Message& message);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
