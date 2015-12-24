@@ -31,6 +31,8 @@
 #define RL_LOG(message, ...) \
   printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);
 #define RL_LOG_ERRNO() RL_LOG("%s (%d)", strerror(errno), errno)
+
+/* http://take.ms/HOpKF */
 #define RL_LOG_HERE RL_LOG("%s", __FUNCTION__)
 
 /*

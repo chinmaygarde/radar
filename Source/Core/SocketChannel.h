@@ -29,6 +29,13 @@ class SocketChannel : public ChannelProvider {
   bool doTerminate() override;
 
  private:
+  using OOLDescriptorType = uint8_t;
+  enum class OOLDescriptor : OOLDescriptorType {
+    Data = 1,
+    Handle,
+  };
+
+  std::mutex _readBufferMutex;
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
   std::pair<Handle, Handle> _handles;
@@ -36,10 +43,13 @@ class SocketChannel : public ChannelProvider {
 
   Handle readHandle() const;
   Handle writeHandle() const;
+
   Result writeMessageSingle(const Message& message);
-  Result writeDescriptorOutOfLine(Handle descriptor);
+  Result writeDescriptorOutOfLine(Handle descriptor, OOLDescriptor desc);
   Result writeDataMessageInline(const Message& message);
   Result writeDataMessageOutOfLine(const Message& message);
+
+  ReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };

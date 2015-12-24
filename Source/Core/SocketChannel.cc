@@ -146,7 +146,7 @@ ChannelProvider::Result SocketChannel::writeMessageSingle(
   if (message.attachment().isValid()) {
     auto handle =
         static_cast<SocketChannel::Handle>(message.attachment().handle());
-    return writeDescriptorOutOfLine(handle);
+    return writeDescriptorOutOfLine(handle, OOLDescriptor::Handle);
   }
 
   /*
@@ -222,11 +222,27 @@ ChannelProvider::Result SocketChannel::writeDataMessageOutOfLine(
   RL_ASSERT(memory.isReady() && memory.size() == message.size());
   memcpy(memory.address(), message.data(), message.size());
 
-  return writeDescriptorOutOfLine(memory.handle());
+  return writeDescriptorOutOfLine(memory.handle(), OOLDescriptor::Data);
 }
 
 ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
-    SocketChannel::Handle descriptor) {
+    SocketChannel::Handle descriptor,
+    OOLDescriptor desc) {
+  /*
+   *  Theory of Operation:
+   *
+   *  Even out of line descriptors use the inline message buffer.
+   *  Descriptors themselves are sent in the control buffer within the message
+   *  flushed down the unix domain socket. The type of the descriptor however is
+   *  sent in the message itself. The receiver interprets the type of the
+   *  descriptor according to the value it sees in the inline message
+   */
+
+  auto descriptorType = static_cast<OOLDescriptorType>(desc);
+  struct iovec vec[1] = {{0}};
+  vec[0].iov_base = &descriptorType;
+  vec[0].iov_len = sizeof(descriptorType);
+
   /*
    *  Create the message header structure containing the descriptor to send over
    *  the channel
@@ -236,8 +252,8 @@ ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
   struct msghdr messageHeader = {
       .msg_name = nullptr,
       .msg_namelen = 0,
-      .msg_iov = nullptr,
-      .msg_iovlen = 0,
+      .msg_iov = vec,
+      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
       .msg_control = controlBuffer,
       .msg_controllen = controlBufferSize,
       .msg_flags = 0,
@@ -250,7 +266,8 @@ ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
   *((SocketChannel::Handle*)CMSG_DATA(cmsg)) = descriptor;
   messageHeader.msg_controllen = cmsg->cmsg_len;
 
-  auto result = SocketSendMessage(writeHandle(), &messageHeader, 0);
+  auto result =
+      SocketSendMessage(writeHandle(), &messageHeader, sizeof(descriptorType));
 
   free(controlBuffer);
 
@@ -259,6 +276,8 @@ ChannelProvider::Result SocketChannel::writeDescriptorOutOfLine(
 
 SocketChannel::ReadResult SocketChannel::readMessage(
     ClockDurationNano timeout) {
+  std::lock_guard<std::mutex> lock(_readBufferMutex);
+
   struct iovec vec[1] = {{0}};
 
   vec[0].iov_base = _buffer;
@@ -282,23 +301,20 @@ SocketChannel::ReadResult SocketChannel::readMessage(
    *  Step 1: Check if there is an in-line buffer
    *  ==========================================================================
    */
-  if (received > 0) {
+  if (received > 0 && messageHeader.msg_controllen == 0) {
     Message message(_buffer, received);
 
     /*
-     *  We do not support sending message attachments yet. Assert the same.
+     *  Since we dont handle partial writes of control messages,
+     *  assert that the message was not truncated.
      */
-    RL_ASSERT(messageHeader.msg_controllen == 0);
+    if ((messageHeader.msg_flags & MSG_CTRUNC) != 0) {
+      goto PermanentFailure;
+    }
 
     /*
-     *  Since we dont handle partial writes of the control messages,
-     *  assert that the same was not truncated.
-     */
-    RL_ASSERT((messageHeader.msg_flags & MSG_CTRUNC) == 0);
-
-    /*
-     *  Finally! We have the message and possible attachments. Try for
-     *  more.
+     *  Finally! We have the entire inline message and have verified that there
+     *  were no attachments
      */
     return ReadResult(Result::Success, std::move(message));
   }
@@ -308,23 +324,65 @@ SocketChannel::ReadResult SocketChannel::readMessage(
    *  Step 2: Check if there is an out-of-line buffer
    *  ==========================================================================
    */
-  if (received == 0) {
+  if (received >= 0) {
+    /*
+     *  If no messages are available to be received and the peer
+     *  has performed an orderly shutdown, and, there are no control messages,
+     *  recvmsg() returns 0.
+     */
     if (messageHeader.msg_controllen == 0) {
-      /*
-       *  If no messages are available to be received and the peer
-       *  has performed an orderly shutdown, and there are no control messages,
-       *  recvmsg() returns 0.
-       */
-      return ReadResult(Result::PermanentFailure, Message{});
-    } else {
-      /*
-       *  We only ever send either inline data or a descriptor. An OOL shared
-       *  memory descriptor is present in this message. Read that!
-       */
-      struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
-      RL_ASSERT(cmsg != nullptr);
-      SharedMemory::Handle handle = *((SharedMemory::Handle*)CMSG_DATA(cmsg));
+      goto PermanentFailure;
+    }
 
+    /*
+     *  Read the type of descriptor we got. See the discussion on how this is
+     *  obtained in the routine that sends the message down the socket
+     */
+    if (messageHeader.msg_iovlen != 1) {
+      goto PermanentFailure;
+    }
+
+    if (received != sizeof(OOLDescriptorType)) {
+      goto PermanentFailure;
+    }
+
+    auto descBuffer = reinterpret_cast<OOLDescriptorType*>(_buffer);
+    auto desc = static_cast<OOLDescriptor>(*descBuffer);
+
+    /*
+     *  Read the descriptor itself from the buffer
+     */
+    struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+
+    if (cmsg == nullptr) {
+      goto PermanentFailure;
+    }
+
+    SocketChannel::Handle handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
+
+    return readFromHandle(handle, desc);
+  }
+
+  /*
+   *  ==========================================================================
+   *  Step 3: Check for other errors and determine if the failure is temporary
+   *  ==========================================================================
+   */
+  if (received == -1) {
+    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? TemporaryFailure
+                                                            : PermanentFailure;
+    return ReadResult(result, Message{});
+  }
+
+PermanentFailure: /* :( */
+  return ReadResult(Result::PermanentFailure, Message{});
+}
+
+SocketChannel::ReadResult SocketChannel::readFromHandle(
+    SocketChannel::Handle handle,
+    OOLDescriptor desc) {
+  switch (desc) {
+    case OOLDescriptor::Data: {
       /*
        *  We create a shared memory instance from the handle but make it not
        *  own its handle or the address mapping. We then manually close the
@@ -341,21 +399,17 @@ SocketChannel::ReadResult SocketChannel::readMessage(
         RL_CHECK(::close(handle));
         return ReadResult(Result::Success,
                           Message{memory.address(), memory.size(), true});
-      } else {
-        return ReadResult(Result::PermanentFailure, Message{});
       }
-    }
-  }
-
-  /*
-   *  ==========================================================================
-   *  Step 3: Check for other errors and determine if the failure is temporary
-   *  ==========================================================================
-   */
-  if (received == -1) {
-    auto result = (errno == EAGAIN || errno == EWOULDBLOCK) ? TemporaryFailure
-                                                            : PermanentFailure;
-    return ReadResult(result, Message{});
+    } break;
+    case OOLDescriptor::Handle: {
+      auto attachment = static_cast<Message::Attachment::Handle>(handle);
+      return ReadResult(Result::Success,
+                        Message{Message::Attachment{attachment}});
+    } break;
+    default:
+      RL_LOG("Unexpected descriptor type: %d",
+             static_cast<OOLDescriptorType>(desc));
+      break;
   }
 
   return ReadResult(Result::PermanentFailure, Message{});
