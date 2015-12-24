@@ -64,7 +64,11 @@ static bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
 SocketChannel::SocketChannel(Channel& channel,
                              const Message::Attachment& attachment)
     : _channel(channel) {
-  RL_ASSERT_MSG(false, "WIP");
+  RL_ASSERT_MSG(attachment.isValid(),
+                "Can only create channels from valid message attachments");
+
+  Handle handle = static_cast<Handle>(attachment.handle());
+  setupWithHandles(handle, handle);
 }
 
 SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
@@ -72,10 +76,17 @@ SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
 
   RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
 
-  SocketChannel_ConfigureHandle(socketHandles[0]);
-  SocketChannel_ConfigureHandle(socketHandles[1]);
+  setupWithHandles(socketHandles[0], socketHandles[1]);
+}
 
-  _handles = std::make_pair(socketHandles[0], socketHandles[1]);
+void SocketChannel::setupWithHandles(Handle a, Handle b) {
+  SocketChannel_ConfigureHandle(a);
+
+  if (a != b) {
+    SocketChannel_ConfigureHandle(b);
+  }
+
+  _handles = std::make_pair(a, b);
 
   /*
    *  Setup the channel buffer
