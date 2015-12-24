@@ -5,11 +5,12 @@
 #ifndef RADARLOVE_CORE_EVENT_LOOP_SOURCE_
 #define RADARLOVE_CORE_EVENT_LOOP_SOURCE_
 
+#include <Core/IOResult.h>
 #include <Core/Macros.h>
 
+#include <chrono>
 #include <functional>
 #include <utility>
-#include <chrono>
 
 namespace rl {
 namespace core {
@@ -24,18 +25,12 @@ class WaitSet;
  */
 class EventLoopSource {
  public:
-  enum class IOHandlerResult {
-    Success,
-    Timeout,
-    Failure,
-  };
-
   using Handle = uintptr_t;
   using Handles = std::pair<Handle, Handle>;
   using RWHandlesProvider = std::function<Handles(void)>;
   using RWHandlesCollector = std::function<void(Handles)>;
-  using IOHandler = std::function<IOHandlerResult(Handle)>;
-  using WakeFunction = std::function<void(IOHandlerResult)>;
+  using IOHandler = std::function<IOResult(Handle)>;
+  using WakeFunction = std::function<void(IOResult)>;
   using ReadAttemptCallback = std::function<bool(void)>;
   using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
                                                   WaitSet& waitset,

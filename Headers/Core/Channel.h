@@ -6,6 +6,7 @@
 #define RADARLOVE_CORE_CHANNEL_
 
 #include <Core/EventLoop.h>
+#include <Core/IOResult.h>
 #include <Core/Macros.h>
 #include <Core/Message.h>
 
@@ -45,9 +46,9 @@ class Channel {
    *
    *  @param messages the messages to send
    *
-   *  @return if the messages were successfully sent
+   *  @return the result of attempting to send the message
    */
-  bool sendMessages(Messages message);
+  IOResult sendMessages(Messages message);
 
   /**
    *  When a message arrive on this channel, a callback may be invoked on the
@@ -96,8 +97,10 @@ class Channel {
    *  Read all pending messages on the channel immediately. The user rarely (if
    *  ever) needs to call this. Instead, it is usually called by the channel
    *  provider when it detects an available read.
+   *
+   *  @return the result of attempting to read the message
    */
-  bool readPendingMessageNow();
+  IOResult readPendingMessageNow();
 
   /**
    *  Directly drain all pending messages on this channel bypassing all the

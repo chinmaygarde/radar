@@ -6,6 +6,7 @@
 #define __RADARLOVE_CORE_CHANNELPROVIDER__
 
 #include <Core/EventLoopSource.h>
+#include <Core/IOResult.h>
 #include <Core/Message.h>
 
 #include <memory>
@@ -16,14 +17,6 @@ namespace core {
 
 class ChannelProvider {
  public:
-  enum Result {
-    Success = 0,
-    TemporaryFailure,
-    PermanentFailure,
-  };
-
-  using ReadResult = std::pair<Result, Message>;
-
   /**
    *  Get a loop source for this channel provider
    *
@@ -38,15 +31,15 @@ class ChannelProvider {
    *
    *  @return the write result
    */
-  virtual Result writeMessages(Messages&& message,
-                               ClockDurationNano timeout) = 0;
+  virtual IOResult writeMessages(Messages&& message,
+                                 ClockDurationNano timeout) = 0;
 
   /**
    *  Read a message on the channel provider
    *
    *  @return the read result
    */
-  virtual ReadResult readMessage(ClockDurationNano timeout) = 0;
+  virtual IOReadResult readMessage(ClockDurationNano timeout) = 0;
 
   /**
    *  Perform the actual channel connection termination

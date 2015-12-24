@@ -127,8 +127,7 @@ TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
   auto afterSleep = 0;
   auto reads = 0;
 
-  rl::core::EventLoopSource::WakeFunction wake = [&](
-      rl::core::EventLoopSource::IOHandlerResult res) {
+  rl::core::EventLoopSource::WakeFunction wake = [&](rl::core::IOResult res) {
     reads++;
     if (reads == 5) {
       rl::core::EventLoop::Current()->terminate();

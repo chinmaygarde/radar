@@ -7,11 +7,6 @@
 
 #include <thread>
 
-TEST(ChannelTest, SimpleInitialization) {
-  rl::core::Channel channel;
-  ASSERT_TRUE(channel.source() != nullptr);
-}
-
 static bool MemorySetOrCheckPattern(uint8_t* buffer,
                                     size_t size,
                                     bool setOrCheck) {
@@ -43,6 +38,11 @@ static bool MemorySetOrCheckPattern(uint8_t* buffer,
   return true;
 }
 
+TEST(ChannelTest, SimpleInitialization) {
+  rl::core::Channel channel;
+  ASSERT_TRUE(channel.source() != nullptr);
+}
+
 TEST(ChannelTest, TestSimpleReads) {
   rl::core::Channel channel;
 
@@ -71,7 +71,8 @@ TEST(ChannelTest, TestSimpleReads) {
   char c = 'c';
   ASSERT_TRUE(m.encode(c));
   messages.emplace_back(std::move(m));
-  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
+  ASSERT_EQ(channel.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
 
   thread.join();
 }
@@ -112,7 +113,8 @@ TEST(ChannelTest, TestLargeReadWrite) {
 
   sizeWritten = m.size();
   messages.emplace_back(std::move(m));
-  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
+  ASSERT_EQ(channel.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
 
   thread.join();
 }
@@ -162,7 +164,8 @@ TEST(ChannelTest, TestSimpleReadContents) {
   sendSize = m.size();
 
   messages.emplace_back(std::move(m));
-  ASSERT_TRUE(channel.sendMessages(std::move(messages)));
+  ASSERT_EQ(channel.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
 
   thread.join();
 }
@@ -196,7 +199,8 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
   rl::core::Message message(other.asMessageAttachment());
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
-  ASSERT_EQ(chan.sendMessages(std::move(messages)), true);
+  ASSERT_EQ(chan.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
 
   thread.join();
 }
@@ -228,7 +232,8 @@ TEST(ChannelTest, AliasingChannels) {
     rl::core::Messages messages;
     messages.emplace_back(std::move(messageToAlias));
 
-    ASSERT_EQ(aliasOther.sendMessages(std::move(messages)), true);
+    ASSERT_EQ(aliasOther.sendMessages(std::move(messages)),
+              rl::core::IOResult::Success);
     aliasLatch.countDown();
   });
 
@@ -262,7 +267,7 @@ TEST(ChannelTest, AliasingChannels) {
   });
 
   aliasLatch.wait();
-  ASSERT_EQ(other.readPendingMessageNow(), true);
+  ASSERT_EQ(other.readPendingMessageNow(), rl::core::IOResult::Success);
 
   ASSERT_EQ(otherMessageRead, true);
 

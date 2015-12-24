@@ -14,8 +14,6 @@ class MachPort {
  public:
   using Handle = uint32_t;
 
-  using ReadResult = std::pair<EventLoopSource::IOHandlerResult, Message>;
-
   explicit MachPort(size_t queueLimit);
 
   explicit MachPort(const Message::Attachment& attachment);
@@ -25,10 +23,9 @@ class MachPort {
   Handle portHandle() const;
   Handle setHandle() const;
 
-  EventLoopSource::IOHandlerResult sendMessages(Messages&& messages,
-                                                ClockDurationNano timeout);
+  IOResult sendMessages(Messages&& messages, ClockDurationNano timeout);
 
-  ReadResult readMessage(ClockDurationNano timeout);
+  IOReadResult readMessage(ClockDurationNano timeout);
 
   bool doTerminate();
 

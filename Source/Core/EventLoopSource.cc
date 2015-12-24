@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
 #include <Core/Utilities.h>
 
 #include <Instrumentation/TraceEvent.h>
@@ -24,12 +24,10 @@ EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
       _writeHandler(writeHandler),
       _customWaitSetUpdateHandler(waitsetUpdateHandler),
       _handles(Handles(-1, -1)),
-      _handlesAllocated(false) {
-}
+      _handlesAllocated(false) {}
 
 EventLoopSource::EventLoopSource()
-    : _handles(Handles(-1, -1)), _handlesAllocated(false) {
-}
+    : _handles(Handles(-1, -1)), _handlesAllocated(false) {}
 
 EventLoopSource::~EventLoopSource() {
   if (_handlesAllocated && _handlesCollector) {
@@ -116,7 +114,7 @@ EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
 void EventLoopSource::attemptRead() {
   RL_TRACE_AUTO("EventLoopSource::AttemptRead");
 
-  auto result = IOHandlerResult::Timeout;
+  auto result = IOResult::Timeout;
 
   if (_readHandler) {
     /*

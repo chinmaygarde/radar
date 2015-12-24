@@ -40,7 +40,7 @@ MachTrivialSource::MachTrivialSource()
     messages.emplace_back();
     auto result =
         _port.sendMessages(std::move(messages), ClockDurationMilli(0));
-    RL_ASSERT(result != EventLoopSource::IOHandlerResult::Failure);
+    RL_ASSERT(result != IOResult::Failure);
 
     /*
      *  Timeouts are fine, and expected if the port is already signalled
@@ -51,7 +51,7 @@ MachTrivialSource::MachTrivialSource()
 
   setReader([&](Handle handle) {
     auto result = _port.readMessage(ClockDurationMilli(0));
-    RL_ASSERT(result.first != EventLoopSource::IOHandlerResult::Failure);
+    RL_ASSERT(result.first != IOResult::Failure);
     /*
      *  We don't actually care about the message contents. Just need to
      *  ensure that a round trip was made

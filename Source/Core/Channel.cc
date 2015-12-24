@@ -3,13 +3,14 @@
 // found in the LICENSE file.
 
 #include <Core/Channel.h>
+#include <Core/ChannelProvider.h>
 #include <Core/Config.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
 
-#include "InProcessChannel.h"
-#include "MachPortChannel.h"
-#include "SocketChannel.h"
+#include <Core/InProcessChannel.h>
+#include <Core/MachPortChannel.h>
+#include <Core/SocketChannel.h>
 
 namespace rl {
 namespace core {
@@ -53,9 +54,9 @@ void Channel::terminate() {
   }
 }
 
-bool Channel::sendMessages(Messages messages) {
+IOResult Channel::sendMessages(Messages messages) {
   if (messages.size() == 0) {
-    return true;
+    return IOResult::Success;
   }
 
   /*
@@ -64,23 +65,23 @@ bool Channel::sendMessages(Messages messages) {
    */
   for (const auto& message : messages) {
     if (!message.isValid()) {
-      return false;
+      return IOResult::Failure;
     }
   }
 
-  auto writeStatus =
+  auto result =
       _provider->writeMessages(std::move(messages), ClockDurationNano::max());
 
-  if (writeStatus == ChannelProvider::Result::PermanentFailure) {
-    /*
-     *  If the channel is unrecoverable, we need to get rid of our
-     *  reference to the descriptor and warn the user of the failure.
-     */
-    terminate();
-    return false;
+  switch (result) {
+    case IOResult::Failure:
+      terminate();
+      return IOResult::Failure;
+    case IOResult::Success:
+    case IOResult::Timeout:
+      return result;
   }
 
-  return writeStatus == ChannelProvider::Result::Success;
+  return IOResult::Failure;
 }
 
 const Channel::MessageCallback& Channel::messageCallback() const {
@@ -91,23 +92,22 @@ void Channel::setMessageCallback(MessageCallback callback) {
   _messageCallback = callback;
 }
 
-bool Channel::readPendingMessageNow() {
+IOResult Channel::readPendingMessageNow() {
   auto result = _provider->readMessage(ClockDurationNano::max());
 
   switch (result.first) {
-    case ChannelProvider::Result::Success:
+    case IOResult::Success:
       if (_messageCallback) {
         _messageCallback(std::move(result.second));
       }
-      return true;
-    case ChannelProvider::Result::PermanentFailure:
+      return IOResult::Success;
+    case IOResult::Failure:
       terminate();
-      return false;
-    case ChannelProvider::Result::TemporaryFailure:
-      return false;
+    case IOResult::Timeout:
+      return result.first;
   }
 
-  return false;
+  return IOResult::Failure;
 }
 
 Messages Channel::drainPendingMessages() {
@@ -116,18 +116,19 @@ Messages Channel::drainPendingMessages() {
   while (true) {
     auto result = _provider->readMessage(ClockDurationNano(0));
 
-    if (result.first == ChannelProvider::Result::Success) {
-      messages.emplace_back(std::move(result.second));
-      continue;
+    switch (result.first) {
+      case IOResult::Success:
+        messages.emplace_back(std::move(result.second));
+        continue;
+      case IOResult::Timeout:
+        goto Done;
+      case IOResult::Failure:
+        terminate();
+        goto Done;
     }
-
-    if (result.first == ChannelProvider::Result::PermanentFailure) {
-      terminate();
-    }
-
-    break;
   }
 
+Done:
   return std::move(messages);
 }
 

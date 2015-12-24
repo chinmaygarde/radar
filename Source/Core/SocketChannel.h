@@ -23,8 +23,9 @@ class SocketChannel : public ChannelProvider {
 
   ~SocketChannel();
   std::shared_ptr<EventLoopSource> createSource() const override;
-  Result writeMessages(Messages&& message, ClockDurationNano timeout) override;
-  ReadResult readMessage(ClockDurationNano timeout) override;
+  IOResult writeMessages(Messages&& message,
+                         ClockDurationNano timeout) override;
+  IOReadResult readMessage(ClockDurationNano timeout) override;
   Message::Attachment::Handle handle() override;
   bool doTerminate() override;
 
@@ -46,12 +47,12 @@ class SocketChannel : public ChannelProvider {
   Handle readHandle() const;
   Handle writeHandle() const;
 
-  Result writeMessageSingle(const Message& message);
-  Result writeDescriptorOutOfLine(Handle descriptor, OOLDescriptor desc);
-  Result writeDataMessageInline(const Message& message);
-  Result writeDataMessageOutOfLine(const Message& message);
+  IOResult writeMessageSingle(const Message& message);
+  IOResult writeDescriptorOutOfLine(Handle descriptor, OOLDescriptor desc);
+  IOResult writeDataMessageInline(const Message& message);
+  IOResult writeDataMessageOutOfLine(const Message& message);
 
-  ReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
+  IOReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };

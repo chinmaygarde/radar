@@ -203,6 +203,7 @@
 		9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EF07B691C0641BD00735CAA /* InterfaceController.h */; };
 		9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF07B6B1C0641C600735CAA /* InterfaceController.cc */; };
 		EA18580F1C26744600FF64C6 /* EventLoopObserverTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA18580E1C26744600FF64C6 /* EventLoopObserverTest.cc */; };
+		EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */ = {isa = PBXBuildFile; fileRef = EA2D4A501C2CA06C00575608 /* IOResult.h */; };
 		EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */; };
 		EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */; };
 		EA6090D61BA41E8C00C2E263 /* KQueueEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */; };
@@ -516,6 +517,7 @@
 		9EF07B691C0641BD00735CAA /* InterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
 		9EF07B6B1C0641C600735CAA /* InterfaceController.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceController.cc; sourceTree = "<group>"; };
 		EA18580E1C26744600FF64C6 /* EventLoopObserverTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserverTest.cc; sourceTree = "<group>"; };
+		EA2D4A501C2CA06C00575608 /* IOResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOResult.h; sourceTree = "<group>"; };
 		EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyResolver.h; sourceTree = "<group>"; };
 		EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProxyResolver.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KQueueEventLoopSource.cc; sourceTree = "<group>"; };
@@ -823,6 +825,7 @@
 				9EAECE4B1B685460000FA38A /* Channel.h */,
 				9EAECE4C1B685460000FA38A /* Config.h */,
 				9EAECE4D1B685460000FA38A /* Guard.h */,
+				EA2D4A501C2CA06C00575608 /* IOResult.h */,
 				9EAECE4E1B685460000FA38A /* Latch.h */,
 				9EAECE501B685460000FA38A /* EventLoop.h */,
 				9EAECE511B685460000FA38A /* EventLoopSource.h */,
@@ -1196,6 +1199,7 @@
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				EAB379DA1BE70A7F00A59948 /* Director.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
+				EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */,
 				EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */,
 				9EBA79C21B87F1F8005D84FA /* Counter.h in Headers */,
 			);

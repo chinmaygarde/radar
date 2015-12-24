@@ -22,8 +22,9 @@ class InProcessChannel : public ChannelProvider {
   ~InProcessChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
-  Result writeMessages(Messages&& messages, ClockDurationNano timeout) override;
-  ReadResult readMessage(ClockDurationNano timeout) override;
+  IOResult writeMessages(Messages&& messages,
+                         ClockDurationNano timeout) override;
+  IOReadResult readMessage(ClockDurationNano timeout) override;
   bool doTerminate() override;
 
  private:

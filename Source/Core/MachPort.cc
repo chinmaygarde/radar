@@ -93,8 +93,7 @@ struct MachPayload {
         body(),
         trailer() {}
 
-  EventLoopSource::IOHandlerResult send(mach_msg_option_t timeoutOption,
-                                        mach_msg_timeout_t timeout) {
+  IOResult send(mach_msg_option_t timeoutOption, mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     // clang-format off
@@ -110,19 +109,19 @@ struct MachPayload {
 
     switch (res) {
       case MACH_MSG_SUCCESS:
-        return EventLoopSource::IOHandlerResult::Success;
+        return IOResult::Success;
       case MACH_SEND_TIMED_OUT:
-        return EventLoopSource::IOHandlerResult::Timeout;
+        return IOResult::Timeout;
       default:
         RL_LOG("Mach Send Failed: %s", mach_error_string(res));
-        return EventLoopSource::IOHandlerResult::Failure;
+        return IOResult::Failure;
     }
 
-    return EventLoopSource::IOHandlerResult::Failure;
+    return IOResult::Failure;
   }
 
-  EventLoopSource::IOHandlerResult receive(mach_msg_option_t timeoutOption,
-                                           mach_msg_timeout_t timeout) {
+  IOResult receive(mach_msg_option_t timeoutOption,
+                   mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
 
     // clang-format off
@@ -138,15 +137,15 @@ struct MachPayload {
     switch (res) {
       case MACH_MSG_SUCCESS:
         RL_ASSERT(MACH_MSGH_BITS_IS_COMPLEX(header->msgh_bits));
-        return EventLoopSource::IOHandlerResult::Success;
+        return IOResult::Success;
       case MACH_RCV_TIMED_OUT:
-        return EventLoopSource::IOHandlerResult::Timeout;
+        return IOResult::Timeout;
       default:
         RL_LOG("Mach Recv Failed: %s", mach_error_string(res));
-        return EventLoopSource::IOHandlerResult::Failure;
+        return IOResult::Failure;
     }
 
-    return EventLoopSource::IOHandlerResult::Failure;
+    return IOResult::Failure;
   }
 
   MachPayloadKind kind() const {
@@ -295,9 +294,8 @@ static inline mach_msg_timeout_t MachMessageTimeOutFromDuration(
       std::chrono::duration_cast<ClockDurationMilli>(timeout).count());
 }
 
-EventLoopSource::IOHandlerResult MachPort::sendMessages(
-    Messages&& messages,
-    ClockDurationNano requestedTimeout) {
+IOResult MachPort::sendMessages(Messages&& messages,
+                                ClockDurationNano requestedTimeout) {
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;
 
@@ -306,7 +304,7 @@ EventLoopSource::IOHandlerResult MachPort::sendMessages(
     timeout = MachMessageTimeOutFromDuration(requestedTimeout);
   }
 
-  auto result = EventLoopSource::IOHandlerResult::Failure;
+  auto result = IOResult::Failure;
   /*
    *  This is incorrect. Multiple messages need to be sent in one call
    */
@@ -314,7 +312,7 @@ EventLoopSource::IOHandlerResult MachPort::sendMessages(
     MachPayload payload(message, _handle);
     result = payload.send(timeoutOption, timeout);
 
-    if (result == EventLoopSource::IOHandlerResult::Failure) {
+    if (result == IOResult::Failure) {
       return result;
     }
   }
@@ -322,7 +320,7 @@ EventLoopSource::IOHandlerResult MachPort::sendMessages(
   return result;
 }
 
-MachPort::ReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
+IOReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
   MachPayload payload(_handle);
 
   mach_msg_option_t timeoutOption = 0;
@@ -337,12 +335,12 @@ MachPort::ReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
 
   auto result = payload.receive(timeoutOption, timeout);
 
-  if (result == EventLoopSource::IOHandlerResult::Success) {
-    return ReadResult(result, std::move(payload.asMessage()));
+  if (result == IOResult::Success) {
+    return IOReadResult(result, std::move(payload.asMessage()));
   }
 
   Message empty;
-  return ReadResult(result, std::move(empty));
+  return IOReadResult(result, std::move(empty));
 }
 
 void MachPort::LogRights(Handle name) {

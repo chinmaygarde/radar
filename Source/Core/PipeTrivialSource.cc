@@ -4,8 +4,8 @@
 
 #include <Core/PipeTrivialSource.h>
 
-#include <unistd.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 namespace rl {
 namespace core {
@@ -59,7 +59,7 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
 
     RL_ASSERT(readCount >= 1);
 
-    return EventLoopSource::IOHandlerResult::Success;
+    return IOResult::Success;
   };
 
   EventLoopSource::IOHandler writer = [](EventLoopSource::Handle writeHandle) {
@@ -70,7 +70,7 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
         ::write(static_cast<int>(writeHandle), payload, sizeof(payload)),
         sizeof(payload));
 
-    return EventLoopSource::IOHandlerResult::Success;
+    return IOResult::Success;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,

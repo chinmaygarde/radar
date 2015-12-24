@@ -34,8 +34,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   auto setHandle = _port.setHandle();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
   auto readHandler = [&](ELS::Handle handle) {
-    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
-                                            : ELS::IOHandlerResult::Failure;
+    return _channel.readPendingMessageNow();
   };
 
   // clang-format off
@@ -69,35 +68,13 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   // clang-format on
 }
 
-ChannelProvider::Result MachPortChannel::writeMessages(
-    Messages&& messages,
-    ClockDurationNano timeout) {
-  auto result = _port.sendMessages(std::move(messages), timeout);
-
-  switch (result) {
-    case EventLoopSource::IOHandlerResult::Success:
-      return ChannelProvider::Result::Success;
-    case EventLoopSource::IOHandlerResult::Timeout:
-      return ChannelProvider::Result::TemporaryFailure;
-    case EventLoopSource::IOHandlerResult::Failure:
-      return ChannelProvider::Result::PermanentFailure;
-  }
-
-  return ChannelProvider::Result::PermanentFailure;
+IOResult MachPortChannel::writeMessages(Messages&& messages,
+                                        ClockDurationNano timeout) {
+  return _port.sendMessages(std::move(messages), timeout);
 }
 
-ChannelProvider::ReadResult MachPortChannel::readMessage(
-    ClockDurationNano timeout) {
-  auto result = _port.readMessage(timeout);
-
-  if (result.first == EventLoopSource::IOHandlerResult::Failure) {
-    return ChannelProvider::ReadResult(Result::PermanentFailure,
-                                       std::move(result.second));
-  }
-
-  return ChannelProvider::ReadResult(
-      result.second.isValid() ? Result::Success : Result::TemporaryFailure,
-      std::move(result.second));
+IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
+  return _port.readMessage(timeout);
 }
 
 Message::Attachment::Handle MachPortChannel::handle() {

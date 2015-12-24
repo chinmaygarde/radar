@@ -193,7 +193,9 @@ void Interface::flushTransactions() {
 
   core::Messages messages;
   messages.push_back(std::move(arena));
-  result &= _coordinatorChannel->sendMessages(std::move(messages));
+
+  result = _coordinatorChannel->sendMessages(std::move(messages)) ==
+           core::IOResult::Success;
 
   _popCount = 0;
   _transactionStack.clear();

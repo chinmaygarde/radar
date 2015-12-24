@@ -67,8 +67,7 @@ TEST(EventLoopTest, Timer) {
     /*
      *  This test is extremely brittle :/
      */
-    timer->setWakeFunction([clock, start](
-        rl::core::EventLoopSource::IOHandlerResult cause) {
+    timer->setWakeFunction([clock, start](rl::core::IOResult cause) {
       auto duration = std::chrono::duration_cast<rl::core::ClockDurationMilli>(
           clock.now() - start);
       rl::core::EventLoop::Current()->terminate();
@@ -94,15 +93,14 @@ TEST(EventLoopTest, TimerRepetition) {
     auto timer =
         rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(1));
 
-    timer->setWakeFunction(
-        [&count, loop](rl::core::EventLoopSource::IOHandlerResult cause) {
+    timer->setWakeFunction([&count, loop](rl::core::IOResult cause) {
 
-          count++;
+      count++;
 
-          if (count == 10) {
-            loop->terminate();
-          }
-        });
+      if (count == 10) {
+        loop->terminate();
+      }
+    });
 
     loop->addSource(timer);
 
@@ -120,8 +118,7 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   std::thread trivialThread([&count] {
     auto loop = rl::core::EventLoop::Current();
     auto trivial = rl::core::EventLoopSource::Trivial();
-    trivial->setWakeFunction([&count](
-        rl::core::EventLoopSource::IOHandlerResult cause) { count++; });
+    trivial->setWakeFunction([&count](rl::core::IOResult cause) { count++; });
 
     /**
      *  Fire the trivial source multiple times. We need to assert that the
@@ -137,10 +134,9 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
     auto timer =
         rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
 
-    timer->setWakeFunction(
-        [](rl::core::EventLoopSource::IOHandlerResult cause) {
-          rl::core::EventLoop::Current()->terminate();
-        });
+    timer->setWakeFunction([](rl::core::IOResult cause) {
+      rl::core::EventLoop::Current()->terminate();
+    });
 
     loop->addSource(trivial);
     loop->addSource(timer);

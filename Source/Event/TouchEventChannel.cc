@@ -22,7 +22,7 @@ void TouchEventChannel::sendTouchEvents(
     messages.emplace_back(std::move(m));
   }
 
-  bool result = sendMessages(std::move(messages));
+  bool result = sendMessages(std::move(messages)) == core::IOResult::Success;
   RL_ASSERT(result);
 }
 
