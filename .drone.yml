@@ -3,4 +3,4 @@ build:
   commands:
     - cmake .
     - make
-    - ./RadarLoveTest
+    - timeout 10s ./RadarLoveTest
