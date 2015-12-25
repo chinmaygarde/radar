@@ -40,37 +40,38 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
 
   EventLoopSource::IOHandler reader = [](EventLoopSource::Handle readHandle) {
     char buffer[1] = {0};
+    const auto expected = sizeof(buffer);
     static_assert(sizeof(payload) == sizeof(buffer), "");
 
     size_t readCount = 0;
 
     while (true) {
       auto read = RL_TEMP_FAILURE_RETRY(
-          ::read(static_cast<int>(readHandle), buffer, sizeof(buffer)));
+          ::read(static_cast<int>(readHandle), buffer, expected));
 
       if (read == -1 && errno == EAGAIN) {
         break;
       }
 
-      readCount++;
+      if (read != expected) {
+        return IOResult::Failure;
+      }
 
-      RL_ASSERT(read == sizeof(buffer));
+      readCount++;
     };
 
-    RL_ASSERT(readCount >= 1);
-
-    return IOResult::Success;
+    return readCount == 0 ? IOResult::Timeout : IOResult::Success;
   };
 
   EventLoopSource::IOHandler writer = [](EventLoopSource::Handle writeHandle) {
     /*
      *  Unconditionally write the payload on the pipe
      */
-    RL_CHECK_EXPECT(
-        ::write(static_cast<int>(writeHandle), payload, sizeof(payload)),
-        sizeof(payload));
+    const auto expected = sizeof(payload);
+    auto written = RL_TEMP_FAILURE_RETRY(
+        ::write(static_cast<int>(writeHandle), payload, expected));
 
-    return IOResult::Success;
+    return expected == written ? IOResult::Success : IOResult::Failure;
   };
 
   return std::make_shared<EventLoopSource>(provider, collector, reader, writer,

@@ -204,6 +204,7 @@
 		9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF07B6B1C0641C600735CAA /* InterfaceController.cc */; };
 		EA18580F1C26744600FF64C6 /* EventLoopObserverTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA18580E1C26744600FF64C6 /* EventLoopObserverTest.cc */; };
 		EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */ = {isa = PBXBuildFile; fileRef = EA2D4A501C2CA06C00575608 /* IOResult.h */; };
+		EA2D4A5B1C2D5A9900575608 /* PipeTrivialSourceTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.cc */; };
 		EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */; };
 		EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */; };
 		EA6090D61BA41E8C00C2E263 /* KQueueEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */; };
@@ -518,6 +519,7 @@
 		9EF07B6B1C0641C600735CAA /* InterfaceController.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceController.cc; sourceTree = "<group>"; };
 		EA18580E1C26744600FF64C6 /* EventLoopObserverTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopObserverTest.cc; sourceTree = "<group>"; };
 		EA2D4A501C2CA06C00575608 /* IOResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOResult.h; sourceTree = "<group>"; };
+		EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PipeTrivialSourceTest.cc; sourceTree = "<group>"; };
 		EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyResolver.h; sourceTree = "<group>"; };
 		EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProxyResolver.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KQueueEventLoopSource.cc; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				9E62F80C1B796D81008DE08E /* EventLoopTest.cc */,
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */,
 				9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */,
+				EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.cc */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.cc */,
 				9E62F8121B796D81008DE08E /* TestMain.cc */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.cc */,
@@ -1348,6 +1351,7 @@
 				9E62F8D51B796ED3008DE08E /* EventLoopTest.cc in Sources */,
 				EA18580F1C26744600FF64C6 /* EventLoopObserverTest.cc in Sources */,
 				9E62F8D61B796ED3008DE08E /* MessageDecoderTest.cc in Sources */,
+				EA2D4A5B1C2D5A9900575608 /* PipeTrivialSourceTest.cc in Sources */,
 				9EC1CE491C0E7E6A00DBAA91 /* WorkQueueTest.cc in Sources */,
 				9E62F90B1B7BFA49008DE08E /* EntityLeaseTest.cc in Sources */,
 				9E62F8D71B796ED3008DE08E /* MessageEncoderTest.cc in Sources */,
