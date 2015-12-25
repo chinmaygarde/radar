@@ -42,7 +42,7 @@ class SocketChannel : public ChannelProvider {
   std::pair<Handle, Handle> _handles;
   Channel& _channel;
 
-  void setupWithHandles(Handle a, Handle b);
+  void setupWithHandles(Handle readHandle, Handle writeHandle);
 
   Handle readHandle() const;
   Handle writeHandle() const;

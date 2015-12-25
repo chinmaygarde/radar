@@ -63,10 +63,11 @@ SocketChannel::SocketChannel(Channel& channel,
   RL_ASSERT_MSG(attachment.isValid(),
                 "Can only create channels from valid message attachments");
 
-  Handle handle = static_cast<Handle>(attachment.handle());
-  Handle other = static_cast<Handle>(RL_TEMP_FAILURE_RETRY(::dup(handle)));
+  Handle writeHandle = static_cast<Handle>(attachment.handle());
+  Handle readHandle =
+      static_cast<Handle>(RL_TEMP_FAILURE_RETRY(::dup(writeHandle)));
 
-  setupWithHandles(handle, other);
+  setupWithHandles(readHandle, writeHandle);
 }
 
 SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
@@ -77,13 +78,13 @@ SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
   setupWithHandles(socketHandles[0], socketHandles[1]);
 }
 
-void SocketChannel::setupWithHandles(Handle a, Handle b) {
-  RL_ASSERT(a != b);
+void SocketChannel::setupWithHandles(Handle readHandle, Handle writeHandle) {
+  RL_ASSERT(readHandle != writeHandle);
 
-  SocketChannel_ConfigureHandle(a);
-  SocketChannel_ConfigureHandle(b);
+  SocketChannel_ConfigureHandle(readHandle);
+  SocketChannel_ConfigureHandle(writeHandle);
 
-  _handles = std::make_pair(a, b);
+  _handles = std::make_pair(readHandle, writeHandle);
 
   /*
    *  Setup the channel buffer
@@ -498,7 +499,7 @@ IOReadResult SocketChannel::readFromHandle(SocketChannel::Handle handle,
 }
 
 Message::Attachment::Handle SocketChannel::handle() {
-  return _handles.first;
+  return writeHandle();
 }
 
 SocketChannel::Handle SocketChannel::readHandle() const {

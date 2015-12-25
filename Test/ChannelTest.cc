@@ -205,7 +205,7 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
   thread.join();
 }
 
-TEST(ChannelTest, DISABLED_AliasingChannels) {
+TEST(ChannelTest, AliasingChannels) {
   /*
    *  Create two channels and pass the handle of one as a message. Read that
    *  message on a separate runloop and create an alias of the original channel
