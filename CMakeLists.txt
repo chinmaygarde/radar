@@ -105,6 +105,13 @@ if(LINUX)
   target_link_libraries(RadarLove rt GL)
 endif()
 
+if (FREEBSD)
+  link_directories(
+    "/usr/local/lib"
+  )
+  target_link_libraries(RadarLove GLESv2)
+endif()
+
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
   target_link_libraries(RadarLove rt)
