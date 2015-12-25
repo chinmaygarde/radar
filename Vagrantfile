@@ -50,6 +50,18 @@ Vagrant.configure(2) do |config|
       vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
       vb.customize ["modifyvm", :id, "--nictype2", "virtio"]
     end
+
+    freebsd.vm.provision "shell", inline: <<-SHELL
+      pkg install -y pkgconf cmake gmake glproto wget
+      ( mkdir -p /tmp/mesa_source && \
+        cd /tmp/mesa_source/ && \
+        wget ftp://ftp.freedesktop.org/pub/mesa/older-versions/10.x/10.6.9/mesa-10.6.9.tar.xz && \
+        tar -xjvf mesa-10.6.9.tar.xz )
+      ( cd /tmp/mesa_source/mesa-10.6.9 && \
+        ./configure --enable-gles2 --enable-osmesa --with-gallium-drivers=swrast && \
+        gmake && \
+        gmake install )
+    SHELL
   end
 
 end
