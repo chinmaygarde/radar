@@ -4,3 +4,13 @@ build:
     - cmake .
     - make
     - timeout 10s ./RadarLoveTest
+    - ( cd Docs && make htmlonly )
+deploy:
+  rsync:
+    user: root
+    host: 127.0.0.1
+    port: 22
+    source: Docs/html
+    target: /var/www/html
+    delete: true
+    recursive: true
