@@ -11,6 +11,6 @@ deploy:
     host: radar.thefreakinmanual.com
     port: 22
     source: Docs/html
-    target: /var/www/html
+    target: /var/www
     delete: true
     recursive: true
