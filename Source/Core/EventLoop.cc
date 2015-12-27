@@ -118,7 +118,7 @@ void EventLoop::loop(std::function<void(void)> onReady) {
          *  We are here because of a zero timeout read. If the source is not
          *  nullptr, try again to see if any pending reads are available.
          */
-        if (source == nullptr) {
+        if (source == nullptr || _shouldTerminate) {
           /*
            *  We got a nullptr source on a zero timeout read on the waitset.
            *  There is absolutely nothing to be read on the waitset and we may
