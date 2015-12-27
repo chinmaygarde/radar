@@ -2,15 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
+#include <Core/Macros.h>
 #include <Instrumentation/Trace.h>
 #include <Instrumentation/TraceEvent.h>
-#include <thread>
+#include <gtest/gtest.h>
 #include <sstream>
+#include <thread>
 
 using Event = rl::instrumentation::TraceEvent;
 
-TEST(TraceTest, SimpleTraceCapture) {
+TEST(TraceTest, RL_KNOWN_SLOW(SimpleTraceCapture)) {
   Event::MarkDurationBegin(Event::Category::Default, "trace");
   Event::MarkCounter(Event::Category::Default, "counter1", 400);
   Event::MarkCounter(Event::Category::Default, "counter2", 200);
@@ -29,7 +30,7 @@ TEST(TraceTest, SimpleTraceCapture) {
   ASSERT_GE(stream.str().size(), 0);
 }
 
-TEST(TraceTest, TraceUsingMacros) {
+TEST(TraceTest, RL_KNOWN_SLOW(TraceUsingMacros)) {
   {
     RL_TRACE_AUTO("auto");
     {

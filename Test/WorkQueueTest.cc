@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
 #include <Core/Core.h>
+#include <gtest/gtest.h>
 #include <atomic>
 
 TEST(WorkQueue, SimpleInitialization) {
@@ -11,7 +11,7 @@ TEST(WorkQueue, SimpleInitialization) {
   ASSERT_GE(queue.workerCount(), 0);
 }
 
-TEST(WorkQueue, SimpleWork) {
+TEST(WorkQueue, RL_KNOWN_SLOW(SimpleWork)) {
   auto size = 5000;
   std::atomic<int> count(0);
 

@@ -32,7 +32,7 @@ TEST(EventLoopTest, SimpleLoop) {
     bool terminatedFromInner = false;
 
     std::thread innerThread([&] {
-      std::this_thread::sleep_for(rl::core::ClockDurationMilli(10));
+      std::this_thread::sleep_for(rl::core::ClockDurationMilli(4));
       terminatedFromInner = true;
       outer->terminate();
       ASSERT_TRUE(true);
@@ -62,7 +62,7 @@ TEST(EventLoopTest, Timer) {
     auto start = clock.now();
 
     auto timer =
-        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(10));
+        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
 
     /*
      *  This test is extremely brittle :/
@@ -71,7 +71,7 @@ TEST(EventLoopTest, Timer) {
       auto duration = std::chrono::duration_cast<rl::core::ClockDurationMilli>(
           clock.now() - start);
       rl::core::EventLoop::Current()->terminate();
-      ASSERT_TRUE(duration.count() >= 5 && duration.count() <= 15);
+      ASSERT_TRUE(duration.count() >= 4 && duration.count() <= 6);
     });
 
     loop->addSource(timer);
@@ -97,7 +97,7 @@ TEST(EventLoopTest, TimerRepetition) {
 
       count++;
 
-      if (count == 10) {
+      if (count == 5) {
         loop->terminate();
       }
     });
@@ -110,7 +110,7 @@ TEST(EventLoopTest, TimerRepetition) {
 
   timerThread.join();
 
-  ASSERT_TRUE(count == 10);
+  ASSERT_TRUE(count == 5);
 }
 
 TEST(EventLoopTest, TrivialTriggerFiresOnces) {

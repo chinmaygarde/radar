@@ -121,4 +121,19 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_WARN_UNUSED_RESULT
 #endif
 
+/**
+ *  Slow tests are decorated with this macro. The test runner runs all available
+ *  tests in the test suite once. Then it runs the fast ones repeatedly to
+ *  make resource leaks, deadlocks and other issues more apparent.
+ *
+ *  Currently, what qualifies as a "fast" test is somewhat arbitrary. But, if
+ *  the test takes more that 16ms in the trial run, mark it as slow. As always,
+ *  try to make each test case finish as quickly as possible.
+ *
+ *  @param x the test name
+ *
+ *  @return the decorated test name
+ */
+#define RL_KNOWN_SLOW(x) x##_RLKnownSlowTest
+
 #endif  // RADARLOVE_CORE_MACROS_

@@ -77,7 +77,7 @@ TEST(ChannelTest, TestSimpleReads) {
   thread.join();
 }
 
-TEST(ChannelTest, TestLargeReadWrite) {
+TEST(ChannelTest, RL_KNOWN_SLOW(TestLargeReadWrite)) {
   rl::core::Channel channel;
 
   rl::core::Latch latch(1);
