@@ -4,7 +4,7 @@ build:
     - cmake .
     - make
     - timeout 10s ./RadarLoveTest
-    - ( cd Docs && make htmlonly )
+    - make -C Docs htmlonly
 deploy:
   rsync:
     user: root
