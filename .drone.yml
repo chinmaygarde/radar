@@ -2,5 +2,5 @@ build:
   image: chinmaygarde/radar
   commands:
     - cmake .
-    - make
+    - make -j$((`nproc` + 1))
     - timeout 10s ./RadarLoveTest
