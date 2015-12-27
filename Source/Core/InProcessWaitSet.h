@@ -56,21 +56,20 @@ class InProcessWaitSet : public WaitSetProvider {
 
   std::mutex _lock;
   std::condition_variable _conditionVariable;
-  bool _idleWake;
   WriteHandleSourcesMap _watchedSources;
   ActiveTimersHeap _timers;
   std::unordered_set<EventLoopSource*> _readySources;
 
-  TimerClockPoint nextTimeout() const;
+  TimerClockPoint nextTimerTimeout(TimerClockPoint upperBound) const;
   bool isAwakable() const;
-  bool isTimerExpired(TimerClockPoint now = TimerClock::now()) const;
-  void setupTimer(EventLoopSource& source,
-                  TimerClockPoint now = TimerClock::now());
+  bool isTimerExpired(TimerClockPoint now) const;
+  void setupTimer(EventLoopSource& source, TimerClockPoint now);
   void teardownTimer(EventLoopSource& source);
   void setupSource(EventLoopSource& source);
   void teardownSource(EventLoopSource& source);
-  EventLoopSource& timerOnWake(TimerClockPoint now = TimerClock::now());
-  EventLoopSource* sourceOnWake();
+  EventLoopSource* timerOrSourceOnWakeNoLock(TimerClockPoint now);
+  EventLoopSource* timerOnWakeNoLock(TimerClockPoint now);
+  EventLoopSource* sourceOnWakeNoLock();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessWaitSet);
 };

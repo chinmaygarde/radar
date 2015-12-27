@@ -54,6 +54,12 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
                                          ClockDurationNano timeout) {
+  /*
+   *  There is no limit on the size of the message buffer. So the timeout is
+   *  ignored. It may be that contention on lock for the message buffer itself
+   *  causes an overflow of the allotted time. That case is not handled here.
+   */
+
   if (messages.size() == 0) {
     return IOResult::Success;
   }

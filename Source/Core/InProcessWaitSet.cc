@@ -13,7 +13,7 @@
 namespace rl {
 namespace core {
 
-InProcessWaitSet::InProcessWaitSet() : _idleWake(false) {}
+InProcessWaitSet::InProcessWaitSet() {}
 
 InProcessWaitSet::~InProcessWaitSet() {
   RL_ASSERT(_watchedSources.size() == 0);
@@ -49,14 +49,14 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
 
     if (IsTimer(source.handles())) {
       if (added) {
-        setupTimer(source);
+        setupTimer(source, TimerClock::now());
       } else {
         teardownTimer(source);
       }
+
       /*
-       *  in case timer re-arms are required, notify an idle wake
+       *  Notify waiting members
        */
-      _idleWake = true;
       _conditionVariable.notify_all();
     } else {
       if (added) {
@@ -117,46 +117,59 @@ bool InProcessWaitSet::isTimerExpired(TimerClockPoint now) const {
 bool InProcessWaitSet::isAwakable() const {
   bool hasReadySources = _readySources.size() > 0;
 
-  return _idleWake || hasReadySources || isTimerExpired() /* syscall so last */;
+  return hasReadySources ||
+         isTimerExpired(TimerClock::now()) /* syscall so last */;
 }
 
-InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
-  return _timers.size() == 0 ? TimerClockPoint::max()
-                             : _timers.front().absoluteTimeout;
+InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimerTimeout(
+    TimerClockPoint upperBound) const {
+  auto next = _timers.size() == 0 ? TimerClockPoint::max()
+                                  : _timers.front().absoluteTimeout;
+
+  if (next > upperBound) {
+    return upperBound;
+  }
+
+  return next;
 }
 
 EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
-  EventLoopSource* source = nullptr;
-
-  while (true) {
-    std::unique_lock<std::mutex> lock(_lock);
-    _conditionVariable.wait_until(lock, nextTimeout(),
-                                  [&] { return isAwakable(); });
-
-    auto wakeInstant = TimerClock::now();
-    source = isTimerExpired(wakeInstant) ? &timerOnWake(wakeInstant)
-                                         : sourceOnWake();
-
-    lock.unlock();
-
-    if (source == nullptr && _idleWake) {
-      /*
-       *  We could not find a signalled source or timer, but this was an idle
-       *  wake anyway. Try again.
-       */
-      _idleWake = false;
-      continue;
+  /*
+   *  Try to see if there are any sources signalled without waiting on the
+   *  condition variable
+   */
+  {
+    std::lock_guard<std::mutex> lock(_lock);
+    if (auto source = timerOrSourceOnWakeNoLock(TimerClock::now())) {
+      return source;
     }
-
-    _idleWake = false;
-    break;
   }
 
-  return source;
+  /*
+   *  There were no pre-signalled sources and we are forced to wait on the
+   *  condition variable
+   */
+  std::unique_lock<std::mutex> lock(_lock);
+
+  auto satisfied = _conditionVariable.wait_until(
+      lock, nextTimerTimeout(TimerClock::now()),
+      std::bind(&InProcessWaitSet::isAwakable, this));
+
+  return satisfied ? timerOrSourceOnWakeNoLock(TimerClock::now()) : nullptr;
 }
 
-EventLoopSource& InProcessWaitSet::timerOnWake(TimerClockPoint now) {
-  RL_ASSERT(isTimerExpired(now));
+EventLoopSource* InProcessWaitSet::timerOrSourceOnWakeNoLock(
+    TimerClockPoint now) {
+  if (auto source = sourceOnWakeNoLock()) {
+    return source;
+  }
+  return timerOnWakeNoLock(now);
+}
+
+EventLoopSource* InProcessWaitSet::timerOnWakeNoLock(TimerClockPoint now) {
+  if (!isTimerExpired(now)) {
+    return nullptr;
+  }
 
   /*
    *  Grab a hold of the next signalled timer
@@ -176,10 +189,10 @@ EventLoopSource& InProcessWaitSet::timerOnWake(TimerClockPoint now) {
    */
   setupTimer(*source, now);
 
-  return *source;
+  return source;
 }
 
-EventLoopSource* InProcessWaitSet::sourceOnWake() {
+EventLoopSource* InProcessWaitSet::sourceOnWakeNoLock() {
   auto found = _readySources.begin();
 
   if (found == _readySources.end()) {
