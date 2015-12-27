@@ -16,4 +16,4 @@ These are the core tenets of Radar. How closely and/or successfully these have b
   * [Animation](Animation/README.md)
   * [Gesture Recognition](Recognition/README.md)
 * [The Core Library](Core/README.md)
-* [Software Construction](Software/README.md)
+* [Software Construction](Code/README.md)
