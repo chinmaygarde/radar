@@ -27,11 +27,13 @@ InProcessTrivialSource::InProcessTrivialSource()
       waitset->signalReadReadinessFromUserspace(
           reinterpret_cast<EventLoopSource::Handle>(this));
     }
+    return IOResult::Success;
   });
 
   setReader([&](Handle) {
     std::lock_guard<std::mutex> lock(_lock);
     _signalled = false;
+    return IOResult::Success;
   });
 
   setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,

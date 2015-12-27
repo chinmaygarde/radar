@@ -19,12 +19,16 @@ namespace core {
 class InProcessChannel : public ChannelProvider {
  public:
   explicit InProcessChannel(Channel& owner);
+  explicit InProcessChannel(Channel& owner,
+                            const Message::Attachment& attachment);
+
   ~InProcessChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
   IOResult writeMessages(Messages&& messages,
                          ClockDurationNano timeout) override;
   IOReadResult readMessage(ClockDurationNano timeout) override;
+  Message::Attachment::Handle handle() override;
   bool doTerminate() override;
 
  private:

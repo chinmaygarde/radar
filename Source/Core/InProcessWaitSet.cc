@@ -13,8 +13,7 @@
 namespace rl {
 namespace core {
 
-InProcessWaitSet::InProcessWaitSet() : _idleWake(false) {
-}
+InProcessWaitSet::InProcessWaitSet() : _idleWake(false) {}
 
 InProcessWaitSet::~InProcessWaitSet() {
   RL_ASSERT(_watchedSources.size() == 0);
@@ -126,7 +125,7 @@ InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimeout() const {
                              : _timers.front().absoluteTimeout;
 }
 
-EventLoopSource& InProcessWaitSet::wait() {
+EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
   EventLoopSource* source = nullptr;
 
   while (true) {
@@ -153,8 +152,7 @@ EventLoopSource& InProcessWaitSet::wait() {
     break;
   }
 
-  RL_ASSERT(source != nullptr);
-  return *source;
+  return source;
 }
 
 EventLoopSource& InProcessWaitSet::timerOnWake(TimerClockPoint now) {

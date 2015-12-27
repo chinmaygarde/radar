@@ -13,6 +13,12 @@ namespace core {
 
 InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {}
 
+InProcessChannel::InProcessChannel(Channel& owner,
+                                   const Message::Attachment& attachment)
+    : _channel(owner) {
+  RL_ASSERT_MSG(false, "WIP");
+}
+
 InProcessChannel::~InProcessChannel() {
   RL_ASSERT(_activeWaitSets.size() == 0);
 }
@@ -30,8 +36,7 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
   };
 
   auto readHandler = [&](ELS::Handle handle) {
-    return _channel.readPendingMessageNow() ? ELS::IOHandlerResult::Success
-                                            : ELS::IOHandlerResult::Failure;
+    return _channel.readPendingMessageNow();
   };
 
   auto updateHandler = [&](EventLoopSource& source, WaitSet& waitset,
@@ -47,11 +52,10 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
                                updateHandler);
 }
 
-ChannelProvider::Result InProcessChannel::WriteMessages(
-    Messages&& messages,
-    ClockDurationNano timeout) {
+IOResult InProcessChannel::writeMessages(Messages&& messages,
+                                         ClockDurationNano timeout) {
   if (messages.size() == 0) {
-    return ChannelProvider::Result::Success;
+    return IOResult::Success;
   }
 
   std::lock_guard<std::mutex> lock(_lock);
@@ -66,23 +70,24 @@ ChannelProvider::Result InProcessChannel::WriteMessages(
         reinterpret_cast<EventLoopSource::Handle>(this));
   }
 
-  return ChannelProvider::Result::Success;
+  return IOResult::Success;
 }
 
-ChannelProvider::ReadResult InProcessChannel::ReadMessages(
-    ClockDurationNano timeout) {
+IOReadResult InProcessChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_lock);
 
-  Messages readMessages;
-
-  while (_messageBuffer.size() > 0) {
-    readMessages.push_back(std::move(_messageBuffer.front()));
-    _messageBuffer.pop_front();
+  if (_messageBuffer.size() == 0) {
+    return IOReadResult(IOResult::Timeout, Message{});
   }
 
-  return ChannelProvider::ReadResult(
-      readMessages.size() == 0 ? Result::TemporaryFailure : Result::Success,
-      std::move(readMessages));
+  Message readMessage(std::move(_messageBuffer.front()));
+  _messageBuffer.pop_front();
+
+  return IOReadResult(IOResult::Success, std::move(readMessage));
+}
+
+Message::Attachment::Handle InProcessChannel::handle() {
+  return reinterpret_cast<Message::Attachment::Handle>(this);
 }
 
 bool InProcessChannel::doTerminate() {
