@@ -151,8 +151,11 @@ EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
    */
   std::unique_lock<std::mutex> lock(_lock);
 
+  auto upperBound = TimerClock::now() +
+                    std::chrono::duration_cast<TimerClockDuration>(timeout);
+
   auto satisfied = _conditionVariable.wait_until(
-      lock, nextTimerTimeout(TimerClock::now()),
+      lock, nextTimerTimeout(upperBound),
       std::bind(&InProcessWaitSet::isAwakable, this));
 
   return satisfied ? timerOrSourceOnWakeNoLock(TimerClock::now()) : nullptr;

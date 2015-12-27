@@ -34,7 +34,9 @@ class InProcessWaitSet : public WaitSetProvider {
 
  private:
   using TimerClock = std::chrono::high_resolution_clock;
-  using TimerClockPoint = std::chrono::time_point<TimerClock>;
+  using TimerClockDuration = ClockDurationSeconds;
+  using TimerClockPoint =
+      std::chrono::time_point<TimerClock, TimerClockDuration>;
 
   struct ActiveTimer {
     EventLoopSource* source;
@@ -63,10 +65,13 @@ class InProcessWaitSet : public WaitSetProvider {
   TimerClockPoint nextTimerTimeout(TimerClockPoint upperBound) const;
   bool isAwakable() const;
   bool isTimerExpired(TimerClockPoint now) const;
+
   void setupTimer(EventLoopSource& source, TimerClockPoint now);
   void teardownTimer(EventLoopSource& source);
+
   void setupSource(EventLoopSource& source);
   void teardownSource(EventLoopSource& source);
+
   EventLoopSource* timerOrSourceOnWakeNoLock(TimerClockPoint now);
   EventLoopSource* timerOnWakeNoLock(TimerClockPoint now);
   EventLoopSource* sourceOnWakeNoLock();
