@@ -6,12 +6,12 @@
 
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 
-#include <Core/Macros.h>
-#include <Core/WaitSet.h>
-#include <Core/Utilities.h>
 #include <Core/EventLoopSource.h>
 #include <Core/MachTrivialSource.h>
+#include <Core/Macros.h>
 #include <Core/PipeTrivialSource.h>
+#include <Core/Utilities.h>
+#include <Core/WaitSet.h>
 
 #include <sys/event.h>
 #include <unistd.h>
@@ -30,7 +30,7 @@ static inline void KEventInvoke(int queue,
                                 void* udata) {
   struct kevent event = {0};
   EV_SET(&event, ident, filter, flags, fflags, data, udata);
-  RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(queue, &event, 1, nullptr, 0, NULL));
+  RL_TEMP_FAILURE_RETRY(::kevent(queue, &event, 1, nullptr, 0, NULL));
 }
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
@@ -48,24 +48,25 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     ClockDurationNano repeatInterval) {
-  WaitSetUpdateHandler updateHandler =
-      [repeatInterval](EventLoopSource& source, WaitSet& waitset,
-                       Handle readHandle, bool adding) {
-        // clang-format off
-        KEventInvoke(HANDLE_CAST(waitset.handle()), /* queue */
-                     readHandle,                    /* ident */
-                     EVFILT_TIMER,                  /* filter */
-                     adding ? EV_ADD : EV_DELETE,   /* flags */
-                     NOTE_NSECONDS,                 /* filter-flags */
-                     repeatInterval.count(),        /* data */
-                     &source);                      /* user-data */
-        // clang-format on
-      };
+  WaitSetUpdateHandler updateHandler = [repeatInterval](
+      EventLoopSource& source, WaitSet& waitset, Handle readHandle,
+      bool adding) {
+    // clang-format off
+    KEventInvoke(HANDLE_CAST(waitset.handle()), /* queue */
+                 readHandle,                    /* ident */
+                 EVFILT_TIMER,                  /* filter */
+                 adding ? EV_ADD : EV_DELETE,   /* flags */
+                 NOTE_NSECONDS,                 /* filter-flags */
+                 repeatInterval.count(),        /* data */
+                 &source);                      /* user-data */
+    // clang-format on
+  };
 
   static uintptr_t KQueueTimerIdent = 1;
 
-  RWHandlesProvider handlesProvider =
-      [] { return Handles(KQueueTimerIdent++, -1); };
+  RWHandlesProvider handlesProvider = [] {
+    return Handles(KQueueTimerIdent++, -1);
+  };
 
   return std::make_shared<EventLoopSource>(handlesProvider, nullptr, nullptr,
                                            nullptr, updateHandler);
