@@ -8,7 +8,7 @@ build:
 deploy:
   rsync:
     user: root
-    host: 127.0.0.1
+    host: radar.thefreakinmanual.com
     port: 22
     source: Docs/html
     target: /var/www/html
