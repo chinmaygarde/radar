@@ -112,6 +112,10 @@ if (FREEBSD)
   target_link_libraries(RadarLove GLESv2)
 endif()
 
+if (APPLE)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGL")
+endif()
+
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
   target_link_libraries(RadarLove rt)
