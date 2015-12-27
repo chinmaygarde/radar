@@ -8,6 +8,8 @@
 
 #include <thread>
 
+#if RL_CHANNELS != RL_CHANNELS_INPROCESS
+
 TEST(PipeTrivialSourceTest, SimpleInitialization) {
   auto pipeSource = rl::core::MakePipeBasedTrivialSource();
   rl::core::Latch ready(1);
@@ -35,3 +37,5 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
 
   ASSERT_EQ(readOnPipe, 1);
 }
+
+#endif  // RL_CHANNELS != RL_CHANNELS_INPROCESS
