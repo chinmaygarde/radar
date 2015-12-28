@@ -25,18 +25,19 @@ Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
 
 void Shell::attachHostOnCurrentThread() {
   core::Latch readyLatch(3);
+  auto onReady = [&]() { readyLatch.countDown(); };
 
   core::thread::SetName("rl.host");
-  _host.run(readyLatch);
+  _host.run(onReady);
 
   _compositorThread = std::move(std::thread([&]() {
     core::thread::SetName("rl.coordinator");
-    _coordinator.run(readyLatch);
+    _coordinator.run(onReady);
   }));
 
   _interfaceThread = std::move(std::thread([&]() {
     core::thread::SetName("rl.interface");
-    _interface.run(readyLatch);
+    _interface.run(onReady);
   }));
 
   readyLatch.wait();
@@ -65,9 +66,11 @@ void Shell::shutdown() {
      *  subsystems.
      */
     core::AutoLatch shutdownLatch(3);
-    _host.shutdown(shutdownLatch);
-    _coordinator.shutdown(shutdownLatch);
-    _interface.shutdown(shutdownLatch);
+    auto onShutdown = [&]() { shutdownLatch.countDown(); };
+
+    _host.shutdown(onShutdown);
+    _coordinator.shutdown(onShutdown);
+    _interface.shutdown(onShutdown);
   }
 
   if (_compositorThread.joinable()) {

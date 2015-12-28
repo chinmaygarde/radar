@@ -57,9 +57,11 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
                 std::placeholders::_1));
 }
 
-void Interface::run(core::Latch& readyLatch) {
+void Interface::run(std::function<void()> onReady) {
   if (_loop != nullptr) {
-    readyLatch.countDown();
+    if (onReady) {
+      onReady();
+    }
     return;
   }
 
@@ -68,7 +70,9 @@ void Interface::run(core::Latch& readyLatch) {
     CurrentInterface.set(reinterpret_cast<uintptr_t>(this));
     scheduleChannels();
     _state.setState(Active, true);
-    readyLatch.countDown();
+    if (onReady) {
+      onReady();
+    }
   });
 }
 
@@ -76,9 +80,11 @@ bool Interface::isRunning() const {
   return _loop != nullptr;
 }
 
-void Interface::shutdown(core::Latch& onShutdown) {
+void Interface::shutdown(std::function<void()> onShutdown) {
   if (_loop == nullptr) {
-    onShutdown.countDown();
+    if (onShutdown) {
+      onShutdown();
+    }
     return;
   }
 
@@ -87,7 +93,9 @@ void Interface::shutdown(core::Latch& onShutdown) {
     unscheduleChannels();
     _loop->terminate();
     CurrentInterface.set(reinterpret_cast<uintptr_t>(nullptr));
-    onShutdown.countDown();
+    if (onShutdown) {
+      onShutdown();
+    }
   });
 }
 

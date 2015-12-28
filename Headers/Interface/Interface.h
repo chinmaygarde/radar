@@ -44,11 +44,11 @@ class Interface {
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
   /**
-   *  Setup the interface context and count down on the latch when ready
+   *  Setup the interface context and invoke the callback when ready
    *
-   *  @param readyLatch the latch to count down on readiness
+   *  @param onReady the callback that gets invoked on readiness
    */
-  void run(core::Latch& onReady);
+  void run(std::function<void()> onReady = nullptr);
 
   /**
    *  @return if the interface context running
@@ -57,8 +57,10 @@ class Interface {
 
   /**
    *  Gracefully shutdown the interface
+   *
+   *  @return onShutdown the callback to invoke on shutdown
    */
-  void shutdown(core::Latch& onShutdown);
+  void shutdown(std::function<void()> onShutdown = nullptr);
 
   /**
    *  Return the current root layer for the interface

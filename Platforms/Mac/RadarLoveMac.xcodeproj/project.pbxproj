@@ -488,6 +488,7 @@
 				9E9543EE1C31C494002EEC68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

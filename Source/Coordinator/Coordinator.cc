@@ -32,22 +32,24 @@ Coordinator::~Coordinator() {
   _surface->setObserver(nullptr);
 }
 
-void Coordinator::run(core::Latch& readyLatch) {
-  auto ready = [&readyLatch]() { readyLatch.countDown(); };
-
+void Coordinator::run(std::function<void()> onReady) {
   if (_loop != nullptr) {
-    ready();
+    if (onReady) {
+      onReady();
+    }
     return;
   }
 
   _loop = core::EventLoop::Current();
   setupChannels();
-  _loop->loop(ready);
+  _loop->loop(onReady);
 }
 
-void Coordinator::shutdown(core::Latch& shutdownLatch) {
+void Coordinator::shutdown(std::function<void()> onShutdown) {
   if (_loop == nullptr) {
-    shutdownLatch.countDown();
+    if (onShutdown) {
+      onShutdown();
+    }
     return;
   }
 
@@ -55,7 +57,9 @@ void Coordinator::shutdown(core::Latch& shutdownLatch) {
     teardownChannels();
     stopComposition();
     _loop->terminate();
-    shutdownLatch.countDown();
+    if (onShutdown) {
+      onShutdown();
+    }
   });
 }
 

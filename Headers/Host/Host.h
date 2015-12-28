@@ -16,17 +16,16 @@ class Host {
   /**
    *  Run the host access subsystem
    *
-   *  @param readyLatch the latch to count down on when the subsystem has run
+   *  @param onReady the callback to be invoked when the host is ready
    */
-  void run(core::Latch& readyLatch);
+  void run(std::function<void()> onReady = nullptr);
 
   /**
    *  Gracefully shutdown the subsystem
    *
-   *  @param shutdownLatch the latch to cound down on when the subsystem shuts
-   *         down
+   *  @param onShutdown the callback to be invoked when the subsystem shuts down
    */
-  void shutdown(core::Latch& shutdownLatch);
+  void shutdown(std::function<void()> onShutdown = nullptr);
 
   event::TouchEventChannel& touchEventChannel();
 

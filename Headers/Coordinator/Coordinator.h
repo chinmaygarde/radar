@@ -40,10 +40,10 @@ class Coordinator : RenderSurfaceObserver {
    *  Run the coordinator on the current thread. This is a blocking operation
    *  and the coordinator owns its loop.
    *
-   *  @param readyLatch the latch triggered when the coordinator has finished
-   *         starting up and is about to wait for the first time on its loop.
+   *  @param onReady the callback that gets invoked when the coordinator is
+   *                 ready
    */
-  void run(core::Latch& readyLatch);
+  void run(std::function<void()> onReady = nullptr);
 
   /**
    *  @return if the coordinator is currently running
@@ -53,10 +53,9 @@ class Coordinator : RenderSurfaceObserver {
   /**
    *  Gracefully shutdown the coordinator
    *
-   *  @param shutdownLatch the latch triggered when the coordinator is done
-   *  shutting down.
+   *  @param onShutdown the callback to be invoked on shutdown
    */
-  void shutdown(core::Latch& shutdownLatch);
+  void shutdown(std::function<void()> onShutdown = nullptr);
 
  private:
   std::shared_ptr<RenderSurface> _surface;

@@ -3,8 +3,11 @@
 // found in the LICENSE file.
 
 #include <Interface/Interface.h>
+#include "Sample.h"
 
 int main(int argc, const char* argv[]) {
-  rl::core::EventLoop::Current()->loop();
+  auto application = std::make_shared<sample::SampleApplication>();
+  rl::interface::Interface interface(application);
+  interface.run();
   return EXIT_SUCCESS;
 }

@@ -6,15 +6,18 @@
 
 namespace rl {
 
-Host::Host() {
+Host::Host() {}
+
+void Host::run(std::function<void()> onReady) {
+  if (onReady) {
+    onReady();
+  }
 }
 
-void Host::run(core::Latch& readyLatch) {
-  readyLatch.countDown();
-}
-
-void Host::shutdown(core::Latch& shutdownLatch) {
-  shutdownLatch.countDown();
+void Host::shutdown(std::function<void()> onShutdown) {
+  if (onShutdown) {
+    onShutdown();
+  }
 }
 
 event::TouchEventChannel& Host::touchEventChannel() {
