@@ -2,6 +2,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+GUEST_CPUS = 8
+GUEST_MEMORY = 8192
+
 Vagrant.configure(2) do |config|
   #
   #  Define a Linux VM
@@ -16,6 +19,10 @@ Vagrant.configure(2) do |config|
       sudo apt-get install -y libgles2-mesa-dev
       sudo apt-get install -y libsdl2-dev
     SHELL
+    linux.vm.provider :virtualbox do |vb|
+      vb.memory = GUEST_MEMORY
+      vb.cpus = GUEST_CPUS
+    end
   end
 
   #
@@ -25,9 +32,9 @@ Vagrant.configure(2) do |config|
     windows.vm.box = "modernIE/w10-edge"
     windows.vm.communicator = "winrm"
     windows.vm.network "forwarded_port", host: 3389, guest: 3389
-    windows.vm.provider "virtualbox" do |v|
-      v.cpus = 2
-      v.memory = 2048
+    windows.vm.provider :virtualbox do |vb|
+      vb.cpus = GUEST_CPUS
+      vb.memory = GUEST_MEMORY
     end
   end
 
@@ -43,6 +50,8 @@ Vagrant.configure(2) do |config|
     freebsd.vm.base_mac = "080027D14C66"
 
     freebsd.vm.provider :virtualbox do |vb|
+      vb.cpus = GUEST_CPUS
+      vb.memory = GUEST_MEMORY
       vb.customize ["modifyvm", :id, "--memory", "2048"]
       vb.customize ["modifyvm", :id, "--cpus", "2"]
       vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
