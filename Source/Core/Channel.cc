@@ -59,16 +59,6 @@ IOResult Channel::sendMessages(Messages messages) {
     return IOResult::Success;
   }
 
-  /*
-   *  All messages must be ready to sent down this channel. This is possibly
-   *  a check too paranoid.
-   */
-  for (const auto& message : messages) {
-    if (!message.isValid()) {
-      return IOResult::Failure;
-    }
-  }
-
   auto result =
       _provider->writeMessages(std::move(messages), ClockDurationNano::max());
 

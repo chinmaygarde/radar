@@ -30,7 +30,15 @@ void InterfaceAcquisitionProtocol::onRequest(
     if (channel == nullptr) {
       return false;
     }
-    return message.setAttachment(channel->asMessageAttachment());
+
+    const auto attachment = channel->asMessageAttachment();
+
+    if (!attachment.isValid()) {
+      return false;
+    }
+
+    message.setAttachment(channel->asMessageAttachment());
+    return true;
   });
 
   RL_ASSERT(result == core::IOResult::Success);

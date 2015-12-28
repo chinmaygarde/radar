@@ -93,8 +93,6 @@ Message::Attachment::Handle Message::Attachment::handle() const {
   return _handle;
 }
 
-Message::Attachment::Attachment(Attachment&& other) = default;
-
 static inline size_t Message_NextPOTSize(size_t x) {
   --x;
 
@@ -242,16 +240,12 @@ void Message::rewindRead() {
   _sizeRead = 0;
 }
 
-bool Message::isValid() const {
-  if (_attachment.isValid()) {
-    return size() == 0;
-  }
-
-  return size() > 0;
-}
-
 const Message::Attachment& Message::attachment() const {
   return _attachment;
+}
+
+void Message::setAttachment(const Attachment& attachment) {
+  _attachment = attachment;
 }
 
 const Message::Attachment::Handle MessageAttachmentHandleNull = 0;

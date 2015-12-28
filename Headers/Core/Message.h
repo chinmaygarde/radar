@@ -28,16 +28,12 @@ class Message {
 
     Attachment(Handle handle);
 
-    Attachment(Attachment&& other);
-
     bool isValid() const;
 
     Handle handle() const;
 
    private:
     Handle _handle;
-
-    RL_DISALLOW_COPY_AND_ASSIGN(Attachment);
   };
 
   /**
@@ -200,12 +196,6 @@ class Message {
   void rewindRead();
 
   /**
-   *  @return if the message in its current configuration represents a valid
-   *          message that is suitable to be sent down a channel
-   */
-  bool isValid() const;
-
-  /**
    *  An optional message attachment
    *
    *  @return the message attachment
@@ -217,7 +207,7 @@ class Message {
    *
    *  @param attachment the attchment to set on the message
    */
-  bool setAttachment(Attachment&& attachment);
+  void setAttachment(const Attachment& attachment);
 
  private:
   uint8_t* _buffer;
