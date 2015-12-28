@@ -52,8 +52,6 @@ Vagrant.configure(2) do |config|
     freebsd.vm.provider :virtualbox do |vb|
       vb.cpus = GUEST_CPUS
       vb.memory = GUEST_MEMORY
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
-      vb.customize ["modifyvm", :id, "--cpus", "2"]
       vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
       vb.customize ["modifyvm", :id, "--audio", "none"]
       vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
