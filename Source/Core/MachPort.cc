@@ -23,19 +23,8 @@ enum class MachPayloadKind : mach_msg_id_t {
  *  so that it can be cast to a mac_msg_header_t suitable for use with a
  *  mach_msg call.
  */
-struct MachPayload {
-  mach_msg_header_t header;
-  /*
-   *  All mach payloads are complex with one descriptor
-   */
-  mach_msg_body_t type;
-  union {
-    mach_msg_port_descriptor_t port;
-    mach_msg_ool_descriptor_t memory;
-  } body;
-
-  mach_msg_trailer_info_t trailer;
-
+class MachPayload {
+ public:
   /**
    *  Initialize the mach message payload when sending a message to a remote
    *  port
@@ -46,20 +35,20 @@ struct MachPayload {
    *  @return the initialized mach message payload for the message and port
    */
   explicit MachPayload(const Message& message, mach_port_t remote)
-      : header({
-            .msgh_size = sizeof(MachPayload) - sizeof(trailer),
+      : _header({
+            .msgh_size = sizeof(MachPayload) - sizeof(_trailer),
             .msgh_remote_port = remote,
             .msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND) |
                          MACH_MSGH_BITS_COMPLEX,
         }),
-        type({.msgh_descriptor_count = 1}),
-        trailer() {
+        _type({.msgh_descriptor_count = 1}),
+        _trailer() {
     if (message.attachment().isValid()) {
       /*
        *  Configure this message as an out of line port descriptor
        */
-      header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
-      body.port = (const mach_msg_port_descriptor_t){
+      _header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
+      _body.port = (const mach_msg_port_descriptor_t){
           .name = static_cast<mach_port_t>(message.attachment().handle()),
           .disposition = MACH_MSG_TYPE_COPY_SEND,
           .type = MACH_MSG_PORT_DESCRIPTOR,
@@ -68,8 +57,8 @@ struct MachPayload {
       /*
        *  Configure this message as an out of line memory descriptor
        */
-      header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Data);
-      body.memory = (const mach_msg_ool_descriptor_t){
+      _header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Data);
+      _body.memory = (const mach_msg_ool_descriptor_t){
           .address = message.data(),
           .size = static_cast<mach_msg_size_t>(message.size()),
           .deallocate = false,
@@ -88,10 +77,10 @@ struct MachPayload {
    *  @return the initialized mach message payload for recieving the message
    */
   explicit MachPayload(mach_port_t local)
-      : header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
-        type(),
-        body(),
-        trailer() {}
+      : _header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
+        _type(),
+        _body(),
+        _trailer() {}
 
   IOResult send(mach_msg_option_t timeoutOption, mach_msg_timeout_t timeout) {
     const auto header = reinterpret_cast<mach_msg_header_t*>(this);
@@ -149,18 +138,33 @@ struct MachPayload {
   }
 
   MachPayloadKind kind() const {
-    return static_cast<MachPayloadKind>(header.msgh_id);
+    return static_cast<MachPayloadKind>(_header.msgh_id);
   }
 
   Message asMessage() const {
     switch (kind()) {
       case MachPayloadKind::Data:
-        return Message(static_cast<uint8_t*>(body.memory.address),
-                       body.memory.size, true);
+        return Message(static_cast<uint8_t*>(_body.memory.address),
+                       _body.memory.size, true);
       case MachPayloadKind::Port:
-        return Message(Message::Attachment{body.port.name});
+        return Message(Message::Attachment{_body.port.name});
     }
   }
+
+ private:
+  mach_msg_header_t _header;
+  /*
+   *  All mach payloads are complex with one descriptor
+   */
+  mach_msg_body_t _type;
+  union {
+    mach_msg_port_descriptor_t port;
+    mach_msg_ool_descriptor_t memory;
+  } _body;
+
+  mach_msg_trailer_info_t _trailer;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(MachPayload);
 };
 
 MachPort::MachPort(const Message::Attachment& attachment) {
