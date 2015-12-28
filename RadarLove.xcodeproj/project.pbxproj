@@ -117,6 +117,10 @@
 		9E9543DF1C28DB01002EEC68 /* MachServerProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543DD1C28DB01002EEC68 /* MachServerProvider.mm */; };
 		9E9543E01C28DB01002EEC68 /* ServerProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543DE1C28DB01002EEC68 /* ServerProvider.h */; };
 		9E9543E21C28DB7F002EEC68 /* MachServerProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543E11C28DB7F002EEC68 /* MachServerProvider.h */; };
+		9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544041C31D1C8002EEC68 /* Protocol.h */; };
+		9E95440F1C31D1DD002EEC68 /* Protocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E95440E1C31D1DD002EEC68 /* Protocol.cc */; };
+		9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */; };
+		9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
 		9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA039EB1C179B4500F36467 /* OpenGL.framework */; };
@@ -430,6 +434,10 @@
 		9E9543DD1C28DB01002EEC68 /* MachServerProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachServerProvider.mm; sourceTree = "<group>"; };
 		9E9543DE1C28DB01002EEC68 /* ServerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerProvider.h; sourceTree = "<group>"; };
 		9E9543E11C28DB7F002EEC68 /* MachServerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachServerProvider.h; sourceTree = "<group>"; };
+		9E9544041C31D1C8002EEC68 /* Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
+		9E95440E1C31D1DD002EEC68 /* Protocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Protocol.cc; sourceTree = "<group>"; };
+		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
+		9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceAcquisitionProtocol.h; sourceTree = "<group>"; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
 		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -694,6 +702,7 @@
 		9E8655D21BE45E2700997766 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */,
 				9E8655D41BE45E2700997766 /* Color.h */,
 				9E8655D51BE45E2700997766 /* Coordinator.h */,
 				9E8655D71BE45E2700997766 /* Statistics.h */,
@@ -719,6 +728,7 @@
 		9E8655FD1BE45E3A00997766 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */,
 				9E8655FF1BE45E3A00997766 /* Color.cc */,
 				9E8656001BE45E3A00997766 /* Coordinator.cc */,
 				9E8656021BE45E3A00997766 /* Statistics.cc */,
@@ -834,6 +844,7 @@
 				9EAECE511B685460000FA38A /* EventLoopSource.h */,
 				9E222CD91B69ABEC005D02EE /* EventLoopObserver.h */,
 				9EAECE521B685460000FA38A /* Message.h */,
+				9E9544041C31D1C8002EEC68 /* Protocol.h */,
 				9E029C7B1BA9E833007E5DF8 /* Serializable.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
 				EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */,
@@ -957,6 +968,7 @@
 				9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */,
 				EAFECF051BFD9DE700348900 /* AshmemHandle.cc */,
 				9E029C671BA8ED6E007E5DF8 /* PosixMemoryHandle.cc */,
+				9E95440E1C31D1DD002EEC68 /* Protocol.cc */,
 				9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */,
 				EA62B3241B6F2F41009F197F /* Timing.cc */,
 				9EAECEB51B685469000FA38A /* Utilities.cc */,
@@ -1153,6 +1165,7 @@
 				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
+				9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */,
 				9E8655F61BE45E2700997766 /* Program.h in Headers */,
 				9E16A6DC1BE2E9BC00FFEDFC /* Priority.h in Headers */,
 				9E222CDA1B69ABEC005D02EE /* EventLoopObserver.h in Headers */,
@@ -1196,6 +1209,7 @@
 				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
 				EA7D30FA1BE736FE0038BF5A /* Utilities.h in Headers */,
 				9E8655F51BE45E2700997766 /* Primitive.h in Headers */,
+				9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */,
 				9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */,
 				9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,
@@ -1417,10 +1431,12 @@
 				9E029CB91BAB953D007E5DF8 /* InProcessEventLoopSource.cc in Sources */,
 				9E16A6FB1BE2E9D700FFEDFC /* Priority.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
+				9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */,
 				9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
 				9EAECEE11B685469000FA38A /* PosixSharedMemory.cc in Sources */,
 				EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */,
+				9E95440F1C31D1DD002EEC68 /* Protocol.cc in Sources */,
 				9E222CDD1B6A9387005D02EE /* Action.cc in Sources */,
 				9EBA79DA1B87FF57005D84FA /* imgui.cpp in Sources */,
 				9E029CB41BAB74FD007E5DF8 /* InProcessWaitSet.cc in Sources */,

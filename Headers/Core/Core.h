@@ -14,16 +14,17 @@
 /*
  *  General Utilities
  */
-#include <Core/Utilities.h>
-#include <Core/Macros.h>
 #include <Core/Guard.h>
-#include <Core/Timing.h>
 #include <Core/Latch.h>
+#include <Core/Macros.h>
+#include <Core/Timing.h>
+#include <Core/Utilities.h>
 
 /*
  *  Channels
  */
 #include <Core/Channel.h>
+#include <Core/Protocol.h>
 
 /*
  *  Event Loops

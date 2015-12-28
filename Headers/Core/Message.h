@@ -212,6 +212,13 @@ class Message {
    */
   const Attachment& attachment() const;
 
+  /**
+   *  Set the message attachment
+   *
+   *  @param attachment the attchment to set on the message
+   */
+  bool setAttachment(Attachment&& attachment);
+
  private:
   uint8_t* _buffer;
   Attachment _attachment;

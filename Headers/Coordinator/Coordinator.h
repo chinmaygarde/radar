@@ -9,8 +9,8 @@
 
 #include <Geometry/Geometry.h>
 
-#include <Bootstrap/Server.h>
 #include <Coordinator/EntityLease.h>
+#include <Coordinator/InterfaceAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/ProgramCatalog.h>
@@ -65,7 +65,7 @@ class Coordinator : RenderSurfaceObserver {
   std::list<InterfaceController> _interfaces;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
-  std::shared_ptr<bootstrap::Server> _bootstrapServer;
+  InterfaceAcquisitionProtocol _interfaceAcquisitionProtocol;
 
   Statistics _stats;
   StatisticsRenderer _statsRenderer;
@@ -80,8 +80,7 @@ class Coordinator : RenderSurfaceObserver {
   void commitCompositionSizeUpdate(const geom::Size& size);
   void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
-  void setupChannels();
-  void teardownChannels();
+  void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
 
   void renderFrame();

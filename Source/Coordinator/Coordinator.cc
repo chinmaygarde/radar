@@ -15,17 +15,14 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
       _loop(nullptr),
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
       _touchEventChannel(touchEventChannel),
-      _bootstrapServer(bootstrap::Server::Setup()) {
+      _interfaceAcquisitionProtocol(
+          std::bind(&Coordinator::acquireFreshInterfaceChannel, this)) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
   _surface->setObserver(this);
 
   _animationsSource->setWakeFunction(
       std::bind(&Coordinator::onDisplayLink, this));
-
-  _bootstrapServer->setVendorForName(
-      std::bind(&Coordinator::acquireFreshInterfaceChannel, this),
-      CoordinatorInterfaceChannelVendorName);
 }
 
 Coordinator::~Coordinator() {
@@ -41,7 +38,7 @@ void Coordinator::run(std::function<void()> onReady) {
   }
 
   _loop = core::EventLoop::Current();
-  setupChannels();
+  setupOrTeardownChannels(true);
   _loop->loop(onReady);
 }
 
@@ -54,7 +51,7 @@ void Coordinator::shutdown(std::function<void()> onShutdown) {
   }
 
   _loop->dispatchAsync([&] {
-    teardownChannels();
+    setupOrTeardownChannels(false);
     stopComposition();
     _loop->terminate();
     if (onShutdown) {
@@ -117,14 +114,16 @@ std::shared_ptr<ProgramCatalog> Coordinator::accessCatalog() {
   return _programCatalog;
 }
 
-void Coordinator::setupChannels() {
-  scheduleInterfaceChannels(true);
-  _loop->addSource(_animationsSource);
-}
-
-void Coordinator::teardownChannels() {
-  scheduleInterfaceChannels(false);
-  _loop->removeSource(_animationsSource);
+void Coordinator::setupOrTeardownChannels(bool setup) {
+  if (setup) {
+    scheduleInterfaceChannels(true);
+    _loop->addSource(_animationsSource);
+    _loop->addSource(_interfaceAcquisitionProtocol.source());
+  } else {
+    scheduleInterfaceChannels(false);
+    _loop->removeSource(_animationsSource);
+    _loop->removeSource(_interfaceAcquisitionProtocol.source());
+  }
 }
 
 std::shared_ptr<core::Channel> Coordinator::acquireFreshInterfaceChannel() {

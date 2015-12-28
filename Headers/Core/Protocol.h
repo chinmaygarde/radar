@@ -1,0 +1,52 @@
+// Copyright 2015 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+#ifndef RADARLOVE_CORE_PROTOCOL_H_
+#define RADARLOVE_CORE_PROTOCOL_H_
+
+#include <Core/Core.h>
+#include <unordered_map>
+
+namespace rl {
+namespace core {
+
+using ProtocolPayloadIdentifier = uint64_t;
+
+class Protocol {
+ public:
+  using Response = std::function<void(IOResult, Message)>;
+
+  explicit Protocol();
+
+  std::shared_ptr<EventLoopSource> source();
+
+  void sendRequest(Response response);
+
+  virtual ~Protocol();
+
+ protected:
+  using ResponsePayloadHandler = std::function<bool(Message& message)>;
+
+  virtual void onRequest(Message message,
+                         ProtocolPayloadIdentifier identifier) = 0;
+
+  virtual bool populateRequestPayload(Message& message) = 0;
+
+  IOResult fulfillRequest(ProtocolPayloadIdentifier identifier,
+                          ResponsePayloadHandler handler);
+
+ private:
+  std::shared_ptr<Channel> _channel;
+  std::unordered_map<ProtocolPayloadIdentifier, Response> _pendingResponses;
+  bool _isVendor;
+
+  void onChannelMessage(Message message);
+
+  RL_DISALLOW_COPY_AND_ASSIGN(Protocol);
+};
+
+}  // namespace core
+}  // namespace rl
+
+#endif  // RADARLOVE_CORE_PROTOCOL_H_
