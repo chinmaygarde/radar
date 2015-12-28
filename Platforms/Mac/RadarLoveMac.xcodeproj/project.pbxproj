@@ -12,6 +12,10 @@
 		9E26F1BB1B59CBB50016A899 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1BA1B59CBB50016A899 /* main.m */; };
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
+		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
+		9E9543F31C31C4F0002EEC68 /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
+		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
+		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */; };
 		9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
 /* End PBXBuildFile section */
@@ -23,6 +27,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9E62F8C71B796E9E008DE08E;
 			remoteInfo = RadarLoveTest;
+		};
+		9E9543F11C31C4A4002EEC68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9EAECE261B68543F000FA38A;
+			remoteInfo = RadarLove;
 		};
 		9EAECEF21B685554000FA38A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -50,6 +61,9 @@
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E9543E91C31C494002EEC68 /* Interface */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Interface; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceMain.cc; sourceTree = "<group>"; };
+		9E9543FF1C31C652002EEC68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
 		9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
 		9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../RadarLove.xcodeproj; sourceTree = "<group>"; };
@@ -61,6 +75,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E9543E61C31C494002EEC68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */,
+				9E9543F31C31C4F0002EEC68 /* libRadarLove.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +105,7 @@
 			children = (
 				9E26F1B51B59CBB50016A899 /* Sources */,
 				9E02AF471BA3A24500BA1AEA /* Samples */,
+				9E9543EA1C31C494002EEC68 /* Interface */,
 				EA69B8401B5C061D00323F1D /* Frameworks */,
 				9E26F1B41B59CBB50016A899 /* Products */,
 			);
@@ -91,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				9E26F1B31B59CBB50016A899 /* Radar Love.app */,
+				9E9543E91C31C494002EEC68 /* Interface */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +144,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9E9543EA1C31C494002EEC68 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
 		9EAECEEF1B685554000FA38A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +164,7 @@
 		EA69B8401B5C061D00323F1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E9543FF1C31C652002EEC68 /* OpenGL.framework */,
 				9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */,
 			);
 			name = Frameworks;
@@ -157,6 +191,23 @@
 			productReference = 9E26F1B31B59CBB50016A899 /* Radar Love.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9E9543E81C31C494002EEC68 /* Interface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E9543F01C31C494002EEC68 /* Build configuration list for PBXNativeTarget "Interface" */;
+			buildPhases = (
+				9E9543E51C31C494002EEC68 /* Sources */,
+				9E9543E61C31C494002EEC68 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9E9543F21C31C4A4002EEC68 /* PBXTargetDependency */,
+			);
+			name = Interface;
+			productName = Interface;
+			productReference = 9E9543E91C31C494002EEC68 /* Interface */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -168,6 +219,9 @@
 				TargetAttributes = {
 					9E26F1B21B59CBB50016A899 = {
 						CreatedOnToolsVersion = 7.0;
+					};
+					9E9543E81C31C494002EEC68 = {
+						CreatedOnToolsVersion = 7.2;
 					};
 				};
 			};
@@ -191,6 +245,7 @@
 			projectRoot = "";
 			targets = (
 				9E26F1B21B59CBB50016A899 /* RadarLoveMac */,
+				9E9543E81C31C494002EEC68 /* Interface */,
 			);
 		};
 /* End PBXProject section */
@@ -236,9 +291,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9E9543E51C31C494002EEC68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */,
+				9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9E9543F21C31C4A4002EEC68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RadarLove;
+			targetProxy = 9E9543F11C31C4A4002EEC68 /* PBXContainerItemProxy */;
+		};
 		9EAECEF51B68555D000FA38A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RadarLove;
@@ -373,6 +442,24 @@
 			};
 			name = Release;
 		};
+		9E9543ED1C31C494002EEC68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9E9543EE1C31C494002EEC68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -393,6 +480,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9E9543F01C31C494002EEC68 /* Build configuration list for PBXNativeTarget "Interface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E9543ED1C31C494002EEC68 /* Debug */,
+				9E9543EE1C31C494002EEC68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
