@@ -77,6 +77,23 @@ void Protocol::onChannelMessage(Message message) {
 void Protocol::sendRequest(Response response) {
   RL_ASSERT(response);
 
+  /*
+   *  Try to acquire the advertised channel for this protocol from the boostrap
+   *  server
+   */
+  auto remoteChannel =
+      bootstrap::BootstrapServerAcquireAdvertised(advertisementName());
+
+  if (remoteChannel == nullptr) {
+    /*
+     *  No one is advertising itself as a protocol vendor. Try later.
+     */
+    return response(IOResult::Timeout, Message{});
+  }
+
+  /*
+   *  Construct the protocol message header
+   */
   ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Request, 0, true);
 
   Message message;
@@ -92,7 +109,7 @@ void Protocol::sendRequest(Response response) {
   Messages messages;
   messages.emplace_back(std::move(message));
 
-  auto sendResult = _channel->sendMessages(std::move(messages));
+  auto sendResult = remoteChannel->sendMessages(std::move(messages));
   if (sendResult != IOResult::Success) {
     return response(sendResult, Message{});
   }

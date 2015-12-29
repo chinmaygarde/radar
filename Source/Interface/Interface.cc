@@ -57,6 +57,7 @@ void Interface::run(std::function<void()> onReady) {
     CurrentInterface.set(reinterpret_cast<uintptr_t>(this));
     scheduleChannels();
     _state.setState(Active, true);
+    attemptCoordinatorChannelAcquisition();
     if (onReady) {
       onReady();
     }
@@ -102,13 +103,27 @@ void Interface::setSize(const geom::Size& size) {
   }
 }
 
-void Interface::coordinatorChannelAcquired(std::shared_ptr<core::Channel>
-                                               channel) {
-  if (channel == nullptr) {
+void Interface::attemptCoordinatorChannelAcquisition() {
+  _interfaceAcquisition.sendRequest(
+      std::bind(&Interface::onCoordinatorChannelAcquisition, this,
+                std::placeholders::_1, std::placeholders::_2));
+}
+
+void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
+                                                core::Message message) {
+  if (result != core::IOResult::Success) {
     return;
   }
 
-  _coordinatorChannel = channel;
+  if (message.attachments().size() != 1) {
+    return;
+  }
+
+  /*
+   *  Channel acqusition messages contain one attachment with the channel handle
+   */
+  _coordinatorChannel = std::make_shared<core::Channel>(
+      core::Message::Attachment{message.attachments()[0]});
 
   if (!isRunning()) {
     return;

@@ -139,7 +139,9 @@ class Interface {
   toolbox::StateMachine _state;
   coordinator::InterfaceAcquisitionProtocol _interfaceAcquisition;
 
-  void coordinatorChannelAcquired(std::shared_ptr<core::Channel> channel);
+  void attemptCoordinatorChannelAcquisition();
+  void onCoordinatorChannelAcquisition(core::IOResult result,
+                                       core::Message message);
   void scheduleChannels();
   void unscheduleChannels();
 

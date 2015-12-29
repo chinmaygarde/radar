@@ -33,7 +33,7 @@ bool BootstrapServerAdvertise(const std::string& name,
     auto port = [NSMachPort
         portWithMachPort:static_cast<uint32_t>(attachment.handle())];
 
-    if (port == nullptr) {
+    if (!port.isValid) {
       return false;
     }
 
