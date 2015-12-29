@@ -18,6 +18,8 @@ InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol()
 
 void InterfaceAcquisitionProtocol::onRequest(
     core::Message message,
+    std::unique_ptr<core::Channel>
+        replyChannel,
     core::ProtocolPayloadIdentifier identifier) {
   std::shared_ptr<core::Channel> channel;
 
@@ -29,19 +31,20 @@ void InterfaceAcquisitionProtocol::onRequest(
     channel = _vendor();
   }
 
-  auto result = fulfillRequest(identifier, [&channel](core::Message& message) {
-    if (channel == nullptr) {
-      return false;
-    }
+  auto result = fulfillRequest(
+      identifier, std::move(replyChannel), [&channel](core::Message& message) {
+        if (channel == nullptr) {
+          return false;
+        }
 
-    const auto attachment = channel->asMessageAttachment();
+        const auto attachment = channel->asMessageAttachment();
 
-    if (!attachment.isValid()) {
-      return false;
-    }
+        if (!attachment.isValid()) {
+          return false;
+        }
 
-    return message.addAttachment(channel->asMessageAttachment());
-  });
+        return message.addAttachment(channel->asMessageAttachment());
+      });
 
   RL_ASSERT(result == core::IOResult::Success);
 }

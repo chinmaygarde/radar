@@ -129,9 +129,7 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
     return;
   }
 
-  if (core::EventLoop::Current() != _loop) {
-    _loop->dispatchAsync([] {});
-  }
+  _loop->dispatchAsync([&] { flushTransactions(); });
 }
 
 InterfaceTransaction& Interface::transaction() {

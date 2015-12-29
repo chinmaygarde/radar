@@ -58,7 +58,19 @@ void Protocol::onChannelMessage(Message message) {
    */
   if (header.type() == ProtocolPayloadHeader::Type::Request) {
     RL_ASSERT_MSG(_isVendor, "Only protocol vendors may service requests");
-    onRequest(std::move(message), header.identifier());
+
+    /*
+     *  The first attachment in the request messages is the reply channel
+     */
+    if (message.attachments().size() != 1) {
+      return;
+    }
+
+    auto replyChannel =
+        make_unique<Channel>(Message::Attachment{message.attachments()[0]});
+
+    onRequest(std::move(message), std::move(replyChannel), header.identifier());
+
     return;
   }
 
@@ -106,6 +118,10 @@ void Protocol::sendRequest(Response response) {
     return response(IOResult::Failure, Message{});
   }
 
+  if (!message.addAttachment(_channel->asMessageAttachment())) {
+    return response(IOResult::Failure, Message{});
+  }
+
   Messages messages;
   messages.emplace_back(std::move(message));
 
@@ -119,6 +135,8 @@ void Protocol::sendRequest(Response response) {
 }
 
 IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
+                                  std::unique_ptr<Channel>
+                                      replyChannel,
                                   ResponsePayloadHandler handler) {
   ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Response,
                                identifier, false);
@@ -138,7 +156,7 @@ IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
 
   Messages messages;
   messages.emplace_back(std::move(message));
-  return _channel->sendMessages(std::move(messages));
+  return replyChannel->sendMessages(std::move(messages));
 }
 
 void Protocol::startOrStopAdvertisingWithBootstrapServerIfNecessary(

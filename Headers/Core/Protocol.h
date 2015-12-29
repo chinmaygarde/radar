@@ -37,11 +37,15 @@ class Protocol {
   virtual std::string advertisementName() const = 0;
 
   virtual void onRequest(Message message,
+                         std::unique_ptr<Channel>
+                             replyChannel,
                          ProtocolPayloadIdentifier identifier) = 0;
 
   virtual bool populateRequestPayload(Message& message) = 0;
 
   IOResult fulfillRequest(ProtocolPayloadIdentifier identifier,
+                          std::unique_ptr<Channel>
+                              replyChannel,
                           ResponsePayloadHandler handler);
 
  private:
