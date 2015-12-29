@@ -13,10 +13,36 @@
 namespace rl {
 namespace core {
 
-enum class MachPayloadKind : mach_msg_id_t {
-  Data = 1,
-  Port,
-};
+static inline size_t MachMessageSize(bool hasMemoryArena,
+                                     size_t ports,
+                                     bool hasTrailer) {
+  /*
+   *  All messages have a header and a description detailing the number of OOL
+   *  descriptors within the message.
+   */
+  size_t messageSize = sizeof(mach_msg_header_t) + sizeof(mach_msg_body_t);
+
+  /*
+   *  An optional memory arena
+   */
+  if (hasMemoryArena) {
+    messageSize += sizeof(mach_msg_ool_descriptor_t);
+  }
+
+  /*
+   *  A variable number of attachments for the ports
+   */
+  messageSize += ports * sizeof(mach_msg_port_descriptor_t);
+
+  /*
+   *  A trailer on receive
+   */
+  if (hasTrailer) {
+    messageSize += MACH_MSG_TRAILER_MINIMUM_SIZE;
+  }
+
+  return messageSize;
+}
 
 /**
  *  A MachPayload takes an instance of a `core::Message` and intializes itself
@@ -34,37 +60,73 @@ class MachPayload {
    *
    *  @return the initialized mach message payload for the message and port
    */
-  explicit MachPayload(const Message& message, mach_port_t remote)
-      : _header({
-            .msgh_size = sizeof(MachPayload) - sizeof(_trailer),
-            .msgh_remote_port = remote,
-            .msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND) |
-                         MACH_MSGH_BITS_COMPLEX,
-        }),
-        _type({.msgh_descriptor_count = 1}),
-        _trailer() {
-    if (message.attachment().isValid()) {
-      /*
-       *  Configure this message as an out of line port descriptor
-       */
-      _header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Port);
-      _body.port = (const mach_msg_port_descriptor_t){
-          .name = static_cast<mach_port_t>(message.attachment().handle()),
-          .disposition = MACH_MSG_TYPE_COPY_SEND,
-          .type = MACH_MSG_PORT_DESCRIPTOR,
-      };
-    } else {
-      /*
-       *  Configure this message as an out of line memory descriptor
-       */
-      _header.msgh_id = static_cast<mach_msg_id_t>(MachPayloadKind::Data);
-      _body.memory = (const mach_msg_ool_descriptor_t){
-          .address = message.data(),
-          .size = static_cast<mach_msg_size_t>(message.size()),
-          .deallocate = false,
-          .copy = MACH_MSG_VIRTUAL_COPY,
-          .type = MACH_MSG_OOL_DESCRIPTOR,
-      };
+  explicit MachPayload(const Message& message, mach_port_t remote) {
+    /*
+     *  Figure out the total size of the mach message.
+     */
+    const bool hasMemoryArena = message.size() > 0;
+    const size_t ports = message.attachments().size();
+
+    const size_t messageSize = MachMessageSize(hasMemoryArena, ports, false);
+
+    const size_t totalOOLDescriptors = (hasMemoryArena ? 1 : 0) + ports;
+
+    /*
+     *  Allocate the mach message payload in one shot
+     */
+    _payload = reinterpret_cast<uint8_t*>(calloc(messageSize, sizeof(uint8_t)));
+
+    auto offset = 0;
+
+    /*
+     *  Initialize the mach message header
+     */
+    auto header = reinterpret_cast<mach_msg_header_t*>(_payload + offset);
+    header->msgh_size = static_cast<mach_msg_size_t>(messageSize);
+    header->msgh_remote_port = remote;
+    header->msgh_bits =
+        MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND) | MACH_MSGH_BITS_COMPLEX;
+
+    offset += sizeof(mach_msg_header_t);
+
+    /*
+     *  Initialize the mach message body header.
+     *  This has one field that denotes the number of OOL descriptors.
+     */
+    auto bodyHeader = reinterpret_cast<mach_msg_body_t*>(_payload + offset);
+    bodyHeader->msgh_descriptor_count =
+        static_cast<mach_msg_size_t>(totalOOLDescriptors);
+
+    offset += sizeof(mach_msg_body_t);
+
+    /*
+     *  Initialize OOL memory arena descriptors
+     */
+    if (hasMemoryArena) {
+      auto memDesc =
+          reinterpret_cast<mach_msg_ool_descriptor_t*>(_payload + offset);
+
+      memDesc->address = message.data();
+      memDesc->size = static_cast<mach_msg_size_t>(message.size());
+      memDesc->deallocate = false;
+      memDesc->copy = MACH_MSG_VIRTUAL_COPY;
+      memDesc->type = MACH_MSG_OOL_DESCRIPTOR;
+
+      offset += sizeof(mach_msg_ool_descriptor_t);
+    }
+
+    /*
+     *  Initialize port attachment descriptors
+     */
+    for (const auto& attachment : message.attachments()) {
+      auto attachmentDesc =
+          reinterpret_cast<mach_msg_port_descriptor_t*>(_payload + offset);
+
+      attachmentDesc->name = static_cast<mach_port_t>(attachment.handle());
+      attachmentDesc->disposition = MACH_MSG_TYPE_COPY_SEND;
+      attachmentDesc->type = MACH_MSG_PORT_DESCRIPTOR;
+
+      offset += sizeof(mach_msg_port_descriptor_t);
     }
   }
 
@@ -76,14 +138,22 @@ class MachPayload {
    *
    *  @return the initialized mach message payload for recieving the message
    */
-  explicit MachPayload(mach_port_t local)
-      : _header({.msgh_size = sizeof(MachPayload), .msgh_local_port = local}),
-        _type(),
-        _body(),
-        _trailer() {}
+  explicit MachPayload(mach_port_t local) {
+    /*
+     *  The most common message configuration is with one memory arena and no
+     *  descriptors. Initialize the payload for that.
+     */
+    auto messageSize = MachMessageSize(true, 0, true);
+
+    _payload = reinterpret_cast<uint8_t*>(calloc(messageSize, sizeof(char)));
+
+    auto header = reinterpret_cast<mach_msg_header_t*>(_payload);
+    header->msgh_size = static_cast<mach_msg_size_t>(messageSize);
+    header->msgh_local_port = local;
+  }
 
   IOResult send(mach_msg_option_t timeoutOption, mach_msg_timeout_t timeout) {
-    const auto header = reinterpret_cast<mach_msg_header_t*>(this);
+    const auto header = reinterpret_cast<mach_msg_header_t*>(_payload);
 
     // clang-format off
     auto res = mach_msg(header,
@@ -111,17 +181,46 @@ class MachPayload {
 
   IOResult receive(mach_msg_option_t timeoutOption,
                    mach_msg_timeout_t timeout) {
-    const auto header = reinterpret_cast<mach_msg_header_t*>(this);
+    auto header = reinterpret_cast<mach_msg_header_t*>(_payload);
+    auto localPort = header->msgh_local_port;
 
-    // clang-format off
-    auto res = mach_msg(header,
-                        MACH_RCV_MSG | timeoutOption,
-                        0,
-                        header->msgh_size,
-                        header->msgh_local_port,
-                        timeout,
-                        MACH_PORT_NULL);
-    // clang-format on
+    auto res = MACH_MSG_SUCCESS;
+
+    while (true) {
+      // clang-format off
+      res = mach_msg(header,
+                     MACH_RCV_MSG | MACH_RCV_LARGE | timeoutOption,
+                     0,
+                     header->msgh_size,
+                     header->msgh_local_port,
+                     timeout,
+                     MACH_PORT_NULL);
+      // clang-format on
+
+      if (res == MACH_RCV_TOO_LARGE) {
+        const auto reallocSize =
+            round_msg(header->msgh_size + MAX_TRAILER_SIZE);
+
+        _payload = reinterpret_cast<uint8_t*>(reallocf(_payload, reallocSize));
+
+        if (_payload == nullptr) {
+          /*
+           *  We ran out of memory but the message is still in the kernel buffer
+           *  because of the MACH_RCV_LARGE. We may be able to service this
+           *  read later.
+           */
+          return IOResult::Timeout;
+        }
+
+        header = reinterpret_cast<mach_msg_header_t*>(_payload);
+        header->msgh_size = static_cast<mach_msg_size_t>(reallocSize);
+        header->msgh_local_port = localPort;
+
+        continue;
+      }
+
+      break;
+    }
 
     switch (res) {
       case MACH_MSG_SUCCESS:
@@ -137,32 +236,84 @@ class MachPayload {
     return IOResult::Failure;
   }
 
-  MachPayloadKind kind() const {
-    return static_cast<MachPayloadKind>(_header.msgh_id);
+  Message asMessage() const {
+    /*
+     *  Read the total number of descriptors available
+     */
+
+    auto body = reinterpret_cast<mach_msg_body_t*>(_payload +
+                                                   sizeof(mach_msg_header_t));
+
+    auto descriptors = body->msgh_descriptor_count;
+
+    if (descriptors == 0) {
+      return Message{};
+    }
+
+    uint8_t* memoryArenaAddress = nullptr;
+    size_t memoryArenaSize = 0;
+    std::vector<Message::Attachment> attachments;
+
+    size_t offset = sizeof(mach_msg_header_t) + sizeof(mach_msg_body_t);
+
+    for (size_t i = 0; i < descriptors; i++) {
+      /*
+       *  Cast each descriptor to a 'type' kind first to determine the type of
+       *  OOL descriptor we are dealing with
+       */
+      auto typeKind =
+          reinterpret_cast<mach_msg_type_descriptor_t*>(_payload + offset);
+
+      /*
+       *  Now, cast to the correct type and interpret the message
+       */
+      switch (typeKind->type) {
+        /*
+         *  An OOL memory arena
+         */
+        case MACH_MSG_OOL_DESCRIPTOR: {
+          /*
+           *  Since we dont support multiple memory arenas per message, assert
+           *  that we dont get multiple OOL memory descriptors (ports are fine).
+           */
+          RL_ASSERT(memoryArenaAddress == nullptr);
+          auto mem =
+              reinterpret_cast<mach_msg_ool_descriptor_t*>(_payload + offset);
+
+          memoryArenaAddress = static_cast<uint8_t*>(mem->address);
+          memoryArenaSize = mem->size;
+
+          offset += sizeof(mach_msg_port_descriptor_t);
+        } break;
+        /*
+         *  An OOL port
+         */
+        case MACH_MSG_PORT_DESCRIPTOR: {
+          auto attachmentDesc =
+              reinterpret_cast<mach_msg_port_descriptor_t*>(_payload + offset);
+
+          attachments.emplace_back(attachmentDesc->name);
+
+          offset += sizeof(mach_msg_ool_descriptor_t);
+        }
+
+        break;
+        default:
+          RL_ASSERT_MSG(
+              false, "Unsupported OOL descriptor (not a port or memory arena)");
+          break;
+      }
+    }
+
+    Message message(memoryArenaAddress, memoryArenaSize);
+    message.setAttachments(std::move(attachments));
+    return message;
   }
 
-  Message asMessage() const {
-    switch (kind()) {
-      case MachPayloadKind::Data:
-        return Message(static_cast<uint8_t*>(_body.memory.address),
-                       _body.memory.size, true);
-      case MachPayloadKind::Port:
-        return Message(Message::Attachment{_body.port.name});
-    }
-  }
+  ~MachPayload() { free(_payload); }
 
  private:
-  mach_msg_header_t _header;
-  /*
-   *  All mach payloads are complex with one descriptor
-   */
-  mach_msg_body_t _type;
-  union {
-    mach_msg_port_descriptor_t port;
-    mach_msg_ool_descriptor_t memory;
-  } _body;
-
-  mach_msg_trailer_info_t _trailer;
+  uint8_t* _payload;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPayload);
 };

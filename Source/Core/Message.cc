@@ -47,17 +47,17 @@ Message::Message(Message&& message)
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
       _vmDeallocate(message._vmDeallocate),
-      _attachment(std::move(message._attachment)) {
+      _attachments(std::move(message._attachments)) {
   message._buffer = nullptr;
 }
 
-Message::Message(Attachment&& attachment)
+Message::Message(std::vector<Attachment>&& attachments)
     : _buffer(nullptr),
       _bufferLength(0),
       _dataLength(0),
       _sizeRead(0),
       _vmDeallocate(false),
-      _attachment(std::move(attachment)) {}
+      _attachments(std::move(attachments)) {}
 
 Message::~Message() {
   if (_vmDeallocate) {
@@ -240,12 +240,18 @@ void Message::rewindRead() {
   _sizeRead = 0;
 }
 
-const Message::Attachment& Message::attachment() const {
-  return _attachment;
+const std::vector<Message::Attachment>& Message::attachments() const {
+  return _attachments;
 }
 
-void Message::setAttachment(const Attachment& attachment) {
-  _attachment = attachment;
+void Message::addAttachment(const Attachment& attachment) {
+  if (attachment.isValid()) {
+    _attachments.emplace_back(attachment);
+  }
+}
+
+void Message::setAttachments(std::vector<Attachment>&& attachments) {
+  _attachments = std::move(attachments);
 }
 
 const Message::Attachment::Handle MessageAttachmentHandleNull = 0;

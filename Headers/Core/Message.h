@@ -70,7 +70,7 @@ class Message {
   /**
    *  Construct a message with the given attachment
    */
-  Message(Attachment&& attachment);
+  Message(std::vector<Attachment>&& attachments);
 
   /**
    *  Collect the message
@@ -196,22 +196,29 @@ class Message {
   void rewindRead();
 
   /**
-   *  An optional message attachment
+   *  The list of message attachments
    *
-   *  @return the message attachment
+   *  @return the message attachments
    */
-  const Attachment& attachment() const;
+  const std::vector<Attachment>& attachments() const;
 
   /**
-   *  Set the message attachment
+   *  Adds an attachment to the message
    *
-   *  @param attachment the attchment to set on the message
+   *  @param attachment the attchment to add to the message
    */
-  void setAttachment(const Attachment& attachment);
+  void addAttachment(const Attachment& attachment);
+
+  /**
+   *  Replace all the attachments currently in the message
+   *
+   *  @param attachments the new message attachments
+   */
+  void setAttachments(std::vector<Attachment>&& attachments);
 
  private:
   uint8_t* _buffer;
-  Attachment _attachment;
+  std::vector<Attachment> _attachments;
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;

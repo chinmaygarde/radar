@@ -180,7 +180,8 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
   rl::core::Channel chan;
 
   chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachment().isValid(), true);
+    ASSERT_EQ(message.attachments().size(), 1);
+    ASSERT_EQ(message.attachments()[0].isValid(), true);
     ASSERT_EQ(message.readCompleted(), true);
     rl::core::EventLoop::Current()->terminate();
   });
@@ -197,7 +198,7 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
   rl::core::Channel other;
 
-  rl::core::Message message(other.asMessageAttachment());
+  rl::core::Message message({other.asMessageAttachment()});
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   ASSERT_EQ(chan.sendMessages(std::move(messages)),
@@ -217,13 +218,14 @@ TEST(ChannelTest, AliasingChannels) {
 
   rl::core::Latch aliasLatch(1);
   chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachment().isValid(), true);
+    ASSERT_EQ(message.attachments().size(), 1);
+    ASSERT_EQ(message.attachments()[0].isValid(), 1);
     rl::core::EventLoop::Current()->terminate();
 
     /*
      *  Alias of the channel
      */
-    rl::core::Channel aliasOther(message.attachment());
+    rl::core::Channel aliasOther(message.attachments()[0]);
     ASSERT_NE(aliasOther.source(), nullptr);
 
     rl::core::Message messageToAlias;
@@ -253,7 +255,7 @@ TEST(ChannelTest, AliasingChannels) {
    */
   rl::core::Channel other;
 
-  rl::core::Message message(other.asMessageAttachment());
+  rl::core::Message message({other.asMessageAttachment()});
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   chan.sendMessages(std::move(messages));
@@ -279,7 +281,8 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
   rl::core::Channel chan;
 
   chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachment().isValid(), true);
+    ASSERT_EQ(message.attachments().size(), 1);
+    ASSERT_EQ(message.attachments()[0].isValid(), true);
     auto character = 'a';
     ASSERT_EQ(message.decode(character), true);
     ASSERT_EQ(character, 'x');
@@ -298,7 +301,7 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
   rl::core::Channel other;
 
-  rl::core::Message message(other.asMessageAttachment());
+  rl::core::Message message({other.asMessageAttachment()});
 
   auto someChar = 'x';
   ASSERT_EQ(message.encode(someChar), true);

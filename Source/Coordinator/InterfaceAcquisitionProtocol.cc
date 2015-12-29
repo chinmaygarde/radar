@@ -37,7 +37,7 @@ void InterfaceAcquisitionProtocol::onRequest(
       return false;
     }
 
-    message.setAttachment(channel->asMessageAttachment());
+    message.addAttachment(channel->asMessageAttachment());
     return true;
   });
 
