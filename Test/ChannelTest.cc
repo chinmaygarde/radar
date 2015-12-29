@@ -318,7 +318,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
   rl::core::Channel chan;
 
   chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachments().size(), 5);
+    ASSERT_EQ(message.attachments().size(), 7);
     ASSERT_EQ(message.attachments()[0].isValid(), true);
     ASSERT_EQ(message.attachments()[1].isValid(), true);
     ASSERT_EQ(message.attachments()[2].isValid(), true);

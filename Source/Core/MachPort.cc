@@ -283,7 +283,7 @@ class MachPayload {
           memoryArenaAddress = static_cast<uint8_t*>(mem->address);
           memoryArenaSize = mem->size;
 
-          offset += sizeof(mach_msg_port_descriptor_t);
+          offset += sizeof(mach_msg_ool_descriptor_t);
         } break;
         /*
          *  An OOL port
@@ -294,7 +294,7 @@ class MachPayload {
 
           attachments.emplace_back(attachmentDesc->name);
 
-          offset += sizeof(mach_msg_ool_descriptor_t);
+          offset += sizeof(mach_msg_port_descriptor_t);
         } break;
         default:
           RL_ASSERT_MSG(
