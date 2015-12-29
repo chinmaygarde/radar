@@ -119,6 +119,7 @@
 		9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */; };
 		9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */; };
 		9E95441F1C331DDA002EEC68 /* MachBootstrapServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */; };
+		9E9544261C334296002EEC68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9544251C334296002EEC68 /* Foundation.framework */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
 		9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA039EB1C179B4500F36467 /* OpenGL.framework */; };
@@ -434,6 +435,7 @@
 		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
 		9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceAcquisitionProtocol.h; sourceTree = "<group>"; };
 		9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachBootstrapServer.mm; sourceTree = "<group>"; };
+		9E9544251C334296002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
 		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -564,6 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E9544261C334296002EEC68 /* Foundation.framework in Frameworks */,
 				9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */,
 				9E62F8DF1B796FC8008DE08E /* CoreFoundation.framework in Frameworks */,
 				9E62F8DC1B796EDD008DE08E /* libRadarLove.a in Frameworks */,
@@ -650,6 +653,7 @@
 		9E62F8A11B796DFA008DE08E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E9544251C334296002EEC68 /* Foundation.framework */,
 				9EA039EB1C179B4500F36467 /* OpenGL.framework */,
 				9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */,
 				9E62F8A21B796E0A008DE08E /* Test */,
