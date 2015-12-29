@@ -9,9 +9,12 @@ namespace coordinator {
 
 InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol(
     InterfaceChannelVendor vendor)
-    : _vendor(vendor) {
+    : _vendor(vendor), core::Protocol(true) {
   RL_ASSERT(_vendor);
 }
+
+InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol()
+    : core::Protocol(false) {}
 
 void InterfaceAcquisitionProtocol::onRequest(
     core::Message message,

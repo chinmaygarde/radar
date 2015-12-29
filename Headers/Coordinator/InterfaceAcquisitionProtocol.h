@@ -15,7 +15,9 @@ class InterfaceAcquisitionProtocol : public core::Protocol {
   using InterfaceChannelVendor =
       std::function<std::shared_ptr<core::Channel>(void)>;
 
-  InterfaceAcquisitionProtocol(InterfaceChannelVendor vendor);
+  explicit InterfaceAcquisitionProtocol();
+
+  explicit InterfaceAcquisitionProtocol(InterfaceChannelVendor vendor);
 
  private:
   InterfaceChannelVendor _vendor;

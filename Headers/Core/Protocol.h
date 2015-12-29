@@ -17,9 +17,13 @@ class Protocol {
  public:
   using Response = std::function<void(IOResult, Message)>;
 
-  explicit Protocol();
-
-  explicit Protocol(std::shared_ptr<Channel> channel);
+  /**
+   *  @param isVendor if this instance of the protocol handle serves as the
+   *                  vendor (else client)
+   *
+   *  @return the initialized protocol
+   */
+  explicit Protocol(bool isVendor);
 
   std::shared_ptr<EventLoopSource> source();
 
@@ -46,20 +50,9 @@ class Protocol {
   bool _isVendor;
   bool _isAdvertising;
 
-  /**
-   *  The designated initializer for the protocol
-   *
-   *  @param isVendor if this instance of the protocol handle serves as the
-   *                  vendor (else client)
-   *  @param channel  the channel to fulfil protocol requests on
-   *
-   *  @return the initialized protocol
-   */
-  explicit Protocol(bool isVendor, std::shared_ptr<Channel> channel);
-
   void onChannelMessage(Message message);
 
-  void startOrStopAdvertisingWithBootstrapServer(bool start);
+  void startOrStopAdvertisingWithBootstrapServerIfNecessary(bool start);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Protocol);
 };

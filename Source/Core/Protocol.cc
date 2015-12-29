@@ -29,20 +29,15 @@ class ProtocolPayloadHeader {
   RL_DISALLOW_COPY_AND_ASSIGN(ProtocolPayloadHeader);
 };
 
-Protocol::Protocol() : Protocol(true, std::make_shared<Channel>()) {}
-
-Protocol::Protocol(std::shared_ptr<Channel> channel)
-    : Protocol(false, channel) {}
-
-Protocol::Protocol(bool isVendor, std::shared_ptr<Channel> channel)
-    : _isVendor(isVendor), _channel(channel), _isAdvertising(false) {
+Protocol::Protocol(bool isVendor)
+    : _isVendor(isVendor), _channel(std::make_shared<Channel>()) {
   _channel->setMessageCallback(
       std::bind(&Protocol::onChannelMessage, this, std::placeholders::_1));
 }
 
 std::shared_ptr<EventLoopSource> Protocol::source() {
-  startOrStopAdvertisingWithBootstrapServer(true);
-  return _isVendor ? _channel->source() : nullptr;
+  startOrStopAdvertisingWithBootstrapServerIfNecessary(true);
+  return _channel->source();
 }
 
 void Protocol::onChannelMessage(Message message) {
@@ -120,7 +115,12 @@ IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
   return _channel->sendMessages(std::move(messages));
 }
 
-void Protocol::startOrStopAdvertisingWithBootstrapServer(bool start) {
+void Protocol::startOrStopAdvertisingWithBootstrapServerIfNecessary(
+    bool start) {
+  if (!_isVendor) {
+    return;
+  }
+
   if (start) {
     if (!_isAdvertising) {
       _isAdvertising =
@@ -140,7 +140,7 @@ Protocol::~Protocol() {
     pending.second(core::IOResult::Timeout, Message{});
   }
 
-  startOrStopAdvertisingWithBootstrapServer(false);
+  startOrStopAdvertisingWithBootstrapServerIfNecessary(false);
 }
 
 }  // namespace core
