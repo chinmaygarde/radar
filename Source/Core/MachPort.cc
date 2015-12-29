@@ -295,9 +295,7 @@ class MachPayload {
           attachments.emplace_back(attachmentDesc->name);
 
           offset += sizeof(mach_msg_ool_descriptor_t);
-        }
-
-        break;
+        } break;
         default:
           RL_ASSERT_MSG(
               false, "Unsupported OOL descriptor (not a port or memory arena)");

@@ -313,3 +313,59 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
   thread.join();
 }
+
+TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
+  rl::core::Channel chan;
+
+  chan.setMessageCallback([&](rl::core::Message message) {
+    ASSERT_EQ(message.attachments().size(), 5);
+    ASSERT_EQ(message.attachments()[0].isValid(), true);
+    ASSERT_EQ(message.attachments()[1].isValid(), true);
+    ASSERT_EQ(message.attachments()[2].isValid(), true);
+    ASSERT_EQ(message.attachments()[3].isValid(), true);
+    ASSERT_EQ(message.attachments()[4].isValid(), true);
+    ASSERT_EQ(message.attachments()[5].isValid(), true);
+    ASSERT_EQ(message.attachments()[6].isValid(), true);
+
+    auto character = 'a';
+    ASSERT_EQ(message.decode(character), true);
+    ASSERT_EQ(character, 'x');
+    ASSERT_EQ(message.readCompleted(), true);
+    rl::core::EventLoop::Current()->terminate();
+  });
+
+  rl::core::Latch latch(1);
+  std::thread thread([&]() {
+    auto loop = rl::core::EventLoop::Current();
+    loop->addSource(chan.source());
+
+    loop->loop([&]() { latch.countDown(); });
+  });
+
+  latch.wait();
+
+  rl::core::Channel other0;
+  rl::core::Channel other1;
+  rl::core::Channel other2;
+  rl::core::Channel other3;
+  rl::core::Channel other4;
+  rl::core::Channel other5;
+  rl::core::Channel other6;
+
+  rl::core::Message message({
+      other0.asMessageAttachment(), other1.asMessageAttachment(),
+      other2.asMessageAttachment(), other3.asMessageAttachment(),
+      other4.asMessageAttachment(), other5.asMessageAttachment(),
+      other6.asMessageAttachment(),
+  });
+
+  auto someChar = 'x';
+  ASSERT_EQ(message.encode(someChar), true);
+
+  rl::core::Messages messages;
+  messages.emplace_back(std::move(message));
+  ASSERT_EQ(chan.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
+
+  thread.join();
+}
