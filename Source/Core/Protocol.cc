@@ -12,18 +12,24 @@ static ProtocolPayloadIdentifier _LastProtocolPayloadIdentifier = 0;
 
 class ProtocolPayloadHeader {
  public:
-  ProtocolPayloadHeader()
-      : _isRequest(true), _identifier(++_LastProtocolPayloadIdentifier){};
+  enum class Type : uint8_t {
+    Request,
+    Response,
+  };
 
-  ProtocolPayloadHeader(ProtocolPayloadIdentifier identifier)
-      : _isRequest(false), _identifier(identifier) {}
+  ProtocolPayloadHeader(Type type,
+                        ProtocolPayloadIdentifier identifier,
+                        bool autoAssignID)
+      : _type(type),
+        _identifier(autoAssignID ? ++_LastProtocolPayloadIdentifier
+                                 : identifier) {}
 
-  bool isRequest() const { return _isRequest; }
+  Type type() const { return _type; }
 
   bool identifier() const { return _identifier; }
 
  private:
-  bool _isRequest;
+  Type _type;
   uint64_t _identifier;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ProtocolPayloadHeader);
@@ -41,7 +47,7 @@ std::shared_ptr<EventLoopSource> Protocol::source() {
 }
 
 void Protocol::onChannelMessage(Message message) {
-  ProtocolPayloadHeader header;
+  ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Request, 0, false);
 
   if (!message.decode(header)) {
     return;
@@ -50,7 +56,8 @@ void Protocol::onChannelMessage(Message message) {
   /*
    *  A Request
    */
-  if (header.isRequest()) {
+  if (header.type() == ProtocolPayloadHeader::Type::Request) {
+    RL_ASSERT_MSG(_isVendor, "Only protocol vendors may service requests");
     onRequest(std::move(message), header.identifier());
     return;
   }
@@ -58,6 +65,7 @@ void Protocol::onChannelMessage(Message message) {
   /*
    *  A response
    */
+  RL_ASSERT_MSG(!_isVendor, "Protocol vendors cannot service responses");
   auto found = _pendingResponses.find(header.identifier());
   RL_ASSERT_MSG(found != _pendingResponses.end(),
                 "Must get a response for a valid request");
@@ -69,7 +77,7 @@ void Protocol::onChannelMessage(Message message) {
 void Protocol::sendRequest(Response response) {
   RL_ASSERT(response);
 
-  ProtocolPayloadHeader header(true /* request */);
+  ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Request, 0, true);
 
   Message message;
 
@@ -95,7 +103,8 @@ void Protocol::sendRequest(Response response) {
 
 IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
                                   ResponsePayloadHandler handler) {
-  ProtocolPayloadHeader header(identifier);
+  ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Response,
+                               identifier, false);
   Message message;
 
   if (!message.encode(header)) {
