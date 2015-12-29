@@ -206,15 +206,18 @@ class Message {
    *  Adds an attachment to the message
    *
    *  @param attachment the attchment to add to the message
+   *  @return if the given attachment was added to the message. The attachment
+   *          must be valid
    */
-  void addAttachment(const Attachment& attachment);
+  bool addAttachment(const Attachment& attachment);
 
   /**
    *  Replace all the attachments currently in the message
    *
    *  @param attachments the new message attachments
+   *  @return if the set of valid attachments was set on the message
    */
-  void setAttachments(std::vector<Attachment>&& attachments);
+  bool setAttachments(std::vector<Attachment>&& attachments);
 
  private:
   uint8_t* _buffer;

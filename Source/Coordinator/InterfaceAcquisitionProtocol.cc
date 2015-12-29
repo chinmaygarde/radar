@@ -37,8 +37,7 @@ void InterfaceAcquisitionProtocol::onRequest(
       return false;
     }
 
-    message.addAttachment(channel->asMessageAttachment());
-    return true;
+    return message.addAttachment(channel->asMessageAttachment());
   });
 
   RL_ASSERT(result == core::IOResult::Success);

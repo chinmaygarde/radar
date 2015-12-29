@@ -244,14 +244,24 @@ const std::vector<Message::Attachment>& Message::attachments() const {
   return _attachments;
 }
 
-void Message::addAttachment(const Attachment& attachment) {
-  if (attachment.isValid()) {
-    _attachments.emplace_back(attachment);
+bool Message::addAttachment(const Attachment& attachment) {
+  if (!attachment.isValid()) {
+    return false;
   }
+
+  _attachments.emplace_back(attachment);
+  return true;
 }
 
-void Message::setAttachments(std::vector<Attachment>&& attachments) {
+bool Message::setAttachments(std::vector<Attachment>&& attachments) {
+  for (const auto& attachment : attachments) {
+    if (!attachment.isValid()) {
+      return false;
+    }
+  }
+
   _attachments = std::move(attachments);
+  return true;
 }
 
 const Message::Attachment::Handle MessageAttachmentHandleNull = 0;
