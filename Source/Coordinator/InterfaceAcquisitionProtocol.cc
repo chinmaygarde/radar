@@ -51,5 +51,9 @@ bool InterfaceAcquisitionProtocol::populateRequestPayload(
   return true;
 }
 
+std::string InterfaceAcquisitionProtocol::advertisementName() const {
+  return "com.radar.interface_acquisition";
+}
+
 }  // namespace coordinator
 }  // namespace rl

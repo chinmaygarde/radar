@@ -20,6 +20,8 @@ class InterfaceAcquisitionProtocol : public core::Protocol {
  private:
   InterfaceChannelVendor _vendor;
 
+  std::string advertisementName() const override;
+
   void onRequest(core::Message message,
                  core::ProtocolPayloadIdentifier identifier) override;
 

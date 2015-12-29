@@ -19,6 +19,8 @@ class Protocol {
 
   explicit Protocol();
 
+  explicit Protocol(std::shared_ptr<Channel> channel);
+
   std::shared_ptr<EventLoopSource> source();
 
   void sendRequest(Response response);
@@ -27,6 +29,8 @@ class Protocol {
 
  protected:
   using ResponsePayloadHandler = std::function<bool(Message& message)>;
+
+  virtual std::string advertisementName() const = 0;
 
   virtual void onRequest(Message message,
                          ProtocolPayloadIdentifier identifier) = 0;
@@ -40,8 +44,22 @@ class Protocol {
   std::shared_ptr<Channel> _channel;
   std::unordered_map<ProtocolPayloadIdentifier, Response> _pendingResponses;
   bool _isVendor;
+  bool _isAdvertising;
+
+  /**
+   *  The designated initializer for the protocol
+   *
+   *  @param isVendor if this instance of the protocol handle serves as the
+   *                  vendor (else client)
+   *  @param channel  the channel to fulfil protocol requests on
+   *
+   *  @return the initialized protocol
+   */
+  explicit Protocol(bool isVendor, std::shared_ptr<Channel> channel);
 
   void onChannelMessage(Message message);
+
+  void startOrStopAdvertisingWithBootstrapServer(bool start);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Protocol);
 };

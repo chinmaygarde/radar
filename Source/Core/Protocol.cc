@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Bootstrap/BootstrapServer.h>
 #include <Core/Protocol.h>
 
 namespace rl {
@@ -28,12 +29,19 @@ class ProtocolPayloadHeader {
   RL_DISALLOW_COPY_AND_ASSIGN(ProtocolPayloadHeader);
 };
 
-Protocol::Protocol() : _isVendor(true), _channel(std::make_shared<Channel>()) {
+Protocol::Protocol() : Protocol(true, std::make_shared<Channel>()) {}
+
+Protocol::Protocol(std::shared_ptr<Channel> channel)
+    : Protocol(false, channel) {}
+
+Protocol::Protocol(bool isVendor, std::shared_ptr<Channel> channel)
+    : _isVendor(isVendor), _channel(channel), _isAdvertising(false) {
   _channel->setMessageCallback(
       std::bind(&Protocol::onChannelMessage, this, std::placeholders::_1));
 }
 
 std::shared_ptr<EventLoopSource> Protocol::source() {
+  startOrStopAdvertisingWithBootstrapServer(true);
   return _isVendor ? _channel->source() : nullptr;
 }
 
@@ -112,10 +120,27 @@ IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
   return _channel->sendMessages(std::move(messages));
 }
 
+void Protocol::startOrStopAdvertisingWithBootstrapServer(bool start) {
+  if (start) {
+    if (!_isAdvertising) {
+      _isAdvertising =
+          bootstrap::BootstrapServerAdvertise(advertisementName(), _channel);
+    }
+  } else {
+    if (_isAdvertising) {
+      _isAdvertising = !bootstrap::BoostrapServerStopAdvertising(_channel);
+    }
+  }
+}
+
 Protocol::~Protocol() {
+  _channel->setMessageCallback(nullptr);
+
   for (const auto& pending : _pendingResponses) {
     pending.second(core::IOResult::Timeout, Message{});
   }
+
+  startOrStopAdvertisingWithBootstrapServer(false);
 }
 
 }  // namespace core

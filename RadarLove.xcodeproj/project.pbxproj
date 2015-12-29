@@ -112,15 +112,13 @@
 		9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656101BE45E3A00997766 /* TransactionPayload.cc */; };
 		9E8656261BE45E3A00997766 /* TransferEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656111BE45E3A00997766 /* TransferEntity.cc */; };
 		9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8656121BE45E3A00997766 /* TransferRecord.cc */; };
-		9E9543D11C28C60C002EEC68 /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543D01C28C60C002EEC68 /* Server.h */; };
-		9E9543DC1C28C61B002EEC68 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543DB1C28C61B002EEC68 /* Server.cc */; };
-		9E9543DF1C28DB01002EEC68 /* MachServerProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543DD1C28DB01002EEC68 /* MachServerProvider.mm */; };
-		9E9543E01C28DB01002EEC68 /* ServerProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543DE1C28DB01002EEC68 /* ServerProvider.h */; };
-		9E9543E21C28DB7F002EEC68 /* MachServerProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543E11C28DB7F002EEC68 /* MachServerProvider.h */; };
+		9E9543D11C28C60C002EEC68 /* BootstrapServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9543D01C28C60C002EEC68 /* BootstrapServer.h */; };
+		9E9543DC1C28C61B002EEC68 /* BootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543DB1C28C61B002EEC68 /* BootstrapServer.cc */; };
 		9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544041C31D1C8002EEC68 /* Protocol.h */; };
 		9E95440F1C31D1DD002EEC68 /* Protocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E95440E1C31D1DD002EEC68 /* Protocol.cc */; };
 		9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */; };
 		9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */; };
+		9E95441F1C331DDA002EEC68 /* MachBootstrapServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
 		9EA039EC1C179B4500F36467 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA039EB1C179B4500F36467 /* OpenGL.framework */; };
@@ -429,15 +427,13 @@
 		9E8656101BE45E3A00997766 /* TransactionPayload.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransactionPayload.cc; sourceTree = "<group>"; };
 		9E8656111BE45E3A00997766 /* TransferEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferEntity.cc; sourceTree = "<group>"; };
 		9E8656121BE45E3A00997766 /* TransferRecord.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferRecord.cc; sourceTree = "<group>"; };
-		9E9543D01C28C60C002EEC68 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
-		9E9543DB1C28C61B002EEC68 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
-		9E9543DD1C28DB01002EEC68 /* MachServerProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachServerProvider.mm; sourceTree = "<group>"; };
-		9E9543DE1C28DB01002EEC68 /* ServerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerProvider.h; sourceTree = "<group>"; };
-		9E9543E11C28DB7F002EEC68 /* MachServerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachServerProvider.h; sourceTree = "<group>"; };
+		9E9543D01C28C60C002EEC68 /* BootstrapServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootstrapServer.h; sourceTree = "<group>"; };
+		9E9543DB1C28C61B002EEC68 /* BootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BootstrapServer.cc; sourceTree = "<group>"; };
 		9E9544041C31D1C8002EEC68 /* Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
 		9E95440E1C31D1DD002EEC68 /* Protocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Protocol.cc; sourceTree = "<group>"; };
 		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
 		9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceAcquisitionProtocol.h; sourceTree = "<group>"; };
+		9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachBootstrapServer.mm; sourceTree = "<group>"; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
 		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -754,7 +750,7 @@
 		9E9543CF1C28C60C002EEC68 /* Bootstrap */ = {
 			isa = PBXGroup;
 			children = (
-				9E9543D01C28C60C002EEC68 /* Server.h */,
+				9E9543D01C28C60C002EEC68 /* BootstrapServer.h */,
 			);
 			name = Bootstrap;
 			path = Headers/Bootstrap;
@@ -763,10 +759,8 @@
 		9E9543DA1C28C61B002EEC68 /* Bootstrap */ = {
 			isa = PBXGroup;
 			children = (
-				9E9543DD1C28DB01002EEC68 /* MachServerProvider.mm */,
-				9E9543E11C28DB7F002EEC68 /* MachServerProvider.h */,
-				9E9543DB1C28C61B002EEC68 /* Server.cc */,
-				9E9543DE1C28DB01002EEC68 /* ServerProvider.h */,
+				9E9543DB1C28C61B002EEC68 /* BootstrapServer.cc */,
+				9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */,
 			);
 			path = Bootstrap;
 			sourceTree = "<group>";
@@ -1184,13 +1178,11 @@
 				EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
 				9EA674511B753CAD00C8A8B4 /* Macros.h in Headers */,
-				9E9543E01C28DB01002EEC68 /* ServerProvider.h in Headers */,
 				9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
-				9E9543E21C28DB7F002EEC68 /* MachServerProvider.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
 				9E8655F21BE45E2700997766 /* OpenGL.h in Headers */,
-				9E9543D11C28C60C002EEC68 /* Server.h in Headers */,
+				9E9543D11C28C60C002EEC68 /* BootstrapServer.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EAECE861B685460000FA38A /* WaitSet.h in Headers */,
 				9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */,
@@ -1382,6 +1374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E95441F1C331DDA002EEC68 /* MachBootstrapServer.mm in Sources */,
 				9E8656271BE45E3A00997766 /* TransferRecord.cc in Sources */,
 				9E8656221BE45E3A00997766 /* ProgramCatalog.cc in Sources */,
 				9EAECED71B685469000FA38A /* Channel.cc in Sources */,
@@ -1410,7 +1403,7 @@
 				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */,
-				9E9543DC1C28C61B002EEC68 /* Server.cc in Sources */,
+				9E9543DC1C28C61B002EEC68 /* BootstrapServer.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */,
@@ -1453,7 +1446,6 @@
 				9EAECECA1B685469000FA38A /* Utilities.cc in Sources */,
 				EAB757341BABE585009AA97F /* InProcessTimerSource.cc in Sources */,
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
-				9E9543DF1C28DB01002EEC68 /* MachServerProvider.mm in Sources */,
 				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,

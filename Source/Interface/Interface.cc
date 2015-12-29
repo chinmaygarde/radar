@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Bootstrap/Server.h>
 #include <Coordinator/Coordinator.h>
 #include <Core/ThreadLocal.h>
 #include <Instrumentation/TraceEvent.h>
@@ -47,14 +46,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
   _autoFlushObserver = std::make_shared<core::EventLoopObserver>(
       std::bind(&Interface::autoFlushObserver, this, std::placeholders::_1),
       std::numeric_limits<int64_t>::max());
-
-  /*
-   *  Ask the bootstrap server for the coordinator channel
-   */
-  bootstrap::Server::Acquire().channelForName(
-      coordinator::CoordinatorInterfaceChannelVendorName,
-      std::bind(&Interface::coordinatorChannelAcquired, this,
-                std::placeholders::_1));
 }
 
 void Interface::run(std::function<void()> onReady) {
