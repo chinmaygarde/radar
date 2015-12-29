@@ -18,10 +18,6 @@ using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _loop(nullptr),
-      _size(0.0, 0.0),
-      _lock(),
-      _rootLayer(nullptr),
-      _transactionStack(),
       _popCount(0),
       _delegate(delegate),
       _state({
@@ -208,12 +204,14 @@ void Interface::scheduleChannels() {
    *  The event loop is ready, schedule all event channels the interface cares
    *  about
    */
+  _loop->addSource(_interfaceAcquisition.source());
 }
 
 void Interface::unscheduleChannels() {
   /*
    *  The event loop is about to die, unschedule all active channels
    */
+  _loop->removeSource(_interfaceAcquisition.source());
 }
 
 Interface::State Interface::state() const {

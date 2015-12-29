@@ -6,6 +6,8 @@
 #define RADARLOVE_INTERFACE_INTERFACE_
 
 #include <Core/Core.h>
+
+#include <Coordinator/InterfaceAcquisitionProtocol.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/Layer.h>
@@ -135,6 +137,7 @@ class Interface {
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
   toolbox::StateMachine _state;
+  coordinator::InterfaceAcquisitionProtocol _interfaceAcquisition;
 
   void coordinatorChannelAcquired(std::shared_ptr<core::Channel> channel);
   void scheduleChannels();
