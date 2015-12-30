@@ -121,7 +121,6 @@
 		9E95448D1C347217002EEC68 /* WorkQueueTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1CE481C0E7E6A00DBAA91 /* WorkQueueTest.mm */; };
 		9E95448E1C34746B002EEC68 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F8B21B796E10008DE08E /* libgtest.a */; };
 		9E9544921C347AC1002EEC68 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E9544901C347AC1002EEC68 /* Info.plist */; };
-		9E9544931C347AC1002EEC68 /* XCTestMain.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544911C347AC1002EEC68 /* XCTestMain.mm */; };
 		9EA039DE1C177F5C00F36467 /* Suggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA039DD1C177F5C00F36467 /* Suggestion.h */; };
 		9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EA039E71C177F6D00F36467 /* Suggestion.cc */; };
 		9EA674501B753CAD00C8A8B4 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EA6744E1B753CAD00C8A8B4 /* Core.h */; };
@@ -420,7 +419,6 @@
 		9E9544251C334296002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E95446A1C3471DA002EEC68 /* RadarLoveXCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RadarLoveXCTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E9544901C347AC1002EEC68 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9E9544911C347AC1002EEC68 /* XCTestMain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XCTestMain.mm; sourceTree = "<group>"; };
 		9EA039DD1C177F5C00F36467 /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		9EA039E71C177F6D00F36467 /* Suggestion.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Suggestion.cc; sourceTree = "<group>"; };
 		9EA039EB1C179B4500F36467 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -755,7 +753,6 @@
 			isa = PBXGroup;
 			children = (
 				9E9544901C347AC1002EEC68 /* Info.plist */,
-				9E9544911C347AC1002EEC68 /* XCTestMain.mm */,
 			);
 			name = XCTest;
 			sourceTree = "<group>";
@@ -1369,7 +1366,6 @@
 				9E9544811C347217002EEC68 /* LayoutTest.mm in Sources */,
 				9E9544821C347217002EEC68 /* EventLoopTest.mm in Sources */,
 				9E9544831C347217002EEC68 /* MessageDecoderTest.mm in Sources */,
-				9E9544931C347AC1002EEC68 /* XCTestMain.mm in Sources */,
 				9E9544841C347217002EEC68 /* MessageEncoderTest.mm in Sources */,
 				9E9544851C347217002EEC68 /* PipeTrivialSourceTest.mm in Sources */,
 				9E9544861C347217002EEC68 /* SharedMemoryTest.mm in Sources */,
