@@ -92,6 +92,7 @@ file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
+  "Source/*.mm"
 )
 
 file(GLOB RADARLOVE_IMGUI_SRC
@@ -117,7 +118,7 @@ if (FREEBSD)
 endif()
 
 if (APPLE)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGL")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGL -framework Foundation")
 endif()
 
 if(RASPBERRY)
