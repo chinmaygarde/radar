@@ -48,6 +48,9 @@
 
 #else  // RL_USE_XCODE_TEST_RUNNER
 
+#define RL_DECLARE_TEST_START(name)
+#define RL_DECLARE_TEST_END
+
 #include <gtest/gtest.h>
 
 #endif  // RL_USE_XCODE_TEST_RUNNER
