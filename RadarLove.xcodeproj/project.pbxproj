@@ -107,7 +107,6 @@
 		9E95441F1C331DDA002EEC68 /* MachBootstrapServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */; };
 		9E95446F1C3471DA002EEC68 /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECE271B68543F000FA38A /* libRadarLove.a */; };
 		9E95447F1C347217002EEC68 /* ChannelTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.cc */; };
-		9E9544801C347217002EEC68 /* LayerTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80B1B796D81008DE08E /* LayerTest.cc */; };
 		9E9544811C347217002EEC68 /* LayoutTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745E91BF2BB3200D110DE /* LayoutTest.cc */; };
 		9E9544821C347217002EEC68 /* EventLoopTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80C1B796D81008DE08E /* EventLoopTest.cc */; };
 		9E9544831C347217002EEC68 /* MessageDecoderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */; };
@@ -358,7 +357,6 @@
 		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
 		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelTest.cc; sourceTree = "<group>"; };
-		9E62F80B1B796D81008DE08E /* LayerTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerTest.cc; sourceTree = "<group>"; };
 		9E62F80C1B796D81008DE08E /* EventLoopTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventLoopTest.cc; sourceTree = "<group>"; };
 		9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDecoderTest.cc; sourceTree = "<group>"; };
 		9E62F80E1B796D81008DE08E /* MessageEncoderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageEncoderTest.cc; sourceTree = "<group>"; };
@@ -374,6 +372,7 @@
 		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9E6745E91BF2BB3200D110DE /* LayoutTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutTest.cc; sourceTree = "<group>"; };
+		9E687E421C34822D00FBE171 /* RadarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarTest.h; sourceTree = "<group>"; };
 		9E84818A1C126B2D006DE159 /* TraceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraceEvent.h; sourceTree = "<group>"; };
 		9E8481941C126B3D006DE159 /* TraceEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceEvent.cc; sourceTree = "<group>"; };
 		9E8481961C1272DD006DE159 /* TraceTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceTest.cc; sourceTree = "<group>"; };
@@ -615,10 +614,10 @@
 		9E62F7481B796D80008DE08E /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				9E687E421C34822D00FBE171 /* RadarTest.h */,
 				9E9544941C347BB6002EEC68 /* GTest */,
 				9E95448F1C347AAF002EEC68 /* XCTest */,
 				9E62F74A1B796D80008DE08E /* ChannelTest.cc */,
-				9E62F80B1B796D81008DE08E /* LayerTest.cc */,
 				9E6745E91BF2BB3200D110DE /* LayoutTest.cc */,
 				9E62F80C1B796D81008DE08E /* EventLoopTest.cc */,
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.cc */,
@@ -1370,7 +1369,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E95447F1C347217002EEC68 /* ChannelTest.cc in Sources */,
-				9E9544801C347217002EEC68 /* LayerTest.cc in Sources */,
 				9E9544811C347217002EEC68 /* LayoutTest.cc in Sources */,
 				9E9544821C347217002EEC68 /* EventLoopTest.cc in Sources */,
 				9E9544831C347217002EEC68 /* MessageDecoderTest.cc in Sources */,

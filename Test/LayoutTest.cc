@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "RadarTest.h"
+
 #include <Core/Core.h>
 #include <Interface/Entity.h>
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>
-#include <gtest/gtest.h>
-
-#include <map>
 
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
   rl::layout::Expression expr({}, 1.0);
