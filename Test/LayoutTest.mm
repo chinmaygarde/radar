@@ -9,6 +9,8 @@
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>
 
+RL_DECLARE_TEST_START(LayoutTest)
+
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
   rl::layout::Expression expr({}, 1.0);
   rl::layout::Expression expr2({}, 2.0);
@@ -357,3 +359,5 @@ TEST(LayoutTest, MakeConstantHoistableVariants) {
   ASSERT_EQ(expr4.terms().size(), 1);
   ASSERT_EQ(expr4.terms()[0].isConstant(), true);
 }
+
+RL_DECLARE_TEST_END

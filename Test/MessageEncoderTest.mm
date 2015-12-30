@@ -6,6 +6,8 @@
 
 #include <Core/Message.h>
 
+RL_DECLARE_TEST_START(MessageEncoderTest)
+
 TEST(MessageEncoderTest, SimpleInitialization) {
   rl::core::Message message;
 
@@ -33,3 +35,5 @@ TEST(MessageEncoderTest, MultipleInitialization) {
   ASSERT_TRUE(message.encode(50.0f));
   ASSERT_TRUE(message.size() - sizeof(float) == s);
 }
+
+RL_DECLARE_TEST_END

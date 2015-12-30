@@ -7,6 +7,8 @@
 #include <Core/Core.h>
 #include <thread>
 
+RL_DECLARE_TEST_START(EventLoopTest)
+
 TEST(EventLoopTest, CurrentEventLoopAccess) {
   auto loop = rl::core::EventLoop::Current();
   ASSERT_TRUE(loop != nullptr);
@@ -25,7 +27,7 @@ TEST(EventLoopTest, EventLoopOnAnotherThread) {
 }
 
 TEST(EventLoopTest, SimpleLoop) {
-  std::thread thread([] {
+  std::thread thread([&] {
     auto outer = rl::core::EventLoop::Current();
 
     bool terminatedFromInner = false;
@@ -52,13 +54,13 @@ TEST(EventLoopTest, SimpleLoop) {
 }
 
 TEST(EventLoopTest, Timer) {
-  std::thread timerThread([] {
+  std::thread timerThread([&] {
 
     auto loop = rl::core::EventLoop::Current();
 
     rl::core::Clock clock;
 
-    auto start = clock.now();
+    const auto start = clock.now();
 
     auto timer =
         rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
@@ -66,7 +68,7 @@ TEST(EventLoopTest, Timer) {
     /*
      *  This test is extremely brittle :/
      */
-    timer->setWakeFunction([clock, start](rl::core::IOResult cause) {
+    timer->setWakeFunction([&](rl::core::IOResult cause) {
       auto duration = std::chrono::duration_cast<rl::core::ClockDurationMilli>(
           clock.now() - start);
       rl::core::EventLoop::Current()->terminate();
@@ -144,3 +146,5 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   trivialThread.join();
   ASSERT_TRUE(count == 1);
 }
+
+RL_DECLARE_TEST_END

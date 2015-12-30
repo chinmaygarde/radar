@@ -5,7 +5,46 @@
 #ifndef RADARLOVE_TEST_RADARTEST_H_
 #define RADARLOVE_TEST_RADARTEST_H_
 
-#if 0
+#if RL_USE_XCODE_TEST_RUNNER
+
+#include <XCTest/XCTest.h>
+
+/**
+ *  Used to declare the start of a test body
+ *
+ *  @param name the name of the test
+ */
+#define RL_DECLARE_TEST_START(name) \
+  @interface name : XCTestCase      \
+  @end                              \
+  @implementation name
+
+/**
+ *  Used to declare the end of a test body
+ */
+#define RL_DECLARE_TEST_END @end
+
+/**
+ *  Used to declare a new test case
+ *
+ *  @param className the test class name. This must be the same as the argument
+ *                   passed to `RL_DECLARE_TEST_START`
+ *  @param testName  the test case name
+ */
+#define TEST(className, testName) -(void)test##testName
+
+/*
+ *  Assertions
+ */
+
+#define ASSERT_TRUE(case) XCTAssertTrue((case))
+#define ASSERT_FALSE(case) XCTAssertFalse((case))
+
+#define ASSERT_EQ(something, other) XCTAssertEqual((something), (other))
+#define ASSERT_NE(something, other) XCTAssertNotEqual((something), (other))
+
+#define ASSERT_GE(something, other) \
+  XCTAssertGreaterThanOrEqual((something), (other))
 
 #else  // RL_USE_XCODE_TEST_RUNNER
 

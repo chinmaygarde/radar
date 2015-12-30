@@ -6,6 +6,8 @@
 
 #include <Core/Message.h>
 
+RL_DECLARE_TEST_START(MessageDecoderTest)
+
 TEST(MessageDecoderTest, SimpleInitialization) {
   rl::core::Message message;
 
@@ -58,3 +60,5 @@ TEST(MessageDecoderTest, MutltipleInitialization) {
   ASSERT_TRUE(b == 20.0);
   ASSERT_TRUE(c == 'c');
 }
+
+RL_DECLARE_TEST_END

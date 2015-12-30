@@ -12,7 +12,9 @@
 
 using Event = rl::instrumentation::TraceEvent;
 
-TEST(TraceTest, RL_KNOWN_SLOW(SimpleTraceCapture)) {
+RL_DECLARE_TEST_START(TraceTest)
+
+TEST(TraceTest, SimpleTraceCapture) {
   Event::MarkDurationBegin(Event::Category::Default, "trace");
   Event::MarkCounter(Event::Category::Default, "counter1", 400);
   Event::MarkCounter(Event::Category::Default, "counter2", 200);
@@ -31,7 +33,7 @@ TEST(TraceTest, RL_KNOWN_SLOW(SimpleTraceCapture)) {
   ASSERT_GE(stream.str().size(), 0);
 }
 
-TEST(TraceTest, RL_KNOWN_SLOW(TraceUsingMacros)) {
+TEST(TraceTest, TraceUsingMacros) {
   {
     RL_TRACE_AUTO("auto");
     {
@@ -52,3 +54,5 @@ TEST(TraceTest, RL_KNOWN_SLOW(TraceUsingMacros)) {
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0);
 }
+
+RL_DECLARE_TEST_END

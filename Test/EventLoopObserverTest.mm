@@ -7,6 +7,8 @@
 #include <Core/Core.h>
 #include <thread>
 
+RL_DECLARE_TEST_START(EventLoopObserverTest)
+
 TEST(EventLoopObserverTest, SimpleLoopObserver) {
   auto beforeSleep = 0;
   auto afterSleep = 0;
@@ -195,3 +197,5 @@ TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
   ASSERT_EQ(afterSleep, 2);
   ASSERT_EQ(reads, 5);
 }
+
+RL_DECLARE_TEST_END

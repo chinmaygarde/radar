@@ -8,6 +8,8 @@
 
 #include <thread>
 
+RL_DECLARE_TEST_START(ChannelTest)
+
 static bool MemorySetOrCheckPattern(uint8_t* buffer,
                                     size_t size,
                                     bool setOrCheck) {
@@ -78,7 +80,7 @@ TEST(ChannelTest, TestSimpleReads) {
   thread.join();
 }
 
-TEST(ChannelTest, RL_KNOWN_SLOW(TestLargeReadWrite)) {
+TEST(ChannelTest, TestLargeReadWrite) {
   rl::core::Channel channel;
 
   rl::core::Latch latch(1);
@@ -370,3 +372,5 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
 
   thread.join();
 }
+
+RL_DECLARE_TEST_END

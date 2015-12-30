@@ -10,8 +10,10 @@
 
 #include <thread>
 
+RL_DECLARE_TEST_START(ThreadLocalTest)
+
 TEST(ThreadLocalTest, SimpleInitialization) {
-  std::thread thread([] {
+  std::thread thread([&] {
     rl::core::ThreadLocal local;
     auto value = 100;
     local.set(value);
@@ -21,7 +23,7 @@ TEST(ThreadLocalTest, SimpleInitialization) {
 }
 
 TEST(ThreadLocalTest, DestroyCallback) {
-  std::thread thread([] {
+  std::thread thread([&] {
     int destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
@@ -34,7 +36,7 @@ TEST(ThreadLocalTest, DestroyCallback) {
 }
 
 TEST(ThreadLocalTest, DestroyCallback2) {
-  std::thread thread([] {
+  std::thread thread([&] {
     int destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
@@ -49,11 +51,11 @@ TEST(ThreadLocalTest, DestroyCallback2) {
 }
 
 TEST(ThreadLocalTest, DestroyThreadTimeline) {
-  std::thread thread([] {
+  std::thread thread([&] {
     int destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
-    std::thread thread([&destroys, &local]() {
+    std::thread thread([&]() {
       local.set(100);
       ASSERT_EQ(local.get(), 100);
       ASSERT_EQ(destroys, 0);
@@ -70,7 +72,7 @@ TEST(ThreadLocalTest, DestroyThreadTimeline) {
 }
 
 TEST(ThreadLocalTest, SettingSameValue) {
-  std::thread thread([] {
+  std::thread thread([&] {
     int destroys = 0;
     {
       rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
@@ -93,5 +95,7 @@ TEST(ThreadLocalTest, SettingSameValue) {
   });
   thread.join();
 }
+
+RL_DECLARE_TEST_END
 
 #endif  // RL_THREAD_LOCAL_PTHREADS

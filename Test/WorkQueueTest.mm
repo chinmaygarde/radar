@@ -7,12 +7,14 @@
 #include <Core/Core.h>
 #include <atomic>
 
+RL_DECLARE_TEST_START(WorkQueueTest)
+
 TEST(WorkQueue, SimpleInitialization) {
   rl::core::WorkQueue queue("test");
   ASSERT_GE(queue.workerCount(), 0);
 }
 
-TEST(WorkQueue, RL_KNOWN_SLOW(SimpleWork)) {
+TEST(WorkQueue, SimpleWork) {
   auto size = 5000;
   std::atomic<int> count(0);
 
@@ -25,5 +27,7 @@ TEST(WorkQueue, RL_KNOWN_SLOW(SimpleWork)) {
     }
   }
 
-  ASSERT_EQ(size, count);
+  ASSERT_EQ(size, count.load());
 }
+
+RL_DECLARE_TEST_END

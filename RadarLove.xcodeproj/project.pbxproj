@@ -114,7 +114,6 @@
 		9E9544851C347217002EEC68 /* PipeTrivialSourceTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */; };
 		9E9544861C347217002EEC68 /* SharedMemoryTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8101B796D81008DE08E /* SharedMemoryTest.mm */; };
 		9E9544871C347217002EEC68 /* LatchTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F8F91B7983A2008DE08E /* LatchTest.mm */; };
-		9E9544881C347217002EEC68 /* EntityLeaseTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.mm */; };
 		9E9544891C347217002EEC68 /* EventLoopObserverTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = EA18580E1C26744600FF64C6 /* EventLoopObserverTest.mm */; };
 		9E95448A1C347217002EEC68 /* ThreadLocalTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A891BF949FB001214C1 /* ThreadLocalTest.mm */; };
 		9E95448B1C347217002EEC68 /* ThreadTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = EA68B32C1C11711400607934 /* ThreadTest.mm */; };
@@ -365,7 +364,6 @@
 		9E62F8A31B796E10008DE08E /* gtest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gtest.xcodeproj; path = Test/GoogleTest/xcode/gtest.xcodeproj; sourceTree = "<group>"; };
 		9E62F8DE1B796FC8008DE08E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		9E62F8F91B7983A2008DE08E /* LatchTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LatchTest.mm; sourceTree = "<group>"; };
-		9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EntityLeaseTest.mm; sourceTree = "<group>"; };
 		9E62F9101B7C199D008DE08E /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
 		9E62F9121B7C19AF008DE08E /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
@@ -625,7 +623,6 @@
 				EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.mm */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.mm */,
-				9E62F90A1B7BFA49008DE08E /* EntityLeaseTest.mm */,
 				EA18580E1C26744600FF64C6 /* EventLoopObserverTest.mm */,
 				EAC90A891BF949FB001214C1 /* ThreadLocalTest.mm */,
 				EA68B32C1C11711400607934 /* ThreadTest.mm */,
@@ -1377,7 +1374,6 @@
 				9E9544851C347217002EEC68 /* PipeTrivialSourceTest.mm in Sources */,
 				9E9544861C347217002EEC68 /* SharedMemoryTest.mm in Sources */,
 				9E9544871C347217002EEC68 /* LatchTest.mm in Sources */,
-				9E9544881C347217002EEC68 /* EntityLeaseTest.mm in Sources */,
 				9E9544891C347217002EEC68 /* EventLoopObserverTest.mm in Sources */,
 				9E95448A1C347217002EEC68 /* ThreadLocalTest.mm in Sources */,
 				9E95448B1C347217002EEC68 /* ThreadTest.mm in Sources */,

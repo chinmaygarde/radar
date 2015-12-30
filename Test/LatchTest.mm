@@ -7,6 +7,8 @@
 #include <Core/Core.h>
 #include <thread>
 
+RL_DECLARE_TEST_START(LatchTest)
+
 TEST(LatchTest, SimpleLatch) {
   rl::core::Latch l(3);
   bool done[3]{false, false, false};
@@ -73,3 +75,5 @@ TEST(LatchTest, AutoLatch) {
   two.join();
   three.join();
 }
+
+RL_DECLARE_TEST_END
