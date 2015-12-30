@@ -85,7 +85,10 @@ if(NOT WINDOWS)
 endif()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpessimizing-move  -Wredundant-move")
+  # We add the no-unknown-warning-option because we want to add flags that are
+  # only available on newer Clang versions without crapping out on older
+  # defaults
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wpessimizing-move  -Wredundant-move")
 endif()
 
 file(GLOB_RECURSE RADARLOVE_SRC
@@ -141,6 +144,7 @@ include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 file(GLOB RADARLOVE_TEST_SRC
   "Test/*.h"
   "Test/*.cc"
+  "Test/*.mm"
 )
 
 include_directories ( Source )
