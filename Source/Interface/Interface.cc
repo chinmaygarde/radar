@@ -140,7 +140,7 @@ InterfaceTransaction& Interface::transaction() {
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace_back(std::move(Action(0.0)));
+    _transactionStack.emplace_back(Action(0.0));
     armAutoFlushTransactions(true);
   }
 

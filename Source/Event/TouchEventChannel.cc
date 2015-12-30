@@ -32,7 +32,7 @@ TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {
   TouchEvent::PhaseMap results;
 
   if (messages.size() == 0) {
-    return std::move(results);
+    return results;
   }
 
   for (auto& message : messages) {
@@ -40,7 +40,7 @@ TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {
     results[event.phase()].emplace_back(std::move(event));
   }
 
-  return std::move(results);
+  return results;
 }
 
 }  // namespace event

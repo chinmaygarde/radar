@@ -30,15 +30,15 @@ void Shell::attachHostOnCurrentThread() {
   core::thread::SetName("rl.host");
   _host.run(onReady);
 
-  _compositorThread = std::move(std::thread([&]() {
+  _compositorThread = std::thread([&]() {
     core::thread::SetName("rl.coordinator");
     _coordinator.run(onReady);
-  }));
+  });
 
-  _interfaceThread = std::move(std::thread([&]() {
+  _interfaceThread = std::thread([&]() {
     core::thread::SetName("rl.interface");
     _interface.run(onReady);
-  }));
+  });
 
   readyLatch.wait();
 

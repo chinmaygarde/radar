@@ -489,11 +489,10 @@ IOReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
   auto result = payload.receive(timeoutOption, timeout);
 
   if (result == IOResult::Success) {
-    return IOReadResult(result, std::move(payload.asMessage()));
+    return IOReadResult(result, payload.asMessage());
   }
 
-  Message empty;
-  return IOReadResult(result, std::move(empty));
+  return IOReadResult(result, Message{});
 }
 
 void MachPort::LogRights(Handle name) {

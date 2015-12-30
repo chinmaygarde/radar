@@ -96,7 +96,7 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
       break;
   }
 
-  return std::move(suggestions);
+  return suggestions;
 }
 
 }  // namespace layout

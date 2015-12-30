@@ -119,7 +119,7 @@ Messages Channel::drainPendingMessages() {
   }
 
 Done:
-  return std::move(messages);
+  return messages;
 }
 
 Message::Attachment Channel::asMessageAttachment() const {
