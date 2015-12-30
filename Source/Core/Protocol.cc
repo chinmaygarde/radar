@@ -36,7 +36,9 @@ class ProtocolPayloadHeader {
 };
 
 Protocol::Protocol(bool isVendor)
-    : _isVendor(isVendor), _channel(std::make_shared<Channel>()) {
+    : _channel(std::make_shared<Channel>()),
+      _isVendor(isVendor),
+      _isAdvertising(false) {
   _channel->setMessageCallback(
       std::bind(&Protocol::onChannelMessage, this, std::placeholders::_1));
 }
