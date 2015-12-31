@@ -28,13 +28,23 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-################################
-# RadarLove Library
-################################
+
+################################################################################
+################################################################################
+######################    ____ ____ ___  ____ ____    ##########################
+######################    |__/ |__| |  \ |__| |__/    ##########################
+######################    |  \ |  | |__/ |  | |  \    ##########################
+######################                                ##########################
+################################################################################
+################################################################################
 
 project(RadarLove)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+################################################################################
+# Try to detect the platform we are on
+################################################################################
 
 if(WIN32)
   if(NOT WINDOWS)
@@ -80,16 +90,9 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Haiku.*")
   set(HAIKU TRUE)
 endif()
 
-if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # We add the no-unknown-warning-option because we want to add flags that are
-  # only available on newer Clang versions without crapping out on older
-  # defaults
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -Wpessimizing-move  -Wredundant-move")
-endif()
+################################################################################
+# Define the base library target
+################################################################################
 
 file(GLOB_RECURSE RADARLOVE_SRC
   "Headers/*.h"
@@ -109,11 +112,31 @@ include_directories ("ThirdParty")
 
 add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_IMGUI_SRC})
 
+################################################################################
+# Tweaks for the various platforms and compilers
+################################################################################
+
+if(NOT WINDOWS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  # We add the no-unknown-warning-option because we want to add flags that are
+  # only available on newer Clang versions without crapping out on older
+  # defaults
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+    -Wno-unknown-warning-option           \
+    -Wpessimizing-move                    \
+    -Wredundant-move")
+endif()
+
 if(LINUX)
   target_link_libraries(RadarLove rt GL)
 endif()
 
 if (FREEBSD)
+  # The default Mesa install target dumps its headers in a slightly different
+  # directory
   link_directories(
     "/usr/local/lib"
   )
@@ -121,7 +144,17 @@ if (FREEBSD)
 endif()
 
 if (APPLE)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGL -framework Foundation")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
+    -framework OpenGL                                   \
+    -framework Foundation")
+endif()
+
+if(NOT APPLE)
+  # Since we want interoperability with XCTest and Xcode, the test files have
+  # the .mm extension. On non-Apple platforms, these files fall back to using
+  # GTest (and hence no Objective-C++). In such cases, treat Objective-C++ files
+  # as C++
+  set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp;mm)
 endif()
 
 if(RASPBERRY)
@@ -129,17 +162,17 @@ if(RASPBERRY)
   target_link_libraries(RadarLove rt)
 endif()
 
-################################
+################################################################################
 # Google Test Library
-################################
+################################################################################
 
 add_subdirectory (Test/GoogleTest)
 enable_testing ()
 include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-################################
+################################################################################
 # Unit Tests Target
-################################
+################################################################################
 
 file(GLOB RADARLOVE_TEST_SRC
   "Test/*.h"
@@ -152,9 +185,9 @@ add_executable( RadarLoveTest ${RADARLOVE_TEST_SRC} )
 target_link_libraries( RadarLoveTest RadarLove gtest gtest_main)
 add_test( RadarLoveTestAll RadarLoveTest )
 
-################################
+################################################################################
 # Linux Desktop Shell
-################################
+################################################################################
 
 if(LINUX)
   file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
@@ -181,9 +214,9 @@ if(LINUX)
   )
 endif()
 
-################################
+################################################################################
 # Rasperry Pi Shell
-################################
+################################################################################
 
 if(RASPBERRY)
   file(GLOB RADARLOVE_RASPBERRY_DESKTOP_SOURCES
@@ -221,9 +254,9 @@ if(RASPBERRY)
   )
 endif()
 
-################################
+################################################################################
 # FreeBSD Desktop Shell
-################################
+################################################################################
 
 if(FREEBSD)
   file(GLOB RADARLOVE_BSD_DESKTOP_SOURCES
@@ -243,9 +276,9 @@ if(FREEBSD)
   )
 endif()
 
-################################
-# Native Client (PNaCl) Shell
-################################
+################################################################################
+# Native Client (PNaCl Only) Shell
+################################################################################
 
 if(RL_PLATFORM_NACL)
 
