@@ -365,6 +365,15 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   return result;
 }
 
+static inline cmsghdr* SocketChannelNextCmsgHdr(msghdr* hdr, cmsghdr* cmsg) {
+  /*
+   *  RFC 2292 (https://tools.ietf.org/html/rfc2292#section-4.3.2) says
+   *  CMSG_NXTHDR should return CMSG_FIRSTHDR on null cmsg. This does not seem
+   *  to be the case on Linux. So define our own version.
+   */
+  return cmsg == nullptr ? CMSG_FIRSTHDR(hdr) : CMSG_NXTHDR(hdr, cmsg);
+}
+
 IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_readBufferMutex);
 
@@ -535,7 +544,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       /*
        *  CMSG_NXTHDR(mhdr, NULL) is equivalent to CMSG_FIRSTHDR(mhdr)
        */
-      cmsg = CMSG_NXTHDR(&messageHeader, cmsg);
+      cmsg = SocketChannelNextCmsgHdr(&messageHeader, cmsg);
 
       if (cmsg == nullptr) {
         /*
@@ -552,7 +561,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
      *  Attempt to read the OOL memory arena if one is present
      */
     if (!header.isDataInline()) {
-      cmsg = CMSG_NXTHDR(&messageHeader, cmsg);
+      cmsg = SocketChannelNextCmsgHdr(&messageHeader, cmsg);
 
       if (cmsg == nullptr) {
         /*
