@@ -44,8 +44,6 @@ class SocketChannel : public ChannelProvider {
   IOResult writeMessageSingle(const Message& message,
                               ClockDurationNano timeout);
 
-  IOReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
-
   RL_DISALLOW_COPY_AND_ASSIGN(SocketChannel);
 };
 

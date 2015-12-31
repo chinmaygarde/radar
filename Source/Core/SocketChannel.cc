@@ -30,7 +30,10 @@ namespace core {
  */
 class SocketPayloadHeader {
  public:
-  SocketPayloadHeader(bool isDataInline, uint8_t oolDescriptors);
+  SocketPayloadHeader() : SocketPayloadHeader(false, 0) {}
+
+  SocketPayloadHeader(bool isDataInline, uint8_t oolDescriptors)
+      : _isDataInline(isDataInline), _oolDescriptors(oolDescriptors) {}
 
   uint8_t oolDescriptors() const { return _oolDescriptors; }
 
@@ -355,10 +358,22 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
 IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_readBufferMutex);
 
-  struct iovec vec[1] = {{0}};
+  struct iovec vec[2] = {{0}};
 
-  vec[0].iov_base = _buffer;
-  vec[0].iov_len = MaxInlineBufferSize;
+  SocketPayloadHeader header;
+
+  /*
+   *  The first element in the scatter gather array is always the header
+   */
+  vec[0].iov_base = &header;
+  vec[0].iov_len = sizeof(header);
+
+  /*
+   *  The second element in the scatter gather array contains space for the
+   *  inline message buffer (if present)
+   */
+  vec[1].iov_base = _buffer;
+  vec[1].iov_len = MaxInlineBufferSize;
 
   struct msghdr messageHeader = {
       .msg_name = nullptr,
@@ -429,13 +444,30 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     break;
   }
 
+  if (received < sizeof(SocketPayloadHeader)) {
+    /*
+     *  We always expect a header in any message.
+     */
+    goto PermanentFailure;
+  }
+
   /*
    *  ==========================================================================
-   *  Step 1: Check if there is an in-line buffer
+   *  Step 1: Check if there is an in-line buffer with no attachments. This is
+   *          by far the most common case.
    *  ==========================================================================
    */
-  if (received > 0 && messageHeader.msg_controllen == 0) {
-    Message message(_buffer, received);
+  if (messageHeader.msg_controllen == 0) {
+    Message message(_buffer, received - sizeof(SocketPayloadHeader));
+
+    if (header.oolDescriptors() != 0) {
+      /*
+       *  Something odd has happened. We did not get any control messages but
+       *  the header says we should have some. There is some inconsistency here.
+       *  Bail!
+       */
+      goto PermanentFailure;
+    }
 
     /*
      *  Since we dont handle partial writes of control messages,
@@ -450,73 +482,83 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
      *  were no attachments
      */
     return IOReadResult(IOResult::Success, std::move(message));
-  }
-
-  /*
-   *  ==========================================================================
-   *  Step 2: Check if there is an out-of-line buffer
-   *  ==========================================================================
-   */
-  if (received >= 0) {
+  } else {
     /*
-     *  If no messages are available to be received and the peer
-     *  has performed an orderly shutdown, and, there are no control messages,
-     *  recvmsg() returns 0.
+     *  ========================================================================
+     *  Step 2: The message has attachments (as well as possibly an OOL memory
+     *          arena)
+     *  ========================================================================
      */
-    if (messageHeader.msg_controllen == 0) {
+
+    auto totalDescriptors = header.oolDescriptors();
+
+    if (totalDescriptors < 1) {
+      /*
+       *  The presence of a control buffer indicates that the message contains
+       *  attachments. However, the header disagrees. There is some
+       *  inconsistency here. Bail.
+       */
       goto PermanentFailure;
     }
 
-    /*
-     *  Read the type of descriptor we got. See the discussion on how this is
-     *  obtained in the routine that sends the message down the socket
-     */
-    if (messageHeader.msg_iovlen != 1) {
+    if (totalDescriptors > MaxControlBufferItemCount) {
+      /*
+       *  We have reached the limits of our implementation. Bail.
+       */
       goto PermanentFailure;
     }
-
-    if (received != sizeof(OOLDescriptorType)) {
-      goto PermanentFailure;
-    }
-
-    auto descBuffer = reinterpret_cast<OOLDescriptorType*>(_buffer);
-    auto desc = static_cast<OOLDescriptor>(*descBuffer);
 
     /*
-     *  Read the descriptor itself from the buffer
+     *  If there is inline data, all descriptors are attachments. If not, the
+     *  last descriptor is the shared memory arena.
      */
-    struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+    auto attachmentDescriptors =
+        header.isDataInline() ? totalDescriptors : totalDescriptors - 1;
 
-    if (cmsg == nullptr) {
-      goto PermanentFailure;
+    std::vector<Message::Attachment> attachments;
+
+    struct cmsghdr* cmsg = nullptr;
+
+    for (auto i = 0; i < attachmentDescriptors; i++) {
+      /*
+       *  CMSG_NXTHDR(mhdr, NULL) is equivalent to CMSG_FIRSTHDR(mhdr)
+       */
+      cmsg = CMSG_NXTHDR(&messageHeader, cmsg);
+
+      if (cmsg == nullptr) {
+        /*
+         *  This will leak handles that were read previously.
+         */
+        goto PermanentFailure;
+      }
+
+      auto handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
+      attachments.push_back(handle);
     }
 
-    SocketChannel::Handle handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
+    /*
+     *  Attempt to read the OOL memory arena if one is present
+     */
+    if (header.isDataInline()) {
+      cmsg = CMSG_NXTHDR(&messageHeader, cmsg);
 
-    return readFromHandle(handle, desc);
-  }
+      if (cmsg == nullptr) {
+        /*
+         *  The header indicated that there was an OOL memory arena descriptor
+         *  We must be able to access its handle here.
+         */
+        goto PermanentFailure;
+      }
 
-/*
- *  ============================================================================
- *  Step 3: All other errors are fatal
- *  ============================================================================
- */
-
-PermanentFailure: /* :( */
-  return IOReadResult(IOResult::Failure, Message{});
-}
-
-IOReadResult SocketChannel::readFromHandle(SocketChannel::Handle handle,
-                                           OOLDescriptor desc) {
-  switch (desc) {
-    case OOLDescriptor::Data: {
+      SocketChannel::Handle handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
       /*
        *  We create a shared memory instance from the handle but make it not
        *  own its handle or the address mapping. We then manually close the
-       *  handle and create a message from the same with a "vm allocated"
+       *  handle and create a message from the same with a vm allocated
        *  backing. This message unmaps the allocation when it is done.
        *
-       *  This way, there are no more copies!
+       *  This way, there are no copies and we can get rid of descriptor
+       *  entirely.
        */
       SharedMemory memory(handle, false /* assume ownership */);
       if (memory.isReady()) {
@@ -527,18 +569,15 @@ IOReadResult SocketChannel::readFromHandle(SocketChannel::Handle handle,
         return IOReadResult(IOResult::Success,
                             Message{memory.address(), memory.size(), true});
       }
-    } break;
-    case OOLDescriptor::Handle: {
-      auto attachment = static_cast<Message::Attachment::Handle>(handle);
-      return IOReadResult(IOResult::Success,
-                          Message{Message::Attachment{attachment}});
-    } break;
-    default:
-      RL_LOG("Unexpected descriptor type: %d",
-             static_cast<OOLDescriptorType>(desc));
-      break;
+    }
   }
 
+/*
+ *  ============================================================================
+ *  Step 3: All other errors are fatal
+ *  ============================================================================
+ */
+PermanentFailure: /* :( */
   return IOReadResult(IOResult::Failure, Message{});
 }
 
