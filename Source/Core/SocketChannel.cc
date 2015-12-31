@@ -587,8 +587,14 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
          *  The isReady check is equivalent to an EBADF guard
          */
         RL_CHECK(::close(handle));
-        return IOReadResult(IOResult::Success,
-                            Message{memory.address(), memory.size(), true});
+
+        Message message(memory.address(), memory.size(), true);
+        message.setAttachments(std::move(attachments));
+        return IOReadResult(IOResult::Success, std::move(message));
+      }
+    } else {
+      if (attachments.size() != 0) {
+        return IOReadResult(IOResult::Success, Message{std::move(attachments)});
       }
     }
   }
