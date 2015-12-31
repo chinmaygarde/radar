@@ -385,6 +385,8 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   vec[1].iov_base = _buffer;
   vec[1].iov_len = MaxInlineBufferSize;
 
+  bzero(_controlBuffer, MaxControlBufferItemCount);
+
   struct msghdr messageHeader = {
       .msg_name = nullptr,
       .msg_namelen = 0,
@@ -549,7 +551,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     /*
      *  Attempt to read the OOL memory arena if one is present
      */
-    if (header.isDataInline()) {
+    if (!header.isDataInline()) {
       cmsg = CMSG_NXTHDR(&messageHeader, cmsg);
 
       if (cmsg == nullptr) {
