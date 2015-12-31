@@ -30,12 +30,6 @@ class SocketChannel : public ChannelProvider {
   bool doTerminate() override;
 
  private:
-  using OOLDescriptorType = uint8_t;
-  enum class OOLDescriptor : OOLDescriptorType {
-    Data = 1,
-    Handle,
-  };
-
   std::mutex _readBufferMutex;
   uint8_t* _buffer;
   uint8_t* _controlBuffer;
@@ -49,13 +43,6 @@ class SocketChannel : public ChannelProvider {
 
   IOResult writeMessageSingle(const Message& message,
                               ClockDurationNano timeout);
-  IOResult writeDescriptorOutOfLine(Handle descriptor,
-                                    OOLDescriptor desc,
-                                    ClockDurationNano timeout);
-  IOResult writeDataMessageInline(const Message& message,
-                                  ClockDurationNano timeout);
-  IOResult writeDataMessageOutOfLine(const Message& message,
-                                     ClockDurationNano timeout);
 
   IOReadResult readFromHandle(SocketChannel::Handle handle, OOLDescriptor desc);
 

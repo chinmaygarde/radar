@@ -24,8 +24,30 @@
 namespace rl {
 namespace core {
 
+/**
+ *  This header is always the first item present in the scatter gather array
+ *  used in all socket payloads.
+ */
+class SocketPayloadHeader {
+ public:
+  SocketPayloadHeader(bool isDataInline, uint8_t oolDescriptors);
+
+  uint8_t oolDescriptors() const { return _oolDescriptors; }
+
+  bool isDataInline() const { return _isDataInline; };
+
+ private:
+  uint8_t _oolDescriptors;
+  bool _isDataInline;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(SocketPayloadHeader);
+};
+
+static_assert(rl_trivially_copyable(SocketPayloadHeader),
+              "The socket payload must be trivially copyable");
+
 static const size_t MaxInlineBufferSize = 4096;
-static const size_t MaxControlBufferItemCount = 8;
+static const size_t MaxControlBufferItemCount = 24;
 static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
     CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
@@ -146,32 +168,6 @@ IOResult SocketChannel::writeMessages(Messages&& messages,
   return IOResult::Success;
 }
 
-/*
- *  Temporary workaround till we can optimize sending multiple messages in one
- *  call. We already use scatter gather arrays, so should stick it in there.
- */
-IOResult SocketChannel::writeMessageSingle(const Message& message,
-                                           ClockDurationNano timeout) {
-  /*
-   *  If the messages has an attachment, those take priority
-   */
-  if (message.attachment().isValid()) {
-    auto handle =
-        static_cast<SocketChannel::Handle>(message.attachment().handle());
-    return writeDescriptorOutOfLine(handle, OOLDescriptor::Handle, timeout);
-  }
-
-  /*
-   *  Check if the message is small enough to be sent inline or if a separate
-   *  shared memory arena needs to be allocated for the transfer
-   */
-  if (message.size() < MaxInlineBufferSize) {
-    return writeDataMessageInline(message, timeout);
-  } else {
-    return writeDataMessageOutOfLine(message, timeout);
-  }
-}
-
 static IOResult SocketSendMessage(SocketChannel::Handle writer,
                                   struct msghdr* messageHeader,
                                   size_t expectedSendSize,
@@ -220,76 +216,106 @@ static IOResult SocketSendMessage(SocketChannel::Handle writer,
   return sent == expectedSendSize ? IOResult::Success : IOResult::Failure;
 }
 
-IOResult SocketChannel::writeDataMessageInline(const Message& message,
-                                               ClockDurationNano timeout) {
-  struct iovec vec[1] = {{0}};
+/*
+ *  Temporary workaround till we can optimize sending multiple messages in one
+ *  call. We already use scatter gather arrays, so should stick it in there.
+ */
+IOResult SocketChannel::writeMessageSingle(const Message& message,
+                                           ClockDurationNano timeout) {
+  /*
+   *  Check if the message buffer is small enough to be sent inline
+   */
+  const auto isDataInline = message.size() < MaxInlineBufferSize;
+
+  const auto& attachments = message.attachments();
+  auto oolDescriptors = attachments.size();
+
+  std::unique_ptr<SharedMemory> oolMemoryArena;
 
   /*
-   *  Directly set the data to send as part of the scatter/gather array
+   *  If the message cannot be sent inline, we allocate a shared memory arena
+   *  large enough to hold the message and send the descriptor of that arena
+   *  instead of the message.
    */
-  vec[0].iov_base = reinterpret_cast<void*>(message.data());
-  vec[0].iov_len = message.size();
+  if (!isDataInline) {
+    oolMemoryArena = make_unique<SharedMemory>(message.size());
+
+    if (!oolMemoryArena->isReady() ||
+        oolMemoryArena->size() != message.size()) {
+      /*
+       *  We could not allocate an OOL memory arena to transfer the contents
+       *  of this large message. We may be able to service this later though.
+       */
+      return IOResult::Timeout;
+    }
+
+    /*
+     *  Copy the contents of the large message into the arena we are going to
+     *  send the handle OOL for
+     */
+    memcpy(oolMemoryArena->address(), message.data(), message.size());
+
+    /*
+     *  The OOL memory arena takes up another descriptor
+     */
+    oolDescriptors++;
+  }
+
+  if (oolDescriptors >= MaxControlBufferItemCount) {
+    /*
+     *  This is too many descriptors for this implementation
+     */
+    return IOResult::Failure;
+  }
+
+  const auto vecLength = isDataInline ? 2 : 1;
+
+  SocketPayloadHeader header(isDataInline, oolDescriptors);
+
+  struct iovec vec[vecLength];
+
+  /*
+   *  The first item in the scatter gather array is always the payload header
+   */
+  vec[0].iov_base = &header;
+  vec[0].iov_len = sizeof(header);
+
+  /*
+   *  Inline message buffers (if present) are the second item in the array
+   */
+  if (vecLength == 2) {
+    vec[1].iov_base = reinterpret_cast<void*>(message.data());
+    vec[1].iov_len = message.size();
+  }
+
+  /*
+   *  Create the message header structure containing the descriptors (if any
+   *  to send over the channel
+   */
+  void* controlBuffer = nullptr;
+  size_t controlBufferSize = 0;
+
+  if (oolDescriptors > 0) {
+    controlBufferSize =
+        CMSG_SPACE((oolDescriptors * sizeof(SocketChannel::Handle)));
+    controlBuffer = calloc(1, controlBufferSize);
+
+    if (controlBuffer == nullptr) {
+      /*
+       *  We ran out of client memory to service this write. We may be able to
+       *  service this request later however.
+       */
+      return IOResult::Timeout;
+    }
+  }
 
   struct msghdr messageHeader = {
       .msg_name = nullptr,
       .msg_namelen = 0,
       .msg_iov = vec,
-      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
-      .msg_control = nullptr,
-      .msg_controllen = 0,
-      .msg_flags = 0,
-  };
-
-  return SocketSendMessage(writeHandle(), &messageHeader, message.size(),
-                           timeout);
-}
-
-IOResult SocketChannel::writeDataMessageOutOfLine(const Message& message,
-                                                  ClockDurationNano timeout) {
-  /*
-   *  Create a shared memory region and copy over the contents of the message
-   *  over to that region
-   */
-  SharedMemory memory(message.size());
-  RL_ASSERT(memory.isReady() && memory.size() == message.size());
-  memcpy(memory.address(), message.data(), message.size());
-
-  return writeDescriptorOutOfLine(memory.handle(), OOLDescriptor::Data,
-                                  timeout);
-}
-
-IOResult SocketChannel::writeDescriptorOutOfLine(
-    SocketChannel::Handle descriptor,
-    OOLDescriptor desc,
-    ClockDurationNano timeout) {
-  /*
-   *  Theory of Operation:
-   *
-   *  Even out of line descriptors use the inline message buffer.
-   *  Descriptors themselves are sent in the control buffer within the message
-   *  flushed down the unix domain socket. The type of the descriptor however is
-   *  sent in the message itself. The receiver interprets the type of the
-   *  descriptor according to the value it sees in the inline message
-   */
-
-  auto descriptorType = static_cast<OOLDescriptorType>(desc);
-  struct iovec vec[1] = {{0}};
-  vec[0].iov_base = &descriptorType;
-  vec[0].iov_len = sizeof(descriptorType);
-
-  /*
-   *  Create the message header structure containing the descriptor to send over
-   *  the channel
-   */
-  const socklen_t controlBufferSize = CMSG_SPACE(sizeof(SocketChannel::Handle));
-  void* controlBuffer = calloc(1, controlBufferSize);
-  struct msghdr messageHeader = {
-      .msg_name = nullptr,
-      .msg_namelen = 0,
-      .msg_iov = vec,
-      .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
+      .msg_iovlen = vecLength,
       .msg_control = controlBuffer,
-      .msg_controllen = controlBufferSize,
+      .msg_controllen = static_cast<socklen_t>(controlBufferSize),
       .msg_flags = 0,
   };
 
@@ -297,11 +323,29 @@ IOResult SocketChannel::writeDescriptorOutOfLine(
   cmsg->cmsg_level = SOL_SOCKET;
   cmsg->cmsg_type = SCM_RIGHTS;
   cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));
-  *((SocketChannel::Handle*)CMSG_DATA(cmsg)) = descriptor;
+
+  auto descriptors = reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
+
+  /*
+   *  All the explicitly OOL descriptors come first
+   */
+  for (auto i = 0; i < oolDescriptors; i++) {
+    descriptors[i] =
+        static_cast<SocketChannel::Handle>(attachments[i].handle());
+  }
+
+  if (!isDataInline) {
+    /*
+     *  The last descriptor is the memory arena handle (if OOL). The arena
+     *  cannot be nullptr since we return early with a timeout in that case.
+     */
+    descriptors[oolDescriptors - 1] = oolMemoryArena->handle();
+  }
+
   messageHeader.msg_controllen = cmsg->cmsg_len;
 
-  auto result = SocketSendMessage(writeHandle(), &messageHeader,
-                                  sizeof(descriptorType), timeout);
+  auto result =
+      SocketSendMessage(writeHandle(), &messageHeader, message.size(), timeout);
 
   free(controlBuffer);
 
