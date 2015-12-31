@@ -322,33 +322,43 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
       .msg_flags = 0,
   };
 
-  struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
-  cmsg->cmsg_level = SOL_SOCKET;
-  cmsg->cmsg_type = SCM_RIGHTS;
-  cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));
-
-  auto descriptors = reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
-
   /*
-   *  All the explicitly OOL descriptors come first
+   *  If there are any OOL descriptors (explicitly via attachments or OOL
+   *  memory arenas), the control message needs to be initialized.
    */
-  for (auto i = 0; i < oolDescriptors; i++) {
-    descriptors[i] =
-        static_cast<SocketChannel::Handle>(attachments[i].handle());
-  }
+  if (oolDescriptors > 0) {
+    struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+    cmsg->cmsg_level = SOL_SOCKET;
+    cmsg->cmsg_type = SCM_RIGHTS;
+    cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));
 
-  if (!isDataInline) {
+    auto descriptors =
+        reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
+
     /*
-     *  The last descriptor is the memory arena handle (if OOL). The arena
-     *  cannot be nullptr since we return early with a timeout in that case.
+     *  All the explicitly OOL descriptors come first
      */
-    descriptors[oolDescriptors - 1] = oolMemoryArena->handle();
+    for (auto i = 0; i < oolDescriptors - 1; i++) {
+      descriptors[i] =
+          static_cast<SocketChannel::Handle>(attachments[i].handle());
+    }
+
+    if (!isDataInline) {
+      /*
+       *  The last descriptor is the memory arena handle (if OOL). The arena
+       *  cannot be nullptr since we return early with a timeout in that case.
+       */
+      descriptors[oolDescriptors - 1] = oolMemoryArena->handle();
+    }
+
+    messageHeader.msg_controllen = cmsg->cmsg_len;
   }
 
-  messageHeader.msg_controllen = cmsg->cmsg_len;
+  const auto expectedSendSize =
+      sizeof(SocketPayloadHeader) + (isDataInline ? message.size() : 0);
 
-  auto result =
-      SocketSendMessage(writeHandle(), &messageHeader, message.size(), timeout);
+  auto result = SocketSendMessage(writeHandle(), &messageHeader,
+                                  expectedSendSize, timeout);
 
   free(controlBuffer);
 
