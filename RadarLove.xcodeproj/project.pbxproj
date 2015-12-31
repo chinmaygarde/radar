@@ -60,6 +60,7 @@
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
 		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
 		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
+		9E687E801C34CC7C00FBE171 /* SocketBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */; };
 		9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E84818A1C126B2D006DE159 /* TraceEvent.h */; };
 		9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8481941C126B3D006DE159 /* TraceEvent.cc */; };
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
@@ -370,6 +371,7 @@
 		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9E6745E91BF2BB3200D110DE /* LayoutTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LayoutTest.mm; sourceTree = "<group>"; };
 		9E687E421C34822D00FBE171 /* RadarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarTest.h; sourceTree = "<group>"; };
+		9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketBootstrapServer.cc; sourceTree = "<group>"; };
 		9E84818A1C126B2D006DE159 /* TraceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraceEvent.h; sourceTree = "<group>"; };
 		9E8481941C126B3D006DE159 /* TraceEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceEvent.cc; sourceTree = "<group>"; };
 		9E8481961C1272DD006DE159 /* TraceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TraceTest.mm; sourceTree = "<group>"; };
@@ -745,6 +747,7 @@
 			children = (
 				9E9543DB1C28C61B002EEC68 /* BootstrapServer.cc */,
 				9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */,
+				9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */,
 			);
 			path = Bootstrap;
 			sourceTree = "<group>";
@@ -1412,6 +1415,7 @@
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
 				EAB906AE1C02584700BCA377 /* PipeTrivialSource.cc in Sources */,
 				9E9543DC1C28C61B002EEC68 /* BootstrapServer.cc in Sources */,
+				9E687E801C34CC7C00FBE171 /* SocketBootstrapServer.cc in Sources */,
 				9EAECEE61B685469000FA38A /* Point.cc in Sources */,
 				EA62B31F1B6F28ED009F197F /* TouchEvent.cc in Sources */,
 				EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */,
