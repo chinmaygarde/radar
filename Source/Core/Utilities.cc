@@ -8,6 +8,10 @@
 #include <Instrumentation/Trace.h>
 #include <string>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #if RL_OS_MAC
 #include <pthread/pthread.h>
 #elif RL_OS_LINUX
@@ -29,6 +33,63 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
     return -1;
   }
   return static_cast<int>(nano.count() / 1000000);
+}
+
+void LogUnixHandleProperties(int handle) {
+  RL_LOG("~~~~~~~~ Introspecting handle: %d", handle);
+
+  struct stat statBuf = {0};
+
+  auto result = fstat(handle, &statBuf);
+
+  if (result == -1) {
+    RL_LOG("Could not stat handle: %s (%d)", strerror(errno), errno);
+    return;
+  }
+
+  RL_LOG("A valid handle");
+
+  while (true) {
+    if (S_ISREG(statBuf.st_mode)) {
+      RL_LOG("It is a regular file");
+      break;
+    }
+
+    if (S_ISDIR(statBuf.st_mode)) {
+      RL_LOG("It is a directory");
+      break;
+    }
+
+    if (S_ISCHR(statBuf.st_mode)) {
+      RL_LOG("It is a character device");
+      break;
+    }
+
+    if (S_ISBLK(statBuf.st_mode)) {
+      RL_LOG("It is a block device");
+      break;
+    }
+
+    if (S_ISFIFO(statBuf.st_mode)) {
+      RL_LOG("It is a FIFO (named pipe)");
+      break;
+    }
+
+    if (S_ISLNK(statBuf.st_mode)) {
+      RL_LOG("It is a symbolic link");
+      break;
+    }
+
+    if (S_ISSOCK(statBuf.st_mode)) {
+      RL_LOG("It is a socket");
+      break;
+    }
+
+    RL_LOG("Not quite sure what kind of a handle this is :/");
+    break;
+  }
+
+  RL_LOG("Size is: %d", static_cast<int>(statBuf.st_size));
 }
 
 namespace thread {

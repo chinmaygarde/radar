@@ -41,6 +41,13 @@ using only_if = typename std::enable_if<B, T>::type;
  */
 int ToUnixTimeoutMS(ClockDurationNano nano);
 
+/**
+ *  Tries to log various properties about the UNIX handle (used for debugging)
+ *
+ *  @param handle the handle to log properties on
+ */
+void LogUnixHandleProperties(int handle);
+
 namespace thread {
 /**
  *  Set the name of current thread of execution
