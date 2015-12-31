@@ -154,7 +154,7 @@ if(NOT APPLE)
   # the .mm extension. On non-Apple platforms, these files fall back to using
   # GTest (and hence no Objective-C++). In such cases, treat Objective-C++ files
   # as C++
-  set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp;mm)
+  add_definitions("-x c++")
 endif()
 
 if(RASPBERRY)
