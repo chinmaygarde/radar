@@ -13,6 +13,10 @@ RL_DECLARE_TEST_START(ChannelTest)
 static bool MemorySetOrCheckPattern(uint8_t* buffer,
                                     size_t size,
                                     bool setOrCheck) {
+  if (buffer == nullptr) {
+    return false;
+  }
+
   auto pattern4 = reinterpret_cast<const uint8_t*>("dErP");
   uint8_t* start = buffer;
   uint8_t* p = buffer;
@@ -115,6 +119,8 @@ TEST(ChannelTest, TestLargeReadWrite) {
                                       true /* set */));
 
   sizeWritten = m.size();
+  ASSERT_EQ(sizeWritten, rawSize);
+
   messages.emplace_back(std::move(m));
   ASSERT_EQ(channel.sendMessages(std::move(messages)),
             rl::core::IOResult::Success);
@@ -261,7 +267,8 @@ TEST(ChannelTest, AliasingChannels) {
   rl::core::Message message({other.asMessageAttachment()});
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
-  chan.sendMessages(std::move(messages));
+  ASSERT_EQ(chan.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
 
   bool otherMessageRead = false;
   other.setMessageCallback([&](rl::core::Message message) {
@@ -368,6 +375,160 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   ASSERT_EQ(chan.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
+
+  thread.join();
+}
+
+/**
+ *  This is to test the passing of an OOL buffer along with attachments. Only
+ *  a concern on Socket channels
+ */
+TEST(ChannelTest, TestLargeReadWriteWithAttachments) {
+  const auto rawSize = 20000009;
+
+  rl::core::Channel channel;
+
+  rl::core::Latch latch(1);
+
+  size_t sizeWritten = 0;
+
+  std::thread thread([&] {
+    auto loop = rl::core::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
+
+    auto source = channel.source();
+    ASSERT_TRUE(loop->addSource(source));
+
+    channel.setMessageCallback([&](rl::core::Message message) {
+      ASSERT_TRUE(message.size() == sizeWritten);
+      ASSERT_TRUE(message.size() == rawSize);
+      ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+                                          false /* check */));
+
+      ASSERT_EQ(message.attachments().size(), 7);
+      ASSERT_EQ(message.attachments()[0].isValid(), true);
+      ASSERT_EQ(message.attachments()[1].isValid(), true);
+      ASSERT_EQ(message.attachments()[2].isValid(), true);
+      ASSERT_EQ(message.attachments()[3].isValid(), true);
+      ASSERT_EQ(message.attachments()[4].isValid(), true);
+      ASSERT_EQ(message.attachments()[5].isValid(), true);
+      ASSERT_EQ(message.attachments()[6].isValid(), true);
+
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+      loop->terminate();
+    });
+
+    loop->loop([&] { latch.countDown(); });
+  });
+
+  latch.wait();
+
+  rl::core::Messages messages;
+
+  /*
+   *  Write a large message (enough to trip the OOL check)
+   */
+  rl::core::Message message;
+
+  ASSERT_TRUE(MemorySetOrCheckPattern(message.encodeRaw<uint8_t>(rawSize),
+                                      rawSize, true /* set */));
+
+  sizeWritten = message.size();
+  ASSERT_EQ(sizeWritten, rawSize);
+
+  /*
+   *  Set a few attachments
+   */
+  rl::core::Channel other0;
+  rl::core::Channel other1;
+  rl::core::Channel other2;
+  rl::core::Channel other3;
+  rl::core::Channel other4;
+  rl::core::Channel other5;
+  rl::core::Channel other6;
+
+  message.setAttachments({
+      other0.asMessageAttachment(), other1.asMessageAttachment(),
+      other2.asMessageAttachment(), other3.asMessageAttachment(),
+      other4.asMessageAttachment(), other5.asMessageAttachment(),
+      other6.asMessageAttachment(),
+  });
+
+  messages.emplace_back(std::move(message));
+  ASSERT_EQ(channel.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
+
+  thread.join();
+}
+
+/**
+ *  This is to ensure that inline memory buffers dont mess up the attachments
+ *  they are sent with. Only a concern on Socket channels
+ */
+TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
+  const auto rawSize = 27;
+
+  rl::core::Channel channel;
+
+  rl::core::Latch latch(1);
+
+  size_t sizeWritten = 0;
+
+  std::thread thread([&] {
+    auto loop = rl::core::EventLoop::Current();
+    ASSERT_TRUE(loop != nullptr);
+
+    auto source = channel.source();
+    ASSERT_TRUE(loop->addSource(source));
+
+    channel.setMessageCallback([&](rl::core::Message message) {
+      ASSERT_TRUE(message.size() == sizeWritten);
+      ASSERT_TRUE(message.size() == rawSize);
+      ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+                                          false /* check */));
+
+      ASSERT_EQ(message.attachments().size(), 3);
+      ASSERT_EQ(message.attachments()[0].isValid(), true);
+      ASSERT_EQ(message.attachments()[1].isValid(), true);
+      ASSERT_EQ(message.attachments()[2].isValid(), true);
+
+      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+      loop->terminate();
+    });
+
+    loop->loop([&] { latch.countDown(); });
+  });
+
+  latch.wait();
+
+  rl::core::Messages messages;
+
+  /*
+   *  Write a large message (enough to trip the OOL check)
+   */
+  rl::core::Message message;
+
+  ASSERT_TRUE(MemorySetOrCheckPattern(message.encodeRaw<uint8_t>(rawSize),
+                                      rawSize, true /* set */));
+
+  sizeWritten = message.size();
+  ASSERT_EQ(sizeWritten, rawSize);
+
+  /*
+   *  Set a few attachments
+   */
+  rl::core::Channel other0;
+  rl::core::Channel other1;
+  rl::core::Channel other2;
+
+  message.setAttachments({
+      other0.asMessageAttachment(), other1.asMessageAttachment(),
+      other2.asMessageAttachment(),
+  });
+
+  messages.emplace_back(std::move(message));
+  ASSERT_EQ(channel.sendMessages(std::move(messages)),
             rl::core::IOResult::Success);
 
   thread.join();
