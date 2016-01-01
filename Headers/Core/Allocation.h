@@ -44,6 +44,11 @@ class Allocation {
   uint8_t* data();
 
   /**
+   *  @return the size of the underlying allocation
+   */
+  size_t size() const;
+
+  /**
    *  Resize the memory arena to the new value
    *
    *  @param size the new size of the allocation

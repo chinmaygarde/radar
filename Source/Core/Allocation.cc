@@ -54,6 +54,10 @@ uint8_t* Allocation::data() {
   return _allocation;
 }
 
+size_t Allocation::size() const {
+  return _size;
+}
+
 bool Allocation::isReady() const {
   return _allocation != nullptr;
 }

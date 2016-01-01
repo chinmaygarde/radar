@@ -6,6 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
+#include <Core/Allocation.h>
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
 #include <Core/SocketChannel.h>
@@ -305,26 +306,9 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   }
 
   /*
-   *  Create the message header structure containing the descriptors (if any
-   *  to send over the channel
+   *  Create the message header containing the inline data descriptions and
+   *  attachments
    */
-  void* controlBuffer = nullptr;
-  size_t controlBufferSize = 0;
-
-  if (oolDescriptors > 0) {
-    controlBufferSize =
-        CMSG_SPACE((oolDescriptors * sizeof(SocketChannel::Handle)));
-    controlBuffer = calloc(1, controlBufferSize);
-
-    if (controlBuffer == nullptr) {
-      /*
-       *  We ran out of client memory to service this write. We may be able to
-       *  service this request later however.
-       */
-      return IOResult::Timeout;
-    }
-  }
-
   struct msghdr messageHeader = {
     .msg_name = nullptr,
     .msg_namelen = 0,
@@ -334,20 +318,33 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
 #else
     .msg_iovlen = vecLength,
 #endif
-    .msg_control = controlBuffer,
-    .msg_controllen = static_cast<socklen_t>(controlBufferSize),
+    .msg_control = nullptr,
+    .msg_controllen = 0,
     .msg_flags = 0,
   };
+
+  Allocation controlBuffer;
 
   /*
    *  If there are any OOL descriptors (explicitly via attachments or OOL
    *  memory arenas), the control message needs to be initialized.
    */
   if (oolDescriptors > 0) {
+    if (!controlBuffer.resize(
+            CMSG_SPACE((oolDescriptors * sizeof(SocketChannel::Handle))))) {
+      /*
+       *  We could not allocate enough memory on the client for the control
+       *  buffer. Memory pressure may subside later. So Timeout.
+       */
+      return IOResult::Timeout;
+    }
+
+    messageHeader.msg_control = controlBuffer.data();
+    messageHeader.msg_controllen = static_cast<socklen_t>(controlBuffer.size());
+
     struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
 
     if (cmsg == nullptr) {
-      free(controlBuffer);
       return IOResult::Failure;
     }
 
@@ -356,13 +353,16 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     cmsg->cmsg_len = static_cast<socklen_t>(
         CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
 
+    messageHeader.msg_controllen = cmsg->cmsg_len;
+
     auto descriptors =
         reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
 
     /*
-     *  All the explicitly OOL descriptors come first
+     *  All the explicitly OOL descriptors (for attachments) come first
      */
-    for (auto i = 0; i < oolDescriptors - 1; i++) {
+    auto attachmentsCount = message.attachments().size();
+    for (auto i = 0; i < attachmentsCount; i++) {
       descriptors[i] =
           static_cast<SocketChannel::Handle>(attachments[i].handle());
     }
@@ -374,8 +374,6 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
        */
       descriptors[oolDescriptors - 1] = oolMemoryArena->handle();
     }
-
-    messageHeader.msg_controllen = cmsg->cmsg_len;
   }
 
   const auto expectedSendSize =
@@ -383,8 +381,6 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
 
   auto result = SocketSendMessage(writeHandle(), &messageHeader,
                                   expectedSendSize, timeout);
-
-  free(controlBuffer);
 
   return result;
 }
