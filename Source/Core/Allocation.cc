@@ -58,6 +58,14 @@ size_t Allocation::size() const {
   return _size;
 }
 
+void Allocation::makeZero() {
+  if (_size == 0) {
+    return;
+  }
+
+  bzero(_allocation, _size);
+}
+
 bool Allocation::isReady() const {
   return _allocation != nullptr;
 }

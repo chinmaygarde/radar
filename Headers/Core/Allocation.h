@@ -62,6 +62,11 @@ class Allocation {
    */
   bool isReady() const;
 
+  /**
+   *  Zero out the current allocation
+   */
+  void makeZero();
+
  private:
   uint8_t* _allocation;
   size_t _size;

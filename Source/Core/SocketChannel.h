@@ -5,6 +5,7 @@
 #ifndef __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 #define __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 
+#include <Core/Allocation.h>
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
 
@@ -31,8 +32,8 @@ class SocketChannel : public ChannelProvider {
 
  private:
   std::mutex _readBufferMutex;
-  uint8_t* _buffer;
-  uint8_t* _controlBuffer;
+  Allocation _inlineMessageBuffer;
+  Allocation _controlBuffer;
   std::pair<Handle, Handle> _handles;
   Channel& _channel;
 

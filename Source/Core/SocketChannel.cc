@@ -6,7 +6,6 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/Allocation.h>
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
 #include <Core/SocketChannel.h>
@@ -53,9 +52,8 @@ static_assert(rl_trivially_copyable(SocketPayloadHeader),
 
 static const size_t MaxInlineBufferSize = 4096;
 static const size_t MaxControlBufferItemCount = 24;
-static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
-    CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
+    CMSG_SPACE(sizeof(SocketChannel::Handle) * MaxControlBufferItemCount);
 
 static bool IsValidSocketHandle(SocketChannel::Handle handle) {
   struct stat statbuf = {0};
@@ -128,17 +126,11 @@ void SocketChannel::setupWithHandles(Handle readHandle, Handle writeHandle) {
   /*
    *  Setup the channel buffer
    */
-  _buffer = static_cast<uint8_t*>(malloc(MaxInlineBufferSize));
-  _controlBuffer = static_cast<uint8_t*>(malloc(MaxControlBufferSize));
+  _inlineMessageBuffer.resize(MaxInlineBufferSize);
+  _controlBuffer.resize(MaxControlBufferItemCount);
 }
 
-SocketChannel::~SocketChannel() {
-  free(_buffer);
-  free(_controlBuffer);
-
-  _buffer = nullptr;
-  _controlBuffer = nullptr;
-}
+SocketChannel::~SocketChannel() {}
 
 std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
   using ELS = EventLoopSource;
@@ -487,18 +479,18 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
    *  The second element in the scatter gather array contains space for the
    *  inline message buffer (if present)
    */
-  vec[1].iov_base = _buffer;
-  vec[1].iov_len = MaxInlineBufferSize;
+  vec[1].iov_base = _inlineMessageBuffer.data();
+  vec[1].iov_len = _inlineMessageBuffer.size();
 
-  bzero(_controlBuffer, MaxControlBufferItemCount);
+  _controlBuffer.makeZero();
 
   struct msghdr messageHeader = {
       .msg_name = nullptr,
       .msg_namelen = 0,
       .msg_iov = vec,
       .msg_iovlen = sizeof(vec) / sizeof(struct iovec),
-      .msg_control = _controlBuffer,
-      .msg_controllen = static_cast<socklen_t>(MaxControlBufferSize),
+      .msg_control = _controlBuffer.data(),
+      .msg_controllen = static_cast<socklen_t>(_controlBuffer.size()),
       .msg_flags = 0,
   };
 
@@ -606,7 +598,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
    *  Initialize the message data
    */
   if (header.isDataInline()) {
-    buffer = _buffer;
+    buffer = _inlineMessageBuffer.data();
     bufferLength = inlineMessageSize;
   } else {
     if (oolMemoryArena == nullptr || !oolMemoryArena->isReady()) {
