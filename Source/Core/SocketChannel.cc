@@ -16,6 +16,7 @@
 #include <poll.h>
 #include <stdlib.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -55,8 +56,20 @@ static const size_t ControlBufferItemSize = sizeof(int);
 static const size_t MaxControlBufferSize =
     CMSG_SPACE(ControlBufferItemSize * MaxControlBufferItemCount);
 
+static bool IsValidSocketHandle(SocketChannel::Handle handle) {
+  struct stat statbuf = {0};
+
+  if (fstat(handle, &statbuf) == -1) {
+    return false;
+  }
+
+  return S_ISSOCK(statbuf.st_mode);
+}
+
 static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
-  RL_ASSERT(handle > 0);
+  RL_ASSERT_MSG(IsValidSocketHandle(handle),
+                "Cannot create or initialize a socket channel without a valid "
+                "socket handle");
 
   /*
    *  Limit the socket send and receive buffer sizes since we dont need large
