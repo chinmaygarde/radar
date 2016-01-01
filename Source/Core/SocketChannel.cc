@@ -127,7 +127,7 @@ void SocketChannel::setupWithHandles(Handle readHandle, Handle writeHandle) {
    *  Setup the channel buffer
    */
   _inlineMessageBuffer.resize(MaxInlineBufferSize);
-  _controlBuffer.resize(MaxControlBufferItemCount);
+  _controlBuffer.resize(MaxControlBufferSize);
 }
 
 SocketChannel::~SocketChannel() {}
