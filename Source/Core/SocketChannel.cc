@@ -372,15 +372,6 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   return result;
 }
 
-static inline cmsghdr* SocketChannelNextCmsgHdr(msghdr* hdr, cmsghdr* cmsg) {
-  /*
-   *  RFC 2292 (https://tools.ietf.org/html/rfc2292#section-4.3.2) says
-   *  CMSG_NXTHDR should return CMSG_FIRSTHDR on null cmsg. This does not seem
-   *  to be the case on Linux. So define our own version.
-   */
-  return cmsg == nullptr ? CMSG_FIRSTHDR(hdr) : CMSG_NXTHDR(hdr, cmsg);
-}
-
 using RecvResult = std::pair<IOResult, ssize_t>;
 /**
  *  Just like the POSIX `recvmsg` but accepts a timeout
@@ -545,21 +536,11 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     return IOReadResult(IOResult::Failure, Message{});
   }
 
-  /*
-   *  If there is inline data, all descriptors are attachments. If not, the
-   *  last descriptor is the shared memory arena.
-   */
-  const auto oolMemoryArenaDescriptorIndex =
-      header.isDataInline() ? -1 : totalDescriptors - 1;
-
   std::unique_ptr<SharedMemory> oolMemoryArena;
-
   std::vector<Message::Attachment> attachments;
 
-  struct cmsghdr* cmsg = nullptr;
-
-  for (auto i = 0; i < totalDescriptors; i++) {
-    cmsg = SocketChannelNextCmsgHdr(&messageHeader, cmsg);
+  if (totalDescriptors > 0) {
+    struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
 
     if (cmsg == nullptr) {
       /*
@@ -569,26 +550,37 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       return IOReadResult(IOResult::Failure, Message{});
     }
 
-    auto handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
+    auto handles = reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
 
-    if (oolMemoryArenaDescriptorIndex == i) {
-      /*
-       *  We create a shared memory instance from the handle but make it not
-       *  own this handle or its mapping. We then manually close the handle
-       *  and create a message from the same with a vm allocated backing. This
-       *  message unmaps the allocation when it is done.
-       *
-       *  This way, there are no copies and we can get rid of descriptor
-       *  entirely.
-       */
-      oolMemoryArena = make_unique<SharedMemory>(
-          handle, false /* does not own its handle or mapping */);
-      RL_CHECK(::close(handle));
-    } else {
-      /*
-       *  This is a regular channel attachment
-       */
-      attachments.push_back(handle);
+    /*
+     *  If there is inline data, all descriptors are attachments. If not, the
+     *  last descriptor is the shared memory arena.
+     */
+    const auto oolMemoryArenaDescriptorIndex =
+        header.isDataInline() ? -1 : totalDescriptors - 1;
+
+    for (int i = 0; i < totalDescriptors; i++) {
+      auto handle = handles[i];
+
+      if (oolMemoryArenaDescriptorIndex == i) {
+        /*
+         *  We create a shared memory instance from the handle but make it not
+         *  own this handle or its mapping. We then manually close the handle
+         *  and create a message from the same with a vm allocated backing. This
+         *  message unmaps the allocation when it is done.
+         *
+         *  This way, there are no copies and we can get rid of descriptor
+         *  entirely.
+         */
+        oolMemoryArena = make_unique<SharedMemory>(
+            handle, false /* does not own its handle or mapping */);
+        RL_CHECK(::close(handle));
+      } else {
+        /*
+         *  This is a regular channel attachment
+         */
+        attachments.push_back(handle);
+      }
     }
   }
 
