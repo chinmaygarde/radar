@@ -340,21 +340,12 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
       return IOResult::Failure;
     }
 
-    cmsg->cmsg_level = SOL_SOCKET;
-    cmsg->cmsg_type = SCM_RIGHTS;
-    cmsg->cmsg_len = static_cast<socklen_t>(
-        CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
+    auto descCount = 0;
+    SocketChannel::Handle handles[oolDescriptors];
 
-    auto descriptors =
-        reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
-
-    /*
-     *  All the explicitly OOL descriptors (for attachments) come first
-     */
-    auto attachmentsCount = message.attachments().size();
-    for (auto i = 0; i < attachmentsCount; i++) {
-      descriptors[i] =
-          static_cast<SocketChannel::Handle>(attachments[i].handle());
+    for (const auto& attachment : message.attachments()) {
+      handles[descCount++] =
+          static_cast<SocketChannel::Handle>(attachment.handle());
     }
 
     if (!isDataInline) {
@@ -362,8 +353,14 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
        *  The last descriptor is the memory arena handle (if OOL). The arena
        *  cannot be nullptr since we return early with a timeout in that case.
        */
-      descriptors[oolDescriptors - 1] = oolMemoryArena->handle();
+      handles[descCount++] = oolMemoryArena->handle();
     }
+
+    cmsg->cmsg_level = SOL_SOCKET;
+    cmsg->cmsg_type = SCM_RIGHTS;
+    cmsg->cmsg_len = static_cast<socklen_t>(
+        CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
+    memcpy(CMSG_DATA(cmsg), handles, oolDescriptors);
   }
 
   const auto expectedSendSize =
