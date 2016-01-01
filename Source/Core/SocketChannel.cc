@@ -501,6 +501,16 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     return IOReadResult(result.first, Message{});
   }
 
+  if ((messageHeader.msg_flags & (MSG_CTRUNC | MSG_TRUNC)) != 0) {
+    /*
+     *  The message or the control buffers we provided were not large enough
+     *  for some reason. The only case in which SOCK_SEQPACKET receives may be
+     *  truncated is because of this. We shouldn't ever hit this case because
+     *  we validate data on the senders size. But this is a paranoid check.
+     */
+    return IOReadResult(IOResult::Failure, Message{});
+  }
+
   auto received = result.second;
 
   if (received < sizeof(SocketPayloadHeader)) {
