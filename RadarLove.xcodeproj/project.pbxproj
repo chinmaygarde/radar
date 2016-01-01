@@ -236,6 +236,8 @@
 		EAB906AF1C02584700BCA377 /* PipeTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = EAB906AD1C02584700BCA377 /* PipeTrivialSource.h */; };
 		EAC90A7E1BF93C82001214C1 /* ThreadLocal.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */; };
 		EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */; };
+		EAE21F261C36479100EAA2FF /* Allocation.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAE21F251C36479100EAA2FF /* Allocation.cc */; };
+		EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE21F2F1C36479E00EAA2FF /* Allocation.h */; };
 		EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAFECF051BFD9DE700348900 /* AshmemHandle.cc */; };
 /* End PBXBuildFile section */
 
@@ -543,6 +545,8 @@
 		EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadLocal.h; sourceTree = "<group>"; };
 		EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadLocal.cc; sourceTree = "<group>"; };
 		EAC90A891BF949FB001214C1 /* ThreadLocalTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadLocalTest.mm; sourceTree = "<group>"; };
+		EAE21F251C36479100EAA2FF /* Allocation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocation.cc; sourceTree = "<group>"; };
+		EAE21F2F1C36479E00EAA2FF /* Allocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
 		EAFECF051BFD9DE700348900 /* AshmemHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AshmemHandle.cc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -830,6 +834,7 @@
 		9EAECE471B685460000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				EAE21F2F1C36479E00EAA2FF /* Allocation.h */,
 				9EA6744E1B753CAD00C8A8B4 /* Core.h */,
 				9EA6744F1B753CAD00C8A8B4 /* Macros.h */,
 				9EAECE4B1B685460000FA38A /* Channel.h */,
@@ -936,6 +941,7 @@
 		9EAECEA31B685469000FA38A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				EAE21F251C36479100EAA2FF /* Allocation.cc */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */,
 				9EAECEAE1B685469000FA38A /* EventLoop.cc */,
@@ -1158,6 +1164,7 @@
 				9EAECE7A1B685460000FA38A /* Config.h in Headers */,
 				9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */,
 				9E8655FA1BE45E2700997766 /* TransactionPayload.h in Headers */,
+				EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
 				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
@@ -1435,6 +1442,7 @@
 				9E86561E1BE45E3A00997766 /* PresentationEntity.cc in Sources */,
 				9E029CB91BAB953D007E5DF8 /* InProcessEventLoopSource.cc in Sources */,
 				9E16A6FB1BE2E9D700FFEDFC /* Priority.cc in Sources */,
+				EAE21F261C36479100EAA2FF /* Allocation.cc in Sources */,
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */,
 				9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */,
