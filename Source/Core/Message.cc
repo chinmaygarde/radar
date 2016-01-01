@@ -20,47 +20,52 @@
 namespace rl {
 namespace core {
 
-Message::Message(size_t length)
-    : _buffer(nullptr), _bufferLength(0), _dataLength(0), _sizeRead(0) {
+static inline uint8_t* MessageCreateBufferCopy(const uint8_t* src, size_t len) {
+  if (src == nullptr || len == 0) {
+    return nullptr;
+  }
+
+  void* allocation = malloc(len);
+
+  if (allocation == nullptr) {
+    return nullptr;
+  }
+
+  return reinterpret_cast<uint8_t*>(memmove(allocation, src, len));
+}
+
+Message::Message(size_t length) : Message(nullptr, 0, false) {
   reserve(length);
 }
 
 Message::Message(uint8_t* buffer, size_t bufferSize)
-    : _bufferLength(bufferSize), _dataLength(bufferSize), _sizeRead(0) {
-  void* allocation = malloc(bufferSize);
-  memcpy(allocation, buffer, bufferSize);
-  _buffer = static_cast<uint8_t*>(allocation);
+    : Message(buffer, bufferSize, false) {}
+
+Message::Message(std::vector<Attachment>&& attachments)
+    : Message(nullptr, 0, false) {
+  _attachments = std::move(attachments);
 }
 
-Message::Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate)
-    : _buffer(buffer),
-      _bufferLength(bufferLength),
-      _dataLength(bufferLength),
+Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
+    : _buffer(vmAllocated ? buffer
+                          : MessageCreateBufferCopy(buffer, bufferLength)),
+      _bufferLength(_buffer == nullptr ? 0 : bufferLength),
+      _dataLength(_bufferLength),
       _sizeRead(0),
-      _vmDeallocate(vmDeallocate) {
-  RL_ASSERT(vmDeallocate);
-}
+      _vmAllocated(vmAllocated) {}
 
 Message::Message(Message&& message)
     : _buffer(message._buffer),
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
-      _vmDeallocate(message._vmDeallocate),
+      _vmAllocated(message._vmAllocated),
       _attachments(std::move(message._attachments)) {
   message._buffer = nullptr;
 }
 
-Message::Message(std::vector<Attachment>&& attachments)
-    : _buffer(nullptr),
-      _bufferLength(0),
-      _dataLength(0),
-      _sizeRead(0),
-      _vmDeallocate(false),
-      _attachments(std::move(attachments)) {}
-
 Message::~Message() {
-  if (_vmDeallocate) {
+  if (_vmAllocated) {
     if (_buffer) {
 #if RL_OS_MAC
       kern_return_t res =

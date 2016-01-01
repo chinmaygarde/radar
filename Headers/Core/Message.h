@@ -54,13 +54,13 @@ class Message {
   explicit Message(uint8_t* buffer, size_t bufferLength);
 
   /**
-   *  Create a message that is already allocated for you by the the platform
+   *  Create a message that is already allocated for you by the platform
    *
    *  @param buffer       the message data
    *  @param bufferLength the message data length
-   *  @param vmDeallocate must be true, use the other ctor otherwise
+   *  @param vmallocated  the memory is pre-allocated by the platform allocator
    */
-  explicit Message(uint8_t* buffer, size_t bufferLength, bool vmDeallocate);
+  explicit Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
 
   /**
    *  Moves a given message
@@ -225,7 +225,7 @@ class Message {
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
-  bool _vmDeallocate = false;
+  bool _vmAllocated;
 
   bool resizeBuffer(size_t size);
 
