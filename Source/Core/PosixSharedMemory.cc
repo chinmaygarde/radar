@@ -11,13 +11,13 @@
  */
 #if (RL_SHMEM == RL_SHMEM_POSIX) || (RL_SHMEM == RL_SHMEM_ASHMEM)
 
-#include <Core/Utilities.h>
 #include <Core/SharedMemory.h>
 #include <Core/SharedMemoryHandle.h>
+#include <Core/Utilities.h>
 
-#include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 namespace rl {
 namespace core {

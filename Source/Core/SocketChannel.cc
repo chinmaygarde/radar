@@ -529,12 +529,28 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       goto PermanentFailure;
     }
 
+    auto inlineMessageSize = received - sizeof(SocketPayloadHeader);
+
+    if (!header.isDataInline() && inlineMessageSize != 0) {
+      /*
+       *  The header said that its data was not inline but we still managed to
+       *  receive extra bytes over the socket. There seems to some
+       *  inconsistency. Bail.
+       */
+      goto PermanentFailure;
+    }
+
     /*
      *  If there is inline data, all descriptors are attachments. If not, the
      *  last descriptor is the shared memory arena.
      */
     auto attachmentDescriptors =
         header.isDataInline() ? totalDescriptors : totalDescriptors - 1;
+
+    const auto oolMemoryArenaDescriptorIndex =
+        header.isDataInline() ? -1 : attachmentDescriptors;
+
+    std::unique_ptr<SharedMemory> oolMemoryArena;
 
     std::vector<Message::Attachment> attachments;
 
@@ -554,49 +570,58 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       }
 
       auto handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
-      attachments.push_back(handle);
+
+      if (oolMemoryArenaDescriptorIndex == i) {
+        /*
+         *  We create a shared memory instance from the handle but make it not
+         *  own this handle or its mapping. We then manually close the handle
+         *  and create a message from the same with a vm allocated backing. This
+         *  message unmaps the allocation when it is done.
+         *
+         *  This way, there are no copies and we can get rid of descriptor
+         *  entirely.
+         */
+        oolMemoryArena = make_unique<SharedMemory>(
+            handle, false /* does not own its handle or mapping */);
+        RL_CHECK(::close(handle));
+      } else {
+        /*
+         *  This is a regular channel attachment
+         */
+        attachments.push_back(handle);
+      }
     }
 
     /*
-     *  Attempt to read the OOL memory arena if one is present
+     *  Create the message we will be returning to the caller
      */
-    if (!header.isDataInline()) {
-      cmsg = SocketChannelNextCmsgHdr(&messageHeader, cmsg);
+    uint8_t* buffer = nullptr;
+    size_t bufferLength = 0;
+    bool vmDeallocate = false;
 
-      if (cmsg == nullptr) {
+    /*
+     *  Initialize the message data
+     */
+    if (header.isDataInline()) {
+      buffer = _buffer;
+      bufferLength = inlineMessageSize;
+    } else {
+      if (oolMemoryArena == nullptr || !oolMemoryArena->isReady()) {
         /*
-         *  The header indicated that there was an OOL memory arena descriptor
-         *  We must be able to access its handle here.
+         *  The header said there was OOL data but we were not able to
+         *  initialize the OOL arena
          */
         goto PermanentFailure;
       }
 
-      SocketChannel::Handle handle = *((SocketChannel::Handle*)CMSG_DATA(cmsg));
-      /*
-       *  We create a shared memory instance from the handle but make it not
-       *  own its handle or the address mapping. We then manually close the
-       *  handle and create a message from the same with a vm allocated
-       *  backing. This message unmaps the allocation when it is done.
-       *
-       *  This way, there are no copies and we can get rid of descriptor
-       *  entirely.
-       */
-      SharedMemory memory(handle, false /* assume ownership */);
-      if (memory.isReady()) {
-        /*
-         *  The isReady check is equivalent to an EBADF guard
-         */
-        RL_CHECK(::close(handle));
-
-        Message message(memory.address(), memory.size(), true);
-        message.setAttachments(std::move(attachments));
-        return IOReadResult(IOResult::Success, std::move(message));
-      }
-    } else {
-      if (attachments.size() != 0) {
-        return IOReadResult(IOResult::Success, Message{std::move(attachments)});
-      }
+      buffer = oolMemoryArena->address();
+      bufferLength = oolMemoryArena->size();
+      vmDeallocate = true;
     }
+
+    Message message(buffer, bufferLength, vmDeallocate);
+    message.setAttachments(std::move(attachments));
+    return IOReadResult(IOResult::Success, std::move(message));
   }
 
 /*
