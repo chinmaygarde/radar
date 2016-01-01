@@ -284,7 +284,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     return IOResult::Failure;
   }
 
-  const auto vecLength = isDataInline ? 2 : 1;
+  const size_t vecLength = isDataInline ? 2 : 1;
 
   SocketPayloadHeader header(isDataInline, oolDescriptors);
 
@@ -326,13 +326,17 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   }
 
   struct msghdr messageHeader = {
-      .msg_name = nullptr,
-      .msg_namelen = 0,
-      .msg_iov = vec,
-      .msg_iovlen = vecLength,
-      .msg_control = controlBuffer,
-      .msg_controllen = static_cast<socklen_t>(controlBufferSize),
-      .msg_flags = 0,
+    .msg_name = nullptr,
+    .msg_namelen = 0,
+    .msg_iov = vec,
+#if RL_OS_MAC
+    .msg_iovlen = static_cast<int>(vecLength),
+#else
+    .msg_iovlen = vecLength,
+#endif
+    .msg_control = controlBuffer,
+    .msg_controllen = static_cast<socklen_t>(controlBufferSize),
+    .msg_flags = 0,
   };
 
   /*
