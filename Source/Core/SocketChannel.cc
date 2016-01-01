@@ -374,9 +374,85 @@ static inline cmsghdr* SocketChannelNextCmsgHdr(msghdr* hdr, cmsghdr* cmsg) {
   return cmsg == nullptr ? CMSG_FIRSTHDR(hdr) : CMSG_NXTHDR(hdr, cmsg);
 }
 
+using RecvResult = std::pair<IOResult, ssize_t>;
+/**
+ *  Just like the POSIX `recvmsg` but accepts a timeout
+ *
+ *  @param handle  the handle to receive the message on
+ *  @param header  the initialized msghdr struct
+ *  @param flags   recvmsg flags
+ *  @param timeout the timeout
+ *
+ *  @return result of the `recvmsg` and the size of the received bytes
+ */
+static RecvResult SocketChannelRecvMsg(int handle,
+                                       struct msghdr* header,
+                                       int flags,
+                                       ClockDurationNano timeout) {
+  ssize_t received = 0;
+  while (true) {
+    received = RL_TEMP_FAILURE_RETRY(::recvmsg(handle, header, flags));
+
+    if (received == -1 && errno == EAGAIN) {
+      /*
+       *  The non blocking socket has nothing to receive. Depending on the
+       *  timeout, try again
+       */
+      if (timeout.count() == 0) {
+        /*
+         *  Dont bother with a syscall for a zero timeout receive
+         */
+        return RecvResult(IOResult::Timeout, 0);
+      }
+
+      /*
+       *  Poll on the socket for the given timeout
+       */
+      struct pollfd pollFd = {
+          .fd = handle, .events = POLLIN, .revents = 0,
+      };
+
+      auto timeoutMS = ToUnixTimeoutMS(timeout);
+
+      auto pollResult = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, timeoutMS));
+
+      if (pollResult == 1) {
+        /*
+         *  Finally, the descriptor is available for reading. Try the recvmsg
+         *  again
+         */
+        continue;
+      }
+
+      if (pollResult == 0) {
+        /*
+         *  We tried waiting on the descriptor but did not succeed to find
+         *  anything to read
+         */
+        return RecvResult(IOResult::Timeout, 0);
+      }
+
+      /*
+       *  Paranoid assertion to check that we did not mess up the poll
+       */
+      return RecvResult(IOResult::Failure, 0);
+    }
+
+    break;
+  }
+
+  return RecvResult(IOResult::Success, received);
+}
+
 IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_readBufferMutex);
 
+  /*
+   *  ==========================================================================
+   *  Initialize the message header used to make the `recvmsg` call on the
+   *  socket
+   *  ==========================================================================
+   */
   struct iovec vec[2] = {{0}};
 
   SocketPayloadHeader header;
@@ -408,62 +484,17 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
 
   /*
    *  ==========================================================================
-   *  Step 0: Make the call to `recvmsg`. Optionally, if a timeout is specified,
-   *          poll on read availability on the socket for the given duration.
+   *  Make the `recvmsg` call on the socket
    *  ==========================================================================
    */
-  ssize_t received = 0;
-  while (true) {
-    received =
-        RL_TEMP_FAILURE_RETRY(::recvmsg(readHandle(), &messageHeader, 0));
 
-    if (received == -1 && errno == EAGAIN) {
-      /*
-       *  The non blocking socket has nothing to receive. Depending on the
-       *  timeout, try again
-       */
-      if (timeout.count() == 0) {
-        /*
-         *  Dont bother with a syscall for a zero timeout receive
-         */
-        return IOReadResult(IOResult::Timeout, Message{});
-      }
+  auto result = SocketChannelRecvMsg(readHandle(), &messageHeader, 0, timeout);
 
-      /*
-       *  Poll on the socket for the given timeout
-       */
-      struct pollfd pollFd = {
-          .fd = readHandle(), .events = POLLIN, .revents = 0,
-      };
-
-      auto timeoutMS = ToUnixTimeoutMS(timeout);
-
-      auto pollResult = RL_TEMP_FAILURE_RETRY(::poll(&pollFd, 1, timeoutMS));
-
-      if (pollResult == 1) {
-        /*
-         *  Finally, the descriptor is available for reading. Try the recvmsg
-         *  again
-         */
-        continue;
-      }
-
-      if (pollResult == 0) {
-        /*
-         *  We tried waiting on the descriptor but did not succeed to find
-         *  anything to read
-         */
-        return IOReadResult(IOResult::Timeout, Message{});
-      }
-
-      /*
-       *  Paranoid assertion to check that we did not mess up the poll
-       */
-      goto PermanentFailure;
-    }
-
-    break;
+  if (result.first != IOResult::Success) {
+    return IOReadResult(result.first, Message{});
   }
+
+  auto received = result.second;
 
   if (received < sizeof(SocketPayloadHeader)) {
     /*
@@ -510,7 +541,6 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
      *          arena)
      *  ========================================================================
      */
-
     auto totalDescriptors = header.oolDescriptors();
 
     if (totalDescriptors < 1) {
