@@ -353,7 +353,8 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
 
     cmsg->cmsg_level = SOL_SOCKET;
     cmsg->cmsg_type = SCM_RIGHTS;
-    cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));
+    cmsg->cmsg_len = static_cast<socklen_t>(
+        CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
 
     auto descriptors =
         reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
