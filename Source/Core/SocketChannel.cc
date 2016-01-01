@@ -341,6 +341,12 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
    */
   if (oolDescriptors > 0) {
     struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
+
+    if (cmsg == nullptr) {
+      free(controlBuffer);
+      return IOResult::Failure;
+    }
+
     cmsg->cmsg_level = SOL_SOCKET;
     cmsg->cmsg_type = SCM_RIGHTS;
     cmsg->cmsg_len = CMSG_LEN(sizeof(SocketChannel::Handle));

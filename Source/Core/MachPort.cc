@@ -145,7 +145,7 @@ class MachPayload {
      */
     auto messageSize = MachMessageSize(true, 0, true);
 
-    _payload = reinterpret_cast<uint8_t*>(calloc(messageSize, sizeof(char)));
+    _payload = reinterpret_cast<uint8_t*>(calloc(messageSize, sizeof(uint8_t)));
 
     auto header = reinterpret_cast<mach_msg_header_t*>(_payload);
     header->msgh_size = static_cast<mach_msg_size_t>(messageSize);
