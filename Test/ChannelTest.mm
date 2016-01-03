@@ -384,7 +384,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
  *  This is to test the passing of an OOL buffer along with attachments. Only
  *  a concern on Socket channels
  */
-TEST(ChannelTest, DISABLED_TestLargeReadWriteWithAttachments) {
+TEST(ChannelTest, TestLargeReadWriteWithAttachments) {
   const auto rawSize = 20000009;
 
   rl::core::Channel channel;

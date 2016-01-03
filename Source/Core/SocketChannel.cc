@@ -360,7 +360,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     cmsg->cmsg_type = SCM_RIGHTS;
     cmsg->cmsg_len = static_cast<socklen_t>(
         CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
-    memcpy(CMSG_DATA(cmsg), handles, oolDescriptors);
+    memcpy(CMSG_DATA(cmsg), handles, sizeof(handles));
   }
 
   const auto expectedSendSize =
