@@ -238,6 +238,7 @@
 		EAC90A881BF93C9B001214C1 /* ThreadLocal.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAC90A871BF93C9B001214C1 /* ThreadLocal.cc */; };
 		EAE21F261C36479100EAA2FF /* Allocation.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAE21F251C36479100EAA2FF /* Allocation.cc */; };
 		EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE21F2F1C36479E00EAA2FF /* Allocation.h */; };
+		EAE21F321C3904C400EAA2FF /* InProcessBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAE21F311C3904C400EAA2FF /* InProcessBootstrapServer.cc */; };
 		EAFECF061BFD9DE700348900 /* AshmemHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = EAFECF051BFD9DE700348900 /* AshmemHandle.cc */; };
 /* End PBXBuildFile section */
 
@@ -547,6 +548,7 @@
 		EAC90A891BF949FB001214C1 /* ThreadLocalTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadLocalTest.mm; sourceTree = "<group>"; };
 		EAE21F251C36479100EAA2FF /* Allocation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocation.cc; sourceTree = "<group>"; };
 		EAE21F2F1C36479E00EAA2FF /* Allocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
+		EAE21F311C3904C400EAA2FF /* InProcessBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessBootstrapServer.cc; sourceTree = "<group>"; };
 		EAFECF051BFD9DE700348900 /* AshmemHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AshmemHandle.cc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -750,6 +752,7 @@
 			isa = PBXGroup;
 			children = (
 				9E9543DB1C28C61B002EEC68 /* BootstrapServer.cc */,
+				EAE21F311C3904C400EAA2FF /* InProcessBootstrapServer.cc */,
 				9E95441E1C331DDA002EEC68 /* MachBootstrapServer.mm */,
 				9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */,
 			);
@@ -1476,6 +1479,7 @@
 				9EC1CE471C0E723F00DBAA91 /* WorkQueue.cc in Sources */,
 				9E029CB71BAB8457007E5DF8 /* WaitSetProvider.cc in Sources */,
 				EA7D30F61BE7273C0038BF5A /* Result.cc in Sources */,
+				EAE21F321C3904C400EAA2FF /* InProcessBootstrapServer.cc in Sources */,
 				9E16A6F81BE2E9D700FFEDFC /* EditInfo.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* PosixMemoryHandle.cc in Sources */,
