@@ -19,6 +19,12 @@ namespace core {
 
 class ChannelProvider;
 
+/**
+ *  The core communication mechanism between the various subsystems in Radar.
+ *  Channels facilitate the transactional transfer or data and attachments
+ *  from one context to another. Attachments may be other channels or indeed
+ *  any platform descriptor.
+ */
 class Channel {
  public:
   using MessageCallback = std::function<void(Message)>;
