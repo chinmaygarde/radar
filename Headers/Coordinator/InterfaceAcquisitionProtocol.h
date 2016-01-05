@@ -10,13 +10,28 @@
 namespace rl {
 namespace coordinator {
 
+/**
+ *  The protocol used by the coordinator to vend interface channels to
+ *  interested applications.
+ */
 class InterfaceAcquisitionProtocol : public core::Protocol {
  public:
   using InterfaceChannelVendor =
       std::function<std::shared_ptr<core::Channel>(void)>;
 
+  /**
+   *  Create the client side of the interface acquisition protocol
+   */
   explicit InterfaceAcquisitionProtocol();
 
+  /**
+   *  Create the vendor side of the interface acquisition protocol. The protocol
+   *  automatically advertised with the bootstrap server.
+   *
+   *  @param vendor the channel acquisition callback for this vendor. A channel
+   *                will be requested when the bootstrap server notices a
+   *                pending advertisement resolution for this protocol.
+   */
   explicit InterfaceAcquisitionProtocol(InterfaceChannelVendor vendor);
 
  private:

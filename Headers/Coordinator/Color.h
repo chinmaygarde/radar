@@ -10,10 +10,28 @@
 namespace rl {
 namespace coordinator {
 
+/**
+ *  Represents a RGBA color
+ */
 struct Color {
+  /**
+   *  The red color component (0 to 1)
+   */
   double red;
+
+  /**
+   *  The green color component (0 to 1)
+   */
   double green;
+
+  /**
+   *  The blue color component (0 to 1)
+   */
   double blue;
+
+  /**
+   *  The alpha component of the color (0 to 1)
+   */
   double alpha;
 
   Color() : red(0.0), green(0.0), blue(0.0), alpha(0.0) {}
@@ -29,10 +47,28 @@ struct Color {
   Color operator+(const Color& other) const;
 };
 
+/**
+ *  Represents a color by its constituent hue, saturation, brightness and alpha
+ */
 struct ColorHSB {
+  /**
+   *  The hue of the color (0 to 1)
+   */
   double hue;
+
+  /**
+   *  The saturation of the color (0 to 1)
+   */
   double saturation;
+
+  /**
+   *  The brightness of the color (0 to 1)
+   */
   double brightness;
+
+  /**
+   *  The alpha of the color (0 to 1)
+   */
   double alpha;
 
   ColorHSB(double h, double s, double b, double a)

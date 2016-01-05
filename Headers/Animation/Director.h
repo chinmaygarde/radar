@@ -5,9 +5,9 @@
 #ifndef RADARLOVE_ANIMATION_DIRECTOR_H_
 #define RADARLOVE_ANIMATION_DIRECTOR_H_
 
-#include <Core/Core.h>
-#include <Coordinator/PresentationEntity.h>
 #include <Animation/Interpolator.h>
+#include <Coordinator/PresentationEntity.h>
+#include <Core/Core.h>
 #include <Instrumentation/Stopwatch.h>
 
 #include <unordered_map>
@@ -28,7 +28,8 @@ class Director {
 
   template <typename T>
   void setInterpolator(Key key,
-                       std::unique_ptr<Interpolator<T>> interpolator,
+                       std::unique_ptr<Interpolator<T>>
+                           interpolator,
                        const core::ClockPoint& startTime) {
     auto result = collection<T>().emplace(key, std::move(interpolator));
     if (result.second) {

@@ -12,12 +12,39 @@
 namespace rl {
 namespace bootstrap {
 
+/**
+ *  Advertises the given channel with the bootstrap server. The bootstrap server
+ *  is unique to the device and common service vendors use it to advertise
+ *  their services and connect to interested clients.
+ *
+ *  @param name    the name of the service. Must be unique to in the system
+ *  @param channel the channel on which to service client requests on
+ *
+ *  @return if the advertisement was successful
+ */
 bool BootstrapServerAdvertise(const std::string& name,
                               std::shared_ptr<core::Channel>
                                   channel);
 
+/**
+ *  Stop advertising the given channel with the bootstrap server
+ *
+ *  @param channel the channel that was previously added as advertising with the
+ *                 bootstrap server
+ *
+ *  @return if the channel successfully stopped advertising with the bootstrap
+ *          server
+ */
 bool BoostrapServerStopAdvertising(std::shared_ptr<core::Channel> channel);
 
+/**
+ *  Get a reference to a channel that was previously advertised as being a
+ *  service provider for the given name
+ *
+ *  @param name the advertised name of the service vendor
+ *
+ *  @return a reference to the advertised channel (if one is present), or nil.
+ */
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name);
 
