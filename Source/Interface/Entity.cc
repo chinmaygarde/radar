@@ -8,10 +8,13 @@
 namespace rl {
 namespace interface {
 
-static Entity::Identifier LastEntityIdentifier = 0;
+static Identifier::Factory LocalIdentifierFactory(1);
 
 Entity::Entity(bool notifiesInterfaceOnUpdate)
-    : _identifier(++LastEntityIdentifier),
+    : Entity(LocalIdentifierFactory.acquire(), notifiesInterfaceOnUpdate) {}
+
+Entity::Entity(Identifier identifier, bool notifiesInterfaceOnUpdate)
+    : _identifier(identifier),
       _bounds(geom::RectZero),
       _position(geom::PointZero),
       _anchorPoint(geom::Point(0.5, 0.5)),
@@ -21,16 +24,6 @@ Entity::Entity(bool notifiesInterfaceOnUpdate)
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
   notifyInterfaceIfNecessary(Created);
 }
-
-Entity::Entity(Identifier identifier)
-    : _identifier(identifier),
-      _bounds(geom::RectZero),
-      _position(geom::PointZero),
-      _anchorPoint(geom::Point(0.5, 0.5)),
-      _transformation(geom::MatrixIdentity),
-      _backgroundColor(coordinator::ColorWhiteTransparent),
-      _opacity(1.0),
-      _notifiesInterfaceOnUpdate(false) {}
 
 Entity::Entity(const Entity& entity)
     : _identifier(entity._identifier),
@@ -57,7 +50,7 @@ Entity::~Entity() {
   notifyInterfaceIfNecessary(Destroyed);
 }
 
-uint64_t Entity::identifier() const {
+Identifier Entity::identifier() const {
   return _identifier;
 }
 

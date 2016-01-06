@@ -7,11 +7,11 @@
 
 #include <Core/Core.h>
 
-#include <Interface/Entity.h>
 #include <Coordinator/Color.h>
+#include <Coordinator/EntityArena.h>
 #include <Coordinator/Frame.h>
 #include <Coordinator/Primitive.h>
-#include <Coordinator/EntityArena.h>
+#include <Interface/Entity.h>
 
 #include <list>
 

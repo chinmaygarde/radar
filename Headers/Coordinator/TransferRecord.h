@@ -5,10 +5,10 @@
 #ifndef RADARLOVE_COORDINATOR_TRANSFERRECORD_H_
 #define RADARLOVE_COORDINATOR_TRANSFERRECORD_H_
 
-#include <Interface/Entity.h>
-#include <Geometry/Geometry.h>
 #include <Coordinator/Color.h>
 #include <Core/Utilities.h>
+#include <Geometry/Geometry.h>
+#include <Interface/Entity.h>
 
 #include <stddef.h>
 
@@ -16,11 +16,11 @@ namespace rl {
 namespace coordinator {
 
 struct TransferRecord {
-  interface::Entity::Identifier identifier;
+  interface::Identifier identifier;
   interface::Entity::Property property;
 
   union DataType {
-    interface::Entity::Identifier identifier;
+    interface::Identifier identifier;
     double number;
     geom::Point point;
     geom::Size size;
@@ -47,7 +47,7 @@ struct TransferRecord {
 
   template <typename T>
   static bool EmplaceInMessage(core::Message& message,
-                               interface::Entity::Identifier identity,
+                               interface::Identifier identity,
                                interface::Entity::Property prop,
                                const T& varData) {
     /*

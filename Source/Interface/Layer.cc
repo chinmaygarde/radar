@@ -2,17 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Interface/Layer.h>
 #include <Interface/Interface.h>
+#include <Interface/Layer.h>
 
 namespace rl {
 namespace interface {
 
-Layer::Layer() : Entity(true), _superlayer(nullptr) {
-}
+Layer::Layer() : Entity(true), _superlayer(nullptr) {}
 
-Layer::~Layer() {
-}
+Layer::~Layer() {}
 
 void Layer::addSublayer(Layer::Ref layer) {
   if (layer == nullptr) {

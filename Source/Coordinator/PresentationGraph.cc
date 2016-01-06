@@ -76,7 +76,7 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
     return;
   }
 
-  prepareActions(action, *_entities[record.identifier], record, time);
+  prepareActions(action, *_entities.at(record.identifier), record, time);
 }
 
 void PresentationGraph::onConstraintsCommit(

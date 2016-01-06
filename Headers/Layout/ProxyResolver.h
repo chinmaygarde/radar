@@ -36,7 +36,7 @@ class ProxyResolver {
       std::map<Constraint, std::set<Variable::Proxy>, Constraint::Compare>;
   using ConditionConstraintsMap =
       std::map<std::set<Variable::Proxy>, std::vector<Constraint>>;
-  using IdentifierEntityMap = std::map<interface::Entity::Identifier,
+  using IdentifierEntityMap = std::map<event::TouchEvent::Identifier,
                                        std::unique_ptr<interface::Entity>>;
   using ConstraintOperation =
       std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;

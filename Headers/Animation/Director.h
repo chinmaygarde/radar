@@ -5,9 +5,10 @@
 #ifndef RADARLOVE_ANIMATION_DIRECTOR_H_
 #define RADARLOVE_ANIMATION_DIRECTOR_H_
 
+#include <Core/Core.h>
+
 #include <Animation/Interpolator.h>
 #include <Coordinator/PresentationEntity.h>
-#include <Core/Core.h>
 #include <Instrumentation/Stopwatch.h>
 
 #include <unordered_map>
@@ -18,9 +19,9 @@ namespace animation {
 class Director {
  public:
   struct Key {
-    interface::Entity::Identifier entityIdentifier;
+    interface::Identifier entityIdentifier;
     interface::Entity::Property entityProperty;
-    Key(interface::Entity::Identifier ident, interface::Entity::Property prop)
+    Key(interface::Identifier ident, interface::Entity::Property prop)
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 
@@ -42,8 +43,9 @@ class Director {
  private:
   struct KeyHash {
     std::size_t operator()(const Key& key) const {
-      return std::hash<interface::Entity::Identifier>()(key.entityIdentifier) ^
-             ((key.entityProperty) << 1);
+      size_t seed = key.entityIdentifier.hash();
+      core::HashCombine(seed, static_cast<uint64_t>(key.entityProperty));
+      return seed;
     }
   };
 

@@ -6,6 +6,7 @@
 #define RADARLOVE_LAYOUT_VARIABLE_H_
 
 #include <Core/Core.h>
+#include <Core/Utilities.h>
 #include <Interface/Entity.h>
 
 namespace rl {
@@ -43,12 +44,12 @@ class Variable : public core::Serializable {
 
   Variable();
 
-  Variable(interface::Entity::Identifier identifier,
+  Variable(interface::Identifier identifier,
            Property property = Property::None);
 
   Variable(Proxy proxy, Property property);
 
-  interface::Entity::Identifier identifier() const;
+  interface::Identifier identifier() const;
 
   Property property() const;
 
@@ -67,7 +68,9 @@ class Variable : public core::Serializable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      return v._identifier ^ static_cast<PropertyType>(v._property);
+      size_t seed = v._identifier.hash();
+      core::HashCombine(seed, static_cast<PropertyType>(v._property));
+      return seed;
     }
   };
 
@@ -79,7 +82,7 @@ class Variable : public core::Serializable {
   };
 
  private:
-  interface::Entity::Identifier _identifier;
+  interface::Identifier _identifier;
   Property _property;
   bool _isProxy;
 };

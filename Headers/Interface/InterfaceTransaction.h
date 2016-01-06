@@ -6,6 +6,7 @@
 #define RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 
 #include <Coordinator/EntityArena.h>
+#include <Coordinator/TransactionPayload.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
 #include <Interface/Entity.h>
@@ -23,7 +24,7 @@ class InterfaceTransaction {
 
   void mark(const Entity& entity,
             Entity::Property property,
-            Entity::Identifier);
+            Identifier identifier);
 
   void mark(const std::vector<layout::Constraint>& constraints);
 
@@ -33,8 +34,7 @@ class InterfaceTransaction {
 
  private:
   Action _action;
-  std::map<Entity::Identifier, std::unique_ptr<coordinator::TransferEntity>>
-      _entities;
+  coordinator::TransactionPayload::EntityMap _entities;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;
 

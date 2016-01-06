@@ -13,20 +13,20 @@ namespace coordinator {
 
 class TransferEntity : public interface::Entity {
  public:
-  explicit TransferEntity(Identifier identifier);
+  explicit TransferEntity(interface::Identifier identifier);
   explicit TransferEntity(const TransferEntity& transferEntity);
 
   void record(const Entity& entity,
               Entity::Property property,
-              Entity::Identifier other);
+              interface::Identifier other);
 
   size_t serialize(core::Message& message);
 
  private:
   uint64_t _updateMask;
   bool _lastHierarchyUpdateWasAdd;
-  Identifier _firstRemovedFrom;
-  Identifier _lastAddedTo;
+  interface::Identifier _firstRemovedFrom;
+  interface::Identifier _lastAddedTo;
 
   RL_DISALLOW_ASSIGN(TransferEntity);
 };

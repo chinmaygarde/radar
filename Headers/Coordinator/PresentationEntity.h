@@ -5,10 +5,10 @@
 #ifndef RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
 #define RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
 
-#include <Core/Core.h>
-#include <Interface/Entity.h>
-#include <Geometry/Geometry.h>
 #include <Coordinator/TransferEntity.h>
+#include <Core/Core.h>
+#include <Geometry/Geometry.h>
+#include <Interface/Entity.h>
 
 #include <map>
 
@@ -20,10 +20,11 @@ class PresentationEntity : public interface::Entity {
  public:
   using Borrowed = PresentationEntity*;
   using PresentationOrder = int64_t;
-  using IdentifierMap = std::map<interface::Entity::Identifier,
-                                 std::unique_ptr<PresentationEntity>>;
+  using IdentifierMap = std::map<interface::Identifier,
+                                 std::unique_ptr<PresentationEntity>,
+                                 interface::Identifier::Compare>;
 
-  explicit PresentationEntity(Identifier identifier);
+  explicit PresentationEntity(interface::Identifier identifier);
 
   const geom::Matrix& lastModelViewMatrix() const;
 

@@ -19,8 +19,9 @@ namespace coordinator {
 
 class TransactionPayload : public core::Serializable {
  public:
-  using EntityMap =
-      std::map<interface::Entity::Identifier, std::unique_ptr<TransferEntity>>;
+  using EntityMap = std::map<interface::Identifier,
+                             std::unique_ptr<TransferEntity>,
+                             interface::Identifier::Compare>;
 
   using ActionCallback = std::function<void(interface::Action&)>;
   using TransferRecordCallback = std::function<

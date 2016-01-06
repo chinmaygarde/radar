@@ -8,8 +8,8 @@ namespace rl {
 namespace coordinator {
 
 template <>
-const interface::Entity::Identifier&
-TransferRecord::transferData<interface::Entity::Identifier>() const {
+const interface::Identifier&
+TransferRecord::transferData<interface::Identifier>() const {
   return data.identifier;
 }
 

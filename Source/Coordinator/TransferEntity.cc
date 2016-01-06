@@ -8,21 +8,22 @@
 namespace rl {
 namespace coordinator {
 
-TransferEntity::TransferEntity(Identifier identifier)
-    : Entity(identifier),
+TransferEntity::TransferEntity(interface::Identifier identifier)
+    : Entity(identifier, false),
       _updateMask(0),
       _lastHierarchyUpdateWasAdd(false),
-      _firstRemovedFrom(IdentifierNone),
-      _lastAddedTo(IdentifierNone) {
-}
+      _firstRemovedFrom(interface::IdentifierNone),
+      _lastAddedTo(interface::IdentifierNone) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
-    : Entity(transferEntity), _updateMask(transferEntity._updateMask) {
-}
+    : Entity(transferEntity),
+      _updateMask(transferEntity._updateMask),
+      _firstRemovedFrom(interface::IdentifierNone),
+      _lastAddedTo(interface::IdentifierNone) {}
 
 void TransferEntity::record(const Entity& entity,
                             Entity::Property property,
-                            Entity::Identifier other) {
+                            interface::Identifier other) {
   RL_ASSERT(entity.identifier() == identifier());
 
   _updateMask |= property;
@@ -33,7 +34,7 @@ void TransferEntity::record(const Entity& entity,
       _lastAddedTo = other;
     } else {
       _lastHierarchyUpdateWasAdd = false;
-      if (_firstRemovedFrom == IdentifierNone) {
+      if (_firstRemovedFrom == interface::IdentifierNone) {
         _firstRemovedFrom = other;
       }
     }

@@ -8,6 +8,7 @@
 #include <Coordinator/Color.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
+#include <Interface/Identifier.h>
 
 namespace rl {
 namespace interface {
@@ -41,15 +42,10 @@ class Entity {
     Setter setter;
   };
 
-  /**
-   *  Construct a default entity
-   */
-  explicit Entity(bool notifiesInterfaceOnUpdate);
+  Entity(bool notifiesInterfaceOnUpdate);
 
   virtual ~Entity();
 
-  using Identifier = uint64_t;
-  static const Identifier IdentifierNone = 0;
   Identifier identifier() const;
 
   /**
@@ -166,10 +162,10 @@ class Entity {
 
  protected:
   explicit Entity(const Entity& entity);
-  explicit Entity(Identifier identifier);
+  explicit Entity(Identifier identifier, bool notifiesInterfaceOnUpdate);
 
   void notifyInterfaceIfNecessary(Property property,
-                                  Identifier other = 0) const;
+                                  Identifier other = IdentifierNone) const;
 
  private:
   Identifier _identifier;

@@ -10,14 +10,12 @@ namespace coordinator {
 
 static const PresentationEntity::PresentationOrder PresentationOrderNone = 0;
 
-PresentationEntity::PresentationEntity(Identifier identifier)
-    : Entity(identifier),
+PresentationEntity::PresentationEntity(interface::Identifier identifier)
+    : Entity(identifier, false),
       _presentationOrder(PresentationOrderNone),
-      _lastModelViewMatrix(geom::MatrixIdentity) {
-}
+      _lastModelViewMatrix(geom::MatrixIdentity) {}
 
-PresentationEntity::~PresentationEntity() {
-}
+PresentationEntity::~PresentationEntity() {}
 
 void PresentationEntity::addChild(Borrowed entity) {
   _children.push_back(entity);
