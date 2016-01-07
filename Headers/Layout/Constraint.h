@@ -14,8 +14,6 @@ namespace layout {
 
 class Constraint : public core::Serializable {
  public:
-  using Identifier = uint64_t;
-
   enum Relation {
     EqualTo,
     LessThanOrEqualTo,
@@ -50,14 +48,15 @@ class Constraint : public core::Serializable {
       ConstantResolutionCallback constantResolution) const;
 
   struct Compare {
-    constexpr bool operator()(const Constraint& lhs,
-                              const Constraint& rhs) const {
-      return lhs._identifier < rhs._identifier;
+    bool operator()(const Constraint& lhs, const Constraint& rhs) const {
+      RL_ASSERT(lhs._identifier != interface::IdentifierNone);
+      RL_ASSERT(rhs._identifier != interface::IdentifierNone);
+      return lhs._identifier.member() < rhs._identifier.member();
     }
   };
 
  private:
-  Identifier _identifier;
+  interface::Identifier _identifier;
   Relation _relation;
   Expression _expression;
   double _priority;

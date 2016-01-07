@@ -7,15 +7,15 @@
 namespace rl {
 namespace layout {
 
-static Constraint::Identifier LastConstraintIdentifier = 0;
-
 Constraint::Constraint()
-    : _identifier(0), _relation(Relation::EqualTo), _priority(priority::Weak) {}
+    : _identifier(interface::IdentifierNone),
+      _relation(Relation::EqualTo),
+      _priority(priority::Weak) {}
 
 Constraint::Constraint(const Expression& expression,
                        Relation relation,
                        double priority)
-    : _identifier(++LastConstraintIdentifier),
+    : _identifier(interface::IdentifierNone),
       _expression(expression),
       _relation(relation),
       _priority(priority) {}
