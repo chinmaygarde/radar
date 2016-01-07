@@ -19,7 +19,6 @@ class Frame;
 class PresentationEntity : public interface::Entity {
  public:
   using Borrowed = PresentationEntity*;
-  using PresentationOrder = int64_t;
   using IdentifierMap = std::map<interface::Identifier,
                                  std::unique_ptr<PresentationEntity>,
                                  interface::Identifier::Compare>;
@@ -29,8 +28,6 @@ class PresentationEntity : public interface::Entity {
   const geom::Matrix& lastModelViewMatrix() const;
 
   ~PresentationEntity();
-
-  PresentationOrder presentationOrder() const;
 
   void addChild(Borrowed entity);
 
@@ -43,7 +40,6 @@ class PresentationEntity : public interface::Entity {
   void render(Frame& frame, const geom::Matrix& viewMatrix);
 
  private:
-  PresentationOrder _presentationOrder;
   std::vector<Borrowed> _children;
   geom::Matrix _lastModelViewMatrix;
 
