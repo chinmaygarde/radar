@@ -75,7 +75,7 @@ class Variable : public core::Serializable {
   };
 
   struct Equal {
-    constexpr bool operator()(const Variable& lhs, const Variable& rhs) const {
+    bool operator()(const Variable& lhs, const Variable& rhs) const {
       return lhs._identifier == rhs._identifier &&
              lhs._property == rhs._property;
     }
