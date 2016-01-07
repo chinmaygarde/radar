@@ -9,8 +9,9 @@
 namespace rl {
 namespace coordinator {
 
-PresentationGraph::PresentationGraph()
-    : _root(nullptr),
+PresentationGraph::PresentationGraph(interface::Identifier::LocalID localID)
+    : _localID(localID),
+      _root(nullptr),
       _proxyResolver(
           // clang-format off
           std::bind(&PresentationGraph::onProxyConstraintsAddition,
@@ -42,7 +43,8 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   namespace P = std::placeholders;
   using G = PresentationGraph;
   TransactionPayload payload(
-      time,  //
+      _localID,  //
+      time,      //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
       std::bind(&G::onConstraintsCommit, this, P::_1),
@@ -62,21 +64,28 @@ void PresentationGraph::onTransferRecordCommit(interface::Action& action,
                                                TransferRecord& record,
                                                const core::ClockPoint& time) {
   if (record.property == interface::Entity::Created) {
-    _entities[record.identifier] =
-        core::make_unique<PresentationEntity>(record.identifier);
+    auto created =
+        core::make_unique<PresentationEntity>(record.targetIdentifier);
+    auto result =
+        _entities.emplace(record.targetIdentifier, std::move(created));
+    RL_ASSERT_MSG(result.second,
+                  "Must not already have an entity for a new identifier");
     return;
   }
 
   if (record.property == interface::Entity::Destroyed) {
-    if (_root && _root->identifier() == record.identifier) {
+    if (_root && _root->identifier() == record.targetIdentifier) {
       _root = nullptr;
     }
 
-    _entities.erase(record.identifier);
+    auto result = _entities.erase(record.targetIdentifier);
+    RL_ASSERT_MSG(
+        result == 1,
+        "Must be able to erase an existing entity for the identifier");
     return;
   }
 
-  prepareActions(action, *_entities.at(record.identifier), record, time);
+  prepareActions(action, *_entities.at(record.targetIdentifier), record, time);
 }
 
 void PresentationGraph::onConstraintsCommit(
@@ -145,7 +154,7 @@ void PresentationGraph::prepareActionSingle(
   /*
    *  Prepare the key for the animation in the animation director
    */
-  animation::Director::Key key(record.identifier, record.property);
+  animation::Director::Key key(record.targetIdentifier, record.property);
 
   /*
    *  Prepare the interpolator

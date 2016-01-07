@@ -28,6 +28,7 @@ class InterfaceController {
   bool renderCurrentInterfaceState(Frame& frame);
 
  private:
+  interface::Identifier::LocalID _localID;
   bool _needsUpdate;
   bool _isUpdating;
   std::shared_ptr<core::Channel> _channel;

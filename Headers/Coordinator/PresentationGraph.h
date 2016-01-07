@@ -13,6 +13,7 @@
 #include <Coordinator/TransferRecord.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
+#include <Interface/Identifier.h>
 #include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>
@@ -24,7 +25,7 @@ namespace coordinator {
 
 class PresentationGraph {
  public:
-  explicit PresentationGraph();
+  explicit PresentationGraph(interface::Identifier::LocalID localID);
   ~PresentationGraph();
 
   bool applyTransactions(core::Message& arena);
@@ -38,6 +39,7 @@ class PresentationGraph {
   animation::Director& animationDirector();
 
  private:
+  interface::Identifier::LocalID _localID;
   PresentationEntity::IdentifierMap _entities;
   PresentationEntity* _root;
   animation::Director _animationDirector;

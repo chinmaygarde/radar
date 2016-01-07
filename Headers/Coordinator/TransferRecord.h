@@ -16,7 +16,7 @@ namespace rl {
 namespace coordinator {
 
 struct TransferRecord {
-  interface::Identifier identifier;
+  interface::Identifier targetIdentifier;
   interface::Entity::Property property;
 
   union DataType {
@@ -47,7 +47,7 @@ struct TransferRecord {
 
   template <typename T>
   static bool EmplaceInMessage(core::Message& message,
-                               interface::Identifier identity,
+                               interface::Identifier targetIdentifier,
                                interface::Entity::Property prop,
                                const T& varData) {
     /*
@@ -75,14 +75,15 @@ struct TransferRecord {
      *  Essentially a placement new (but not really because of the union at the
      *  end)
      */
-    allocation->identifier = identity;
+    allocation->targetIdentifier = targetIdentifier;
     allocation->property = prop;
     memcpy(&allocation->data, &varData, sizeof(T));
 
     return true;
   }
 
-  static TransferRecord& NextInMessage(core::Message& message) {
+  static TransferRecord& NextInMessage(core::Message& message,
+                                       interface::Identifier::LocalID localID) {
     /*
      *  Decode the size of the 'data' field
      */
@@ -97,6 +98,7 @@ struct TransferRecord {
     const auto recordSize = TransferRecordInvariantsSize() + size;
     auto allocation = message.decodeRaw<TransferRecord>(recordSize);
     RL_ASSERT(allocation != nullptr);
+    allocation->targetIdentifier.switchPrimary(localID);
     return *allocation;
   }
 

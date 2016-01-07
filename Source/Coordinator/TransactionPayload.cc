@@ -14,18 +14,21 @@ TransactionPayload::TransactionPayload(
     EntityMap&& entities,
     std::vector<layout::Constraint>&& constraints,
     std::vector<layout::Suggestion>&& suggestions)
-    : _action(std::move(action)),
+    : _localID(0),
+      _action(std::move(action)),
       _entities(std::move(entities)),
       _constraints(std::move(constraints)),
       _suggestions(std::move(suggestions)) {}
 
 TransactionPayload::TransactionPayload(
+    interface::Identifier::LocalID localID,
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     ConstraintsCallback constraintsCallback,
     SuggestionsCallback suggestionsCallback)
-    : _commitTime(commitTime),
+    : _localID(localID),
+      _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
       _constraintsCallback(constraintsCallback),
@@ -119,7 +122,8 @@ bool TransactionPayload::deserialize(core::Message& message) {
   {
     RL_TRACE_AUTO("TransferRecordsCommit");
     for (size_t i = 0; i < transferRecords; i++) {
-      _transferRecordCallback(action, TransferRecord::NextInMessage(message),
+      _transferRecordCallback(action,
+                              TransferRecord::NextInMessage(message, _localID),
                               _commitTime);
     }
   }

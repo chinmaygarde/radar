@@ -36,7 +36,8 @@ class TransactionPayload : public core::Serializable {
                               std::vector<layout::Constraint>&& constraints,
                               std::vector<layout::Suggestion>&& suggestions);
 
-  explicit TransactionPayload(const core::ClockPoint& commitTime,
+  explicit TransactionPayload(interface::Identifier::LocalID localID,
+                              const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
                               ConstraintsCallback constraintsCallback,
@@ -57,6 +58,7 @@ class TransactionPayload : public core::Serializable {
   /*
    *  Used when reading
    */
+  interface::Identifier::LocalID _localID;
   core::ClockPoint _commitTime;
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;
