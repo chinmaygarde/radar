@@ -10,9 +10,6 @@ namespace interface {
 
 static Identifier::Factory LocalIdentifierFactory(1);
 
-Entity::Entity(bool notifiesInterfaceOnUpdate)
-    : Entity(LocalIdentifierFactory.acquire(), notifiesInterfaceOnUpdate) {}
-
 Entity::Entity(Identifier identifier, bool notifiesInterfaceOnUpdate)
     : _identifier(identifier),
       _bounds(geom::RectZero),
@@ -21,9 +18,7 @@ Entity::Entity(Identifier identifier, bool notifiesInterfaceOnUpdate)
       _transformation(geom::MatrixIdentity),
       _backgroundColor(coordinator::ColorWhiteTransparent),
       _opacity(1.0),
-      _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {
-  notifyInterfaceIfNecessary(Created);
-}
+      _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {}
 
 Entity::Entity(const Entity& entity)
     : _identifier(entity._identifier),
@@ -46,9 +41,7 @@ void Entity::merge(const interface::Entity& entity) {
   _opacity = entity._opacity;
 }
 
-Entity::~Entity() {
-  notifyInterfaceIfNecessary(Destroyed);
-}
+Entity::~Entity() {}
 
 Identifier Entity::identifier() const {
   return _identifier;

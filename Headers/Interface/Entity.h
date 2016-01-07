@@ -18,19 +18,16 @@ class Entity {
   // clang-format off
   enum Property {
     None            = 0,
-    Created         = 1 << 0,
-    Destroyed       = 1 << 1,
-    LifeCycle       = Created | Destroyed,
-    AddedTo         = 1 << 2,
-    RemovedFrom     = 1 << 3,
+    AddedTo         = 1 << 0,
+    RemovedFrom     = 1 << 1,
     Hierarchy       = AddedTo | RemovedFrom,
-    Bounds          = 1 << 4,
-    Position        = 1 << 5,
-    AnchorPoint     = 1 << 6,
-    Transformation  = 1 << 7,
-    BackgroundColor = 1 << 8,
-    Opacity         = 1 << 9,
-    MakeRoot        = 1 << 10,
+    Bounds          = 1 << 2,
+    Position        = 1 << 3,
+    AnchorPoint     = 1 << 4,
+    Transformation  = 1 << 5,
+    BackgroundColor = 1 << 6,
+    Opacity         = 1 << 7,
+    MakeRoot        = 1 << 8,
   };
   // clang-format on
 
@@ -42,7 +39,7 @@ class Entity {
     Setter setter;
   };
 
-  Entity(bool notifiesInterfaceOnUpdate);
+  explicit Entity(Identifier identifier, bool notifiesInterfaceOnUpdate);
 
   virtual ~Entity();
 
@@ -162,7 +159,6 @@ class Entity {
 
  protected:
   explicit Entity(const Entity& entity);
-  explicit Entity(Identifier identifier, bool notifiesInterfaceOnUpdate);
 
   void notifyInterfaceIfNecessary(Property property,
                                   Identifier other = IdentifierNone) const;

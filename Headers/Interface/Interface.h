@@ -10,7 +10,7 @@
 #include <Coordinator/InterfaceAcquisitionProtocol.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
-#include <Interface/Layer.h>
+#include <Interface/ModelEntity.h>
 #include <Layout/Constraint.h>
 #include <Toolbox/StateMachine.h>
 
@@ -57,6 +57,8 @@ class Interface {
    */
   bool isRunning() const;
 
+  std::unique_ptr<ModelEntity> createEntity();
+
   /**
    *  Gracefully shutdown the interface
    *
@@ -64,19 +66,7 @@ class Interface {
    */
   void shutdown(std::function<void()> onShutdown = nullptr);
 
-  /**
-   *  Return the current root layer for the interface
-   *
-   *  @return the root layer for the interface
-   */
-  const Layer::Ref rootLayer() const;
-
-  /**
-   *  Set the current root layer for the interface
-   *
-   *  @param layer the new root layer
-   */
-  void setRootLayer(Layer::Ref layer);
+  ModelEntity& rootEntity();
 
   /**
    *  Get the current size of the interface
@@ -127,10 +117,11 @@ class Interface {
       const std::vector<layout::Suggestion>& suggestions);
 
  private:
+  Identifier::Factory _identifierFactory;
+  ModelEntity _rootEntity;
   core::EventLoop* _loop;
   geom::Size _size;
   std::mutex _lock;
-  Layer::Ref _rootLayer;
   std::deque<InterfaceTransaction> _transactionStack;
   size_t _popCount;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;

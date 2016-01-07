@@ -58,9 +58,9 @@
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
 		9E62F9131B7C19AF008DE08E /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9121B7C19AF008DE08E /* Entity.h */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
-		9E67456B1B756FC200C1EB34 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E67456A1B756FC200C1EB34 /* Layer.h */; };
-		9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E67456C1B756FD200C1EB34 /* Layer.cc */; };
 		9E687E801C34CC7C00FBE171 /* SocketBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */; };
+		9E78EE4F1C3DEFC6000A4E37 /* ModelEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E78EE4E1C3DEFC6000A4E37 /* ModelEntity.h */; };
+		9E78EE591C3DEFD2000A4E37 /* ModelEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E78EE581C3DEFD2000A4E37 /* ModelEntity.cc */; };
 		9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E84818A1C126B2D006DE159 /* TraceEvent.h */; };
 		9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8481941C126B3D006DE159 /* TraceEvent.cc */; };
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
@@ -372,11 +372,11 @@
 		9E62F9101B7C199D008DE08E /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
 		9E62F9121B7C19AF008DE08E /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceDelegate.h; sourceTree = "<group>"; };
-		9E67456A1B756FC200C1EB34 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
-		9E67456C1B756FD200C1EB34 /* Layer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cc; sourceTree = "<group>"; };
 		9E6745E91BF2BB3200D110DE /* LayoutTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LayoutTest.mm; sourceTree = "<group>"; };
 		9E687E421C34822D00FBE171 /* RadarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarTest.h; sourceTree = "<group>"; };
 		9E687E7F1C34CC7C00FBE171 /* SocketBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketBootstrapServer.cc; sourceTree = "<group>"; };
+		9E78EE4E1C3DEFC6000A4E37 /* ModelEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelEntity.h; sourceTree = "<group>"; };
+		9E78EE581C3DEFD2000A4E37 /* ModelEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelEntity.cc; sourceTree = "<group>"; };
 		9E84818A1C126B2D006DE159 /* TraceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraceEvent.h; sourceTree = "<group>"; };
 		9E8481941C126B3D006DE159 /* TraceEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceEvent.cc; sourceTree = "<group>"; };
 		9E8481961C1272DD006DE159 /* TraceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TraceTest.mm; sourceTree = "<group>"; };
@@ -896,7 +896,7 @@
 				9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */,
 				9EBA79BB1B87EEF4005D84FA /* InterfaceStatistics.h */,
 				9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */,
-				9E67456A1B756FC200C1EB34 /* Layer.h */,
+				9E78EE4E1C3DEFC6000A4E37 /* ModelEntity.h */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1030,7 +1030,7 @@
 				9EAECEC01B685469000FA38A /* Interface.cc */,
 				9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */,
 				9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */,
-				9E67456C1B756FD200C1EB34 /* Layer.cc */,
+				9E78EE581C3DEFD2000A4E37 /* ModelEntity.cc */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1164,7 +1164,6 @@
 				9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
-				9E67456B1B756FC200C1EB34 /* Layer.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */,
@@ -1177,6 +1176,7 @@
 				EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
 				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
+				9E78EE4F1C3DEFC6000A4E37 /* ModelEntity.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
 				9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */,
@@ -1478,6 +1478,7 @@
 				9EAECEDC1B685469000FA38A /* EventLoop.cc in Sources */,
 				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
+				9E78EE591C3DEFD2000A4E37 /* ModelEntity.cc in Sources */,
 				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
 				EA7D30F91BE736FE0038BF5A /* Utilities.cc in Sources */,
 				EAB379D81BE70A7700A59948 /* Director.cc in Sources */,
@@ -1503,7 +1504,6 @@
 				9E16A6FF1BE2E9D700FFEDFC /* Symbol.cc in Sources */,
 				EA62B3191B6F241A009F197F /* Event.cc in Sources */,
 				EA6090D81BA41E8C00C2E263 /* MachPortChannel.cc in Sources */,
-				9E67456D1B756FD200C1EB34 /* Layer.cc in Sources */,
 				9EAECEEC1B685469000FA38A /* Shell.cc in Sources */,
 				EA6090DA1BA41E8C00C2E263 /* SocketChannel.cc in Sources */,
 				9E86561A1BE45E3A00997766 /* EntityLease.cc in Sources */,

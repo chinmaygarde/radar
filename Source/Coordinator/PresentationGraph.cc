@@ -63,29 +63,13 @@ void PresentationGraph::onActionCommit(interface::Action& action) {
 void PresentationGraph::onTransferRecordCommit(interface::Action& action,
                                                TransferRecord& record,
                                                const core::ClockPoint& time) {
-  if (record.property == interface::Entity::Created) {
-    auto created =
-        core::make_unique<PresentationEntity>(record.targetIdentifier);
-    auto result =
-        _entities.emplace(record.targetIdentifier, std::move(created));
-    RL_ASSERT_MSG(result.second,
-                  "Must not already have an entity for a new identifier");
-    return;
+  auto& entity = _entities[record.targetIdentifier];
+
+  if (!entity) {
+    entity = core::make_unique<PresentationEntity>(record.targetIdentifier);
   }
 
-  if (record.property == interface::Entity::Destroyed) {
-    if (_root && _root->identifier() == record.targetIdentifier) {
-      _root = nullptr;
-    }
-
-    auto result = _entities.erase(record.targetIdentifier);
-    RL_ASSERT_MSG(
-        result == 1,
-        "Must be able to erase an existing entity for the identifier");
-    return;
-  }
-
-  prepareActions(action, *_entities.at(record.targetIdentifier), record, time);
+  prepareActions(action, *entity, record, time);
 }
 
 void PresentationGraph::onConstraintsCommit(

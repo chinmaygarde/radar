@@ -19,7 +19,7 @@ void SampleApplication::didFinishLaunching(
     rl::interface::Interface& interface) {}
 
 static void AddPanRecognizer(rl::interface::Interface& interface,
-                             rl::interface::Layer& layer) {
+                             rl::interface::ModelEntity& layer) {
   using Variable = rl::layout::Variable;
 
   Variable touchX(Variable::Proxy::Touch1, Variable::Property::PositionX);
@@ -37,47 +37,21 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
   });
 }
 
-static void AddDockedPanel(rl::interface::Interface& interface) {
-  using Property = rl::layout::Variable::Property;
-
-  auto layer = interface.rootLayer();
-  auto child = std::make_shared<rl::interface::Layer>();
-
-  child->setBackgroundColor({1.0, 1.0, 1.0, 0.5});
-  child->setFrame({35, 35, 200, 200});
-
-  layer->addSublayer(child);
-
-  auto containerPositionX = *layer | Property::PositionX;
-  auto childPositionX = *child | Property::PositionX;
-  auto containerPositionY = *layer | Property::PositionY;
-  auto childPositionY = *child | Property::PositionY;
-  auto childWidth = *child | Property::BoundsWidth;
-  auto containerWidth = *layer | Property::BoundsWidth;
-
-  interface.setupConstraints({
-      containerPositionX == childPositionX,  //
-      containerPositionY == childPositionY,  //
-      childWidth == 0.75 * containerWidth,   //
-  });
-}
-
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   using Property = rl::layout::Variable::Property;
 
-  auto root = std::make_shared<rl::interface::Layer>();
-  root->setBackgroundColor({0.2, 0.2, 0.2, 1.0});
-  interface.setRootLayer(root);
+  auto& root = interface.rootEntity();
+  root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
 
-  auto sub1 = std::make_shared<rl::interface::Layer>();
+  auto sub1 = interface.createEntity();
   sub1->setFrame({10.0, 10.0, 100.0, 100.0});
   sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
-  root->addSublayer(sub1);
+  root.addChild(*sub1);
 
   AddPanRecognizer(interface, *sub1);
 
-  auto rootWidth = *root | Property::BoundsWidth;
-  auto rootHeight = *root | Property::BoundsHeight;
+  auto rootWidth = root | Property::BoundsWidth;
+  auto rootHeight = root | Property::BoundsHeight;
 
   rl::interface::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::EaseInEaseOut);
@@ -93,7 +67,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
-      auto layer = std::make_shared<rl::interface::Layer>();
+      auto layer = interface.createEntity();
       layer->setFrame({0.0, 0.0, 25, 25});
       layer->setBackgroundColor({RND, RND, RND, 1.0});
 
@@ -108,23 +82,21 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
           childPositionY == (j / cols) * rootHeight + 25,  //
       });
 
-      root->addSublayer(layer);
+      root.addChild(*layer);
     }
   }
 
   interface.popTransaction();
 
-  auto sub2 = std::make_shared<rl::interface::Layer>();
+  auto sub2 = interface.createEntity();
   sub2->setFrame({10.0, 10.0, 80.0, 80.0});
   sub2->setBackgroundColor({0.0, 1.0, 0.0, 1.0});
-  sub1->addSublayer(sub2);
+  sub1->addChild(*sub2);
 
-  auto sub3 = std::make_shared<rl::interface::Layer>();
+  auto sub3 = interface.createEntity();
   sub3->setFrame({10.0, 10.0, 60.0, 60.0});
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
-  sub2->addSublayer(sub3);
-
-  AddDockedPanel(interface);
+  sub2->addChild(*sub3);
 }
 
 void SampleApplication::didEnterBackground(

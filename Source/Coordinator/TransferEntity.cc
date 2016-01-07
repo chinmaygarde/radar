@@ -56,8 +56,6 @@ size_t TransferEntity::serialize(core::Message& message) {
             : 0;                                                            \
   }
 
-  SerializeProperty(Created, identifier());
-
   SerializeProperty(Bounds, bounds());
   SerializeProperty(Position, position());
   SerializeProperty(AnchorPoint, anchorPoint());
@@ -73,8 +71,6 @@ size_t TransferEntity::serialize(core::Message& message) {
     SerializeProperty(AddedTo, _lastAddedTo);
     SerializeProperty(RemovedFrom, _firstRemovedFrom);
   }
-
-  SerializeProperty(Destroyed, identifier());
 
 #undef SerializeProperty
 

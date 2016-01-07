@@ -14,10 +14,14 @@ namespace interface {
 
 RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 
+static std::atomic<Identifier::LocalID> LastLocalInterfaceID(0);
+
 using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
-    : _loop(nullptr),
+    : _identifierFactory(++LastLocalInterfaceID),
+      _rootEntity(_identifierFactory.acquire()),
+      _loop(nullptr),
       _popCount(0),
       _delegate(delegate),
       _state({
@@ -33,7 +37,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
           #undef C
           // clang-format on
       }) {
-
   /*
    *  Implicit interface transactions are flushed at the maximum available
    *  priority. This is so that loop observers setup by application code can
@@ -58,6 +61,7 @@ void Interface::run(std::function<void()> onReady) {
     scheduleChannels();
     _state.setState(Active, true);
     attemptCoordinatorChannelAcquisition();
+    transaction().mark(_rootEntity, Entity::Property::MakeRoot, IdentifierNone);
     if (onReady) {
       onReady();
     }
@@ -66,6 +70,10 @@ void Interface::run(std::function<void()> onReady) {
 
 bool Interface::isRunning() const {
   return _loop != nullptr;
+}
+
+std::unique_ptr<ModelEntity> Interface::createEntity() {
+  return core::make_unique<ModelEntity>(_identifierFactory.acquire());
 }
 
 void Interface::shutdown(std::function<void()> onShutdown) {
@@ -263,8 +271,6 @@ void Interface::didEnterBackground() {
 }
 
 void Interface::didTerminate() {
-  _rootLayer = nullptr;
-
   if (auto delegate = _delegate.lock()) {
     delegate->didTerminate(*this);
   }
@@ -275,27 +281,17 @@ void Interface::didUpdateSize() {
     delegate->didUpdateSize(*this);
   }
 
-  if (_rootLayer) {
-    _rootLayer->setFrame({{0.0, 0.0}, size()});
-    setupConstraintSuggestions(
-        layout::Suggestion::Anchor(*_rootLayer, layout::priority::Strong));
-  }
+  _rootEntity.setFrame({{0.0, 0.0}, size()});
+  setupConstraintSuggestions(
+      layout::Suggestion::Anchor(_rootEntity, layout::priority::Strong));
 }
 
 void Interface::performTerminationCleanup() {
   _state.setState(NotRunning, true);
 }
 
-const Layer::Ref Interface::rootLayer() const {
-  return _rootLayer;
-}
-
-void Interface::setRootLayer(Layer::Ref layer) {
-  _rootLayer = layer;
-
-  if (layer) {
-    layer->makeRootInInterface();
-  }
+ModelEntity& Interface::rootEntity() {
+  return _rootEntity;
 }
 
 void Interface::setupConstraints(

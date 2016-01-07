@@ -41,6 +41,7 @@ class ProxyResolver {
   using ConstraintOperation =
       std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;
 
+  interface::Identifier::Factory _identifierFactory;
   ProxyConstraintCallback _addConstraintCallback;
   ProxyConstraintCallback _removeConstraintCallback;
   ProxySuggestionCallback _suggestionsCallback;

@@ -14,7 +14,8 @@ ProxyResolver::ProxyResolver(
     ProxyConstraintCallback removeCallback,
     ProxySuggestionCallback suggestionsCallback,
     Constraint::ConstantResolutionCallback constantResolutionCallback)
-    : _addConstraintCallback(addCallback),
+    : _identifierFactory(1),
+      _addConstraintCallback(addCallback),
       _removeConstraintCallback(removeCallback),
       _suggestionsCallback(suggestionsCallback),
       _constantResolutionCallback(constantResolutionCallback) {
@@ -67,8 +68,8 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
     /*
      *  Create a new touch entity for this identifier
      */
-    auto touchEntity =
-        core::make_unique<interface::Entity>(false /* notifies interface */);
+    auto touchEntity = core::make_unique<interface::Entity>(
+        _identifierFactory.acquire(), false /* notifies interface */);
     touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});
     touchEntity->setPosition(touch.location());
 
@@ -188,7 +189,9 @@ void ProxyResolver::registerProxyConstraint(Constraint&& constraint) {
 
   auto result = _conditionsByConstraint.emplace(std::move(constraint),
                                                 std::move(proxies));
-  RL_ASSERT(result.second);
+  RL_ASSERT_MSG(result.second,
+                "Must be able to emplace a new constraint into the set of "
+                "constraints managed for this interface");
 }
 
 static bool ProxyConditionsSatisfied(const std::set<Variable::Proxy>& proxies,
