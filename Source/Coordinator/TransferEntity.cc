@@ -81,7 +81,10 @@ bool TransferEntity::walkEnabledProperties(
 }
 
 bool TransferEntity::serialize(core::Message& message) const {
-  if (!message.encode(_updateMask)) {
+  auto success = message.encode(_identifier);
+  success &= message.encode(_updateMask);
+
+  if (!success) {
     return false;
   }
 
@@ -114,7 +117,10 @@ bool TransferEntity::serialize(core::Message& message) const {
 }
 
 bool TransferEntity::deserialize(core::Message& message) {
-  if (!message.decode(_updateMask)) {
+  auto success = message.decode(_identifier);
+  success &= message.decode(_updateMask);
+
+  if (!success) {
     return false;
   }
 
