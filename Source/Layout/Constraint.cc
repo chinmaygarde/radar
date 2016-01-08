@@ -22,7 +22,7 @@ Constraint::Constraint(core::Name name,
       _priority(priority) {}
 
 Constraint::Constraint(const Constraint& c)
-    : _identifier(c._identifier),
+    : _identifier(c._identifier.ns()),
       _expression(c._expression),
       _relation(c._relation),
       _priority(c._priority) {}
