@@ -45,7 +45,17 @@ core::Namespace* Expression::ns() const {
   return _inferredNamespace;
 }
 
-void Expression::inferNamespace() {}
+void Expression::inferNamespace() {
+  core::Namespace* inferred = nullptr;
+  for (const auto& term : _terms) {
+    auto variableNS = term.variable().identifier().ns();
+    if (variableNS != inferred) {
+      inferred = variableNS;
+      break;
+    }
+  }
+  _inferredNamespace = inferred;
+}
 
 bool Expression::serialize(core::Message& message) const {
   auto success = true;
