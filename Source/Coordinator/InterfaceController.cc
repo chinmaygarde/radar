@@ -23,14 +23,12 @@ class ScopedUpdate {
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedUpdate);
 };
 
-std::atomic<interface::Identifier::LocalID> LastLocalInterfaceID(1988 - 1);
-
 InterfaceController::InterfaceController()
-    : _localID(++LastLocalInterfaceID),
+    : _localNS(),
       _needsUpdate(false),
       _isUpdating(false),
       _channel(std::make_shared<core::Channel>()),
-      _graph(_localID) {}
+      _graph(_localNS) {}
 
 std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;

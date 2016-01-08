@@ -8,7 +8,7 @@
 namespace rl {
 namespace coordinator {
 
-PresentationEntity::PresentationEntity(interface::Identifier identifier)
+PresentationEntity::PresentationEntity(core::Name identifier)
     : Entity(identifier, false), _lastModelViewMatrix(geom::MatrixIdentity) {}
 
 PresentationEntity::~PresentationEntity() {}

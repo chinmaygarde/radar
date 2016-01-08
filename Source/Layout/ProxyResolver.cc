@@ -10,11 +10,12 @@ namespace rl {
 namespace layout {
 
 ProxyResolver::ProxyResolver(
+    core::Namespace& localNS,
     ProxyConstraintCallback addCallback,
     ProxyConstraintCallback removeCallback,
     ProxySuggestionCallback suggestionsCallback,
     Constraint::ConstantResolutionCallback constantResolutionCallback)
-    : _identifierFactory(1),
+    : _localNS(localNS),
       _addConstraintCallback(addCallback),
       _removeConstraintCallback(removeCallback),
       _suggestionsCallback(suggestionsCallback),
@@ -68,8 +69,9 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
     /*
      *  Create a new touch entity for this identifier
      */
+
     auto touchEntity = core::make_unique<interface::Entity>(
-        _identifierFactory.acquire(), false /* notifies interface */);
+        _localNS.create(), false /* notifies interface */);
     touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});
     touchEntity->setPosition(touch.location());
 
@@ -237,7 +239,7 @@ void ProxyResolver::setupConstraintsForProxies() {
         std::bind(&ProxyResolver::constantResolutionCallback, this,
                   std::placeholders::_1);
     auto resolvedConstraint =
-        proxyConstraint.resolveProxies(replacement, constResolution);
+        proxyConstraint.resolveProxies(_localNS, replacement, constResolution);
 
     /*
      *  Register the resolved constraint for later deletion and notify the

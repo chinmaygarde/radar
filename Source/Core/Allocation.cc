@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Allocation.h>
+#include <Core/Message.h>
 
 namespace rl {
 namespace core {
@@ -68,6 +69,43 @@ void Allocation::makeZero() {
 
 bool Allocation::isReady() const {
   return _allocation != nullptr;
+}
+
+bool Allocation::serialize(Message& message) const {
+  auto success = true;
+  success &= message.encode(_size);
+  auto allocation = message.encodeRaw<uint8_t>(_size);
+  if (allocation == nullptr) {
+    return false;
+  }
+  memmove(allocation, _allocation, _size);
+  return success;
+}
+
+bool Allocation::deserialize(Message& message) {
+  RL_ASSERT_MSG(!isReady(), "Can only deserialize into a fresh allocation");
+
+  /*
+   *  Decode the size of the allocation
+   */
+  bool success = message.decode(_size);
+
+  if (!success) {
+    return false;
+  }
+
+  if (!resize(_size)) {
+    return false;
+  }
+
+  auto allocation = message.decodeRaw<uint8_t>(_size);
+
+  if (allocation == nullptr) {
+    return false;
+  }
+
+  memmove(_allocation, allocation, _size);
+  return true;
 }
 
 }  // namespace core

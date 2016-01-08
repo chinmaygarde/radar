@@ -22,7 +22,10 @@ class Constraint : public core::Serializable {
 
   Constraint();
 
-  Constraint(const Expression& expression, Relation relation, double priority);
+  Constraint(core::Name name,
+             const Expression& expression,
+             Relation relation,
+             double priority);
 
   Constraint(const Constraint& constraint);
 
@@ -40,23 +43,24 @@ class Constraint : public core::Serializable {
 
   bool hasConstantTerms() const;
 
+  core::Namespace* ns() const;
+
   using ProxyVariableReplacementCallback =
       std::function<Variable(const Variable&)>;
   using ConstantResolutionCallback = std::function<double(const Variable&)>;
   Constraint resolveProxies(
+      core::Namespace& ns,
       ProxyVariableReplacementCallback replacement,
       ConstantResolutionCallback constantResolution) const;
 
   struct Compare {
     bool operator()(const Constraint& lhs, const Constraint& rhs) const {
-      RL_ASSERT(lhs._identifier != interface::IdentifierNone);
-      RL_ASSERT(rhs._identifier != interface::IdentifierNone);
-      return lhs._identifier.member() < rhs._identifier.member();
+      return lhs._identifier < rhs._identifier;
     }
   };
 
  private:
-  interface::Identifier _identifier;
+  core::Name _identifier;
   Relation _relation;
   Expression _expression;
   double _priority;

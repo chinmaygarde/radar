@@ -3,78 +3,112 @@
 // found in the LICENSE file.
 
 #include <Coordinator/TransferEntity.h>
-#include <Coordinator/TransferRecord.h>
 
 namespace rl {
 namespace coordinator {
 
-TransferEntity::TransferEntity(interface::Identifier identifier)
-    : Entity(identifier, false),
-      _updateMask(0),
-      _lastHierarchyUpdateWasAdd(false),
-      _firstRemovedFrom(interface::IdentifierNone),
-      _lastAddedTo(interface::IdentifierNone) {}
+TransferEntity::TransferEntity(core::Name identifier)
+    : Entity(identifier, false), _updateMask(0) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
-    : Entity(transferEntity),
-      _updateMask(transferEntity._updateMask),
-      _firstRemovedFrom(interface::IdentifierNone),
-      _lastAddedTo(interface::IdentifierNone) {}
+    : Entity(transferEntity), _updateMask(transferEntity._updateMask) {}
 
 void TransferEntity::record(const Entity& entity,
                             Entity::Property property,
-                            interface::Identifier other) {
+                            core::Name other) {
+  /*
+   *  Some properties are not mergeable and the transfer entity needs to keep
+   *  some extra information around till the transaction payload is flushed
+   */
+  switch (property) {
+    case Entity::Property::AddedTo:
+      _addedTo = other;
+      break;
+    case Entity::Property::RemovedFrom:
+      _removedFrom = other;
+      break;
+    case Entity::Property::MakeRoot:
+      _makeRoot = other;
+      break;
+    default:
+      break;
+  }
+
   RL_ASSERT(entity.identifier() == identifier());
 
-  _updateMask |= property;
-
-  if (property & Hierarchy) {
-    if (property & AddedTo) {
-      _lastHierarchyUpdateWasAdd = true;
-      _lastAddedTo = other;
-    } else {
-      _lastHierarchyUpdateWasAdd = false;
-      if (_firstRemovedFrom == interface::IdentifierNone) {
-        _firstRemovedFrom = other;
-      }
-    }
-  }
+  _updateMask |= (1 << static_cast<PropertyMask>(property));
 
   merge(entity);
 }
 
-size_t TransferEntity::serialize(core::Message& message) {
-  size_t encodedRecords = 0;
-
-  const auto mask = _updateMask;
-
-#define SerializeProperty(prop, func)                                       \
-  if (mask & prop) {                                                        \
-    encodedRecords +=                                                       \
-        TransferRecord::EmplaceInMessage(message, identifier(), prop, func) \
-            ? 1                                                             \
-            : 0;                                                            \
+bool TransferEntity::walkEnabledProperties(
+    PropertyWalkCallback callback) const {
+  const auto limit = static_cast<PropertyMask>(Entity::Property::Sentinel);
+  for (auto i = 0; i < limit; i++) {
+    if (_updateMask & (1 << i)) {
+      if (!callback(static_cast<Entity::Property>(i))) {
+        return false;
+      }
+    }
   }
+  return true;
+}
 
-  SerializeProperty(Bounds, bounds());
-  SerializeProperty(Position, position());
-  SerializeProperty(AnchorPoint, anchorPoint());
-  SerializeProperty(Transformation, transformation());
-  SerializeProperty(BackgroundColor, backgroundColor());
-  SerializeProperty(Opacity, opacity());
-  SerializeProperty(MakeRoot, identifier());
+bool TransferEntity::serialize(core::Message& message) const {
+  using Property = Entity::Property;
+  return walkEnabledProperties([&](Property property) {
+    switch (property) {
+      case Property::AddedTo:
+        return message.encode(_addedTo);
+      case Property::RemovedFrom:
+        return message.encode(_removedFrom);
+      case Property::Bounds:
+        return message.encode(bounds());
+      case Property::Position:
+        return message.encode(position());
+      case Property::AnchorPoint:
+        return message.encode(anchorPoint());
+      case Property::Transformation:
+        return message.encode(transformation());
+      case Property::BackgroundColor:
+        return message.encode(backgroundColor());
+      case Property::Opacity:
+        return message.encode(opacity());
+      case Property::MakeRoot:
+        return message.encode(identifier());
+      default:
+        return false;
+    }
+    return false;
+  });
+}
 
-  if (_lastHierarchyUpdateWasAdd) {
-    SerializeProperty(RemovedFrom, _firstRemovedFrom);
-    SerializeProperty(AddedTo, _lastAddedTo);
-  } else {
-    SerializeProperty(AddedTo, _lastAddedTo);
-    SerializeProperty(RemovedFrom, _firstRemovedFrom);
-  }
-
-#undef SerializeProperty
-
-  return encodedRecords;
+bool TransferEntity::deserialize(core::Message& message) {
+  return walkEnabledProperties([&](Property property) {
+    switch (property) {
+      case Property::AddedTo:
+        return message.decode(_addedTo);
+      case Property::RemovedFrom:
+        return message.decode(_removedFrom);
+      case Property::Bounds:
+        return message.decode(_bounds);
+      case Property::Position:
+        return message.decode(_position);
+      case Property::AnchorPoint:
+        return message.decode(_anchorPoint);
+      case Property::Transformation:
+        return message.decode(_transformation);
+      case Property::BackgroundColor:
+        return message.decode(_backgroundColor);
+      case Property::Opacity:
+        return message.decode(_opacity);
+      case Property::MakeRoot:
+        return message.decode(_makeRoot);
+      default:
+        return false;
+    }
+    return false;
+  });
 }
 
 }  // namespace coordinator

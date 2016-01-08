@@ -8,9 +8,7 @@
 namespace rl {
 namespace interface {
 
-static Identifier::Factory LocalIdentifierFactory(1);
-
-Entity::Entity(Identifier identifier, bool notifiesInterfaceOnUpdate)
+Entity::Entity(core::Name identifier, bool notifiesInterfaceOnUpdate)
     : _identifier(identifier),
       _bounds(geom::RectZero),
       _position(geom::PointZero),
@@ -43,7 +41,7 @@ void Entity::merge(const interface::Entity& entity) {
 
 Entity::~Entity() {}
 
-Identifier Entity::identifier() const {
+core::Name Entity::identifier() const {
   return _identifier;
 }
 
@@ -67,7 +65,7 @@ const geom::Rect& Entity::bounds() const {
 
 void Entity::setBounds(const geom::Rect& bounds) {
   _bounds = bounds;
-  notifyInterfaceIfNecessary(Bounds);
+  notifyInterfaceIfNecessary(Property::Bounds);
 }
 
 const geom::Point& Entity::position() const {
@@ -76,7 +74,7 @@ const geom::Point& Entity::position() const {
 
 void Entity::setPosition(const geom::Point& position) {
   _position = position;
-  notifyInterfaceIfNecessary(Position);
+  notifyInterfaceIfNecessary(Property::Position);
 }
 
 const geom::Point& Entity::anchorPoint() const {
@@ -85,7 +83,7 @@ const geom::Point& Entity::anchorPoint() const {
 
 void Entity::setAnchorPoint(const geom::Point& anchorPoint) {
   _anchorPoint = anchorPoint;
-  notifyInterfaceIfNecessary(AnchorPoint);
+  notifyInterfaceIfNecessary(Property::AnchorPoint);
 }
 
 const geom::Matrix& Entity::transformation() const {
@@ -94,7 +92,7 @@ const geom::Matrix& Entity::transformation() const {
 
 void Entity::setTransformation(const geom::Matrix& transformation) {
   _transformation = transformation;
-  notifyInterfaceIfNecessary(Transformation);
+  notifyInterfaceIfNecessary(Property::Transformation);
 }
 
 geom::Matrix Entity::modelMatrix() const {
@@ -117,7 +115,7 @@ const coordinator::Color& Entity::backgroundColor() const {
 
 void Entity::setBackgroundColor(const coordinator::Color& backgroundColor) {
   _backgroundColor = backgroundColor;
-  notifyInterfaceIfNecessary(BackgroundColor);
+  notifyInterfaceIfNecessary(Property::BackgroundColor);
 }
 
 const double& Entity::opacity() const {
@@ -126,11 +124,11 @@ const double& Entity::opacity() const {
 
 void Entity::setOpacity(double opacity) {
   _opacity = opacity;
-  notifyInterfaceIfNecessary(Opacity);
+  notifyInterfaceIfNecessary(Property::Opacity);
 }
 
 void Entity::notifyInterfaceIfNecessary(Property property,
-                                        Identifier other) const {
+                                        core::Name other) const {
   if (!_notifiesInterfaceOnUpdate) {
     return;
   }

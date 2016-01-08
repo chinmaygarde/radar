@@ -4,13 +4,48 @@
 
 #include <Core/Namespace.h>
 
+#include <Core/Message.h>
+
 namespace rl {
 namespace core {
 
-Namespace::Namespace() : _last(DeadName) {}
+Name::Name() : _handle(DeadHandle), _ns(nullptr) {}
 
-Name Namespace::create(Name counterpart) {
-  if (counterpart == DeadName) {
+Name::Name(Namespace* ns)
+    : _handle(ns == nullptr ? DeadHandle : ns->createHandle()), _ns(ns) {}
+
+Name::Name(Handle handle, Namespace* ns) : _handle(handle), _ns(ns) {}
+
+Name::~Name() {
+  if (_ns) {
+    _ns->destroy(_handle);
+  }
+}
+
+bool Name::serialize(Message& message) const {
+  return message.encode(_handle);
+}
+
+bool Name::deserialize(Message& message) {
+  return message.decode(_handle);
+}
+
+Namespace* Name::ns() const {
+  return _ns;
+}
+
+Name::Handle Name::handle() const {
+  return _handle;
+}
+
+size_t Name::hash() const {
+  return std::hash<Handle>()(_handle);
+}
+
+Namespace::Namespace() : _last(DeadHandle) {}
+
+Name::Handle Namespace::createHandle(Name::Handle counterpart) {
+  if (counterpart == DeadHandle) {
     return ++_last;
   }
 
@@ -39,11 +74,15 @@ Name Namespace::create(Name counterpart) {
     return newName;
   }
 
-  return DeadName;
+  return DeadHandle;
 }
 
-void Namespace::destroy(Name local) {
-  if (local == DeadName) {
+Name Namespace::create(Name::Handle counterpart) {
+  return {createHandle(counterpart), this};
+}
+
+void Namespace::destroy(Name::Handle local) {
+  if (local == DeadHandle) {
     return;
   }
 
@@ -63,6 +102,8 @@ void Namespace::destroy(Name local) {
   RL_ASSERT(erased == 1);
   _localToCounterpartMap.erase(found);
 }
+
+const Name DeadName(DeadHandle, nullptr);
 
 }  // namespace core
 }  // namespace rl

@@ -13,7 +13,7 @@ InterfaceTransaction::InterfaceTransaction(const Action&& action)
 
 void InterfaceTransaction::mark(const Entity& entity,
                                 Entity::Property property,
-                                Identifier other) {
+                                core::Name other) {
   auto& transferEntity = _entities[entity.identifier()];
 
   if (!transferEntity) {

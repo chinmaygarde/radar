@@ -27,6 +27,8 @@ class Expression : public core::Serializable {
 
   Expression(double constant);
 
+  core::Namespace* ns() const;
+
   const Terms& terms() const;
 
   double constant() const;
@@ -38,6 +40,9 @@ class Expression : public core::Serializable {
  private:
   Terms _terms;
   double _constant;
+  core::Namespace* _inferredNamespace;
+
+  void inferNamespace();
 
   RL_DISALLOW_ASSIGN(Expression);
 };

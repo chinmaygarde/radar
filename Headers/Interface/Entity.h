@@ -8,28 +8,28 @@
 #include <Coordinator/Color.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Interface/Identifier.h>
 
 namespace rl {
 namespace interface {
 
 class Entity {
  public:
-  // clang-format off
-  enum Property {
-    None            = 0,
-    AddedTo         = 1 << 0,
-    RemovedFrom     = 1 << 1,
-    Hierarchy       = AddedTo | RemovedFrom,
-    Bounds          = 1 << 2,
-    Position        = 1 << 3,
-    AnchorPoint     = 1 << 4,
-    Transformation  = 1 << 5,
-    BackgroundColor = 1 << 6,
-    Opacity         = 1 << 7,
-    MakeRoot        = 1 << 8,
+  using PropertyMask = uint32_t;
+  enum class Property : PropertyMask {
+    None,
+
+    AddedTo,
+    RemovedFrom,
+    Bounds,
+    Position,
+    AnchorPoint,
+    Transformation,
+    BackgroundColor,
+    Opacity,
+    MakeRoot,
+
+    Sentinel,
   };
-  // clang-format on
 
   template <typename T>
   struct Accessors {
@@ -39,11 +39,11 @@ class Entity {
     Setter setter;
   };
 
-  explicit Entity(Identifier identifier, bool notifiesInterfaceOnUpdate);
+  explicit Entity(core::Name identifier, bool notifiesInterfaceOnUpdate);
 
   virtual ~Entity();
 
-  Identifier identifier() const;
+  core::Name identifier() const;
 
   /**
    *  The frame specifies the origin and size of the entity in the coordinate
@@ -158,19 +158,20 @@ class Entity {
   void merge(const Entity& entity);
 
  protected:
-  explicit Entity(const Entity& entity);
-
-  void notifyInterfaceIfNecessary(Property property,
-                                  Identifier other = IdentifierNone) const;
-
- private:
-  Identifier _identifier;
+  core::Name _identifier;
   geom::Rect _bounds;
   geom::Point _position;
   geom::Point _anchorPoint;
   geom::Matrix _transformation;
   coordinator::Color _backgroundColor;
   double _opacity;
+
+  explicit Entity(const Entity& entity);
+
+  void notifyInterfaceIfNecessary(Property property,
+                                  core::Name identifier = core::DeadName) const;
+
+ private:
   bool _notifiesInterfaceOnUpdate;
 
   RL_DISALLOW_ASSIGN(Entity);

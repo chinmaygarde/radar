@@ -7,17 +7,31 @@
 namespace rl {
 namespace layout {
 
-Expression::Expression() : _constant(0.0) {}
+Expression::Expression() : _constant(0.0), _inferredNamespace(nullptr) {
+  inferNamespace();
+}
 
 Expression::Expression(const Terms& terms, double constant)
-    : _terms(terms), _constant(constant) {}
+    : _terms(terms), _constant(constant), _inferredNamespace(nullptr) {
+  inferNamespace();
+}
 
-Expression::Expression(const Term& term) : _terms({term}), _constant(0.0) {}
+Expression::Expression(const Term& term)
+    : _terms({term}), _constant(0.0), _inferredNamespace(nullptr) {
+  inferNamespace();
+}
 
 Expression::Expression(const Variable& variable)
-    : _terms({Term{variable, 1.0, false}}), _constant(0.0) {}
+    : _terms({Term{variable, 1.0, false}}),
+      _constant(0.0),
+      _inferredNamespace(nullptr) {
+  inferNamespace();
+}
 
-Expression::Expression(double constant) : _constant(constant) {}
+Expression::Expression(double constant)
+    : _constant(constant), _inferredNamespace(nullptr) {
+  inferNamespace();
+}
 
 const Expression::Terms& Expression::terms() const {
   return _terms;
@@ -26,6 +40,12 @@ const Expression::Terms& Expression::terms() const {
 double Expression::constant() const {
   return _constant;
 }
+
+core::Namespace* Expression::ns() const {
+  return _inferredNamespace;
+}
+
+void Expression::inferNamespace() {}
 
 bool Expression::serialize(core::Message& message) const {
   auto success = true;

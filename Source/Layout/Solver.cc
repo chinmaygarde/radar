@@ -9,8 +9,9 @@
 namespace rl {
 namespace layout {
 
-Solver::Solver()
-    : _objective(core::make_unique<Row>(0.0)),
+Solver::Solver(core::Namespace& localNS)
+    : _localNS(localNS),
+      _objective(core::make_unique<Row>(0.0)),
       _artificial(core::make_unique<Row>(0.0)) {}
 
 Solver::~Solver() {}
@@ -101,7 +102,8 @@ Result Solver::addEditVariable(const Variable& variable, double priority) {
     return Result::BadRequiredStrength;
   }
 
-  Constraint constraint(Expression{{Term{variable, 1.0, false}}, 0.0},
+  Constraint constraint(_localNS.create(),
+                        Expression{{Term{variable, 1.0, false}}, 0.0},
                         Constraint::Relation::EqualTo, priority);
 
   if (addConstraint(constraint) != Result::Success) {

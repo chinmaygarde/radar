@@ -24,7 +24,7 @@ class InterfaceTransaction {
 
   void mark(const Entity& entity,
             Entity::Property property,
-            Identifier identifier);
+            core::Name identifier);
 
   void mark(const std::vector<layout::Constraint>& constraints);
 

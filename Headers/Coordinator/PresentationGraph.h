@@ -10,10 +10,9 @@
 #include <Coordinator/Frame.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
-#include <Coordinator/TransferRecord.h>
+#include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
-#include <Interface/Identifier.h>
 #include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>
@@ -25,7 +24,8 @@ namespace coordinator {
 
 class PresentationGraph {
  public:
-  explicit PresentationGraph(interface::Identifier::LocalID localID);
+  explicit PresentationGraph(core::Namespace& localNS);
+
   ~PresentationGraph();
 
   bool applyTransactions(core::Message& arena);
@@ -39,32 +39,32 @@ class PresentationGraph {
   animation::Director& animationDirector();
 
  private:
-  interface::Identifier::LocalID _localID;
+  core::Namespace& _localNS;
   PresentationEntity::IdentifierMap _entities;
   PresentationEntity* _root;
   animation::Director _animationDirector;
-  layout::ProxyResolver _proxyResolver;
   layout::Solver _layoutSolver;
+  layout::ProxyResolver _proxyResolver;
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
 
   void prepareActions(interface::Action& action,
                       PresentationEntity& currentState,
-                      const TransferRecord& record,
+                      const TransferEntity& record,
                       const core::ClockPoint& time);
 
   template <typename T>
   void prepareActionSingle(interface::Action& action,
                            PresentationEntity& entity,
-                           const TransferRecord& record,
+                           const TransferEntity& record,
                            const interface::Entity::Accessors<T>& accessors,
                            const core::ClockPoint& start);
 
   void onActionCommit(interface::Action& action);
 
   void onTransferRecordCommit(interface::Action& action,
-                              TransferRecord& record,
+                              TransferEntity& record,
                               const core::ClockPoint& commitTime);
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);

@@ -14,9 +14,11 @@
 /*
  *  General Utilities
  */
+#include <Core/Allocation.h>
 #include <Core/Guard.h>
 #include <Core/Latch.h>
 #include <Core/Macros.h>
+#include <Core/Namespace.h>
 #include <Core/Timing.h>
 #include <Core/Utilities.h>
 

@@ -11,22 +11,31 @@
 namespace rl {
 namespace coordinator {
 
-class TransferEntity : public interface::Entity {
+class TransferEntity : public interface::Entity, public core::Serializable {
  public:
-  explicit TransferEntity(interface::Identifier identifier);
+  explicit TransferEntity(core::Name identifier);
   explicit TransferEntity(const TransferEntity& transferEntity);
 
   void record(const Entity& entity,
               Entity::Property property,
-              interface::Identifier other);
+              core::Name other);
 
-  size_t serialize(core::Message& message);
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message) override;
 
  private:
-  uint64_t _updateMask;
-  bool _lastHierarchyUpdateWasAdd;
-  interface::Identifier _firstRemovedFrom;
-  interface::Identifier _lastAddedTo;
+  PropertyMask _updateMask;
+
+  core::Name _addedTo;
+  core::Name _removedFrom;
+  core::Name _makeRoot;
+
+  bool serializeProperty(core::Message& message, Property property);
+  bool deserializeProperty(core::Message& message, Property property);
+
+  using PropertyWalkCallback = std::function<bool(Property)>;
+  bool walkEnabledProperties(PropertyWalkCallback callback) const;
 
   RL_DISALLOW_ASSIGN(TransferEntity);
 };

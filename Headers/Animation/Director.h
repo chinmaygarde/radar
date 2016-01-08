@@ -19,9 +19,9 @@ namespace animation {
 class Director {
  public:
   struct Key {
-    interface::Identifier entityIdentifier;
+    core::Name entityIdentifier;
     interface::Entity::Property entityProperty;
-    Key(interface::Identifier ident, interface::Entity::Property prop)
+    Key(core::Name ident, interface::Entity::Property prop)
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 

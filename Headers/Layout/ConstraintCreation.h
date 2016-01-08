@@ -107,18 +107,23 @@ Expression operator/(const A& a, double m) {
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator==(const A& a, const B& b) {
-  return {a - b, Constraint::Relation::EqualTo, priority::Required};
-}
-
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Constraint operator>=(const A& a, const B& b) {
-  return {a - b, Constraint::Relation::GreaterThanOrEqualTo,
+  auto expr = Expression{a - b};
+  return {core::Name{expr.ns()}, std::move(expr), Constraint::Relation::EqualTo,
           priority::Required};
 }
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
+Constraint operator>=(const A& a, const B& b) {
+  auto expr = Expression{a - b};
+  return {core::Name{expr.ns()}, std::move(expr),
+          Constraint::Relation::GreaterThanOrEqualTo, priority::Required};
+}
+
+template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator<=(const A& a, const B& b) {
-  return {a - b, Constraint::Relation::LessThanOrEqualTo, priority::Required};
+  auto expr = {a - b};
+  return {core::Name{expr.ns()}, std::move(expr),
+          Constraint::Relation::LessThanOrEqualTo, priority::Required};
 }
 
 template <class A, class = core::only_if<(HoistableMember<A>::value)>>
@@ -132,7 +137,9 @@ Expression MakeConst(const A& a) {
 }
 
 inline Constraint operator|(const Constraint& constraint, double priority) {
-  return {constraint.expression(), constraint.relation(), priority};
+  auto ns = constraint.ns();
+  auto name = ns == nullptr ? core::DeadName : ns->create();
+  return {name, constraint.expression(), constraint.relation(), priority};
 }
 
 inline Constraint operator|(double priority, const Constraint& constraint) {

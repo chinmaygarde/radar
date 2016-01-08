@@ -117,7 +117,7 @@ class Interface {
       const std::vector<layout::Suggestion>& suggestions);
 
  private:
-  Identifier::Factory _identifierFactory;
+  core::Namespace _localNS;
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
   geom::Size _size;

@@ -6,7 +6,6 @@
 #define RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_
 
 #include <Coordinator/TransferEntity.h>
-#include <Coordinator/TransferRecord.h>
 #include <Core/Core.h>
 #include <Interface/Action.h>
 #include <Layout/Constraint.h>
@@ -19,13 +18,11 @@ namespace coordinator {
 
 class TransactionPayload : public core::Serializable {
  public:
-  using EntityMap = std::map<interface::Identifier,
-                             std::unique_ptr<TransferEntity>,
-                             interface::Identifier::Compare>;
+  using EntityMap = std::map<core::Name, std::unique_ptr<TransferEntity>>;
 
   using ActionCallback = std::function<void(interface::Action&)>;
   using TransferRecordCallback = std::function<
-      void(interface::Action&, TransferRecord&, const core::ClockPoint&)>;
+      void(interface::Action&, TransferEntity&, const core::ClockPoint&)>;
   using ConstraintsCallback =
       std::function<void(std::vector<layout::Constraint>&&)>;
   using SuggestionsCallback =
@@ -36,7 +33,7 @@ class TransactionPayload : public core::Serializable {
                               std::vector<layout::Constraint>&& constraints,
                               std::vector<layout::Suggestion>&& suggestions);
 
-  explicit TransactionPayload(interface::Identifier::LocalID localID,
+  explicit TransactionPayload(core::Namespace& ns,
                               const core::ClockPoint& commitTime,
                               ActionCallback actionCallback,
                               TransferRecordCallback transferRecordCallback,
@@ -58,7 +55,7 @@ class TransactionPayload : public core::Serializable {
   /*
    *  Used when reading
    */
-  interface::Identifier::LocalID _localID;
+  core::Namespace* _localNS;
   core::ClockPoint _commitTime;
   ActionCallback _actionCallback;
   TransferRecordCallback _transferRecordCallback;

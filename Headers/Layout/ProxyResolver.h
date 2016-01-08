@@ -22,6 +22,7 @@ class ProxyResolver {
       std::function<void(std::vector<Suggestion>&&)>;
 
   ProxyResolver(
+      core::Namespace& localNS,
       ProxyConstraintCallback addCallback,
       ProxyConstraintCallback removeCallback,
       ProxySuggestionCallback suggestionsCallback,
@@ -41,7 +42,7 @@ class ProxyResolver {
   using ConstraintOperation =
       std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;
 
-  interface::Identifier::Factory _identifierFactory;
+  core::Namespace& _localNS;
   ProxyConstraintCallback _addConstraintCallback;
   ProxyConstraintCallback _removeConstraintCallback;
   ProxySuggestionCallback _suggestionsCallback;

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Macros.h>
+#include <Core/Serializable.h>
 
 #include <atomic>
 #include <mutex>
@@ -11,22 +12,79 @@
 namespace rl {
 namespace core {
 
-using Name = uint32_t;
+class Namespace;
 
-static const Name DeadName = 0;
+class Name : public Serializable {
+ public:
+  using Handle = uint32_t;
+
+  Name();
+
+  Name(Namespace* ns);
+
+  Name(Handle handle, Namespace* ns);
+
+  ~Name();
+
+  Handle handle() const;
+
+  Namespace* ns() const;
+
+  size_t hash() const;
+
+  bool serialize(Message& message) const override;
+
+  bool deserialize(Message& message) override;
+
+  constexpr bool operator==(const Name& other) const {
+    return _handle == other._handle;
+  }
+
+  constexpr bool operator!=(const Name& other) const {
+    return _handle != other._handle;
+  }
+
+  constexpr bool operator>(const Name& other) const {
+    return _handle > other._handle;
+  }
+
+  constexpr bool operator<(const Name& other) const {
+    return _handle < other._handle;
+  }
+
+  struct Hash {
+    size_t operator()(const Name& name) const {
+      return std::hash<Handle>()(name._handle);
+    }
+  };
+
+  struct Equal {
+    bool operator()(const Name& lhs, const Name& rhs) const {
+      return lhs._handle == rhs._handle;
+    }
+  };
+
+ private:
+  Handle _handle;
+  Namespace* _ns;
+};
+
+static const Name::Handle DeadHandle = 0;
 
 class Namespace {
  public:
   Namespace();
 
-  Name create(Name counterpart = DeadName);
+  Name::Handle createHandle(Name::Handle counterpart = DeadHandle);
 
-  void destroy(Name name);
+  Name create(Name::Handle counterpart = DeadHandle);
+
+  void destroy(Name::Handle name);
 
  private:
-  using NameMap = std::unordered_map<Name, Name>;
+  using NameMap = std::unordered_map<Name::Handle, Name::Handle>;
 
-  std::atomic<Name> _last;
+  std::atomic<Name::Handle> _last;
   std::mutex _lock;
 
   NameMap _localToCounterpartMap;
@@ -34,6 +92,8 @@ class Namespace {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Namespace);
 };
+
+extern const Name DeadName;
 
 }  // namespace core
 }  // namespace rl

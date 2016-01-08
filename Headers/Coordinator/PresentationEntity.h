@@ -19,11 +19,12 @@ class Frame;
 class PresentationEntity : public interface::Entity {
  public:
   using Borrowed = PresentationEntity*;
-  using IdentifierMap = std::map<interface::Identifier,
-                                 std::unique_ptr<PresentationEntity>,
-                                 interface::Identifier::Compare>;
+  using IdentifierMap =
+      std::map<core::Name, std::unique_ptr<PresentationEntity>>;
+  using IdentifierHandleMap =
+      std::map<core::Name::Handle, std::unique_ptr<PresentationEntity>>;
 
-  explicit PresentationEntity(interface::Identifier identifier);
+  explicit PresentationEntity(core::Name identifier);
 
   const geom::Matrix& lastModelViewMatrix() const;
 

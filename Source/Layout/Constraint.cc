@@ -8,14 +8,15 @@ namespace rl {
 namespace layout {
 
 Constraint::Constraint()
-    : _identifier(interface::IdentifierNone),
+    : _identifier(core::DeadName),
       _relation(Relation::EqualTo),
       _priority(priority::Weak) {}
 
-Constraint::Constraint(const Expression& expression,
+Constraint::Constraint(core::Name name,
+                       const Expression& expression,
                        Relation relation,
                        double priority)
-    : _identifier(interface::IdentifierNone),
+    : _identifier(name),
       _expression(expression),
       _relation(relation),
       _priority(priority) {}
@@ -57,6 +58,7 @@ bool Constraint::hasConstantTerms() const {
 }
 
 Constraint Constraint::resolveProxies(
+    core::Namespace& ns,
     ProxyVariableReplacementCallback replacement,
     ConstantResolutionCallback constantResolution) const {
   double accumulatedConstant = 0.0;
@@ -90,9 +92,15 @@ Constraint Constraint::resolveProxies(
     }
   }
 
-  return {{std::move(terms), _expression.constant() + accumulatedConstant},
-          _relation,
-          _priority};
+  return Constraint{
+      ns.create(),
+      {std::move(terms), _expression.constant() + accumulatedConstant},
+      _relation,
+      _priority};
+}
+
+core::Namespace* Constraint::ns() const {
+  return _expression.ns();
 }
 
 bool Constraint::serialize(core::Message& message) const {

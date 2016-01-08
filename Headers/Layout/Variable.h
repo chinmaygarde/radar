@@ -44,12 +44,11 @@ class Variable : public core::Serializable {
 
   Variable();
 
-  Variable(interface::Identifier identifier,
-           Property property = Property::None);
+  Variable(core::Name identifier, Property property = Property::None);
 
   Variable(Proxy proxy, Property property);
 
-  interface::Identifier identifier() const;
+  core::Name identifier() const;
 
   Property property() const;
 
@@ -68,7 +67,7 @@ class Variable : public core::Serializable {
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {
-      size_t seed = v._identifier.hash();
+      size_t seed = core::Name::Hash()(v._identifier);
       core::HashCombine(seed, static_cast<PropertyType>(v._property));
       return seed;
     }
@@ -82,7 +81,7 @@ class Variable : public core::Serializable {
   };
 
  private:
-  interface::Identifier _identifier;
+  core::Name _identifier;
   Property _property;
   bool _isProxy;
 };

@@ -14,20 +14,20 @@ TransactionPayload::TransactionPayload(
     EntityMap&& entities,
     std::vector<layout::Constraint>&& constraints,
     std::vector<layout::Suggestion>&& suggestions)
-    : _localID(0),
+    : _localNS(nullptr),
       _action(std::move(action)),
       _entities(std::move(entities)),
       _constraints(std::move(constraints)),
       _suggestions(std::move(suggestions)) {}
 
 TransactionPayload::TransactionPayload(
-    interface::Identifier::LocalID localID,
+    core::Namespace& localNS,
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     ConstraintsCallback constraintsCallback,
     SuggestionsCallback suggestionsCallback)
-    : _localID(localID),
+    : _localNS(&localNS),
       _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
@@ -48,16 +48,8 @@ bool TransactionPayload::serialize(core::Message& message) const {
 
   /*
    *  Step 2: Encode the transfer record count
-   *          This is a bit weird since we dont know how many records the entity
-   *          will decide to encode. So we just allocate space for the count and
-   *          come back to it later.
    */
-  auto countOffset = message.encodeOffsetRawUnsafe(sizeof(size_t));
-  result &= (countOffset != std::numeric_limits<size_t>::max());
-
-  if (!result) {
-    return false;
-  }
+  result &= message.encode(_entities.size());
 
   /*
    *  Step 3: Encode the transfer records
@@ -65,15 +57,6 @@ bool TransactionPayload::serialize(core::Message& message) const {
   size_t transferRecordsEncoded = 0;
   for (const auto& pair : _entities) {
     transferRecordsEncoded += (*(pair.second)).serialize(message);
-  }
-
-  /*
-   *  Step 2.1: See step 2
-   */
-  if (auto count = reinterpret_cast<size_t*>(message[countOffset])) {
-    memcpy(count, &transferRecordsEncoded, sizeof(size_t));
-  } else {
-    return false;
   }
 
   return result;
@@ -121,10 +104,15 @@ bool TransactionPayload::deserialize(core::Message& message) {
    */
   {
     RL_TRACE_AUTO("TransferRecordsCommit");
+
+    TransferEntity entity(core::DeadName);
+
     for (size_t i = 0; i < transferRecords; i++) {
-      _transferRecordCallback(action,
-                              TransferRecord::NextInMessage(message, _localID),
-                              _commitTime);
+      if (message.decode(entity)) {
+        _transferRecordCallback(action, entity, _commitTime);
+      } else {
+        break;
+      }
     }
   }
 

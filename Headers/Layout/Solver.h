@@ -25,7 +25,7 @@ namespace layout {
 
 class Solver {
  public:
-  Solver();
+  Solver(core::Namespace& localNS);
 
   ~Solver();
 
@@ -62,6 +62,7 @@ class Solver {
   FlushResult flushUpdates(SolverUpdateCallback callback) const;
 
  private:
+  core::Namespace& _localNS;
   std::map<Constraint, Tag, Constraint::Compare> _constraints;
   std::map<Symbol, std::unique_ptr<Row>, Symbol::Compare> _rows;
   std::unordered_map<Variable, Symbol, Variable::Hash, Variable::Equal> _vars;

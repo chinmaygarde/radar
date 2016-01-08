@@ -9,11 +9,12 @@
 namespace rl {
 namespace coordinator {
 
-PresentationGraph::PresentationGraph(interface::Identifier::LocalID localID)
-    : _localID(localID),
+PresentationGraph::PresentationGraph(core::Namespace& localNS)
+    : _localNS(localNS),
       _root(nullptr),
-      _proxyResolver(
-          // clang-format off
+      _layoutSolver(localNS),
+      _proxyResolver(_localNS,
+                     // clang-format off
           std::bind(&PresentationGraph::onProxyConstraintsAddition,
                     this, std::placeholders::_1),
           std::bind(&PresentationGraph::onProxyConstraintsRemoval,
@@ -22,8 +23,8 @@ PresentationGraph::PresentationGraph(interface::Identifier::LocalID localID)
                     this, std::placeholders::_1),
           std::bind(&PresentationGraph::resolveConstraintConstant,
                     this, std::placeholders::_1)
-          // clang-format on
-          ) {}
+                     // clang-format on
+                     ) {}
 
 PresentationGraph::~PresentationGraph() {}
 
@@ -43,7 +44,7 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   namespace P = std::placeholders;
   using G = PresentationGraph;
   TransactionPayload payload(
-      _localID,  //
+      _localNS,  //
       time,      //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferRecordCommit, this, P::_1, P::_2, P::_3),
@@ -61,7 +62,7 @@ void PresentationGraph::onActionCommit(interface::Action& action) {
 }
 
 void PresentationGraph::onTransferRecordCommit(interface::Action& action,
-                                               TransferRecord& record,
+                                               TransferEntity& record,
                                                const core::ClockPoint& time) {
   auto& entity = _entities[record.targetIdentifier];
 
@@ -132,7 +133,7 @@ template <typename T>
 void PresentationGraph::prepareActionSingle(
     interface::Action& action,
     PresentationEntity& entity,
-    const TransferRecord& record,
+    const TransferEntity& record,
     const interface::Entity::Accessors<T>& accessors,
     const core::ClockPoint& start) {
   /*
@@ -155,7 +156,7 @@ void PresentationGraph::prepareActionSingle(
 
 void PresentationGraph::prepareActions(interface::Action& action,
                                        PresentationEntity& entity,
-                                       const TransferRecord& record,
+                                       const TransferEntity& record,
                                        const core::ClockPoint& time) {
   switch (record.property) {
     case interface::Entity::Bounds:
