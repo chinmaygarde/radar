@@ -14,8 +14,9 @@ namespace interface {
 
 class Entity {
  public:
-  using PropertyMask = uint32_t;
-  enum class Property : PropertyMask {
+  using PropertyMaskType = uint16_t;
+
+  enum class Property : PropertyMaskType {
     None,
 
     AddedTo,
@@ -30,6 +31,22 @@ class Entity {
 
     Sentinel,
   };
+
+#define RL_MASK(x) 1 << static_cast<uint32_t>(Property::x)
+  // clang-format off
+  enum PropertyMask {
+    AddedToMask         = RL_MASK(AddedTo),
+    RemovedFromMask     = RL_MASK(RemovedFrom),
+    BoundsMask          = RL_MASK(Bounds),
+    PositionMask        = RL_MASK(Position),
+    AnchorPointMask     = RL_MASK(AnchorPoint),
+    TransformationMask  = RL_MASK(Transformation),
+    BackgroundColorMask = RL_MASK(BackgroundColor),
+    OpacityMask         = RL_MASK(Opacity),
+    MakeRootMask        = RL_MASK(MakeRoot),
+  };
+// clang-format on
+#undef RL_MASK
 
   template <typename T>
   struct Accessors {
@@ -155,7 +172,7 @@ class Entity {
    */
   void setOpacity(double opacity);
 
-  void merge(const Entity& entity);
+  void mergeProperties(const Entity& entity, PropertyMaskType only);
 
  protected:
   core::Name _identifier;

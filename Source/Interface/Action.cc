@@ -14,8 +14,7 @@ Action::Action(double duration)
       _propertyMask(0),
       _timingCurveType(animation::TimingCurve::Linear),
       _resolvedCurve(
-          animation::TimingCurve::SystemTimingCurve(_timingCurveType)) {
-}
+          animation::TimingCurve::SystemTimingCurve(_timingCurveType)) {}
 
 const core::ClockDuration& Action::duration() const {
   return _duration;
@@ -41,11 +40,11 @@ void Action::setAutoReverses(bool autoReverses) {
   _autoReverses = autoReverses;
 }
 
-uint64_t Action::propertyMask() const {
+Entity::PropertyMaskType Action::propertyMask() const {
   return _propertyMask;
 }
 
-void Action::setPropertyMask(uint64_t mask) {
+void Action::setPropertyMask(Entity::PropertyMaskType mask) {
   _propertyMask = mask;
 }
 

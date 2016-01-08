@@ -58,7 +58,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   action.setAutoReverses(true);
   action.setDuration(rl::core::ClockDuration(0.5));
   action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);
-  action.setPropertyMask(rl::interface::Entity::Transformation);
+  action.setPropertyMask(rl::interface::Entity::TransformationMask);
 
   interface.pushTransaction(std::move(action));
 

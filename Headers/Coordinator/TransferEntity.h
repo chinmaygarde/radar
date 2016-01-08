@@ -13,6 +13,8 @@ namespace coordinator {
 
 class TransferEntity : public interface::Entity, public core::Serializable {
  public:
+  using PropertyWalkCallback = std::function<bool(Property)>;
+
   explicit TransferEntity(core::Name identifier);
   explicit TransferEntity(const TransferEntity& transferEntity);
 
@@ -20,12 +22,21 @@ class TransferEntity : public interface::Entity, public core::Serializable {
               Entity::Property property,
               core::Name other);
 
+  bool walkEnabledProperties(PropertyMaskType extraMask,
+                             PropertyWalkCallback callback) const;
+
+  core::Name addedToTarget() const;
+
+  core::Name removedFromTarget() const;
+
+  core::Name makeRootTarget() const;
+
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message) override;
 
  private:
-  PropertyMask _updateMask;
+  PropertyMaskType _updateMask;
 
   core::Name _addedTo;
   core::Name _removedFrom;
@@ -33,9 +44,6 @@ class TransferEntity : public interface::Entity, public core::Serializable {
 
   bool serializeProperty(core::Message& message, Property property);
   bool deserializeProperty(core::Message& message, Property property);
-
-  using PropertyWalkCallback = std::function<bool(Property)>;
-  bool walkEnabledProperties(PropertyWalkCallback callback) const;
 
   RL_DISALLOW_ASSIGN(TransferEntity);
 };

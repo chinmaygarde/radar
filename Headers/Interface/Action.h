@@ -6,7 +6,9 @@
 #define RADARLOVE_INTERFACE_ACTION_
 
 #include <Core/Core.h>
+
 #include <Animation/TimingCurve.h>
+#include <Interface/Entity.h>
 
 namespace rl {
 namespace interface {
@@ -65,9 +67,9 @@ class Action : public core::Serializable {
    */
   void setAutoReverses(bool autoReverses);
 
-  uint64_t propertyMask() const;
+  Entity::PropertyMaskType propertyMask() const;
 
-  void setPropertyMask(uint64_t mask);
+  void setPropertyMask(Entity::PropertyMaskType mask);
 
   animation::TimingCurve::Type timingCurveType() const;
 
@@ -83,7 +85,7 @@ class Action : public core::Serializable {
   core::ClockDuration _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
-  uint64_t _propertyMask;
+  Entity::PropertyMaskType _propertyMask;
   animation::TimingCurve::Type _timingCurveType;
   animation::TimingCurve _resolvedCurve;
 

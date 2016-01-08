@@ -28,15 +28,33 @@ Entity::Entity(const Entity& entity)
       _opacity(entity._opacity),
       _notifiesInterfaceOnUpdate(false) {}
 
-void Entity::merge(const interface::Entity& entity) {
+void Entity::mergeProperties(const interface::Entity& entity,
+                             PropertyMaskType only) {
   RL_ASSERT(_identifier == entity._identifier);
 
-  _bounds = entity._bounds;
-  _position = entity._position;
-  _anchorPoint = entity._anchorPoint;
-  _transformation = entity._transformation;
-  _backgroundColor = entity._backgroundColor;
-  _opacity = entity._opacity;
+  if (only & PropertyMask::BoundsMask) {
+    _bounds = entity._bounds;
+  }
+
+  if (only & PropertyMask::PositionMask) {
+    _position = entity._position;
+  }
+
+  if (only & PropertyMask::AnchorPointMask) {
+    _anchorPoint = entity._anchorPoint;
+  }
+
+  if (only & PropertyMask::TransformationMask) {
+    _transformation = entity._transformation;
+  }
+
+  if (only & PropertyMask::BackgroundColorMask) {
+    _backgroundColor = entity._backgroundColor;
+  }
+
+  if (only & PropertyMask::OpacityMask) {
+    _opacity = entity._opacity;
+  }
 }
 
 Entity::~Entity() {}

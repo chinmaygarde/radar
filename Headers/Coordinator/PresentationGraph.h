@@ -51,20 +51,21 @@ class PresentationGraph {
 
   void prepareActions(interface::Action& action,
                       PresentationEntity& currentState,
-                      const TransferEntity& record,
+                      const TransferEntity& transferEntity,
                       const core::ClockPoint& time);
 
   template <typename T>
-  void prepareActionSingle(interface::Action& action,
-                           PresentationEntity& entity,
-                           const TransferEntity& record,
-                           const interface::Entity::Accessors<T>& accessors,
-                           const core::ClockPoint& start);
+  void prepareActionSingle(const core::ClockPoint& start,
+                           interface::Action& action,
+                           PresentationEntity& presentationEntity,
+                           interface::Entity::Property property,
+                           const T& propertyValue,
+                           const interface::Entity::Accessors<T>& accessors);
 
   void onActionCommit(interface::Action& action);
 
-  void onTransferRecordCommit(interface::Action& action,
-                              TransferEntity& record,
+  void onTransferEntityCommit(interface::Action& action,
+                              TransferEntity& transferEntity,
                               const core::ClockPoint& commitTime);
 
   void onConstraintsCommit(std::vector<layout::Constraint>&& constraints);
