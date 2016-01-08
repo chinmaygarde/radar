@@ -23,11 +23,16 @@ Name::~Name() {
 }
 
 bool Name::serialize(Message& message) const {
+  RL_ASSERT_MSG(_handle != DeadHandle,
+                "Dead names may not be sent or received over channels");
   return message.encode(_handle);
 }
 
 bool Name::deserialize(Message& message) {
-  return message.decode(_handle);
+  auto result = message.decode(_handle);
+  RL_ASSERT_MSG(_handle != DeadHandle,
+                "Dead names may not be sent or received over channels");
+  return result;
 }
 
 Namespace* Name::ns() const {
