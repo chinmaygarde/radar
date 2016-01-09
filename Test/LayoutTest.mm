@@ -301,7 +301,7 @@ TEST(LayoutTest, EditConstraintFlush) {
 
   rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
 
-  rl::layout::Variable left(ns.create()), right(ns.create()), mid(ns.create());
+  rl::layout::Variable left(one), right(two), mid(three);
 
   rl::layout::Solver solver(ns);
 
@@ -326,8 +326,8 @@ TEST(LayoutTest, EditConstraintFlush) {
       });
 
   ASSERT_EQ(updates[one], 0.0);
-  ASSERT_EQ(updates[three], 300.0);
   ASSERT_EQ(updates[two], 600.0);
+  ASSERT_EQ(updates[three], 300.0);
 }
 
 TEST(LayoutTest, SolverSolutionWithOptimize) {
