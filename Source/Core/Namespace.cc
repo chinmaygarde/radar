@@ -118,6 +118,11 @@ void Namespace::destroy(Name::Handle local) {
   _localToCounterpartMap.erase(found);
 }
 
+size_t Namespace::mappedNamesCount() const {
+  std::lock_guard<std::mutex> lock(_lock);
+  return _localToCounterpartMap.size();
+}
+
 const Name DeadName(DeadHandle, nullptr);
 
 }  // namespace core

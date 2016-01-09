@@ -79,11 +79,13 @@ class Namespace {
 
   void destroy(Name::Handle name);
 
+  size_t mappedNamesCount() const;
+
  private:
   using NameMap = std::unordered_map<Name::Handle, Name::Handle>;
 
   std::atomic<Name::Handle> _last;
-  std::mutex _lock;
+  mutable std::mutex _lock;
 
   NameMap _localToCounterpartMap;
   NameMap _counterpartToLocalMap;

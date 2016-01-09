@@ -63,6 +63,7 @@
 		9E78EE591C3DEFD2000A4E37 /* ModelEntity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E78EE581C3DEFD2000A4E37 /* ModelEntity.cc */; };
 		9E78EE5B1C3F0816000A4E37 /* Namespace.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E78EE5A1C3F0816000A4E37 /* Namespace.cc */; };
 		9E78EE5D1C3F0826000A4E37 /* Namespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E78EE5C1C3F0826000A4E37 /* Namespace.h */; };
+		9E78EE8D1C409EE3000A4E37 /* NamespaceTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E78EE831C409E8B000A4E37 /* NamespaceTest.mm */; };
 		9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E84818A1C126B2D006DE159 /* TraceEvent.h */; };
 		9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E8481941C126B3D006DE159 /* TraceEvent.cc */; };
 		9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E86557D1BE2F16F00997766 /* StateMachine.h */; };
@@ -377,6 +378,7 @@
 		9E78EE581C3DEFD2000A4E37 /* ModelEntity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelEntity.cc; sourceTree = "<group>"; };
 		9E78EE5A1C3F0816000A4E37 /* Namespace.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Namespace.cc; sourceTree = "<group>"; };
 		9E78EE5C1C3F0826000A4E37 /* Namespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
+		9E78EE831C409E8B000A4E37 /* NamespaceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NamespaceTest.mm; sourceTree = "<group>"; };
 		9E84818A1C126B2D006DE159 /* TraceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TraceEvent.h; sourceTree = "<group>"; };
 		9E8481941C126B3D006DE159 /* TraceEvent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceEvent.cc; sourceTree = "<group>"; };
 		9E8481961C1272DD006DE159 /* TraceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TraceTest.mm; sourceTree = "<group>"; };
@@ -626,6 +628,7 @@
 				9E62F80C1B796D81008DE08E /* EventLoopTest.mm */,
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.mm */,
 				9E62F80E1B796D81008DE08E /* MessageEncoderTest.mm */,
+				9E78EE831C409E8B000A4E37 /* NamespaceTest.mm */,
 				EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.mm */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.mm */,
@@ -1388,6 +1391,7 @@
 				9E95448B1C347217002EEC68 /* ThreadTest.mm in Sources */,
 				9E95448C1C347217002EEC68 /* TraceTest.mm in Sources */,
 				9E95448D1C347217002EEC68 /* WorkQueueTest.mm in Sources */,
+				9E78EE8D1C409EE3000A4E37 /* NamespaceTest.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
