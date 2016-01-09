@@ -28,10 +28,22 @@ bool Name::serialize(Message& message) const {
   return message.encode(_handle);
 }
 
-bool Name::deserialize(Message& message) {
-  auto result = message.decode(_handle);
-  RL_ASSERT_MSG(_handle != DeadHandle,
+bool Name::deserialize(Message& message, Namespace* ns) {
+  auto newHandle = DeadHandle;
+
+  auto result = message.decode(newHandle, ns);
+  RL_ASSERT_MSG(newHandle != DeadHandle,
                 "Dead names may not be sent or received over channels");
+
+  if (result) {
+    _handle = ns == nullptr ? DeadHandle : ns->createHandle(newHandle);
+    _ns = ns;
+  }
+
+  RL_ASSERT_MSG(_handle != DeadHandle,
+                "Tried to pass a name over a channel but the receiver did not "
+                "specify a namespace");
+
   return result;
 }
 
@@ -67,7 +79,7 @@ Name::Handle Namespace::createHandle(Name::Handle counterpart) {
      *  If the emplace fails, we already know of a live local key. Since we
      *  already have an iterator to it, return it now
      */
-    RL_ASSERT((*(result.first)).second == counterpart);
+    RL_ASSERT((*(result.first)).first == counterpart);
     return (*(result.first)).second;
   } else {
     /*

@@ -25,7 +25,7 @@ class Term : public core::Serializable {
 
   bool serialize(core::Message& message) const override;
 
-  bool deserialize(core::Message& message) override;
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
   Variable _variable;

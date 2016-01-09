@@ -54,7 +54,7 @@ class Protocol {
   bool _isVendor;
   bool _isAdvertising;
 
-  void onChannelMessage(Message message);
+  void onChannelMessage(Message message, Namespace* ns);
 
   void startOrStopAdvertisingWithBootstrapServerIfNecessary(bool start);
 

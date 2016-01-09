@@ -27,7 +27,7 @@ class ChannelProvider;
  */
 class Channel {
  public:
-  using MessageCallback = std::function<void(Message)>;
+  using MessageCallback = std::function<void(Message, Namespace*)>;
   using TerminationCallback = std::function<void(void)>;
 
   /**
@@ -121,7 +121,10 @@ class Channel {
    */
   Message::Attachment asMessageAttachment() const;
 
+  void setMessagesNamespace(Namespace* ns);
+
  private:
+  Namespace* _localNS;
   MessageCallback _messageCallback;
   TerminationCallback _terminationCallback;
   bool _terminated;

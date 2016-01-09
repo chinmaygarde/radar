@@ -26,8 +26,9 @@ class Event : public core::Serializable {
    */
   core::ClockPoint timestamp() const;
 
-  bool serialize(core::Message& m) const override;
-  bool deserialize(core::Message& m) override;
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
   core::ClockPoint _timestamp;

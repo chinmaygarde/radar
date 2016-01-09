@@ -13,12 +13,11 @@ TouchEvent::TouchEvent(Identifier identifier,
     : Event(core::Clock::now()),
       _identifier(identifier),
       _location(location),
-      _phase(phase) {
-}
+      _phase(phase) {}
 
 TouchEvent::TouchEvent(core::Message& message)
     : Event(core::ClockPoint::min()), _location(0.0, 0.0) {
-  deserialize(message);
+  deserialize(message, nullptr);
   RL_ASSERT(message.size() == message.sizeRead());
 }
 
@@ -43,12 +42,12 @@ bool TouchEvent::serialize(core::Message& m) const {
   return result;
 }
 
-bool TouchEvent::deserialize(core::Message& m) {
+bool TouchEvent::deserialize(core::Message& message, core::Namespace* ns) {
   bool result = true;
-  result &= Event::deserialize(m);
-  result &= m.decode(_identifier);
-  result &= m.decode(_location);
-  result &= m.decode(_phase);
+  result &= Event::deserialize(message, ns);
+  result &= message.decode(_identifier, ns);
+  result &= message.decode(_location, ns);
+  result &= message.decode(_phase, ns);
   return result;
 }
 

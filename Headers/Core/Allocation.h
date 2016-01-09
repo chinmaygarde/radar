@@ -70,7 +70,7 @@ class Allocation : public Serializable {
 
   bool serialize(Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(Message& message, Namespace* ns) override;
 
  private:
   uint8_t* _allocation;

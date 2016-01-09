@@ -132,7 +132,7 @@ class Message {
    *  @return if the value was successfully decoded
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  bool decode(T& value) {
+  bool decode(T& value, core::Namespace* ns) {
     if (auto buffer = decodeRawUnsafe(sizeof(T))) {
       memcpy(&value, buffer, sizeof(T));
       return true;
@@ -140,17 +140,17 @@ class Message {
     return false;
   }
 
-  bool decode(Serializable& value);
+  bool decode(Serializable& value, Namespace* ns);
 
   template <typename T,
             typename = only_if<std::is_base_of<Serializable, T>::value ||
                                std::is_default_constructible<T>::value>>
-  bool decode(std::vector<T>& vec) {
+  bool decode(std::vector<T>& vec, Namespace* ns) {
     Serializable::EncodedSize count = 0;
-    auto result = decode(count);
+    auto result = decode(count, ns);
     for (Serializable::EncodedSize i = 0; i < count; i++) {
       vec.emplace_back();
-      result &= vec.back().deserialize(*this);
+      result &= vec.back().deserialize(*this, ns);
     }
     return result;
   }

@@ -82,13 +82,13 @@ bool Action::serialize(core::Message& message) const {
   return result;
 }
 
-bool Action::deserialize(core::Message& message) {
+bool Action::deserialize(core::Message& message, core::Namespace* ns) {
   bool result = true;
-  result &= message.decode(_duration);
-  result &= message.decode(_repeatCount);
-  result &= message.decode(_autoReverses);
-  result &= message.decode(_propertyMask);
-  result &= message.decode(_timingCurveType);
+  result &= message.decode(_duration, ns);
+  result &= message.decode(_repeatCount, ns);
+  result &= message.decode(_autoReverses, ns);
+  result &= message.decode(_propertyMask, ns);
+  result &= message.decode(_timingCurveType, ns);
   resolveCurve();
   return result;
 }

@@ -11,11 +11,13 @@ namespace rl {
 namespace core {
 
 class Message;
+class Namespace;
+
 class Serializable {
  public:
   virtual bool serialize(Message& message) const = 0;
 
-  virtual bool deserialize(Message& message) = 0;
+  virtual bool deserialize(Message& message, Namespace* ns) = 0;
 
   using EncodedSize = size_t;
 };

@@ -64,10 +64,10 @@ bool Expression::serialize(core::Message& message) const {
   return success;
 }
 
-bool Expression::deserialize(core::Message& message) {
+bool Expression::deserialize(core::Message& message, core::Namespace* ns) {
   auto success = true;
-  success &= message.decode(_terms);
-  success &= message.decode(_constant);
+  success &= message.decode(_terms, ns);
+  success &= message.decode(_constant, ns);
   return success;
 }
 

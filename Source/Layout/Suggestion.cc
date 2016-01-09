@@ -36,11 +36,11 @@ bool Suggestion::serialize(core::Message& message) const {
   return result;
 }
 
-bool Suggestion::deserialize(core::Message& message) {
+bool Suggestion::deserialize(core::Message& message, core::Namespace* ns) {
   auto result = true;
-  result &= message.decode(_variable);
-  result &= message.decode(_value);
-  result &= message.decode(_priority);
+  result &= message.decode(_variable, ns);
+  result &= message.decode(_value, ns);
+  result &= message.decode(_priority, ns);
   return result;
 }
 

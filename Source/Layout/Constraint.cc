@@ -112,12 +112,12 @@ bool Constraint::serialize(core::Message& message) const {
   return success;
 }
 
-bool Constraint::deserialize(core::Message& message) {
+bool Constraint::deserialize(core::Message& message, core::Namespace* ns) {
   auto success = true;
-  success &= message.decode(_identifier);
-  success &= message.decode(_expression);
-  success &= message.decode(_relation);
-  success &= message.decode(_priority);
+  success &= message.decode(_identifier, ns);
+  success &= message.decode(_expression, ns);
+  success &= message.decode(_relation, ns);
+  success &= message.decode(_priority, ns);
   return success;
 }
 

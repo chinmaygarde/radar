@@ -60,9 +60,9 @@ class TouchEvent : public Event {
    */
   Phase phase() const;
 
-  bool serialize(core::Message& m) const override;
+  bool serialize(core::Message& message) const override;
 
-  bool deserialize(core::Message& m) override;
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
   Identifier _identifier;

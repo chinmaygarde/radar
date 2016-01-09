@@ -26,7 +26,7 @@ class Suggestion : public core::Serializable {
 
   bool serialize(core::Message& message) const override;
 
-  bool deserialize(core::Message& message) override;
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
   static std::vector<Suggestion> Anchor(interface::Entity& entity,
                                         interface::Entity::Property property,

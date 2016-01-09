@@ -32,11 +32,11 @@ bool Term::serialize(core::Message& message) const {
   return success;
 }
 
-bool Term::deserialize(core::Message& message) {
+bool Term::deserialize(core::Message& message, core::Namespace* ns) {
   auto success = true;
-  success &= message.decode(_variable);
-  success &= message.decode(_coefficient);
-  success &= message.decode(_constant);
+  success &= message.decode(_variable, ns);
+  success &= message.decode(_coefficient, ns);
+  success &= message.decode(_constant, ns);
   return success;
 }
 

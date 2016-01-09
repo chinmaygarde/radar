@@ -39,8 +39,9 @@ Protocol::Protocol(bool isVendor)
     : _channel(std::make_shared<Channel>()),
       _isVendor(isVendor),
       _isAdvertising(false) {
-  _channel->setMessageCallback(
-      std::bind(&Protocol::onChannelMessage, this, std::placeholders::_1));
+  _channel->setMessageCallback(std::bind(&Protocol::onChannelMessage, this,
+                                         std::placeholders::_1,
+                                         std::placeholders::_2));
 }
 
 std::shared_ptr<EventLoopSource> Protocol::source() {
@@ -48,10 +49,10 @@ std::shared_ptr<EventLoopSource> Protocol::source() {
   return _channel->source();
 }
 
-void Protocol::onChannelMessage(Message message) {
+void Protocol::onChannelMessage(Message message, Namespace* ns) {
   ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Request, 0, false);
 
-  if (!message.decode(header)) {
+  if (!message.decode(header, ns)) {
     return;
   }
 

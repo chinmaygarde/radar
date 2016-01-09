@@ -118,11 +118,11 @@ bool Variable::serialize(core::Message& message) const {
   return success;
 }
 
-bool Variable::deserialize(core::Message& message) {
+bool Variable::deserialize(core::Message& message, core::Namespace* ns) {
   auto success = true;
-  success &= message.decode(_identifier);
-  success &= message.decode(_property);
-  success &= message.decode(_isProxy);
+  success &= message.decode(_identifier, ns);
+  success &= message.decode(_property, ns);
+  success &= message.decode(_isProxy, ns);
   return success;
 }
 

@@ -172,8 +172,8 @@ size_t Message::encodeOffsetRawUnsafe(size_t size) {
   return _dataLength - size;
 }
 
-bool Message::decode(Serializable& value) {
-  return value.deserialize(*this);
+bool Message::decode(Serializable& value, Namespace* ns) {
+  return value.deserialize(*this, ns);
 }
 
 uint8_t* Message::decodeRawUnsafe(size_t size) {

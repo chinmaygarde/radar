@@ -30,10 +30,14 @@ static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
 }
 
 Channel::Channel(const Message::Attachment& attachment)
-    : _terminated(false), _provider(ChannelSelectProvider(*this, attachment)) {}
+    : _localNS(nullptr),
+      _terminated(false),
+      _provider(ChannelSelectProvider(*this, attachment)) {}
 
 Channel::Channel()
-    : _terminated(false), _provider(ChannelSelectProvider(*this)) {}
+    : _localNS(nullptr),
+      _terminated(false),
+      _provider(ChannelSelectProvider(*this)) {}
 
 Channel::~Channel() {
   terminate();
@@ -88,7 +92,7 @@ IOResult Channel::readPendingMessageNow() {
   switch (result.first) {
     case IOResult::Success:
       if (_messageCallback) {
-        _messageCallback(std::move(result.second));
+        _messageCallback(std::move(result.second), _localNS);
       }
       return IOResult::Success;
     case IOResult::Failure:
@@ -124,6 +128,10 @@ Done:
 
 Message::Attachment Channel::asMessageAttachment() const {
   return _provider->handle();
+}
+
+void Channel::setMessagesNamespace(Namespace* ns) {
+  _localNS = ns;
 }
 
 Channel::TerminationCallback Channel::terminationCallback() const {

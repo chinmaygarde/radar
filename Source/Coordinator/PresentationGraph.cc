@@ -50,7 +50,7 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
       std::bind(&G::onTransferEntityCommit, this, P::_1, P::_2, P::_3),
       std::bind(&G::onConstraintsCommit, this, P::_1),
       std::bind(&G::onSuggestionsCommit, this, P::_1));
-  return payload.deserialize(arena);
+  return payload.deserialize(arena, &_localNS);
 }
 
 void PresentationGraph::onActionCommit(interface::Action& action) {

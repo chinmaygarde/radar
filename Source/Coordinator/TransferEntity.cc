@@ -116,9 +116,9 @@ bool TransferEntity::serialize(core::Message& message) const {
   });
 }
 
-bool TransferEntity::deserialize(core::Message& message) {
-  auto success = message.decode(_identifier);
-  success &= message.decode(_updateMask);
+bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
+  auto success = message.decode(_identifier, ns);
+  success &= message.decode(_updateMask, ns);
 
   if (!success) {
     return false;
@@ -127,23 +127,23 @@ bool TransferEntity::deserialize(core::Message& message) {
   return walkEnabledProperties(~0 /* all */, [&](Property property) {
     switch (property) {
       case Property::AddedTo:
-        return message.decode(_addedTo);
+        return message.decode(_addedTo, ns);
       case Property::RemovedFrom:
-        return message.decode(_removedFrom);
+        return message.decode(_removedFrom, ns);
       case Property::Bounds:
-        return message.decode(_bounds);
+        return message.decode(_bounds, ns);
       case Property::Position:
-        return message.decode(_position);
+        return message.decode(_position, ns);
       case Property::AnchorPoint:
-        return message.decode(_anchorPoint);
+        return message.decode(_anchorPoint, ns);
       case Property::Transformation:
-        return message.decode(_transformation);
+        return message.decode(_transformation, ns);
       case Property::BackgroundColor:
-        return message.decode(_backgroundColor);
+        return message.decode(_backgroundColor, ns);
       case Property::Opacity:
-        return message.decode(_opacity);
+        return message.decode(_opacity, ns);
       case Property::MakeRoot:
-        return message.decode(_makeRoot);
+        return message.decode(_makeRoot, ns);
       default:
         return false;
     }

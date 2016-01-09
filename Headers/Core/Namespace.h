@@ -34,7 +34,7 @@ class Name : public Serializable {
 
   bool serialize(Message& message) const override;
 
-  bool deserialize(Message& message) override;
+  bool deserialize(Message& message, Namespace* ns) override;
 
   constexpr bool operator==(const Name& other) const {
     return _handle == other._handle;

@@ -82,13 +82,13 @@ bool Allocation::serialize(Message& message) const {
   return success;
 }
 
-bool Allocation::deserialize(Message& message) {
+bool Allocation::deserialize(Message& message, Namespace* ns) {
   RL_ASSERT_MSG(!isReady(), "Can only deserialize into a fresh allocation");
 
   /*
    *  Decode the size of the allocation
    */
-  bool success = message.decode(_size);
+  bool success = message.decode(_size, ns);
 
   if (!success) {
     return false;

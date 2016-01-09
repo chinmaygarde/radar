@@ -62,13 +62,14 @@ bool TransactionPayload::serialize(core::Message& message) const {
   return result;
 }
 
-bool TransactionPayload::deserialize(core::Message& message) {
+bool TransactionPayload::deserialize(core::Message& message,
+                                     core::Namespace* ns) {
   bool result = true;
   /*
    *  Step 1: Read the action
    */
   interface::Action action;
-  result = action.deserialize(message);
+  result = action.deserialize(message, ns);
 
   if (!result) {
     return false;
@@ -77,14 +78,14 @@ bool TransactionPayload::deserialize(core::Message& message) {
   _actionCallback(action);
 
   std::vector<layout::Constraint> constraints;
-  result = message.decode(constraints);
+  result = message.decode(constraints, ns);
 
   if (!result) {
     return false;
   }
 
   std::vector<layout::Suggestion> suggestions;
-  result = message.decode(suggestions);
+  result = message.decode(suggestions, ns);
 
   if (!result) {
     return false;
@@ -94,7 +95,7 @@ bool TransactionPayload::deserialize(core::Message& message) {
    *  Step 2: Read the transfer record count
    */
   size_t transferRecords = 0;
-  result = message.decode(transferRecords);
+  result = message.decode(transferRecords, ns);
   if (!result) {
     return false;
   }
@@ -108,7 +109,7 @@ bool TransactionPayload::deserialize(core::Message& message) {
     TransferEntity entity(core::DeadName);
 
     for (size_t i = 0; i < transferRecords; i++) {
-      if (message.decode(entity)) {
+      if (message.decode(entity, ns)) {
         _transferRecordCallback(action, entity, _commitTime);
       } else {
         break;
