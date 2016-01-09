@@ -19,7 +19,7 @@ TEST(MessageDecoderTest, SimpleInitialization) {
 
   rl::core::Message decoder(message.data(), message.size());
 
-  ASSERT_TRUE(decoder.decode(val));
+  ASSERT_TRUE(decoder.decode(val, nullptr));
   ASSERT_TRUE(val == 40);
 }
 
@@ -46,13 +46,13 @@ TEST(MessageDecoderTest, MutltipleInitialization) {
 
   rl::core::Message decoder(message.data(), message.size());
 
-  ASSERT_TRUE(decoder.decode(val));
-  ASSERT_TRUE(decoder.decode(foo));
-  ASSERT_TRUE(decoder.decode(a));
-  ASSERT_TRUE(decoder.decode(b));
-  ASSERT_TRUE(decoder.decode(c));
+  ASSERT_TRUE(decoder.decode(val, nullptr));
+  ASSERT_TRUE(decoder.decode(foo, nullptr));
+  ASSERT_TRUE(decoder.decode(a, nullptr));
+  ASSERT_TRUE(decoder.decode(b, nullptr));
+  ASSERT_TRUE(decoder.decode(c, nullptr));
 
-  ASSERT_FALSE(decoder.decode(val));
+  ASSERT_FALSE(decoder.decode(val, nullptr));
 
   ASSERT_TRUE(val == 40);
   ASSERT_TRUE(foo == true);

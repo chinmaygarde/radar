@@ -20,7 +20,9 @@ TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
 }
 
 TEST(LayoutTest, TermConstruction) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
   rl::layout::Term term(v, 1.0, false);
   rl::layout::Term term2(v, 2.0, false);
 
@@ -37,7 +39,9 @@ TEST(LayoutTest, TermConstruction) {
 }
 
 TEST(LayoutTest, VariableConstruction) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
   rl::layout::Term term2(v, 2.0, false);
 
   auto expr = v + 1.0;
@@ -53,7 +57,9 @@ TEST(LayoutTest, VariableConstruction) {
 }
 
 TEST(LayoutTest, DoubleConstruction) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
   rl::layout::Term term2(v, 2.0, false);
 
   auto expr2 = 2.0 + v;
@@ -75,12 +81,14 @@ TEST(LayoutTest, DoubleConstruction) {
 }
 
 TEST(LayoutTest, ComplexOperationOverload) {
-  rl::layout::Variable v1(1);
-  rl::layout::Variable v2(2);
-  rl::layout::Variable v3(3);
-  rl::layout::Variable v4(4);
-  rl::layout::Variable v5(5);
-  rl::layout::Variable v6(6);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v1(ns.create());
+  rl::layout::Variable v2(ns.create());
+  rl::layout::Variable v3(ns.create());
+  rl::layout::Variable v4(ns.create());
+  rl::layout::Variable v5(ns.create());
+  rl::layout::Variable v6(ns.create());
 
   auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
   ASSERT_EQ(expr.constant(), -300.0);
@@ -109,7 +117,9 @@ TEST(LayoutTest, ComplexOperationOverload) {
 }
 
 TEST(LayoutTest, ConstraintCreation) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -141,7 +151,9 @@ TEST(LayoutTest, ConstraintCreation) {
 }
 
 TEST(LayoutTest, ConstraintCreationAtPriority) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
 
   rl::layout::Constraint constraint =
       2.0 * v + 35 == 0 | rl::layout::priority::Strong;
@@ -159,7 +171,9 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
 }
 
 TEST(LayoutTest, SerializeDeserializeConstraint) {
-  rl::layout::Variable v(1);
+  rl::core::Namespace ns;
+
+  rl::layout::Variable v(ns.create());
   auto constraint =
       2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
 
@@ -171,7 +185,7 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
   message.rewindRead();
 
   rl::layout::Constraint decoded;
-  ASSERT_EQ(message.decode(decoded), true);
+  ASSERT_EQ(message.decode(decoded, &ns), true);
   ASSERT_EQ(message.sizeRead(), sizeWritten);
 
   ASSERT_EQ(decoded.expression().terms().size(), 3);
@@ -182,13 +196,17 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
 }
 
 TEST(LayoutTest, ConstraintsAdd) {
-  rl::layout::Variable p1(1), p2(2), p3(3);
+  rl::core::Namespace ns;
+
+  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+
+  rl::layout::Variable p1(one), p2(two), p3(three);
 
   rl::layout::Variable left = p1;
   rl::layout::Variable mid = p2;
   rl::layout::Variable right = p3;
 
-  rl::layout::Solver solver;
+  rl::layout::Solver solver(ns);
 
   ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid),
             rl::layout::Result::Success);
@@ -196,19 +214,20 @@ TEST(LayoutTest, ConstraintsAdd) {
             rl::layout::Result::Success);
   ASSERT_EQ(solver.addConstraint(left >= 0), rl::layout::Result::Success);
 
-  std::map<rl::interface::Entity::Identifier, double> updates;
+  std::map<rl::core::Name, double> updates;
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
       });
 
-  ASSERT_EQ(updates[1], 0.0);
-  ASSERT_EQ(updates[2], 50.0);
-  ASSERT_EQ(updates[3], 100.0);
+  ASSERT_EQ(updates[one], 0.0);
+  ASSERT_EQ(updates[two], 50.0);
+  ASSERT_EQ(updates[three], 100.0);
 }
 
 TEST(LayoutTest, ParameterHoisting) {
-  rl::layout::Variable p1(100);
+  rl::core::Namespace ns;
+  rl::layout::Variable p1(ns.create());
   rl::layout::Constraint constraint = p1 >= 10;
 
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -216,9 +235,13 @@ TEST(LayoutTest, ParameterHoisting) {
 }
 
 TEST(LayoutTest, ConstraintsAddParameterConst) {
-  rl::layout::Variable left(1), mid(2), right(3);
+  rl::core::Namespace ns;
 
-  rl::layout::Solver solver;
+  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+
+  rl::layout::Variable left(one), mid(two), right(three);
+
+  rl::layout::Solver solver(ns);
 
   ASSERT_EQ(solver.addConstraint(right + left == 2.0 * mid),
             rl::layout::Result::Success);
@@ -226,22 +249,24 @@ TEST(LayoutTest, ConstraintsAddParameterConst) {
             rl::layout::Result::Success);
   ASSERT_EQ(solver.addConstraint(left >= 0), rl::layout::Result::Success);
 
-  std::map<rl::interface::Entity::Identifier, double> updates;
+  std::map<rl::core::Name, double> updates;
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
       });
 
-  ASSERT_EQ(updates[1], 0.0);
-  ASSERT_EQ(updates[2], 50.0);
-  ASSERT_EQ(updates[3], 100.0);
+  ASSERT_EQ(updates[one], 0.0);
+  ASSERT_EQ(updates[two], 50.0);
+  ASSERT_EQ(updates[three], 100.0);
 }
 
 TEST(LayoutTest, UpdatesInSolver) {
-  rl::layout::Solver solver;
+  rl::core::Namespace ns;
 
-  rl::layout::Variable left(1);
-  rl::layout::Variable right(2);
+  rl::layout::Solver solver(ns);
+
+  rl::layout::Variable left(ns.create());
+  rl::layout::Variable right(ns.create());
 
   auto c1 = right - left >= 200.0;
   auto c2 = right >= right;
@@ -254,11 +279,12 @@ TEST(LayoutTest, UpdatesInSolver) {
 }
 
 TEST(LayoutTest, EditUpdates) {
-  rl::layout::Solver solver;
+  rl::core::Namespace ns;
+  rl::layout::Solver solver(ns);
 
-  rl::layout::Variable left(1);
-  rl::layout::Variable right(2);
-  rl::layout::Variable mid(3);
+  rl::layout::Variable left(ns.create());
+  rl::layout::Variable right(ns.create());
+  rl::layout::Variable mid(ns.create());
 
   auto c = left + right >= 2.0 * mid;
   ASSERT_EQ(solver.addConstraint(c), rl::layout::Result::Success);
@@ -271,9 +297,13 @@ TEST(LayoutTest, EditUpdates) {
 }
 
 TEST(LayoutTest, EditConstraintFlush) {
-  rl::layout::Variable left(1), right(2), mid(3);
+  rl::core::Namespace ns;
 
-  rl::layout::Solver solver;
+  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+
+  rl::layout::Variable left(ns.create()), right(ns.create()), mid(ns.create());
+
+  rl::layout::Solver solver(ns);
 
   auto res = solver.addConstraints({
       right + left == 2.0 * mid,  //
@@ -289,21 +319,26 @@ TEST(LayoutTest, EditConstraintFlush) {
   ASSERT_EQ(solver.applySuggestion({mid, 300, rl::layout::priority::Strong}),
             rl::layout::Result::Success);
 
-  std::map<rl::interface::Entity::Identifier, double> updates;
+  std::map<rl::core::Name, double> updates;
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
       });
 
-  ASSERT_EQ(updates[1], 0.0);
-  ASSERT_EQ(updates[3], 300.0);
-  ASSERT_EQ(updates[2], 600.0);
+  ASSERT_EQ(updates[one], 0.0);
+  ASSERT_EQ(updates[three], 300.0);
+  ASSERT_EQ(updates[two], 600.0);
 }
 
 TEST(LayoutTest, SolverSolutionWithOptimize) {
-  rl::layout::Variable p1(1), p2(2), p3(3), container(4);
+  rl::core::Namespace ns;
 
-  rl::layout::Solver solver;
+  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create()),
+      four(ns.create());
+
+  rl::layout::Variable p1(one), p2(two), p3(three), container(four);
+
+  rl::layout::Solver solver(ns);
 
   auto res = solver.addEditVariable(container, rl::layout::priority::Strong);
 
@@ -323,30 +358,34 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
-  std::map<rl::interface::Entity::Identifier, double> updates;
+  std::map<rl::core::Name, double> updates;
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
       });
 
-  ASSERT_EQ(updates[4], 100.0);
-  ASSERT_EQ(updates[1], 30.0);
-  ASSERT_EQ(updates[2], 60.0);
-  ASSERT_EQ(updates[3], 10.0);
+  ASSERT_EQ(updates[four], 100.0);
+  ASSERT_EQ(updates[one], 30.0);
+  ASSERT_EQ(updates[two], 60.0);
+  ASSERT_EQ(updates[three], 10.0);
 }
 
 TEST(LayoutTest, VariableCreationViaOverloading) {
-  rl::interface::Entity entity(false);
+  rl::core::Namespace ns;
+
+  rl::interface::Entity entity(ns.create(), false);
   auto variable = entity | rl::layout::Variable::Property::BoundsOriginX;
   ASSERT_EQ(variable.property(), rl::layout::Variable::Property::BoundsOriginX);
   ASSERT_EQ(variable.identifier(), entity.identifier());
 }
 
 TEST(LayoutTest, MakeConstantHoistableVariants) {
+  rl::core::Namespace ns;
+
   auto expr1 = rl::layout::MakeConst(10.0);
   ASSERT_EQ(expr1.constant(), 10.0);
 
-  rl::layout::Variable var(1);
+  rl::layout::Variable var(ns.create());
   auto expr2 = rl::layout::MakeConst(var);
   ASSERT_EQ(expr2.terms().size(), 1);
 

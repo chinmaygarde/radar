@@ -121,7 +121,7 @@ Constraint operator>=(const A& a, const B& b) {
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator<=(const A& a, const B& b) {
-  auto expr = {a - b};
+  auto expr = Expression{a - b};
   return {core::Name{expr.ns()}, std::move(expr),
           Constraint::Relation::LessThanOrEqualTo, priority::Required};
 }

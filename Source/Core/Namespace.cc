@@ -9,8 +9,6 @@
 namespace rl {
 namespace core {
 
-Name::Name() : _handle(DeadHandle), _ns(nullptr) {}
-
 Name::Name(Namespace* ns)
     : _handle(ns == nullptr ? DeadHandle : ns->createHandle()), _ns(ns) {}
 

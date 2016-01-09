@@ -62,10 +62,11 @@ TEST(ChannelTest, TestSimpleReads) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessageCallback([&](rl::core::Message m) {
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-      loop->terminate();
-    });
+    channel.setMessageCallback(
+        [&](rl::core::Message m, rl::core::Namespace* ns) {
+          ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+          loop->terminate();
+        });
 
     loop->loop([&] { latch.countDown(); });
   });
@@ -98,13 +99,14 @@ TEST(ChannelTest, TestLargeReadWrite) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessageCallback([&](rl::core::Message m) {
-      ASSERT_TRUE(m.size() == sizeWritten);
-      ASSERT_TRUE(
-          MemorySetOrCheckPattern(m.data(), sizeWritten, false /* check */));
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-      loop->terminate();
-    });
+    channel.setMessageCallback(
+        [&](rl::core::Message m, rl::core::Namespace* ns) {
+          ASSERT_TRUE(m.size() == sizeWritten);
+          ASSERT_TRUE(MemorySetOrCheckPattern(m.data(), sizeWritten,
+                                              false /* check */));
+          ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+          loop->terminate();
+        });
 
     loop->loop([&] { latch.countDown(); });
   });
@@ -142,20 +144,21 @@ TEST(ChannelTest, TestSimpleReadContents) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessageCallback([&](rl::core::Message m) {
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+    channel.setMessageCallback(
+        [&](rl::core::Message m, rl::core::Namespace* ns) {
+          ASSERT_TRUE(loop == rl::core::EventLoop::Current());
 
-      char c = 'a';
-      int d = 22;
-      ASSERT_TRUE(m.decode(c));
-      ASSERT_TRUE(m.decode(d));
-      ASSERT_TRUE(m.size() == sendSize);
-      ASSERT_TRUE(m.sizeRead() == sendSize);
-      ASSERT_TRUE(c == 'c');
-      ASSERT_TRUE(d == 222);
+          char c = 'a';
+          int d = 22;
+          ASSERT_TRUE(m.decode(c, nullptr));
+          ASSERT_TRUE(m.decode(d, nullptr));
+          ASSERT_TRUE(m.size() == sendSize);
+          ASSERT_TRUE(m.sizeRead() == sendSize);
+          ASSERT_TRUE(c == 'c');
+          ASSERT_TRUE(d == 222);
 
-      loop->terminate();
-    });
+          loop->terminate();
+        });
 
     loop->loop([&] { latch.countDown(); });
   });
@@ -188,12 +191,13 @@ TEST(ChannelTest, ZeroTimeoutReadsDontHang) {
 TEST(ChannelTest, SendAttachmentsOverChannels) {
   rl::core::Channel chan;
 
-  chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachments().size(), 1);
-    ASSERT_EQ(message.attachments()[0].isValid(), true);
-    ASSERT_EQ(message.readCompleted(), true);
-    rl::core::EventLoop::Current()->terminate();
-  });
+  chan.setMessageCallback(
+      [&](rl::core::Message message, rl::core::Namespace* ns) {
+        ASSERT_EQ(message.attachments().size(), 1);
+        ASSERT_EQ(message.attachments()[0].isValid(), true);
+        ASSERT_EQ(message.readCompleted(), true);
+        rl::core::EventLoop::Current()->terminate();
+      });
 
   rl::core::Latch latch(1);
   std::thread thread([&]() {
@@ -226,28 +230,29 @@ TEST(ChannelTest, AliasingChannels) {
   rl::core::Channel chan;
 
   rl::core::Latch aliasLatch(1);
-  chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachments().size(), 1);
-    ASSERT_EQ(message.attachments()[0].isValid(), 1);
-    rl::core::EventLoop::Current()->terminate();
+  chan.setMessageCallback(
+      [&](rl::core::Message message, rl::core::Namespace* ns) {
+        ASSERT_EQ(message.attachments().size(), 1);
+        ASSERT_EQ(message.attachments()[0].isValid(), 1);
+        rl::core::EventLoop::Current()->terminate();
 
-    /*
-     *  Alias of the channel
-     */
-    rl::core::Channel aliasOther(message.attachments()[0]);
-    ASSERT_NE(aliasOther.source(), nullptr);
+        /*
+         *  Alias of the channel
+         */
+        rl::core::Channel aliasOther(message.attachments()[0]);
+        ASSERT_NE(aliasOther.source(), nullptr);
 
-    rl::core::Message messageToAlias;
-    char x = 'x';
-    messageToAlias.encode(x);
+        rl::core::Message messageToAlias;
+        char x = 'x';
+        messageToAlias.encode(x);
 
-    rl::core::Messages messages;
-    messages.emplace_back(std::move(messageToAlias));
+        rl::core::Messages messages;
+        messages.emplace_back(std::move(messageToAlias));
 
-    ASSERT_EQ(aliasOther.sendMessages(std::move(messages)),
-              rl::core::IOResult::Success);
-    aliasLatch.countDown();
-  });
+        ASSERT_EQ(aliasOther.sendMessages(std::move(messages)),
+                  rl::core::IOResult::Success);
+        aliasLatch.countDown();
+      });
 
   rl::core::Latch latch(1);
   std::thread thread([&]() {
@@ -271,13 +276,14 @@ TEST(ChannelTest, AliasingChannels) {
             rl::core::IOResult::Success);
 
   bool otherMessageRead = false;
-  other.setMessageCallback([&](rl::core::Message message) {
-    otherMessageRead = true;
+  other.setMessageCallback(
+      [&](rl::core::Message message, rl::core::Namespace* ns) {
+        otherMessageRead = true;
 
-    char someChar = 'a';
-    ASSERT_EQ(message.decode(someChar), true);
-    ASSERT_EQ(someChar, 'x');
-  });
+        char someChar = 'a';
+        ASSERT_EQ(message.decode(someChar, nullptr), true);
+        ASSERT_EQ(someChar, 'x');
+      });
 
   aliasLatch.wait();
   ASSERT_EQ(other.readPendingMessageNow(), rl::core::IOResult::Success);
@@ -290,14 +296,15 @@ TEST(ChannelTest, AliasingChannels) {
 TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
   rl::core::Channel chan;
 
-  chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachments().size(), 1);
-    ASSERT_EQ(message.attachments()[0].isValid(), true);
-    auto character = 'a';
-    ASSERT_EQ(message.decode(character), true);
-    ASSERT_EQ(character, 'x');
-    rl::core::EventLoop::Current()->terminate();
-  });
+  chan.setMessageCallback(
+      [&](rl::core::Message message, rl::core::Namespace* ns) {
+        ASSERT_EQ(message.attachments().size(), 1);
+        ASSERT_EQ(message.attachments()[0].isValid(), true);
+        auto character = 'a';
+        ASSERT_EQ(message.decode(character, nullptr), true);
+        ASSERT_EQ(character, 'x');
+        rl::core::EventLoop::Current()->terminate();
+      });
 
   rl::core::Latch latch(1);
   std::thread thread([&]() {
@@ -327,22 +334,23 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
   rl::core::Channel chan;
 
-  chan.setMessageCallback([&](rl::core::Message message) {
-    ASSERT_EQ(message.attachments().size(), 7);
-    ASSERT_EQ(message.attachments()[0].isValid(), true);
-    ASSERT_EQ(message.attachments()[1].isValid(), true);
-    ASSERT_EQ(message.attachments()[2].isValid(), true);
-    ASSERT_EQ(message.attachments()[3].isValid(), true);
-    ASSERT_EQ(message.attachments()[4].isValid(), true);
-    ASSERT_EQ(message.attachments()[5].isValid(), true);
-    ASSERT_EQ(message.attachments()[6].isValid(), true);
+  chan.setMessageCallback(
+      [&](rl::core::Message message, rl::core::Namespace* ns) {
+        ASSERT_EQ(message.attachments().size(), 7);
+        ASSERT_EQ(message.attachments()[0].isValid(), true);
+        ASSERT_EQ(message.attachments()[1].isValid(), true);
+        ASSERT_EQ(message.attachments()[2].isValid(), true);
+        ASSERT_EQ(message.attachments()[3].isValid(), true);
+        ASSERT_EQ(message.attachments()[4].isValid(), true);
+        ASSERT_EQ(message.attachments()[5].isValid(), true);
+        ASSERT_EQ(message.attachments()[6].isValid(), true);
 
-    auto character = 'a';
-    ASSERT_EQ(message.decode(character), true);
-    ASSERT_EQ(character, 'x');
-    ASSERT_EQ(message.readCompleted(), true);
-    rl::core::EventLoop::Current()->terminate();
-  });
+        auto character = 'a';
+        ASSERT_EQ(message.decode(character, nullptr), true);
+        ASSERT_EQ(character, 'x');
+        ASSERT_EQ(message.readCompleted(), true);
+        rl::core::EventLoop::Current()->terminate();
+      });
 
   rl::core::Latch latch(1);
   std::thread thread([&]() {
@@ -400,24 +408,25 @@ TEST(ChannelTest, TestLargeReadWriteWithAttachments) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessageCallback([&](rl::core::Message message) {
-      ASSERT_TRUE(message.size() == sizeWritten);
-      ASSERT_TRUE(message.size() == rawSize);
-      ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
-                                          false /* check */));
+    channel.setMessageCallback(
+        [&](rl::core::Message message, rl::core::Namespace* ns) {
+          ASSERT_TRUE(message.size() == sizeWritten);
+          ASSERT_TRUE(message.size() == rawSize);
+          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+                                              false /* check */));
 
-      ASSERT_EQ(message.attachments().size(), 7);
-      ASSERT_EQ(message.attachments()[0].isValid(), true);
-      ASSERT_EQ(message.attachments()[1].isValid(), true);
-      ASSERT_EQ(message.attachments()[2].isValid(), true);
-      ASSERT_EQ(message.attachments()[3].isValid(), true);
-      ASSERT_EQ(message.attachments()[4].isValid(), true);
-      ASSERT_EQ(message.attachments()[5].isValid(), true);
-      ASSERT_EQ(message.attachments()[6].isValid(), true);
+          ASSERT_EQ(message.attachments().size(), 7);
+          ASSERT_EQ(message.attachments()[0].isValid(), true);
+          ASSERT_EQ(message.attachments()[1].isValid(), true);
+          ASSERT_EQ(message.attachments()[2].isValid(), true);
+          ASSERT_EQ(message.attachments()[3].isValid(), true);
+          ASSERT_EQ(message.attachments()[4].isValid(), true);
+          ASSERT_EQ(message.attachments()[5].isValid(), true);
+          ASSERT_EQ(message.attachments()[6].isValid(), true);
 
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-      loop->terminate();
-    });
+          ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+          loop->terminate();
+        });
 
     loop->loop([&] { latch.countDown(); });
   });
@@ -482,20 +491,21 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
     auto source = channel.source();
     ASSERT_TRUE(loop->addSource(source));
 
-    channel.setMessageCallback([&](rl::core::Message message) {
-      ASSERT_TRUE(message.size() == sizeWritten);
-      ASSERT_TRUE(message.size() == rawSize);
-      ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
-                                          false /* check */));
+    channel.setMessageCallback(
+        [&](rl::core::Message message, rl::core::Namespace* ns) {
+          ASSERT_TRUE(message.size() == sizeWritten);
+          ASSERT_TRUE(message.size() == rawSize);
+          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+                                              false /* check */));
 
-      ASSERT_EQ(message.attachments().size(), 3);
-      ASSERT_EQ(message.attachments()[0].isValid(), true);
-      ASSERT_EQ(message.attachments()[1].isValid(), true);
-      ASSERT_EQ(message.attachments()[2].isValid(), true);
+          ASSERT_EQ(message.attachments().size(), 3);
+          ASSERT_EQ(message.attachments()[0].isValid(), true);
+          ASSERT_EQ(message.attachments()[1].isValid(), true);
+          ASSERT_EQ(message.attachments()[2].isValid(), true);
 
-      ASSERT_TRUE(loop == rl::core::EventLoop::Current());
-      loop->terminate();
-    });
+          ASSERT_TRUE(loop == rl::core::EventLoop::Current());
+          loop->terminate();
+        });
 
     loop->loop([&] { latch.countDown(); });
   });

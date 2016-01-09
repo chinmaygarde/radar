@@ -8,10 +8,18 @@ namespace rl {
 namespace coordinator {
 
 TransferEntity::TransferEntity(core::Name identifier)
-    : Entity(identifier, false), _updateMask(0) {}
+    : Entity(identifier, false),
+      _updateMask(0),
+      _addedTo(core::DeadName),
+      _removedFrom(core::DeadName),
+      _makeRoot(core::DeadName) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
-    : Entity(transferEntity), _updateMask(transferEntity._updateMask) {}
+    : Entity(transferEntity),
+      _updateMask(transferEntity._updateMask),
+      _addedTo(core::DeadName),
+      _removedFrom(core::DeadName),
+      _makeRoot(core::DeadName) {}
 
 core::Name TransferEntity::addedToTarget() const {
   return _addedTo;

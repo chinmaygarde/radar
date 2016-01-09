@@ -18,8 +18,6 @@ class Name : public Serializable {
  public:
   using Handle = uint32_t;
 
-  Name();
-
   Name(Namespace* ns);
 
   Name(Handle handle, Namespace* ns);
