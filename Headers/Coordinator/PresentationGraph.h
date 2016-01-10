@@ -46,13 +46,10 @@ class PresentationGraph {
   layout::Solver _layoutSolver;
   layout::ProxyResolver _proxyResolver;
 
+  PresentationEntity& presentationEntityForName(const core::Name& name);
+
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
-
-  void prepareActions(interface::Action& action,
-                      PresentationEntity& currentState,
-                      const TransferEntity& transferEntity,
-                      const core::ClockPoint& time);
 
   template <typename T>
   void prepareActionSingle(const core::ClockPoint& start,

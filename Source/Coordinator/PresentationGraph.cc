@@ -28,6 +28,23 @@ PresentationGraph::PresentationGraph(core::Namespace& localNS)
 
 PresentationGraph::~PresentationGraph() {}
 
+PresentationEntity& PresentationGraph::presentationEntityForName(
+    const core::Name& name) {
+  RL_ASSERT(name != core::DeadName);
+
+  auto& entity = _entities[name];
+
+  /*
+   *  TODO: There needs to a consolidation phase for unused entities after
+   *        a transaction update.
+   */
+  if (!entity) {
+    entity = core::make_unique<PresentationEntity>(name);
+  }
+
+  return *entity;
+}
+
 bool PresentationGraph::applyTransactions(core::Message& arena) {
   auto applyTime = core::Clock::now();
   do {
@@ -64,16 +81,100 @@ void PresentationGraph::onActionCommit(interface::Action& action) {
 void PresentationGraph::onTransferEntityCommit(interface::Action& action,
                                                TransferEntity& transferEntity,
                                                const core::ClockPoint& time) {
-  auto entityIdentifier = transferEntity.identifier();
+  auto& presentationEntity =
+      presentationEntityForName(transferEntity.identifier());
 
-  auto& presentationEntity = _entities[entityIdentifier];
+  /*
+   *  The presentation entity contains the old property values and the
+   *  transfer entity contains the new values. If the action update mask
+   *  specifies an update for a property, setup an interpolator. Then merge
+   *  all enabled properties on the transfer entity.
+   */
+  using Property = interface::Entity::Property;
+  using PropertyMask = interface::Entity::PropertyMask;
 
-  if (!presentationEntity) {
-    presentationEntity =
-        core::make_unique<PresentationEntity>(entityIdentifier);
-  }
+  /*
 
-  prepareActions(action, *presentationEntity, transferEntity, time);
+   *  Step 1: Resolve hierarchy updates
+   */
+  const auto hierarchyMask = PropertyMask::AddedToMask |
+                             PropertyMask::RemovedFromMask |
+                             PropertyMask::MakeRootMask;
+
+  transferEntity.walkEnabledProperties(hierarchyMask, [&](Property prop) {
+    switch (prop) {
+      case Property::AddedTo: {
+        presentationEntityForName(transferEntity.addedToTarget())
+            .addChild(&presentationEntity);
+      } break;
+      case Property::RemovedFrom: {
+        presentationEntityForName(transferEntity.removedFromTarget())
+            .removeChild(&presentationEntity);
+      } break;
+      case Property::MakeRoot:
+        _root = &presentationEntity;
+        break;
+      default:
+        RL_ASSERT("Unreachable");
+        break;
+    }
+    return true;
+  });
+
+  const auto interpolatedProperties = action.propertyMask();
+
+  /*
+   *  Step 2: Setup interpolators on updated items and properties enabled
+   *          via actions mask
+   */
+  transferEntity.walkEnabledProperties(
+      interpolatedProperties, [&](Property prop) {
+        /*
+         *  Only the animatable properties are cycled over in this callback.
+         */
+        switch (prop) {
+          case Property::Bounds:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.bounds(),
+                                interface::BoundsAccessors);
+            break;
+          case Property::Position:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.position(),
+                                interface::PositionAccessors);
+            break;
+          case Property::AnchorPoint:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.anchorPoint(),
+                                interface::AnchorPointAccessors);
+            break;
+          case Property::Transformation:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.transformation(),
+                                interface::TransformationAccessors);
+            break;
+          case Property::BackgroundColor:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.backgroundColor(),
+                                interface::BackgroundColorAccessors);
+            break;
+          case Property::Opacity:
+            prepareActionSingle(time, action, presentationEntity, prop,
+                                transferEntity.opacity(),
+                                interface::OpacityAccessors);
+            break;
+          default:
+            RL_ASSERT("Unreachable");
+            break;
+        }
+        return true;
+      });
+
+  /*
+   *  Step 3: Merge non interpolated properties from the transfer entity to the
+   *          presentation entity.
+   */
+  presentationEntity.mergeProperties(transferEntity, ~interpolatedProperties);
 }
 
 void PresentationGraph::onConstraintsCommit(
@@ -164,105 +265,6 @@ void PresentationGraph::prepareActionSingle(
    *  Setup the intepolator in the animation director
    */
   _animationDirector.setInterpolator(key, std::move(interpolator), start);
-}
-
-void PresentationGraph::prepareActions(interface::Action& action,
-                                       PresentationEntity& presentationEntity,
-                                       const TransferEntity& transferEntity,
-                                       const core::ClockPoint& time) {
-  /*
-   *  The presentation entity contains the old property values and the
-   *  transfer entity contains the new values. If the action update mask
-   *  specifies an update for a property, setup an interpolator. Then merge
-   *  all enabled properties on the transfer entity.
-   */
-  using Property = interface::Entity::Property;
-  using PropertyMask = interface::Entity::PropertyMask;
-
-  /*
-
-   *  Step 1: Resolve hierarchy updates
-   */
-  const auto hierarchyMask = PropertyMask::AddedToMask |
-                             PropertyMask::RemovedFromMask |
-                             PropertyMask::MakeRootMask;
-
-  transferEntity.walkEnabledProperties(hierarchyMask, [&](Property prop) {
-    switch (prop) {
-      case Property::AddedTo: {
-        auto name = transferEntity.addedToTarget();
-        RL_ASSERT(name != core::DeadName);
-        _entities.at(name)->addChild(&presentationEntity);
-      } break;
-      case Property::RemovedFrom: {
-        auto name = transferEntity.removedFromTarget();
-        RL_ASSERT(name != core::DeadName);
-        _entities.at(name)->removeChild(&presentationEntity);
-      } break;
-      case Property::MakeRoot:
-        _root = &presentationEntity;
-        break;
-      default:
-        RL_ASSERT("Unreachable");
-        break;
-    }
-    return true;
-  });
-
-  const auto interpolatedProperties = action.propertyMask();
-
-  /*
-   *  Step 2: Setup interpolators on updated items and properties enabled
-   *          via actions mask
-   */
-  transferEntity.walkEnabledProperties(
-      interpolatedProperties, [&](Property prop) {
-        /*
-         *  Only the animatable properties are cycled over in this callback.
-         */
-        switch (prop) {
-          case Property::Bounds:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.bounds(),
-                                interface::BoundsAccessors);
-            break;
-          case Property::Position:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.position(),
-                                interface::PositionAccessors);
-            break;
-          case Property::AnchorPoint:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.anchorPoint(),
-                                interface::AnchorPointAccessors);
-            break;
-          case Property::Transformation:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.transformation(),
-                                interface::TransformationAccessors);
-            break;
-          case Property::BackgroundColor:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.backgroundColor(),
-                                interface::BackgroundColorAccessors);
-            break;
-          case Property::Opacity:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.opacity(),
-                                interface::OpacityAccessors);
-            break;
-          default:
-            RL_ASSERT("Unreachable");
-            break;
-        }
-        return true;
-      });
-
-  /*
-   *  Step 3: Merge non interpolated properties from the transfer entity to the
-   *          presentation entity.
-   */
-  presentationEntity.mergeProperties(transferEntity, ~interpolatedProperties);
 }
 
 void PresentationGraph::render(Frame& frame) {
