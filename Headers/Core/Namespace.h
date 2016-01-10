@@ -34,21 +34,13 @@ class Name : public Serializable {
 
   bool deserialize(Message& message, Namespace* ns) override;
 
-  constexpr bool operator==(const Name& other) const {
-    return _handle == other._handle;
-  }
+  bool operator==(const Name& other) const { return _handle == other._handle; }
 
-  constexpr bool operator!=(const Name& other) const {
-    return _handle != other._handle;
-  }
+  bool operator!=(const Name& other) const { return _handle != other._handle; }
 
-  constexpr bool operator>(const Name& other) const {
-    return _handle > other._handle;
-  }
+  bool operator>(const Name& other) const { return _handle > other._handle; }
 
-  constexpr bool operator<(const Name& other) const {
-    return _handle < other._handle;
-  }
+  bool operator<(const Name& other) const { return _handle < other._handle; }
 
   struct Hash {
     size_t operator()(const Name& name) const {
