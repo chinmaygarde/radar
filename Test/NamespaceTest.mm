@@ -178,4 +178,51 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameCopy2) {
   ASSERT_EQ(local1, local3);
 }
 
+TEST(NamespaceTest, AliasedHandleDiesWithNameLoseAllReferences) {
+  rl::core::Namespace ns;
+
+  rl::core::Name cp(1, nullptr);
+
+  auto local1Handle = rl::core::DeadHandle;
+
+  {
+    auto local1 = ns.create(cp.handle());
+    local1Handle = local1.handle();
+
+    {
+      auto local2 = ns.create(cp.handle());
+      ASSERT_EQ(local1, local2);
+    }
+
+    auto local3 = ns.create(cp.handle());
+    ASSERT_EQ(local1, local3);
+  }
+
+  ASSERT_NE(local1Handle, rl::core::DeadHandle);
+
+  auto local2Handle = rl::core::DeadHandle;
+
+  {
+    auto local1 = ns.create(cp.handle());
+    local2Handle = local1.handle();
+
+    {
+      auto local2 = ns.create(cp.handle());
+      ASSERT_EQ(local1, local2);
+    }
+
+    auto local3 = ns.create(cp.handle());
+    ASSERT_EQ(local1, local3);
+  }
+
+  ASSERT_NE(local1Handle, rl::core::DeadHandle);
+  ASSERT_NE(local2Handle, rl::core::DeadHandle);
+
+  /*
+   *  Since all references were lost, we should get a fresh handle for the
+   *  second set of references
+   */
+  ASSERT_NE(local1Handle, local2Handle);
+}
+
 RL_DECLARE_TEST_END
