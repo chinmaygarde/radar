@@ -130,4 +130,52 @@ TEST(NamespaceTest, NamesWithCounterpartsWithDeaths) {
   ASSERT_EQ(ns.mappedNamesCount(), 5);
 }
 
+TEST(NamespaceTest, AliasedHandleDies) {
+  rl::core::Namespace ns;
+
+  rl::core::Name cp(1, nullptr);
+
+  auto local1 = ns.create(cp.handle());
+
+  {
+    auto local2 = ns.create(cp.handle());
+    ASSERT_EQ(local1, local2);
+  }
+
+  auto local3 = ns.create(cp.handle());
+  ASSERT_EQ(local1, local3);
+}
+
+TEST(NamespaceTest, AliasedHandleDiesWithNameCopy) {
+  rl::core::Namespace ns;
+
+  rl::core::Name cp(1, nullptr);
+
+  auto local1 = ns.create(cp.handle());
+
+  {
+    auto local2(local1);
+    ASSERT_EQ(local1, local2);
+  }
+
+  auto local3 = ns.create(cp.handle());
+  ASSERT_EQ(local1, local3);
+}
+
+TEST(NamespaceTest, AliasedHandleDiesWithNameCopy2) {
+  rl::core::Namespace ns;
+
+  rl::core::Name cp(1, nullptr);
+
+  auto local1 = ns.create(cp.handle());
+
+  {
+    auto local2(local1);
+    ASSERT_EQ(local1, local2);
+  }
+
+  auto local3(local1);
+  ASSERT_EQ(local1, local3);
+}
+
 RL_DECLARE_TEST_END
