@@ -57,6 +57,7 @@ class Variable : public core::Serializable {
   Proxy proxy() const;
 
   static double GetProperty(interface::Entity& entity, Property property);
+
   static void SetProperty(interface::Entity& entity,
                           Property property,
                           double value);

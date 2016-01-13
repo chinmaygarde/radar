@@ -31,26 +31,19 @@ bool Name::operator!=(const Name& other) const {
 }
 
 bool Name::serialize(Message& message) const {
-  RL_ASSERT_MSG(!isDead(),
-                "Dead names may not be sent or received over channels");
-  return message.encode(*_handle);
+  auto handle = _handle ? *_handle : DeadHandle;
+  return message.encode(handle);
 }
 
 bool Name::deserialize(Message& message, Namespace* ns) {
   auto newHandle = DeadHandle;
 
   auto result = message.decode(newHandle, ns);
-  RL_ASSERT_MSG(newHandle != DeadHandle,
-                "Dead names may not be sent or received over channels");
 
-  if (result) {
+  if (result && newHandle != DeadHandle) {
     _handle = ns == nullptr ? nullptr : ns->createHandle(newHandle);
     _ns = ns;
   }
-
-  RL_ASSERT_MSG(!isDead(),
-                "Tried to pass a name over a channel but the receiver did not "
-                "specify a namespace");
 
   return result;
 }
