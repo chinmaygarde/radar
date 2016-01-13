@@ -84,7 +84,7 @@ class Variable : public core::Serializable {
  private:
   core::Name _identifier;
   Property _property;
-  bool _isProxy;
+  Proxy _proxy;
 };
 
 }  // namespace layout

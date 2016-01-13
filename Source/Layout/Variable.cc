@@ -8,13 +8,13 @@
 namespace rl {
 namespace layout {
 
-Variable::Variable() : _property(Property::None), _isProxy(false) {}
+Variable::Variable() : _property(Property::None), _proxy(Proxy::None) {}
 
 Variable::Variable(Proxy proxy, Property property)
-    : _property(property), _isProxy(true) {}
+    : _property(property), _proxy(Proxy::None) {}
 
 Variable::Variable(core::Name identifier, Property property)
-    : _identifier(identifier), _property(property), _isProxy(false) {}
+    : _identifier(identifier), _property(property), _proxy(Proxy::None) {}
 
 core::Name Variable::identifier() const {
   return _identifier;
@@ -25,12 +25,11 @@ Variable::Property Variable::property() const {
 }
 
 bool Variable::isProxy() const {
-  return _isProxy;
+  return _proxy != Proxy::None;
 }
 
 Variable::Proxy Variable::proxy() const {
-  RL_ASSERT_MSG(false, "WIP");
-  return Proxy::None;
+  return _proxy;
 }
 
 double Variable::GetProperty(interface::Entity& entity, Property property) {
@@ -112,15 +111,21 @@ bool Variable::serialize(core::Message& message) const {
   auto success = true;
   success &= message.encode(_identifier);
   success &= message.encode(_property);
-  success &= message.encode(_isProxy);
+  success &= message.encode(static_cast<ProxyType>(_proxy));
   return success;
 }
 
 bool Variable::deserialize(core::Message& message, core::Namespace* ns) {
+  ProxyType type = 0;
+
   auto success = true;
+
   success &= message.decode(_identifier, ns);
   success &= message.decode(_property, ns);
-  success &= message.decode(_isProxy, ns);
+  success &= message.decode(type, ns);
+
+  _proxy = static_cast<Proxy>(type);
+
   return success;
 }
 
