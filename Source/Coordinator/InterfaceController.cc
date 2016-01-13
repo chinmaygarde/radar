@@ -142,8 +142,8 @@ bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {
 
   RL_ASSERT_MSG(!_isUpdating,
                 "Must not render in the middle of an interface update");
-  _graph.render(frame);
-  return true;
+
+  return _graph.render(frame);
 }
 
 }  // namespace coordinator

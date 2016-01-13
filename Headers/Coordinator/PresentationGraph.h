@@ -34,7 +34,7 @@ class PresentationGraph {
 
   layout::Solver::FlushResult applyConstraints();
 
-  void render(Frame& frame);
+  bool render(Frame& frame);
 
   animation::Director& animationDirector();
 

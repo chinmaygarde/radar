@@ -9,8 +9,8 @@
 
 #include <Geometry/Geometry.h>
 
-#include <Coordinator/Frame.h>
 #include <Coordinator/Color.h>
+#include <Coordinator/Frame.h>
 
 namespace rl {
 namespace coordinator {
@@ -37,7 +37,7 @@ class Primitive {
 
   void setOpacity(double opacity);
 
-  void render(Frame& frame,
+  bool render(Frame& frame,
               const geom::Matrix& modelViewMatrix,
               const geom::Size& size);
 

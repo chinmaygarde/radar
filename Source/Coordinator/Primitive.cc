@@ -14,8 +14,7 @@
 namespace rl {
 namespace coordinator {
 
-Primitive::Primitive() : _contentColor(ColorWhiteTransparent), _opacity(1.0) {
-}
+Primitive::Primitive() : _contentColor(ColorWhiteTransparent), _opacity(1.0) {}
 
 const Color& Primitive::contentColor() const {
   return _contentColor;
@@ -25,7 +24,7 @@ void Primitive::setContentColor(const Color& color) {
   _contentColor = color;
 }
 
-void Primitive::render(Frame& frame,
+bool Primitive::render(Frame& frame,
                        const geom::Matrix& modelViewMatrix,
                        const geom::Size& size) {
   /*
@@ -67,6 +66,8 @@ void Primitive::render(Frame& frame,
   glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
 
   RL_GLAssert("No errors while rendering");
+
+  return true;
 }
 
 double Primitive::opacity() const {

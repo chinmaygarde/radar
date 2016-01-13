@@ -267,12 +267,12 @@ void PresentationGraph::prepareActionSingle(
   _animationDirector.setInterpolator(key, std::move(interpolator), start);
 }
 
-void PresentationGraph::render(Frame& frame) {
+bool PresentationGraph::render(Frame& frame) {
   if (_root == nullptr) {
-    return;
+    return false;
   }
   frame.statistics().entityCount().increment(_entities.size());
-  _root->render(frame, geom::MatrixIdentity);
+  return _root->render(frame, geom::MatrixIdentity);
 }
 
 animation::Director& PresentationGraph::animationDirector() {

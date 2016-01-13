@@ -38,7 +38,7 @@ class PresentationEntity : public interface::Entity {
 
   geom::Point convertPointFromWindow(const geom::Point& point) const;
 
-  void render(Frame& frame, const geom::Matrix& viewMatrix);
+  bool render(Frame& frame, const geom::Matrix& viewMatrix);
 
  private:
   std::vector<Borrowed> _children;

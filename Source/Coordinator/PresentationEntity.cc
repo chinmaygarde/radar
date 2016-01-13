@@ -34,7 +34,7 @@ geom::Point PresentationEntity::convertPointFromWindow(
   return geom::Point{pointInWindowVector.a, pointInWindowVector.b};
 }
 
-void PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
+bool PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
   frame.statistics().primitiveCount().increment();
 
   /*
@@ -45,11 +45,14 @@ void PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
   Primitive p;
   p.setContentColor(backgroundColor());
   p.setOpacity(opacity());
-  p.render(frame, _lastModelViewMatrix, bounds().size);
+
+  auto success = p.render(frame, _lastModelViewMatrix, bounds().size);
 
   for (const auto& child : _children) {
-    child->render(frame, _lastModelViewMatrix);
+    success |= child->render(frame, _lastModelViewMatrix);
   }
+
+  return success;
 }
 
 }  // namespace coordinator
