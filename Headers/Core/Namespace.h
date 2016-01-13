@@ -17,16 +17,23 @@ class Namespace;
 class Name : public Serializable {
  public:
   using Handle = uint32_t;
+  using HandleRef = std::shared_ptr<Handle>;
+
+  Name();
 
   Name(Namespace* ns);
 
-  Name(Handle handle, Namespace* ns);
+  Name(Namespace& ns);
 
-  ~Name();
+  Name(Handle counterpart, Namespace* ns);
 
-  Handle handle() const;
+  Name(Handle counterpart, Namespace& ns);
+
+  HandleRef handle() const;
 
   Namespace* ns() const;
+
+  bool isDead() const;
 
   size_t hash() const;
 
@@ -34,9 +41,9 @@ class Name : public Serializable {
 
   bool deserialize(Message& message, Namespace* ns) override;
 
-  bool operator==(const Name& other) const { return _handle == other._handle; }
+  bool operator==(const Name& other) const;
 
-  bool operator!=(const Name& other) const { return _handle != other._handle; }
+  bool operator!=(const Name& other) const;
 
   bool operator>(const Name& other) const { return _handle > other._handle; }
 
@@ -44,7 +51,7 @@ class Name : public Serializable {
 
   struct Hash {
     size_t operator()(const Name& name) const {
-      return std::hash<Handle>()(name._handle);
+      return std::hash<HandleRef>()(name._handle);
     }
   };
 
@@ -55,37 +62,49 @@ class Name : public Serializable {
   };
 
  private:
-  Handle _handle;
+  HandleRef _handle;
   Namespace* _ns;
 };
 
 static const Name::Handle DeadHandle = 0;
 
+class HandleCollector {
+ public:
+  HandleCollector(Namespace& ns);
+
+  void operator()(Name::Handle* handle) const;
+
+ private:
+  Namespace* _ns;
+};
+
 class Namespace {
  public:
   Namespace();
 
-  Name::Handle createHandle(Name::Handle counterpart = DeadHandle);
-
-  Name create(Name::Handle counterpart = DeadHandle);
-
-  void destroy(Name::Handle name);
+  ~Namespace();
 
   size_t mappedNamesCount() const;
 
  private:
-  using NameMap = std::unordered_map<Name::Handle, Name::Handle>;
+  using HandleMap = std::unordered_map<Name::Handle, Name::Handle>;
+  using HandleRefMap =
+      std::unordered_map<Name::Handle, std::weak_ptr<Name::Handle>>;
+
+  friend class Name;
+  friend class HandleCollector;
 
   std::atomic<Name::Handle> _last;
   mutable std::mutex _lock;
 
-  NameMap _localToCounterpartMap;
-  NameMap _counterpartToLocalMap;
+  HandleRefMap _counterpartToLocalMap;
+  HandleMap _localToCounterpartMap;
+
+  Name::HandleRef createHandle(Name::Handle counterpart);
+  void destroy(Name::Handle name);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Namespace);
 };
-
-extern const Name DeadName;
 
 }  // namespace core
 }  // namespace rl

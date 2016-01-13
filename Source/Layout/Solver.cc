@@ -102,7 +102,7 @@ Result Solver::addEditVariable(const Variable& variable, double priority) {
     return Result::BadRequiredStrength;
   }
 
-  Constraint constraint(_localNS.create(),
+  Constraint constraint(core::Name(_localNS),
                         Expression{{Term{variable, 1.0, false}}, 0.0},
                         Constraint::Relation::EqualTo, priority);
 

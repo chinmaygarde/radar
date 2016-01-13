@@ -137,9 +137,8 @@ Expression MakeConst(const A& a) {
 }
 
 inline Constraint operator|(const Constraint& constraint, double priority) {
-  auto ns = constraint.ns();
-  auto name = ns == nullptr ? core::DeadName : ns->create();
-  return {name, constraint.expression(), constraint.relation(), priority};
+  return {core::Name{constraint.ns()}, constraint.expression(),
+          constraint.relation(), priority};
 }
 
 inline Constraint operator|(double priority, const Constraint& constraint) {

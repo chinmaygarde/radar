@@ -106,7 +106,7 @@ bool TransactionPayload::deserialize(core::Message& message,
   {
     RL_TRACE_AUTO("TransferRecordsCommit");
 
-    TransferEntity entity(core::DeadName);
+    TransferEntity entity;
 
     for (size_t i = 0; i < transferRecords; i++) {
       if (message.decode(entity, ns)) {

@@ -9,21 +9,31 @@
 namespace rl {
 namespace core {
 
-Name::Name(Namespace* ns)
-    : _handle(ns == nullptr ? DeadHandle : ns->createHandle()), _ns(ns) {}
+Name::Name() : _handle(nullptr), _ns(nullptr) {}
 
-Name::Name(Handle handle, Namespace* ns) : _handle(handle), _ns(ns) {}
+Name::Name(Namespace& ns) : Name(DeadHandle, &ns) {}
 
-Name::~Name() {
-  if (_ns) {
-    _ns->destroy(_handle);
-  }
+Name::Name(Namespace* ns) : Name(DeadHandle, ns) {}
+
+Name::Name(Handle counterpart, Namespace& ns) : Name(counterpart, &ns) {}
+
+Name::Name(Handle counterpart, Namespace* ns)
+    : _handle(ns == nullptr ? std::make_shared<Handle>(counterpart)
+                            : ns->createHandle(counterpart)),
+      _ns(ns) {}
+
+bool Name::operator==(const Name& other) const {
+  return _handle == other._handle;
+}
+
+bool Name::operator!=(const Name& other) const {
+  return _handle != other._handle;
 }
 
 bool Name::serialize(Message& message) const {
-  RL_ASSERT_MSG(_handle != DeadHandle,
+  RL_ASSERT_MSG(!isDead(),
                 "Dead names may not be sent or received over channels");
-  return message.encode(_handle);
+  return message.encode(*_handle);
 }
 
 bool Name::deserialize(Message& message, Namespace* ns) {
@@ -34,11 +44,11 @@ bool Name::deserialize(Message& message, Namespace* ns) {
                 "Dead names may not be sent or received over channels");
 
   if (result) {
-    _handle = ns == nullptr ? DeadHandle : ns->createHandle(newHandle);
+    _handle = ns == nullptr ? nullptr : ns->createHandle(newHandle);
     _ns = ns;
   }
 
-  RL_ASSERT_MSG(_handle != DeadHandle,
+  RL_ASSERT_MSG(!isDead(),
                 "Tried to pass a name over a channel but the receiver did not "
                 "specify a namespace");
 
@@ -49,81 +59,108 @@ Namespace* Name::ns() const {
   return _ns;
 }
 
-Name::Handle Name::handle() const {
+Name::HandleRef Name::handle() const {
   return _handle;
 }
 
+bool Name::isDead() const {
+  return _handle == nullptr;
+}
+
 size_t Name::hash() const {
-  return std::hash<Handle>()(_handle);
+  return std::hash<HandleRef>()(_handle);
+}
+
+HandleCollector::HandleCollector(Namespace& ns) : _ns(&ns) {}
+
+void HandleCollector::operator()(Name::Handle* handle) const {
+  _ns->destroy(*handle);
+  delete handle;
 }
 
 Namespace::Namespace() : _last(DeadHandle) {}
 
-Name::Handle Namespace::createHandle(Name::Handle counterpart) {
+Namespace::~Namespace() {
+  std::lock_guard<std::mutex> lock(_lock);
+  RL_ASSERT_MSG(_counterpartToLocalMap.size() == 0,
+                "The namespace is being collected but some members still have "
+                "pending references. Names from this namespace are being "
+                "leaked or have name lifecycles longer that their namespace");
+}
+
+static inline Name::HandleRef HandleRefMake(Name::Handle handle,
+                                            Namespace& ns) {
+  RL_ASSERT(handle != DeadHandle);
+  return std::shared_ptr<Name::Handle>(new Name::Handle(handle),
+                                       HandleCollector(ns));
+}
+
+Name::HandleRef Namespace::createHandle(Name::Handle counterpart) {
   if (counterpart == DeadHandle) {
-    return ++_last;
+    /*
+     *  The vast majority of handles will be for locally used names, in such
+     *  cases, there is no need to supply a custom deleter (with the associated
+     *  overhead, such as it is)
+     */
+    return std::make_shared<Name::Handle>(++_last);
   }
 
   std::lock_guard<std::mutex> lock(_lock);
 
   /*
-   *  Try to emplace a fresh local name into the counterpart keyed map
+   *  Create or return a new shared reference to a local handle that is mapped
+   *  to this remote counterpart
    */
-  auto newName = ++_last;
-  auto result = _counterpartToLocalMap.emplace(counterpart, newName);
 
-  if (!result.second) {
-    /*
-     *  If the emplace fails, we already know of a live local key. Since we
-     *  already have an iterator to it, return it now
-     */
-    RL_ASSERT((*(result.first)).first == counterpart);
-    return (*(result.first)).second;
-  } else {
-    /*
-     *  We were able to emplace a name into the counterparts map, emplace the
-     *  same into the locals map for lookup during destruction.
-     */
-    auto result = _localToCounterpartMap.emplace(newName, counterpart);
-    RL_ASSERT(result.second /* since its a fresh local key */);
-    return newName;
+  auto localFound = _counterpartToLocalMap.find(counterpart);
+
+  if (localFound != _counterpartToLocalMap.end()) {
+    auto locked = localFound->second.lock();
+    RL_ASSERT_MSG(locked,
+                  "Must be able to lock a new referece to the weak pointer "
+                  "maintained in the table");
+    return locked;
   }
 
-  return DeadHandle;
-}
+  auto local = ++_last;
+  auto localRef = HandleRefMake(local, *this);
 
-Name Namespace::create(Name::Handle counterpart) {
-  return {createHandle(counterpart), this};
+  /*
+   *  Setup a reverse map between the local handle and its counterpart for
+   *  easy deletion.
+   */
+
+  _counterpartToLocalMap[counterpart] = localRef;
+  auto result = _localToCounterpartMap.emplace(local, counterpart);
+  RL_ASSERT(result.second);
+
+  return localRef;
 }
 
 void Namespace::destroy(Name::Handle local) {
-  if (local == DeadHandle) {
-    return;
-  }
+  RL_ASSERT(local != DeadHandle);
 
   std::lock_guard<std::mutex> lock(_lock);
 
-  auto found = _localToCounterpartMap.find(local);
+  auto mappingFound = _localToCounterpartMap.find(local);
 
-  if (found == _localToCounterpartMap.end()) {
-    /*
-     *  If no entry was found in the local to counterparts map, this name was
-     *  purely local. Nothing more to do.
-     */
-    return;
-  }
+  /*
+   *  Since we don't supply a custom deleter for local names, we should never
+   *  get into a situation where a mapped named dies and we don't find it in
+   *  the table.
+   */
+  RL_ASSERT(mappingFound != _localToCounterpartMap.end());
 
-  auto erased = _counterpartToLocalMap.erase(found->second);
+  auto erased = _counterpartToLocalMap.erase(mappingFound->second);
   RL_ASSERT(erased == 1);
-  _localToCounterpartMap.erase(found);
+
+  _localToCounterpartMap.erase(mappingFound);
 }
 
 size_t Namespace::mappedNamesCount() const {
   std::lock_guard<std::mutex> lock(_lock);
   return _localToCounterpartMap.size();
 }
-
-const Name DeadName(DeadHandle, nullptr);
 
 }  // namespace core
 }  // namespace rl

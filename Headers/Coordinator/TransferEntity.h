@@ -15,7 +15,7 @@ class TransferEntity : public interface::Entity, public core::Serializable {
  public:
   using PropertyWalkCallback = std::function<bool(Property)>;
 
-  explicit TransferEntity(core::Name identifier);
+  explicit TransferEntity(core::Name identifier = core::Name());
   explicit TransferEntity(const TransferEntity& transferEntity);
 
   void record(const Entity& entity,

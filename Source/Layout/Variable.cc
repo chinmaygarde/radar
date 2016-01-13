@@ -8,13 +8,10 @@
 namespace rl {
 namespace layout {
 
-Variable::Variable()
-    : _identifier(core::DeadName), _property(Property::None), _isProxy(false) {}
+Variable::Variable() : _property(Property::None), _isProxy(false) {}
 
 Variable::Variable(Proxy proxy, Property property)
-    : _identifier(static_cast<ProxyType>(proxy), nullptr),
-      _property(property),
-      _isProxy(true) {}
+    : _property(property), _isProxy(true) {}
 
 Variable::Variable(core::Name identifier, Property property)
     : _identifier(identifier), _property(property), _isProxy(false) {}
@@ -32,7 +29,8 @@ bool Variable::isProxy() const {
 }
 
 Variable::Proxy Variable::proxy() const {
-  return _isProxy ? static_cast<Proxy>(_identifier.handle()) : Proxy::None;
+  RL_ASSERT_MSG(false, "WIP");
+  return Proxy::None;
 }
 
 double Variable::GetProperty(interface::Entity& entity, Property property) {

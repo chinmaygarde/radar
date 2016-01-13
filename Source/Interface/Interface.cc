@@ -18,7 +18,7 @@ using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : _localNS(),
-      _rootEntity(_localNS.create()),
+      _rootEntity(_localNS),
       _loop(nullptr),
       _popCount(0),
       _delegate(delegate),
@@ -59,7 +59,7 @@ void Interface::run(std::function<void()> onReady) {
     scheduleChannels();
     _state.setState(Active, true);
     attemptCoordinatorChannelAcquisition();
-    transaction().mark(_rootEntity, Entity::Property::MakeRoot, core::DeadName);
+    transaction().mark(_rootEntity, Entity::Property::MakeRoot, core::Name{});
     if (onReady) {
       onReady();
     }
@@ -71,7 +71,7 @@ bool Interface::isRunning() const {
 }
 
 std::unique_ptr<ModelEntity> Interface::createEntity() {
-  return core::make_unique<ModelEntity>(_localNS.create());
+  return core::make_unique<ModelEntity>(core::Name{_localNS});
 }
 
 void Interface::shutdown(std::function<void()> onShutdown) {

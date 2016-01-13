@@ -8,9 +8,7 @@ namespace rl {
 namespace layout {
 
 Constraint::Constraint()
-    : _identifier(core::DeadName),
-      _relation(Relation::EqualTo),
-      _priority(priority::Weak) {}
+    : _relation(Relation::EqualTo), _priority(priority::Weak) {}
 
 Constraint::Constraint(core::Name name,
                        const Expression& expression,
@@ -93,7 +91,7 @@ Constraint Constraint::resolveProxies(
   }
 
   return Constraint{
-      ns.create(),
+      core::Name(ns),
       {std::move(terms), _expression.constant() + accumulatedConstant},
       _relation,
       _priority};

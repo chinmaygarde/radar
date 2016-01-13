@@ -30,7 +30,7 @@ PresentationGraph::~PresentationGraph() {}
 
 PresentationEntity& PresentationGraph::presentationEntityForName(
     const core::Name& name) {
-  RL_ASSERT(name != core::DeadName);
+  RL_ASSERT(!name.isDead());
 
   auto& entity = _entities[name];
 

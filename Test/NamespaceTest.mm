@@ -11,9 +11,9 @@ RL_DECLARE_TEST_START(NamespaceTest)
 TEST(NamespaceTest, OnlyHandlesLocal) {
   rl::core::Namespace ns;
 
-  auto h1 = ns.createHandle();
-  auto h2 = ns.createHandle();
-  auto h3 = ns.createHandle();
+  auto h1 = rl::core::Name{ns};
+  auto h2 = rl::core::Name{ns};
+  auto h3 = rl::core::Name{ns};
 
   ASSERT_NE(h1, h2);
   ASSERT_NE(h2, h3);
@@ -25,9 +25,9 @@ TEST(NamespaceTest, FullNamesLocal) {
   rl::core::Namespace ns;
 
   {
-    auto h1 = ns.create();
-    auto h2 = ns.create();
-    auto h3 = ns.create();
+    auto h1 = rl::core::Name{ns};
+    auto h2 = rl::core::Name{ns};
+    auto h3 = rl::core::Name{ns};
 
     ASSERT_NE(h1, h2);
     ASSERT_NE(h2, h3);
@@ -44,9 +44,9 @@ TEST(NamespaceTest, NamesWithCounterparts) {
   rl::core::Name cp2(2, nullptr);
   rl::core::Name cp3(3, nullptr);
 
-  auto local1 = ns.create(cp1.handle());
-  auto local2 = ns.create(cp2.handle());
-  auto local3 = ns.create(cp3.handle());
+  auto local1 = rl::core::Name{*cp1.handle(), ns};
+  auto local2 = rl::core::Name{*cp2.handle(), ns};
+  auto local3 = rl::core::Name{*cp3.handle(), ns};
 
   ASSERT_EQ(ns.mappedNamesCount(), 3);
 }
@@ -58,15 +58,15 @@ TEST(NamespaceTest, NamesWithCounterpartsWithRepeat) {
   rl::core::Name cp2(2, nullptr);
   rl::core::Name cp3(3, nullptr);
 
-  auto local1 = ns.create(cp1.handle());
-  auto local2 = ns.create(cp2.handle());
-  auto local3 = ns.create(cp3.handle());
+  auto local1 = rl::core::Name{*cp1.handle(), ns};
+  auto local2 = rl::core::Name{*cp2.handle(), ns};
+  auto local3 = rl::core::Name{*cp3.handle(), ns};
 
   ASSERT_EQ(ns.mappedNamesCount(), 3);
 
-  auto local4 = ns.create(cp1.handle());
-  auto local5 = ns.create(cp2.handle());
-  auto local6 = ns.create(cp3.handle());
+  auto local4 = rl::core::Name{*cp1.handle(), ns};
+  auto local5 = rl::core::Name{*cp2.handle(), ns};
+  auto local6 = rl::core::Name{*cp3.handle(), ns};
 
   ASSERT_EQ(ns.mappedNamesCount(), 3);
 
@@ -80,16 +80,16 @@ TEST(NamespaceTest, NamesWithCounterpartsWithRepeatSame) {
 
   rl::core::Name cp1(1, nullptr);
 
-  auto local1 = ns.create(cp1.handle());
-  auto local2 = ns.create(cp1.handle());
-  auto local3 = ns.create(cp1.handle());
-  auto local4 = ns.create(cp1.handle());
-  auto local5 = ns.create(cp1.handle());
-  auto local6 = ns.create(cp1.handle());
-  auto local7 = ns.create(cp1.handle());
-  auto local8 = ns.create(cp1.handle());
-  auto local9 = ns.create(cp1.handle());
-  auto local10 = ns.create(cp1.handle());
+  auto local1 = rl::core::Name{*cp1.handle(), ns};
+  auto local2 = rl::core::Name{*cp1.handle(), ns};
+  auto local3 = rl::core::Name{*cp1.handle(), ns};
+  auto local4 = rl::core::Name{*cp1.handle(), ns};
+  auto local5 = rl::core::Name{*cp1.handle(), ns};
+  auto local6 = rl::core::Name{*cp1.handle(), ns};
+  auto local7 = rl::core::Name{*cp1.handle(), ns};
+  auto local8 = rl::core::Name{*cp1.handle(), ns};
+  auto local9 = rl::core::Name{*cp1.handle(), ns};
+  auto local10 = rl::core::Name{*cp1.handle(), ns};
 
   ASSERT_EQ(ns.mappedNamesCount(), 1);
   ASSERT_EQ(local1.handle(), local10.handle());
@@ -109,20 +109,20 @@ TEST(NamespaceTest, NamesWithCounterpartsWithDeaths) {
   rl::core::Name cp9(9, nullptr);
   rl::core::Name cp10(10, nullptr);
 
-  auto local1 = ns.create(cp1.handle());
-  auto local2 = ns.create(cp2.handle());
-  auto local3 = ns.create(cp3.handle());
-  auto local4 = ns.create(cp4.handle());
-  auto local5 = ns.create(cp5.handle());
+  auto local1 = rl::core::Name{*cp1.handle(), ns};
+  auto local2 = rl::core::Name{*cp2.handle(), ns};
+  auto local3 = rl::core::Name{*cp3.handle(), ns};
+  auto local4 = rl::core::Name{*cp4.handle(), ns};
+  auto local5 = rl::core::Name{*cp5.handle(), ns};
 
   ASSERT_EQ(ns.mappedNamesCount(), 5);
 
   {
-    auto local6 = ns.create(cp6.handle());
-    auto local7 = ns.create(cp7.handle());
-    auto local8 = ns.create(cp8.handle());
-    auto local9 = ns.create(cp9.handle());
-    auto local10 = ns.create(cp10.handle());
+    auto local6 = rl::core::Name{*cp6.handle(), ns};
+    auto local7 = rl::core::Name{*cp7.handle(), ns};
+    auto local8 = rl::core::Name{*cp8.handle(), ns};
+    auto local9 = rl::core::Name{*cp9.handle(), ns};
+    auto local10 = rl::core::Name{*cp10.handle(), ns};
 
     ASSERT_EQ(ns.mappedNamesCount(), 10);
   }
@@ -135,14 +135,14 @@ TEST(NamespaceTest, AliasedHandleDies) {
 
   rl::core::Name cp(1, nullptr);
 
-  auto local1 = ns.create(cp.handle());
+  auto local1 = rl::core::Name{*cp.handle(), ns};
 
   {
-    auto local2 = ns.create(cp.handle());
+    auto local2 = rl::core::Name{*cp.handle(), ns};
     ASSERT_EQ(local1, local2);
   }
 
-  auto local3 = ns.create(cp.handle());
+  auto local3 = rl::core::Name{*cp.handle(), ns};
   ASSERT_EQ(local1, local3);
 }
 
@@ -151,14 +151,14 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameCopy) {
 
   rl::core::Name cp(1, nullptr);
 
-  auto local1 = ns.create(cp.handle());
+  auto local1 = rl::core::Name{*cp.handle(), ns};
 
   {
     auto local2(local1);
     ASSERT_EQ(local1, local2);
   }
 
-  auto local3 = ns.create(cp.handle());
+  auto local3 = rl::core::Name{*cp.handle(), ns};
   ASSERT_EQ(local1, local3);
 }
 
@@ -167,7 +167,7 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameCopy2) {
 
   rl::core::Name cp(1, nullptr);
 
-  auto local1 = ns.create(cp.handle());
+  auto local1 = rl::core::Name{*cp.handle(), ns};
 
   {
     auto local2(local1);
@@ -186,15 +186,15 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameLoseAllReferences) {
   auto local1Handle = rl::core::DeadHandle;
 
   {
-    auto local1 = ns.create(cp.handle());
-    local1Handle = local1.handle();
+    auto local1 = rl::core::Name{*cp.handle(), ns};
+    local1Handle = *local1.handle();
 
     {
-      auto local2 = ns.create(cp.handle());
+      auto local2 = rl::core::Name{*cp.handle(), ns};
       ASSERT_EQ(local1, local2);
     }
 
-    auto local3 = ns.create(cp.handle());
+    auto local3 = rl::core::Name{*cp.handle(), ns};
     ASSERT_EQ(local1, local3);
   }
 
@@ -203,15 +203,15 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameLoseAllReferences) {
   auto local2Handle = rl::core::DeadHandle;
 
   {
-    auto local1 = ns.create(cp.handle());
-    local2Handle = local1.handle();
+    auto local1 = rl::core::Name{*cp.handle(), ns};
+    local2Handle = *local1.handle();
 
     {
-      auto local2 = ns.create(cp.handle());
+      auto local2 = rl::core::Name{*cp.handle(), ns};
       ASSERT_EQ(local1, local2);
     }
 
-    auto local3 = ns.create(cp.handle());
+    auto local3 = rl::core::Name{*cp.handle(), ns};
     ASSERT_EQ(local1, local3);
   }
 

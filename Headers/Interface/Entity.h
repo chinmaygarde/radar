@@ -185,8 +185,9 @@ class Entity {
 
   explicit Entity(const Entity& entity);
 
-  void notifyInterfaceIfNecessary(Property property,
-                                  core::Name identifier = core::DeadName) const;
+  void notifyInterfaceIfNecessary(
+      Property property,
+      core::Name identifier = core::Name() /* dead name */) const;
 
  private:
   bool _notifiesInterfaceOnUpdate;

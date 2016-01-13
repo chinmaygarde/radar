@@ -22,7 +22,7 @@ TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
 TEST(LayoutTest, TermConstruction) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
   rl::layout::Term term(v, 1.0, false);
   rl::layout::Term term2(v, 2.0, false);
 
@@ -41,7 +41,7 @@ TEST(LayoutTest, TermConstruction) {
 TEST(LayoutTest, VariableConstruction) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
   rl::layout::Term term2(v, 2.0, false);
 
   auto expr = v + 1.0;
@@ -59,7 +59,7 @@ TEST(LayoutTest, VariableConstruction) {
 TEST(LayoutTest, DoubleConstruction) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
   rl::layout::Term term2(v, 2.0, false);
 
   auto expr2 = 2.0 + v;
@@ -83,12 +83,12 @@ TEST(LayoutTest, DoubleConstruction) {
 TEST(LayoutTest, ComplexOperationOverload) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v1(ns.create());
-  rl::layout::Variable v2(ns.create());
-  rl::layout::Variable v3(ns.create());
-  rl::layout::Variable v4(ns.create());
-  rl::layout::Variable v5(ns.create());
-  rl::layout::Variable v6(ns.create());
+  rl::layout::Variable v1(rl::core::Name{ns});
+  rl::layout::Variable v2(rl::core::Name{ns});
+  rl::layout::Variable v3(rl::core::Name{ns});
+  rl::layout::Variable v4(rl::core::Name{ns});
+  rl::layout::Variable v5(rl::core::Name{ns});
+  rl::layout::Variable v6(rl::core::Name{ns});
 
   auto expr = (2.0 * v1) + (v2 / 0.5) + (v3 * 3) - 300.0;
   ASSERT_EQ(expr.constant(), -300.0);
@@ -119,7 +119,7 @@ TEST(LayoutTest, ComplexOperationOverload) {
 TEST(LayoutTest, ConstraintCreation) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
 
   rl::layout::Constraint constraint = 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -153,7 +153,7 @@ TEST(LayoutTest, ConstraintCreation) {
 TEST(LayoutTest, ConstraintCreationAtPriority) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
 
   rl::layout::Constraint constraint =
       2.0 * v + 35 == 0 | rl::layout::priority::Strong;
@@ -173,7 +173,7 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
 TEST(LayoutTest, SerializeDeserializeConstraint) {
   rl::core::Namespace ns;
 
-  rl::layout::Variable v(ns.create());
+  rl::layout::Variable v(rl::core::Name{ns});
   auto constraint =
       2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
 
@@ -198,7 +198,8 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
 TEST(LayoutTest, ConstraintsAdd) {
   rl::core::Namespace ns;
 
-  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+  rl::core::Name one(rl::core::Name{ns}), two(rl::core::Name{ns}),
+      three(rl::core::Name{ns});
 
   rl::layout::Variable p1(one), p2(two), p3(three);
 
@@ -227,7 +228,7 @@ TEST(LayoutTest, ConstraintsAdd) {
 
 TEST(LayoutTest, ParameterHoisting) {
   rl::core::Namespace ns;
-  rl::layout::Variable p1(ns.create());
+  rl::layout::Variable p1(rl::core::Name{ns});
   rl::layout::Constraint constraint = p1 >= 10;
 
   ASSERT_EQ(constraint.expression().terms().size(), 1);
@@ -237,7 +238,8 @@ TEST(LayoutTest, ParameterHoisting) {
 TEST(LayoutTest, ConstraintsAddParameterConst) {
   rl::core::Namespace ns;
 
-  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+  rl::core::Name one(rl::core::Name{ns}), two(rl::core::Name{ns}),
+      three(rl::core::Name{ns});
 
   rl::layout::Variable left(one), mid(two), right(three);
 
@@ -265,8 +267,8 @@ TEST(LayoutTest, UpdatesInSolver) {
 
   rl::layout::Solver solver(ns);
 
-  rl::layout::Variable left(ns.create());
-  rl::layout::Variable right(ns.create());
+  rl::layout::Variable left(rl::core::Name{ns});
+  rl::layout::Variable right(rl::core::Name{ns});
 
   auto c1 = right - left >= 200.0;
   auto c2 = right >= right;
@@ -282,9 +284,9 @@ TEST(LayoutTest, EditUpdates) {
   rl::core::Namespace ns;
   rl::layout::Solver solver(ns);
 
-  rl::layout::Variable left(ns.create());
-  rl::layout::Variable right(ns.create());
-  rl::layout::Variable mid(ns.create());
+  rl::layout::Variable left(rl::core::Name{ns});
+  rl::layout::Variable right(rl::core::Name{ns});
+  rl::layout::Variable mid(rl::core::Name{ns});
 
   auto c = left + right >= 2.0 * mid;
   ASSERT_EQ(solver.addConstraint(c), rl::layout::Result::Success);
@@ -299,7 +301,8 @@ TEST(LayoutTest, EditUpdates) {
 TEST(LayoutTest, EditConstraintFlush) {
   rl::core::Namespace ns;
 
-  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create());
+  rl::core::Name one(rl::core::Name{ns}), two(rl::core::Name{ns}),
+      three(rl::core::Name{ns});
 
   rl::layout::Variable left(one), right(two), mid(three);
 
@@ -333,8 +336,8 @@ TEST(LayoutTest, EditConstraintFlush) {
 TEST(LayoutTest, SolverSolutionWithOptimize) {
   rl::core::Namespace ns;
 
-  rl::core::Name one(ns.create()), two(ns.create()), three(ns.create()),
-      four(ns.create());
+  rl::core::Name one(rl::core::Name{ns}), two(rl::core::Name{ns}),
+      three(rl::core::Name{ns}), four(rl::core::Name{ns});
 
   rl::layout::Variable p1(one), p2(two), p3(three), container(four);
 
@@ -373,7 +376,7 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 TEST(LayoutTest, VariableCreationViaOverloading) {
   rl::core::Namespace ns;
 
-  rl::interface::Entity entity(ns.create(), false);
+  rl::interface::Entity entity(rl::core::Name{ns}, false);
   auto variable = entity | rl::layout::Variable::Property::BoundsOriginX;
   ASSERT_EQ(variable.property(), rl::layout::Variable::Property::BoundsOriginX);
   ASSERT_EQ(variable.identifier(), entity.identifier());
@@ -385,7 +388,7 @@ TEST(LayoutTest, MakeConstantHoistableVariants) {
   auto expr1 = rl::layout::MakeConst(10.0);
   ASSERT_EQ(expr1.constant(), 10.0);
 
-  rl::layout::Variable var(ns.create());
+  rl::layout::Variable var(rl::core::Name{ns});
   auto expr2 = rl::layout::MakeConst(var);
   ASSERT_EQ(expr2.terms().size(), 1);
 
