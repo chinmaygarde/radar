@@ -14,21 +14,18 @@ TransactionPayload::TransactionPayload(
     EntityMap&& entities,
     std::vector<layout::Constraint>&& constraints,
     std::vector<layout::Suggestion>&& suggestions)
-    : _localNS(nullptr),
-      _action(std::move(action)),
+    : _action(std::move(action)),
       _entities(std::move(entities)),
       _constraints(std::move(constraints)),
       _suggestions(std::move(suggestions)) {}
 
 TransactionPayload::TransactionPayload(
-    core::Namespace& localNS,
     const core::ClockPoint& commitTime,
     ActionCallback actionCallback,
     TransferRecordCallback transferRecordCallback,
     ConstraintsCallback constraintsCallback,
     SuggestionsCallback suggestionsCallback)
-    : _localNS(&localNS),
-      _commitTime(commitTime),
+    : _commitTime(commitTime),
       _actionCallback(actionCallback),
       _transferRecordCallback(transferRecordCallback),
       _constraintsCallback(constraintsCallback),

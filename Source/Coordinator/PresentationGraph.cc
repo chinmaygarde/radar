@@ -61,8 +61,7 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   namespace P = std::placeholders;
   using G = PresentationGraph;
   TransactionPayload payload(
-      _localNS,  //
-      time,      //
+      time,  //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferEntityCommit, this, P::_1, P::_2, P::_3),
       std::bind(&G::onConstraintsCommit, this, P::_1),
