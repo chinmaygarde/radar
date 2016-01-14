@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 #define __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_SOCKET
+
 #include <Core/Allocation.h>
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
@@ -50,5 +54,7 @@ class SocketChannel : public ChannelProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #endif /* defined(__RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__) */

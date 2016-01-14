@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_INPROCESSCHANNEL_H__
 #define __RADARLOVE_CORE_INPROCESSCHANNEL_H__
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_INPROCESS
+
 #include <Core/Channel.h>
 
 #include "ChannelProvider.h"
@@ -42,5 +46,7 @@ class InProcessChannel : public ChannelProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #endif  // __RADARLOVE_CORE_INPROCESSCHANNEL_H__

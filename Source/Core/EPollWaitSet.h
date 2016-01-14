@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_EPOLLWAITSET_H__
 #define __RADARLOVE_CORE_EPOLLWAITSET_H__
 
+#include <Core/Config.h>
+
+#if RL_WAITSET == RL_WAITSET_EPOLL
+
 #include <Core/Macros.h>
 #include "WaitSetProvider.h"
 
@@ -29,5 +33,7 @@ class EPollWaitSet : public WaitSetProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_WAITSET == RL_WAITSET_EPOLL
 
 #endif  // __RADARLOVE_CORE_EPOLLWAITSET_H__

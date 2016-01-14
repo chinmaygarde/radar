@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_KQUEUEWAITSET_H__
 #define __RADARLOVE_CORE_KQUEUEWAITSET_H__
 
+#include <Core/Config.h>
+
+#if RL_WAITSET == RL_WAITSET_KQUEUE
+
 #include "WaitSetProvider.h"
 
 namespace rl {
@@ -29,5 +33,7 @@ class KQueueWaitSet : public WaitSetProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_WAITSET == RL_WAITSET_KQUEUE
 
 #endif  // __RADARLOVE_CORE_KQUEUEWAITSET_H__

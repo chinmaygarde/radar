@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
 #define __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_MACH
+
 #include <Core/Channel.h>
 
 #include <Core/ChannelProvider.h>
@@ -36,5 +40,7 @@ class MachPortChannel : public ChannelProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
 #endif /* defined(__RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__) */

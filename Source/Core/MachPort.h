@@ -5,6 +5,10 @@
 #ifndef RADARLOVE_CORE_MACHPORT_H_
 #define RADARLOVE_CORE_MACHPORT_H_
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_MACH
+
 #include <Core/Core.h>
 
 namespace rl {
@@ -42,5 +46,7 @@ class MachPort {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
 #endif  // RADARLOVE_CORE_MACHPORT_H_

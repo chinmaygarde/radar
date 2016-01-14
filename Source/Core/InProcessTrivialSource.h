@@ -5,6 +5,10 @@
 #ifndef __RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H__
 #define __RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H__
 
+#include <Core/Config.h>
+
+#if RL_WAITSET == RL_WAITSET_INPROCESS
+
 #include <Core/EventLoopSource.h>
 
 #include <unordered_set>
@@ -30,5 +34,7 @@ class InProcessTrivialSource : public EventLoopSource {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_WAITSET == RL_WAITSET_INPROCESS
 
 #endif  // __RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H__
