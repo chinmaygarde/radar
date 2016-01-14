@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_KQUEUEWAITSET_H__
-#define __RADARLOVE_CORE_KQUEUEWAITSET_H__
+#ifndef RADARLOVE_CORE_KQUEUEWAITSET_H_
+#define RADARLOVE_CORE_KQUEUEWAITSET_H_
 
 #include <Core/Config.h>
 
@@ -36,4 +36,4 @@ class KQueueWaitSet : public WaitSetProvider {
 
 #endif  // RL_WAITSET == RL_WAITSET_KQUEUE
 
-#endif  // __RADARLOVE_CORE_KQUEUEWAITSET_H__
+#endif  // RADARLOVE_CORE_KQUEUEWAITSET_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
-#define __RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__
+#ifndef RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL_
+#define RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL_
 
 #include <Core/Config.h>
 
@@ -57,4 +57,4 @@ class SocketChannel : public ChannelProvider {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#endif /* defined(__RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL__) */
+#endif  // RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL_

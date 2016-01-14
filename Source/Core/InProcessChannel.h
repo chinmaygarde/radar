@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_INPROCESSCHANNEL_H__
-#define __RADARLOVE_CORE_INPROCESSCHANNEL_H__
+#ifndef RADARLOVE_CORE_INPROCESSCHANNEL_H_
+#define RADARLOVE_CORE_INPROCESSCHANNEL_H_
 
 #include <Core/Config.h>
 
@@ -49,4 +49,4 @@ class InProcessChannel : public ChannelProvider {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#endif  // __RADARLOVE_CORE_INPROCESSCHANNEL_H__
+#endif  // RADARLOVE_CORE_INPROCESSCHANNEL_H_

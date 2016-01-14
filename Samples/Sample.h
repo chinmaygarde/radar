@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_SAMPLE_H__
-#define __RADARLOVE_SAMPLE_H__
+#ifndef RADARLOVE_SAMPLE_H_
+#define RADARLOVE_SAMPLE_H_
 
 #include <Interface/Interface.h>
 
@@ -25,4 +25,4 @@ class SampleApplication : public rl::interface::InterfaceDelegate {
 
 }  // namespace sample
 
-#endif /* __RADARLOVE_SAMPLE_H__ */
+#endif /* RADARLOVE_SAMPLE_H_ */

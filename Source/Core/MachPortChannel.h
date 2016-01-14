@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
-#define __RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__
+#ifndef RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL_
+#define RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL_
 
 #include <Core/Config.h>
 
@@ -43,4 +43,4 @@ class MachPortChannel : public ChannelProvider {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
-#endif /* defined(__RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL__) */
+#endif  // RADARLOVE_CORE_CHANNEL_MACHPORTCHANNEL_
