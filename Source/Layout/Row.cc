@@ -91,8 +91,9 @@ void Row::substitute(const Symbol& symbol, const Row& row) {
     return;
   }
 
+  auto coefficient = cell->second;
   _cells.erase(cell);
-  insertRow(row, cell->second /* coefficient */);
+  insertRow(row, coefficient);
 }
 
 bool Row::constantHasUpdate() const {
