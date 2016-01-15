@@ -64,14 +64,6 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   return nullptr;
 }
 
-bool BoostrapServerStopAdvertising(std::shared_ptr<core::Channel> channel) {
-  /*
-   *  There is no mach call to stop advertising. We just wait for channel
-   *  invalidation.
-   */
-  return true;
-}
-
 }  // namespace bootstrap
 }  // namespace rl
 

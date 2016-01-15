@@ -56,7 +56,7 @@ class Protocol {
 
   void onChannelMessage(Message message, Namespace* ns);
 
-  void startOrStopAdvertisingWithBootstrapServerIfNecessary(bool start);
+  void startAdvertisingWithBootstrapServerIfNecessary();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Protocol);
 };

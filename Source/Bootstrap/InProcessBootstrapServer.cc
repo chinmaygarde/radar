@@ -24,11 +24,6 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   return nullptr;
 }
 
-bool BoostrapServerStopAdvertising(std::shared_ptr<core::Channel> channel) {
-  RL_ASSERT_MSG(false, "WIP");
-  return false;
-}
-
 }  // namespace bootstrap
 }  // namespace rl
 

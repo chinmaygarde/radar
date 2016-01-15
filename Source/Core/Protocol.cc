@@ -45,7 +45,7 @@ Protocol::Protocol(bool isVendor)
 }
 
 std::shared_ptr<EventLoopSource> Protocol::source() {
-  startOrStopAdvertisingWithBootstrapServerIfNecessary(true);
+  startAdvertisingWithBootstrapServerIfNecessary();
   return _channel->source();
 }
 
@@ -162,21 +162,14 @@ IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
   return replyChannel->sendMessages(std::move(messages));
 }
 
-void Protocol::startOrStopAdvertisingWithBootstrapServerIfNecessary(
-    bool start) {
+void Protocol::startAdvertisingWithBootstrapServerIfNecessary() {
   if (!_isVendor) {
     return;
   }
 
-  if (start) {
-    if (!_isAdvertising) {
-      _isAdvertising =
-          bootstrap::BootstrapServerAdvertise(advertisementName(), _channel);
-    }
-  } else {
-    if (_isAdvertising) {
-      _isAdvertising = !bootstrap::BoostrapServerStopAdvertising(_channel);
-    }
+  if (!_isAdvertising) {
+    _isAdvertising =
+        bootstrap::BootstrapServerAdvertise(advertisementName(), _channel);
   }
 }
 
@@ -186,8 +179,6 @@ Protocol::~Protocol() {
   for (const auto& pending : _pendingResponses) {
     pending.second(core::IOResult::Timeout, Message{});
   }
-
-  startOrStopAdvertisingWithBootstrapServerIfNecessary(false);
 }
 
 }  // namespace core

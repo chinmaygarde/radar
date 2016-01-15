@@ -27,17 +27,6 @@ bool BootstrapServerAdvertise(const std::string& name,
                                   channel);
 
 /**
- *  Stop advertising the given channel with the bootstrap server
- *
- *  @param channel the channel that was previously added as advertising with the
- *                 bootstrap server
- *
- *  @return if the channel successfully stopped advertising with the bootstrap
- *          server
- */
-bool BoostrapServerStopAdvertising(std::shared_ptr<core::Channel> channel);
-
-/**
  *  Get a reference to a channel that was previously advertised as being a
  *  service provider for the given name
  *
