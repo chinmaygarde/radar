@@ -30,14 +30,22 @@ require 'open3'
 
 task :default do
   puts "Available tasks:"
-  system("rake -sT")
+  call_system_check("rake -sT")
 end
 
 desc "Format the C/C++ source to match adopted conventions"
 task :format do
-  sources = Dir["{Headers,Source}/**/*.{h,hpp,c,cc,cpp,c++,mm,m}"]
+  sources = all_sources
   call_system_check "clang-format -i -style=file #{sources.join(' ')}"
   puts "Formatted #{sources.length} source files..."
+end
+
+desc "Lint the C/C++ source against adopted conventions"
+task :lint do
+  sources = all_sources
+  puts "Linting ..."
+  call_system_check "cpplint #{sources.join(' ')}"
+  puts "Linted #{sources.length} source files using defined rules..."
 end
 
 def call_system(command)
@@ -66,4 +74,8 @@ def call_system_check(command)
   if not call_system(command)
     raise "Error On: '#{command}'"
   end
+end
+
+def all_sources
+  Dir["{Headers,Source}/**/*.{h,hpp,c,cc,cpp,c++,mm,m}"]
 end

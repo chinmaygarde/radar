@@ -6,7 +6,6 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 #include <Instrumentation/Trace.h>
-#include <string>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -24,6 +23,8 @@
 #else
 #error Unsupported Platform
 #endif
+
+#include <string>
 
 namespace rl {
 namespace core {

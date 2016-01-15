@@ -26,7 +26,7 @@ static const double Strong = Create(1.0, 0.0, 0.0);
 static const double Medium = Create(0.0, 1.0, 0.0);
 static const double Weak = Create(0.0, 0.0, 1.0);
 
-}  // namespace Priority
+}  // namespace priority
 
 }  // namespace layout
 }  // namespace rl

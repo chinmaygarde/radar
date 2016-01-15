@@ -58,7 +58,7 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
       }
 
       readCount++;
-    };
+    }
 
     return readCount == 0 ? IOResult::Timeout : IOResult::Success;
   };

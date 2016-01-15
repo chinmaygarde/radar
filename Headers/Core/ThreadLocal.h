@@ -28,6 +28,8 @@ using ThreadLocalDestroyCallback = std::function<void(uintptr_t)>;
 
 class ThreadLocal {
  public:
+  //
+
  private:
   class Box {
    public:

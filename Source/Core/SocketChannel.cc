@@ -38,7 +38,7 @@ class SocketPayloadHeader {
 
   uint8_t oolDescriptors() const { return _oolDescriptors; }
 
-  bool isDataInline() const { return _isDataInline; };
+  bool isDataInline() const { return _isDataInline; }
 
  private:
   uint8_t _oolDescriptors;

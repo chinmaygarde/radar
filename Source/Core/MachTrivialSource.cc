@@ -65,7 +65,6 @@ MachTrivialSource::MachTrivialSource()
    */
   setCustomWaitSetUpdateHandler([](EventLoopSource& source, WaitSet& kev,
                                    EventLoopSource::Handle ident, bool adding) {
-
     // clang-format off
     struct kevent event = {0};
 
