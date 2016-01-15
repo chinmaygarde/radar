@@ -30,8 +30,7 @@ InProcessTimerSource::InProcessTimerSource(ClockDurationNano repeatInterval)
   });
 }
 
-InProcessTimerSource::~InProcessTimerSource() {
-}
+InProcessTimerSource::~InProcessTimerSource() {}
 
 }  // namespace core
 }  // namespace rl

@@ -12,8 +12,7 @@ GravitySimulation::GravitySimulation(double acceleration,
                                      double distance,
                                      double endDistance,
                                      double velocity)
-    : _a(acceleration), _x(distance), _v(velocity), _end(endDistance) {
-}
+    : _a(acceleration), _x(distance), _v(velocity), _end(endDistance) {}
 
 double GravitySimulation::x(const core::ClockDuration& time) {
   return _x + _v * time.count() + 0.5 * _a * time.count() * time.count();

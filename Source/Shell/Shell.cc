@@ -13,8 +13,7 @@ namespace rl {
 namespace shell {
 
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
-             std::weak_ptr<interface::InterfaceDelegate>
-                 delegate)
+             std::weak_ptr<interface::InterfaceDelegate> delegate)
     : _compositorThread(),
       _coordinator(surface, _host.touchEventChannel()),
       _interface(delegate) {

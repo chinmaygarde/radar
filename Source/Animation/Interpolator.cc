@@ -20,8 +20,7 @@ Interpolator<Type>::Interpolator(
       _setter(setter),
       _from(from),
       _to(to),
-      _start(core::ClockPoint::min()) {
-}
+      _start(core::ClockPoint::min()) {}
 
 template <typename Type>
 void Interpolator<Type>::start(const core::ClockPoint& time) {
@@ -79,11 +78,9 @@ coordinator::Color Interpolator<coordinator::Color>::x(double t) const {
    */
   auto from = coordinator::ColorHSB::FromRGB(_from);
   auto to = coordinator::ColorHSB::FromRGB(_to);
-  auto interpolated =
-      coordinator::ColorHSB{_lerp(from.hue, to.hue, t),
-                            _lerp(from.saturation, to.saturation, t),
-                            _lerp(from.brightness, to.brightness, t),
-                            _lerp(from.alpha, to.alpha, t)};
+  auto interpolated = coordinator::ColorHSB{
+      _lerp(from.hue, to.hue, t), _lerp(from.saturation, to.saturation, t),
+      _lerp(from.brightness, to.brightness, t), _lerp(from.alpha, to.alpha, t)};
   return interpolated.ToRGBA();
 }
 

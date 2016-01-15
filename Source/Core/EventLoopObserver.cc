@@ -20,9 +20,9 @@ void EventLoopObserver::invoke(Activity activity) const {
   _callback(activity);
 }
 
-bool EventLoopObserverComparer::operator()(std::shared_ptr<EventLoopObserver> a,
-                                           std::shared_ptr<EventLoopObserver>
-                                               b) const {
+bool EventLoopObserverComparer::operator()(
+    std::shared_ptr<EventLoopObserver> a,
+    std::shared_ptr<EventLoopObserver> b) const {
   return a->priority() < b->priority();
 }
 
@@ -30,16 +30,15 @@ EventLoopObserverCollection::EventLoopObserverCollection(
     EventLoopObserver::Activity activity)
     : _activity(activity) {}
 
-bool EventLoopObserverCollection::addObserver(std::shared_ptr<EventLoopObserver>
-                                                  observer) {
+bool EventLoopObserverCollection::addObserver(
+    std::shared_ptr<EventLoopObserver> observer) {
   std::lock_guard<std::mutex> lock(_lock);
   auto result = _observers.insert(observer);
   return result.second;
 }
 
 bool EventLoopObserverCollection::removeObserver(
-    std::shared_ptr<EventLoopObserver>
-        observer) {
+    std::shared_ptr<EventLoopObserver> observer) {
   std::lock_guard<std::mutex> lock(_lock);
 
   auto found = _observers.find(observer);

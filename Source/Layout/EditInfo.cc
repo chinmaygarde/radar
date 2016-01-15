@@ -10,8 +10,7 @@ namespace layout {
 EditInfo::EditInfo(const Tag& tag,
                    const Constraint& constraint,
                    double constant)
-    : _tag(tag), _constraint(constraint), _constant(constant) {
-}
+    : _tag(tag), _constraint(constraint), _constant(constant) {}
 
 const Tag& EditInfo::tag() const {
   return _tag;

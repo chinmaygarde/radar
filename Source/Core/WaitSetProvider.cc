@@ -23,8 +23,7 @@ void WaitSetProvider::signalReadReadinessFromUserspace(
       "from userspace. Only 'InProcess' Core variants support this!");
 }
 
-WaitSetProvider::~WaitSetProvider() {
-}
+WaitSetProvider::~WaitSetProvider() {}
 
 }  // namespace core
 }  // namespace rl

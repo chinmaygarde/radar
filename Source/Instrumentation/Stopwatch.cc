@@ -7,8 +7,7 @@
 namespace rl {
 namespace instrumentation {
 
-Stopwatch::Stopwatch() : _startPoint(core::ClockPoint::min()), _lastLap(0) {
-}
+Stopwatch::Stopwatch() : _startPoint(core::ClockPoint::min()), _lastLap(0) {}
 
 void Stopwatch::start() {
   _startPoint = core::Clock::now();

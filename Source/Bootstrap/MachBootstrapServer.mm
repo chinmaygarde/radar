@@ -13,8 +13,7 @@ namespace rl {
 namespace bootstrap {
 
 bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel>
-                                  channel) {
+                              std::shared_ptr<core::Channel> channel) {
   if (name.size() == 0) {
     return false;
   }

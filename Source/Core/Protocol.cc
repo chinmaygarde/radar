@@ -138,8 +138,7 @@ void Protocol::sendRequest(Response response) {
 }
 
 IOResult Protocol::fulfillRequest(ProtocolPayloadIdentifier identifier,
-                                  std::unique_ptr<Channel>
-                                      replyChannel,
+                                  std::unique_ptr<Channel> replyChannel,
                                   ResponsePayloadHandler handler) {
   ProtocolPayloadHeader header(ProtocolPayloadHeader::Type::Response,
                                identifier, false);

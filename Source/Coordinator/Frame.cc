@@ -74,8 +74,7 @@ Statistics& Frame::statistics() {
   return _stats;
 }
 
-Frame::~Frame() {
-}
+Frame::~Frame() {}
 
 }  // namespace coordinator
 }  // namespace rl

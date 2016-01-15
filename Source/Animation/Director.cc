@@ -7,8 +7,7 @@
 namespace rl {
 namespace animation {
 
-Director::Director() {
-}
+Director::Director() {}
 
 size_t Director::stepInterpolations(instrumentation::Stopwatch& stopwatch) {
   instrumentation::AutoStopwatchLap lap(stopwatch);

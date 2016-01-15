@@ -78,8 +78,7 @@ size_t ThreadTrace::eventCount() const {
   return _events.size();
 }
 
-ProcessTrace::ProcessTrace() {
-}
+ProcessTrace::ProcessTrace() {}
 
 void ProcessTrace::addTrace(ThreadTrace& trace) {
   std::lock_guard<std::mutex> lock(_lock);

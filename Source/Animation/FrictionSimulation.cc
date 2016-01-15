@@ -12,8 +12,7 @@ namespace animation {
 FrictionSimulation::FrictionSimulation(double drag,
                                        double position,
                                        double velocity)
-    : _drag(drag), _dragLog(log(drag)), _x(position), _v(velocity) {
-}
+    : _drag(drag), _dragLog(log(drag)), _x(position), _v(velocity) {}
 
 double FrictionSimulation::x(const core::ClockDuration& time) {
   return _x + _v * pow(_drag, time.count()) / _dragLog - _v / _dragLog;

@@ -36,8 +36,7 @@ void main() {
 namespace rl {
 namespace coordinator {
 
-ProgramCatalog::ProgramCatalog() : _prepared(false), _current(None, nullptr) {
-}
+ProgramCatalog::ProgramCatalog() : _prepared(false), _current(None, nullptr) {}
 
 void ProgramCatalog::startUsing() {
   prepareIfNecessary();
@@ -86,8 +85,7 @@ BasicPrimitiveProgram::BasicPrimitiveProgram()
                        BasicFragmentShader),
       _modelViewProjectionUniform(-1),
       _contentColorUniform(-1),
-      _sizeUniform(-1) {
-}
+      _sizeUniform(-1) {}
 
 void BasicPrimitiveProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");

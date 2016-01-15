@@ -12,8 +12,7 @@ namespace rl {
 namespace bootstrap {
 
 bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel>
-                                  channel) {
+                              std::shared_ptr<core::Channel> channel) {
   RL_ASSERT_MSG(false, "WIP");
   return false;
 }

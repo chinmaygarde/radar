@@ -8,8 +8,7 @@ namespace rl {
 namespace layout {
 
 Tag::Tag(const Symbol& marker, const Symbol& other)
-    : _marker(marker), _other(other) {
-}
+    : _marker(marker), _other(other) {}
 
 void Tag::setMarker(const Symbol& marker) {
   _marker = marker;

@@ -5,7 +5,5 @@
 #include <Core/Serializable.h>
 
 namespace rl {
-namespace core {
-
-}  // namespace core
+namespace core {}  // namespace core
 }  // namespace rl

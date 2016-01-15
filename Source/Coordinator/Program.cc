@@ -23,8 +23,7 @@ Program::Program(std::vector<std::string> attributes,
       _vertexShader(vertexShader),
       _fragmentShader(fragmentShader),
       _linkingComplete(false),
-      _program(0) {
-}
+      _program(0) {}
 
 bool Program::use() {
   linkIfNecessary();
@@ -140,8 +139,7 @@ unsigned int Program::indexForUniform(const std::string& uniform) {
   return result;
 }
 
-void Program::onLinkSuccess() {
-}
+void Program::onLinkSuccess() {}
 
 Program::~Program() {
   /*

@@ -58,8 +58,7 @@ class EventLoopObserver {
 
 struct EventLoopObserverComparer {
   bool operator()(std::shared_ptr<EventLoopObserver> a,
-                  std::shared_ptr<EventLoopObserver>
-                      b) const;
+                  std::shared_ptr<EventLoopObserver> b) const;
 };
 
 class EventLoopObserverCollection {

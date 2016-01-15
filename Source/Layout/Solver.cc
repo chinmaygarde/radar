@@ -568,10 +568,8 @@ Symbol Solver::dualEnteringSymbolForRow(const Row& row) {
 
 template <class T>
 Result Solver::bulkEdit(const std::vector<T>& items,
-                        UpdateCallback<T>
-                            applier,
-                        UpdateCallback<T>
-                            undoer) {
+                        UpdateCallback<T> applier,
+                        UpdateCallback<T> undoer) {
   std::vector<std::reference_wrapper<const T>> applied;
   auto needsCleanup = false;
 

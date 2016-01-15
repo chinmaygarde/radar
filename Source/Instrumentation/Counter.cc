@@ -7,8 +7,7 @@
 namespace rl {
 namespace instrumentation {
 
-Counter::Counter() : _count(0) {
-}
+Counter::Counter() : _count(0) {}
 
 size_t Counter::count() const {
   return _count;

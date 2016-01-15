@@ -18,8 +18,7 @@ InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol()
 
 void InterfaceAcquisitionProtocol::onRequest(
     core::Message message,
-    std::unique_ptr<core::Channel>
-        replyChannel,
+    std::unique_ptr<core::Channel> replyChannel,
     core::ProtocolPayloadIdentifier identifier) {
   std::shared_ptr<core::Channel> channel;
 

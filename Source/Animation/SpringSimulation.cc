@@ -14,8 +14,7 @@ SpringSimulation::SpringSimulation(SpringDescription desc,
                                    double end,
                                    double velocity)
     : _endPosition(end),
-      _solution(SpringSolution::Create(desc, start - end, velocity)) {
-}
+      _solution(SpringSolution::Create(desc, start - end, velocity)) {}
 
 double SpringSimulation::x(const core::ClockDuration& time) {
   return _endPosition + _solution->x(time);

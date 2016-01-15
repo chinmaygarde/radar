@@ -7,8 +7,7 @@
 namespace rl {
 namespace coordinator {
 
-Statistics::Statistics() {
-}
+Statistics::Statistics() {}
 
 instrumentation::Stopwatch& Statistics::frameTimer() {
   return _frameTimer;

@@ -23,8 +23,7 @@ TraceEvent::TraceEvent(Type type,
       _category(category),
       _name(name),
       _timestamp(CurrentTraceTimestamp()),
-      _arguments(std::move(args)) {
-}
+      _arguments(std::move(args)) {}
 
 void TraceEvent::MarkDurationBegin(Category category, const std::string& name) {
   ThreadTrace::Current().recordEvent(Type::DurationBegin, category, name,

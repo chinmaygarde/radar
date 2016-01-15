@@ -77,10 +77,8 @@ class Solver {
 
   template <class T>
   Result bulkEdit(const std::vector<T>& items,
-                  UpdateCallback<T>
-                      applier,
-                  UpdateCallback<T>
-                      undoer);
+                  UpdateCallback<T> applier,
+                  UpdateCallback<T> undoer);
 
   Symbol symbolForVariable(const Variable& variable);
 
