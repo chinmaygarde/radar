@@ -15,7 +15,7 @@ namespace coordinator {
 
 class InterfaceController {
  public:
-  InterfaceController();
+  InterfaceController(const std::string& debugTag);
 
   void scheduleChannel(core::EventLoop& loop, bool schedule);
 
@@ -28,6 +28,7 @@ class InterfaceController {
   bool renderCurrentInterfaceState(Frame& frame);
 
  private:
+  std::string _debugTag;
   core::Namespace _localNS;
   bool _needsUpdate;
   bool _isUpdating;

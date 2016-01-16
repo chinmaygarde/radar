@@ -9,6 +9,7 @@
 
 #include <Geometry/Geometry.h>
 
+#include <Core/DebugTagGenerator.h>
 #include <Coordinator/EntityLease.h>
 #include <Coordinator/InterfaceAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
@@ -62,6 +63,7 @@ class Coordinator : RenderSurfaceObserver {
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
+  core::DebugTagGenerator _interfaceTagGenerator;
   std::list<InterfaceController> _interfaces;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;

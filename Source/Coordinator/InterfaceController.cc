@@ -23,8 +23,9 @@ class ScopedUpdate {
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedUpdate);
 };
 
-InterfaceController::InterfaceController()
-    : _localNS(),
+InterfaceController::InterfaceController(const std::string& debugTag)
+    : _debugTag(debugTag),
+      _localNS(),
       _needsUpdate(false),
       _isUpdating(false),
       _channel(std::make_shared<core::Channel>()),

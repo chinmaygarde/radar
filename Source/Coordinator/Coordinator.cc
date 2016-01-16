@@ -13,6 +13,7 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
                          event::TouchEventChannel& touchEventChannel)
     : _surface(surface),
       _loop(nullptr),
+      _interfaceTagGenerator("rl.coordinator.interface"),
       _animationsSource(core::EventLoopSource::Timer(core::ClockDurationGod)),
       _touchEventChannel(touchEventChannel),
       _interfaceAcquisitionProtocol(
@@ -127,7 +128,7 @@ void Coordinator::setupOrTeardownChannels(bool setup) {
 }
 
 std::shared_ptr<core::Channel> Coordinator::acquireFreshInterfaceChannel() {
-  _interfaces.emplace_back();
+  _interfaces.emplace_back(_interfaceTagGenerator.acquire());
   scheduleInterfaceChannels(true);
   return _interfaces.front().channel();
 }
