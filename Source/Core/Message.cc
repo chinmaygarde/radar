@@ -17,6 +17,8 @@
 #error Unknown Platform
 #endif
 
+#include <string>
+
 namespace rl {
 namespace core {
 
@@ -152,6 +154,23 @@ bool Message::encode(const Serializable& value) {
   return value.serialize(*this);
 }
 
+bool Message::encode(const std::string& value) {
+  auto stringLength = value.size();
+  /*
+   *  Encode the string length
+   */
+  if (encode(stringLength)) {
+    /*
+     *  Reserve an adquate allocation
+     */
+    if (auto allocation = encodeRawUnsafe(stringLength)) {
+      memmove(allocation, value.data(), stringLength);
+      return true;
+    }
+  }
+  return false;
+}
+
 uint8_t* Message::encodeRawUnsafe(size_t size) {
   bool success = reserve(_dataLength + size);
 
@@ -174,6 +193,25 @@ size_t Message::encodeOffsetRawUnsafe(size_t size) {
 
 bool Message::decode(Serializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
+}
+
+bool Message::decode(std::string& string) {
+  auto length = string.length();
+  bool success = decode(length, nullptr);
+
+  if (!success) {
+    return false;
+  }
+
+  auto decodedChar = decodeRaw<char>(length);
+
+  if (decodedChar == nullptr) {
+    return false;
+  }
+
+  std::string decoded(decodedChar, length);
+  string.swap(decoded);
+  return true;
 }
 
 uint8_t* Message::decodeRawUnsafe(size_t size) {

@@ -105,6 +105,8 @@ class Message {
 
   bool encode(const Serializable& value);
 
+  bool encode(const std::string& value);
+
   template <typename T,
             typename = only_if<std::is_base_of<Serializable, T>::value>>
   bool encode(const std::vector<T>& vec) {
@@ -141,6 +143,8 @@ class Message {
   }
 
   bool decode(Serializable& value, Namespace* ns);
+
+  bool decode(std::string& string);
 
   template <typename T,
             typename = only_if<std::is_base_of<Serializable, T>::value ||
