@@ -35,6 +35,10 @@ std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;
 }
 
+const std::string& InterfaceController::debugTag() const {
+  return _debugTag;
+}
+
 void InterfaceController::scheduleChannel(core::EventLoop& loop,
                                           bool schedule) {
   auto source = _channel->source();

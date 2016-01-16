@@ -131,6 +131,13 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
   _coordinatorChannel = std::make_shared<core::Channel>(
       core::Message::Attachment{message.attachments()[0]});
 
+  /*
+   *  The message contains one string containing the debug tag
+   */
+  bool tagRead = message.decode(_remoteDebugTag);
+
+  RL_ASSERT(tagRead && message.readCompleted());
+
   if (!isRunning()) {
     return;
   }

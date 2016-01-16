@@ -72,7 +72,7 @@ class Coordinator : RenderSurfaceObserver {
   Statistics _stats;
   StatisticsRenderer _statsRenderer;
 
-  std::shared_ptr<core::Channel> acquireFreshInterfaceChannel();
+  InterfaceAcquisitionProtocol::VendorResult acquireFreshInterfaceChannel();
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const geom::Size& size) override;

@@ -21,20 +21,31 @@ void InterfaceAcquisitionProtocol::onRequest(
     std::unique_ptr<core::Channel> replyChannel,
     core::ProtocolPayloadIdentifier identifier) {
   std::shared_ptr<core::Channel> channel;
+  std::string tag;
 
   /*
    *  We don't send any extra information for service acquisition. So we
    *  should not expect anything while servicing the request either.
    */
   if (message.readCompleted()) {
-    channel = _vendor();
+    std::tie(channel, tag) = _vendor();
   }
 
   auto result = fulfillRequest(
-      identifier, std::move(replyChannel), [&channel](core::Message& message) {
+      identifier, std::move(replyChannel),
+      [&channel, &tag](core::Message& message) {
         if (channel == nullptr) {
           return false;
         }
+
+        /*
+         *  Encode the tag name
+         */
+        message.encode(tag);
+
+        /*
+         *  Encode the attachment
+         */
 
         const auto attachment = channel->asMessageAttachment();
 

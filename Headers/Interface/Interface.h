@@ -117,6 +117,7 @@ class Interface {
       const std::vector<layout::Suggestion>& suggestions);
 
  private:
+  std::string _remoteDebugTag;
   core::Namespace _localNS;
   ModelEntity _rootEntity;
   core::EventLoop* _loop;

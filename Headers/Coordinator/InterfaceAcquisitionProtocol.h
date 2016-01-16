@@ -16,8 +16,9 @@ namespace coordinator {
  */
 class InterfaceAcquisitionProtocol : public core::Protocol {
  public:
-  using InterfaceChannelVendor =
-      std::function<std::shared_ptr<core::Channel>(void)>;
+  using VendorResult = std::pair<std::shared_ptr<core::Channel> /* channel */,
+                                 std::string /* tag */>;
+  using InterfaceChannelVendor = std::function<VendorResult(void)>;
 
   /**
    *  Create the client side of the interface acquisition protocol

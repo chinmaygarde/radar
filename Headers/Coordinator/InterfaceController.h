@@ -27,6 +27,8 @@ class InterfaceController {
 
   bool renderCurrentInterfaceState(Frame& frame);
 
+  const std::string& debugTag() const;
+
  private:
   std::string _debugTag;
   core::Namespace _localNS;
