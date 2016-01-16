@@ -38,6 +38,13 @@ cmake_minimum_required(VERSION 2.8)
 ################################################################################
 ################################################################################
 
+if(APPLE)
+  # Avoid consulting cc which will always default to AppleClang. If a newer
+  # version on Clang is in the path, that will be used over AppleClang.
+  set(CMAKE_C_COMPILER clang)
+  set(CMAKE_CXX_COMPILER clang++)
+endif()
+
 project(RadarLove)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
