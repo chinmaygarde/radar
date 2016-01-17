@@ -26,8 +26,8 @@ bool Allocation::resize(size_t newSize) {
    *     when it comes to cleanups during reallocation failures.
    *  2: We want to guarantee zeroing out of the extended regions.
    */
-  auto newAllocation =
-      reinterpret_cast<uint8_t*>(realloc(_allocation, newSize * sizeof(char)));
+  auto newAllocation = reinterpret_cast<uint8_t*>(
+      realloc(_allocation, newSize * sizeof(uint8_t)));
 
   /*
    *  Handle failures during reallocation
