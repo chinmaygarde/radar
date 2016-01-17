@@ -36,16 +36,17 @@ end
 desc "Format the C/C++ source to match adopted conventions"
 task :format do
   sources = all_sources
+  puts "Formatting #{sources.length} files..."
   call_system_check "clang-format -i -style=file #{sources.join(' ')}"
-  puts "Formatted #{sources.length} source files..."
+  puts "Done formatting"
 end
 
 desc "Lint the C/C++ source against adopted conventions"
 task :lint do
   sources = all_sources
-  puts "Linting ..."
+  puts "Linting #{sources.length} files..."
   call_system_check "cpplint #{sources.join(' ')}"
-  puts "Linted #{sources.length} source files using defined rules..."
+  puts "Done linting"
 end
 
 def call_system(command)
@@ -64,6 +65,7 @@ def call_system(command)
   end
   
   if not error.empty?
+    puts "Errors and Warnings:"
     STDERR.puts error
   end
 
@@ -77,5 +79,13 @@ def call_system_check(command)
 end
 
 def all_sources
-  Dir["{Headers,Source}/**/*.{h,hpp,c,cc,cpp,c++,mm,m}"]
+  header_files + source_files
+end
+
+def header_files
+  Dir["{Headers,Source}/**/*.{h,hpp}"]
+end
+
+def source_files
+  Dir["{Headers,Source}/**/*.{c,cc,cpp,c++,mm,m}"]
 end
