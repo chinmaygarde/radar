@@ -1,3 +1,7 @@
+// Copyright 2016 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 #pragma once
 
 #include <math.h>
@@ -69,4 +73,4 @@ inline static Matrix4 SimpleProjectionMatrix(float aspectRatio) {
                  0.0f, 0.0f, 0.0f, 0.0f, -50.0f / (50.0f - 1.0f),
                  (-50.0f * 1.0f) / (50.0f - 1.0f), 0.0f, 0.0f, -1.0f, 0.0f);
 }
-}
+}  // namespace MathHelper

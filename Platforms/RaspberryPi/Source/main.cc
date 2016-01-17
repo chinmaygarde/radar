@@ -9,13 +9,14 @@
 #include <math.h>
 #include <assert.h>
 #include <unistd.h>
-#include <memory>
 #include <bcm_host.h>
 #include <GLES2/gl2.h>
 #include <EGL/egl.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
 #include <Coordinator/RenderSurface.h>
+
+#include <memory>
 
 #include "Sample.h"
 

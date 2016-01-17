@@ -1,16 +1,17 @@
-//
-// This file is used by the template to render a basic scene using GL.
-//
-#include "pch.h"
+// Copyright 2016 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 #include "SimpleRenderer.h"
-#include "MathHelper.h"
 
 // These are used by the shader compilation methods.
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+
+#include "pch.h"
+#include "MathHelper.h"
 
 GLuint CompileShader(GLenum type, const std::string& source) {
   GLuint shader = glCreateShader(type);
@@ -140,7 +141,7 @@ SimpleRenderer::SimpleRenderer()
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertexColors), vertexColors,
                GL_STATIC_DRAW);
 
-  short indices[] = {
+  uint16_t indices[] = {
       0, 1, 2,  // -x
       1, 3, 2,
 
@@ -206,7 +207,7 @@ void SimpleRenderer::Draw() {
   glVertexAttribPointer(mColorAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
   MathHelper::Matrix4 modelMatrix =
-      MathHelper::SimpleModelMatrix((float)mDrawCount / 50.0f);
+      MathHelper::SimpleModelMatrix(static_cast<float>(mDrawCount) / 50.0f);
   glUniformMatrix4fv(mModelUniformLocation, 1, GL_FALSE,
                      &(modelMatrix.m[0][0]));
 
@@ -214,7 +215,7 @@ void SimpleRenderer::Draw() {
   glUniformMatrix4fv(mViewUniformLocation, 1, GL_FALSE, &(viewMatrix.m[0][0]));
 
   MathHelper::Matrix4 projectionMatrix = MathHelper::SimpleProjectionMatrix(
-      float(mWindowWidth) / float(mWindowHeight));
+      static_cast<float>(mWindowWidth) / static_cast<float>(mWindowHeight));
   glUniformMatrix4fv(mProjUniformLocation, 1, GL_FALSE,
                      &(projectionMatrix.m[0][0]));
 

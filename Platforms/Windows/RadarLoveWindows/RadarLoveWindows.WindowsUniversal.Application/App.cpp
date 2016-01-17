@@ -2,26 +2,27 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "app.h"
+#include "App.h"
+
+#include "../RadarLoveWindows.Shared/SimpleRenderer.h"
 
 #include <Core/Core.h>
 #include <Shell/Shell.h>
 #include <Interface/Entity.h>
 #include <Coordinator/RenderSurface.h>
-#include "..\RadarLoveWindows.Shared\SimpleRenderer.h"
+
 #include "../../../../Samples/Sample.h"
 
-using namespace Windows::ApplicationModel::Core;
-using namespace Windows::ApplicationModel::Activation;
-using namespace Windows::UI::Core;
-using namespace Windows::UI::Input;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Graphics::Display;
-using namespace Microsoft::WRL;
-using namespace Platform;
-
-using namespace RadarLoveWindows;
+using namespace Windows::ApplicationModel::Core;        // NOLINT
+using namespace Windows::ApplicationModel::Activation;  // NOLINT
+using namespace Windows::UI::Core;                      // NOLINT
+using namespace Windows::UI::Input;                     // NOLINT
+using namespace Windows::Foundation;                    // NOLINT
+using namespace Windows::Foundation::Collections;       // NOLINT
+using namespace Windows::Graphics::Display;             // NOLINT
+using namespace Microsoft::WRL;                         // NOLINT
+using namespace Platform;                               // NOLINT
+using namespace RadarLoveWindows;                       // NOLINT
 
 class RenderSurfaceWindows : public rl::coordinator::RenderSurface {
  public:

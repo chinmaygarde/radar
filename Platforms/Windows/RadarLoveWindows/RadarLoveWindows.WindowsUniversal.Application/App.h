@@ -4,9 +4,6 @@
 
 #pragma once
 
-#include <string>
-
-#include <memory>
 #include <wrl.h>
 
 // OpenGL ES includes
@@ -20,6 +17,9 @@
 
 // ANGLE include for Windows Store
 #include <angle_windowsstore.h>
+
+#include <string>
+#include <memory>
 
 namespace RadarLoveWindows {
 ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView {
@@ -60,4 +60,4 @@ ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView {
   EGLContext mEglContext;
   EGLSurface mEglSurface;
 };
-}
+}  // namespace RadarLoveWindows
