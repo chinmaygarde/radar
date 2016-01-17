@@ -9,7 +9,6 @@
 #include <Interface/Entity.h>
 #include <Coordinator/RenderSurface.h>
 
-
 #include "../RadarLoveWindows.Shared/SimpleRenderer.h"
 #include "../../../../Samples/Sample.h"
 
