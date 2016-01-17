@@ -24,10 +24,11 @@ using namespace Platform;
 using namespace RadarLoveWindows;
 
 class RenderSurfaceWindows : public rl::coordinator::RenderSurface {
-public:
+ public:
+  //
 
-private:
-	RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceWindows);
+ private:
+  RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceWindows);
 };
 
 /*
@@ -57,8 +58,7 @@ ref class SimpleApplicationSource sealed
  *  The main function creates an IFrameworkViewSource for our app, and runs the
  *  app.
  */
-[Platform::MTAThread]
-int main(Platform::Array<Platform::String ^> ^ ) {
+[Platform::MTAThread] int main(Platform::Array<Platform::String ^> ^) {
   auto simpleApplicationSource = ref new SimpleApplicationSource();
   CoreApplication::Run(simpleApplicationSource);
   return 0;
@@ -116,15 +116,12 @@ void App::Load(Platform::String ^ entryPoint) {
   RecreateRenderer();
 }
 
-void App::RecreateRenderer() {
-  
-}
+void App::RecreateRenderer() {}
 
 /*
  *  This method is called after the window becomes active.
  */
 void App::Run() {
-
   auto renderSurface = std::make_shared<RenderSurfaceWindows>();
   auto application = std::make_shared<sample::SampleApplication>();
   rl::shell::Shell shell(renderSurface, application);

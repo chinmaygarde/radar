@@ -174,7 +174,7 @@ StatisticsRenderer::StatisticsRenderer()
       _vbo(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
-  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
+  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
       &StatisticsRenderer::drawLists);
 }
 

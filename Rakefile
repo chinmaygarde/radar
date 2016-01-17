@@ -83,9 +83,13 @@ def all_sources
 end
 
 def header_files
-  Dir["{Headers,Source}/**/*.{h,hpp}"]
+  Dir["{#{source_folders.join(',')}}/**/*.{h,hpp}"]
 end
 
 def source_files
-  Dir["{Headers,Source}/**/*.{c,cc,cpp,c++,mm,m}"]
+  Dir["{#{source_folders.join(',')}}/**/*.{c,cc,cpp,c++,mm,m}"]
+end
+
+def source_folders
+  ["Headers", "Source", "Platforms"]
 end
