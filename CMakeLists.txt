@@ -28,7 +28,6 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-
 ################################################################################
 ################################################################################
 ######################    ____ ____ ___  ____ ____    ##########################
@@ -114,10 +113,19 @@ file(GLOB RADARLOVE_IMGUI_SRC
   "ThirdParty/imgui/imgui_demo.cpp"
 )
 
+file(GLOB RADARLOVE_SQLITE_SRC
+  "ThirdParty/sqlite3/*.h"
+  "ThirdParty/sqlite3/*.c"
+)
+
 include_directories ("Headers")
 include_directories ("ThirdParty")
 
-add_library(RadarLove ${RADARLOVE_SRC} ${RADARLOVE_IMGUI_SRC})
+add_library(RadarLove
+    ${RADARLOVE_SRC}
+    ${RADARLOVE_IMGUI_SRC}
+    ${RADARLOVE_SQLITE_SRC}
+)
 
 ################################################################################
 # Tweaks for the various platforms and compilers
