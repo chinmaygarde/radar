@@ -23,6 +23,11 @@
 #include <Core/Utilities.h>
 
 /*
+ *  Bootstrap Server
+ */
+#include <Core/BootstrapServer.h>
+
+/*
  *  Channels
  */
 #include <Core/Channel.h>

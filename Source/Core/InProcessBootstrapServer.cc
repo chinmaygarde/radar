@@ -6,10 +6,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#include <Bootstrap/BootstrapServer.h>
+#include <Core/BootstrapServer.h>
 
 namespace rl {
-namespace bootstrap {
+namespace core {
 
 bool BootstrapServerAdvertise(const std::string& name,
                               std::shared_ptr<core::Channel> channel) {
@@ -23,7 +23,7 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   return nullptr;
 }
 
-}  // namespace bootstrap
+}  // namespace core
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS

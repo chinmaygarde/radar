@@ -2,15 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_BOOTSTRAP_SERVER_H_
-#define RADARLOVE_BOOTSTRAP_SERVER_H_
+#ifndef RADARLOVE_CORE_BOOTSTRAP_SERVER_H_
+#define RADARLOVE_CORE_BOOTSTRAP_SERVER_H_
 
-#include <Core/Core.h>
-
-#include <map>
+#include <Core/Channel.h>
 
 namespace rl {
-namespace bootstrap {
+namespace core {
 
 /**
  *  Advertises the given channel with the bootstrap server. The bootstrap server
@@ -36,7 +34,7 @@ bool BootstrapServerAdvertise(const std::string& name,
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name);
 
-}  // namespace bootstrap
+}  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_BOOTSTRAP_SERVER_H_
+#endif  // RADARLOVE_CORE_BOOTSTRAP_SERVER_H_

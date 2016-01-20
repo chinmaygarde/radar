@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Bootstrap/BootstrapServer.h>
 #include <Core/Protocol.h>
 
 namespace rl {
@@ -96,8 +95,7 @@ void Protocol::sendRequest(Response response) {
    *  Try to acquire the advertised channel for this protocol from the boostrap
    *  server
    */
-  auto remoteChannel =
-      bootstrap::BootstrapServerAcquireAdvertised(advertisementName());
+  auto remoteChannel = BootstrapServerAcquireAdvertised(advertisementName());
 
   if (remoteChannel == nullptr) {
     /*
@@ -167,8 +165,7 @@ void Protocol::startAdvertisingWithBootstrapServerIfNecessary() {
   }
 
   if (!_isAdvertising) {
-    _isAdvertising =
-        bootstrap::BootstrapServerAdvertise(advertisementName(), _channel);
+    _isAdvertising = BootstrapServerAdvertise(advertisementName(), _channel);
   }
 }
 

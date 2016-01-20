@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Bootstrap/BootstrapServer.h>
+#include <Core/BootstrapServer.h>
 
 namespace rl {
-namespace bootstrap {
+namespace core {
 
 //
 
-}  // namespace bootstrap
+}  // namespace core
 }  // namespace rl
