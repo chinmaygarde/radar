@@ -35,7 +35,7 @@ class ProtocolPayloadHeader {
 };
 
 static_assert(rl_trivially_copyable(ProtocolPayloadHeader),
-              "The socket payload must be trivially copyable");
+              "The protocol payload header must be trivially copyable");
 
 Protocol::Protocol(bool isVendor)
     : _channel(std::make_shared<Channel>()),
