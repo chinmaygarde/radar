@@ -53,6 +53,12 @@
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
 		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
 		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
+		9E3FABE01C5165AC002561F0 /* Archive.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3FABDF1C5165AC002561F0 /* Archive.cc */; };
+		9E3FABEA1C5165BA002561F0 /* Archive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3FABE91C5165BA002561F0 /* Archive.h */; };
+		9E3FABED1C516C41002561F0 /* ArchiveTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E3FABEB1C5165CE002561F0 /* ArchiveTest.mm */; };
+		9E3FABF21C516CF5002561F0 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 9E3FABEF1C516CF5002561F0 /* sqlite3.c */; };
+		9E3FABF31C516CF5002561F0 /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3FABF01C516CF5002561F0 /* sqlite3.h */; };
+		9E3FABF41C516CF5002561F0 /* sqlite3ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3FABF11C516CF5002561F0 /* sqlite3ext.h */; };
 		9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */; };
 		9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */; };
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
@@ -360,6 +366,12 @@
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
 		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
 		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
+		9E3FABDF1C5165AC002561F0 /* Archive.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cc; sourceTree = "<group>"; };
+		9E3FABE91C5165BA002561F0 /* Archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Archive.h; sourceTree = "<group>"; };
+		9E3FABEB1C5165CE002561F0 /* ArchiveTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArchiveTest.mm; sourceTree = "<group>"; };
+		9E3FABEF1C516CF5002561F0 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		9E3FABF01C516CF5002561F0 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		9E3FABF11C516CF5002561F0 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
 		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChannelTest.mm; sourceTree = "<group>"; };
@@ -623,12 +635,24 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
+		9E3FABEE1C516CF5002561F0 /* sqlite3 */ = {
+			isa = PBXGroup;
+			children = (
+				9E3FABEF1C516CF5002561F0 /* sqlite3.c */,
+				9E3FABF01C516CF5002561F0 /* sqlite3.h */,
+				9E3FABF11C516CF5002561F0 /* sqlite3ext.h */,
+			);
+			name = sqlite3;
+			path = ThirdParty/sqlite3;
+			sourceTree = "<group>";
+		};
 		9E62F7481B796D80008DE08E /* Test */ = {
 			isa = PBXGroup;
 			children = (
 				9E687E421C34822D00FBE171 /* RadarTest.h */,
 				9E9544941C347BB6002EEC68 /* GTest */,
 				9E95448F1C347AAF002EEC68 /* XCTest */,
+				9E3FABEB1C5165CE002561F0 /* ArchiveTest.mm */,
 				EA7AFB851C48BAA6009CE9FA /* BootstrapServerTest.mm */,
 				9E62F74A1B796D80008DE08E /* ChannelTest.mm */,
 				9E6745E91BF2BB3200D110DE /* LayoutTest.mm */,
@@ -825,6 +849,7 @@
 			isa = PBXGroup;
 			children = (
 				EAE21F2F1C36479E00EAA2FF /* Allocation.h */,
+				9E3FABE91C5165BA002561F0 /* Archive.h */,
 				9E910BAA1C5051550097E9DE /* BootstrapServer.h */,
 				9EA6744E1B753CAD00C8A8B4 /* Core.h */,
 				9EF2269C1C49B55A00A2B027 /* DebugTagGenerator.h */,
@@ -934,6 +959,7 @@
 			isa = PBXGroup;
 			children = (
 				EAE21F251C36479100EAA2FF /* Allocation.cc */,
+				9E3FABDF1C5165AC002561F0 /* Archive.cc */,
 				9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */,
 				9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */,
 				9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */,
@@ -1058,6 +1084,7 @@
 		9EBA79C91B87FEA9005D84FA /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				9E3FABEE1C516CF5002561F0 /* sqlite3 */,
 				9EBA79CA1B87FEBC005D84FA /* imgui */,
 			);
 			name = ThirdParty;
@@ -1110,6 +1137,7 @@
 			files = (
 				9E8655F01BE45E2700997766 /* Frame.h in Headers */,
 				9EAECE801B685460000FA38A /* Message.h in Headers */,
+				9E3FABEA1C5165BA002561F0 /* Archive.h in Headers */,
 				9E16A6DF1BE2E9BC00FFEDFC /* Variable.h in Headers */,
 				9E16A6F91BE2E9D700FFEDFC /* EditInfo.h in Headers */,
 				9EAECE7F1B685460000FA38A /* EventLoopSource.h in Headers */,
@@ -1121,6 +1149,7 @@
 				9EAECE8C1B685460000FA38A /* Host.h in Headers */,
 				EAB757351BABE585009AA97F /* InProcessTimerSource.h in Headers */,
 				9E910BAB1C5051550097E9DE /* BootstrapServer.h in Headers */,
+				9E3FABF41C516CF5002561F0 /* sqlite3ext.h in Headers */,
 				9EAECE671B685460000FA38A /* ScrollSimulation.h in Headers */,
 				9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */,
 				9EAECE651B685460000FA38A /* FrictionSimulation.h in Headers */,
@@ -1189,6 +1218,7 @@
 				9E8655FB1BE45E2700997766 /* TransferEntity.h in Headers */,
 				9EAECE881B685460000FA38A /* Point.h in Headers */,
 				9EAECE8D1B685460000FA38A /* Interface.h in Headers */,
+				9E3FABF31C516CF5002561F0 /* sqlite3.h in Headers */,
 				9E8655F21BE45E2700997766 /* OpenGL.h in Headers */,
 				EA6090D91BA41E8C00C2E263 /* MachPortChannel.h in Headers */,
 				9EF2269D1C49B55A00A2B027 /* DebugTagGenerator.h in Headers */,
@@ -1379,6 +1409,7 @@
 				9E9544851C347217002EEC68 /* PipeTrivialSourceTest.mm in Sources */,
 				9E9544861C347217002EEC68 /* SharedMemoryTest.mm in Sources */,
 				9E9544871C347217002EEC68 /* LatchTest.mm in Sources */,
+				9E3FABED1C516C41002561F0 /* ArchiveTest.mm in Sources */,
 				EA7AFB861C48BAA6009CE9FA /* BootstrapServerTest.mm in Sources */,
 				9E9544891C347217002EEC68 /* EventLoopObserverTest.mm in Sources */,
 				9E95448A1C347217002EEC68 /* ThreadLocalTest.mm in Sources */,
@@ -1420,6 +1451,7 @@
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
 				9E86561B1BE45E3A00997766 /* Frame.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */,
+				9E3FABF21C516CF5002561F0 /* sqlite3.c in Sources */,
 				9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */,
 				9E8656191BE45E3A00997766 /* EntityArena.cc in Sources */,
 				9E16A6FA1BE2E9D700FFEDFC /* Expression.cc in Sources */,
@@ -1481,6 +1513,7 @@
 				EA7D30F61BE7273C0038BF5A /* Result.cc in Sources */,
 				9E16A6F81BE2E9D700FFEDFC /* EditInfo.cc in Sources */,
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
+				9E3FABE01C5165AC002561F0 /* Archive.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* PosixMemoryHandle.cc in Sources */,
 				9E16A7011BE2E9D700FFEDFC /* Tag.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,

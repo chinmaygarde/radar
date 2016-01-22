@@ -6,33 +6,31 @@
 
 #include <Core/Core.h>
 
-#include <Bootstrap/BootstrapServer.h>
+#include <Core/BootstrapServer.h>
 
 #include <thread>
 
 RL_DECLARE_TEST_START(BootstrapServerTest)
 
 TEST(BootstrapServerTest, NotFound) {
-  auto found = rl::bootstrap::BootstrapServerAcquireAdvertised("sample");
+  auto found = rl::core::BootstrapServerAcquireAdvertised("sample");
   ASSERT_EQ(found, nullptr);
 
-  found = rl::bootstrap::BootstrapServerAcquireAdvertised("");
+  found = rl::core::BootstrapServerAcquireAdvertised("");
   ASSERT_EQ(found, nullptr);
 }
 
 TEST(BootstrapServerTest, Advertise) {
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised =
-      rl::bootstrap::BootstrapServerAdvertise("advertise", channel);
+  auto advertised = rl::core::BootstrapServerAdvertise("advertise", channel);
   ASSERT_EQ(advertised, true);
 
   auto anotherChannel = std::make_shared<rl::core::Channel>();
   auto anotherAdvertised =
-      rl::bootstrap::BootstrapServerAdvertise("", anotherChannel);
+      rl::core::BootstrapServerAdvertise("", anotherChannel);
   ASSERT_EQ(anotherAdvertised, false);
 
-  anotherAdvertised =
-      rl::bootstrap::BootstrapServerAdvertise("advertise2", nullptr);
+  anotherAdvertised = rl::core::BootstrapServerAdvertise("advertise2", nullptr);
   ASSERT_EQ(anotherAdvertised, false);
 }
 
@@ -40,26 +38,26 @@ TEST(BootstrapServerTest, AdvertiseAgain) {
   auto name = "hello";
 
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::bootstrap::BootstrapServerAdvertise(name, channel);
+  auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
   ASSERT_EQ(advertised, true);
 
-  advertised = rl::bootstrap::BootstrapServerAdvertise(name, channel);
+  advertised = rl::core::BootstrapServerAdvertise(name, channel);
   ASSERT_EQ(advertised, false);
 
-  advertised = rl::bootstrap::BootstrapServerAdvertise(name, nullptr);
+  advertised = rl::core::BootstrapServerAdvertise(name, nullptr);
   ASSERT_EQ(advertised, false);
 }
 
 TEST(BootstrapServerTest, Acquire) {
   auto name = "helloworld";
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::bootstrap::BootstrapServerAdvertise(name, channel);
+  auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
   ASSERT_EQ(advertised, true);
 
   rl::core::Latch ready(1);
 
   auto thread = std::thread([&]() {
-    auto advertised = rl::bootstrap::BootstrapServerAcquireAdvertised(name);
+    auto advertised = rl::core::BootstrapServerAcquireAdvertised(name);
     ASSERT_NE(advertised, nullptr);
 
     advertised->setMessageCallback(

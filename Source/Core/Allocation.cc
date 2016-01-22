@@ -55,6 +55,10 @@ uint8_t* Allocation::data() {
   return _allocation;
 }
 
+uint8_t* Allocation::data() const {
+  return _allocation;
+}
+
 size_t Allocation::size() const {
   return _size;
 }

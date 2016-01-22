@@ -44,6 +44,8 @@ class Allocation : public Serializable {
    */
   uint8_t* data();
 
+  uint8_t* data() const;
+
   /**
    *  @return the size of the underlying allocation
    */
