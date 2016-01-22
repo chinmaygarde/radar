@@ -73,6 +73,36 @@ class Archive::Statement {
   RL_DISALLOW_COPY_AND_ASSIGN(Statement);
 };
 
+class Archive::Transaction {
+ public:
+  Transaction(size_t& transactionCount,
+              Statement& beginStatement,
+              Statement& endStatement)
+      : _transactionCount(transactionCount),
+        _endStatement(endStatement),
+        _cleanup(false) {
+    if (_transactionCount == 0) {
+      _cleanup = beginStatement.run();
+    }
+    _transactionCount++;
+  }
+
+  ~Transaction() {
+    if (_transactionCount == 1 && _cleanup) {
+      auto res = _endStatement.run();
+      RL_ASSERT_MSG(res, "Must be able to commit the nested transaction");
+    }
+    _transactionCount--;
+  }
+
+ private:
+  Statement& _endStatement;
+  size_t& _transactionCount;
+  bool _cleanup;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(Transaction);
+};
+
 class Archive::Database {
  public:
   Database(const std::string& filename) : _db(nullptr) {
@@ -129,9 +159,27 @@ class Archive::Database {
   RL_DISALLOW_COPY_AND_ASSIGN(Database);
 };
 
-Archive::Archive(const std::string& path) : _db(make_unique<Database>(path)) {}
+Archive::Archive(const std::string& path)
+    : _db(make_unique<Database>(path)), _transactionCount(0) {
+  setupTransactionStatements();
+}
 
 Archive::~Archive() {}
+
+void Archive::setupTransactionStatements() {
+  if (!isReady()) {
+    return;
+  }
+
+  _beginTransactionStatement =
+      make_unique<Statement>(_db->handle(), "BEGIN TRANSACTION;");
+
+  _endTransactionStatement =
+      make_unique<Statement>(_db->handle(), "END TRANSACTION;");
+
+  RL_ASSERT(_beginTransactionStatement->isReady() &&
+            _endTransactionStatement->isReady());
+}
 
 bool Archive::registerClass(const std::string& name,
                             const Archivable::Members& members) {
@@ -190,6 +238,13 @@ std::unique_ptr<Archive::Statement>& Archive::cachedInsertStatement(
 
 bool Archive::archiveClass(const std::string& className,
                            const Archivable& archivable) {
+  if (!isReady()) {
+    return false;
+  }
+
+  Transaction transaction(_transactionCount, *_beginTransactionStatement,
+                          *_endTransactionStatement);
+
   auto found = _registrations.find(className);
 
   if (found == _registrations.end()) {

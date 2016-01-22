@@ -57,18 +57,22 @@ class Archive {
  private:
   class Database;
   class Statement;
+  class Transaction;
 
   friend class ArchiveItem;
 
   std::unique_ptr<Database> _db;
+  size_t _transactionCount;
   std::map<std::string, Archivable::Members> _registrations;
   std::map<std::string, std::unique_ptr<Statement>> _insertStatements;
+  std::unique_ptr<Statement> _beginTransactionStatement;
+  std::unique_ptr<Statement> _endTransactionStatement;
 
   std::unique_ptr<Statement>& cachedInsertStatement(const std::string& name,
                                                     size_t cols);
+  void setupTransactionStatements();
   bool registerClass(const std::string& name,
                      const Archivable::Members& members);
-
   bool archiveClass(const std::string& className, const Archivable& archivable);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
