@@ -107,13 +107,17 @@ class ArchiveItem {
   bool decode(Archivable::Member member, double& item);
   bool decode(Archivable::Member member, Allocation& allocation);
 
+  Archivable::PrimaryKey name() const;
+
  private:
+  Archivable::PrimaryKey _key;
   const Archivable::Members& _members;
   Archive::Statement& _statement;
 
   friend class Archive;
 
-  ArchiveItem(const Archivable::Members& members,
+  ArchiveItem(Archivable::PrimaryKey _key,
+              const Archivable::Members& members,
               Archive::Statement& statement);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);

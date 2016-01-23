@@ -24,6 +24,7 @@ class Sample : public rl::core::Archivable {
   };
 
   bool readFromArchive(rl::core::ArchiveItem& item) override {
+    _name = item.name();
     return item.decode(999, _someData);
   };
 
@@ -139,6 +140,41 @@ TEST(ArchiveTest, ReadData) {
       Sample sample;
       ASSERT_TRUE(archive.unarchive(keys[i], sample));
       ASSERT_EQ(values[i], sample.someData());
+    }
+  }
+  ASSERT_TRUE(::remove(name) == 0);
+}
+
+TEST(ArchiveTest, ReadDataWithNames) {
+  auto name = "/tmp/sample6.db";
+  {
+    rl::core::Archive archive(name);
+    ASSERT_TRUE(archive.isReady());
+
+    auto res = archive.registerDefinition<Sample>();
+
+    ASSERT_TRUE(res);
+
+    size_t count = 8;
+
+    std::vector<rl::core::Archivable::PrimaryKey> keys;
+    std::vector<uint64_t> values;
+
+    keys.reserve(count);
+    values.reserve(count);
+
+    for (auto i = 0; i < count; i++) {
+      Sample sample(i + 1);
+      keys.push_back(sample.archiveName());
+      values.push_back(sample.someData());
+      ASSERT_TRUE(archive.archive(sample));
+    }
+
+    for (auto i = 0; i < count; i++) {
+      Sample sample;
+      ASSERT_TRUE(archive.unarchive(keys[i], sample));
+      ASSERT_EQ(values[i], sample.someData());
+      ASSERT_EQ(keys[i], sample.archiveName());
     }
   }
   ASSERT_TRUE(::remove(name) == 0);

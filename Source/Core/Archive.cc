@@ -379,9 +379,11 @@ bool Archive::archiveInstance(const std::string& className,
    *  the user to create an instance of an archive item. So pass the argument
    *  by reference.
    */
-  ArchiveItem item(registration->second, statement);
+  auto itemName = archivable.archiveName();
 
-  if (!statement.bind(ArchivePrimaryKeyIndex, archivable.archiveName())) {
+  ArchiveItem item(itemName, registration->second, statement);
+
+  if (!statement.bind(ArchivePrimaryKeyIndex, itemName)) {
     return false;
   }
 
@@ -430,7 +432,7 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
     return false;
   }
 
-  ArchiveItem item(registration->second, statement);
+  ArchiveItem item(key, registration->second, statement);
 
   auto result = archivable.readFromArchive(item);
 
@@ -439,9 +441,14 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
   return result;
 }
 
-ArchiveItem::ArchiveItem(const Archivable::Members& members,
+ArchiveItem::ArchiveItem(Archivable::PrimaryKey key,
+                         const Archivable::Members& members,
                          Archive::Statement& statement)
-    : _members(members), _statement(statement) {}
+    : _key(key), _members(members), _statement(statement) {}
+
+Archivable::PrimaryKey ArchiveItem::name() const {
+  return _key;
+}
 
 static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
                                              Archivable::Member member) {
