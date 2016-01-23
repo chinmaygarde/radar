@@ -129,7 +129,7 @@ class Archive::Database {
      *  a statement and check its validity before running.
      */
     stream << "CREATE TABLE IF NOT EXISTS " << name.c_str() << " (";
-    stream << "name INTEGER PRIMARY KEY NOT NULL, ";
+    stream << "name INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
     for (size_t i = 0; i < columns; i++) {
       stream << "column_" << std::to_string(i + 1);
       if (i != columns - 1) {
