@@ -11,6 +11,9 @@
 namespace rl {
 namespace core {
 
+static const char* ArchivePrimaryKeyColumnName = "_rl_primary_";
+static size_t ArchivePrimaryKeyIndex = 0;
+
 class Archive::Statement {
  public:
   Statement(sqlite3* db, const std::string& statememt) : _statement(nullptr) {
@@ -29,41 +32,99 @@ class Archive::Statement {
 
   bool reset() { return sqlite3_reset(_statement) == SQLITE_OK; }
 
+  static constexpr int ToColumn(size_t index) {
+    return static_cast<int>(index + 1);
+  }
+
   bool bind(size_t index, const std::string& item) {
     return sqlite3_bind_text(_statement,                     //
-                             static_cast<int>(index + 1),    //
+                             ToColumn(index),                //
                              item.data(),                    //
                              static_cast<int>(item.size()),  //
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
   bool bind(size_t index, uint64_t item) {
-    return sqlite3_bind_int64(_statement,                   //
-                              static_cast<int>(index + 1),  //
+    return sqlite3_bind_int64(_statement,       //
+                              ToColumn(index),  //
                               item) == SQLITE_OK;
   }
 
   bool bind(size_t index, double item) {
-    return sqlite3_bind_double(_statement,                   //
-                               static_cast<int>(index + 1),  //
+    return sqlite3_bind_double(_statement,       //
+                               ToColumn(index),  //
                                item) == SQLITE_OK;
   }
 
   bool bind(size_t index, const Allocation& item) {
     return sqlite3_bind_blob(_statement,                     //
-                             static_cast<int>(index + 1),    //
+                             ToColumn(index),                //
                              item.data(),                    //
                              static_cast<int>(item.size()),  //
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
-  bool run() {
-    if (!_ready) {
+  bool column(size_t index, std::string& item) {
+    /*
+     *  Get the length of the string (in bytes)
+     */
+    size_t textByteSize = sqlite3_column_bytes(_statement, ToColumn(index));
+
+    /*
+     *  Get the character data
+     */
+    auto chars = reinterpret_cast<const char*>(
+        sqlite3_column_text(_statement, ToColumn(index)));
+
+    std::string text(chars, textByteSize);
+    item.swap(text);
+
+    return true;
+  }
+
+  bool column(size_t index, uint64_t& item) {
+    item = sqlite3_column_int64(_statement, ToColumn(index));
+    return true;
+  }
+
+  bool column(size_t index, double& item) {
+    item = sqlite3_column_double(_statement, ToColumn(index));
+    return true;
+  }
+
+  bool column(size_t index, Allocation& item) {
+    /*
+     *  Decode the number of bytes in the blob and resize the item allocation
+     */
+    size_t byteSize = sqlite3_column_bytes(_statement, ToColumn(index));
+    if (!item.resize(byteSize)) {
       return false;
     }
 
-    auto res = sqlite3_step(_statement);
-    return res == SQLITE_DONE;
+    /*
+     *  Move the data from the blob into our allocation
+     */
+    auto blob = reinterpret_cast<const uint8_t*>(
+        sqlite3_column_blob(_statement, ToColumn(index)));
+    memmove(item.data(), blob, byteSize);
+    return true;
+  }
+
+  enum class Result {
+    Done,
+    Row,
+    Failure,
+  };
+
+  Result run() {
+    switch (sqlite3_step(_statement)) {
+      case SQLITE_DONE:
+        return Result::Done;
+      case SQLITE_ROW:
+        return Result::Row;
+      default:
+        return Result::Failure;
+    }
   }
 
  private:
@@ -82,14 +143,14 @@ class Archive::Transaction {
         _endStatement(endStatement),
         _cleanup(false) {
     if (_transactionCount == 0) {
-      _cleanup = beginStatement.run();
+      _cleanup = beginStatement.run() == Statement::Result::Done;
     }
     _transactionCount++;
   }
 
   ~Transaction() {
     if (_transactionCount == 1 && _cleanup) {
-      auto res = _endStatement.run();
+      auto res = _endStatement.run() == Statement::Result::Done;
       RL_ASSERT_MSG(res, "Must be able to commit the nested transaction");
     }
     _transactionCount--;
@@ -129,7 +190,8 @@ class Archive::Database {
      *  a statement and check its validity before running.
      */
     stream << "CREATE TABLE IF NOT EXISTS " << name.c_str() << " (";
-    stream << "name INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
+    stream << ArchivePrimaryKeyColumnName
+           << " INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
     for (size_t i = 0; i < columns; i++) {
       stream << "column_" << std::to_string(i + 1);
       if (i != columns - 1) {
@@ -148,7 +210,7 @@ class Archive::Database {
       return false;
     }
 
-    return statement.run();
+    return statement.run() == Statement::Result::Done;
   }
 
   sqlite3* handle() { return _db; };
@@ -209,16 +271,12 @@ bool Archive::isReady() const {
   return _db->isReady();
 }
 
-std::unique_ptr<Archive::Statement>& Archive::cachedInsertStatement(
-    const std::string& name,
-    size_t cols) {
+Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
+                                                   size_t cols) {
   auto found = _insertStatements.find(name);
 
   if (found != _insertStatements.end()) {
-    /*
-     *  The statement has been found in the cache
-     */
-    return found->second;
+    return *(found->second);
   }
 
   std::stringstream stream;
@@ -234,11 +292,28 @@ std::unique_ptr<Archive::Statement>& Archive::cachedInsertStatement(
   auto inserted = _insertStatements.emplace(
       name, make_unique<Archive::Statement>(_db->handle(), stream.str()));
   RL_ASSERT(inserted.second);
-  return (*(inserted.first)).second;
+  return *((*(inserted.first)).second);
 }
 
-bool Archive::archiveClass(const std::string& className,
-                           const Archivable& archivable) {
+Archive::Statement& Archive::cachedQueryStatement(const std::string& name) {
+  auto found = _queryStatements.find(name);
+
+  if (found != _queryStatements.end()) {
+    return *(found->second);
+  }
+
+  std::stringstream stream;
+  stream << "SELECT * FROM " << name << " WHERE " << ArchivePrimaryKeyColumnName
+         << " = ?;";
+
+  auto inserted = _queryStatements.emplace(
+      name, make_unique<Archive::Statement>(_db->handle(), stream.str()));
+  RL_ASSERT(inserted.second);
+  return *((*(inserted.first)).second);
+}
+
+bool Archive::archiveInstance(const std::string& className,
+                              const Archivable& archivable) {
   if (!isReady()) {
     return false;
   }
@@ -246,9 +321,9 @@ bool Archive::archiveClass(const std::string& className,
   Transaction transaction(_transactionCount, *_beginTransactionStatement,
                           *_endTransactionStatement);
 
-  auto found = _registrations.find(className);
+  auto registration = _registrations.find(className);
 
-  if (found == _registrations.end()) {
+  if (registration == _registrations.end()) {
     /*
      *  There were no registrations for this class
      */
@@ -256,9 +331,9 @@ bool Archive::archiveClass(const std::string& className,
   }
 
   auto& statement =
-      *(cachedInsertStatement(found->first, found->second.size()));
+      cachedInsertStatement(registration->first, registration->second.size());
 
-  if (!statement.reset()) {
+  if (!statement.isReady() || !statement.reset()) {
     /*
      *  Must be able to reset the statement for a new write
      */
@@ -270,9 +345,9 @@ bool Archive::archiveClass(const std::string& className,
    *  the user to create an instance of an archive item. So pass the argument
    *  by reference.
    */
-  ArchiveItem item(archivable.archiveName(), found->second, statement);
+  ArchiveItem item(registration->second, statement);
 
-  if (!item.isReady()) {
+  if (!statement.bind(ArchivePrimaryKeyIndex, archivable.archiveName())) {
     return false;
   }
 
@@ -282,25 +357,51 @@ bool Archive::archiveClass(const std::string& className,
     return false;
   }
 
-  return statement.run();
+  return statement.run() == Statement::Result::Done;
 }
 
-ArchiveItem::ArchiveItem(Archivable::PrimaryKey primaryKey,
-                         const Archivable::Members& members,
-                         Archive::Statement& statement)
-    : _primaryKey(primaryKey),
-      _members(members),
-      _statement(statement),
-      _ready(false) {
-  if (_statement.reset() &&
-      _statement.bind(0 /* primary key index */, _primaryKey)) {
-    _ready = true;
+bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
+                                const std::string& className,
+                                Archivable& archivable) {
+  if (!isReady()) {
+    return false;
   }
+
+  auto registration = _registrations.find(className);
+
+  if (registration == _registrations.end()) {
+    /*
+     *  There were no registrations for this storage class
+     */
+    return false;
+  }
+
+  auto& statement = cachedQueryStatement(registration->first);
+
+  if (!statement.isReady()) {
+    return false;
+  }
+
+  if (!statement.bind(ArchivePrimaryKeyIndex, key)) {
+    return false;
+  }
+
+  if (statement.run() != Statement::Result::Row) {
+    return false;
+  }
+
+  ArchiveItem item(registration->second, statement);
+
+  auto result = archivable.readFromArchive(item);
+
+  statement.reset();
+
+  return result;
 }
 
-bool ArchiveItem::isReady() const {
-  return _ready;
-}
+ArchiveItem::ArchiveItem(const Archivable::Members& members,
+                         Archive::Statement& statement)
+    : _members(members), _statement(statement) {}
 
 static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
                                              Archivable::Member member) {
@@ -335,6 +436,26 @@ bool ArchiveItem::encode(Archivable::Member member, double item) {
 bool ArchiveItem::encode(Archivable::Member member, const Allocation& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(Archivable::Member member, std::string& item) {
+  auto found = IndexOfMember(_members, member);
+  return found.second ? _statement.column(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(Archivable::Member member, uint64_t& item) {
+  auto found = IndexOfMember(_members, member);
+  return found.second ? _statement.column(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(Archivable::Member member, double& item) {
+  auto found = IndexOfMember(_members, member);
+  return found.second ? _statement.column(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(Archivable::Member member, Allocation& item) {
+  auto found = IndexOfMember(_members, member);
+  return found.second ? _statement.column(found.first, item) : false;
 }
 
 }  // namespace core

@@ -9,25 +9,27 @@
 #include <thread>
 #include <cstdio>
 
+static rl::core::Archivable::PrimaryKey LastSample = 0;
+
 class Sample : public rl::core::Archivable {
  public:
-  Sample(uint64_t count = 42) : _someData(count) {}
+  Sample(uint64_t count = 42) : _someData(count), _name(++LastSample) {}
 
   uint64_t someData() const { return _someData; };
+
+  PrimaryKey archiveName() const override { return _name; }
 
   bool writeToArchive(rl::core::ArchiveItem& item) const override {
     return item.encode(999, _someData);
   };
 
-  PrimaryKey archiveName() const override {
-    static int a = 500;
-    return a += 2;
-  }
-
-  bool readFromArchive(rl::core::ArchiveItem& item) override { return false; };
+  bool readFromArchive(rl::core::ArchiveItem& item) override {
+    return item.decode(999, _someData);
+  };
 
  private:
   uint64_t _someData;
+  PrimaryKey _name;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Sample);
 };
@@ -103,6 +105,41 @@ TEST(ArchiveTest, AddDataMultiple) {
     for (auto i = 0; i < 100; i++) {
       Sample sample(i + 1);
       ASSERT_TRUE(archive.archive(sample));
+    }
+  }
+  ASSERT_TRUE(::remove(name) == 0);
+}
+
+TEST(ArchiveTest, ReadData) {
+  auto name = "/tmp/sample5.db";
+  {
+    rl::core::Archive archive(name);
+    ASSERT_TRUE(archive.isReady());
+
+    auto res = archive.registerDefinition<Sample>();
+
+    ASSERT_TRUE(res);
+
+    size_t count = 10;
+
+    std::vector<rl::core::Archivable::PrimaryKey> keys;
+    std::vector<uint64_t> values;
+
+    keys.reserve(count);
+    values.reserve(count);
+
+    for (auto i = 0; i < count; i++) {
+      Sample sample(i + 1);
+      keys.push_back(sample.archiveName());
+      values.push_back(sample.someData());
+      ASSERT_TRUE(archive.archive(sample));
+    }
+
+    for (auto i = 0; i < count; i++) {
+      Sample sample;
+      ASSERT_TRUE(archive.unarchive(keys[i], sample));
+      ASSERT_EQ(values[i], sample.someData());
+      ASSERT_EQ(keys[i], sample.archiveName());
     }
   }
   ASSERT_TRUE(::remove(name) == 0);

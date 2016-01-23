@@ -54,7 +54,13 @@ class Archive {
   template <class T, class = only_if<std::is_base_of<Archivable, T>::value>>
   bool archive(const T& archivable) {
     ArchiveDef<T> definition;
-    return archiveClass(definition.className(), archivable);
+    return archiveInstance(definition.className(), archivable);
+  }
+
+  template <class T, class = only_if<std::is_base_of<Archivable, T>::value>>
+  bool unarchive(Archivable::PrimaryKey primaryKey, T& archivable) {
+    ArchiveDef<T> definition;
+    return unarchiveInstance(primaryKey, definition.className(), archivable);
   }
 
  private:
@@ -64,19 +70,27 @@ class Archive {
 
   friend class ArchiveItem;
 
+  using Registrations = std::map<std::string, Archivable::Members>;
+
   std::unique_ptr<Database> _db;
   size_t _transactionCount;
-  std::map<std::string, Archivable::Members> _registrations;
+  Registrations _registrations;
   std::map<std::string, std::unique_ptr<Statement>> _insertStatements;
+  std::map<std::string, std::unique_ptr<Statement>> _queryStatements;
   std::unique_ptr<Statement> _beginTransactionStatement;
   std::unique_ptr<Statement> _endTransactionStatement;
 
-  std::unique_ptr<Statement>& cachedInsertStatement(const std::string& name,
-                                                    size_t cols);
+  Statement& cachedInsertStatement(const std::string& name, size_t cols);
+  Statement& cachedQueryStatement(const std::string& name);
+
   void setupTransactionStatements();
   bool registerClass(const std::string& name,
                      const Archivable::Members& members);
-  bool archiveClass(const std::string& className, const Archivable& archivable);
+  bool archiveInstance(const std::string& className,
+                       const Archivable& archivable);
+  bool unarchiveInstance(Archivable::PrimaryKey key,
+                         const std::string& className,
+                         Archivable& archivable);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };
@@ -94,17 +108,12 @@ class ArchiveItem {
   bool decode(Archivable::Member member, Allocation& allocation);
 
  private:
-  Archivable::PrimaryKey _primaryKey;
   const Archivable::Members& _members;
   Archive::Statement& _statement;
-  bool _ready;
 
   friend class Archive;
 
-  bool isReady() const;
-
-  ArchiveItem(Archivable::PrimaryKey primaryKey,
-              const Archivable::Members& members,
+  ArchiveItem(const Archivable::Members& members,
               Archive::Statement& statement);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);
