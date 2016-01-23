@@ -22,6 +22,9 @@ class Archivable {
  public:
   using Member = uint64_t;
   using Members = std::vector<Member>;
+  using PrimaryKey = uint64_t;
+
+  virtual PrimaryKey archiveName() const = 0;
 
   virtual bool writeToArchive(ArchiveItem& item) const = 0;
   virtual bool readFromArchive(ArchiveItem& item) = 0;
@@ -91,12 +94,17 @@ class ArchiveItem {
   bool decode(Archivable::Member member, Allocation& allocation);
 
  private:
+  Archivable::PrimaryKey _primaryKey;
   const Archivable::Members& _members;
   Archive::Statement& _statement;
+  bool _ready;
 
   friend class Archive;
 
-  ArchiveItem(const Archivable::Members& members,
+  bool isReady() const;
+
+  ArchiveItem(Archivable::PrimaryKey primaryKey,
+              const Archivable::Members& members,
               Archive::Statement& statement);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);

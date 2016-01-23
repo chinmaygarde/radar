@@ -129,6 +129,7 @@ class Archive::Database {
      *  a statement and check its validity before running.
      */
     stream << "CREATE TABLE IF NOT EXISTS " << name.c_str() << " (";
+    stream << "name INTEGER PRIMARY KEY NOT NULL, ";
     for (size_t i = 0; i < columns; i++) {
       stream << "column_" << std::to_string(i + 1);
       if (i != columns - 1) {
@@ -221,7 +222,7 @@ std::unique_ptr<Archive::Statement>& Archive::cachedInsertStatement(
   }
 
   std::stringstream stream;
-  stream << "INSERT INTO " << name << " VALUES (";
+  stream << "INSERT OR REPLACE INTO " << name << " VALUES ( ?, ";
   for (size_t i = 0; i < cols; i++) {
     stream << "?";
     if (i != cols - 1) {
@@ -269,7 +270,11 @@ bool Archive::archiveClass(const std::string& className,
    *  the user to create an instance of an archive item. So pass the argument
    *  by reference.
    */
-  ArchiveItem item(found->second, statement);
+  ArchiveItem item(archivable.archiveName(), found->second, statement);
+
+  if (!item.isReady()) {
+    return false;
+  }
 
   auto clientWrite = archivable.writeToArchive(item);
 
@@ -280,9 +285,22 @@ bool Archive::archiveClass(const std::string& className,
   return statement.run();
 }
 
-ArchiveItem::ArchiveItem(const Archivable::Members& members,
+ArchiveItem::ArchiveItem(Archivable::PrimaryKey primaryKey,
+                         const Archivable::Members& members,
                          Archive::Statement& statement)
-    : _members(members), _statement(statement) {}
+    : _primaryKey(primaryKey),
+      _members(members),
+      _statement(statement),
+      _ready(false) {
+  if (_statement.reset() &&
+      _statement.bind(0 /* primary key index */, _primaryKey)) {
+    _ready = true;
+  }
+}
+
+bool ArchiveItem::isReady() const {
+  return _ready;
+}
 
 static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
                                              Archivable::Member member) {
@@ -296,7 +314,7 @@ static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
     return {0, false};
   }
 
-  return {std::distance(members.begin(), found), true};
+  return {std::distance(members.begin(), found) + 1 /* primary key */, true};
 }
 
 bool ArchiveItem::encode(Archivable::Member member, const std::string& item) {

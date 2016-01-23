@@ -19,6 +19,11 @@ class Sample : public rl::core::Archivable {
     return item.encode(999, _someData);
   };
 
+  PrimaryKey archiveName() const override {
+    static int a = 500;
+    return a += 2;
+  }
+
   bool readFromArchive(rl::core::ArchiveItem& item) override { return false; };
 
  private:
