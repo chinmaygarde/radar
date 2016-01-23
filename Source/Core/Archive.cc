@@ -11,6 +11,7 @@
 namespace rl {
 namespace core {
 
+static const char* ArchiveColumnPrefix = "col_";
 static const char* ArchivePrimaryKeyColumnName = "_rl_primary_";
 static size_t ArchivePrimaryKeyIndex = 0;
 
@@ -32,54 +33,46 @@ class Archive::Statement {
 
   bool reset() { return sqlite3_reset(_statement) == SQLITE_OK; }
 
-  static constexpr int ToColumn(size_t index) {
+  static constexpr int ToParam(size_t index) {
+    /*
+     *  sqlite parameters begin from 1
+     */
     return static_cast<int>(index + 1);
+  }
+
+  static constexpr int ToColumn(size_t index) {
+    /*
+     *  sqlite columns begin from 1
+     */
+    return static_cast<int>(index);
   }
 
   bool bind(size_t index, const std::string& item) {
     return sqlite3_bind_text(_statement,                     //
-                             ToColumn(index),                //
+                             ToParam(index),                 //
                              item.data(),                    //
                              static_cast<int>(item.size()),  //
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
   bool bind(size_t index, uint64_t item) {
-    return sqlite3_bind_int64(_statement,       //
-                              ToColumn(index),  //
+    return sqlite3_bind_int64(_statement,      //
+                              ToParam(index),  //
                               item) == SQLITE_OK;
   }
 
   bool bind(size_t index, double item) {
-    return sqlite3_bind_double(_statement,       //
-                               ToColumn(index),  //
+    return sqlite3_bind_double(_statement,      //
+                               ToParam(index),  //
                                item) == SQLITE_OK;
   }
 
   bool bind(size_t index, const Allocation& item) {
     return sqlite3_bind_blob(_statement,                     //
-                             ToColumn(index),                //
+                             ToParam(index),                 //
                              item.data(),                    //
                              static_cast<int>(item.size()),  //
                              SQLITE_TRANSIENT) == SQLITE_OK;
-  }
-
-  bool column(size_t index, std::string& item) {
-    /*
-     *  Get the length of the string (in bytes)
-     */
-    size_t textByteSize = sqlite3_column_bytes(_statement, ToColumn(index));
-
-    /*
-     *  Get the character data
-     */
-    auto chars = reinterpret_cast<const char*>(
-        sqlite3_column_text(_statement, ToColumn(index)));
-
-    std::string text(chars, textByteSize);
-    item.swap(text);
-
-    return true;
   }
 
   bool column(size_t index, uint64_t& item) {
@@ -92,23 +85,56 @@ class Archive::Statement {
     return true;
   }
 
+  /*
+   *  For cases where byte sizes of column data is necessary, the
+   *  recommendations in https://www.sqlite.org/c3ref/column_blob.html regarding
+   *  type conversions are followed.
+   *
+   *  TL;DR: Access blobs then bytes.
+   */
+
+  bool column(size_t index, std::string& item) {
+    /*
+     *  Get the character data
+     */
+    auto chars = reinterpret_cast<const char*>(
+        sqlite3_column_text(_statement, ToColumn(index)));
+
+    /*
+     *  Get the length of the string (in bytes)
+     */
+    size_t textByteSize = sqlite3_column_bytes(_statement, ToColumn(index));
+
+    std::string text(chars, textByteSize);
+    item.swap(text);
+
+    return true;
+  }
+
   bool column(size_t index, Allocation& item) {
     /*
-     *  Decode the number of bytes in the blob and resize the item allocation
+     *  Get a blob pointer
+     */
+    auto blob = reinterpret_cast<const uint8_t*>(
+        sqlite3_column_blob(_statement, ToColumn(index)));
+
+    /*
+     *  Decode the number of bytes in the blob
      */
     size_t byteSize = sqlite3_column_bytes(_statement, ToColumn(index));
+
+    /*
+     *  Reszie the host allocation and move the blob contents into it
+     */
     if (!item.resize(byteSize)) {
       return false;
     }
 
-    /*
-     *  Move the data from the blob into our allocation
-     */
-    auto blob = reinterpret_cast<const uint8_t*>(
-        sqlite3_column_blob(_statement, ToColumn(index)));
     memmove(item.data(), blob, byteSize);
     return true;
   }
+
+  size_t columnCount() { return sqlite3_column_count(_statement); }
 
   enum class Result {
     Done,
@@ -193,7 +219,7 @@ class Archive::Database {
     stream << ArchivePrimaryKeyColumnName
            << " INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
     for (size_t i = 0; i < columns; i++) {
-      stream << "column_" << std::to_string(i + 1);
+      stream << ArchiveColumnPrefix << std::to_string(i + 1);
       if (i != columns - 1) {
         stream << ", ";
       }
@@ -272,7 +298,7 @@ bool Archive::isReady() const {
 }
 
 Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
-                                                   size_t cols) {
+                                                   size_t members) {
   auto found = _insertStatements.find(name);
 
   if (found != _insertStatements.end()) {
@@ -281,10 +307,10 @@ Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
 
   std::stringstream stream;
   stream << "INSERT OR REPLACE INTO " << name << " VALUES ( ?, ";
-  for (size_t i = 0; i < cols; i++) {
+  for (size_t i = 0; i < members; i++) {
     stream << "?";
-    if (i != cols - 1) {
-      stream << ",";
+    if (i != members - 1) {
+      stream << ", ";
     }
   }
   stream << ");";
@@ -295,7 +321,8 @@ Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
   return *((*(inserted.first)).second);
 }
 
-Archive::Statement& Archive::cachedQueryStatement(const std::string& name) {
+Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
+                                                  size_t members) {
   auto found = _queryStatements.find(name);
 
   if (found != _queryStatements.end()) {
@@ -303,7 +330,14 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name) {
   }
 
   std::stringstream stream;
-  stream << "SELECT * FROM " << name << " WHERE " << ArchivePrimaryKeyColumnName
+  stream << "SELECT " << ArchivePrimaryKeyColumnName << ", ";
+  for (size_t i = 0; i < members; i++) {
+    stream << ArchiveColumnPrefix << std::to_string(i + 1);
+    if (i != members - 1) {
+      stream << ",";
+    }
+  }
+  stream << " FROM " << name << " WHERE " << ArchivePrimaryKeyColumnName
          << " = ?;";
 
   auto inserted = _queryStatements.emplace(
@@ -376,7 +410,8 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
     return false;
   }
 
-  auto& statement = cachedQueryStatement(registration->first);
+  auto membersCount = registration->second.size();
+  auto& statement = cachedQueryStatement(registration->first, membersCount);
 
   if (!statement.isReady()) {
     return false;
@@ -387,6 +422,11 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
   }
 
   if (statement.run() != Statement::Result::Row) {
+    return false;
+  }
+
+  auto columnCount = statement.columnCount();
+  if (columnCount != membersCount + 1 /* primary key */) {
     return false;
   }
 

@@ -120,7 +120,7 @@ TEST(ArchiveTest, ReadData) {
 
     ASSERT_TRUE(res);
 
-    size_t count = 10;
+    size_t count = 50;
 
     std::vector<rl::core::Archivable::PrimaryKey> keys;
     std::vector<uint64_t> values;
@@ -139,7 +139,6 @@ TEST(ArchiveTest, ReadData) {
       Sample sample;
       ASSERT_TRUE(archive.unarchive(keys[i], sample));
       ASSERT_EQ(values[i], sample.someData());
-      ASSERT_EQ(keys[i], sample.archiveName());
     }
   }
   ASSERT_TRUE(::remove(name) == 0);

@@ -80,8 +80,8 @@ class Archive {
   std::unique_ptr<Statement> _beginTransactionStatement;
   std::unique_ptr<Statement> _endTransactionStatement;
 
-  Statement& cachedInsertStatement(const std::string& name, size_t cols);
-  Statement& cachedQueryStatement(const std::string& name);
+  Statement& cachedInsertStatement(const std::string& name, size_t members);
+  Statement& cachedQueryStatement(const std::string& name, size_t members);
 
   void setupTransactionStatements();
   bool registerClass(const std::string& name,
