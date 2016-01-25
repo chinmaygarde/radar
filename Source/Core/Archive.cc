@@ -31,7 +31,11 @@ class Archive::Statement {
 
   bool isReady() const { return _ready; }
 
-  bool reset() { return sqlite3_reset(_statement) == SQLITE_OK; }
+  bool reset() {
+    auto success = sqlite3_reset(_statement) == SQLITE_OK;
+    success &= sqlite3_clear_bindings(_statement) == SQLITE_OK;
+    return success;
+  }
 
   static constexpr int ToParam(size_t index) {
     /*
