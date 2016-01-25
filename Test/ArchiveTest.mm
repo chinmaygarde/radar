@@ -4,13 +4,6 @@
 
 #include "RadarTest.h"
 
-#include <Core/Config.h>
-
-/*
- *  Temporarily disabled till the template specialization issue is sorted out
- */
-#if RL_OS_MAC
-
 #include <Core/Archive.h>
 
 #include <cstdio>
@@ -44,8 +37,11 @@ class Sample : public rl::core::Archivable {
 
 class FooBar {};
 
+namespace rl {
+namespace core {
+
 template <>
-class rl::core::ArchiveDef<Sample> {
+class ArchiveDef<Sample> {
  public:
   std::string className() { return "sample"; }
 
@@ -53,12 +49,15 @@ class rl::core::ArchiveDef<Sample> {
 };
 
 template <>
-class rl::core::ArchiveDef<FooBar> {
+class ArchiveDef<FooBar> {
  public:
   std::string className() { return "foo"; }
 
   rl::core::Archivable::Members members() { return {1, 2, 3}; }
 };
+
+}  // namespace core
+}  // namespace rl
 
 RL_DECLARE_TEST_START(ArchiveTest)
 
@@ -188,5 +187,3 @@ TEST(ArchiveTest, ReadDataWithNames) {
 }
 
 RL_DECLARE_TEST_END
-
-#endif  // RL_OS_MAC

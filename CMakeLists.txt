@@ -158,7 +158,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(LINUX)
-  target_link_libraries(RadarLove rt GL)
+  target_link_libraries(RadarLove dl rt GL)
 endif()
 
 if (FREEBSD)
