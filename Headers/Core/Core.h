@@ -48,6 +48,11 @@
 #include <Core/MessageSerializable.h>
 
 /*
+ *  Archiving
+ */
+#include <Core/Archive.h>
+
+/*
  *  IPC
  */
 #include <Core/SharedMemory.h>
