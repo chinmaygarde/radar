@@ -6,7 +6,7 @@
 #define RADARLOVE_CORE_ALLOCATION_H_
 
 #include <Core/Macros.h>
-#include <Core/Serializable.h>
+#include <Core/MessageSerializable.h>
 
 namespace rl {
 namespace core {
@@ -29,7 +29,7 @@ namespace core {
  *  You are still responsible for writing within the bounds of the memory arena.
  *  If your program breaks because of this, please keep both pieces.
  */
-class Allocation : public Serializable {
+class Allocation : public MessageSerializable {
  public:
   /**
    *  A new zero sized allocation. This is not ready till the call to the first

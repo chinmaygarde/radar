@@ -13,7 +13,7 @@
 namespace rl {
 namespace interface {
 
-class Action : public core::Serializable {
+class Action : public core::MessageSerializable {
  public:
   /**
    *  Create a new action specification

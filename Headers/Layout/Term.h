@@ -11,7 +11,7 @@
 namespace rl {
 namespace layout {
 
-class Term : public core::Serializable {
+class Term : public core::MessageSerializable {
  public:
   Term();
 

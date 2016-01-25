@@ -13,7 +13,7 @@
 namespace rl {
 namespace layout {
 
-class Expression : public core::Serializable {
+class Expression : public core::MessageSerializable {
  public:
   using Terms = std::vector<Term>;
 

@@ -11,7 +11,8 @@
 namespace rl {
 namespace coordinator {
 
-class TransferEntity : public interface::Entity, public core::Serializable {
+class TransferEntity : public interface::Entity,
+                       public core::MessageSerializable {
  public:
   using PropertyWalkCallback = std::function<bool(Property)>;
 

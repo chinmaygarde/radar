@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_SERIALIZABLE_H_
-#define RADARLOVE_CORE_SERIALIZABLE_H_
+#ifndef RADARLOVE_CORE_MESSAGESERIALIZABLE_H_
+#define RADARLOVE_CORE_MESSAGESERIALIZABLE_H_
 
 #include <Core/Utilities.h>
 
@@ -13,7 +13,7 @@ namespace core {
 class Message;
 class Namespace;
 
-class Serializable {
+class MessageSerializable {
  public:
   virtual bool serialize(Message& message) const = 0;
 
@@ -25,4 +25,4 @@ class Serializable {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_SERIALIZABLE_H_
+#endif  // RADARLOVE_CORE_MESSAGESERIALIZABLE_H_

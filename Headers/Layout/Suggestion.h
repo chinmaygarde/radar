@@ -12,7 +12,7 @@
 namespace rl {
 namespace layout {
 
-class Suggestion : public core::Serializable {
+class Suggestion : public core::MessageSerializable {
  public:
   Suggestion();
 

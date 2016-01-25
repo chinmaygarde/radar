@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Serializable.h>
+#include <Core/MessageSerializable.h>
 
 namespace rl {
-namespace core {}  // namespace core
+namespace core {
+
+//
+
+}  // namespace core
 }  // namespace rl

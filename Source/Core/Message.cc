@@ -150,7 +150,7 @@ bool Message::resizeBuffer(size_t size) {
   return success;
 }
 
-bool Message::encode(const Serializable& value) {
+bool Message::encode(const MessageSerializable& value) {
   return value.serialize(*this);
 }
 
@@ -191,7 +191,7 @@ size_t Message::encodeOffsetRawUnsafe(size_t size) {
   return _dataLength - size;
 }
 
-bool Message::decode(Serializable& value, Namespace* ns) {
+bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
 }
 

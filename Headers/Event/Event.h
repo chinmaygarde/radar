@@ -10,7 +10,7 @@
 namespace rl {
 namespace event {
 
-class Event : public core::Serializable {
+class Event : public core::MessageSerializable {
  public:
   /**
    *  Create an event with the given timestamp

@@ -12,7 +12,7 @@
 namespace rl {
 namespace layout {
 
-class Constraint : public core::Serializable {
+class Constraint : public core::MessageSerializable {
  public:
   enum Relation {
     EqualTo,

@@ -10,8 +10,8 @@
 		9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */; };
 		9E029C691BA8ED6E007E5DF8 /* PosixMemoryHandle.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C671BA8ED6E007E5DF8 /* PosixMemoryHandle.cc */; };
 		9E029C6A1BA8ED6E007E5DF8 /* SharedMemoryHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */; };
-		9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C7B1BA9E833007E5DF8 /* Serializable.h */; };
-		9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */; };
+		9E029C7C1BA9E833007E5DF8 /* MessageSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029C7B1BA9E833007E5DF8 /* MessageSerializable.h */; };
+		9E029C7E1BA9E83F007E5DF8 /* MessageSerializable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E029C7D1BA9E83F007E5DF8 /* MessageSerializable.cc */; };
 		9E029CA31BAB5CF8007E5DF8 /* InProcessChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA11BAB5CF8007E5DF8 /* InProcessChannel.h */; };
 		9E029CA71BAB7344007E5DF8 /* WaitSetProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */; };
 		9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */; };
@@ -322,8 +322,8 @@
 		9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisabledSharedMemory.cc; sourceTree = "<group>"; };
 		9E029C671BA8ED6E007E5DF8 /* PosixMemoryHandle.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PosixMemoryHandle.cc; sourceTree = "<group>"; };
 		9E029C681BA8ED6E007E5DF8 /* SharedMemoryHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMemoryHandle.h; sourceTree = "<group>"; };
-		9E029C7B1BA9E833007E5DF8 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serializable.h; sourceTree = "<group>"; };
-		9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serializable.cc; sourceTree = "<group>"; };
+		9E029C7B1BA9E833007E5DF8 /* MessageSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageSerializable.h; sourceTree = "<group>"; };
+		9E029C7D1BA9E83F007E5DF8 /* MessageSerializable.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageSerializable.cc; sourceTree = "<group>"; };
 		9E029CA01BAB5CF8007E5DF8 /* InProcessChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessChannel.cc; sourceTree = "<group>"; };
 		9E029CA11BAB5CF8007E5DF8 /* InProcessChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessChannel.h; sourceTree = "<group>"; };
 		9E029CA51BAB7344007E5DF8 /* WaitSetProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitSetProvider.h; sourceTree = "<group>"; };
@@ -865,7 +865,7 @@
 				9EAECE521B685460000FA38A /* Message.h */,
 				9E78EE5C1C3F0826000A4E37 /* Namespace.h */,
 				9E9544041C31D1C8002EEC68 /* Protocol.h */,
-				9E029C7B1BA9E833007E5DF8 /* Serializable.h */,
+				9E029C7B1BA9E833007E5DF8 /* MessageSerializable.h */,
 				9EAECE551B685460000FA38A /* SharedMemory.h */,
 				EAC90A7D1BF93C82001214C1 /* ThreadLocal.h */,
 				EA62B3221B6F2F31009F197F /* Timing.h */,
@@ -990,7 +990,7 @@
 				9E78EE5A1C3F0816000A4E37 /* Namespace.cc */,
 				EAB906AC1C02584700BCA377 /* PipeTrivialSource.cc */,
 				EAB906AD1C02584700BCA377 /* PipeTrivialSource.h */,
-				9E029C7D1BA9E83F007E5DF8 /* Serializable.cc */,
+				9E029C7D1BA9E83F007E5DF8 /* MessageSerializable.cc */,
 				9EAECEB31B685469000FA38A /* PosixSharedMemory.cc */,
 				9E029C571BA8AD1A007E5DF8 /* DisabledSharedMemory.cc */,
 				EAFECF051BFD9DE700348900 /* AshmemHandle.cc */,
@@ -1236,7 +1236,7 @@
 				9E84818B1C126B2D006DE159 /* TraceEvent.h in Headers */,
 				9EBA79DF1B87FF57005D84FA /* stb_truetype.h in Headers */,
 				9EBA79BC1B87EEF4005D84FA /* InterfaceStatistics.h in Headers */,
-				9E029C7C1BA9E833007E5DF8 /* Serializable.h in Headers */,
+				9E029C7C1BA9E833007E5DF8 /* MessageSerializable.h in Headers */,
 				EA7D30FA1BE736FE0038BF5A /* Utilities.h in Headers */,
 				9E8655F51BE45E2700997766 /* Primitive.h in Headers */,
 				9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */,
@@ -1503,7 +1503,7 @@
 				9E8656171BE45E3A00997766 /* Statistics.cc in Sources */,
 				9E029CB01BAB74EF007E5DF8 /* EPollWaitSet.cc in Sources */,
 				9E78EE591C3DEFD2000A4E37 /* ModelEntity.cc in Sources */,
-				9E029C7E1BA9E83F007E5DF8 /* Serializable.cc in Sources */,
+				9E029C7E1BA9E83F007E5DF8 /* MessageSerializable.cc in Sources */,
 				EA7D30F91BE736FE0038BF5A /* Utilities.cc in Sources */,
 				EAB379D81BE70A7700A59948 /* Director.cc in Sources */,
 				9EAECEE41B685469000FA38A /* WaitSet.cc in Sources */,

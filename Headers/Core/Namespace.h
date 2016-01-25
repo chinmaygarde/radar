@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Macros.h>
-#include <Core/Serializable.h>
+#include <Core/MessageSerializable.h>
 
 #include <atomic>
 #include <mutex>
@@ -14,7 +14,7 @@ namespace core {
 
 class Namespace;
 
-class Name : public Serializable {
+class Name : public MessageSerializable {
  public:
   using Handle = uint32_t;
   using HandleRef = std::shared_ptr<Handle>;

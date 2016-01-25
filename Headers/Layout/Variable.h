@@ -12,7 +12,7 @@
 namespace rl {
 namespace layout {
 
-class Variable : public core::Serializable {
+class Variable : public core::MessageSerializable {
  public:
   using PropertyType = uint8_t;
   enum class Property : PropertyType {

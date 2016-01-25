@@ -6,7 +6,7 @@
 #define RADARLOVE_CORE_MESSAGE_
 
 #include <Core/Macros.h>
-#include <Core/Serializable.h>
+#include <Core/MessageSerializable.h>
 #include <Core/Utilities.h>
 
 #include <string.h>
@@ -103,14 +103,14 @@ class Message {
     return false;
   }
 
-  bool encode(const Serializable& value);
+  bool encode(const MessageSerializable& value);
 
   bool encode(const std::string& value);
 
   template <typename T,
-            typename = only_if<std::is_base_of<Serializable, T>::value>>
+            typename = only_if<std::is_base_of<MessageSerializable, T>::value>>
   bool encode(const std::vector<T>& vec) {
-    Serializable::EncodedSize count = vec.size();
+    MessageSerializable::EncodedSize count = vec.size();
     auto result = encode(count);
     for (const auto& item : vec) {
       result &= item.serialize(*this);
@@ -142,17 +142,17 @@ class Message {
     return false;
   }
 
-  bool decode(Serializable& value, Namespace* ns);
+  bool decode(MessageSerializable& value, Namespace* ns);
 
   bool decode(std::string& string);
 
   template <typename T,
-            typename = only_if<std::is_base_of<Serializable, T>::value ||
+            typename = only_if<std::is_base_of<MessageSerializable, T>::value ||
                                std::is_default_constructible<T>::value>>
   bool decode(std::vector<T>& vec, Namespace* ns) {
-    Serializable::EncodedSize count = 0;
+    MessageSerializable::EncodedSize count = 0;
     auto result = decode(count, ns);
-    for (Serializable::EncodedSize i = 0; i < count; i++) {
+    for (MessageSerializable::EncodedSize i = 0; i < count; i++) {
       vec.emplace_back();
       result &= vec.back().deserialize(*this, ns);
     }
