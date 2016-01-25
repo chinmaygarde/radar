@@ -9,9 +9,9 @@
 #include <cstdio>
 #include <thread>
 
-static rl::core::Archivable::PrimaryKey LastSample = 0;
+static rl::core::ArchiveSerializable::PrimaryKey LastSample = 0;
 
-class Sample : public rl::core::Archivable {
+class Sample : public rl::core::ArchiveSerializable {
  public:
   Sample(uint64_t count = 42) : _someData(count), _name(++LastSample) {}
 
@@ -45,7 +45,7 @@ class ArchiveDef<Sample> {
  public:
   std::string className() { return "sample"; }
 
-  rl::core::Archivable::Members members() { return {999}; }
+  rl::core::ArchiveSerializable::Members members() { return {999}; }
 };
 
 template <>
@@ -53,7 +53,7 @@ class ArchiveDef<FooBar> {
  public:
   std::string className() { return "foo"; }
 
-  rl::core::Archivable::Members members() { return {1, 2, 3}; }
+  rl::core::ArchiveSerializable::Members members() { return {1, 2, 3}; }
 };
 
 }  // namespace core
@@ -129,7 +129,7 @@ TEST(ArchiveTest, ReadData) {
 
     size_t count = 50;
 
-    std::vector<rl::core::Archivable::PrimaryKey> keys;
+    std::vector<rl::core::ArchiveSerializable::PrimaryKey> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);
@@ -163,7 +163,7 @@ TEST(ArchiveTest, ReadDataWithNames) {
 
     size_t count = 8;
 
-    std::vector<rl::core::Archivable::PrimaryKey> keys;
+    std::vector<rl::core::ArchiveSerializable::PrimaryKey> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);

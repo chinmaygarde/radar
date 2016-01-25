@@ -18,7 +18,7 @@ namespace core {
 
 class ArchiveItem;
 
-class Archivable {
+class ArchiveSerializable {
  public:
   using Member = uint64_t;
   using Members = std::vector<Member>;
@@ -34,7 +34,7 @@ template <class T>
 class ArchiveDef {
  public:
   std::string className();
-  Archivable::Members members();
+  ArchiveSerializable::Members members();
 };
 
 class Archive {
@@ -51,14 +51,16 @@ class Archive {
     return registerClass(definition.className(), definition.members());
   }
 
-  template <class T, class = only_if<std::is_base_of<Archivable, T>::value>>
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool archive(const T& archivable) {
     ArchiveDef<T> definition;
     return archiveInstance(definition.className(), archivable);
   }
 
-  template <class T, class = only_if<std::is_base_of<Archivable, T>::value>>
-  bool unarchive(Archivable::PrimaryKey primaryKey, T& archivable) {
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  bool unarchive(ArchiveSerializable::PrimaryKey primaryKey, T& archivable) {
     ArchiveDef<T> definition;
     return unarchiveInstance(primaryKey, definition.className(), archivable);
   }
@@ -70,7 +72,7 @@ class Archive {
 
   friend class ArchiveItem;
 
-  using Registrations = std::map<std::string, Archivable::Members>;
+  using Registrations = std::map<std::string, ArchiveSerializable::Members>;
 
   std::unique_ptr<Database> _db;
   size_t _transactionCount;
@@ -85,39 +87,39 @@ class Archive {
 
   void setupTransactionStatements();
   bool registerClass(const std::string& name,
-                     const Archivable::Members& members);
+                     const ArchiveSerializable::Members& members);
   bool archiveInstance(const std::string& className,
-                       const Archivable& archivable);
-  bool unarchiveInstance(Archivable::PrimaryKey key,
+                       const ArchiveSerializable& archivable);
+  bool unarchiveInstance(ArchiveSerializable::PrimaryKey key,
                          const std::string& className,
-                         Archivable& archivable);
+                         ArchiveSerializable& archivable);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };
 
 class ArchiveItem {
  public:
-  bool encode(Archivable::Member member, const std::string& item);
-  bool encode(Archivable::Member member, uint64_t item);
-  bool encode(Archivable::Member member, double item);
-  bool encode(Archivable::Member member, const Allocation& allocation);
+  bool encode(ArchiveSerializable::Member member, const std::string& item);
+  bool encode(ArchiveSerializable::Member member, uint64_t item);
+  bool encode(ArchiveSerializable::Member member, double item);
+  bool encode(ArchiveSerializable::Member member, const Allocation& allocation);
 
-  bool decode(Archivable::Member member, std::string& item);
-  bool decode(Archivable::Member member, uint64_t& item);
-  bool decode(Archivable::Member member, double& item);
-  bool decode(Archivable::Member member, Allocation& allocation);
+  bool decode(ArchiveSerializable::Member member, std::string& item);
+  bool decode(ArchiveSerializable::Member member, uint64_t& item);
+  bool decode(ArchiveSerializable::Member member, double& item);
+  bool decode(ArchiveSerializable::Member member, Allocation& allocation);
 
-  Archivable::PrimaryKey name() const;
+  ArchiveSerializable::PrimaryKey name() const;
 
  private:
-  Archivable::PrimaryKey _key;
-  const Archivable::Members& _members;
+  ArchiveSerializable::PrimaryKey _key;
+  const ArchiveSerializable::Members& _members;
   Archive::Statement& _statement;
 
   friend class Archive;
 
-  ArchiveItem(Archivable::PrimaryKey _key,
-              const Archivable::Members& members,
+  ArchiveItem(ArchiveSerializable::PrimaryKey _key,
+              const ArchiveSerializable::Members& members,
               Archive::Statement& statement);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);

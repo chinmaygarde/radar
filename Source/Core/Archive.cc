@@ -276,7 +276,7 @@ void Archive::setupTransactionStatements() {
 }
 
 bool Archive::registerClass(const std::string& name,
-                            const Archivable::Members& members) {
+                            const ArchiveSerializable::Members& members) {
   auto found = _registrations.find(name);
   if (found != _registrations.end()) {
     /*
@@ -352,7 +352,7 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
 }
 
 bool Archive::archiveInstance(const std::string& className,
-                              const Archivable& archivable) {
+                              const ArchiveSerializable& archivable) {
   if (!isReady()) {
     return false;
   }
@@ -401,9 +401,9 @@ bool Archive::archiveInstance(const std::string& className,
   return statement.run() == Statement::Result::Done;
 }
 
-bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
+bool Archive::unarchiveInstance(ArchiveSerializable::PrimaryKey key,
                                 const std::string& className,
-                                Archivable& archivable) {
+                                ArchiveSerializable& archivable) {
   if (!isReady()) {
     return false;
   }
@@ -446,17 +446,18 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
   return result;
 }
 
-ArchiveItem::ArchiveItem(Archivable::PrimaryKey key,
-                         const Archivable::Members& members,
+ArchiveItem::ArchiveItem(ArchiveSerializable::PrimaryKey key,
+                         const ArchiveSerializable::Members& members,
                          Archive::Statement& statement)
     : _key(key), _members(members), _statement(statement) {}
 
-Archivable::PrimaryKey ArchiveItem::name() const {
+ArchiveSerializable::PrimaryKey ArchiveItem::name() const {
   return _key;
 }
 
-static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
-                                             Archivable::Member member) {
+static std::pair<size_t, bool> IndexOfMember(
+    const ArchiveSerializable::Members& members,
+    ArchiveSerializable::Member member) {
   /*
    *  This should probably (and can easily be) optimized for constant time
    *  lookup. But the sizes of the arrays are extremely small.
@@ -470,42 +471,45 @@ static std::pair<size_t, bool> IndexOfMember(const Archivable::Members& members,
   return {std::distance(members.begin(), found) + 1 /* primary key */, true};
 }
 
-bool ArchiveItem::encode(Archivable::Member member, const std::string& item) {
+bool ArchiveItem::encode(ArchiveSerializable::Member member,
+                         const std::string& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
-bool ArchiveItem::encode(Archivable::Member member, uint64_t item) {
+bool ArchiveItem::encode(ArchiveSerializable::Member member, uint64_t item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
-bool ArchiveItem::encode(Archivable::Member member, double item) {
+bool ArchiveItem::encode(ArchiveSerializable::Member member, double item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
-bool ArchiveItem::encode(Archivable::Member member, const Allocation& item) {
+bool ArchiveItem::encode(ArchiveSerializable::Member member,
+                         const Allocation& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
-bool ArchiveItem::decode(Archivable::Member member, std::string& item) {
+bool ArchiveItem::decode(ArchiveSerializable::Member member,
+                         std::string& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
-bool ArchiveItem::decode(Archivable::Member member, uint64_t& item) {
+bool ArchiveItem::decode(ArchiveSerializable::Member member, uint64_t& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
-bool ArchiveItem::decode(Archivable::Member member, double& item) {
+bool ArchiveItem::decode(ArchiveSerializable::Member member, double& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
-bool ArchiveItem::decode(Archivable::Member member, Allocation& item) {
+bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
