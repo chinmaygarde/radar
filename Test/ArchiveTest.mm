@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <thread>
 
-static rl::core::ArchiveSerializable::PrimaryKey LastSample = 0;
+static rl::core::ArchiveSerializable::ArchiveName LastSample = 0;
 
 class Sample : public rl::core::ArchiveSerializable {
  public:
@@ -17,7 +17,7 @@ class Sample : public rl::core::ArchiveSerializable {
 
   uint64_t someData() const { return _someData; };
 
-  PrimaryKey archiveName() const override { return _name; }
+  ArchiveName archiveName() const override { return _name; }
 
   bool serialize(rl::core::ArchiveItem& item) const override {
     return item.encode(999, _someData);
@@ -30,7 +30,7 @@ class Sample : public rl::core::ArchiveSerializable {
 
  private:
   uint64_t _someData;
-  PrimaryKey _name;
+  ArchiveName _name;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Sample);
 };
@@ -129,7 +129,7 @@ TEST(ArchiveTest, ReadData) {
 
     size_t count = 50;
 
-    std::vector<rl::core::ArchiveSerializable::PrimaryKey> keys;
+    std::vector<rl::core::ArchiveSerializable::ArchiveName> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);
@@ -163,7 +163,7 @@ TEST(ArchiveTest, ReadDataWithNames) {
 
     size_t count = 8;
 
-    std::vector<rl::core::ArchiveSerializable::PrimaryKey> keys;
+    std::vector<rl::core::ArchiveSerializable::ArchiveName> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);

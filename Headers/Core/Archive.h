@@ -22,9 +22,9 @@ class ArchiveSerializable {
  public:
   using Member = uint64_t;
   using Members = std::vector<Member>;
-  using PrimaryKey = uint64_t;
+  using ArchiveName = uint64_t;
 
-  virtual PrimaryKey archiveName() const = 0;
+  virtual ArchiveName archiveName() const = 0;
 
   virtual bool serialize(ArchiveItem& item) const = 0;
   virtual bool deserialize(ArchiveItem& item) = 0;
@@ -60,9 +60,9 @@ class Archive {
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
-  bool unarchive(ArchiveSerializable::PrimaryKey primaryKey, T& archivable) {
+  bool unarchive(ArchiveSerializable::ArchiveName name, T& archivable) {
     ArchiveDef<T> definition;
-    return unarchiveInstance(primaryKey, definition.className(), archivable);
+    return unarchiveInstance(name, definition.className(), archivable);
   }
 
  private:
@@ -90,7 +90,7 @@ class Archive {
                      const ArchiveSerializable::Members& members);
   bool archiveInstance(const std::string& className,
                        const ArchiveSerializable& archivable);
-  bool unarchiveInstance(ArchiveSerializable::PrimaryKey key,
+  bool unarchiveInstance(ArchiveSerializable::ArchiveName name,
                          const std::string& className,
                          ArchiveSerializable& archivable);
 
@@ -109,16 +109,16 @@ class ArchiveItem {
   bool decode(ArchiveSerializable::Member member, double& item);
   bool decode(ArchiveSerializable::Member member, Allocation& allocation);
 
-  ArchiveSerializable::PrimaryKey name() const;
+  ArchiveSerializable::ArchiveName name() const;
 
  private:
-  ArchiveSerializable::PrimaryKey _key;
+  ArchiveSerializable::ArchiveName _name;
   const ArchiveSerializable::Members& _members;
   Archive::Statement& _statement;
 
   friend class Archive;
 
-  ArchiveItem(ArchiveSerializable::PrimaryKey _key,
+  ArchiveItem(ArchiveSerializable::ArchiveName name,
               const ArchiveSerializable::Members& members,
               Archive::Statement& statement);
 

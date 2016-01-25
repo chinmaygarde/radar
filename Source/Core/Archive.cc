@@ -13,7 +13,7 @@ namespace rl {
 namespace core {
 
 static const char* ArchiveColumnPrefix = "col_";
-static const char* ArchivePrimaryKeyColumnName = "_rl_primary_";
+static const char* ArchivePrimaryKeyColumnName = "archive_name";
 static size_t ArchivePrimaryKeyIndex = 0;
 
 class Archive::Statement {
@@ -401,7 +401,7 @@ bool Archive::archiveInstance(const std::string& className,
   return statement.run() == Statement::Result::Done;
 }
 
-bool Archive::unarchiveInstance(ArchiveSerializable::PrimaryKey key,
+bool Archive::unarchiveInstance(ArchiveSerializable::ArchiveName name,
                                 const std::string& className,
                                 ArchiveSerializable& archivable) {
   if (!isReady()) {
@@ -424,7 +424,7 @@ bool Archive::unarchiveInstance(ArchiveSerializable::PrimaryKey key,
     return false;
   }
 
-  if (!statement.bind(ArchivePrimaryKeyIndex, key)) {
+  if (!statement.bind(ArchivePrimaryKeyIndex, name)) {
     return false;
   }
 
@@ -437,7 +437,7 @@ bool Archive::unarchiveInstance(ArchiveSerializable::PrimaryKey key,
     return false;
   }
 
-  ArchiveItem item(key, registration->second, statement);
+  ArchiveItem item(name, registration->second, statement);
 
   auto result = archivable.deserialize(item);
 
@@ -446,13 +446,13 @@ bool Archive::unarchiveInstance(ArchiveSerializable::PrimaryKey key,
   return result;
 }
 
-ArchiveItem::ArchiveItem(ArchiveSerializable::PrimaryKey key,
+ArchiveItem::ArchiveItem(ArchiveSerializable::ArchiveName name,
                          const ArchiveSerializable::Members& members,
                          Archive::Statement& statement)
-    : _key(key), _members(members), _statement(statement) {}
+    : _name(name), _members(members), _statement(statement) {}
 
-ArchiveSerializable::PrimaryKey ArchiveItem::name() const {
-  return _key;
+ArchiveSerializable::ArchiveName ArchiveItem::name() const {
+  return _name;
 }
 
 static std::pair<size_t, bool> IndexOfMember(
