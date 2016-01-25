@@ -391,7 +391,7 @@ bool Archive::archiveInstance(const std::string& className,
     return false;
   }
 
-  auto clientWrite = archivable.writeToArchive(item);
+  auto clientWrite = archivable.serialize(item);
 
   if (!clientWrite) {
     return false;
@@ -438,7 +438,7 @@ bool Archive::unarchiveInstance(Archivable::PrimaryKey key,
 
   ArchiveItem item(key, registration->second, statement);
 
-  auto result = archivable.readFromArchive(item);
+  auto result = archivable.deserialize(item);
 
   statement.reset();
 

@@ -6,8 +6,8 @@
 
 #include <Core/Archive.h>
 
-#include <thread>
 #include <cstdio>
+#include <thread>
 
 static rl::core::Archivable::PrimaryKey LastSample = 0;
 
@@ -19,11 +19,11 @@ class Sample : public rl::core::Archivable {
 
   PrimaryKey archiveName() const override { return _name; }
 
-  bool writeToArchive(rl::core::ArchiveItem& item) const override {
+  bool serialize(rl::core::ArchiveItem& item) const override {
     return item.encode(999, _someData);
   };
 
-  bool readFromArchive(rl::core::ArchiveItem& item) override {
+  bool deserialize(rl::core::ArchiveItem& item) override {
     _name = item.name();
     return item.decode(999, _someData);
   };

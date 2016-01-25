@@ -5,13 +5,13 @@
 #ifndef RADARLOVE_CORE_ARCHIVE_H_
 #define RADARLOVE_CORE_ARCHIVE_H_
 
-#include <Core/Macros.h>
 #include <Core/Allocation.h>
+#include <Core/Macros.h>
 #include <Core/Utilities.h>
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 namespace rl {
 namespace core {
@@ -26,8 +26,8 @@ class Archivable {
 
   virtual PrimaryKey archiveName() const = 0;
 
-  virtual bool writeToArchive(ArchiveItem& item) const = 0;
-  virtual bool readFromArchive(ArchiveItem& item) = 0;
+  virtual bool serialize(ArchiveItem& item) const = 0;
+  virtual bool deserialize(ArchiveItem& item) = 0;
 };
 
 template <class T>
