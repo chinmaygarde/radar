@@ -4,6 +4,13 @@
 
 #include "RadarTest.h"
 
+#include <Core/Config.h>
+
+/*
+ *  Temporarily disabled till the template specialization issue is sorted out
+ */
+#if RL_OS_MAC
+
 #include <Core/Archive.h>
 
 #include <cstdio>
@@ -35,6 +42,8 @@ class Sample : public rl::core::Archivable {
   RL_DISALLOW_COPY_AND_ASSIGN(Sample);
 };
 
+class FooBar {};
+
 template <>
 class rl::core::ArchiveDef<Sample> {
  public:
@@ -42,8 +51,6 @@ class rl::core::ArchiveDef<Sample> {
 
   rl::core::Archivable::Members members() { return {999}; }
 };
-
-class FooBar {};
 
 template <>
 class rl::core::ArchiveDef<FooBar> {
@@ -181,3 +188,5 @@ TEST(ArchiveTest, ReadDataWithNames) {
 }
 
 RL_DECLARE_TEST_END
+
+#endif  // RL_OS_MAC

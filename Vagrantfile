@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   #  Define a Linux VM
   #
   config.vm.define "linux" do |linux|
-    linux.vm.box = "ubuntu/trusty64"
+    linux.vm.box = "ubuntu/wily64"
     linux.vm.provision "shell", inline: <<-SHELL
       sudo apt-get update
       sudo apt-get install -y build-essential

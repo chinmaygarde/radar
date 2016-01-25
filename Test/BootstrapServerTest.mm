@@ -6,6 +6,11 @@
 
 #include <Core/Core.h>
 
+/*
+ *  Temporarily disabled till Linux gets a bootstrap server
+ */
+#if RL_OS_MAC
+
 #include <Core/BootstrapServer.h>
 
 #include <thread>
@@ -86,3 +91,5 @@ TEST(BootstrapServerTest, Acquire) {
 }
 
 RL_DECLARE_TEST_END
+
+#endif  // RL_OS_MAC

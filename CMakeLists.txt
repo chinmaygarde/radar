@@ -107,6 +107,18 @@ file(GLOB_RECURSE RADARLOVE_SRC
   "Source/*.mm"
 )
 
+if(NOT APPLE)
+  # On non-Apple platforms, there is no actual Objective-C in '.mm' files.
+  # Treat them as C++
+
+  file(GLOB_RECURSE RADARLOVE_SRC_MM
+    "Source/*.mm"
+  )
+
+  set_source_files_properties(${RADARLOVE_SRC_MM}
+    PROPERTIES COMPILE_FLAGS "-x c++")
+endif()
+
 file(GLOB RADARLOVE_IMGUI_SRC
   "ThirdParty/imgui/imgui_draw.cpp"
   "ThirdParty/imgui/imgui.cpp"
@@ -164,14 +176,6 @@ if (APPLE)
     -framework Foundation")
 endif()
 
-if(NOT APPLE)
-  # Since we want interoperability with XCTest and Xcode, the test files have
-  # the .mm extension. On non-Apple platforms, these files fall back to using
-  # GTest (and hence no Objective-C++). In such cases, treat Objective-C++ files
-  # as C++
-  add_definitions("-x c++")
-endif()
-
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
   target_link_libraries(RadarLove rt)
@@ -194,6 +198,19 @@ file(GLOB RADARLOVE_TEST_SRC
   "Test/*.cc"
   "Test/*.mm"
 )
+
+if(NOT APPLE)
+  # Since we want to run either the XCTest or GTest harness to run all unit
+  # tests, all test files have the ".mm" extension. On non-Apple platforms,
+  # there is no actual Objective-C in these files. So treat them as C++
+
+  file(GLOB RADARLOVE_TEST_SRC_MM
+    "Test/*.mm"
+  )
+
+  set_source_files_properties(${RADARLOVE_TEST_SRC_MM}
+    PROPERTIES COMPILE_FLAGS "-x c++")
+endif()
 
 include_directories ( Source )
 add_executable( RadarLoveTest ${RADARLOVE_TEST_SRC} )
