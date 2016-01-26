@@ -30,7 +30,7 @@ class InterfaceTransaction {
 
   void mark(const std::vector<layout::Suggestion>& suggestions);
 
-  bool commit(core::Message& arena);
+  bool commit(core::Message& arena, std::unique_ptr<core::Archive>& archive);
 
  private:
   Action _action;

@@ -43,17 +43,17 @@ namespace core {
 template <>
 class ArchiveDef<Sample> {
  public:
-  std::string className() { return "sample"; }
+  std::string className() const { return "sample"; }
 
-  rl::core::ArchiveSerializable::Members members() { return {999}; }
+  rl::core::ArchiveSerializable::Members members() const { return {999}; }
 };
 
 template <>
 class ArchiveDef<FooBar> {
  public:
-  std::string className() { return "foo"; }
+  std::string className() const { return "foo"; }
 
-  rl::core::ArchiveSerializable::Members members() { return {1, 2, 3}; }
+  rl::core::ArchiveSerializable::Members members() const { return {1, 2, 3}; }
 };
 
 }  // namespace core

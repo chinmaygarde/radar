@@ -39,11 +39,19 @@ void InterfaceTransaction::mark(
   }
 }
 
-bool InterfaceTransaction::commit(core::Message& arena) {
+bool InterfaceTransaction::commit(core::Message& arena,
+                                  std::unique_ptr<core::Archive>& archive) {
   coordinator::TransactionPayload payload(
       std::move(_action), std::move(_entities), std::move(_constraints),
       std::move(_suggestions));
-  return arena.encode(payload);
+
+  auto result = arena.encode(payload);
+
+  if (archive) {
+    result &= archive->archive(payload);
+  }
+
+  return result;
 }
 
 }  // namespace interface

@@ -13,7 +13,8 @@ namespace animation {
 
 class TimingCurve {
  public:
-  enum Type {
+  using Data = uint8_t;
+  enum class Type : Data {
     Linear,
     EaseIn,
     EaseOut,

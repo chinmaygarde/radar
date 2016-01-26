@@ -13,7 +13,8 @@
 namespace rl {
 namespace interface {
 
-class Action : public core::MessageSerializable {
+class Action : public core::ArchiveSerializable,
+               public core::MessageSerializable {
  public:
   /**
    *  Create a new action specification
@@ -78,8 +79,12 @@ class Action : public core::MessageSerializable {
   double unitInterpolation(const core::ClockDuration& time) const;
 
   bool serialize(core::Message& message) const override;
+  bool serialize(core::ArchiveItem& item) const override;
+
+  ArchiveName archiveName() const override;
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
+  bool deserialize(core::ArchiveItem& item) override;
 
  private:
   core::ClockDuration _duration;

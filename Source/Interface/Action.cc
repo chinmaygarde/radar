@@ -4,6 +4,32 @@
 
 #include <Interface/Action.h>
 
+enum ActionArchiveKey {
+  Duration,
+  RepeatCount,
+  AutoReverses,
+  PropertyMask,
+  TimingCurveType,
+};
+
+template <>
+class rl::core::ArchiveDef<rl::interface::Action> {
+ public:
+  std::string className() const {  //
+    return "Action";
+  }
+
+  ArchiveSerializable::Members members() const {
+    return {
+        ActionArchiveKey::Duration,         //
+        ActionArchiveKey::RepeatCount,      //
+        ActionArchiveKey::AutoReverses,     //
+        ActionArchiveKey::PropertyMask,     //
+        ActionArchiveKey::TimingCurveType,  //
+    };
+  }
+};
+
 namespace rl {
 namespace interface {
 
@@ -12,7 +38,7 @@ Action::Action(double duration)
       _repeatCount(1),
       _autoReverses(false),
       _propertyMask(0),
-      _timingCurveType(animation::TimingCurve::Linear),
+      _timingCurveType(animation::TimingCurve::Type::Linear),
       _resolvedCurve(
           animation::TimingCurve::SystemTimingCurve(_timingCurveType)) {}
 
@@ -73,7 +99,7 @@ double Action::unitInterpolation(const core::ClockDuration& time) const {
 }
 
 bool Action::serialize(core::Message& message) const {
-  bool result = true;
+  auto result = true;
   result &= message.encode(_duration);
   result &= message.encode(_repeatCount);
   result &= message.encode(_autoReverses);
@@ -83,13 +109,51 @@ bool Action::serialize(core::Message& message) const {
 }
 
 bool Action::deserialize(core::Message& message, core::Namespace* ns) {
-  bool result = true;
+  auto result = true;
   result &= message.decode(_duration, ns);
   result &= message.decode(_repeatCount, ns);
   result &= message.decode(_autoReverses, ns);
   result &= message.decode(_propertyMask, ns);
   result &= message.decode(_timingCurveType, ns);
   resolveCurve();
+  return result;
+}
+
+Action::ArchiveName Action::archiveName() const {
+  return core::ArchiveNameAuto;
+}
+
+bool Action::serialize(core::ArchiveItem& item) const {
+  auto curve = static_cast<animation::TimingCurve::Data>(_timingCurveType);
+
+  using K = ActionArchiveKey;
+
+  auto result = true;
+  result &= item.encode(K::Duration, _duration.count());
+  result &= item.encode(K::RepeatCount, _repeatCount);
+  result &= item.encode(K::AutoReverses, _autoReverses);
+  result &= item.encode(K::PropertyMask, _propertyMask);
+  result &= item.encode(K::TimingCurveType, curve);
+  return result;
+}
+
+bool Action::deserialize(core::ArchiveItem& item) {
+  animation::TimingCurve::Data curve = 0;
+  core::ClockDuration::rep durationRep = 0;
+
+  using K = ActionArchiveKey;
+
+  auto result = true;
+
+  result &= item.decode(K::Duration, durationRep);
+  result &= item.decode(K::RepeatCount, _repeatCount);
+  result &= item.decode(K::AutoReverses, _autoReverses);
+  result &= item.decode(K::PropertyMask, _propertyMask);
+  result &= item.decode(K::TimingCurveType, curve);
+
+  _timingCurveType = static_cast<animation::TimingCurve::Type>(curve);
+  _duration = core::ClockDuration(durationRep);
+
   return result;
 }
 

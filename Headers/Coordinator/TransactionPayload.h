@@ -16,7 +16,8 @@
 namespace rl {
 namespace coordinator {
 
-class TransactionPayload : public core::MessageSerializable {
+class TransactionPayload : public core::ArchiveSerializable,
+                           public core::MessageSerializable {
  public:
   using EntityMap = std::map<core::Name, std::unique_ptr<TransferEntity>>;
 
@@ -39,8 +40,18 @@ class TransactionPayload : public core::MessageSerializable {
                               ConstraintsCallback constraintsCallback,
                               SuggestionsCallback suggestionsCallback);
 
+  /*
+   *  Message Serialization
+   */
   bool serialize(core::Message& message) const override;
   bool deserialize(core::Message& message, core::Namespace* ns) override;
+
+  /*
+   *  Archive Serialization
+   */
+  ArchiveName archiveName() const override;
+  bool serialize(core::ArchiveItem& item) const override;
+  bool deserialize(core::ArchiveItem& item) override;
 
  private:
   /*
@@ -65,5 +76,27 @@ class TransactionPayload : public core::MessageSerializable {
 
 }  // namespace coordinator
 }  // namespace rl
+
+enum TransactionArchiveKey {
+  Action,
+  Constraints,
+  Suggestions,
+  Entities,
+};
+
+template <>
+class rl::core::ArchiveDef<rl::coordinator::TransactionPayload> {
+ public:
+  std::string className() const { return "TransactionPayload"; }
+
+  ArchiveSerializable::Members members() const {
+    return {
+        TransactionArchiveKey::Action,       //
+        TransactionArchiveKey::Constraints,  //
+        TransactionArchiveKey::Suggestions,  //
+        TransactionArchiveKey::Entities,     //
+    };
+  }
+};
 
 #endif  // RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_

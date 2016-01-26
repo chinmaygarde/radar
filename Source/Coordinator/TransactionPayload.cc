@@ -125,5 +125,21 @@ bool TransactionPayload::deserialize(core::Message& message,
   return true;
 }
 
+TransactionPayload::ArchiveName TransactionPayload::archiveName() const {
+  return core::ArchiveNameAuto;
+}
+
+bool TransactionPayload::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encode(TransactionArchiveKey::Action, _action);
+  return result;
+}
+
+bool TransactionPayload::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decode(TransactionArchiveKey::Action, _action);
+  return result;
+}
+
 }  // namespace coordinator
 }  // namespace rl

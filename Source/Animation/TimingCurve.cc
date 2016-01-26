@@ -107,13 +107,13 @@ static inline double TimingCurve_SolveX(double ax,
 
 TimingCurve TimingCurve::SystemTimingCurve(Type type) {
   switch (type) {
-    case Linear:
+    case Type::Linear:
       return TimingCurve({0.0, 0.0}, {1.0, 1.0});
-    case EaseIn:
+    case Type::EaseIn:
       return TimingCurve({0.42, 0.0}, {1.0, 1.0});
-    case EaseOut:
+    case Type::EaseOut:
       return TimingCurve({0.0, 0.0}, {0.58, 1.0});
-    case EaseInEaseOut:
+    case Type::EaseInEaseOut:
       return TimingCurve({0.42, 0.0}, {0.58, 1.0});
   }
 

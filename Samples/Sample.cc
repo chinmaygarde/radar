@@ -54,7 +54,7 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   auto rootHeight = root | Property::BoundsHeight;
 
   rl::interface::Action action;
-  action.setTimingCurveType(rl::animation::TimingCurve::EaseInEaseOut);
+  action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
   action.setAutoReverses(true);
   action.setDuration(rl::core::ClockDuration(0.5));
   action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);

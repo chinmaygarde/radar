@@ -17,22 +17,27 @@ RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
 using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
+    : Interface(delegate, nullptr) {}
+
+Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
+                     std::unique_ptr<core::Archive> spliceArchive)
     : _localNS(),
       _rootEntity(_localNS),
       _loop(nullptr),
       _popCount(0),
       _delegate(delegate),
+      _spliceArchive(std::move(spliceArchive)),
       _state({
 // clang-format off
-          #define C(x) std::bind(&Interface::x, this)
-          //    From        | To          | Callback
-          LT {  NotRunning,   Inactive,     C(didFinishLaunching)  },
-          LT {  NotRunning,   Background,   C(didEnterBackground)  },
-          LT {  Inactive,     NotRunning,   C(didTerminate)        },
-          LT {  Inactive,     Active,       C(didBecomeActive)     },
-          LT {  Active,       Inactive,     C(didBecomeInactive)   },
-          LT {  Background,   NotRunning,   C(didTerminate)        },
-          #undef C
+#define C(x) std::bind(&Interface::x, this)
+        //    From        | To          | Callback
+        LT {  NotRunning,   Inactive,     C(didFinishLaunching)  },
+        LT {  NotRunning,   Background,   C(didEnterBackground)  },
+        LT {  Inactive,     NotRunning,   C(didTerminate)        },
+        LT {  Inactive,     Active,       C(didBecomeActive)     },
+        LT {  Active,       Inactive,     C(didBecomeInactive)   },
+        LT {  Background,   NotRunning,   C(didTerminate)        },
+#undef C
           // clang-format on
       }) {
   /*
@@ -209,7 +214,7 @@ void Interface::flushTransactions() {
   core::Message arena;
 
   for (auto& transaction : _transactionStack) {
-    result &= transaction.commit(arena);
+    result &= transaction.commit(arena, _spliceArchive);
   }
 
   core::Messages messages;

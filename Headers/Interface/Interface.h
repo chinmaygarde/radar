@@ -45,6 +45,9 @@ class Interface {
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
+  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
+                     std::unique_ptr<core::Archive> spliceArchive);
+
   /**
    *  Setup the interface context and invoke the callback when ready
    *
@@ -130,6 +133,7 @@ class Interface {
   std::shared_ptr<core::Channel> _coordinatorChannel;
   toolbox::StateMachine _state;
   coordinator::InterfaceAcquisitionProtocol _interfaceAcquisition;
+  std::unique_ptr<core::Archive> _spliceArchive;
 
   void attemptCoordinatorChannelAcquisition();
   void onCoordinatorChannelAcquisition(core::IOResult result,

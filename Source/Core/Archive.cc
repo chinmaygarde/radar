@@ -477,7 +477,8 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
-bool ArchiveItem::encode(ArchiveSerializable::Member member, uint64_t item) {
+bool ArchiveItem::encodeIntegral(ArchiveSerializable::Member member,
+                                 uint64_t item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
@@ -493,13 +494,27 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
+bool ArchiveItem::encode(ArchiveSerializable::Member member,
+                         const ArchiveSerializable& other) {
+  auto found = IndexOfMember(_members, member);
+  if (found.second) {
+    /*
+     *  WIP: Needs to recurse
+     */
+    return _statement.bind(found.first, other.archiveName());
+  } else {
+    return false;
+  }
+}
+
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
                          std::string& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
-bool ArchiveItem::decode(ArchiveSerializable::Member member, uint64_t& item) {
+bool ArchiveItem::decodeIntegral(ArchiveSerializable::Member member,
+                                 uint64_t& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
@@ -512,6 +527,17 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member, double& item) {
 bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(ArchiveSerializable::Member member,
+                         const ArchiveSerializable& other) {
+  auto found = IndexOfMember(_members, member);
+  if (found.second) {
+    RL_ASSERT_MSG(false, "WIP");
+    return false;
+  } else {
+    return false;
+  }
 }
 
 }  // namespace core
