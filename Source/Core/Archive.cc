@@ -60,7 +60,8 @@ class Archive::Statement {
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
-  bool bind(size_t index, int64_t item) {
+  template <class T, class = only_if<std::is_integral<T>::value>>
+  bool bind(size_t index, T item) {
     return sqlite3_bind_int64(_statement,      //
                               ToParam(index),  //
                               item) == SQLITE_OK;
@@ -229,7 +230,7 @@ class Archive::Database {
     if (autoIncrement) {
       stream << " INTEGER PRIMARY KEY AUTOINCREMENT, ";
     } else {
-      stream << " INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
+      stream << " INTEGER PRIMARY KEY, ";
     }
     for (size_t i = 0; i < columns; i++) {
       stream << ArchiveColumnPrefix << std::to_string(i + 1);

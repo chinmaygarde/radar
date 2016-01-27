@@ -134,7 +134,7 @@ enum ArchiveKey {
   Proxy,
 };
 
-const core::ArchiveDef ArchiveDefinition = {
+const core::ArchiveDef Variable::ArchiveDefinition = {
     .autoAssignName = false,
     .className = "Variable",
     .members = {ArchiveKey::Property,  //

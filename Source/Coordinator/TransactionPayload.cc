@@ -149,12 +149,14 @@ TransactionPayload::ArchiveName TransactionPayload::archiveName() const {
 bool TransactionPayload::serialize(core::ArchiveItem& item) const {
   auto result = true;
   result &= item.encodeArchivable(TransactionArchiveKey::Action, _action);
+  result &= item.encode(TransactionArchiveKey::Constraints, _constraints);
   return result;
 }
 
 bool TransactionPayload::deserialize(core::ArchiveItem& item) {
   auto result = true;
   result &= item.decodeArchivable(TransactionArchiveKey::Action, _action);
+  result &= item.decode(TransactionArchiveKey::Constraints, _constraints);
   return result;
 }
 

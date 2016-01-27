@@ -90,6 +90,9 @@ class Archive {
 };
 
 class ArchiveItem {
+ private:
+  static const ArchiveDef VectorDefinition;
+
  public:
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool encode(ArchiveSerializable::Member member, T item) {
@@ -110,6 +113,15 @@ class ArchiveItem {
   template <class T, class = only_if<std::is_enum<T>::value>>
   bool encodeEnum(ArchiveSerializable::Member member, const T& item) {
     return encodeIntegral(member, static_cast<int64_t>(item));
+  }
+
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  bool encode(ArchiveSerializable::Member member, const std::vector<T>& item) {
+    /*
+     *  WIP
+     */
+    return false;
   }
 
   template <class T, class = only_if<std::is_integral<T>::value>>
@@ -141,6 +153,15 @@ class ArchiveItem {
     return false;
   }
 
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  bool decode(ArchiveSerializable::Member member, std::vector<T>& item) {
+    /*
+     *  WIP
+     */
+    return true;
+  }
+
   ArchiveSerializable::ArchiveName name() const;
 
  private:
@@ -158,6 +179,7 @@ class ArchiveItem {
 
   bool encodeIntegral(ArchiveSerializable::Member member, int64_t item);
   bool decodeIntegral(ArchiveSerializable::Member member, int64_t& item);
+
   bool encode(ArchiveSerializable::Member member,
               const ArchiveDef& otherDef,
               const ArchiveSerializable& other);

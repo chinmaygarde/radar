@@ -76,12 +76,13 @@ enum ArchiveKey {
   Constant,
 };
 
-const core::ArchiveDef ArchiveDefinition = {.autoAssignName = true,
-                                            .className = "Expression",
-                                            .members = {
-                                                ArchiveKey::Terms,    //
-                                                ArchiveKey::Constant  //
-                                            }};
+const core::ArchiveDef Expression::ArchiveDefinition = {
+    .autoAssignName = true,
+    .className = "Expression",
+    .members = {
+        ArchiveKey::Terms,    //
+        ArchiveKey::Constant  //
+    }};
 
 Expression::ArchiveName Expression::archiveName() const {
   return core::ArchiveNameAuto;
