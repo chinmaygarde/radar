@@ -119,5 +119,42 @@ bool Constraint::deserialize(core::Message& message, core::Namespace* ns) {
   return success;
 }
 
+enum ArchiveKey {
+  Expression,
+  Relation,
+  Priority,
+};
+
+const core::ArchiveDef ArchiveDefinition = {
+    .autoAssignName = false,
+    .className = "Constraint",
+    .members =
+        {
+            ArchiveKey::Expression,  //
+            ArchiveKey::Relation,    //
+            ArchiveKey::Priority     //
+        },
+};
+
+Constraint::ArchiveName Constraint::archiveName() const {
+  return *_identifier.handle();
+}
+
+bool Constraint::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encodeArchivable(ArchiveKey::Expression, _expression);
+  result &= item.encodeEnum(ArchiveKey::Relation, _relation);
+  result &= item.encode(ArchiveKey::Priority, _priority);
+  return result;
+}
+
+bool Constraint::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decodeArchivable(ArchiveKey::Expression, _expression);
+  result &= item.decodeEnum(ArchiveKey::Relation, _relation);
+  result &= item.decode(ArchiveKey::Priority, _priority);
+  return result;
+}
+
 }  // namespace layout
 }  // namespace rl

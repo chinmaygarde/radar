@@ -129,5 +129,35 @@ bool Variable::deserialize(core::Message& message, core::Namespace* ns) {
   return success;
 }
 
+enum ArchiveKey {
+  Property,
+  Proxy,
+};
+
+const core::ArchiveDef ArchiveDefinition = {
+    .autoAssignName = false,
+    .className = "Variable",
+    .members = {ArchiveKey::Property,  //
+                ArchiveKey::Proxy},
+};
+
+Variable::ArchiveName Variable::archiveName() const {
+  return *_identifier.handle();
+}
+
+bool Variable::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encodeEnum(ArchiveKey::Property, _property);
+  result &= item.encodeEnum(ArchiveKey::Proxy, _proxy);
+  return result;
+}
+
+bool Variable::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decodeEnum(ArchiveKey::Property, _property);
+  result &= item.decodeEnum(ArchiveKey::Proxy, _proxy);
+  return result;
+}
+
 }  // namespace layout
 }  // namespace rl

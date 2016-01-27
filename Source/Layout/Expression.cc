@@ -71,5 +71,35 @@ bool Expression::deserialize(core::Message& message, core::Namespace* ns) {
   return success;
 }
 
+enum ArchiveKey {
+  Terms,
+  Constant,
+};
+
+const core::ArchiveDef ArchiveDefinition = {.autoAssignName = true,
+                                            .className = "Expression",
+                                            .members = {
+                                                ArchiveKey::Terms,    //
+                                                ArchiveKey::Constant  //
+                                            }};
+
+Expression::ArchiveName Expression::archiveName() const {
+  return core::ArchiveNameAuto;
+}
+
+bool Expression::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encode(ArchiveKey::Terms, _terms);
+  result &= item.encode(ArchiveKey::Constant, _constant);
+  return result;
+}
+
+bool Expression::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decode(ArchiveKey::Terms, _terms);
+  result &= item.decode(ArchiveKey::Constant, _constant);
+  return result;
+}
+
 }  // namespace layout
 }  // namespace rl

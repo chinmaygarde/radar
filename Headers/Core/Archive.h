@@ -26,7 +26,6 @@ class ArchiveSerializable {
   using ArchiveName = uint64_t;
 
   virtual ArchiveName archiveName() const = 0;
-
   virtual bool serialize(ArchiveItem& item) const = 0;
   virtual bool deserialize(ArchiveItem& item) = 0;
 };
@@ -94,7 +93,7 @@ class ArchiveItem {
  public:
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool encode(ArchiveSerializable::Member member, T item) {
-    return encodeIntegral(member, static_cast<uint64_t>(item));
+    return encodeIntegral(member, static_cast<int64_t>(item));
   }
 
   bool encode(ArchiveSerializable::Member member, double item);
@@ -108,9 +107,14 @@ class ArchiveItem {
     return encode(member, otherDef, other);
   }
 
+  template <class T, class = only_if<std::is_enum<T>::value>>
+  bool encodeEnum(ArchiveSerializable::Member member, const T& item) {
+    return encodeIntegral(member, static_cast<int64_t>(item));
+  }
+
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool decode(ArchiveSerializable::Member member, T& item) {
-    uint64_t decoded = 0;
+    int64_t decoded = 0;
     auto result = decodeIntegral(member, decoded);
     item = static_cast<T>(decoded);
     return result;
@@ -125,6 +129,16 @@ class ArchiveItem {
   bool decodeArchivable(ArchiveSerializable::Member member, T& other) {
     const ArchiveDef& otherDef = T::ArchiveDefinition;
     return decode(member, otherDef, other);
+  }
+
+  template <class T, class = only_if<std::is_enum<T>::value>>
+  bool decodeEnum(ArchiveSerializable::Member member, T& item) {
+    int64_t desugared = 0;
+    if (decodeIntegral(member, desugared)) {
+      item = static_cast<T>(desugared);
+      return true;
+    }
+    return false;
   }
 
   ArchiveSerializable::ArchiveName name() const;
@@ -142,8 +156,8 @@ class ArchiveItem {
               const ArchiveSerializable::Members& members,
               ArchiveSerializable::ArchiveName name);
 
-  bool encodeIntegral(ArchiveSerializable::Member member, uint64_t item);
-  bool decodeIntegral(ArchiveSerializable::Member member, uint64_t& item);
+  bool encodeIntegral(ArchiveSerializable::Member member, int64_t item);
+  bool decodeIntegral(ArchiveSerializable::Member member, int64_t& item);
   bool encode(ArchiveSerializable::Member member,
               const ArchiveDef& otherDef,
               const ArchiveSerializable& other);

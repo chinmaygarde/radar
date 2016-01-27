@@ -60,7 +60,7 @@ class Archive::Statement {
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
-  bool bind(size_t index, uint64_t item) {
+  bool bind(size_t index, int64_t item) {
     return sqlite3_bind_int64(_statement,      //
                               ToParam(index),  //
                               item) == SQLITE_OK;
@@ -80,7 +80,7 @@ class Archive::Statement {
                              SQLITE_TRANSIENT) == SQLITE_OK;
   }
 
-  bool column(size_t index, uint64_t& item) {
+  bool column(size_t index, int64_t& item) {
     item = sqlite3_column_int64(_statement, ToColumn(index));
     return true;
   }
@@ -493,7 +493,7 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
 }
 
 bool ArchiveItem::encodeIntegral(ArchiveSerializable::Member member,
-                                 uint64_t item) {
+                                 int64_t item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
@@ -544,7 +544,7 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member,
 }
 
 bool ArchiveItem::decodeIntegral(ArchiveSerializable::Member member,
-                                 uint64_t& item) {
+                                 int64_t& item) {
   auto found = IndexOfMember(_members, member);
   return found.second ? _statement.column(found.first, item) : false;
 }

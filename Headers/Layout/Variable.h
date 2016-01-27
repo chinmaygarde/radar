@@ -12,7 +12,8 @@
 namespace rl {
 namespace layout {
 
-class Variable : public core::MessageSerializable {
+class Variable : public core::ArchiveSerializable,
+                 public core::MessageSerializable {
  public:
   using PropertyType = uint8_t;
   enum class Property : PropertyType {
@@ -65,6 +66,14 @@ class Variable : public core::MessageSerializable {
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
+
+  static const core::ArchiveDef ArchiveDefinition;
+
+  ArchiveName archiveName() const override;
+
+  bool serialize(core::ArchiveItem& item) const override;
+
+  bool deserialize(core::ArchiveItem& item) override;
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {

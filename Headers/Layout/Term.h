@@ -11,7 +11,8 @@
 namespace rl {
 namespace layout {
 
-class Term : public core::MessageSerializable {
+class Term : public core::ArchiveSerializable,
+             public core::MessageSerializable {
  public:
   Term();
 
@@ -26,6 +27,14 @@ class Term : public core::MessageSerializable {
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
+
+  static const core::ArchiveDef ArchiveDefinition;
+
+  ArchiveName archiveName() const override;
+
+  bool serialize(core::ArchiveItem& item) const override;
+
+  bool deserialize(core::ArchiveItem& item) override;
 
  private:
   Variable _variable;

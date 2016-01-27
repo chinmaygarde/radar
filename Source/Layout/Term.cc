@@ -40,5 +40,42 @@ bool Term::deserialize(core::Message& message, core::Namespace* ns) {
   return success;
 }
 
+enum ArchiveKey {
+  Variable,
+  Coefficient,
+  Constant,
+};
+
+const core::ArchiveDef ArchiveDefinition = {
+    .autoAssignName = true,
+    .className = "Term",
+    .members =
+        {
+            ArchiveKey::Variable,     //
+            ArchiveKey::Coefficient,  //
+            ArchiveKey::Constant      //
+        },
+};
+
+Term::ArchiveName Term::archiveName() const {
+  return core::ArchiveNameAuto;
+}
+
+bool Term::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encodeArchivable(ArchiveKey::Variable, _variable);
+  result &= item.encode(ArchiveKey::Coefficient, _coefficient);
+  result &= item.encode(ArchiveKey::Constant, _constant);
+  return result;
+}
+
+bool Term::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decodeArchivable(ArchiveKey::Variable, _variable);
+  result &= item.decode(ArchiveKey::Coefficient, _coefficient);
+  result &= item.decode(ArchiveKey::Constant, _constant);
+  return result;
+}
+
 }  // namespace layout
 }  // namespace rl
