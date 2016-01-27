@@ -133,8 +133,8 @@ enum TransactionArchiveKey {
 };
 
 const core::ArchiveDef TransactionPayload::ArchiveDefinition = {
-    .className = "TransactionPayload",
     .autoAssignName = true,
+    .className = "TransactionPayload",
     .members = {
         TransactionArchiveKey::Action,       //
         TransactionArchiveKey::Constraints,  //
