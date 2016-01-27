@@ -9,6 +9,7 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 
+#include <set>
 #include <map>
 #include <string>
 #include <vector>
@@ -30,14 +31,12 @@ class ArchiveSerializable {
   virtual bool deserialize(ArchiveItem& item) = 0;
 };
 
-static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;
-
-template <class T>
-class ArchiveDef {
- public:
-  std::string className() const;
-  ArchiveSerializable::Members members() const;
+struct ArchiveDef {
+  const std::string className;
+  const ArchiveSerializable::Members members;
 };
+
+static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;
 
 class Archive {
  public:
@@ -47,24 +46,23 @@ class Archive {
 
   bool isReady() const;
 
-  template <class T>
-  bool registerDefinition() {
-    ArchiveDef<T> definition;
-    return registerClass(definition.className(), definition.members());
-  }
-
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool archive(const T& archivable) {
-    ArchiveDef<T> definition;
-    return archiveInstance(definition.className(), archivable);
+    const ArchiveDef& def = T::ArchiveDefinition;
+    return archiveInstance(def.className,  //
+                           def.members,    //
+                           archivable);
   }
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool unarchive(ArchiveSerializable::ArchiveName name, T& archivable) {
-    ArchiveDef<T> definition;
-    return unarchiveInstance(name, definition.className(), archivable);
+    const ArchiveDef& def = T::ArchiveDefinition;
+    return unarchiveInstance(def.className,  //
+                             def.members,    //
+                             name,           //
+                             archivable);
   }
 
  private:
@@ -74,11 +72,9 @@ class Archive {
 
   friend class ArchiveItem;
 
-  using Registrations = std::map<std::string, ArchiveSerializable::Members>;
-
   std::unique_ptr<Database> _db;
   size_t _transactionCount;
-  Registrations _registrations;
+  std::set<std::string> _registrations;
   std::map<std::string, std::unique_ptr<Statement>> _insertStatements;
   std::map<std::string, std::unique_ptr<Statement>> _queryStatements;
   std::unique_ptr<Statement> _beginTransactionStatement;
@@ -88,12 +84,14 @@ class Archive {
   Statement& cachedQueryStatement(const std::string& name, size_t members);
 
   void setupTransactionStatements();
-  bool registerClass(const std::string& name,
-                     const ArchiveSerializable::Members& members);
+  bool registerDefinition(const std::string& className,
+                          const ArchiveSerializable::Members& members);
   bool archiveInstance(const std::string& className,
+                       const ArchiveSerializable::Members& members,
                        const ArchiveSerializable& archivable);
-  bool unarchiveInstance(ArchiveSerializable::ArchiveName name,
-                         const std::string& className,
+  bool unarchiveInstance(const std::string& className,
+                         const ArchiveSerializable::Members& members,
+                         ArchiveSerializable::ArchiveName name,
                          ArchiveSerializable& archivable);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);

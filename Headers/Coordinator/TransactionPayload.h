@@ -49,7 +49,8 @@ class TransactionPayload : public core::ArchiveSerializable,
   /*
    *  Archive Serialization
    */
-  ArchiveName archiveName() const override;
+  static const core::ArchiveDef ArchiveDefinition;
+  core::ArchiveSerializable::ArchiveName archiveName() const override;
   bool serialize(core::ArchiveItem& item) const override;
   bool deserialize(core::ArchiveItem& item) override;
 
@@ -76,27 +77,5 @@ class TransactionPayload : public core::ArchiveSerializable,
 
 }  // namespace coordinator
 }  // namespace rl
-
-enum TransactionArchiveKey {
-  Action,
-  Constraints,
-  Suggestions,
-  Entities,
-};
-
-template <>
-class rl::core::ArchiveDef<rl::coordinator::TransactionPayload> {
- public:
-  std::string className() const { return "TransactionPayload"; }
-
-  ArchiveSerializable::Members members() const {
-    return {
-        TransactionArchiveKey::Action,       //
-        TransactionArchiveKey::Constraints,  //
-        TransactionArchiveKey::Suggestions,  //
-        TransactionArchiveKey::Entities,     //
-    };
-  }
-};
 
 #endif  // RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_

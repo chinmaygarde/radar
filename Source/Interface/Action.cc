@@ -4,32 +4,6 @@
 
 #include <Interface/Action.h>
 
-enum ActionArchiveKey {
-  Duration,
-  RepeatCount,
-  AutoReverses,
-  PropertyMask,
-  TimingCurveType,
-};
-
-template <>
-class rl::core::ArchiveDef<rl::interface::Action> {
- public:
-  std::string className() const {  //
-    return "Action";
-  }
-
-  ArchiveSerializable::Members members() const {
-    return {
-        ActionArchiveKey::Duration,         //
-        ActionArchiveKey::RepeatCount,      //
-        ActionArchiveKey::AutoReverses,     //
-        ActionArchiveKey::PropertyMask,     //
-        ActionArchiveKey::TimingCurveType,  //
-    };
-  }
-};
-
 namespace rl {
 namespace interface {
 
@@ -118,6 +92,24 @@ bool Action::deserialize(core::Message& message, core::Namespace* ns) {
   resolveCurve();
   return result;
 }
+
+enum ActionArchiveKey {
+  Duration,
+  RepeatCount,
+  AutoReverses,
+  PropertyMask,
+  TimingCurveType,
+};
+
+const core::ArchiveDef Action::ArchiveDefinition = {
+    .className = "Action",
+    .members = {
+        ActionArchiveKey::Duration,        //
+        ActionArchiveKey::RepeatCount,     //
+        ActionArchiveKey::AutoReverses,    //
+        ActionArchiveKey::PropertyMask,    //
+        ActionArchiveKey::TimingCurveType  //
+    }};
 
 Action::ArchiveName Action::archiveName() const {
   return core::ArchiveNameAuto;

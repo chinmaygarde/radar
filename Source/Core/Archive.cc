@@ -12,8 +12,8 @@
 namespace rl {
 namespace core {
 
-static const char* ArchiveColumnPrefix = "col_";
-static const char* ArchivePrimaryKeyColumnName = "archive_name";
+static const char* ArchiveColumnPrefix = "item";
+static const char* ArchivePrimaryKeyColumnName = "name";
 static size_t ArchivePrimaryKeyIndex = 0;
 
 class Archive::Statement {
@@ -198,6 +198,7 @@ class Archive::Transaction {
 class Archive::Database {
  public:
   Database(const std::string& filename) : _db(nullptr) {
+    ::remove(filename.c_str());
     auto res = sqlite3_open(filename.c_str(), &_db);
     _ready = res == SQLITE_OK && _db != nullptr;
   }
@@ -275,9 +276,9 @@ void Archive::setupTransactionStatements() {
             _endTransactionStatement->isReady());
 }
 
-bool Archive::registerClass(const std::string& name,
-                            const ArchiveSerializable::Members& members) {
-  auto found = _registrations.find(name);
+bool Archive::registerDefinition(const std::string& className,
+                                 const ArchiveSerializable::Members& members) {
+  auto found = _registrations.find(className);
   if (found != _registrations.end()) {
     /*
      *  This class has already been registered
@@ -285,7 +286,7 @@ bool Archive::registerClass(const std::string& name,
     return false;
   }
 
-  auto tableCreated = _db->createTable(name, members.size());
+  auto tableCreated = _db->createTable(className, members.size());
 
   if (!tableCreated) {
     /*
@@ -294,8 +295,8 @@ bool Archive::registerClass(const std::string& name,
     return false;
   }
 
-  _registrations[name] = members;
-  return true;
+  auto res = _registrations.emplace(className);
+  return res.second;
 }
 
 bool Archive::isReady() const {
@@ -352,6 +353,7 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
 }
 
 bool Archive::archiveInstance(const std::string& className,
+                              const ArchiveSerializable::Members& members,
                               const ArchiveSerializable& archivable) {
   if (!isReady()) {
     return false;
@@ -362,15 +364,12 @@ bool Archive::archiveInstance(const std::string& className,
 
   auto registration = _registrations.find(className);
 
-  if (registration == _registrations.end()) {
-    /*
-     *  There were no registrations for this class
-     */
+  if (registration == _registrations.end() &&
+      !registerDefinition(className, members)) {
     return false;
   }
 
-  auto& statement =
-      cachedInsertStatement(registration->first, registration->second.size());
+  auto& statement = cachedInsertStatement(className, members.size());
 
   if (!statement.isReady() || !statement.reset()) {
     /*
@@ -386,7 +385,7 @@ bool Archive::archiveInstance(const std::string& className,
    */
   auto itemName = archivable.archiveName();
 
-  ArchiveItem item(itemName, registration->second, statement);
+  ArchiveItem item(itemName, members, statement);
 
   if (!statement.bind(ArchivePrimaryKeyIndex, itemName)) {
     return false;
@@ -401,8 +400,9 @@ bool Archive::archiveInstance(const std::string& className,
   return statement.run() == Statement::Result::Done;
 }
 
-bool Archive::unarchiveInstance(ArchiveSerializable::ArchiveName name,
-                                const std::string& className,
+bool Archive::unarchiveInstance(const std::string& className,
+                                const ArchiveSerializable::Members& members,
+                                ArchiveSerializable::ArchiveName name,
                                 ArchiveSerializable& archivable) {
   if (!isReady()) {
     return false;
@@ -410,15 +410,13 @@ bool Archive::unarchiveInstance(ArchiveSerializable::ArchiveName name,
 
   auto registration = _registrations.find(className);
 
-  if (registration == _registrations.end()) {
-    /*
-     *  There were no registrations for this storage class
-     */
+  if (registration == _registrations.end() &&
+      !registerDefinition(className, members)) {
     return false;
   }
 
-  auto membersCount = registration->second.size();
-  auto& statement = cachedQueryStatement(registration->first, membersCount);
+  auto membersCount = members.size();
+  auto& statement = cachedQueryStatement(className, membersCount);
 
   if (!statement.isReady()) {
     return false;
@@ -437,7 +435,7 @@ bool Archive::unarchiveInstance(ArchiveSerializable::ArchiveName name,
     return false;
   }
 
-  ArchiveItem item(name, registration->second, statement);
+  ArchiveItem item(name, members, statement);
 
   auto result = archivable.deserialize(item);
 

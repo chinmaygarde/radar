@@ -125,6 +125,22 @@ bool TransactionPayload::deserialize(core::Message& message,
   return true;
 }
 
+enum TransactionArchiveKey {
+  Action,
+  Constraints,
+  Suggestions,
+  Entities,
+};
+
+const core::ArchiveDef TransactionPayload::ArchiveDefinition = {
+    .className = "TransactionPayload",
+    .members = {
+        TransactionArchiveKey::Action,       //
+        TransactionArchiveKey::Constraints,  //
+        TransactionArchiveKey::Suggestions,  //
+        TransactionArchiveKey::Entities,     //
+    }};
+
 TransactionPayload::ArchiveName TransactionPayload::archiveName() const {
   return core::ArchiveNameAuto;
 }
