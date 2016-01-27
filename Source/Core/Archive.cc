@@ -392,15 +392,21 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
   }
 
   /*
-   *  The lifecycle of this item is tied to this scope and there is no way for
-   *  the user to create an instance of an archive item. So pass the argument
-   *  by reference.
+   *  The lifecycle of the archive item is tied to this scope and there is no
+   *  way for the user to create an instance of an archive item. So its safe
+   *  for its members to be references. It does not manage the lifetimes of
+   *  anything.
    */
+
   auto itemName = archivable.archiveName();
 
   ArchiveItem item(*this, statement, members, itemName);
 
-  if (!statement.bind(ArchivePrimaryKeyIndex, itemName)) {
+  /*
+   *  We need to bind the primary key only if the item does not provide its own
+   */
+  if (!definition.autoAssignName &&
+      !statement.bind(ArchivePrimaryKeyIndex, itemName)) {
     return false;
   }
 
