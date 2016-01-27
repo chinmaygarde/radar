@@ -96,11 +96,17 @@ class ArchiveItem {
   bool encode(ArchiveSerializable::Member member, T item) {
     return encodeIntegral(member, static_cast<uint64_t>(item));
   }
+
   bool encode(ArchiveSerializable::Member member, double item);
   bool encode(ArchiveSerializable::Member member, const std::string& item);
   bool encode(ArchiveSerializable::Member member, const Allocation& allocation);
-  bool encode(ArchiveSerializable::Member member,
-              const ArchiveSerializable& other);
+
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  bool encodeArchivable(ArchiveSerializable::Member member, const T& other) {
+    const ArchiveDef& otherDef = T::ArchiveDefinition;
+    return encode(member, otherDef, other);
+  }
 
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool decode(ArchiveSerializable::Member member, T& item) {
@@ -109,27 +115,41 @@ class ArchiveItem {
     item = static_cast<T>(decoded);
     return result;
   }
+
   bool decode(ArchiveSerializable::Member member, double& item);
   bool decode(ArchiveSerializable::Member member, std::string& item);
   bool decode(ArchiveSerializable::Member member, Allocation& allocation);
-  bool decode(ArchiveSerializable::Member member,
-              const ArchiveSerializable& other);
+
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  bool decodeArchivable(ArchiveSerializable::Member member, T& other) {
+    const ArchiveDef& otherDef = T::ArchiveDefinition;
+    return decode(member, otherDef, other);
+  }
 
   ArchiveSerializable::ArchiveName name() const;
 
  private:
-  ArchiveSerializable::ArchiveName _name;
-  const ArchiveSerializable::Members& _members;
+  Archive& _context;
   Archive::Statement& _statement;
+  const ArchiveSerializable::Members& _members;
+  ArchiveSerializable::ArchiveName _name;
 
   friend class Archive;
 
-  ArchiveItem(ArchiveSerializable::ArchiveName name,
+  ArchiveItem(Archive& context,
+              Archive::Statement& statement,
               const ArchiveSerializable::Members& members,
-              Archive::Statement& statement);
+              ArchiveSerializable::ArchiveName name);
 
   bool encodeIntegral(ArchiveSerializable::Member member, uint64_t item);
   bool decodeIntegral(ArchiveSerializable::Member member, uint64_t& item);
+  bool encode(ArchiveSerializable::Member member,
+              const ArchiveDef& otherDef,
+              const ArchiveSerializable& other);
+  bool decode(ArchiveSerializable::Member member,
+              const ArchiveDef& otherDef,
+              ArchiveSerializable& other);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);
 };

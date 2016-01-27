@@ -397,7 +397,7 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
    */
   auto itemName = archivable.archiveName();
 
-  ArchiveItem item(itemName, members, statement);
+  ArchiveItem item(*this, statement, members, itemName);
 
   if (!statement.bind(ArchivePrimaryKeyIndex, itemName)) {
     return false;
@@ -448,7 +448,7 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  ArchiveItem item(name, members, statement);
+  ArchiveItem item(*this, statement, members, name);
 
   auto result = archivable.deserialize(item);
 
@@ -457,10 +457,14 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
   return result;
 }
 
-ArchiveItem::ArchiveItem(ArchiveSerializable::ArchiveName name,
+ArchiveItem::ArchiveItem(Archive& context,
+                         Archive::Statement& statement,
                          const ArchiveSerializable::Members& members,
-                         Archive::Statement& statement)
-    : _name(name), _members(members), _statement(statement) {}
+                         ArchiveSerializable::ArchiveName name)
+    : _context(context),
+      _statement(statement),
+      _members(members),
+      _name(name) {}
 
 ArchiveSerializable::ArchiveName ArchiveItem::name() const {
   return _name;
@@ -506,16 +510,31 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
 }
 
 bool ArchiveItem::encode(ArchiveSerializable::Member member,
+                         const ArchiveDef& otherDef,
                          const ArchiveSerializable& other) {
   auto found = IndexOfMember(_members, member);
-  if (found.second) {
-    /*
-     *  WIP: Needs to recurse
-     */
-    return _statement.bind(found.first, other.archiveName());
-  } else {
+
+  if (!found.second) {
     return false;
   }
+
+  /*
+   *  We need to fully archive the other instance first because it could
+   *  have a name that is auto assigned. In that case, we cannot ask it before
+   *  archival (via `other.archiveName()`).
+   */
+  if (!_context.archiveInstance(otherDef, other)) {
+    return false;
+  }
+
+  /*
+   *  Bind the name of the serialiable
+   */
+  if (!_statement.bind(found.first, other.archiveName() /* WIP: WRONG  */)) {
+    return false;
+  }
+
+  return true;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
@@ -541,7 +560,8 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
-                         const ArchiveSerializable& other) {
+                         const ArchiveDef& otherDef,
+                         ArchiveSerializable& other) {
   auto found = IndexOfMember(_members, member);
   if (found.second) {
     RL_ASSERT_MSG(false, "WIP");
