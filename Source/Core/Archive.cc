@@ -211,6 +211,8 @@ class Archive::Database {
 
   bool isReady() const { return _ready; }
 
+  int64_t lastInsertRowID() { return sqlite3_last_insert_rowid(_db); }
+
   bool createTable(const std::string& name,
                    size_t columns,
                    bool autoIncrement) {
@@ -365,7 +367,8 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
 }
 
 bool Archive::archiveInstance(const ArchiveDef& definition,
-                              const ArchiveSerializable& archivable) {
+                              const ArchiveSerializable& archivable,
+                              int64_t& lastInsertIDOut) {
   if (!isReady()) {
     return false;
   }
@@ -410,13 +413,22 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  auto clientWrite = archivable.serialize(item);
-
-  if (!clientWrite) {
+  if (!archivable.serialize(item)) {
     return false;
   }
 
-  return statement.run() == Statement::Result::Done;
+  if (statement.run() != Statement::Result::Done) {
+    return false;
+  }
+
+  auto lastInsert = _db->lastInsertRowID();
+
+  if (!definition.autoAssignName && lastInsert != itemName) {
+    return false;
+  }
+
+  lastInsertIDOut = lastInsert;
+  return true;
 }
 
 bool Archive::unarchiveInstance(const ArchiveDef& definition,
@@ -530,14 +542,15 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
    *  have a name that is auto assigned. In that case, we cannot ask it before
    *  archival (via `other.archiveName()`).
    */
-  if (!_context.archiveInstance(otherDef, other)) {
+  int64_t lastInsert = 0;
+  if (!_context.archiveInstance(otherDef, other, lastInsert)) {
     return false;
   }
 
   /*
    *  Bind the name of the serialiable
    */
-  if (!_statement.bind(found.first, other.archiveName() /* WIP: WRONG  */)) {
+  if (!_statement.bind(found.first, lastInsert)) {
     return false;
   }
 

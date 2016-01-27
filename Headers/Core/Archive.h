@@ -50,7 +50,8 @@ class Archive {
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool archive(const T& archivable) {
     const ArchiveDef& def = T::ArchiveDefinition;
-    return archiveInstance(def, archivable);
+    int64_t unusedLast = 0;
+    return archiveInstance(def, archivable, unusedLast);
   }
 
   template <class T,
@@ -81,7 +82,8 @@ class Archive {
   void setupTransactionStatements();
   bool registerDefinition(const ArchiveDef& definition);
   bool archiveInstance(const ArchiveDef& definition,
-                       const ArchiveSerializable& archivable);
+                       const ArchiveSerializable& archivable,
+                       int64_t& lastInsertID);
   bool unarchiveInstance(const ArchiveDef& definition,
                          ArchiveSerializable::ArchiveName name,
                          ArchiveSerializable& archivable);
@@ -121,7 +123,7 @@ class ArchiveItem {
     /*
      *  WIP
      */
-    return false;
+    return true;
   }
 
   template <class T, class = only_if<std::is_integral<T>::value>>
