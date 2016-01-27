@@ -103,6 +103,7 @@ enum ActionArchiveKey {
 
 const core::ArchiveDef Action::ArchiveDefinition = {
     .className = "Action",
+    .autoAssignName = true,
     .members = {
         ActionArchiveKey::Duration,        //
         ActionArchiveKey::RepeatCount,     //

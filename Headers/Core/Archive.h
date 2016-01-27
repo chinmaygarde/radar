@@ -34,6 +34,7 @@ class ArchiveSerializable {
 struct ArchiveDef {
   const std::string className;
   const ArchiveSerializable::Members members;
+  const bool autoAssignName;
 };
 
 static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;
@@ -50,19 +51,14 @@ class Archive {
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool archive(const T& archivable) {
     const ArchiveDef& def = T::ArchiveDefinition;
-    return archiveInstance(def.className,  //
-                           def.members,    //
-                           archivable);
+    return archiveInstance(def, archivable);
   }
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool unarchive(ArchiveSerializable::ArchiveName name, T& archivable) {
     const ArchiveDef& def = T::ArchiveDefinition;
-    return unarchiveInstance(def.className,  //
-                             def.members,    //
-                             name,           //
-                             archivable);
+    return unarchiveInstance(def, name, archivable);
   }
 
  private:
@@ -80,17 +76,14 @@ class Archive {
   std::unique_ptr<Statement> _beginTransactionStatement;
   std::unique_ptr<Statement> _endTransactionStatement;
 
-  Statement& cachedInsertStatement(const std::string& name, size_t members);
+  Statement& cachedInsertStatement(const ArchiveDef& definition);
   Statement& cachedQueryStatement(const std::string& name, size_t members);
 
   void setupTransactionStatements();
-  bool registerDefinition(const std::string& className,
-                          const ArchiveSerializable::Members& members);
-  bool archiveInstance(const std::string& className,
-                       const ArchiveSerializable::Members& members,
+  bool registerDefinition(const ArchiveDef& definition);
+  bool archiveInstance(const ArchiveDef& definition,
                        const ArchiveSerializable& archivable);
-  bool unarchiveInstance(const std::string& className,
-                         const ArchiveSerializable::Members& members,
+  bool unarchiveInstance(const ArchiveDef& definition,
                          ArchiveSerializable::ArchiveName name,
                          ArchiveSerializable& archivable);
 

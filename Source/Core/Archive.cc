@@ -210,7 +210,9 @@ class Archive::Database {
 
   bool isReady() const { return _ready; }
 
-  bool createTable(const std::string& name, size_t columns) {
+  bool createTable(const std::string& name,
+                   size_t columns,
+                   bool autoIncrement) {
     if (!_ready || name.size() == 0 || columns == 0) {
       return false;
     }
@@ -222,8 +224,13 @@ class Archive::Database {
      *  a statement and check its validity before running.
      */
     stream << "CREATE TABLE IF NOT EXISTS " << name.c_str() << " (";
-    stream << ArchivePrimaryKeyColumnName
-           << " INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
+    stream << ArchivePrimaryKeyColumnName;
+
+    if (autoIncrement) {
+      stream << " INTEGER PRIMARY KEY AUTOINCREMENT, ";
+    } else {
+      stream << " INTEGER UNIQUE PRIMARY KEY NOT NULL, ";
+    }
     for (size_t i = 0; i < columns; i++) {
       stream << ArchiveColumnPrefix << std::to_string(i + 1);
       if (i != columns - 1) {
@@ -276,9 +283,8 @@ void Archive::setupTransactionStatements() {
             _endTransactionStatement->isReady());
 }
 
-bool Archive::registerDefinition(const std::string& className,
-                                 const ArchiveSerializable::Members& members) {
-  auto found = _registrations.find(className);
+bool Archive::registerDefinition(const ArchiveDef& definition) {
+  auto found = _registrations.find(definition.className);
   if (found != _registrations.end()) {
     /*
      *  This class has already been registered
@@ -286,7 +292,9 @@ bool Archive::registerDefinition(const std::string& className,
     return false;
   }
 
-  auto tableCreated = _db->createTable(className, members.size());
+  auto tableCreated = _db->createTable(definition.className,       //
+                                       definition.members.size(),  //
+                                       definition.autoAssignName);
 
   if (!tableCreated) {
     /*
@@ -295,7 +303,7 @@ bool Archive::registerDefinition(const std::string& className,
     return false;
   }
 
-  auto res = _registrations.emplace(className);
+  auto res = _registrations.emplace(definition.className);
   return res.second;
 }
 
@@ -303,9 +311,12 @@ bool Archive::isReady() const {
   return _db->isReady();
 }
 
-Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
-                                                   size_t members) {
-  auto found = _insertStatements.find(name);
+Archive::Statement& Archive::cachedInsertStatement(
+    const ArchiveDef& definition) {
+  const auto& name = definition.className;
+  const auto membersCount = definition.members.size();
+
+  auto found = _insertStatements.find(definition.className);
 
   if (found != _insertStatements.end()) {
     return *(found->second);
@@ -313,9 +324,9 @@ Archive::Statement& Archive::cachedInsertStatement(const std::string& name,
 
   std::stringstream stream;
   stream << "INSERT OR REPLACE INTO " << name << " VALUES ( ?, ";
-  for (size_t i = 0; i < members; i++) {
+  for (size_t i = 0; i < membersCount; i++) {
     stream << "?";
-    if (i != members - 1) {
+    if (i != membersCount - 1) {
       stream << ", ";
     }
   }
@@ -352,8 +363,7 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
   return *((*(inserted.first)).second);
 }
 
-bool Archive::archiveInstance(const std::string& className,
-                              const ArchiveSerializable::Members& members,
+bool Archive::archiveInstance(const ArchiveDef& definition,
                               const ArchiveSerializable& archivable) {
   if (!isReady()) {
     return false;
@@ -362,14 +372,16 @@ bool Archive::archiveInstance(const std::string& className,
   Transaction transaction(_transactionCount, *_beginTransactionStatement,
                           *_endTransactionStatement);
 
+  const auto& className = definition.className;
+  const auto& members = definition.members;
+
   auto registration = _registrations.find(className);
 
-  if (registration == _registrations.end() &&
-      !registerDefinition(className, members)) {
+  if (registration == _registrations.end() && !registerDefinition(definition)) {
     return false;
   }
 
-  auto& statement = cachedInsertStatement(className, members.size());
+  auto& statement = cachedInsertStatement(definition);
 
   if (!statement.isReady() || !statement.reset()) {
     /*
@@ -400,18 +412,19 @@ bool Archive::archiveInstance(const std::string& className,
   return statement.run() == Statement::Result::Done;
 }
 
-bool Archive::unarchiveInstance(const std::string& className,
-                                const ArchiveSerializable::Members& members,
+bool Archive::unarchiveInstance(const ArchiveDef& definition,
                                 ArchiveSerializable::ArchiveName name,
                                 ArchiveSerializable& archivable) {
+  const auto& className = definition.className;
+  const auto& members = definition.members;
+
   if (!isReady()) {
     return false;
   }
 
   auto registration = _registrations.find(className);
 
-  if (registration == _registrations.end() &&
-      !registerDefinition(className, members)) {
+  if (registration == _registrations.end() && !registerDefinition(definition)) {
     return false;
   }
 
