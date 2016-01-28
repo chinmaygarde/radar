@@ -99,5 +99,42 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
   return suggestions;
 }
 
+enum ArchiveKey {
+  Variable,
+  Value,
+  Priority,
+};
+
+const core::ArchiveDef Suggestion::ArchiveDefinition = {
+    .autoAssignName = true,
+    .className = "Suggestion",
+    .members =
+        {
+            ArchiveKey::Variable,  //
+            ArchiveKey::Value,     //
+            ArchiveKey::Priority   //
+        },
+};
+
+Suggestion::ArchiveName Suggestion::archiveName() const {
+  return core::ArchiveNameAuto;
+}
+
+bool Suggestion::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= item.encodeArchivable(ArchiveKey::Variable, _variable);
+  result &= item.encode(ArchiveKey::Value, _value);
+  result &= item.encode(ArchiveKey::Priority, _priority);
+  return result;
+}
+
+bool Suggestion::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= item.decodeArchivable(ArchiveKey::Variable, _variable);
+  result &= item.decode(ArchiveKey::Value, _value);
+  result &= item.decode(ArchiveKey::Priority, _priority);
+  return result;
+}
+
 }  // namespace layout
 }  // namespace rl

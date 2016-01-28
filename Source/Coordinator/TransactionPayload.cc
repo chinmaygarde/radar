@@ -150,6 +150,7 @@ bool TransactionPayload::serialize(core::ArchiveItem& item) const {
   auto result = true;
   result &= item.encodeArchivable(TransactionArchiveKey::Action, _action);
   result &= item.encode(TransactionArchiveKey::Constraints, _constraints);
+  result &= item.encode(TransactionArchiveKey::Suggestions, _suggestions);
   return result;
 }
 
@@ -157,6 +158,7 @@ bool TransactionPayload::deserialize(core::ArchiveItem& item) {
   auto result = true;
   result &= item.decodeArchivable(TransactionArchiveKey::Action, _action);
   result &= item.decode(TransactionArchiveKey::Constraints, _constraints);
+  result &= item.decode(TransactionArchiveKey::Suggestions, _suggestions);
   return result;
 }
 

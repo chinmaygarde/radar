@@ -12,7 +12,8 @@
 namespace rl {
 namespace layout {
 
-class Suggestion : public core::MessageSerializable {
+class Suggestion : public core::ArchiveSerializable,
+                   public core::MessageSerializable {
  public:
   Suggestion();
 
@@ -27,6 +28,14 @@ class Suggestion : public core::MessageSerializable {
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
+
+  static const core::ArchiveDef ArchiveDefinition;
+
+  ArchiveName archiveName() const override;
+
+  bool serialize(core::ArchiveItem& item) const override;
+
+  bool deserialize(core::ArchiveItem& item) override;
 
   static std::vector<Suggestion> Anchor(interface::Entity& entity,
                                         interface::Entity::Property property,
