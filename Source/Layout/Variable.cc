@@ -135,14 +135,18 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Variable::ArchiveDefinition = {
-    .autoAssignName = false,
+    .autoAssignName = true,
     .className = "Variable",
     .members = {ArchiveKey::Property,  //
                 ArchiveKey::Proxy},
 };
 
 Variable::ArchiveName Variable::archiveName() const {
-  return *_identifier.handle();
+  /*
+   *  Cannot use the identifier directly because it may be dead (in case of
+   *  proxies)
+   */
+  return core::ArchiveNameAuto;
 }
 
 bool Variable::serialize(core::ArchiveItem& item) const {

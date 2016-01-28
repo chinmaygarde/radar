@@ -91,10 +91,27 @@ class Archive {
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };
 
-class ArchiveItem {
- private:
-  static const ArchiveDef VectorDefinition;
+class ArchiveVector : public ArchiveSerializable {
+ public:
+  static const ArchiveDef ArchiveDefinition;
 
+  ArchiveName archiveName() const override;
+
+  bool serialize(ArchiveItem& item) const override;
+
+  bool deserialize(ArchiveItem& item) override;
+
+ private:
+  std::vector<int64_t> _keys;
+
+  friend class ArchiveItem;
+
+  ArchiveVector(std::vector<int64_t>&& keys);
+
+  RL_DISALLOW_COPY_AND_ASSIGN(ArchiveVector);
+};
+
+class ArchiveItem {
  public:
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool encode(ArchiveSerializable::Member member, T item) {
@@ -119,11 +136,35 @@ class ArchiveItem {
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
-  bool encode(ArchiveSerializable::Member member, const std::vector<T>& item) {
+  bool encode(ArchiveSerializable::Member member, const std::vector<T>& items) {
     /*
-     *  WIP
+     *  All items in the vector are individually encoded and their keys noted
      */
-    return true;
+    std::vector<int64_t> members;
+    members.reserve(items.size());
+
+    const ArchiveDef& itemDefinition = T::ArchiveDefinition;
+    for (const auto& item : items) {
+      int64_t added = 0;
+      bool result = _context.archiveInstance(itemDefinition, item, added);
+      if (!result) {
+        return false;
+      }
+      members.emplace_back(added);
+    }
+
+    /*
+     *  The keys are flattened into the vectors table. Write to that table
+     */
+    ArchiveVector vector(std::move(members));
+    int64_t vectorID = 0;
+    if (!_context.archiveInstance(ArchiveVector::ArchiveDefinition,  //
+                                  vector,                            //
+                                  vectorID)) {
+      return false;
+    }
+
+    return encodeIntegral(member, vectorID);
   }
 
   template <class T, class = only_if<std::is_integral<T>::value>>

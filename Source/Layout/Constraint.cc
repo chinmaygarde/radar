@@ -125,7 +125,7 @@ enum ArchiveKey {
   Priority,
 };
 
-const core::ArchiveDef ArchiveDefinition = {
+const core::ArchiveDef Constraint::ArchiveDefinition = {
     .autoAssignName = false,
     .className = "Constraint",
     .members =

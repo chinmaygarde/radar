@@ -46,7 +46,7 @@ enum ArchiveKey {
   Constant,
 };
 
-const core::ArchiveDef ArchiveDefinition = {
+const core::ArchiveDef Term::ArchiveDefinition = {
     .autoAssignName = true,
     .className = "Term",
     .members =

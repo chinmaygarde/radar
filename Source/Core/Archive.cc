@@ -15,6 +15,7 @@ namespace core {
 static const char* ArchiveColumnPrefix = "item";
 static const char* ArchivePrimaryKeyColumnName = "name";
 static size_t ArchivePrimaryKeyIndex = 0;
+static const char* ArchiveTablePrefix = "RL_";
 
 class Archive::Statement {
  public:
@@ -226,8 +227,8 @@ class Archive::Database {
      *  Table names cannot participate in parameter substitution, so we prepare
      *  a statement and check its validity before running.
      */
-    stream << "CREATE TABLE IF NOT EXISTS " << name.c_str() << " (";
-    stream << ArchivePrimaryKeyColumnName;
+    stream << "CREATE TABLE IF NOT EXISTS " << ArchiveTablePrefix
+           << name.c_str() << " (" << ArchivePrimaryKeyColumnName;
 
     if (autoIncrement) {
       stream << " INTEGER PRIMARY KEY AUTOINCREMENT, ";
@@ -326,7 +327,8 @@ Archive::Statement& Archive::cachedInsertStatement(
   }
 
   std::stringstream stream;
-  stream << "INSERT OR REPLACE INTO " << name << " VALUES ( ?, ";
+  stream << "INSERT OR REPLACE INTO " << ArchiveTablePrefix << name
+         << " VALUES ( ?, ";
   for (size_t i = 0; i < membersCount; i++) {
     stream << "?";
     if (i != membersCount - 1) {
@@ -357,8 +359,8 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
       stream << ",";
     }
   }
-  stream << " FROM " << name << " WHERE " << ArchivePrimaryKeyColumnName
-         << " = ?;";
+  stream << " FROM " << ArchiveTablePrefix << name << " WHERE "
+         << ArchivePrimaryKeyColumnName << " = ?;";
 
   auto inserted = _queryStatements.emplace(
       name, make_unique<Archive::Statement>(_db->handle(), stream.str()));
@@ -590,6 +592,45 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member,
     return false;
   }
 }
+
+const ArchiveDef ArchiveVector::ArchiveDefinition = {
+    .autoAssignName = true,
+    .className = "Meta_Vector",
+    .members = {0},
+};
+
+ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {
+  return ArchiveNameAuto;
+}
+
+bool ArchiveVector::serialize(ArchiveItem& item) const {
+  std::stringstream stream;
+  for (const auto& key : _keys) {
+    stream << key << ":";
+  }
+  return item.encode(0, stream.str());
+}
+
+bool ArchiveVector::deserialize(ArchiveItem& item) {
+  std::string flattened;
+  if (!item.decode(0, flattened)) {
+    return false;
+  }
+
+  std::stringstream stream(flattened);
+  int64_t single = 0;
+  while (stream >> single) {
+    _keys.emplace_back(single);
+    if (stream.peek() == ':') {
+      stream.ignore();
+    }
+  }
+
+  return true;
+}
+
+ArchiveVector::ArchiveVector(std::vector<int64_t>&& keys)
+    : _keys(std::move(keys)) {}
 
 }  // namespace core
 }  // namespace rl
