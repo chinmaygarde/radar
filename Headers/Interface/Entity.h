@@ -12,7 +12,7 @@
 namespace rl {
 namespace interface {
 
-class Entity {
+class Entity : public core::ArchiveSerializable {
  public:
   using PropertyMaskType = uint16_t;
 
@@ -173,6 +173,14 @@ class Entity {
   void setOpacity(double opacity);
 
   void mergeProperties(const Entity& entity, PropertyMaskType only);
+
+  static const core::ArchiveDef ArchiveDefinition;
+
+  ArchiveName archiveName() const override;
+
+  bool serialize(core::ArchiveItem& item) const override;
+
+  bool deserialize(core::ArchiveItem& item) override;
 
  protected:
   core::Name _identifier;

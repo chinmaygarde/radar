@@ -28,3 +28,4 @@ xcuserdata
 *.pyc
 *sync/
 Icon?
+.tags*

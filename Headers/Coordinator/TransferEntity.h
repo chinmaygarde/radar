@@ -36,6 +36,14 @@ class TransferEntity : public interface::Entity,
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
+  static const core::ArchiveDef ArchiveDefinition;
+
+  ArchiveName archiveName() const override;
+
+  bool serialize(core::ArchiveItem& item) const override;
+
+  bool deserialize(core::ArchiveItem& item) override;
+
  private:
   PropertyMaskType _updateMask;
 

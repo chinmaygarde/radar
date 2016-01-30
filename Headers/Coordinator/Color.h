@@ -6,6 +6,7 @@
 #define RADARLOVE_GEOMETRY_COLOR_
 
 #include <stdint.h>
+#include <string>
 
 namespace rl {
 namespace coordinator {
@@ -45,6 +46,10 @@ struct Color {
   }
 
   Color operator+(const Color& other) const;
+
+  std::string toString() const;
+
+  void fromString(const std::string& str);
 };
 
 /**

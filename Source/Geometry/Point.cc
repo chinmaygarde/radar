@@ -3,7 +3,23 @@
 // found in the LICENSE file.
 
 #include <Geometry/Point.h>
+#include <sstream>
 
 namespace rl {
-namespace geom {}  // namespace geom
+namespace geom {
+
+std::string Point::toString() const {
+  std::stringstream stream;
+  stream << x << "," << y;
+  return stream.str();
+}
+
+void Point::fromString(const std::string& str) {
+  std::stringstream stream(str);
+  stream >> x;
+  stream.ignore();
+  stream >> y;
+}
+
+}  // namespace geom
 }  // namespace rl

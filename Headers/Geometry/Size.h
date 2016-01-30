@@ -5,6 +5,8 @@
 #ifndef RADARLOVE_GEOMETRY_SIZE_
 #define RADARLOVE_GEOMETRY_SIZE_
 
+#include <string>
+
 namespace rl {
 namespace geom {
 
@@ -38,6 +40,10 @@ struct Size {
   Size operator-(const Size& s) const {
     return Size(width - s.width, height - s.height);
   }
+
+  std::string toString() const;
+
+  void fromString(const std::string& str);
 };
 
 static const Size SizeZero(0.0, 0.0);

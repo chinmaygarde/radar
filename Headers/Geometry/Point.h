@@ -7,6 +7,8 @@
 
 #include <Geometry/Size.h>
 
+#include <string>
+
 namespace rl {
 namespace geom {
 
@@ -45,6 +47,10 @@ struct Point {
   Point operator/(const Size& s) const {
     return Point(x / s.width, y / s.height);
   }
+
+  std::string toString() const;
+
+  void fromString(const std::string& str);
 };
 
 static const Point PointZero(0.0, 0.0);

@@ -17,6 +17,11 @@ static const char* ArchivePrimaryKeyColumnName = "name";
 static size_t ArchivePrimaryKeyIndex = 0;
 static const char* ArchiveTablePrefix = "RL_";
 
+size_t ArchiveDef::memberCount() const {
+  return members.size() +
+         (superClass != nullptr ? superClass->memberCount() : 0);
+}
+
 class Archive::Statement {
  public:
   Statement(sqlite3* db, const std::string& statememt) : _statement(nullptr) {
@@ -296,8 +301,8 @@ bool Archive::registerDefinition(const ArchiveDef& definition) {
     return false;
   }
 
-  auto tableCreated = _db->createTable(definition.className,       //
-                                       definition.members.size(),  //
+  auto tableCreated = _db->createTable(definition.className,      //
+                                       definition.memberCount(),  //
                                        definition.autoAssignName);
 
   if (!tableCreated) {
@@ -318,7 +323,7 @@ bool Archive::isReady() const {
 Archive::Statement& Archive::cachedInsertStatement(
     const ArchiveDef& definition) {
   const auto& name = definition.className;
-  const auto membersCount = definition.members.size();
+  const auto membersCount = definition.memberCount();
 
   auto found = _insertStatements.find(definition.className);
 
@@ -449,7 +454,7 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  auto membersCount = members.size();
+  auto membersCount = definition.memberCount();
   auto& statement = cachedQueryStatement(className, membersCount);
 
   if (!statement.isReady()) {
@@ -606,7 +611,7 @@ ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {
 bool ArchiveVector::serialize(ArchiveItem& item) const {
   std::stringstream stream;
   for (const auto& key : _keys) {
-    stream << key << ":";
+    stream << key << ",";
   }
   return item.encode(0, stream.str());
 }
@@ -621,9 +626,7 @@ bool ArchiveVector::deserialize(ArchiveItem& item) {
   int64_t single = 0;
   while (stream >> single) {
     _keys.emplace_back(single);
-    if (stream.peek() == ':') {
-      stream.ignore();
-    }
+    stream.ignore();
   }
 
   return true;

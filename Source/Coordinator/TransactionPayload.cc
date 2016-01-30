@@ -151,6 +151,13 @@ bool TransactionPayload::serialize(core::ArchiveItem& item) const {
   result &= item.encodeArchivable(TransactionArchiveKey::Action, _action);
   result &= item.encode(TransactionArchiveKey::Constraints, _constraints);
   result &= item.encode(TransactionArchiveKey::Suggestions, _suggestions);
+
+  std::vector<TransferEntity> entities;
+  for (const auto& entity : _entities) {
+    entities.push_back(*(entity.second));
+  }
+  result &= item.encode(TransactionArchiveKey::Entities, entities);
+
   return result;
 }
 

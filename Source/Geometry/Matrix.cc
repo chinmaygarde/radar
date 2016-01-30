@@ -5,6 +5,7 @@
 #include <Geometry/Matrix.h>
 
 #include <climits>
+#include <sstream>
 
 namespace rl {
 namespace geom {
@@ -88,6 +89,25 @@ Matrix Matrix::operator+(const Matrix& o) const {
                 m[14] + o.m[14],
                 m[15] + o.m[15]);
   // clang-format on
+}
+
+std::string Matrix::toString() const {
+  std::stringstream stream;
+  for (int i = 0, limit = 16; i < limit; i++) {
+    stream << m[i];
+    if (i != limit - 1) {
+      stream << ",";
+    }
+  }
+  return stream.str();
+}
+
+void Matrix::fromString(const std::string& str) {
+  std::stringstream stream(str);
+  for (int i = 0; i < 16; i++) {
+    stream >> m[i];
+    stream.ignore();
+  }
 }
 
 }  // namespace geom

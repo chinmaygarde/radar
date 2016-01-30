@@ -5,6 +5,7 @@
 #include <Coordinator/Color.h>
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 
 namespace rl {
 namespace coordinator {
@@ -99,6 +100,23 @@ Color Color::operator+(const Color& o) const {
                ColorClamp(green + o.green, 0.0, 1.0),
                ColorClamp(blue + o.blue, 0.0, 1.0),
                ColorClamp(alpha + o.alpha, 0.0, 1.0));
+}
+
+std::string Color::toString() const {
+  std::stringstream stream;
+  stream << red << "," << green << "," << blue << "," << alpha;
+  return stream.str();
+}
+
+void Color::fromString(const std::string& str) {
+  std::stringstream stream(str);
+  stream >> red;
+  stream.ignore();
+  stream >> green;
+  stream.ignore();
+  stream >> blue;
+  stream.ignore();
+  stream >> alpha;
 }
 
 }  // namespace coordinator

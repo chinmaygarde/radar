@@ -151,5 +151,43 @@ bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
   });
 }
 
+enum ArchiveKey {
+  UpdateMask,
+  AddedTo,
+  RemovedFrom,
+  MakeRoot,
+};
+
+const core::ArchiveDef TransferEntity::ArchiveDefinition = {
+    .superClass = &Entity::ArchiveDefinition,
+    .autoAssignName = false,
+    .className = "TransferEntity",
+    .members =
+        {
+            ArchiveKey::UpdateMask,   //
+            ArchiveKey::AddedTo,      //
+            ArchiveKey::RemovedFrom,  //
+            ArchiveKey::MakeRoot,     //
+        },
+};
+
+TransferEntity::ArchiveName TransferEntity::archiveName() const {
+  return *_identifier.handle();
+}
+
+bool TransferEntity::serialize(core::ArchiveItem& item) const {
+  auto result = true;
+  result &= Entity::serialize(item);
+  result &= item.encode(ArchiveKey::UpdateMask, _updateMask);
+  return result;
+}
+
+bool TransferEntity::deserialize(core::ArchiveItem& item) {
+  auto result = true;
+  result &= Entity::deserialize(item);
+  result &= item.decode(ArchiveKey::UpdateMask, _updateMask);
+  return result;
+}
+
 }  // namespace coordinator
 }  // namespace rl

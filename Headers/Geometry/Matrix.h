@@ -363,6 +363,10 @@ struct Matrix {
   static Matrix Perspective(double fov,   double aspect,
                             double nearZ, double farZ);
   // clang-format on
+
+  std::string toString() const;
+
+  void fromString(const std::string& str);
 };
 
 // clang-format off

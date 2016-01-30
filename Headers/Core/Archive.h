@@ -31,9 +31,12 @@ class ArchiveSerializable {
 };
 
 struct ArchiveDef {
-  const bool autoAssignName;
+  const ArchiveDef* superClass;
   const std::string className;
+  const bool autoAssignName;
   const ArchiveSerializable::Members members;
+
+  size_t memberCount() const;
 };
 
 static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;

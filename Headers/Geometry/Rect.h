@@ -51,6 +51,10 @@ struct Rect {
     return p.x >= origin.x && p.x <= size.width && p.y >= origin.y &&
            p.y <= size.height;
   }
+
+  std::string toString() const;
+
+  void fromString(const std::string& str);
 };
 
 static const Rect RectZero(PointZero, SizeZero);
