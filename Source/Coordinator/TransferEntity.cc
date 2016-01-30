@@ -177,7 +177,7 @@ TransferEntity::ArchiveName TransferEntity::archiveName() const {
 
 bool TransferEntity::serialize(core::ArchiveItem& item) const {
   auto result = true;
-  result &= Entity::serialize(item);
+  result &= item.encodeSuper<Entity>(*this);
   result &= item.encode(ArchiveKey::UpdateMask, _updateMask);
   return result;
 }

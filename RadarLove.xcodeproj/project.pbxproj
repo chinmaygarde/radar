@@ -61,6 +61,8 @@
 		9E3FABF41C516CF5002561F0 /* sqlite3ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3FABF11C516CF5002561F0 /* sqlite3ext.h */; };
 		9E4658E71BABB77E00303944 /* InProcessTrivialSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */; };
 		9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */; };
+		9E6057281C5C380700161760 /* ArchiveClassRegistration.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */; };
+		9E6057291C5C380700161760 /* ArchiveClassRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6057271C5C380700161760 /* ArchiveClassRegistration.h */; };
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
 		9E62F9131B7C19AF008DE08E /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9121B7C19AF008DE08E /* Entity.h */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
@@ -374,6 +376,8 @@
 		9E3FABF11C516CF5002561F0 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		9E4658E51BABB77E00303944 /* InProcessTrivialSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessTrivialSource.cc; sourceTree = "<group>"; };
 		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
+		9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveClassRegistration.cc; sourceTree = "<group>"; };
+		9E6057271C5C380700161760 /* ArchiveClassRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveClassRegistration.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChannelTest.mm; sourceTree = "<group>"; };
 		9E62F80C1B796D81008DE08E /* EventLoopTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EventLoopTest.mm; sourceTree = "<group>"; };
 		9E62F80D1B796D81008DE08E /* MessageDecoderTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageDecoderTest.mm; sourceTree = "<group>"; };
@@ -960,6 +964,8 @@
 			children = (
 				EAE21F251C36479100EAA2FF /* Allocation.cc */,
 				9E3FABDF1C5165AC002561F0 /* Archive.cc */,
+				9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */,
+				9E6057271C5C380700161760 /* ArchiveClassRegistration.h */,
 				9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */,
 				9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */,
 				9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */,
@@ -1246,6 +1252,7 @@
 				9EAECE681B685460000FA38A /* Simulation.h in Headers */,
 				EAB379DA1BE70A7F00A59948 /* Director.h in Headers */,
 				9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */,
+				9E6057291C5C380700161760 /* ArchiveClassRegistration.h in Headers */,
 				EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */,
 				EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */,
 				9E78EE5D1C3F0826000A4E37 /* Namespace.h in Headers */,
@@ -1462,6 +1469,7 @@
 				9E8655811BE2F17F00997766 /* StateMachine.cc in Sources */,
 				9E8656201BE45E3A00997766 /* Primitive.cc in Sources */,
 				9EF226A71C49B56A00A2B027 /* DebugTagGenerator.cc in Sources */,
+				9E6057281C5C380700161760 /* ArchiveClassRegistration.cc in Sources */,
 				9EAECEE81B685469000FA38A /* Size.cc in Sources */,
 				9EBA79C41B87F203005D84FA /* Counter.cc in Sources */,
 				9EAECEDD1B685469000FA38A /* EventLoopSource.cc in Sources */,

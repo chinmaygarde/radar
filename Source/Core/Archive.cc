@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Archive.h>
+#include <Core/ArchiveClassRegistration.h>
 
 #include <sqlite3/sqlite3.h>
 
@@ -16,11 +17,6 @@ static const char* ArchiveColumnPrefix = "item";
 static const char* ArchivePrimaryKeyColumnName = "name";
 static size_t ArchivePrimaryKeyIndex = 0;
 static const char* ArchiveTablePrefix = "RL_";
-
-size_t ArchiveDef::memberCount() const {
-  return members.size() +
-         (superClass != nullptr ? superClass->memberCount() : 0);
-}
 
 class Archive::Statement {
  public:
@@ -292,28 +288,32 @@ void Archive::setupTransactionStatements() {
             _endTransactionStatement->isReady());
 }
 
-bool Archive::registerDefinition(const ArchiveDef& definition) {
+const ArchiveClassRegistration* Archive::registrationForDefinition(
+    const ArchiveDef& definition) {
   auto found = _registrations.find(definition.className);
   if (found != _registrations.end()) {
     /*
      *  This class has already been registered
      */
-    return false;
+    return found->second.get();
   }
 
-  auto tableCreated = _db->createTable(definition.className,      //
-                                       definition.memberCount(),  //
+  auto registration = make_unique<ArchiveClassRegistration>(definition);
+
+  auto tableCreated = _db->createTable(definition.className,         //
+                                       registration->columnCount(),  //
                                        definition.autoAssignName);
 
   if (!tableCreated) {
     /*
      *  Could not create the table so there is no point in going forward
      */
-    return false;
+    return nullptr;
   }
 
-  auto res = _registrations.emplace(definition.className);
-  return res.second;
+  auto res =
+      _registrations.emplace(definition.className, std::move(registration));
+  return res.second ? (*(res.first)).second.get() : nullptr;
 }
 
 bool Archive::isReady() const {
@@ -321,36 +321,36 @@ bool Archive::isReady() const {
 }
 
 Archive::Statement& Archive::cachedInsertStatement(
-    const ArchiveDef& definition) {
-  const auto& name = definition.className;
-  const auto membersCount = definition.memberCount();
+    const ArchiveClassRegistration& registration) {
+  const auto& tableName = registration.tableName();
+  const auto& columnCount = registration.columnCount();
 
-  auto found = _insertStatements.find(definition.className);
+  auto found = _insertStatements.find(registration.tableName());
 
   if (found != _insertStatements.end()) {
     return *(found->second);
   }
 
   std::stringstream stream;
-  stream << "INSERT OR REPLACE INTO " << ArchiveTablePrefix << name
+  stream << "INSERT OR REPLACE INTO " << ArchiveTablePrefix << tableName
          << " VALUES ( ?, ";
-  for (size_t i = 0; i < membersCount; i++) {
+  for (size_t i = 0; i < columnCount; i++) {
     stream << "?";
-    if (i != membersCount - 1) {
+    if (i != columnCount - 1) {
       stream << ", ";
     }
   }
   stream << ");";
 
   auto inserted = _insertStatements.emplace(
-      name, make_unique<Archive::Statement>(_db->handle(), stream.str()));
+      tableName, make_unique<Archive::Statement>(_db->handle(), stream.str()));
   RL_ASSERT(inserted.second);
   return *((*(inserted.first)).second);
 }
 
-Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
-                                                  size_t members) {
-  auto found = _queryStatements.find(name);
+Archive::Statement& Archive::cachedQueryStatement(
+    const ArchiveClassRegistration& registration) {
+  auto found = _queryStatements.find(registration.tableName());
 
   if (found != _queryStatements.end()) {
     return *(found->second);
@@ -358,17 +358,18 @@ Archive::Statement& Archive::cachedQueryStatement(const std::string& name,
 
   std::stringstream stream;
   stream << "SELECT " << ArchivePrimaryKeyColumnName << ", ";
-  for (size_t i = 0; i < members; i++) {
+  for (size_t i = 0, members = registration.columnCount(); i < members; i++) {
     stream << ArchiveColumnPrefix << std::to_string(i + 1);
     if (i != members - 1) {
       stream << ",";
     }
   }
-  stream << " FROM " << ArchiveTablePrefix << name << " WHERE "
-         << ArchivePrimaryKeyColumnName << " = ?;";
+  stream << " FROM " << ArchiveTablePrefix << registration.tableName()
+         << " WHERE " << ArchivePrimaryKeyColumnName << " = ?;";
 
   auto inserted = _queryStatements.emplace(
-      name, make_unique<Archive::Statement>(_db->handle(), stream.str()));
+      registration.tableName(),
+      make_unique<Archive::Statement>(_db->handle(), stream.str()));
   RL_ASSERT(inserted.second);
   return *((*(inserted.first)).second);
 }
@@ -383,12 +384,9 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
   Transaction transaction(_transactionCount, *_beginTransactionStatement,
                           *_endTransactionStatement);
 
-  const auto& className = definition.className;
-  const auto& members = definition.members;
+  const auto* registration = registrationForDefinition(definition);
 
-  auto registration = _registrations.find(className);
-
-  if (registration == _registrations.end() && !registerDefinition(definition)) {
+  if (registration == nullptr) {
     return false;
   }
 
@@ -410,7 +408,7 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
 
   auto itemName = archivable.archiveName();
 
-  ArchiveItem item(*this, statement, members, itemName);
+  ArchiveItem item(*this, statement, *registration, itemName);
 
   /*
    *  We need to bind the primary key only if the item does not provide its own
@@ -441,21 +439,17 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
 bool Archive::unarchiveInstance(const ArchiveDef& definition,
                                 ArchiveSerializable::ArchiveName name,
                                 ArchiveSerializable& archivable) {
-  const auto& className = definition.className;
-  const auto& members = definition.members;
-
   if (!isReady()) {
     return false;
   }
 
-  auto registration = _registrations.find(className);
+  const auto* registration = registrationForDefinition(definition);
 
-  if (registration == _registrations.end() && !registerDefinition(definition)) {
+  if (registration == nullptr) {
     return false;
   }
 
-  auto membersCount = definition.memberCount();
-  auto& statement = cachedQueryStatement(className, membersCount);
+  auto& statement = cachedQueryStatement(*registration);
 
   if (!statement.isReady()) {
     return false;
@@ -469,12 +463,12 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  auto columnCount = statement.columnCount();
-  if (columnCount != membersCount + 1 /* primary key */) {
+  if (statement.columnCount() !=
+      registration->columnCount() + 1 /* primary key */) {
     return false;
   }
 
-  ArchiveItem item(*this, statement, members, name);
+  ArchiveItem item(*this, statement, *registration, name);
 
   auto result = archivable.deserialize(item);
 
@@ -485,60 +479,45 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
 
 ArchiveItem::ArchiveItem(Archive& context,
                          Archive::Statement& statement,
-                         const ArchiveSerializable::Members& members,
+                         const ArchiveClassRegistration& registration,
                          ArchiveSerializable::ArchiveName name)
     : _context(context),
       _statement(statement),
-      _members(members),
-      _name(name) {}
+      _registration(registration),
+      _name(name),
+      _currentClass(registration.tableName()) {}
 
 ArchiveSerializable::ArchiveName ArchiveItem::name() const {
   return _name;
 }
 
-static std::pair<size_t, bool> IndexOfMember(
-    const ArchiveSerializable::Members& members,
-    ArchiveSerializable::Member member) {
-  /*
-   *  This should probably (and can easily be) optimized for constant time
-   *  lookup. But the sizes of the arrays are extremely small.
-   */
-  auto found = std::find(members.begin(), members.end(), member);
-
-  if (found == members.end()) {
-    return {0, false};
-  }
-
-  return {std::distance(members.begin(), found) + 1 /* primary key */, true};
-}
-
 bool ArchiveItem::encode(ArchiveSerializable::Member member,
                          const std::string& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
 bool ArchiveItem::encodeIntegral(ArchiveSerializable::Member member,
                                  int64_t item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
 bool ArchiveItem::encode(ArchiveSerializable::Member member, double item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
 bool ArchiveItem::encode(ArchiveSerializable::Member member,
                          const Allocation& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
 bool ArchiveItem::encode(ArchiveSerializable::Member member,
                          const ArchiveDef& otherDef,
                          const ArchiveSerializable& other) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
 
   if (!found.second) {
     return false;
@@ -566,30 +545,30 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
                          std::string& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
 bool ArchiveItem::decodeIntegral(ArchiveSerializable::Member member,
                                  int64_t& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member, double& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.column(found.first, item) : false;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
                          const ArchiveDef& otherDef,
                          ArchiveSerializable& other) {
-  auto found = IndexOfMember(_members, member);
+  auto found = _registration.findColumn(_currentClass, member);
   if (found.second) {
     RL_ASSERT_MSG(false, "WIP");
     return false;

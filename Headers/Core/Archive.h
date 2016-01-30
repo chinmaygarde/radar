@@ -18,6 +18,7 @@ namespace rl {
 namespace core {
 
 class ArchiveItem;
+class ArchiveClassRegistration;
 
 class ArchiveSerializable {
  public:
@@ -35,8 +36,6 @@ struct ArchiveDef {
   const std::string className;
   const bool autoAssignName;
   const ArchiveSerializable::Members members;
-
-  size_t memberCount() const;
 };
 
 static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;
@@ -73,17 +72,21 @@ class Archive {
 
   std::unique_ptr<Database> _db;
   size_t _transactionCount;
-  std::set<std::string> _registrations;
+  std::map<std::string, std::unique_ptr<ArchiveClassRegistration>>
+      _registrations;
   std::map<std::string, std::unique_ptr<Statement>> _insertStatements;
   std::map<std::string, std::unique_ptr<Statement>> _queryStatements;
   std::unique_ptr<Statement> _beginTransactionStatement;
   std::unique_ptr<Statement> _endTransactionStatement;
 
-  Statement& cachedInsertStatement(const ArchiveDef& definition);
-  Statement& cachedQueryStatement(const std::string& name, size_t members);
+  Statement& cachedInsertStatement(
+      const ArchiveClassRegistration& registration);
+  Statement& cachedQueryStatement(const ArchiveClassRegistration& registration);
 
   void setupTransactionStatements();
-  bool registerDefinition(const ArchiveDef& definition);
+
+  const ArchiveClassRegistration* registrationForDefinition(
+      const ArchiveDef& definition);
   bool archiveInstance(const ArchiveDef& definition,
                        const ArchiveSerializable& archivable,
                        int64_t& lastInsertID);
@@ -170,6 +173,19 @@ class ArchiveItem {
     return encodeIntegral(member, vectorID);
   }
 
+  template <
+      class Super,
+      class Current,
+      class = only_if<std::is_base_of<ArchiveSerializable, Super>::value &&
+                      std::is_base_of<ArchiveSerializable, Current>::value>>
+  bool encodeSuper(const Current& thiz) {
+    std::string oldClass = _currentClass;
+    _currentClass = Super::ArchiveDefinition.className;
+    auto success = thiz.Super::serialize(*this);
+    _currentClass = oldClass;
+    return success;
+  }
+
   template <class T, class = only_if<std::is_integral<T>::value>>
   bool decode(ArchiveSerializable::Member member, T& item) {
     int64_t decoded = 0;
@@ -213,14 +229,15 @@ class ArchiveItem {
  private:
   Archive& _context;
   Archive::Statement& _statement;
-  const ArchiveSerializable::Members& _members;
+  const ArchiveClassRegistration& _registration;
   ArchiveSerializable::ArchiveName _name;
+  std::string _currentClass;
 
   friend class Archive;
 
   ArchiveItem(Archive& context,
               Archive::Statement& statement,
-              const ArchiveSerializable::Members& members,
+              const ArchiveClassRegistration& registration,
               ArchiveSerializable::ArchiveName name);
 
   bool encodeIntegral(ArchiveSerializable::Member member, int64_t item);
