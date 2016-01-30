@@ -28,6 +28,8 @@ class Sample : public rl::core::ArchiveSerializable {
     return item.decode(999, _someData);
   };
 
+  static const rl::core::ArchiveDef ArchiveDefinition;
+
  private:
   uint64_t _someData;
   ArchiveName _name;
@@ -35,29 +37,12 @@ class Sample : public rl::core::ArchiveSerializable {
   RL_DISALLOW_COPY_AND_ASSIGN(Sample);
 };
 
-class FooBar {};
-
-namespace rl {
-namespace core {
-
-template <>
-class ArchiveDef<Sample> {
- public:
-  std::string className() const { return "sample"; }
-
-  rl::core::ArchiveSerializable::Members members() const { return {999}; }
+const rl::core::ArchiveDef Sample::ArchiveDefinition = {
+    .superClass = nullptr,
+    .className = "Sample",
+    .autoAssignName = false,
+    .members = {999},
 };
-
-template <>
-class ArchiveDef<FooBar> {
- public:
-  std::string className() const { return "foo"; }
-
-  rl::core::ArchiveSerializable::Members members() const { return {1, 2, 3}; }
-};
-
-}  // namespace core
-}  // namespace rl
 
 RL_DECLARE_TEST_START(ArchiveTest)
 
@@ -75,10 +60,6 @@ TEST(ArchiveTest, AddStorageClass) {
   {
     rl::core::Archive archive(name);
     ASSERT_TRUE(archive.isReady());
-
-    auto res = archive.registerDefinition<FooBar>();
-
-    ASSERT_TRUE(res);
   }
   ASSERT_TRUE(::remove(name) == 0);
 }
@@ -88,11 +69,6 @@ TEST(ArchiveTest, AddData) {
   {
     rl::core::Archive archive(name);
     ASSERT_TRUE(archive.isReady());
-
-    auto res = archive.registerDefinition<Sample>();
-
-    ASSERT_TRUE(res);
-
     Sample sample;
     ASSERT_TRUE(archive.archive(sample));
   }
@@ -104,10 +80,6 @@ TEST(ArchiveTest, AddDataMultiple) {
   {
     rl::core::Archive archive(name);
     ASSERT_TRUE(archive.isReady());
-
-    auto res = archive.registerDefinition<Sample>();
-
-    ASSERT_TRUE(res);
 
     for (auto i = 0; i < 100; i++) {
       Sample sample(i + 1);
@@ -122,10 +94,6 @@ TEST(ArchiveTest, ReadData) {
   {
     rl::core::Archive archive(name);
     ASSERT_TRUE(archive.isReady());
-
-    auto res = archive.registerDefinition<Sample>();
-
-    ASSERT_TRUE(res);
 
     size_t count = 50;
 
@@ -156,10 +124,6 @@ TEST(ArchiveTest, ReadDataWithNames) {
   {
     rl::core::Archive archive(name);
     ASSERT_TRUE(archive.isReady());
-
-    auto res = archive.registerDefinition<Sample>();
-
-    ASSERT_TRUE(res);
 
     size_t count = 8;
 
