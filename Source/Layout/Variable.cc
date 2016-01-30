@@ -135,8 +135,9 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Variable::ArchiveDefinition = {
-    .autoAssignName = true,
+    .superClass = nullptr,
     .className = "Variable",
+    .autoAssignName = true,
     .members = {ArchiveKey::Property,  //
                 ArchiveKey::Proxy},
 };

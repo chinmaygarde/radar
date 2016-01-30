@@ -106,8 +106,9 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Suggestion::ArchiveDefinition = {
-    .autoAssignName = true,
+    .superClass = nullptr,
     .className = "Suggestion",
+    .autoAssignName = true,
     .members =
         {
             ArchiveKey::Variable,  //

@@ -578,8 +578,9 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member,
 }
 
 const ArchiveDef ArchiveVector::ArchiveDefinition = {
-    .autoAssignName = true,
+    .superClass = nullptr,
     .className = "Meta_Vector",
+    .autoAssignName = true,
     .members = {0},
 };
 

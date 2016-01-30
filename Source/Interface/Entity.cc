@@ -163,8 +163,9 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Entity::ArchiveDefinition = {
-    .autoAssignName = false,
+    .superClass = nullptr,
     .className = "Entity",
+    .autoAssignName = false,
     .members =
         {
             ArchiveKey::Bounds,           //
