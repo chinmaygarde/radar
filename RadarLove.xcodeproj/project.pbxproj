@@ -217,6 +217,8 @@
 		9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF07B6B1C0641C600735CAA /* InterfaceController.cc */; };
 		9EF2269D1C49B55A00A2B027 /* DebugTagGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EF2269C1C49B55A00A2B027 /* DebugTagGenerator.h */; };
 		9EF226A71C49B56A00A2B027 /* DebugTagGenerator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF226A61C49B56A00A2B027 /* DebugTagGenerator.cc */; };
+		EA29315E1C5DEA0C00AE35F8 /* ArchiveVector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA29315C1C5DEA0C00AE35F8 /* ArchiveVector.cc */; };
+		EA29316B1C5DEB0E00AE35F8 /* ArchiveVector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */; };
 		EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */ = {isa = PBXBuildFile; fileRef = EA2D4A501C2CA06C00575608 /* IOResult.h */; };
 		EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */; };
 		EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */; };
@@ -536,6 +538,8 @@
 		9EF2269C1C49B55A00A2B027 /* DebugTagGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTagGenerator.h; sourceTree = "<group>"; };
 		9EF226A61C49B56A00A2B027 /* DebugTagGenerator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugTagGenerator.cc; sourceTree = "<group>"; };
 		EA18580E1C26744600FF64C6 /* EventLoopObserverTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EventLoopObserverTest.mm; sourceTree = "<group>"; };
+		EA29315C1C5DEA0C00AE35F8 /* ArchiveVector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveVector.cc; sourceTree = "<group>"; };
+		EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVector.h; sourceTree = "<group>"; };
 		EA2D4A501C2CA06C00575608 /* IOResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOResult.h; sourceTree = "<group>"; };
 		EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PipeTrivialSourceTest.mm; sourceTree = "<group>"; };
 		EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyResolver.h; sourceTree = "<group>"; };
@@ -964,6 +968,8 @@
 			children = (
 				EAE21F251C36479100EAA2FF /* Allocation.cc */,
 				9E3FABDF1C5165AC002561F0 /* Archive.cc */,
+				EA29315C1C5DEA0C00AE35F8 /* ArchiveVector.cc */,
+				EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */,
 				9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */,
 				9E6057271C5C380700161760 /* ArchiveClassRegistration.h */,
 				9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */,
@@ -1188,6 +1194,7 @@
 				9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
+				EA29316B1C5DEB0E00AE35F8 /* ArchiveVector.h in Headers */,
 				9EAECE6B1B685460000FA38A /* SpringSolution.h in Headers */,
 				9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */,
 				9EEA38D81BF556160074AC56 /* ConstraintCreation.h in Headers */,
@@ -1455,6 +1462,7 @@
 				9EBA79B81B87D864005D84FA /* Trace.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
 				9E86561F1BE45E3A00997766 /* PresentationGraph.cc in Sources */,
+				EA29315E1C5DEA0C00AE35F8 /* ArchiveVector.cc in Sources */,
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
 				9E86561B1BE45E3A00997766 /* Frame.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */,

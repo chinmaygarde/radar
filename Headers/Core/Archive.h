@@ -9,7 +9,6 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 
-#include <set>
 #include <map>
 #include <string>
 #include <vector>
@@ -97,26 +96,6 @@ class Archive {
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };
 
-class ArchiveVector : public ArchiveSerializable {
- public:
-  static const ArchiveDef ArchiveDefinition;
-
-  ArchiveName archiveName() const override;
-
-  bool serialize(ArchiveItem& item) const override;
-
-  bool deserialize(ArchiveItem& item) override;
-
- private:
-  std::vector<int64_t> _keys;
-
-  friend class ArchiveItem;
-
-  ArchiveVector(std::vector<int64_t>&& keys);
-
-  RL_DISALLOW_COPY_AND_ASSIGN(ArchiveVector);
-};
-
 class ArchiveItem {
  public:
   template <class T, class = only_if<std::is_integral<T>::value>>
@@ -162,15 +141,13 @@ class ArchiveItem {
     /*
      *  The keys are flattened into the vectors table. Write to that table
      */
-    ArchiveVector vector(std::move(members));
-    int64_t vectorID = 0;
-    if (!_context.archiveInstance(ArchiveVector::ArchiveDefinition,  //
-                                  vector,                            //
-                                  vectorID)) {
+    auto vectorInsert = encodeVectorKeys(std::move(members));
+
+    if (!vectorInsert.first) {
       return false;
     }
 
-    return encodeIntegral(member, vectorID);
+    return encodeIntegral(member, vectorInsert.second);
   }
 
   template <
@@ -242,6 +219,7 @@ class ArchiveItem {
 
   bool encodeIntegral(ArchiveSerializable::Member member, int64_t item);
   bool decodeIntegral(ArchiveSerializable::Member member, int64_t& item);
+  std::pair<bool, int64_t> encodeVectorKeys(std::vector<int64_t>&& members);
 
   bool encode(ArchiveSerializable::Member member,
               const ArchiveDef& otherDef,

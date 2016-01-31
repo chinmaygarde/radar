@@ -4,6 +4,7 @@
 
 #include <Core/Archive.h>
 #include <Core/ArchiveClassRegistration.h>
+#include <Core/ArchiveVector.h>
 
 #include <sqlite3/sqlite3.h>
 
@@ -543,6 +544,18 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
   return true;
 }
 
+std::pair<bool, int64_t> ArchiveItem::encodeVectorKeys(
+    std::vector<int64_t>&& members) {
+  ArchiveVector vector(std::move(members));
+  int64_t vectorID = 0;
+  if (!_context.archiveInstance(ArchiveVector::ArchiveDefinition,  //
+                                vector,                            //
+                                vectorID)) {
+    return {false, 0};
+  }
+  return {true, vectorID};
+}
+
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
                          std::string& item) {
   auto found = _registration.findColumn(_currentClass, member);
@@ -576,44 +589,6 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member,
     return false;
   }
 }
-
-const ArchiveDef ArchiveVector::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Meta_Vector",
-    .autoAssignName = true,
-    .members = {0},
-};
-
-ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {
-  return ArchiveNameAuto;
-}
-
-bool ArchiveVector::serialize(ArchiveItem& item) const {
-  std::stringstream stream;
-  for (const auto& key : _keys) {
-    stream << key << ",";
-  }
-  return item.encode(0, stream.str());
-}
-
-bool ArchiveVector::deserialize(ArchiveItem& item) {
-  std::string flattened;
-  if (!item.decode(0, flattened)) {
-    return false;
-  }
-
-  std::stringstream stream(flattened);
-  int64_t single = 0;
-  while (stream >> single) {
-    _keys.emplace_back(single);
-    stream.ignore();
-  }
-
-  return true;
-}
-
-ArchiveVector::ArchiveVector(std::vector<int64_t>&& keys)
-    : _keys(std::move(keys)) {}
 
 }  // namespace core
 }  // namespace rl
