@@ -7,6 +7,7 @@
 
 #include <atomic>
 #include <mutex>
+#include <string>
 #include <unordered_map>
 
 namespace rl {
@@ -41,6 +42,10 @@ class Name : public MessageSerializable {
 
   bool deserialize(Message& message, Namespace* ns) override;
 
+  std::string toString() const;
+
+  void fromString(const std::string& str, Namespace* ns);
+
   bool operator==(const Name& other) const;
 
   bool operator!=(const Name& other) const;
@@ -64,6 +69,8 @@ class Name : public MessageSerializable {
  private:
   HandleRef _handle;
   Namespace* _ns;
+
+  void decodeRaw(Handle handle, Namespace* ns);
 };
 
 static const Name::Handle DeadHandle = 0;

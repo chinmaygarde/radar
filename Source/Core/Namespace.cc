@@ -6,6 +6,8 @@
 
 #include <Core/Message.h>
 
+#include <sstream>
+
 namespace rl {
 namespace core {
 
@@ -36,16 +38,34 @@ bool Name::serialize(Message& message) const {
 }
 
 bool Name::deserialize(Message& message, Namespace* ns) {
-  auto newHandle = DeadHandle;
+  auto decodedHandle = DeadHandle;
 
-  auto result = message.decode(newHandle, ns);
-
-  if (result && newHandle != DeadHandle) {
-    _handle = ns == nullptr ? nullptr : ns->createHandle(newHandle);
-    _ns = ns;
+  if (message.decode(decodedHandle, ns)) {
+    decodeRaw(decodedHandle, ns);
+    return true;
   }
 
-  return result;
+  return false;
+}
+
+std::string Name::toString() const {
+  return std::to_string(_handle ? *_handle : DeadHandle);
+}
+
+void Name::fromString(const std::string& str, Namespace* ns) {
+  std::stringstream stream(str);
+  auto newHandle = DeadHandle;
+  stream >> newHandle;
+  decodeRaw(newHandle, ns);
+}
+
+void Name::decodeRaw(Handle handle, Namespace* ns) {
+  if (handle == DeadHandle) {
+    return;
+  }
+
+  _handle = ns == nullptr ? nullptr : ns->createHandle(handle);
+  _ns = ns;
 }
 
 Namespace* Name::ns() const {
