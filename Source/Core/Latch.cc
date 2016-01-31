@@ -7,7 +7,7 @@
 namespace rl {
 namespace core {
 
-Latch::Latch(unsigned int count) : _count(count), _condition(), _lock() {}
+Latch::Latch(size_t count) : _count(count), _condition(), _lock() {}
 
 void Latch::wait() {
   if (_count > 0) {
@@ -23,7 +23,7 @@ void Latch::countDown() {
   }
 }
 
-AutoLatch::AutoLatch(unsigned int count) : Latch(count) {}
+AutoLatch::AutoLatch(size_t count) : Latch(count) {}
 
 AutoLatch::~AutoLatch() {
   wait();

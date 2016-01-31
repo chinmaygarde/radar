@@ -20,7 +20,7 @@ class Latch {
   /**
    *  Create a latch with the specified count
    */
-  explicit Latch(unsigned int count);
+  explicit Latch(size_t count);
 
   /**
    *  Blocks the current thread till the count reaches zero. If the count is
@@ -34,7 +34,7 @@ class Latch {
   void countDown();
 
  private:
-  std::atomic_int _count;
+  std::atomic_size_t _count;
   std::condition_variable _condition;
   std::mutex _lock;
 
@@ -46,7 +46,7 @@ class Latch {
  */
 class AutoLatch : public Latch {
  public:
-  AutoLatch(unsigned int count);
+  AutoLatch(size_t count);
   ~AutoLatch();
 
  private:
