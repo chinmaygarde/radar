@@ -33,7 +33,9 @@ std::unique_ptr<Shell> Shell::CreateWithCurrentThreadAsHost(
 }
 
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface)
-    : _compositorThread(), _coordinator(surface, _host.touchEventChannel()) {
+    : _compositorThread(),
+      _coordinator(surface, _host.touchEventChannel()),
+      _attached(false) {
   RL_TRACE_INSTANT("ShellInitialization");
 }
 
@@ -50,6 +52,7 @@ void Shell::attachHostOnCurrentThread() {
   });
 
   readyLatch.wait();
+  _attached = true;
 
   RL_TRACE_INSTANT("ShellAttached");
 }
@@ -63,6 +66,12 @@ Host& Shell::host() {
 }
 
 void Shell::shutdown() {
+  /*
+   *  Make sure all managed interfaces are torn down before the host and
+   *  coordinators are torn down.
+   */
+  teardownManagedInterfaces();
+
   {
     /*
      *  We provide latches to the subsystems to count down on because they may
@@ -84,6 +93,51 @@ void Shell::shutdown() {
   if (_hostThread.joinable()) {
     _hostThread.join();
   }
+}
+
+void Shell::registerManagedInterface(
+    std::unique_ptr<interface::Interface>&& interface) {
+  RL_ASSERT_MSG(_attached,
+                "The shell must be attached to a host before managed "
+                "interfaces can be registered with it");
+
+  /*
+   *  Make sure the interface is launched on a new managed thread.
+   */
+  core::Latch interfaceLatch(1);
+  auto interfaceReady = [&]() { interfaceLatch.countDown(); };
+  std::thread interfaceThread([&] { interface->run(interfaceReady); });
+  interfaceLatch.wait();
+
+  /*
+   *  Note the registration.
+   */
+  _managedInterfaces.emplace(std::move(interface), std::move(interfaceThread));
+}
+
+void Shell::teardownManagedInterfaces() {
+  {
+    /*
+     *  Make sure all interface shut down gracefully.
+     */
+    core::AutoLatch shutdownLatch(_managedInterfaces.size());
+    auto onShutdown = [&]() { shutdownLatch.countDown(); };
+    for (auto& interface : _managedInterfaces) {
+      interface.first->shutdown(onShutdown);
+    }
+  }
+
+  /*
+   *  Ensure the threads hosting all managed interfaces shut down.
+   */
+  for (auto& interface : _managedInterfaces) {
+    auto& thread = interface.second;
+    if (thread.joinable()) {
+      thread.join();
+    }
+  }
+
+  _managedInterfaces.clear();
 }
 
 }  // namespace shell

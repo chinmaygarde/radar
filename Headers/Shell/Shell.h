@@ -12,6 +12,7 @@
 #include <Interface/Interface.h>
 
 #include <thread>
+#include <unordered_map>
 
 namespace rl {
 namespace shell {
@@ -41,22 +42,22 @@ class Shell {
    */
   void shutdown();
 
+  void registerManagedInterface(
+      std::unique_ptr<interface::Interface>&& interface);
+
  private:
   Shell(std::shared_ptr<coordinator::RenderSurface> surface);
 
-  /*
-   *  Host variables
-   */
   std::thread _hostThread;
-  Host _host;
-
-  /**
-   *  Compositor variables
-   */
   std::thread _compositorThread;
+  Host _host;
   coordinator::Coordinator _coordinator;
+  bool _attached;
+  std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>
+      _managedInterfaces;
 
   void attachHostOnCurrentThread();
+  void teardownManagedInterfaces();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Shell);
 };
