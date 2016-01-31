@@ -55,7 +55,6 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 @implementation RadarWindow {
   std::unique_ptr<rl::shell::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
-  std::shared_ptr<sample::SampleApplication> _application;
 }
 
 - (void)awakeFromNib {
@@ -65,13 +64,10 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 }
 
 - (void)launchShell {
-  _application = std::make_shared<sample::SampleApplication>();
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  _shell =
-      rl::core::make_unique<rl::shell::Shell>(_renderSurface, _application);
+  _shell = rl::core::make_unique<rl::shell::Shell>(_renderSurface);
   _renderSurface->surfaceWasCreated();
-
   [self windowWasResized];
 }
 
@@ -83,7 +79,6 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
   const CGSize boundsSize = self.surface.bounds.size;
   rl::geom::Size size(boundsSize.width, boundsSize.height);
   _renderSurface->surfaceSizeUpdated(size);
-  _shell->interface().setSize(size);
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {

@@ -12,18 +12,15 @@
 namespace rl {
 namespace shell {
 
-Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface,
-             std::weak_ptr<interface::InterfaceDelegate> delegate)
-    : _compositorThread(),
-      _coordinator(surface, _host.touchEventChannel()),
-      _interface(delegate) {
+Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface)
+    : _compositorThread(), _coordinator(surface, _host.touchEventChannel()) {
   RL_TRACE_INSTANT("ShellInitialization");
   core::clock::LoggingClockDuration();
   attachHostOnCurrentThread();
 }
 
 void Shell::attachHostOnCurrentThread() {
-  core::Latch readyLatch(3);
+  core::Latch readyLatch(2);
   auto onReady = [&]() { readyLatch.countDown(); };
 
   core::thread::SetName("rl.host");
@@ -34,11 +31,6 @@ void Shell::attachHostOnCurrentThread() {
     _coordinator.run(onReady);
   });
 
-  _interfaceThread = std::thread([&]() {
-    core::thread::SetName("rl.interface");
-    _interface.run(onReady);
-  });
-
   readyLatch.wait();
 
   RL_TRACE_INSTANT("ShellAttached");
@@ -46,10 +38,6 @@ void Shell::attachHostOnCurrentThread() {
 
 coordinator::Coordinator& Shell::coordinator() {
   return _coordinator;
-}
-
-interface::Interface& Shell::interface() {
-  return _interface;
 }
 
 Host& Shell::host() {
@@ -69,15 +57,10 @@ void Shell::shutdown() {
 
     _host.shutdown(onShutdown);
     _coordinator.shutdown(onShutdown);
-    _interface.shutdown(onShutdown);
   }
 
   if (_compositorThread.joinable()) {
     _compositorThread.join();
-  }
-
-  if (_interfaceThread.joinable()) {
-    _interfaceThread.join();
   }
 
   if (_hostThread.joinable()) {

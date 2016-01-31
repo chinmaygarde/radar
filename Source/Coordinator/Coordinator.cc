@@ -78,11 +78,11 @@ void Coordinator::surfaceWasDestroyed() {
 }
 
 void Coordinator::startComposition() {
-  // TODO: Prepare for removal
+  //
 }
 
 void Coordinator::stopComposition() {
-  // TODO: Prepare for removal
+  //
 }
 
 void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {

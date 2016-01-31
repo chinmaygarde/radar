@@ -5,9 +5,9 @@
 #ifndef RADARLOVE_SHELL_SHELL_
 #define RADARLOVE_SHELL_SHELL_
 
-#include <Core/Core.h>
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
+#include <Core/Core.h>
 #include <Host/Host.h>
 #include <Interface/Interface.h>
 
@@ -18,8 +18,7 @@ namespace shell {
 
 class Shell {
  public:
-  explicit Shell(std::shared_ptr<coordinator::RenderSurface> surface,
-                 std::weak_ptr<interface::InterfaceDelegate> delegate);
+  explicit Shell(std::shared_ptr<coordinator::RenderSurface> surface);
 
   /**
    *  Get a reference to the coordinator
@@ -27,13 +26,6 @@ class Shell {
    *  @return the coordinator
    */
   coordinator::Coordinator& coordinator();
-
-  /**
-   *  Get a reference to the interface
-   *
-   *  @return the interface
-   */
-  interface::Interface& interface();
 
   /**
    *  Get a reference to the host
@@ -60,12 +52,6 @@ class Shell {
    */
   std::thread _compositorThread;
   coordinator::Coordinator _coordinator;
-
-  /*
-   *  Interface variables
-   */
-  std::thread _interfaceThread;
-  interface::Interface _interface;
 
   void attachHostOnCurrentThread();
 
