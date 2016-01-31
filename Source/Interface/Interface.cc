@@ -20,7 +20,8 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : Interface(delegate, nullptr) {}
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive> spliceArchive)
+                     std::unique_ptr<core::Archive>
+                         spliceArchive)
     : _localNS(),
       _rootEntity(_localNS),
       _loop(nullptr),
@@ -68,7 +69,12 @@ void Interface::run(std::function<void()> onReady) {
     if (onReady) {
       onReady();
     }
+    didBecomeReady();
   });
+}
+
+void Interface::didBecomeReady() {
+  // Base class implementation does nothing.
 }
 
 bool Interface::isRunning() const {

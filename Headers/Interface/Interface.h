@@ -46,7 +46,8 @@ class Interface {
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive> spliceArchive);
+                     std::unique_ptr<core::Archive>
+                         spliceArchive);
 
   /**
    *  Setup the interface context and invoke the callback when ready
@@ -118,6 +119,9 @@ class Interface {
 
   void setupConstraintSuggestions(
       const std::vector<layout::Suggestion>& suggestions);
+
+ protected:
+  virtual void didBecomeReady();
 
  private:
   std::string _remoteDebugTag;

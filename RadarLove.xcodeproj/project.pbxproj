@@ -219,6 +219,8 @@
 		9EF226A71C49B56A00A2B027 /* DebugTagGenerator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9EF226A61C49B56A00A2B027 /* DebugTagGenerator.cc */; };
 		EA29315E1C5DEA0C00AE35F8 /* ArchiveVector.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA29315C1C5DEA0C00AE35F8 /* ArchiveVector.cc */; };
 		EA29316B1C5DEB0E00AE35F8 /* ArchiveVector.h in Headers */ = {isa = PBXBuildFile; fileRef = EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */; };
+		EA29316D1C5EC0D200AE35F8 /* ArchiveInterface.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA29316C1C5EC0D200AE35F8 /* ArchiveInterface.cc */; };
+		EA29316F1C5EC10400AE35F8 /* ArchiveInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EA29316E1C5EC10400AE35F8 /* ArchiveInterface.h */; };
 		EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */ = {isa = PBXBuildFile; fileRef = EA2D4A501C2CA06C00575608 /* IOResult.h */; };
 		EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */; };
 		EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */; };
@@ -540,6 +542,8 @@
 		EA18580E1C26744600FF64C6 /* EventLoopObserverTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EventLoopObserverTest.mm; sourceTree = "<group>"; };
 		EA29315C1C5DEA0C00AE35F8 /* ArchiveVector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveVector.cc; sourceTree = "<group>"; };
 		EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVector.h; sourceTree = "<group>"; };
+		EA29316C1C5EC0D200AE35F8 /* ArchiveInterface.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveInterface.cc; sourceTree = "<group>"; };
+		EA29316E1C5EC10400AE35F8 /* ArchiveInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveInterface.h; sourceTree = "<group>"; };
 		EA2D4A501C2CA06C00575608 /* IOResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOResult.h; sourceTree = "<group>"; };
 		EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PipeTrivialSourceTest.mm; sourceTree = "<group>"; };
 		EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyResolver.h; sourceTree = "<group>"; };
@@ -909,6 +913,7 @@
 			isa = PBXGroup;
 			children = (
 				9E222CDF1B6A9394005D02EE /* Action.h */,
+				EA29316E1C5EC10400AE35F8 /* ArchiveInterface.h */,
 				9E62F9121B7C19AF008DE08E /* Entity.h */,
 				9EAECE621B685460000FA38A /* Interface.h */,
 				9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */,
@@ -1053,6 +1058,7 @@
 			isa = PBXGroup;
 			children = (
 				9E222CDB1B6A9387005D02EE /* Action.cc */,
+				EA29316C1C5EC0D200AE35F8 /* ArchiveInterface.cc */,
 				9E62F9101B7C199D008DE08E /* Entity.cc */,
 				9EAECEC01B685469000FA38A /* Interface.cc */,
 				9EBA79BF1B87EF17005D84FA /* InterfaceStatistics.cc */,
@@ -1206,6 +1212,7 @@
 				EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
 				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
+				EA29316F1C5EC10400AE35F8 /* ArchiveInterface.h in Headers */,
 				9E78EE4F1C3DEFC6000A4E37 /* ModelEntity.h in Headers */,
 				9E029CAD1BAB74DA007E5DF8 /* KQueueWaitSet.h in Headers */,
 				9EA72CC01BBA03A7001A755C /* MachPort.h in Headers */,
@@ -1496,6 +1503,7 @@
 				9EAECEDE1B685469000FA38A /* Message.cc in Sources */,
 				9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */,
 				9E8656251BE45E3A00997766 /* TransactionPayload.cc in Sources */,
+				EA29316D1C5EC0D200AE35F8 /* ArchiveInterface.cc in Sources */,
 				9EAECEC61B685469000FA38A /* Simulation.cc in Sources */,
 				9EAECEE11B685469000FA38A /* PosixSharedMemory.cc in Sources */,
 				EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */,
