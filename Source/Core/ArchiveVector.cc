@@ -22,8 +22,11 @@ ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {
 
 bool ArchiveVector::serialize(ArchiveItem& item) const {
   std::stringstream stream;
-  for (const auto& key : _keys) {
-    stream << key << ",";
+  for (size_t i = 0, count = _keys.size(); i < count; i++) {
+    stream << _keys[i];
+    if (i != count - 1) {
+      stream << ",";
+    }
   }
   return item.encode(0, stream.str());
 }
