@@ -118,8 +118,6 @@ Action::ArchiveName Action::archiveName() const {
 }
 
 bool Action::serialize(core::ArchiveItem& item) const {
-  auto curve = static_cast<animation::TimingCurve::Data>(_timingCurveType);
-
   using K = ActionArchiveKey;
 
   auto result = true;
@@ -127,12 +125,11 @@ bool Action::serialize(core::ArchiveItem& item) const {
   result &= item.encode(K::RepeatCount, _repeatCount);
   result &= item.encode(K::AutoReverses, _autoReverses);
   result &= item.encode(K::PropertyMask, _propertyMask);
-  result &= item.encode(K::TimingCurveType, curve);
+  result &= item.encodeEnum(K::TimingCurveType, _timingCurveType);
   return result;
 }
 
 bool Action::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  animation::TimingCurve::Data curve = 0;
   core::ClockDuration::rep durationRep = 0;
 
   using K = ActionArchiveKey;
@@ -143,9 +140,8 @@ bool Action::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   result &= item.decode(K::RepeatCount, _repeatCount);
   result &= item.decode(K::AutoReverses, _autoReverses);
   result &= item.decode(K::PropertyMask, _propertyMask);
-  result &= item.decode(K::TimingCurveType, curve);
+  result &= item.decodeEnum(K::TimingCurveType, _timingCurveType);
 
-  _timingCurveType = static_cast<animation::TimingCurve::Type>(curve);
   _duration = core::ClockDuration(durationRep);
 
   return result;

@@ -179,6 +179,9 @@ bool TransferEntity::serialize(core::ArchiveItem& item) const {
   auto result = true;
   result &= item.encodeSuper<Entity>(*this);
   result &= item.encode(ArchiveKey::UpdateMask, _updateMask);
+  result &= item.encode(ArchiveKey::AddedTo, _addedTo.toString());
+  result &= item.encode(ArchiveKey::RemovedFrom, _removedFrom.toString());
+  result &= item.encode(ArchiveKey::MakeRoot, _makeRoot.toString());
   return result;
 }
 
