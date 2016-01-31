@@ -266,7 +266,7 @@ class Archive::Database {
     return statement.run() == Statement::Result::Done;
   }
 
-  sqlite3* handle() { return _db; };
+  sqlite3* handle() { return _db; }
 
  private:
   sqlite3* _db;
