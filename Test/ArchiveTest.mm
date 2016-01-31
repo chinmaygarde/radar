@@ -23,7 +23,8 @@ class Sample : public rl::core::ArchiveSerializable {
     return item.encode(999, _someData);
   };
 
-  bool deserialize(rl::core::ArchiveItem& item) override {
+  bool deserialize(rl::core::ArchiveItem& item,
+                   rl::core::Namespace* ns) override {
     _name = item.name();
     return item.decode(999, _someData);
   };
@@ -112,7 +113,7 @@ TEST(ArchiveTest, ReadData) {
 
     for (auto i = 0; i < count; i++) {
       Sample sample;
-      ASSERT_TRUE(archive.unarchive(keys[i], sample));
+      ASSERT_TRUE(archive.unarchive(keys[i], sample, nullptr));
       ASSERT_EQ(values[i], sample.someData());
     }
   }
@@ -142,7 +143,7 @@ TEST(ArchiveTest, ReadDataWithNames) {
 
     for (auto i = 0; i < count; i++) {
       Sample sample;
-      ASSERT_TRUE(archive.unarchive(keys[i], sample));
+      ASSERT_TRUE(archive.unarchive(keys[i], sample, nullptr));
       ASSERT_EQ(values[i], sample.someData());
       ASSERT_EQ(keys[i], sample.archiveName());
     }
