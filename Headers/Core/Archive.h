@@ -79,6 +79,7 @@ class Archive {
   std::map<std::string, std::unique_ptr<Statement>> _queryStatements;
   std::unique_ptr<Statement> _beginTransactionStatement;
   std::unique_ptr<Statement> _endTransactionStatement;
+  std::unique_ptr<Statement> _rollbackTransactionStatement;
 
   Statement& cachedInsertStatement(
       const ArchiveClassRegistration& registration);

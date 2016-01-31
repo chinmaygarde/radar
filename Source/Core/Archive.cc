@@ -173,28 +173,36 @@ class Archive::Transaction {
  public:
   Transaction(size_t& transactionCount,
               Statement& beginStatement,
-              Statement& endStatement)
+              Statement& endStatement,
+              Statement& rollbackStatement)
       : _transactionCount(transactionCount),
         _endStatement(endStatement),
-        _cleanup(false) {
+        _rollbackStatement(rollbackStatement),
+        _cleanup(false),
+        _successful(false) {
     if (_transactionCount == 0) {
       _cleanup = beginStatement.run() == Statement::Result::Done;
     }
     _transactionCount++;
   }
 
+  void markSuccessful() { _successful = true; }
+
   ~Transaction() {
     if (_transactionCount == 1 && _cleanup) {
-      auto res = _endStatement.run() == Statement::Result::Done;
-      RL_ASSERT_MSG(res, "Must be able to commit the nested transaction");
+      auto res = _successful ? _endStatement.run() : _rollbackStatement.run();
+      RL_ASSERT_MSG(res == Statement::Result::Done,
+                    "Must be able to commit the nested transaction");
     }
     _transactionCount--;
   }
 
  private:
   Statement& _endStatement;
+  Statement& _rollbackStatement;
   size_t& _transactionCount;
   bool _cleanup;
+  bool _successful;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Transaction);
 };
@@ -285,8 +293,12 @@ void Archive::setupTransactionStatements() {
   _endTransactionStatement =
       make_unique<Statement>(_db->handle(), "END TRANSACTION;");
 
+  _rollbackTransactionStatement =
+      make_unique<Statement>(_db->handle(), "ROLLBACK TRANSACTION;");
+
   RL_ASSERT(_beginTransactionStatement->isReady() &&
-            _endTransactionStatement->isReady());
+            _endTransactionStatement->isReady() &&
+            _rollbackTransactionStatement->isReady());
 }
 
 const ArchiveClassRegistration* Archive::registrationForDefinition(
@@ -382,8 +394,10 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  Transaction transaction(_transactionCount, *_beginTransactionStatement,
-                          *_endTransactionStatement);
+  Transaction transaction(_transactionCount,            //
+                          *_beginTransactionStatement,  //
+                          *_endTransactionStatement,    //
+                          *_rollbackTransactionStatement);
 
   const auto* registration = registrationForDefinition(definition);
 
@@ -434,6 +448,13 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
   }
 
   lastInsertIDOut = lastInsert;
+
+  /*
+   *  If any of the nested calls fail, we would have already checked for the
+   *  failure and returned.
+   */
+  transaction.markSuccessful();
+
   return true;
 }
 
