@@ -130,6 +130,9 @@ file(GLOB RADARLOVE_SQLITE_SRC
   "ThirdParty/sqlite3/*.c"
 )
 
+set_source_files_properties(${RADARLOVE_SQLITE_SRC}
+  PROPERTIES COMPILE_DEFINITIONS "SQLITE_OMIT_LOAD_EXTENSION=1")
+
 include_directories ("Headers")
 include_directories ("ThirdParty")
 
