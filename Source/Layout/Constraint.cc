@@ -132,6 +132,7 @@ const core::ArchiveDef Constraint::ArchiveDefinition = {
     .autoAssignName = false,
     .members =
         {
+            ArchiveKey::Identifier,  //
             ArchiveKey::Expression,  //
             ArchiveKey::Relation,    //
             ArchiveKey::Priority     //
