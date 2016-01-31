@@ -18,7 +18,8 @@ namespace shell {
 
 class Shell {
  public:
-  explicit Shell(std::shared_ptr<coordinator::RenderSurface> surface);
+  static std::unique_ptr<Shell> CreateWithCurrentThreadAsHost(
+      std::shared_ptr<coordinator::RenderSurface> surface);
 
   /**
    *  Get a reference to the coordinator
@@ -41,6 +42,8 @@ class Shell {
   void shutdown();
 
  private:
+  Shell(std::shared_ptr<coordinator::RenderSurface> surface);
+
   /*
    *  Host variables
    */

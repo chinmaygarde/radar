@@ -66,7 +66,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 - (void)launchShell {
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
-  _shell = rl::core::make_unique<rl::shell::Shell>(_renderSurface);
+  _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
   _renderSurface->surfaceWasCreated();
   [self windowWasResized];
 }

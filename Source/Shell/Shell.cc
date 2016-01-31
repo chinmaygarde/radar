@@ -12,11 +12,29 @@
 namespace rl {
 namespace shell {
 
+std::unique_ptr<Shell> Shell::CreateWithCurrentThreadAsHost(
+    std::shared_ptr<coordinator::RenderSurface> surface) {
+  /*
+   *  Any log messages will be relative to the first call to the logging
+   *  duration. This is as good a spot as any to initialize the logging
+   *  duration.
+   */
+  core::clock::LoggingClockDuration();
+
+  /*
+   *  Create an instance of the shell and attach to the current thread.
+   *  This is a blocking operation and waits for the full initialization of
+   *  all service threads.
+   */
+  auto shell = std::unique_ptr<Shell>(new Shell(std::move(surface)));
+  shell->attachHostOnCurrentThread() /* blocking till completion */;
+
+  return shell /* go forth and prosper */;
+}
+
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface)
     : _compositorThread(), _coordinator(surface, _host.touchEventChannel()) {
   RL_TRACE_INSTANT("ShellInitialization");
-  core::clock::LoggingClockDuration();
-  attachHostOnCurrentThread();
 }
 
 void Shell::attachHostOnCurrentThread() {
@@ -52,7 +70,7 @@ void Shell::shutdown() {
      *  wind down as well as. Once that happens, join the threads hosting the
      *  subsystems.
      */
-    core::AutoLatch shutdownLatch(3);
+    core::AutoLatch shutdownLatch(2);
     auto onShutdown = [&]() { shutdownLatch.countDown(); };
 
     _host.shutdown(onShutdown);
