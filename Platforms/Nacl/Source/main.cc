@@ -17,11 +17,11 @@
 #include <nacl_io/nacl_io.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Compositor/RenderSurface.h>
+#include <Coordinator/RenderSurface.h>
 
 #include "Sample.h"
 
-class RenderSurfaceNacl : public rl::RenderSurface {
+class RenderSurfaceNacl : public rl::coordinator::RenderSurface {
  public:
   explicit RenderSurfaceNacl(pp::Graphics3D& context)
       : RenderSurface(), _context(context), _callbackFactory(this) {}
@@ -88,7 +88,7 @@ class RadarLoveInstance : public pp::Instance {
 
   void resizeInterface(int32_t width, int32_t height) {
     RL_ASSERT(_renderSurface != nullptr && _shell != nullptr);
-    rl::Size size(width, height);
+    rl::geom::Size size(width, height);
     _renderSurface->surfaceSizeUpdated(size);
     _shell->interface().setSize(size);
   }
@@ -119,11 +119,12 @@ class RadarLoveInstance : public pp::Instance {
   void initializeRadarLove() {
     _renderSurface = std::make_shared<RenderSurfaceNacl>(_context);
     _application = std::make_shared<sample::SampleApplication>();
-    _shell = rl::make_unique<rl::Shell>(_renderSurface, _application);
+    _shell =
+        rl::core::make_unique<rl::shell::Shell>(_renderSurface, _application);
   }
 
  private:
-  std::unique_ptr<rl::Shell> _shell;
+  std::unique_ptr<rl::shell::Shell> _shell;
   std::shared_ptr<RenderSurfaceNacl> _renderSurface;
   std::shared_ptr<sample::SampleApplication> _application;
 
