@@ -193,7 +193,7 @@ bool Entity::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool Entity::deserialize(core::ArchiveItem& item) {
+bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
 
   std::string decoded;

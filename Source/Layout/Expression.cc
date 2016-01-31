@@ -96,7 +96,7 @@ bool Expression::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool Expression::deserialize(core::ArchiveItem& item) {
+bool Expression::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
   result &= item.decode(ArchiveKey::Terms, _terms);
   result &= item.decode(ArchiveKey::Constant, _constant);

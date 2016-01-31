@@ -15,7 +15,7 @@ class ArchiveVector : public ArchiveSerializable {
 
   bool serialize(ArchiveItem& item) const override;
 
-  bool deserialize(ArchiveItem& item) override;
+  bool deserialize(ArchiveItem& item, Namespace* ns) override;
 
  private:
   std::vector<int64_t> _keys;

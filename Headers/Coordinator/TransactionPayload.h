@@ -40,19 +40,17 @@ class TransactionPayload : public core::ArchiveSerializable,
                               ConstraintsCallback constraintsCallback,
                               SuggestionsCallback suggestionsCallback);
 
-  /*
-   *  Message Serialization
-   */
   bool serialize(core::Message& message) const override;
+
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
-  /*
-   *  Archive Serialization
-   */
   static const core::ArchiveDef ArchiveDefinition;
+
   core::ArchiveSerializable::ArchiveName archiveName() const override;
+
   bool serialize(core::ArchiveItem& item) const override;
-  bool deserialize(core::ArchiveItem& item) override;
+
+  bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
  private:
   /*

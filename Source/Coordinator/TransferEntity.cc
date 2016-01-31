@@ -182,9 +182,8 @@ bool TransferEntity::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool TransferEntity::deserialize(core::ArchiveItem& item) {
+bool TransferEntity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
-  result &= Entity::deserialize(item);
   result &= item.decode(ArchiveKey::UpdateMask, _updateMask);
   return result;
 }

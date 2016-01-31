@@ -439,7 +439,8 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
 
 bool Archive::unarchiveInstance(const ArchiveDef& definition,
                                 ArchiveSerializable::ArchiveName name,
-                                ArchiveSerializable& archivable) {
+                                ArchiveSerializable& archivable,
+                                Namespace* ns) {
   if (!isReady()) {
     return false;
   }
@@ -471,7 +472,7 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
 
   ArchiveItem item(*this, statement, *registration, name);
 
-  auto result = archivable.deserialize(item);
+  auto result = archivable.deserialize(item, ns);
 
   statement.reset();
 

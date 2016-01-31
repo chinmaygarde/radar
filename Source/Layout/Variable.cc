@@ -130,6 +130,7 @@ bool Variable::deserialize(core::Message& message, core::Namespace* ns) {
 }
 
 enum ArchiveKey {
+  Identifier,
   Property,
   Proxy,
 };
@@ -138,29 +139,35 @@ const core::ArchiveDef Variable::ArchiveDefinition = {
     .superClass = nullptr,
     .className = "Variable",
     .autoAssignName = true,
-    .members = {ArchiveKey::Property,  //
+    .members = {ArchiveKey::Identifier,  //
+                ArchiveKey::Property,    //
                 ArchiveKey::Proxy},
 };
 
 Variable::ArchiveName Variable::archiveName() const {
-  /*
-   *  Cannot use the identifier directly because it may be dead (in case of
-   *  proxies)
-   */
   return core::ArchiveNameAuto;
 }
 
 bool Variable::serialize(core::ArchiveItem& item) const {
   auto result = true;
+  result &= item.encode(ArchiveKey::Identifier, _identifier.toString());
   result &= item.encodeEnum(ArchiveKey::Property, _property);
   result &= item.encodeEnum(ArchiveKey::Proxy, _proxy);
   return result;
 }
 
-bool Variable::deserialize(core::ArchiveItem& item) {
+bool Variable::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
+  std::string name;
+
   auto result = true;
+  result &= item.decode(ArchiveKey::Identifier, name);
   result &= item.decodeEnum(ArchiveKey::Property, _property);
   result &= item.decodeEnum(ArchiveKey::Proxy, _proxy);
+
+  if (result) {
+    _identifier.fromString(name, ns);
+  }
+
   return result;
 }
 

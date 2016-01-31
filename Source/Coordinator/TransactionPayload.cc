@@ -162,7 +162,8 @@ bool TransactionPayload::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool TransactionPayload::deserialize(core::ArchiveItem& item) {
+bool TransactionPayload::deserialize(core::ArchiveItem& item,
+                                     core::Namespace* ns) {
   auto result = true;
   result &= item.decodeArchivable(TransactionArchiveKey::Action, _action);
   result &= item.decode(TransactionArchiveKey::Constraints, _constraints);

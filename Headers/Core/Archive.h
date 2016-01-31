@@ -27,7 +27,7 @@ class ArchiveSerializable {
 
   virtual ArchiveName archiveName() const = 0;
   virtual bool serialize(ArchiveItem& item) const = 0;
-  virtual bool deserialize(ArchiveItem& item) = 0;
+  virtual bool deserialize(ArchiveItem& item, Namespace* ns) = 0;
 };
 
 struct ArchiveDef {
@@ -57,9 +57,11 @@ class Archive {
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
-  bool unarchive(ArchiveSerializable::ArchiveName name, T& archivable) {
+  bool unarchive(ArchiveSerializable::ArchiveName name,
+                 T& archivable,
+                 Namespace* ns) {
     const ArchiveDef& def = T::ArchiveDefinition;
-    return unarchiveInstance(def, name, archivable);
+    return unarchiveInstance(def, name, archivable, ns);
   }
 
  private:
@@ -91,7 +93,8 @@ class Archive {
                        int64_t& lastInsertID);
   bool unarchiveInstance(const ArchiveDef& definition,
                          ArchiveSerializable::ArchiveName name,
-                         ArchiveSerializable& archivable);
+                         ArchiveSerializable& archivable,
+                         Namespace* ns);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };

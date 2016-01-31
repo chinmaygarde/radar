@@ -35,7 +35,7 @@ class Suggestion : public core::ArchiveSerializable,
 
   bool serialize(core::ArchiveItem& item) const override;
 
-  bool deserialize(core::ArchiveItem& item) override;
+  bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
   static std::vector<Suggestion> Anchor(interface::Entity& entity,
                                         interface::Entity::Property property,

@@ -180,7 +180,7 @@ class Entity : public core::ArchiveSerializable {
 
   bool serialize(core::ArchiveItem& item) const override;
 
-  bool deserialize(core::ArchiveItem& item) override;
+  bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
  protected:
   core::Name _identifier;

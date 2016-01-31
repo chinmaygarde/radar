@@ -70,7 +70,7 @@ bool Term::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool Term::deserialize(core::ArchiveItem& item) {
+bool Term::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
   result &= item.decodeArchivable(ArchiveKey::Variable, _variable);
   result &= item.decode(ArchiveKey::Coefficient, _coefficient);

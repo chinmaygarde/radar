@@ -131,7 +131,7 @@ bool Action::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool Action::deserialize(core::ArchiveItem& item) {
+bool Action::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   animation::TimingCurve::Data curve = 0;
   core::ClockDuration::rep durationRep = 0;
 

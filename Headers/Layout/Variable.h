@@ -73,7 +73,7 @@ class Variable : public core::ArchiveSerializable,
 
   bool serialize(core::ArchiveItem& item) const override;
 
-  bool deserialize(core::ArchiveItem& item) override;
+  bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
   struct Hash {
     std::size_t operator()(const Variable& v) const {

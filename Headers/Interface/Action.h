@@ -79,12 +79,16 @@ class Action : public core::ArchiveSerializable,
   double unitInterpolation(const core::ClockDuration& time) const;
 
   bool serialize(core::Message& message) const override;
+
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
   static const core::ArchiveDef ArchiveDefinition;
+
   ArchiveName archiveName() const override;
+
   bool serialize(core::ArchiveItem& item) const override;
-  bool deserialize(core::ArchiveItem& item) override;
+
+  bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
  private:
   core::ClockDuration _duration;

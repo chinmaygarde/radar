@@ -149,7 +149,7 @@ bool Constraint::serialize(core::ArchiveItem& item) const {
   return result;
 }
 
-bool Constraint::deserialize(core::ArchiveItem& item) {
+bool Constraint::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
   result &= item.decodeArchivable(ArchiveKey::Expression, _expression);
   result &= item.decodeEnum(ArchiveKey::Relation, _relation);
