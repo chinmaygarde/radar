@@ -10,7 +10,7 @@ namespace interface {
 ArchiveInterface::ArchiveInterface(std::weak_ptr<InterfaceDelegate> delegate,
                                    std::unique_ptr<core::Archive>&& archive)
     : Interface(delegate), _archive(std::move(archive)) {
-  RL_ASSERT_MSG(archive && archive->isReady(), "The archive must be ready");
+  RL_ASSERT_MSG(_archive && _archive->isReady(), "The archive must be ready");
 }
 
 void ArchiveInterface::didBecomeReady() {}
