@@ -55,6 +55,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 @implementation RadarWindow {
   std::unique_ptr<rl::shell::Shell> _shell;
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
+  std::shared_ptr<sample::SampleApplication> _application;
 }
 
 - (void)awakeFromNib {
@@ -68,6 +69,11 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
   _renderSurface->surfaceWasCreated();
+  _application = std::make_shared<sample::SampleApplication>();
+  auto interface =
+      rl::core::make_unique<rl::interface::Interface>(_application);
+  _shell->registerManagedInterface(std::move(interface));
+
   [self windowWasResized];
 }
 

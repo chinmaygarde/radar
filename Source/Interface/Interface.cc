@@ -20,8 +20,7 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
     : Interface(delegate, nullptr) {}
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive>
-                         spliceArchive)
+                     std::unique_ptr<core::Archive> spliceArchive)
     : _localNS(),
       _rootEntity(_localNS),
       _loop(nullptr),
@@ -41,6 +40,9 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
 #undef C
           // clang-format on
       }) {
+  RL_ASSERT_MSG(_delegate.lock() != nullptr,
+                "A valid delegate must be present");
+
   /*
    *  Implicit interface transactions are flushed at the maximum available
    *  priority. This is so that loop observers setup by application code can
