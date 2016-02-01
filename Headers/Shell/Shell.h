@@ -12,6 +12,7 @@
 #include <Interface/Interface.h>
 
 #include <thread>
+#include <mutex>
 #include <unordered_map>
 
 namespace rl {
@@ -53,6 +54,7 @@ class Shell {
   Host _host;
   coordinator::Coordinator _coordinator;
   bool _attached;
+  std::mutex _interfacesMutex;
   std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>
       _managedInterfaces;
 

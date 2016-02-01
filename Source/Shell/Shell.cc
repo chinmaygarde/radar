@@ -101,12 +101,20 @@ void Shell::registerManagedInterface(
                 "The shell must be attached to a host before managed "
                 "interfaces can be registered with it");
 
+  std::lock_guard<std::mutex> lock(_interfacesMutex);
+
   /*
    *  Make sure the interface is launched on a new managed thread.
    */
   core::Latch interfaceLatch(1);
+  const auto interfaceCount = _managedInterfaces.size();
   auto interfaceReady = [&]() { interfaceLatch.countDown(); };
-  std::thread interfaceThread([&] { interface->run(interfaceReady); });
+  std::thread interfaceThread([&] {
+    std::string threadName =
+        "rl.interface." + std::to_string(interfaceCount + 1);
+    core::thread::SetName(threadName.c_str());
+    interface->run(interfaceReady);
+  });
   interfaceLatch.wait();
 
   /*
@@ -116,6 +124,8 @@ void Shell::registerManagedInterface(
 }
 
 void Shell::teardownManagedInterfaces() {
+  std::lock_guard<std::mutex> lock(_interfacesMutex);
+
   {
     /*
      *  Make sure all interface shut down gracefully.
