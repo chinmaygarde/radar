@@ -2,7 +2,7 @@ build:
   image: chinmaygarde/radar:v2
   commands:
     - cmake .
-    - make
+    - make RadarLoveTest
     - timeout 10s ./RadarLoveTest
     - make -C Docs htmlonly
 deploy:
