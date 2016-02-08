@@ -19,7 +19,7 @@ class ArchiveDef;
 
 class ArchiveDatabase {
  public:
-  ArchiveDatabase(const std::string& filename);
+  ArchiveDatabase(const std::string& filename, bool recreate);
 
   ~ArchiveDatabase();
 

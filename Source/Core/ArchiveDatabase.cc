@@ -17,8 +17,12 @@ namespace core {
 
 #define DB_HANDLE reinterpret_cast<sqlite3*>(_db)
 
-ArchiveDatabase::ArchiveDatabase(const std::string& filename) : _db(nullptr) {
-  ::remove(filename.c_str());
+ArchiveDatabase::ArchiveDatabase(const std::string& filename, bool recreate)
+    : _db(nullptr) {
+  if (recreate) {
+    ::remove(filename.c_str());
+  }
+
   sqlite3* db = nullptr;
   auto res = sqlite3_open(filename.c_str(), &db);
   _db = db;
@@ -52,8 +56,7 @@ ArchiveDatabase::ArchiveDatabase(const std::string& filename) : _db(nullptr) {
 }
 
 ArchiveDatabase::~ArchiveDatabase() {
-  auto res = sqlite3_close(DB_HANDLE);
-  RL_ASSERT(res == SQLITE_OK);
+  sqlite3_close(DB_HANDLE);
 }
 
 bool ArchiveDatabase::isReady() const {

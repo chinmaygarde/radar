@@ -42,7 +42,7 @@ static const ArchiveSerializable::ArchiveName ArchiveNameAuto = 0;
 
 class Archive {
  public:
-  Archive(const std::string& path);
+  Archive(const std::string& path, bool recreate);
 
   ~Archive();
 

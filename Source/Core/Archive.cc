@@ -11,10 +11,13 @@
 namespace rl {
 namespace core {
 
-Archive::Archive(const std::string& path)
-    : _db(make_unique<ArchiveDatabase>(path)), _transactionCount(0) {}
+Archive::Archive(const std::string& path, bool recreate)
+    : _db(make_unique<ArchiveDatabase>(path, recreate)), _transactionCount(0) {}
 
-Archive::~Archive() {}
+Archive::~Archive() {
+  RL_ASSERT_MSG(_transactionCount == 0,
+                "There must be no pending transactions");
+}
 
 bool Archive::isReady() const {
   return _db->isReady();

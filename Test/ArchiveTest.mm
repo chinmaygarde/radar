@@ -50,7 +50,7 @@ RL_DECLARE_TEST_START(ArchiveTest)
 TEST(ArchiveTest, SimpleInitialization) {
   auto name = "/tmp/sample.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
   ASSERT_TRUE(::remove(name) == 0);
@@ -59,7 +59,7 @@ TEST(ArchiveTest, SimpleInitialization) {
 TEST(ArchiveTest, AddStorageClass) {
   auto name = "/tmp/sample2.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
   ASSERT_TRUE(::remove(name) == 0);
@@ -68,7 +68,7 @@ TEST(ArchiveTest, AddStorageClass) {
 TEST(ArchiveTest, AddData) {
   auto name = "/tmp/sample3.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
     Sample sample;
     ASSERT_TRUE(archive.archive(sample));
@@ -79,7 +79,7 @@ TEST(ArchiveTest, AddData) {
 TEST(ArchiveTest, AddDataMultiple) {
   auto name = "/tmp/sample4.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     for (auto i = 0; i < 100; i++) {
@@ -93,7 +93,7 @@ TEST(ArchiveTest, AddDataMultiple) {
 TEST(ArchiveTest, ReadData) {
   auto name = "/tmp/sample5.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     size_t count = 50;
@@ -123,7 +123,7 @@ TEST(ArchiveTest, ReadData) {
 TEST(ArchiveTest, ReadDataWithNames) {
   auto name = "/tmp/sample6.db";
   {
-    rl::core::Archive archive(name);
+    rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     size_t count = 8;
