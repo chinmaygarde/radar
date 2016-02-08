@@ -9,7 +9,6 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 
-#include <map>
 #include <string>
 #include <vector>
 
@@ -18,6 +17,8 @@ namespace core {
 
 class ArchiveItem;
 class ArchiveClassRegistration;
+class ArchiveDatabase;
+class ArchiveStatement;
 
 class ArchiveSerializable {
  public:
@@ -65,30 +66,11 @@ class Archive {
   }
 
  private:
-  class Database;
-  class Statement;
-  class Transaction;
+  std::unique_ptr<ArchiveDatabase> _db;
+  int64_t _transactionCount;
 
   friend class ArchiveItem;
 
-  std::unique_ptr<Database> _db;
-  size_t _transactionCount;
-  std::map<std::string, std::unique_ptr<ArchiveClassRegistration>>
-      _registrations;
-  std::map<std::string, std::unique_ptr<Statement>> _insertStatements;
-  std::map<std::string, std::unique_ptr<Statement>> _queryStatements;
-  std::unique_ptr<Statement> _beginTransactionStatement;
-  std::unique_ptr<Statement> _endTransactionStatement;
-  std::unique_ptr<Statement> _rollbackTransactionStatement;
-
-  Statement& cachedInsertStatement(
-      const ArchiveClassRegistration& registration);
-  Statement& cachedQueryStatement(const ArchiveClassRegistration& registration);
-
-  void setupTransactionStatements();
-
-  const ArchiveClassRegistration* registrationForDefinition(
-      const ArchiveDef& definition);
   bool archiveInstance(const ArchiveDef& definition,
                        const ArchiveSerializable& archivable,
                        int64_t& lastInsertID);
@@ -108,7 +90,9 @@ class ArchiveItem {
   }
 
   bool encode(ArchiveSerializable::Member member, double item);
+
   bool encode(ArchiveSerializable::Member member, const std::string& item);
+
   bool encode(ArchiveSerializable::Member member, const Allocation& allocation);
 
   template <class T,
@@ -176,7 +160,9 @@ class ArchiveItem {
   }
 
   bool decode(ArchiveSerializable::Member member, double& item);
+
   bool decode(ArchiveSerializable::Member member, std::string& item);
+
   bool decode(ArchiveSerializable::Member member, Allocation& allocation);
 
   template <class T,
@@ -209,7 +195,7 @@ class ArchiveItem {
 
  private:
   Archive& _context;
-  Archive::Statement& _statement;
+  ArchiveStatement& _statement;
   const ArchiveClassRegistration& _registration;
   ArchiveSerializable::ArchiveName _name;
   std::string _currentClass;
@@ -217,7 +203,7 @@ class ArchiveItem {
   friend class Archive;
 
   ArchiveItem(Archive& context,
-              Archive::Statement& statement,
+              ArchiveStatement& statement,
               const ArchiveClassRegistration& registration,
               ArchiveSerializable::ArchiveName name);
 

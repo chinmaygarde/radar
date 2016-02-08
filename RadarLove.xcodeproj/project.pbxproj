@@ -63,6 +63,12 @@
 		9E4658E81BABB77E00303944 /* InProcessTrivialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */; };
 		9E6057281C5C380700161760 /* ArchiveClassRegistration.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */; };
 		9E6057291C5C380700161760 /* ArchiveClassRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6057271C5C380700161760 /* ArchiveClassRegistration.h */; };
+		9E6057471C61488C00161760 /* ArchiveDatabase.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6057411C61488C00161760 /* ArchiveDatabase.cc */; };
+		9E6057481C61488C00161760 /* ArchiveDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6057421C61488C00161760 /* ArchiveDatabase.h */; };
+		9E6057491C61488C00161760 /* ArchiveStatement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6057431C61488C00161760 /* ArchiveStatement.cc */; };
+		9E60574A1C61488C00161760 /* ArchiveStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6057441C61488C00161760 /* ArchiveStatement.h */; };
+		9E60574B1C61488C00161760 /* ArchiveTransaction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E6057451C61488C00161760 /* ArchiveTransaction.cc */; };
+		9E60574C1C61488C00161760 /* ArchiveTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6057461C61488C00161760 /* ArchiveTransaction.h */; };
 		9E62F9111B7C199D008DE08E /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F9101B7C199D008DE08E /* Entity.cc */; };
 		9E62F9131B7C19AF008DE08E /* Entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E62F9121B7C19AF008DE08E /* Entity.h */; };
 		9E6745631B7563D100C1EB34 /* InterfaceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E6745621B7563D100C1EB34 /* InterfaceDelegate.h */; };
@@ -382,6 +388,12 @@
 		9E4658E61BABB77E00303944 /* InProcessTrivialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InProcessTrivialSource.h; sourceTree = "<group>"; };
 		9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveClassRegistration.cc; sourceTree = "<group>"; };
 		9E6057271C5C380700161760 /* ArchiveClassRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveClassRegistration.h; sourceTree = "<group>"; };
+		9E6057411C61488C00161760 /* ArchiveDatabase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveDatabase.cc; sourceTree = "<group>"; };
+		9E6057421C61488C00161760 /* ArchiveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveDatabase.h; sourceTree = "<group>"; };
+		9E6057431C61488C00161760 /* ArchiveStatement.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveStatement.cc; sourceTree = "<group>"; };
+		9E6057441C61488C00161760 /* ArchiveStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveStatement.h; sourceTree = "<group>"; };
+		9E6057451C61488C00161760 /* ArchiveTransaction.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveTransaction.cc; sourceTree = "<group>"; };
+		9E6057461C61488C00161760 /* ArchiveTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveTransaction.h; sourceTree = "<group>"; };
 		9E62F74A1B796D80008DE08E /* ChannelTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChannelTest.mm; sourceTree = "<group>"; };
 		9E62F80C1B796D81008DE08E /* EventLoopTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EventLoopTest.mm; sourceTree = "<group>"; };
 		9E62F80D1B796D81008DE08E /* MessageDecoderTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageDecoderTest.mm; sourceTree = "<group>"; };
@@ -977,6 +989,12 @@
 				EA29316A1C5DEB0E00AE35F8 /* ArchiveVector.h */,
 				9E6057261C5C380700161760 /* ArchiveClassRegistration.cc */,
 				9E6057271C5C380700161760 /* ArchiveClassRegistration.h */,
+				9E6057411C61488C00161760 /* ArchiveDatabase.cc */,
+				9E6057421C61488C00161760 /* ArchiveDatabase.h */,
+				9E6057431C61488C00161760 /* ArchiveStatement.cc */,
+				9E6057441C61488C00161760 /* ArchiveStatement.h */,
+				9E6057451C61488C00161760 /* ArchiveTransaction.cc */,
+				9E6057461C61488C00161760 /* ArchiveTransaction.h */,
 				9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */,
 				9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */,
 				9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */,
@@ -1195,8 +1213,10 @@
 				9EA72CC61BBA12A1001A755C /* MachTrivialSource.h in Headers */,
 				9EBA79AA1B87D856005D84FA /* Stopwatch.h in Headers */,
 				9EAECE7C1B685460000FA38A /* Latch.h in Headers */,
+				9E6057481C61488C00161760 /* ArchiveDatabase.h in Headers */,
 				9E222CE11B6A9394005D02EE /* Action.h in Headers */,
 				9EAECE871B685460000FA38A /* Matrix.h in Headers */,
+				9E60574C1C61488C00161760 /* ArchiveTransaction.h in Headers */,
 				9E86557E1BE2F16F00997766 /* StateMachine.h in Headers */,
 				EA62B3211B6F28F7009F197F /* TouchEvent.h in Headers */,
 				EA62B3231B6F2F31009F197F /* Timing.h in Headers */,
@@ -1231,6 +1251,7 @@
 				9EAECE831B685460000FA38A /* SharedMemory.h in Headers */,
 				9EAECE851B685460000FA38A /* Utilities.h in Headers */,
 				9E8655EF1BE45E2700997766 /* EntityLease.h in Headers */,
+				9E60574A1C61488C00161760 /* ArchiveStatement.h in Headers */,
 				9E8655EC1BE45E2700997766 /* Statistics.h in Headers */,
 				EA6090DB1BA41E8C00C2E263 /* SocketChannel.h in Headers */,
 				9EAECE6C1B685460000FA38A /* Utilities.h in Headers */,
@@ -1465,6 +1486,7 @@
 				9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */,
 				9E16A6FC1BE2E9D700FFEDFC /* Row.cc in Sources */,
 				9E16A7041BE2E9D700FFEDFC /* Variable.cc in Sources */,
+				9E6057491C61488C00161760 /* ArchiveStatement.cc in Sources */,
 				9E910BB11C5051E60097E9DE /* InProcessBootstrapServer.cc in Sources */,
 				9EBA79B81B87D864005D84FA /* Trace.cc in Sources */,
 				9EAECEE31B685469000FA38A /* Utilities.cc in Sources */,
@@ -1472,6 +1494,7 @@
 				EA29315E1C5DEA0C00AE35F8 /* ArchiveVector.cc in Sources */,
 				9EA72CC11BBA0414001A755C /* InProcessChannel.cc in Sources */,
 				9E86561B1BE45E3A00997766 /* Frame.cc in Sources */,
+				9E6057471C61488C00161760 /* ArchiveDatabase.cc in Sources */,
 				9E029C581BA8AD1A007E5DF8 /* DisabledSharedMemory.cc in Sources */,
 				9E3FABF21C516CF5002561F0 /* sqlite3.c in Sources */,
 				9EF07B6C1C0641C600735CAA /* InterfaceController.cc in Sources */,
@@ -1539,6 +1562,7 @@
 				9EAECEC41B685469000FA38A /* GravitySimulation.cc in Sources */,
 				9E3FABE01C5165AC002561F0 /* Archive.cc in Sources */,
 				9E029C691BA8ED6E007E5DF8 /* PosixMemoryHandle.cc in Sources */,
+				9E60574B1C61488C00161760 /* ArchiveTransaction.cc in Sources */,
 				9E16A7011BE2E9D700FFEDFC /* Tag.cc in Sources */,
 				9EAECEC91B685469000FA38A /* SpringSolution.cc in Sources */,
 				9E86561D1BE45E3A00997766 /* OpenGL.cc in Sources */,
