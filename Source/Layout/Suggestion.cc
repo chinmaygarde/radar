@@ -131,7 +131,7 @@ bool Suggestion::serialize(core::ArchiveItem& item) const {
 
 bool Suggestion::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
-  result &= item.decodeArchivable(ArchiveKey::Variable, _variable);
+  result &= item.decodeArchivable(ArchiveKey::Variable, _variable, ns);
   result &= item.decode(ArchiveKey::Value, _value);
   result &= item.decode(ArchiveKey::Priority, _priority);
   return result;

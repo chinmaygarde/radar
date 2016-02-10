@@ -273,14 +273,33 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,
                          const ArchiveDef& otherDef,
-                         ArchiveSerializable& other) {
+                         ArchiveSerializable& other,
+                         Namespace* ns) {
   auto found = _registration.findColumn(_currentClass, member);
-  if (found.second) {
-    RL_ASSERT_MSG(false, "WIP");
-    return false;
-  } else {
+
+  /*
+   *  Make sure a member is present at that column
+   */
+  if (!found.second) {
     return false;
   }
+
+  /*
+   *  Try to find the foreign key in the current items row
+   */
+  int64_t foreignKey = 0;
+  if (!_statement.column(found.first, foreignKey)) {
+    return false;
+  }
+
+  /*
+   *  Find the other item and unarchive by this foreign key
+   */
+  if (!_context.unarchiveInstance(otherDef, foreignKey, other, ns)) {
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace core

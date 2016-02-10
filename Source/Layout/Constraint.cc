@@ -157,7 +157,7 @@ bool Constraint::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
 
   auto result = true;
   result &= item.decode(ArchiveKey::Identifier, name);
-  result &= item.decodeArchivable(ArchiveKey::Expression, _expression);
+  result &= item.decodeArchivable(ArchiveKey::Expression, _expression, ns);
   result &= item.decodeEnum(ArchiveKey::Relation, _relation);
   result &= item.decode(ArchiveKey::Priority, _priority);
 

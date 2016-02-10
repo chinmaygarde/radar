@@ -179,9 +179,11 @@ class ArchiveItem {
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
-  bool decodeArchivable(ArchiveSerializable::Member member, T& other) {
+  bool decodeArchivable(ArchiveSerializable::Member member,
+                        T& other,
+                        Namespace* ns) {
     const ArchiveDef& otherDef = T::ArchiveDefinition;
-    return decode(member, otherDef, other);
+    return decode(member, otherDef, other, ns);
   }
 
   template <class T, class = only_if<std::is_enum<T>::value>>
@@ -197,9 +199,7 @@ class ArchiveItem {
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool decode(ArchiveSerializable::Member member, std::vector<T>& item) {
-    /*
-     *  WIP
-     */
+    RL_ASSERT_MSG(false, "WIP");
     return true;
   }
 
@@ -228,7 +228,8 @@ class ArchiveItem {
               const ArchiveSerializable& other);
   bool decode(ArchiveSerializable::Member member,
               const ArchiveDef& otherDef,
-              ArchiveSerializable& other);
+              ArchiveSerializable& other,
+              Namespace* ns);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveItem);
 };
