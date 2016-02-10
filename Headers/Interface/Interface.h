@@ -46,8 +46,7 @@ class Interface {
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
 
   explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive>
-                         spliceArchive);
+                     std::unique_ptr<core::Archive> spliceArchive);
 
   /**
    *  Setup the interface context and invoke the callback when ready
@@ -122,6 +121,8 @@ class Interface {
 
  protected:
   virtual void didBecomeReady();
+
+  core::Namespace& ns();
 
  private:
   std::string _remoteDebugTag;

@@ -83,6 +83,10 @@ bool Interface::isRunning() const {
   return _loop != nullptr;
 }
 
+core::Namespace& Interface::ns() {
+  return _localNS;
+}
+
 std::unique_ptr<ModelEntity> Interface::createEntity() {
   return core::make_unique<ModelEntity>(core::Name{_localNS});
 }

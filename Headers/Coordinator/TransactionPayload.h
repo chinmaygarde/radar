@@ -29,6 +29,10 @@ class TransactionPayload : public core::ArchiveSerializable,
   using SuggestionsCallback =
       std::function<void(std::vector<layout::Suggestion>&&)>;
 
+  explicit TransactionPayload();
+
+  TransactionPayload(TransactionPayload&& payload);
+
   explicit TransactionPayload(interface::Action&& action,
                               EntityMap&& entities,
                               std::vector<layout::Constraint>&& constraints,

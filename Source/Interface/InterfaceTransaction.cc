@@ -39,16 +39,32 @@ void InterfaceTransaction::mark(
   }
 }
 
+void InterfaceTransaction::mark(coordinator::TransactionPayload&& payload) {
+  _extraPayloads.emplace_back(std::move(payload));
+}
+
 bool InterfaceTransaction::commit(core::Message& arena,
                                   std::unique_ptr<core::Archive>& archive) {
   coordinator::TransactionPayload payload(
       std::move(_action), std::move(_entities), std::move(_constraints),
       std::move(_suggestions));
 
+  /*
+   *  Write to the message arena
+   */
   auto result = arena.encode(payload);
+  for (const auto& extraPayload : _extraPayloads) {
+    result &= arena.encode(extraPayload);
+  }
 
+  /*
+   *  Write to the archive if one is available
+   */
   if (archive) {
     result &= archive->archive(payload);
+    for (const auto& extraPayload : _extraPayloads) {
+      result &= archive->archive(extraPayload);
+    }
   }
 
   return result;

@@ -30,6 +30,8 @@ class InterfaceTransaction {
 
   void mark(const std::vector<layout::Suggestion>& suggestions);
 
+  void mark(coordinator::TransactionPayload&& payload);
+
   bool commit(core::Message& arena, std::unique_ptr<core::Archive>& archive);
 
  private:
@@ -37,6 +39,7 @@ class InterfaceTransaction {
   coordinator::TransactionPayload::EntityMap _entities;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;
+  std::vector<coordinator::TransactionPayload> _extraPayloads;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTransaction);
 };

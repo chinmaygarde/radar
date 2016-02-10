@@ -9,6 +9,10 @@
 namespace rl {
 namespace coordinator {
 
+TransactionPayload::TransactionPayload() {}
+
+TransactionPayload::TransactionPayload(TransactionPayload&& payload) = default;
+
 TransactionPayload::TransactionPayload(
     interface::Action&& action,
     EntityMap&& entities,
