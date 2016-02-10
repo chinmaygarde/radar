@@ -40,12 +40,14 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
 
   auto statement = registration->insertStatement();
 
-  if (!statement.isReady()) {
+  if (!statement.isReady() || !statement.reset()) {
     /*
      *  Must be able to reset the statement for a new write
      */
     return false;
   }
+
+  auto itemName = archivable.archiveName();
 
   /*
    *  The lifecycle of the archive item is tied to this scope and there is no
@@ -53,9 +55,6 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
    *  for its members to be references. It does not manage the lifetimes of
    *  anything.
    */
-
-  auto itemName = archivable.archiveName();
-
   ArchiveItem item(*this, statement, *registration, itemName);
 
   /*
@@ -95,6 +94,17 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
                                 ArchiveSerializable::ArchiveName name,
                                 ArchiveSerializable& archivable,
                                 Namespace* ns) {
+  UnarchiveStep stepper = [&archivable, &ns](ArchiveItem& item) {
+    archivable.deserialize(item, ns);
+    return false /* no-more after single read */;
+  };
+
+  return unarchiveInstances(definition, stepper, name) == 1;
+}
+
+size_t Archive::unarchiveInstances(const ArchiveDef& definition,
+                                   Archive::UnarchiveStep stepper,
+                                   ArchiveSerializable::ArchiveName name) {
   if (!isReady()) {
     return false;
   }
@@ -105,18 +115,22 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  auto statement = registration->queryStatement();
+  const bool isQueryingSingle = name != ArchiveNameAuto;
 
-  if (!statement.isReady()) {
+  auto statement = registration->queryStatement(isQueryingSingle);
+
+  if (!statement.isReady() || !statement.reset()) {
     return false;
   }
 
-  if (!statement.bind(ArchiveClassRegistration::NameIndex, name)) {
-    return false;
-  }
-
-  if (statement.run() != ArchiveStatement::Result::Row) {
-    return false;
+  if (isQueryingSingle) {
+    /*
+     *  If a single statement is being queried for, bind the name as a statement
+     *  argument.
+     */
+    if (!statement.bind(ArchiveClassRegistration::NameIndex, name)) {
+      return false;
+    }
   }
 
   if (statement.columnCount() !=
@@ -124,13 +138,37 @@ bool Archive::unarchiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  ArchiveItem item(*this, statement, *registration, name);
+  /*
+   *  Acquire a transaction but never mark it successful since we will never
+   *  be committing any writes to the database during unarchiving.
+   */
+  auto transaction = _db->acquireTransaction(_transactionCount);
 
-  auto result = archivable.deserialize(item, ns);
+  size_t itemsRead = 0;
 
-  statement.reset();
+  while (statement.run() == ArchiveStatement::Result::Row) {
+    itemsRead++;
 
-  return result;
+    /*
+     *  Prepare a fresh archive item for the given statement
+     */
+    ArchiveItem item(*this, statement, *registration, name);
+
+    if (!stepper(item)) {
+      break;
+    }
+
+    if (isQueryingSingle) {
+      break;
+    }
+
+    /*
+     *  Reset for another run
+     */
+    statement.reset();
+  }
+
+  return itemsRead;
 }
 
 ArchiveItem::ArchiveItem(Archive& context,

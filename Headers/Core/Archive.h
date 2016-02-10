@@ -65,6 +65,15 @@ class Archive {
     return unarchiveInstance(def, name, archivable, ns);
   }
 
+  using UnarchiveStep = std::function<bool /*continue*/ (ArchiveItem&)>;
+
+  template <class T,
+            class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
+  size_t unarchive(UnarchiveStep stepper) {
+    const ArchiveDef& def = T::ArchiveDefinition;
+    return unarchiveInstances(def, stepper, ArchiveNameAuto);
+  }
+
  private:
   std::unique_ptr<ArchiveDatabase> _db;
   int64_t _transactionCount;
@@ -78,6 +87,9 @@ class Archive {
                          ArchiveSerializable::ArchiveName name,
                          ArchiveSerializable& archivable,
                          Namespace* ns);
+  size_t unarchiveInstances(const ArchiveDef& definition,
+                            UnarchiveStep stepper,
+                            ArchiveSerializable::ArchiveName optionalName);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Archive);
 };

@@ -22,7 +22,7 @@ class ArchiveClassRegistration {
 
   ArchiveStatement insertStatement() const;
 
-  ArchiveStatement queryStatement() const;
+  ArchiveStatement queryStatement(bool single) const;
 
   static const size_t NameIndex = 0;
 

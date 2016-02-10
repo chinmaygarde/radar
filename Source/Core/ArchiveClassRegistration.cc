@@ -109,7 +109,7 @@ bool ArchiveClassRegistration::createTable(bool autoIncrement) {
   return statement.run() == ArchiveStatement::Result::Done;
 }
 
-ArchiveStatement ArchiveClassRegistration::queryStatement() const {
+ArchiveStatement ArchiveClassRegistration::queryStatement(bool single) const {
   std::stringstream stream;
   stream << "SELECT " << ArchivePrimaryKeyColumnName << ", ";
   for (size_t i = 0, members = _memberCount; i < members; i++) {
@@ -118,8 +118,13 @@ ArchiveStatement ArchiveClassRegistration::queryStatement() const {
       stream << ",";
     }
   }
-  stream << " FROM " << ArchiveTablePrefix << _className << " WHERE "
-         << ArchivePrimaryKeyColumnName << " = ?;";
+  stream << " FROM " << ArchiveTablePrefix << _className;
+
+  if (single) {
+    stream << " WHERE " << ArchivePrimaryKeyColumnName << " = ?";
+  }
+
+  stream << ";";
 
   return _database.acquireStatement(stream.str());
 }
