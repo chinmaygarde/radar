@@ -9,6 +9,11 @@
 namespace rl {
 namespace core {
 
+ArchiveVector::ArchiveVector(std::vector<int64_t>&& keys)
+    : _keys(std::move(keys)) {}
+
+ArchiveVector::ArchiveVector() {}
+
 const ArchiveDef ArchiveVector::ArchiveDefinition = {
     .superClass = nullptr,
     .className = "Meta_Vector",
@@ -18,6 +23,10 @@ const ArchiveDef ArchiveVector::ArchiveDefinition = {
 
 ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {
   return ArchiveNameAuto;
+}
+
+const std::vector<int64_t> ArchiveVector::keys() const {
+  return _keys;
 }
 
 bool ArchiveVector::serialize(ArchiveItem& item) const {
@@ -46,9 +55,6 @@ bool ArchiveVector::deserialize(ArchiveItem& item, Namespace* ns) {
 
   return true;
 }
-
-ArchiveVector::ArchiveVector(std::vector<int64_t>&& keys)
-    : _keys(std::move(keys)) {}
 
 }  // namespace core
 }  // namespace rl

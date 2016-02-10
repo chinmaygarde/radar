@@ -16,6 +16,8 @@ class ArchiveVector : public ArchiveSerializable {
 
   ArchiveName archiveName() const override;
 
+  const std::vector<int64_t> keys() const;
+
   bool serialize(ArchiveItem& item) const override;
 
   bool deserialize(ArchiveItem& item, Namespace* ns) override;
@@ -25,6 +27,7 @@ class ArchiveVector : public ArchiveSerializable {
 
   friend class ArchiveItem;
 
+  ArchiveVector();
   ArchiveVector(std::vector<int64_t>&& keys);
 
   RL_DISALLOW_COPY_AND_ASSIGN(ArchiveVector);

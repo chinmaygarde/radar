@@ -161,11 +161,6 @@ size_t Archive::unarchiveInstances(const ArchiveDef& definition,
     if (isQueryingSingle) {
       break;
     }
-
-    /*
-     *  Reset for another run
-     */
-    statement.reset();
   }
 
   return itemsRead;
@@ -247,6 +242,26 @@ std::pair<bool, int64_t> ArchiveItem::encodeVectorKeys(
     return {false, 0};
   }
   return {true, vectorID};
+}
+
+bool ArchiveItem::decodeVectorKeys(ArchiveSerializable::ArchiveName name,
+                                   std::vector<int64_t>& members) {
+  ArchiveVector vector;
+
+  /*
+   *  Unarchiving vector keys requires no namespace since the members are all
+   *  flat keys. Hence, the last argument is a nullptr
+   */
+  if (!_context.unarchiveInstance(ArchiveVector::ArchiveDefinition, name,
+                                  vector, nullptr)) {
+    return false;
+  }
+
+  const auto& keys = vector.keys();
+
+  std::move(keys.begin(), keys.end(), std::back_inserter(members));
+
+  return true;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,

@@ -198,8 +198,34 @@ class ArchiveItem {
 
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
-  bool decode(ArchiveSerializable::Member member, std::vector<T>& item) {
-    RL_ASSERT_MSG(false, "WIP");
+  bool decode(ArchiveSerializable::Member member,
+              std::vector<T>& items,
+              Namespace* ns) {
+    /*
+     *  From the member, find the foreign key of the vector
+     */
+    int64_t vectorForeignKey = 0;
+    if (!decodeIntegral(member, vectorForeignKey)) {
+      return false;
+    }
+
+    /*
+     *  Get vector keys
+     */
+    std::vector<int64_t> keys;
+    if (!decodeVectorKeys(vectorForeignKey, keys)) {
+      return false;
+    }
+
+    const ArchiveDef& otherDef = T::ArchiveDefinition;
+    for (const auto& key : keys) {
+      items.emplace_back();
+
+      if (!_context.unarchiveInstance(otherDef, key, items.back(), ns)) {
+        return false;
+      }
+    }
+
     return true;
   }
 
@@ -221,7 +247,10 @@ class ArchiveItem {
 
   bool encodeIntegral(ArchiveSerializable::Member member, int64_t item);
   bool decodeIntegral(ArchiveSerializable::Member member, int64_t& item);
+
   std::pair<bool, int64_t> encodeVectorKeys(std::vector<int64_t>&& members);
+  bool decodeVectorKeys(ArchiveSerializable::ArchiveName name,
+                        std::vector<int64_t>& members);
 
   bool encode(ArchiveSerializable::Member member,
               const ArchiveDef& otherDef,
