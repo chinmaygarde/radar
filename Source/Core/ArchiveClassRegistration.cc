@@ -122,6 +122,8 @@ ArchiveStatement ArchiveClassRegistration::queryStatement(bool single) const {
 
   if (single) {
     stream << " WHERE " << ArchivePrimaryKeyColumnName << " = ?";
+  } else {
+    stream << " ORDER BY  " << ArchivePrimaryKeyColumnName << " ASC";
   }
 
   stream << ";";
