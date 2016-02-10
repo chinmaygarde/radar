@@ -106,13 +106,13 @@ size_t Archive::unarchiveInstances(const ArchiveDef& definition,
                                    Archive::UnarchiveStep stepper,
                                    ArchiveSerializable::ArchiveName name) {
   if (!isReady()) {
-    return false;
+    return 0;
   }
 
   const auto* registration = _db->registrationForDefinition(definition);
 
   if (registration == nullptr) {
-    return false;
+    return 0;
   }
 
   const bool isQueryingSingle = name != ArchiveNameAuto;
@@ -120,7 +120,7 @@ size_t Archive::unarchiveInstances(const ArchiveDef& definition,
   auto statement = registration->queryStatement(isQueryingSingle);
 
   if (!statement.isReady() || !statement.reset()) {
-    return false;
+    return 0;
   }
 
   if (isQueryingSingle) {
@@ -129,13 +129,13 @@ size_t Archive::unarchiveInstances(const ArchiveDef& definition,
      *  argument.
      */
     if (!statement.bind(ArchiveClassRegistration::NameIndex, name)) {
-      return false;
+      return 0;
     }
   }
 
   if (statement.columnCount() !=
       registration->memberCount() + 1 /* primary key */) {
-    return false;
+    return 0;
   }
 
   /*
