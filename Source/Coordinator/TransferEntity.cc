@@ -11,7 +11,11 @@ TransferEntity::TransferEntity(core::Name identifier)
     : Entity(identifier, false), _updateMask(0) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
-    : Entity(transferEntity), _updateMask(transferEntity._updateMask) {}
+    : Entity(transferEntity),
+      _updateMask(transferEntity._updateMask),
+      _addedTo(transferEntity._addedTo),
+      _removedFrom(transferEntity._removedFrom),
+      _makeRoot(transferEntity._makeRoot) {}
 
 core::Name TransferEntity::addedToTarget() const {
   return _addedTo;
@@ -28,6 +32,11 @@ core::Name TransferEntity::makeRootTarget() const {
 void TransferEntity::record(const Entity& entity,
                             Entity::Property property,
                             core::Name other) {
+  RL_ASSERT(entity.identifier() == identifier());
+
+  auto propertyMask = (1 << static_cast<PropertyMask>(property));
+  _updateMask |= propertyMask;
+
   /*
    *  Some properties are not mergeable and the transfer entity needs to keep
    *  some extra information around till the transaction payload is flushed
@@ -35,21 +44,16 @@ void TransferEntity::record(const Entity& entity,
   switch (property) {
     case Entity::Property::AddedTo:
       _addedTo = other;
-      break;
+      return;
     case Entity::Property::RemovedFrom:
       _removedFrom = other;
-      break;
+      return;
     case Entity::Property::MakeRoot:
       _makeRoot = other;
-      break;
+      return;
     default:
       break;
   }
-
-  RL_ASSERT(entity.identifier() == identifier());
-
-  auto propertyMask = (1 << static_cast<PropertyMask>(property));
-  _updateMask |= propertyMask;
 
   /*
    *  Make a note of the updated property so that we can send the new value
