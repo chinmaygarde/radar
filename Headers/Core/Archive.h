@@ -8,6 +8,7 @@
 #include <Core/Allocation.h>
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
+#include <Core/Namespace.h>
 
 #include <string>
 #include <vector>
@@ -107,6 +108,8 @@ class ArchiveItem {
 
   bool encode(ArchiveSerializable::Member member, const Allocation& allocation);
 
+  bool encode(ArchiveSerializable::Member member, const Name& name);
+
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool encodeArchivable(ArchiveSerializable::Member member, const T& other) {
@@ -177,6 +180,8 @@ class ArchiveItem {
 
   bool decode(ArchiveSerializable::Member member, Allocation& allocation);
 
+  bool decode(ArchiveSerializable::Member member, Name& name, Namespace* ns);
+
   template <class T,
             class = only_if<std::is_base_of<ArchiveSerializable, T>::value>>
   bool decodeArchivable(ArchiveSerializable::Member member,
@@ -227,6 +232,19 @@ class ArchiveItem {
     }
 
     return true;
+  }
+
+  template <
+      class Super,
+      class Current,
+      class = only_if<std::is_base_of<ArchiveSerializable, Super>::value &&
+                      std::is_base_of<ArchiveSerializable, Current>::value>>
+  bool decodeSuper(Current& thiz, Namespace* ns) {
+    std::string oldClass = _currentClass;
+    _currentClass = Super::ArchiveDefinition.className;
+    auto success = thiz.Super::deserialize(*this, ns);
+    _currentClass = oldClass;
+    return success;
   }
 
   ArchiveSerializable::ArchiveName name() const;

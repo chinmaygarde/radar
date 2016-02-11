@@ -179,15 +179,19 @@ bool TransferEntity::serialize(core::ArchiveItem& item) const {
   auto result = true;
   result &= item.encodeSuper<Entity>(*this);
   result &= item.encode(ArchiveKey::UpdateMask, _updateMask);
-  result &= item.encode(ArchiveKey::AddedTo, _addedTo.toString());
-  result &= item.encode(ArchiveKey::RemovedFrom, _removedFrom.toString());
-  result &= item.encode(ArchiveKey::MakeRoot, _makeRoot.toString());
+  result &= item.encode(ArchiveKey::AddedTo, _addedTo);
+  result &= item.encode(ArchiveKey::RemovedFrom, _removedFrom);
+  result &= item.encode(ArchiveKey::MakeRoot, _makeRoot);
   return result;
 }
 
 bool TransferEntity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
+  result &= item.decodeSuper<Entity>(*this, ns);
   result &= item.decode(ArchiveKey::UpdateMask, _updateMask);
+  result &= item.decode(ArchiveKey::AddedTo, _addedTo, ns);
+  result &= item.decode(ArchiveKey::RemovedFrom, _removedFrom, ns);
+  result &= item.decode(ArchiveKey::MakeRoot, _makeRoot, ns);
   return result;
 }
 

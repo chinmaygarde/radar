@@ -154,6 +154,7 @@ void Entity::notifyInterfaceIfNecessary(Property property,
 }
 
 enum ArchiveKey {
+  Identifier,
   Bounds,
   Position,
   AnchorPoint,
@@ -168,6 +169,7 @@ const core::ArchiveDef Entity::ArchiveDefinition = {
     .autoAssignName = false,
     .members =
         {
+            ArchiveKey::Identifier,       //
             ArchiveKey::Bounds,           //
             ArchiveKey::Position,         //
             ArchiveKey::AnchorPoint,      //
@@ -183,6 +185,7 @@ Entity::ArchiveName Entity::archiveName() const {
 
 bool Entity::serialize(core::ArchiveItem& item) const {
   auto result = true;
+  result &= item.encode(ArchiveKey::Identifier, _identifier);
   result &= item.encode(ArchiveKey::Bounds, _bounds.toString());
   result &= item.encode(ArchiveKey::Position, _position.toString());
   result &= item.encode(ArchiveKey::AnchorPoint, _anchorPoint.toString());
@@ -197,6 +200,8 @@ bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   auto result = true;
 
   std::string decoded;
+
+  result &= item.decode(ArchiveKey::Identifier, _identifier, ns);
 
   result &= item.decode(ArchiveKey::Bounds, decoded);
   if (result) {

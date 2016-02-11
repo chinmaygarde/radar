@@ -55,8 +55,9 @@ std::string Name::toString() const {
 void Name::fromString(const std::string& str, Namespace* ns) {
   std::stringstream stream(str);
   auto newHandle = DeadHandle;
-  stream >> newHandle;
-  decodeRaw(newHandle, ns);
+  if (stream >> newHandle) {
+    decodeRaw(newHandle, ns);
+  }
 }
 
 void Name::decodeRaw(Handle handle, Namespace* ns) {

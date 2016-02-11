@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#ifndef RADARLOVE_CORE_NAMESPACE_H_
+#define RADARLOVE_CORE_NAMESPACE_H_
+
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
 
@@ -115,3 +118,5 @@ class Namespace {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RADARLOVE_CORE_NAMESPACE_H_

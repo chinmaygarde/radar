@@ -203,6 +203,10 @@ bool ArchiveItem::encode(ArchiveSerializable::Member member,
   return found.second ? _statement.bind(found.first, item) : false;
 }
 
+bool ArchiveItem::encode(ArchiveSerializable::Member member, const Name& name) {
+  return encode(member, name.toString());
+}
+
 bool ArchiveItem::encode(ArchiveSerializable::Member member,
                          const ArchiveDef& otherDef,
                          const ArchiveSerializable& other) {
@@ -284,6 +288,19 @@ bool ArchiveItem::decode(ArchiveSerializable::Member member, double& item) {
 bool ArchiveItem::decode(ArchiveSerializable::Member member, Allocation& item) {
   auto found = _registration.findColumn(_currentClass, member);
   return found.second ? _statement.column(found.first, item) : false;
+}
+
+bool ArchiveItem::decode(ArchiveSerializable::Member member,
+                         Name& name,
+                         Namespace* ns) {
+  std::string nameString;
+
+  if (decode(member, nameString)) {
+    name.fromString(nameString, ns);
+    return true;
+  }
+
+  return false;
 }
 
 bool ArchiveItem::decode(ArchiveSerializable::Member member,

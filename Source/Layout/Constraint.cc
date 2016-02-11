@@ -145,7 +145,7 @@ Constraint::ArchiveName Constraint::archiveName() const {
 
 bool Constraint::serialize(core::ArchiveItem& item) const {
   auto result = true;
-  result &= item.encode(ArchiveKey::Identifier, _identifier.toString());
+  result &= item.encode(ArchiveKey::Identifier, _identifier);
   result &= item.encodeArchivable(ArchiveKey::Expression, _expression);
   result &= item.encodeEnum(ArchiveKey::Relation, _relation);
   result &= item.encode(ArchiveKey::Priority, _priority);
@@ -153,18 +153,11 @@ bool Constraint::serialize(core::ArchiveItem& item) const {
 }
 
 bool Constraint::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  std::string name;
-
   auto result = true;
-  result &= item.decode(ArchiveKey::Identifier, name);
+  result &= item.decode(ArchiveKey::Identifier, _identifier, ns);
   result &= item.decodeArchivable(ArchiveKey::Expression, _expression, ns);
   result &= item.decodeEnum(ArchiveKey::Relation, _relation);
   result &= item.decode(ArchiveKey::Priority, _priority);
-
-  if (result) {
-    _identifier.fromString(name, ns);
-  }
-
   return result;
 }
 
