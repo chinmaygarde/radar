@@ -172,6 +172,15 @@ bool TransactionPayload::deserialize(core::ArchiveItem& item,
   result &= item.decodeArchivable(TransactionArchiveKey::Action, _action, ns);
   result &= item.decode(TransactionArchiveKey::Constraints, _constraints, ns);
   result &= item.decode(TransactionArchiveKey::Suggestions, _suggestions, ns);
+  std::vector<TransferEntity> entities;
+  if (item.decode(TransactionArchiveKey::Entities, entities, ns)) {
+    for (auto& entity : entities) {
+      _entities.emplace(entity.identifier(),
+                        core::make_unique<TransferEntity>(std::move(entity)));
+    }
+  } else {
+    result = false;
+  }
   return result;
 }
 
