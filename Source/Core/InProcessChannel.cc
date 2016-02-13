@@ -6,99 +6,48 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#include "InProcessChannel.h"
+#include <Core/InProcessChannel.h>
+#include <Core/InProcessChannelActual.h>
 
 namespace rl {
 namespace core {
 
-InProcessChannel::InProcessChannel(Channel& owner) : _channel(owner) {}
+InProcessChannel::InProcessChannel(Channel& owner)
+    : _actual(std::make_shared<InProcessChannelActual>()), _owner(owner) {
+  _actual->addUserspaceCounterpart(owner);
+}
 
 InProcessChannel::InProcessChannel(Channel& owner,
                                    const Message::Attachment& attachment)
-    : _channel(owner) {
-  RL_ASSERT_MSG(false, "WIP");
+    : _owner(owner) {
+  _actual = *reinterpret_cast<std::shared_ptr<InProcessChannelActual>*>(
+      attachment.handle());
+  _actual->addUserspaceCounterpart(owner);
 }
 
 InProcessChannel::~InProcessChannel() {
-  RL_ASSERT(_activeWaitSets.size() == 0);
+  _actual->removeUserspaceCounterpart(_owner);
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
-  using ELS = EventLoopSource;
-
-  auto handle = reinterpret_cast<ELS::Handle>(this);
-  auto allocator = [handle]() {
-    /*
-     *  Since this channel is going to write to this source as well are read
-     *  from it, we assign ourselves as the read and write handles.
-     */
-    return ELS::Handles(handle, handle);
-  };
-
-  auto readHandler = [&](ELS::Handle handle) {
-    return _channel.readPendingMessageNow();
-  };
-
-  auto updateHandler = [&](EventLoopSource& source, WaitSet& waitset,
-                           ELS::Handle ident, bool adding) {
-    if (adding) {
-      _activeWaitSets.insert(&waitset);
-    } else {
-      _activeWaitSets.erase(&waitset);
-    }
-  };
-
-  return std::make_shared<ELS>(allocator, nullptr, readHandler, nullptr,
-                               updateHandler);
+  return _actual->createSource();
 }
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
                                          ClockDurationNano timeout) {
-  /*
-   *  There is no limit on the size of the message buffer. So the timeout is
-   *  ignored. It may be that contention on lock for the message buffer itself
-   *  causes an overflow of the allotted time. That case is not handled here.
-   */
-
-  if (messages.size() == 0) {
-    return IOResult::Success;
-  }
-
-  std::lock_guard<std::mutex> lock(_lock);
-
-  for (auto& message : messages) {
-    message.rewindRead();
-    _messageBuffer.push_back(std::move(message));
-  }
-
-  for (const auto& waitset : _activeWaitSets) {
-    waitset->signalReadReadinessFromUserspace(
-        reinterpret_cast<EventLoopSource::Handle>(this));
-  }
-
-  return IOResult::Success;
+  return _actual->writeMessages(std::move(messages), timeout);
 }
 
 IOReadResult InProcessChannel::readMessage(ClockDurationNano timeout) {
-  std::lock_guard<std::mutex> lock(_lock);
-
-  if (_messageBuffer.size() == 0) {
-    return IOReadResult(IOResult::Timeout, Message{});
-  }
-
-  Message readMessage(std::move(_messageBuffer.front()));
-  _messageBuffer.pop_front();
-
-  return IOReadResult(IOResult::Success, std::move(readMessage));
+  return _actual->readMessage(timeout);
 }
 
 Message::Attachment::Handle InProcessChannel::handle() {
-  return reinterpret_cast<Message::Attachment::Handle>(this);
+  return reinterpret_cast<Message::Attachment::Handle>(&_actual);
 }
 
 bool InProcessChannel::doTerminate() {
-  _messageBuffer.clear();
-  return true;
+  return _actual->doTerminate();
 }
 
 }  // namespace core

@@ -9,37 +9,37 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#include <Core/Channel.h>
-
-#include "ChannelProvider.h"
-
-#include <condition_variable>
-#include <list>
-#include <unordered_set>
+#include <Core/ChannelProvider.h>
 
 namespace rl {
 namespace core {
 
+class Channel;
+class InProcessChannelActual;
+
 class InProcessChannel : public ChannelProvider {
  public:
   explicit InProcessChannel(Channel& owner);
+
   explicit InProcessChannel(Channel& owner,
                             const Message::Attachment& attachment);
 
-  ~InProcessChannel();
+  ~InProcessChannel() override;
 
   std::shared_ptr<EventLoopSource> createSource() const override;
+
   IOResult writeMessages(Messages&& messages,
                          ClockDurationNano timeout) override;
+
   IOReadResult readMessage(ClockDurationNano timeout) override;
+
   Message::Attachment::Handle handle() override;
+
   bool doTerminate() override;
 
  private:
-  std::mutex _lock;
-  Channel& _channel;
-  std::list<Message> _messageBuffer;
-  mutable std::unordered_set<WaitSet*> _activeWaitSets;
+  std::shared_ptr<InProcessChannelActual> _actual;
+  Channel& _owner;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannel);
 };
