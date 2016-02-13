@@ -26,7 +26,10 @@ InProcessChannel::InProcessChannel(Channel& owner,
 }
 
 InProcessChannel::~InProcessChannel() {
-  _actual->removeUserspaceCounterpart(_owner);
+  /*
+   *  The removal of the userspace counterpart has already happened in the
+   *  `doTerminate` call.
+   */
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
@@ -47,7 +50,8 @@ Message::Attachment::Handle InProcessChannel::handle() {
 }
 
 bool InProcessChannel::doTerminate() {
-  return _actual->doTerminate();
+  _actual->removeUserspaceCounterpart(_owner);
+  return true;
 }
 
 }  // namespace core
