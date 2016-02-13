@@ -8,19 +8,27 @@
 
 #include <Core/BootstrapServer.h>
 
+#include <map>
+
 namespace rl {
 namespace core {
 
+static std::map<std::string, std::shared_ptr<core::Channel>> BootstrapRegistry;
+
 bool BootstrapServerAdvertise(const std::string& name,
                               std::shared_ptr<core::Channel> channel) {
-  RL_ASSERT_MSG(false, "WIP");
-  return false;
+  if (name.size() == 0 || channel == nullptr) {
+    return false;
+  }
+
+  auto result = BootstrapRegistry.emplace(name, channel);
+
+  return result.second;
 }
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name) {
-  RL_ASSERT_MSG(false, "WIP");
-  return nullptr;
+  return BootstrapRegistry[name];
 }
 
 }  // namespace core
