@@ -28,7 +28,13 @@ bool BootstrapServerAdvertise(const std::string& name,
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name) {
-  return BootstrapRegistry[name];
+  auto prototype = BootstrapRegistry[name];
+
+  if (!prototype) {
+    return nullptr;
+  }
+
+  return std::make_shared<core::Channel>(prototype->asMessageAttachment());
 }
 
 }  // namespace core
