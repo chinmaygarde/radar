@@ -142,7 +142,14 @@ void EventLoop::terminate() {
   }
 
   _shouldTerminate = true;
-  _trivialSource->writer()(_trivialSource->writeHandle());
+
+  /*
+   *  In case the terminate call is made before the call to run, the trivial
+   *  source will be null.
+   */
+  if (_trivialSource) {
+    _trivialSource->writer()(_trivialSource->writeHandle());
+  }
 }
 
 void EventLoop::beforeSleep() {
