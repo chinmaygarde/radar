@@ -39,6 +39,19 @@ TEST(BootstrapServerTest, Advertise) {
   ASSERT_EQ(anotherAdvertised, false);
 }
 
+TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
+  /*
+   *  The channel acquired after advertisement is not the channel being
+   *  advertised. Instead, its an alias of the same.
+   */
+  auto channel = std::make_shared<rl::core::Channel>();
+  auto advertised = rl::core::BootstrapServerAdvertise("advertise9", channel);
+  ASSERT_EQ(advertised, true);
+
+  auto alias = rl::core::BootstrapServerAcquireAdvertised("advertise9");
+  ASSERT_NE(channel, alias);
+}
+
 TEST(BootstrapServerTest, AdvertiseAgain) {
   auto name = "hello";
 
