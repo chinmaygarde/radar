@@ -230,6 +230,7 @@
 		EA29316D1C5EC0D200AE35F8 /* ArchiveInterface.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA29316C1C5EC0D200AE35F8 /* ArchiveInterface.cc */; };
 		EA29316F1C5EC10400AE35F8 /* ArchiveInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EA29316E1C5EC10400AE35F8 /* ArchiveInterface.h */; };
 		EA2D4A511C2CA06C00575608 /* IOResult.h in Headers */ = {isa = PBXBuildFile; fileRef = EA2D4A501C2CA06C00575608 /* IOResult.h */; };
+		EA46E62A1C6FF1D600DBE77E /* ProtocolTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = EA46E6291C6FF1D600DBE77E /* ProtocolTest.mm */; };
 		EA56072E1C1E83D200DFF7F0 /* ProxyResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */; };
 		EA5607301C1E83EB00DFF7F0 /* ProxyResolver.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */; };
 		EA6090D61BA41E8C00C2E263 /* KQueueEventLoopSource.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */; };
@@ -562,6 +563,7 @@
 		EA29316E1C5EC10400AE35F8 /* ArchiveInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveInterface.h; sourceTree = "<group>"; };
 		EA2D4A501C2CA06C00575608 /* IOResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOResult.h; sourceTree = "<group>"; };
 		EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PipeTrivialSourceTest.mm; sourceTree = "<group>"; };
+		EA46E6291C6FF1D600DBE77E /* ProtocolTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProtocolTest.mm; sourceTree = "<group>"; };
 		EA56072D1C1E83D200DFF7F0 /* ProxyResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyResolver.h; sourceTree = "<group>"; };
 		EA56072F1C1E83EB00DFF7F0 /* ProxyResolver.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProxyResolver.cc; sourceTree = "<group>"; };
 		EA6090CE1BA41E8C00C2E263 /* KQueueEventLoopSource.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KQueueEventLoopSource.cc; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				9E62F80D1B796D81008DE08E /* MessageDecoderTest.mm */,
 				9E62F80E1B796D81008DE08E /* MessageEncoderTest.mm */,
 				9E78EE831C409E8B000A4E37 /* NamespaceTest.mm */,
+				EA46E6291C6FF1D600DBE77E /* ProtocolTest.mm */,
 				EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.mm */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.mm */,
@@ -1452,6 +1455,7 @@
 			files = (
 				9E95447F1C347217002EEC68 /* ChannelTest.mm in Sources */,
 				9E9544811C347217002EEC68 /* LayoutTest.mm in Sources */,
+				EA46E62A1C6FF1D600DBE77E /* ProtocolTest.mm in Sources */,
 				9E9544821C347217002EEC68 /* EventLoopTest.mm in Sources */,
 				9E9544831C347217002EEC68 /* MessageDecoderTest.mm in Sources */,
 				9E9544841C347217002EEC68 /* MessageEncoderTest.mm in Sources */,

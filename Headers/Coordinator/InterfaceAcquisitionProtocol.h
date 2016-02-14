@@ -40,7 +40,7 @@ class InterfaceAcquisitionProtocol : public core::Protocol {
 
   std::string advertisementName() const override;
 
-  void onRequest(core::Message message,
+  void onRequest(core::Message requestMessage,
                  std::unique_ptr<core::Channel> replyChannel,
                  core::ProtocolPayloadIdentifier identifier) override;
 

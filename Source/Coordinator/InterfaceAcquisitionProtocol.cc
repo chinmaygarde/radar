@@ -17,7 +17,7 @@ InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol()
     : core::Protocol(false) {}
 
 void InterfaceAcquisitionProtocol::onRequest(
-    core::Message message,
+    core::Message requestMessage,
     std::unique_ptr<core::Channel> replyChannel,
     core::ProtocolPayloadIdentifier identifier) {
   std::shared_ptr<core::Channel> channel;
@@ -27,13 +27,13 @@ void InterfaceAcquisitionProtocol::onRequest(
    *  We don't send any extra information for service acquisition. So we
    *  should not expect anything while servicing the request either.
    */
-  if (message.readCompleted()) {
+  if (requestMessage.readCompleted()) {
     std::tie(channel, tag) = _vendor();
   }
 
   auto result = fulfillRequest(
       identifier, std::move(replyChannel),
-      [&channel, &tag](core::Message& message) {
+      [&channel, &tag](core::Message& responseMessage) {
         if (channel == nullptr) {
           return false;
         }
@@ -41,7 +41,7 @@ void InterfaceAcquisitionProtocol::onRequest(
         /*
          *  Encode the tag name
          */
-        message.encode(tag);
+        responseMessage.encode(tag);
 
         /*
          *  Encode the attachment
@@ -53,7 +53,7 @@ void InterfaceAcquisitionProtocol::onRequest(
           return false;
         }
 
-        return message.addAttachment(channel->asMessageAttachment());
+        return responseMessage.addAttachment(channel->asMessageAttachment());
       });
 
   RL_ASSERT(result == core::IOResult::Success);

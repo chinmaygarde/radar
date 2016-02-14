@@ -32,11 +32,11 @@ class Protocol {
   virtual ~Protocol();
 
  protected:
-  using ResponsePayloadHandler = std::function<bool(Message& message)>;
+  using ResponsePayloadHandler = std::function<bool(Message& responseMessage)>;
 
   virtual std::string advertisementName() const = 0;
 
-  virtual void onRequest(Message message,
+  virtual void onRequest(Message requestMessage,
                          std::unique_ptr<Channel> replyChannel,
                          ProtocolPayloadIdentifier identifier) = 0;
 
