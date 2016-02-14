@@ -28,8 +28,7 @@ class EchoProtocol : public rl::core::Protocol {
     fulfillRequest(identifier, std::move(replyChannel),
                    [](rl::core::Message& responseMessage) {
                      std::string echo = "echo";
-                     responseMessage.encode(echo);
-                     return true;
+                     return responseMessage.encode(echo);
                    });
   }
 
