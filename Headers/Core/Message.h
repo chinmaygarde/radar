@@ -134,7 +134,7 @@ class Message {
    *  @return if the value was successfully decoded
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  bool decode(T& value, core::Namespace* ns) {
+  bool decode(T& value, core::Namespace*) {
     if (auto buffer = decodeRawUnsafe(sizeof(T))) {
       memcpy(&value, buffer, sizeof(T));
       return true;

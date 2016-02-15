@@ -28,7 +28,7 @@ static inline void KEventInvoke(int queue,
                                 uint32_t fflags,
                                 intptr_t data,
                                 void* udata) {
-  struct kevent event = {0};
+  struct kevent event = {};
   EV_SET(&event, ident, filter, flags, fflags, data, udata);
   RL_TEMP_FAILURE_RETRY(::kevent(queue, &event, 1, nullptr, 0, NULL));
 }

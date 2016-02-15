@@ -59,8 +59,7 @@ void InterfaceAcquisitionProtocol::onRequest(
   RL_ASSERT(result == core::IOResult::Success);
 }
 
-bool InterfaceAcquisitionProtocol::populateRequestPayload(
-    core::Message& message) {
+bool InterfaceAcquisitionProtocol::populateRequestPayload(core::Message&) {
   /*
    *  There is nothing extra to encode
    */

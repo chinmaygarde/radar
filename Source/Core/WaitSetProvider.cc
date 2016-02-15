@@ -16,7 +16,7 @@ void WaitSetProvider::updateSource(WaitSet& waitset,
 }
 
 void WaitSetProvider::signalReadReadinessFromUserspace(
-    EventLoopSource::Handle writeHandle) {
+    EventLoopSource::Handle) {
   RL_ASSERT_MSG(
       false,
       "This platform does not allow signalling read readiness of sources "

@@ -69,7 +69,7 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   return payload.deserialize(arena, &_localNS);
 }
 
-void PresentationGraph::onActionCommit(interface::Action& action) {
+void PresentationGraph::onActionCommit(interface::Action&) {
   /*
    *  Nothing to do on its own. Its only when we see transfer records with this
    *  action do we need to do some configuration.

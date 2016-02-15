@@ -31,7 +31,7 @@ class CriticalSolution : public SpringSolution {
     return _r * (_c1 + _c2 * time.count()) * power + _c2 * power;
   }
 
-  bool isDone(const core::ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration&) override { return false; }
 
  private:
   const double _r;
@@ -70,7 +70,7 @@ class OverdampedSolution : public SpringSolution {
             _c2 * _r2 * pow(M_E, _r2 * time.count()));
   }
 
-  bool isDone(const core::ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration&) override { return false; }
 
  private:
   const double _r1;
@@ -114,7 +114,7 @@ class UnderdampedSolution : public SpringSolution {
            _r * power * (_c2 * sine + _c1 * cosine);
   }
 
-  bool isDone(const core::ClockDuration& time) override { return false; }
+  bool isDone(const core::ClockDuration&) override { return false; }
 
  private:
   const double _w;

@@ -116,7 +116,10 @@ if(NOT APPLE)
   )
 
   set_source_files_properties(${RADARLOVE_SRC_MM}
-    PROPERTIES COMPILE_FLAGS "-x c++")
+    PROPERTIES
+    COMPILE_FLAGS
+    "-x c++"
+  )
 endif()
 
 file(GLOB RADARLOVE_IMGUI_SRC
@@ -130,8 +133,17 @@ file(GLOB RADARLOVE_SQLITE_SRC
   "ThirdParty/sqlite3/*.c"
 )
 
+set_source_files_properties(${RADARLOVE_SRC}
+    PROPERTIES
+    COMPILE_FLAGS
+    "-Werror -Wextra"
+)
+
 set_source_files_properties(${RADARLOVE_SQLITE_SRC}
-  PROPERTIES COMPILE_DEFINITIONS "SQLITE_OMIT_LOAD_EXTENSION=1")
+    PROPERTIES
+    COMPILE_DEFINITIONS
+    "SQLITE_OMIT_LOAD_EXTENSION=1"
+)
 
 include_directories ("Headers")
 include_directories ("ThirdParty")
@@ -147,7 +159,7 @@ add_library(RadarLove
 ################################################################################
 
 if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -212,7 +224,9 @@ if(NOT APPLE)
   )
 
   set_source_files_properties(${RADARLOVE_TEST_SRC_MM}
-    PROPERTIES COMPILE_FLAGS "-x c++")
+    PROPERTIES
+    COMPILE_FLAGS
+    "-x c++")
 endif()
 
 include_directories ( Source )

@@ -77,7 +77,7 @@ struct ColorHSB {
   double alpha;
 
   ColorHSB(double h, double s, double b, double a)
-      : hue(h), saturation(s), brightness(b) {}
+      : hue(h), saturation(s), brightness(b), alpha(a) {}
 
   static ColorHSB FromRGB(Color rgb);
   Color ToRGBA() const;

@@ -35,7 +35,7 @@ MachTrivialSource::MachTrivialSource()
     return Handles(_port.setHandle(), _port.setHandle());
   });
 
-  setWriter([&](Handle handle) {
+  setWriter([&](Handle) {
     Messages messages;
     messages.emplace_back();
     auto result =
@@ -49,7 +49,7 @@ MachTrivialSource::MachTrivialSource()
     return result;
   });
 
-  setReader([&](Handle handle) {
+  setReader([&](Handle) {
     auto result = _port.readMessage(ClockDurationMilli(0));
     RL_ASSERT(result.first != IOResult::Failure);
     /*
@@ -66,7 +66,7 @@ MachTrivialSource::MachTrivialSource()
   setCustomWaitSetUpdateHandler([](EventLoopSource& source, WaitSet& kev,
                                    EventLoopSource::Handle ident, bool adding) {
     // clang-format off
-    struct kevent event = {0};
+    struct kevent event = {};
 
     EV_SET(&event,                      /* &kev */
            ident,                       /* ident */

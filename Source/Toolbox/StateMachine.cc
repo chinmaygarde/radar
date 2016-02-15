@@ -37,7 +37,7 @@ bool StateMachine::setState(State state, bool allowMultiple) {
     RL_ASSERT(path[0] == _currentState);
     const auto size = path.size();
 
-    for (int i = 1; i < size; i++) {
+    for (size_t i = 1; i < size; i++) {
       stepTransitionNoCheck(path[i]);
     }
   }

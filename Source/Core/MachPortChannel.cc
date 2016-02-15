@@ -33,7 +33,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
 
   auto setHandle = _port.setHandle();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
-  auto readHandler = [&](ELS::Handle handle) {
+  auto readHandler = [&](ELS::Handle) {
     return _channel.readPendingMessageNow();
   };
 
@@ -42,7 +42,7 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
                           WaitSet& kev,
                           ELS::Handle ident,
                           bool adding) {
-    struct kevent event = {0};
+    struct kevent event = {};
 
     EV_SET(&event,                      /* &kev */
            ident,                       /* ident */

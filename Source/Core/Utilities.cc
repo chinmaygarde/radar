@@ -39,7 +39,7 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
 void LogUnixHandleProperties(int handle) {
   RL_LOG("~~~~~~~~ Introspecting handle: %d", handle);
 
-  struct stat statBuf = {0};
+  struct stat statBuf = {};
 
   auto result = fstat(handle, &statBuf);
 

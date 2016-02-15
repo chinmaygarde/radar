@@ -99,9 +99,10 @@ void Program::linkIfNecessary() {
   /*
    *  Attribute bindings must take place *before* program linking
    */
-  auto count = _knownAttributes.size();
-  for (auto i = 0; i < count; i++) {
-    glBindAttribLocation(_program, i, _knownAttributes[i].c_str());
+  size_t count = _knownAttributes.size();
+  for (size_t i = 0; i < count; i++) {
+    glBindAttribLocation(_program, static_cast<GLuint>(i),
+                         _knownAttributes[i].c_str());
   }
 
   RL_GLAssert("Attribute bindings must be successful");

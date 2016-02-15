@@ -31,7 +31,7 @@ SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
   /*
    *  We have a handle, figure out the size of the shared memory region
    */
-  struct stat info = {0};
+  struct stat info = {};
   if (fstat(handle, &info) != 0) {
     /*
      *  Must be able to successfully stat this mysterious descriptor

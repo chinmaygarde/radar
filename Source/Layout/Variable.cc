@@ -11,7 +11,7 @@ namespace layout {
 Variable::Variable() : _property(Property::None), _proxy(Proxy::None) {}
 
 Variable::Variable(Proxy proxy, Property property)
-    : _property(property), _proxy(Proxy::None) {}
+    : _property(property), _proxy(proxy) {}
 
 Variable::Variable(core::Name identifier, Property property)
     : _identifier(identifier), _property(property), _proxy(Proxy::None) {}

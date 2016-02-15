@@ -73,9 +73,10 @@ bool Archive::archiveInstance(const ArchiveDef& definition,
     return false;
   }
 
-  auto lastInsert = _db->lastInsertRowID();
+  int64_t lastInsert = _db->lastInsertRowID();
 
-  if (!definition.autoAssignName && lastInsert != itemName) {
+  if (!definition.autoAssignName &&
+      lastInsert != static_cast<int64_t>(itemName)) {
     return false;
   }
 

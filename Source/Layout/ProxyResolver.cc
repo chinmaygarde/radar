@@ -267,8 +267,7 @@ void ProxyResolver::setupConstraintsForProxies() {
 void ProxyResolver::clearConstraintsForProxies() {
   std::vector<Constraint> constraintsToRemove;
   performOperationOnProxiesSatisfyingCurrentCondition(
-      [&](const Constraint& proxyConstraint,
-          const std::set<Variable::Proxy>& conditions) {
+      [&](const Constraint&, const std::set<Variable::Proxy>& conditions) {
         /*
          *  Find all the constraints that were previously added for the given
          *  condition and attempt to remove the same from the solver hosted by

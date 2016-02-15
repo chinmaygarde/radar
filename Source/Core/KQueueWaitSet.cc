@@ -29,7 +29,7 @@ KQueueWaitSet::~KQueueWaitSet() {
 }
 
 EventLoopSource* KQueueWaitSet::wait(ClockDurationNano timeout) {
-  struct kevent event = {0};
+  struct kevent event = {};
 
   struct timespec timeoutTS = {
       .tv_sec = timeout.count() / NSEC_PER_SEC,

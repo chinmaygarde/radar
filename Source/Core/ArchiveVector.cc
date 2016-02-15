@@ -40,7 +40,7 @@ bool ArchiveVector::serialize(ArchiveItem& item) const {
   return item.encode(0, stream.str());
 }
 
-bool ArchiveVector::deserialize(ArchiveItem& item, Namespace* ns) {
+bool ArchiveVector::deserialize(ArchiveItem& item, Namespace*) {
   std::string flattened;
   if (!item.decode(0, flattened)) {
     return false;

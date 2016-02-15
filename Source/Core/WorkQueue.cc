@@ -27,7 +27,7 @@ WorkQueue::WorkQueue(std::string queueName)
 
   Latch ready(poolSize);
 
-  for (auto i = 0; i < poolSize; i++) {
+  for (size_t i = 0; i < poolSize; i++) {
     /*
      *  Each worker thread gets an event loop source whose sole purpose is to
      *  service a loop termination
