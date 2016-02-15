@@ -20,7 +20,7 @@ InProcessTrivialSource::InProcessTrivialSource()
     return EventLoopSource::Handles(handle, handle);
   });
 
-  setWriter([&](Handle handle) {
+  setWriter([&](Handle) {
     std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
     _signalled = true;
     for (const auto& waitset : _activeWaitSets) {
@@ -36,26 +36,27 @@ InProcessTrivialSource::InProcessTrivialSource()
     return IOResult::Success;
   });
 
-  setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,
-                                    Handle readHandle, bool adding) {
-    std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
+  setCustomWaitSetUpdateHandler(
+      [&](EventLoopSource&, WaitSet& waitset, Handle, bool adding) {
+        std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
 
-    if (adding) {
-      _activeWaitSets.insert(&waitset);
-    } else {
-      _activeWaitSets.erase(&waitset);
-    }
+        if (adding) {
+          _activeWaitSets.insert(&waitset);
+        } else {
+          _activeWaitSets.erase(&waitset);
+        }
 
-    /*
-     *  The source could have been signalled before being added to the waitset.
-     *  In this case, the writer failed to notify any waitsets. Now that we
-     *  have a waitset, manually trigger readiness.
-     */
-    if (_signalled && _activeWaitSets.size() == 1) {
-      waitset.signalReadReadinessFromUserspace(
-          reinterpret_cast<EventLoopSource::Handle>(this));
-    }
-  });
+        /*
+         *  The source could have been signalled before being added to the
+         * waitset.
+         *  In this case, the writer failed to notify any waitsets. Now that we
+         *  have a waitset, manually trigger readiness.
+         */
+        if (_signalled && _activeWaitSets.size() == 1) {
+          waitset.signalReadReadinessFromUserspace(
+              reinterpret_cast<EventLoopSource::Handle>(this));
+        }
+      });
 }
 
 InProcessTrivialSource::~InProcessTrivialSource() {

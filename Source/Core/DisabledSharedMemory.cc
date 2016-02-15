@@ -20,7 +20,7 @@ SharedMemory::SharedMemory(Handle handle, bool assumeOwnership)
   RL_ASSERT(false);
 }
 
-SharedMemory::SharedMemory(size_t size)
+SharedMemory::SharedMemory(size_t)
     : _handle(-1),
       _size(0),
       _address(nullptr),

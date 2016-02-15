@@ -20,14 +20,14 @@ InProcessTimerSource::InProcessTimerSource(ClockDurationNano repeatInterval)
     return InProcessWaitSet::TimerHandles(repeatInterval);
   });
 
-  setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,
-                                    Handle readHandle, bool adding) {
-    if (adding) {
-      _activeWaitSets.insert(&waitset);
-    } else {
-      _activeWaitSets.erase(&waitset);
-    }
-  });
+  setCustomWaitSetUpdateHandler(
+      [&](EventLoopSource&, WaitSet& waitset, Handle, bool adding) {
+        if (adding) {
+          _activeWaitSets.insert(&waitset);
+        } else {
+          _activeWaitSets.erase(&waitset);
+        }
+      });
 }
 
 InProcessTimerSource::~InProcessTimerSource() {}

@@ -33,14 +33,14 @@ std::shared_ptr<EventLoopSource> InProcessChannelActual::createSource() const {
     return ELS::Handles(handle, handle);
   };
 
-  auto readHandler = [&](ELS::Handle handle) {
+  auto readHandler = [&](ELS::Handle) {
     auto channel = randomChannel();
     return channel != nullptr ? channel->readPendingMessageNow()
                               : IOResult::Failure;
   };
 
-  auto updateHandler = [&](EventLoopSource& source, WaitSet& waitset,
-                           ELS::Handle ident, bool adding) {
+  auto updateHandler = [&](EventLoopSource&, WaitSet& waitset, ELS::Handle,
+                           bool adding) {
     if (adding) {
       _activeWaitSets.insert(&waitset);
     } else {
@@ -53,13 +53,12 @@ std::shared_ptr<EventLoopSource> InProcessChannelActual::createSource() const {
 }
 
 IOResult InProcessChannelActual::writeMessages(Messages&& messages,
-                                               ClockDurationNano timeout) {
+                                               ClockDurationNano) {
   /*
    *  There is no limit on the size of the message buffer. So the timeout is
    *  ignored. It may be that contention on lock for the message buffer itself
    *  causes an overflow of the allotted time. That case is not handled here.
    */
-
   if (messages.size() == 0) {
     return IOResult::Success;
   }
@@ -79,7 +78,10 @@ IOResult InProcessChannelActual::writeMessages(Messages&& messages,
   return IOResult::Success;
 }
 
-IOReadResult InProcessChannelActual::readMessage(ClockDurationNano timeout) {
+IOReadResult InProcessChannelActual::readMessage(ClockDurationNano) {
+  /*
+   *  WIP: Timeout must be respected
+   */
   std::lock_guard<std::mutex> lock(_messageBufferMutex);
 
   if (_messageBuffer.size() == 0) {

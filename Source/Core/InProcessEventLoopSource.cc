@@ -16,8 +16,7 @@
 namespace rl {
 namespace core {
 
-void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
-                                                   bool shouldAdd) {
+void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet&, bool) {
   RL_ASSERT_MSG(
       false,
       "In-process loop sources require an extra bit of context to signal "

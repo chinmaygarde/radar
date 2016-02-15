@@ -139,6 +139,16 @@ set_source_files_properties(${RADARLOVE_SRC}
     "-Werror -Wextra"
 )
 
+if(DISABLE_XPC)
+  # Usage:
+  #     $ cmake -DDISABLE_XPC=1
+  set_source_files_properties(${RADARLOVE_SRC}
+      PROPERTIES
+      COMPILE_DEFINITIONS
+      "RL_DISABLE_XPC=1"
+  )
+endif()
+
 set_source_files_properties(${RADARLOVE_SQLITE_SRC}
     PROPERTIES
     COMPILE_DEFINITIONS
@@ -238,6 +248,15 @@ if(NOT APPLE)
     PROPERTIES
     COMPILE_FLAGS
     "-x c++")
+endif()
+
+if(DISABLE_XPC)
+  # Certain tests are disabled based on which backend is being tested.
+  set_source_files_properties(${RADARLOVE_TEST_SRC}
+      PROPERTIES
+      COMPILE_DEFINITIONS
+      "RL_DISABLE_XPC=1"
+  )
 endif()
 
 include_directories ( Source )

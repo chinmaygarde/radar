@@ -73,11 +73,14 @@
 #define RL_SHMEM_ASHMEM 3
 
 /*
- *  Add overrides here...
+ *  If cross process communication is disabled, use in-process variants of all
+ *  Core primitives
  */
-// #define RL_CHANNELS RL_CHANNELS_INPROCESS
-// #define RL_WAITSET RL_WAITSET_INPROCESS
-// #define RL_SHMEM RL_SHMEM_POSIX
+#if RL_DISABLE_XPC
+#define RL_CHANNELS RL_CHANNELS_INPROCESS
+#define RL_WAITSET RL_WAITSET_INPROCESS
+#define RL_SHMEM RL_SHMEM_DISABLED
+#endif
 
 /*
  *  Detect Channels by Platform
