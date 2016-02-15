@@ -52,6 +52,7 @@ TEST(Protocol, SimpleEcho) {
   rl::core::Latch serverLatch(1);
 
   auto server = std::thread([&]() {
+    rl::core::thread::SetName("server");
     auto loop = rl::core::EventLoop::Current();
     EchoProtocol echoServer(true);
     loop->addSource(echoServer.source());
@@ -60,6 +61,7 @@ TEST(Protocol, SimpleEcho) {
   });
 
   auto client = std::thread([&]() {
+    rl::core::thread::SetName("client");
     auto loop = rl::core::EventLoop::Current();
     EchoProtocol echoClient(false);
 
