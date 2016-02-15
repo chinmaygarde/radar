@@ -115,17 +115,20 @@ if(NOT APPLE)
     "Source/*.mm"
   )
 
-  set_source_files_properties(${RADARLOVE_SRC_MM}
-    PROPERTIES
+  set_property(
+    SOURCE
+    ${RADARLOVE_SRC_MM}
+    APPEND_STRING
+    PROPERTY
     COMPILE_FLAGS
-    "-x c++"
+    " -x c++ "
   )
 endif()
 
 file(GLOB RADARLOVE_IMGUI_SRC
   "ThirdParty/imgui/imgui_draw.cpp"
   "ThirdParty/imgui/imgui.cpp"
-  "ThirdParty/imgui/imgui_demo.cpp"
+  # "ThirdParty/imgui/imgui_demo.cpp"
 )
 
 file(GLOB RADARLOVE_SQLITE_SRC
@@ -133,26 +136,35 @@ file(GLOB RADARLOVE_SQLITE_SRC
   "ThirdParty/sqlite3/*.c"
 )
 
-set_source_files_properties(${RADARLOVE_SRC}
-    PROPERTIES
-    COMPILE_FLAGS
-    "-Werror -Wextra"
+set_property(
+  SOURCE
+  ${RADARLOVE_SRC}
+  APPEND_STRING
+  PROPERTY
+  COMPILE_FLAGS
+  " -Werror -Wextra "
 )
 
 if(DISABLE_XPC)
   # Usage:
   #     $ cmake -DDISABLE_XPC=1
-  set_source_files_properties(${RADARLOVE_SRC}
-      PROPERTIES
-      COMPILE_DEFINITIONS
-      "RL_DISABLE_XPC=1"
+  set_property(
+    SOURCE
+    ${RADARLOVE_SRC}
+    APPEND
+    PROPERTY
+    COMPILE_DEFINITIONS
+    "RL_DISABLE_XPC=1"
   )
 endif()
 
-set_source_files_properties(${RADARLOVE_SQLITE_SRC}
-    PROPERTIES
-    COMPILE_DEFINITIONS
-    "SQLITE_OMIT_LOAD_EXTENSION=1"
+set_property(
+  SOURCE
+  ${RADARLOVE_SQLITE_SRC}
+  APPEND
+  PROPERTY
+  COMPILE_DEFINITIONS
+  "SQLITE_OMIT_LOAD_EXTENSION=1"
 )
 
 include_directories ("Headers")
@@ -244,18 +256,25 @@ if(NOT APPLE)
     "Test/*.mm"
   )
 
-  set_source_files_properties(${RADARLOVE_TEST_SRC_MM}
-    PROPERTIES
+  set_property(
+    SOURCE
+    ${RADARLOVE_TEST_SRC_MM}
+    APPEND_STRING
+    PROPERTY
     COMPILE_FLAGS
-    "-x c++")
+    " -x c++ "
+  )
 endif()
 
 if(DISABLE_XPC)
   # Certain tests are disabled based on which backend is being tested.
-  set_source_files_properties(${RADARLOVE_TEST_SRC}
-      PROPERTIES
-      COMPILE_DEFINITIONS
-      "RL_DISABLE_XPC=1"
+  set_property(
+    SOURCE
+    ${RADARLOVE_TEST_SRC}
+    APPEND
+    PROPERTY
+    COMPILE_DEFINITIONS
+    "RL_DISABLE_XPC=1"
   )
 endif()
 

@@ -56,7 +56,7 @@ static const size_t MaxControlBufferSize =
     CMSG_SPACE(sizeof(SocketChannel::Handle) * MaxControlBufferItemCount);
 
 static bool IsValidSocketHandle(SocketChannel::Handle handle) {
-  struct stat statbuf = {0};
+  struct stat statbuf = {};
 
   if (fstat(handle, &statbuf) == -1) {
     return false;
@@ -222,7 +222,8 @@ static IOResult SocketSendMessage(SocketChannel::Handle writer,
     break;
   }
 
-  return sent == expectedSendSize ? IOResult::Success : IOResult::Failure;
+  return sent == static_cast<int64_t>(expectedSendSize) ? IOResult::Success
+                                                        : IOResult::Failure;
 }
 
 /*
@@ -451,7 +452,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
    *  socket
    *  ==========================================================================
    */
-  struct iovec vec[2] = {{0}};
+  struct iovec vec[2] = {};
 
   SocketPayloadHeader header;
 
@@ -502,9 +503,9 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
     return IOReadResult(IOResult::Failure, Message{});
   }
 
-  auto received = result.second;
+  ssize_t received = result.second;
 
-  if (received < sizeof(SocketPayloadHeader)) {
+  if (received < static_cast<ssize_t>(sizeof(SocketPayloadHeader))) {
     /*
      *  We always expect a header in any message.
      */

@@ -30,7 +30,7 @@ static inline void EPollInvoke(int eventsMask,
                                int epollDesc,
                                int operation,
                                int desc) {
-  struct epoll_event event = {0};
+  struct epoll_event event = {};
 
   event.events = eventsMask;
   event.data.ptr = data; /* union */
@@ -59,7 +59,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
 
     const uint64_t nano_secs = repeatInterval.count();
 
-    struct itimerspec spec = {0};
+    struct itimerspec spec = {};
 
     spec.it_value.tv_sec = (time_t)(nano_secs / NSEC_PER_SEC);
     spec.it_value.tv_nsec = nano_secs % NSEC_PER_SEC;
@@ -72,7 +72,6 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
   };
 
   RWHandlesCollector collector = [](Handles handles) {
-    RL_ASSERT(handles.second == -1 /* since we never assigned one */);
     RL_CHECK(::close(handles.first));
   };
 

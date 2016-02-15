@@ -26,7 +26,7 @@ EPollWaitSet::~EPollWaitSet() {
 }
 
 EventLoopSource* EPollWaitSet::wait(ClockDurationNano timeout) {
-  struct epoll_event event = {0};
+  struct epoll_event event = {};
 
   int val = RL_TEMP_FAILURE_RETRY(
       ::epoll_wait(_handle, &event, 1, ToUnixTimeoutMS(timeout)));
