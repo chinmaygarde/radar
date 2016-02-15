@@ -89,7 +89,7 @@ class EventLoopObserverCollection {
  private:
   using EventLoopObserversSet =
       std::set<std::shared_ptr<EventLoopObserver>, EventLoopObserverComparer>;
-    EventLoopObserver::Activity _activity;
+  EventLoopObserver::Activity _activity;
   std::mutex _observersMutex;
   EventLoopObserversSet _observers;
 
