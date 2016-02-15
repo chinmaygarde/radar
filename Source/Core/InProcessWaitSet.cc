@@ -45,7 +45,7 @@ void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     EventLoopSource& source,
                                     bool added) {
   {
-    std::lock_guard<std::mutex> lock(_lock);
+    std::lock_guard<std::mutex> lock(_readySourcesMutex);
 
     if (IsTimer(source.handles())) {
       if (added) {
@@ -139,7 +139,7 @@ EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
    *  condition variable
    */
   {
-    std::lock_guard<std::mutex> lock(_lock);
+    std::lock_guard<std::mutex> lock(_readySourcesMutex);
     if (auto source = timerOrSourceOnWakeNoLock(TimerClock::now())) {
       return source;
     }
@@ -149,7 +149,7 @@ EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
    *  There were no pre-signalled sources and we are forced to wait on the
    *  condition variable
    */
-  std::unique_lock<std::mutex> lock(_lock);
+  std::unique_lock<std::mutex> lock(_readySourcesMutex);
 
   auto upperBound = TimerClock::now() +
                     std::chrono::duration_cast<TimerClockDuration>(timeout);
@@ -210,7 +210,7 @@ EventLoopSource* InProcessWaitSet::sourceOnWakeNoLock() {
 
 void InProcessWaitSet::signalReadReadinessFromUserspace(
     EventLoopSource::Handle writeHandle) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_readySourcesMutex);
 
   auto result = _watchedSources[writeHandle];
   RL_ASSERT(result != nullptr);

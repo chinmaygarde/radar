@@ -60,10 +60,10 @@ class InProcessWaitSet : public WaitSetProvider {
       std::unordered_map<EventLoopSource::Handle, EventLoopSource*>;
   using ActiveTimersHeap = std::vector<ActiveTimer>;
 
-  std::mutex _lock;
   std::condition_variable _conditionVariable;
   WriteHandleSourcesMap _watchedSources;
   ActiveTimersHeap _timers;
+  std::mutex _readySourcesMutex;
   std::unordered_set<EventLoopSource*> _readySources;
 
   TimerClockPoint nextTimerTimeout(TimerClockPoint upperBound) const;
