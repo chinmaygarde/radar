@@ -155,6 +155,17 @@ add_library(RadarLove
 )
 
 ################################################################################
+# Enable Sanitizers (Requires Custom Clang Setup)
+# Usage:
+#     $ cmake -DSANITIZE=address
+#     Any supported Clang sanitizer can be specified
+################################################################################
+
+if(SANITIZE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${SANITIZE} -g -O1")
+endif()
+
+################################################################################
 # Tweaks for the various platforms and compilers
 ################################################################################
 
