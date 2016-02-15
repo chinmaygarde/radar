@@ -26,9 +26,9 @@ class WorkQueue {
   ~WorkQueue();
 
  private:
-  std::mutex _lock;
   std::shared_ptr<EventLoopSource> _workSource;
   std::list<std::pair<std::thread, std::shared_ptr<EventLoopSource>>> _workers;
+  std::mutex _workItemsMutex;
   std::list<WorkItem> _workItems;
   bool _shuttingDown;
   std::condition_variable _idleness;

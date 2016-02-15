@@ -130,7 +130,7 @@ class Interface {
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
   geom::Size _size;
-  std::mutex _lock;
+  std::mutex _transactionStackMutex;
   std::deque<InterfaceTransaction> _transactionStack;
   size_t _popCount;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;

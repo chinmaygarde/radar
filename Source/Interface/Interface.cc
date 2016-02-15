@@ -163,7 +163,7 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
 }
 
 InterfaceTransaction& Interface::transaction() {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_transactionStackMutex);
 
   if (_transactionStack.size() == 0) {
     /*
@@ -178,12 +178,12 @@ InterfaceTransaction& Interface::transaction() {
 }
 
 void Interface::pushTransaction(Action&& action) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_transactionStackMutex);
   _transactionStack.emplace_back(std::move(action));
 }
 
 void Interface::popTransaction() {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_transactionStackMutex);
 
   if (_transactionStack.size() == 0) {
     return;
@@ -216,14 +216,14 @@ void Interface::flushTransactions() {
   RL_TRACE_AUTO("Interface::FlushTransactions")
   RL_ASSERT(_coordinatorChannel != nullptr);
 
-  std::lock_guard<std::mutex> lock(_lock);
-
   auto result = true;
 
   /*
    *  Create a message to encode all the transaction items into
    */
   core::Message arena;
+
+  std::lock_guard<std::mutex> lock(_transactionStackMutex);
 
   for (auto& transaction : _transactionStack) {
     result &= transaction.commit(arena, _spliceArchive);

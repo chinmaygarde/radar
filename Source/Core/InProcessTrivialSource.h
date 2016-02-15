@@ -25,9 +25,9 @@ class InProcessTrivialSource : public EventLoopSource {
   ~InProcessTrivialSource();
 
  private:
-  std::mutex _lock;
-  bool _signalled;
+  std::mutex _activeWaitSetsMutex;
   std::unordered_set<WaitSet*> _activeWaitSets;
+  bool _signalled;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessTrivialSource);
 };

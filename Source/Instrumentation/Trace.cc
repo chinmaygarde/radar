@@ -81,12 +81,12 @@ size_t ThreadTrace::eventCount() const {
 ProcessTrace::ProcessTrace() {}
 
 void ProcessTrace::addTrace(ThreadTrace& trace) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_threadTracesMutex);
   _threadTraces.push_back(&trace);
 }
 
 void ProcessTrace::removeTrace(ThreadTrace& trace) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_threadTracesMutex);
   _threadTraces.remove(&trace);
 }
 
@@ -99,7 +99,7 @@ ProcessTrace& ProcessTrace::Current() {
 }
 
 void ProcessTrace::recordToStream(std::stringstream& stream) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_threadTracesMutex);
 
   auto pid = ::getpid();
 

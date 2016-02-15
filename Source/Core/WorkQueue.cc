@@ -77,7 +77,7 @@ void WorkQueue::work() {
 }
 
 bool WorkQueue::shouldReadWorkSourceHandle() {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_workItemsMutex);
   return _workItems.size() == 0;
 }
 
@@ -86,7 +86,7 @@ WorkQueue::WorkItem WorkQueue::acquireWork() {
    *  Only hold the lock long enough to dequeue the work item. Holding the
    *  lock is not necessary while actually performing the work.
    */
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_workItemsMutex);
 
   auto count = _workItems.size();
 
@@ -122,7 +122,7 @@ void WorkQueue::dispatch(WorkItem item) {
   /*
    *  Enqueue pending work
    */
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_workItemsMutex);
 
   auto initialCount = _workItems.size();
 
@@ -138,13 +138,13 @@ void WorkQueue::dispatch(WorkItem item) {
 }
 
 bool WorkQueue::areWorkItemsPending() {
-  std::lock_guard<std::mutex> itemsLock(_lock);
+  std::lock_guard<std::mutex> itemsLock(_workItemsMutex);
   return _workItems.size() != 0;
 }
 
 void WorkQueue::waitForAllPendingWorkFlushed() {
   if (areWorkItemsPending()) {
-    std::unique_lock<std::mutex> uniqueLock(_lock);
+    std::unique_lock<std::mutex> uniqueLock(_workItemsMutex);
     _idleness.wait(uniqueLock, [&] { return _workItems.size() == 0; });
   }
 }

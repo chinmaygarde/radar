@@ -58,7 +58,7 @@ class ProcessTrace {
   void recordToStream(std::stringstream& stream);
 
  private:
-  std::mutex _lock;
+  std::mutex _threadTracesMutex;
   std::list<ThreadTrace*> _threadTraces;
 
   friend class ThreadTrace;

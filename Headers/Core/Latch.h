@@ -36,7 +36,7 @@ class Latch {
  private:
   std::atomic_size_t _count;
   std::condition_variable _condition;
-  std::mutex _lock;
+  std::mutex _conditionMutex;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Latch);
 };

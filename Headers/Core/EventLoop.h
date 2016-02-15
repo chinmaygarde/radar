@@ -93,7 +93,7 @@ class EventLoop {
   WaitSet _waitSet;
   std::shared_ptr<EventLoopSource> _trivialSource;
   bool _shouldTerminate;
-  std::mutex _lock;
+  std::mutex _pendingDispatchesMutex;
   std::unique_ptr<PendingBlocks> _pendingDispatches;
   EventLoopObserverCollection _beforeSleepObservers;
   EventLoopObserverCollection _afterSleepObservers;

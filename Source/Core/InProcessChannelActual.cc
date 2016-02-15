@@ -64,7 +64,7 @@ IOResult InProcessChannelActual::writeMessages(Messages&& messages,
     return IOResult::Success;
   }
 
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_messageBufferMutex);
 
   for (auto& message : messages) {
     message.rewindRead();
@@ -80,7 +80,7 @@ IOResult InProcessChannelActual::writeMessages(Messages&& messages,
 }
 
 IOReadResult InProcessChannelActual::readMessage(ClockDurationNano timeout) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_messageBufferMutex);
 
   if (_messageBuffer.size() == 0) {
     return IOReadResult(IOResult::Timeout, Message{});
@@ -103,7 +103,7 @@ bool InProcessChannelActual::doTerminate() {
 }
 
 void InProcessChannelActual::addUserspaceCounterpart(Channel& channel) {
-  std::lock_guard<std::mutex> lock(_channelMutex);
+  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
 
   auto found =
       std::find(_userspaceChannels.begin(), _userspaceChannels.end(), &channel);
@@ -114,7 +114,7 @@ void InProcessChannelActual::addUserspaceCounterpart(Channel& channel) {
 }
 
 void InProcessChannelActual::removeUserspaceCounterpart(Channel& channel) {
-  std::lock_guard<std::mutex> lock(_channelMutex);
+  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
 
   auto found =
       std::find(_userspaceChannels.begin(), _userspaceChannels.end(), &channel);
@@ -125,7 +125,7 @@ void InProcessChannelActual::removeUserspaceCounterpart(Channel& channel) {
 }
 
 Channel* InProcessChannelActual::randomChannel() const {
-  std::lock_guard<std::mutex> lock(_channelMutex);
+  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
   auto size = _userspaceChannels.size();
   if (size == 0) {
     return nullptr;

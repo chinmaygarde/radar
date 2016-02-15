@@ -7,13 +7,12 @@
 namespace rl {
 namespace core {
 
-Latch::Latch(size_t count) : _count(count), _condition(), _lock() {}
+Latch::Latch(size_t count) : _count(count) {}
 
 void Latch::wait() {
   if (_count > 0) {
-    std::unique_lock<std::mutex> lock(_lock);
+    std::unique_lock<std::mutex> lock(_conditionMutex);
     _condition.wait(lock, [&] { return _count == 0; });
-    lock.unlock();
   }
 }
 

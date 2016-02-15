@@ -21,7 +21,7 @@ InProcessTrivialSource::InProcessTrivialSource()
   });
 
   setWriter([&](Handle handle) {
-    std::lock_guard<std::mutex> lock(_lock);
+    std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
     _signalled = true;
     for (const auto& waitset : _activeWaitSets) {
       waitset->signalReadReadinessFromUserspace(
@@ -31,14 +31,14 @@ InProcessTrivialSource::InProcessTrivialSource()
   });
 
   setReader([&](Handle) {
-    std::lock_guard<std::mutex> lock(_lock);
+    std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
     _signalled = false;
     return IOResult::Success;
   });
 
   setCustomWaitSetUpdateHandler([&](EventLoopSource& source, WaitSet& waitset,
                                     Handle readHandle, bool adding) {
-    std::lock_guard<std::mutex> lock(_lock);
+    std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
 
     if (adding) {
       _activeWaitSets.insert(&waitset);

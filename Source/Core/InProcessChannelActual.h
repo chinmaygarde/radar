@@ -44,9 +44,9 @@ class InProcessChannelActual : public ChannelProvider {
   ~InProcessChannelActual() override;
 
  private:
-  std::mutex _lock;
-  mutable std::mutex _channelMutex;
+  mutable std::mutex _userspaceChannelsMutex;
   std::vector<Channel*> _userspaceChannels;
+  std::mutex _messageBufferMutex;
   std::list<Message> _messageBuffer;
   mutable std::unordered_set<WaitSet*> _activeWaitSets;
 

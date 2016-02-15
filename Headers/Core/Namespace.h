@@ -105,8 +105,8 @@ class Namespace {
   friend class HandleCollector;
 
   std::atomic<Name::Handle> _last;
-  mutable std::mutex _lock;
 
+  mutable std::mutex _mapsMutex;
   HandleRefMap _counterpartToLocalMap;
   HandleMap _localToCounterpartMap;
 

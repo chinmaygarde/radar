@@ -89,8 +89,8 @@ class EventLoopObserverCollection {
  private:
   using EventLoopObserversSet =
       std::set<std::shared_ptr<EventLoopObserver>, EventLoopObserverComparer>;
-  std::mutex _lock;
-  EventLoopObserver::Activity _activity;
+    EventLoopObserver::Activity _activity;
+  std::mutex _observersMutex;
   EventLoopObserversSet _observers;
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);

@@ -32,14 +32,14 @@ EventLoopObserverCollection::EventLoopObserverCollection(
 
 bool EventLoopObserverCollection::addObserver(
     std::shared_ptr<EventLoopObserver> observer) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_observersMutex);
   auto result = _observers.insert(observer);
   return result.second;
 }
 
 bool EventLoopObserverCollection::removeObserver(
     std::shared_ptr<EventLoopObserver> observer) {
-  std::lock_guard<std::mutex> lock(_lock);
+  std::lock_guard<std::mutex> lock(_observersMutex);
 
   auto found = _observers.find(observer);
   if (found == _observers.end()) {
@@ -50,16 +50,17 @@ bool EventLoopObserverCollection::removeObserver(
 }
 
 void EventLoopObserverCollection::invokeAll() {
-  _lock.lock();
+  EventLoopObserversSet copied;
 
-  if (_observers.size() == 0) {
-    _lock.unlock();
-    return;
+  {
+    std::lock_guard<std::mutex> lock(_observersMutex);
+
+    if (_observers.size() == 0) {
+      return;
+    }
+
+    copied = _observers;
   }
-
-  EventLoopObserversSet copied(_observers);
-
-  _lock.unlock();
 
   for (const auto& observer : copied) {
     observer->invoke(_activity);
