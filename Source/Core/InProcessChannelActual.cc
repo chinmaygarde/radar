@@ -18,7 +18,6 @@ InProcessChannelActual::InProcessChannelActual() {}
 
 InProcessChannelActual::~InProcessChannelActual() {
   RL_ASSERT(_userspaceChannels.size() == 0);
-  RL_ASSERT(_activeWaitSets.size() == 0);
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannelActual::createSource() const {
