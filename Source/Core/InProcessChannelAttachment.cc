@@ -7,6 +7,7 @@
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #include <Core/InProcessChannelAttachment.h>
+#include <Core/InProcessWaitSet.h>
 #include <Core/Channel.h>
 
 #include <algorithm>
@@ -25,9 +26,7 @@ IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
    *  ignored. It may be that contention on lock for the message buffer itself
    *  causes an overflow of the allotted time. That case is not handled here.
    */
-  if (messages.size() == 0) {
-    return IOResult::Success;
-  }
+  RL_ASSERT(messages.size() != 0);
 
   std::lock_guard<std::mutex> lock(_messageBufferMutex);
 
@@ -36,10 +35,7 @@ IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
     _messageBuffer.push_back(std::move(message));
   }
 
-  for (const auto& waitset : _subscriberWaitSets) {
-    waitset->signalReadReadinessFromUserspace(
-        reinterpret_cast<EventLoopSource::Handle>(this));
-  }
+  signalReadReadinessOnUserspaceChannels();
 
   return IOResult::Success;
 }
@@ -60,14 +56,38 @@ IOReadResult InProcessChannelAttachment::readMessage(ClockDurationNano) {
   return IOReadResult(IOResult::Success, std::move(readMessage));
 }
 
-void InProcessChannelAttachment::addSubscriberWaitset(WaitSet& waitset) {
+void InProcessChannelAttachment::addSubscriberWaitset(
+    InProcessWaitSet& waitset) {
   std::lock_guard<std::mutex> lock(_subscriberWaitsetsMutex);
   _subscriberWaitSets.insert(&waitset);
 }
 
-void InProcessChannelAttachment::removeSubscriberWaitset(WaitSet& waitset) {
+void InProcessChannelAttachment::removeSubscriberWaitset(
+    InProcessWaitSet& waitset) {
   std::lock_guard<std::mutex> lock(_subscriberWaitsetsMutex);
   _subscriberWaitSets.erase(&waitset);
+}
+
+void InProcessChannelAttachment::registerUserspaceChannel(Channel& channel) {
+  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
+  _userspaceChannels.insert(&channel);
+}
+
+void InProcessChannelAttachment::unregisterUserspaceChannel(Channel& channel) {
+  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
+  _userspaceChannels.erase(&channel);
+}
+
+void InProcessChannelAttachment::signalReadReadinessOnUserspaceChannels() {
+  std::lock_guard<std::mutex> channelLock(_userspaceChannelsMutex);
+  std::lock_guard<std::mutex> waitsetLock(_subscriberWaitsetsMutex);
+
+  for (const auto& waitset : _subscriberWaitSets) {
+    for (const auto& channel : _userspaceChannels) {
+      waitset->signalReadReadinessFromUserspace(
+          reinterpret_cast<EventLoopSource::Handle>(channel));
+    }
+  }
 }
 
 }  // namespace core

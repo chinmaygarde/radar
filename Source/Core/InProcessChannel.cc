@@ -8,6 +8,7 @@
 
 #include <Core/InProcessChannel.h>
 #include <Core/InProcessChannelAttachment.h>
+#include <Core/InProcessWaitSet.h>
 #include <Core/Channel.h>
 
 namespace rl {
@@ -15,13 +16,20 @@ namespace core {
 
 InProcessChannel::InProcessChannel(Channel& owner)
     : _attachment(std::make_shared<InProcessChannelAttachment>()),
-      _owner(owner) {}
+      _owner(owner) {
+  _attachment->registerUserspaceChannel(_owner);
+}
 
 InProcessChannel::InProcessChannel(Channel& owner,
                                    const Message::Attachment& attachment)
     : _attachment(std::static_pointer_cast<InProcessChannelAttachment>(
           attachment.handle())),
-      _owner(owner) {}
+      _owner(owner) {
+  RL_ASSERT_MSG(
+      _attachment,
+      "Must be able to materialize a valid channel from an attachment");
+  _attachment->registerUserspaceChannel(_owner);
+}
 
 InProcessChannel::~InProcessChannel() {
   /*
@@ -48,10 +56,11 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
   EventLoopSource::WaitSetUpdateHandler updateHandler = [&](
       EventLoopSource&, WaitSet& waitset, EventLoopSource::Handle,
       bool adding) {
+    auto& inprocessWaitset = reinterpret_cast<InProcessWaitSet&>(waitset);
     if (adding) {
-      _attachment->addSubscriberWaitset(waitset);
+      _attachment->addSubscriberWaitset(inprocessWaitset);
     } else {
-      _attachment->removeSubscriberWaitset(waitset);
+      _attachment->removeSubscriberWaitset(inprocessWaitset);
     }
   };
 
@@ -61,6 +70,9 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
                                          ClockDurationNano timeout) {
+  if (messages.size() == 0) {
+    return IOResult::Success;
+  }
   return _attachment->writeMessages(std::move(messages), timeout);
 }
 
@@ -73,6 +85,7 @@ Message::Attachment::Handle InProcessChannel::handle() {
 }
 
 bool InProcessChannel::doTerminate() {
+  _attachment->unregisterUserspaceChannel(_owner);
   return true;
 }
 

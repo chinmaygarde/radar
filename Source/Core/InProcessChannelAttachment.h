@@ -22,27 +22,36 @@
 namespace rl {
 namespace core {
 
+class InProcessWaitSet;
 class Channel;
 
 class InProcessChannelAttachment : public InProcessAttachment {
  public:
   InProcessChannelAttachment();
 
+  ~InProcessChannelAttachment();
+
   IOResult writeMessages(Messages&& message, ClockDurationNano timeout);
 
   IOReadResult readMessage(ClockDurationNano timeout);
 
-  void addSubscriberWaitset(WaitSet& waitset);
+  void addSubscriberWaitset(InProcessWaitSet& waitset);
 
-  void removeSubscriberWaitset(WaitSet& waitset);
+  void removeSubscriberWaitset(InProcessWaitSet& waitset);
 
-  ~InProcessChannelAttachment();
+  void registerUserspaceChannel(Channel& channel);
+
+  void unregisterUserspaceChannel(Channel& channel);
 
  private:
   std::mutex _messageBufferMutex;
   std::list<Message> _messageBuffer;
   std::mutex _subscriberWaitsetsMutex;
-  std::unordered_set<WaitSet*> _subscriberWaitSets;
+  std::unordered_set<InProcessWaitSet*> _subscriberWaitSets;
+  std::mutex _userspaceChannelsMutex;
+  std::unordered_set<Channel*> _userspaceChannels;
+
+  void signalReadReadinessOnUserspaceChannels();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannelAttachment);
 };
