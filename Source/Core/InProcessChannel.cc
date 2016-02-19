@@ -8,23 +8,20 @@
 
 #include <Core/InProcessChannel.h>
 #include <Core/InProcessChannelAttachment.h>
+#include <Core/Channel.h>
 
 namespace rl {
 namespace core {
 
 InProcessChannel::InProcessChannel(Channel& owner)
     : _attachment(std::make_shared<InProcessChannelAttachment>()),
-      _owner(owner) {
-  _attachment->addUserspaceCounterpart(owner);
-}
+      _owner(owner) {}
 
 InProcessChannel::InProcessChannel(Channel& owner,
                                    const Message::Attachment& attachment)
     : _attachment(std::static_pointer_cast<InProcessChannelAttachment>(
           attachment.handle())),
-      _owner(owner) {
-  _attachment->addUserspaceCounterpart(owner);
-}
+      _owner(owner) {}
 
 InProcessChannel::~InProcessChannel() {
   /*
@@ -34,7 +31,32 @@ InProcessChannel::~InProcessChannel() {
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
-  return _attachment->createSource();
+  auto handle = reinterpret_cast<EventLoopSource::Handle>(this);
+
+  EventLoopSource::RWHandlesProvider allocator = [handle]() {
+    /*
+     *  Since this channel is going to write to this source as well are read
+     *  from it, we assign ourselves as the read and write handles.
+     */
+    return EventLoopSource::Handles(handle, handle);
+  };
+
+  EventLoopSource::IOHandler readHandler = [&](EventLoopSource::Handle) {
+    return _owner.readPendingMessageNow();
+  };
+
+  EventLoopSource::WaitSetUpdateHandler updateHandler = [&](
+      EventLoopSource&, WaitSet& waitset, EventLoopSource::Handle,
+      bool adding) {
+    if (adding) {
+      _attachment->addSubscriberWaitset(waitset);
+    } else {
+      _attachment->removeSubscriberWaitset(waitset);
+    }
+  };
+
+  return std::make_shared<EventLoopSource>(allocator, nullptr, readHandler,
+                                           nullptr, updateHandler);
 }
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
@@ -51,7 +73,6 @@ Message::Attachment::Handle InProcessChannel::handle() {
 }
 
 bool InProcessChannel::doTerminate() {
-  _attachment->removeUserspaceCounterpart(_owner);
   return true;
 }
 

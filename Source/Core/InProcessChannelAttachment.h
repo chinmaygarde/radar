@@ -10,8 +10,9 @@
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #include <Core/Macros.h>
-#include <Core/ChannelProvider.h>
 #include <Core/InProcessAttachment.h>
+#include <Core/Message.h>
+#include <Core/WaitSet.h>
 
 #include <mutex>
 #include <vector>
@@ -23,36 +24,25 @@ namespace core {
 
 class Channel;
 
-class InProcessChannelAttachment : public ChannelProvider,
-                                   public InProcessAttachment {
+class InProcessChannelAttachment : public InProcessAttachment {
  public:
   InProcessChannelAttachment();
 
-  std::shared_ptr<EventLoopSource> createSource() const override;
+  IOResult writeMessages(Messages&& message, ClockDurationNano timeout);
 
-  IOResult writeMessages(Messages&& message,
-                         ClockDurationNano timeout) override;
+  IOReadResult readMessage(ClockDurationNano timeout);
 
-  IOReadResult readMessage(ClockDurationNano timeout) override;
+  void addSubscriberWaitset(WaitSet& waitset);
 
-  bool doTerminate() override;
+  void removeSubscriberWaitset(WaitSet& waitset);
 
-  Message::Attachment::Handle handle() override;
-
-  void addUserspaceCounterpart(Channel& channel);
-
-  void removeUserspaceCounterpart(Channel& channel);
-
-  ~InProcessChannelAttachment() override;
+  ~InProcessChannelAttachment();
 
  private:
-  mutable std::mutex _userspaceChannelsMutex;
-  std::vector<Channel*> _userspaceChannels;
   std::mutex _messageBufferMutex;
   std::list<Message> _messageBuffer;
-  mutable std::unordered_set<WaitSet*> _activeWaitSets;
-
-  Channel* randomChannel() const;
+  std::mutex _subscriberWaitsetsMutex;
+  std::unordered_set<WaitSet*> _subscriberWaitSets;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannelAttachment);
 };

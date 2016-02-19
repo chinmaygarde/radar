@@ -9,5 +9,7 @@ namespace core {
 
 InProcessAttachment::InProcessAttachment() {}
 
+InProcessAttachment::~InProcessAttachment() {}
+
 }  // namespace core
 }  // namespace rl

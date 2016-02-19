@@ -14,6 +14,8 @@ class InProcessAttachment {
  public:
   InProcessAttachment();
 
+  virtual ~InProcessAttachment();
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessAttachment);
 };

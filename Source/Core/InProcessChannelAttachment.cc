@@ -16,41 +16,7 @@ namespace core {
 
 InProcessChannelAttachment::InProcessChannelAttachment() {}
 
-InProcessChannelAttachment::~InProcessChannelAttachment() {
-  RL_ASSERT(_userspaceChannels.size() == 0);
-}
-
-std::shared_ptr<EventLoopSource> InProcessChannelAttachment::createSource()
-    const {
-  using ELS = EventLoopSource;
-
-  auto handle = reinterpret_cast<ELS::Handle>(this);
-  auto allocator = [handle]() {
-    /*
-     *  Since this channel is going to write to this source as well are read
-     *  from it, we assign ourselves as the read and write handles.
-     */
-    return ELS::Handles(handle, handle);
-  };
-
-  auto readHandler = [&](ELS::Handle) {
-    auto channel = randomChannel();
-    return channel != nullptr ? channel->readPendingMessageNow()
-                              : IOResult::Failure;
-  };
-
-  auto updateHandler = [&](EventLoopSource&, WaitSet& waitset, ELS::Handle,
-                           bool adding) {
-    if (adding) {
-      _activeWaitSets.insert(&waitset);
-    } else {
-      _activeWaitSets.erase(&waitset);
-    }
-  };
-
-  return std::make_shared<ELS>(allocator, nullptr, readHandler, nullptr,
-                               updateHandler);
-}
+InProcessChannelAttachment::~InProcessChannelAttachment() {}
 
 IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
                                                    ClockDurationNano) {
@@ -70,7 +36,7 @@ IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
     _messageBuffer.push_back(std::move(message));
   }
 
-  for (const auto& waitset : _activeWaitSets) {
+  for (const auto& waitset : _subscriberWaitSets) {
     waitset->signalReadReadinessFromUserspace(
         reinterpret_cast<EventLoopSource::Handle>(this));
   }
@@ -94,45 +60,14 @@ IOReadResult InProcessChannelAttachment::readMessage(ClockDurationNano) {
   return IOReadResult(IOResult::Success, std::move(readMessage));
 }
 
-Message::Attachment::Handle InProcessChannelAttachment::handle() {
-  RL_ASSERT_MSG(false, "Cannot access the handle of a non-userspace resource");
-  return 0;
+void InProcessChannelAttachment::addSubscriberWaitset(WaitSet& waitset) {
+  std::lock_guard<std::mutex> lock(_subscriberWaitsetsMutex);
+  _subscriberWaitSets.insert(&waitset);
 }
 
-bool InProcessChannelAttachment::doTerminate() {
-  _messageBuffer.clear();
-  return true;
-}
-
-void InProcessChannelAttachment::addUserspaceCounterpart(Channel& channel) {
-  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
-
-  auto found =
-      std::find(_userspaceChannels.begin(), _userspaceChannels.end(), &channel);
-
-  if (found == _userspaceChannels.end()) {
-    _userspaceChannels.emplace_back(&channel);
-  }
-}
-
-void InProcessChannelAttachment::removeUserspaceCounterpart(Channel& channel) {
-  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
-
-  auto found =
-      std::find(_userspaceChannels.begin(), _userspaceChannels.end(), &channel);
-
-  if (found != _userspaceChannels.end()) {
-    _userspaceChannels.erase(found);
-  }
-}
-
-Channel* InProcessChannelAttachment::randomChannel() const {
-  std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
-  auto size = _userspaceChannels.size();
-  if (size == 0) {
-    return nullptr;
-  }
-  return _userspaceChannels[rand() % size];
+void InProcessChannelAttachment::removeSubscriberWaitset(WaitSet& waitset) {
+  std::lock_guard<std::mutex> lock(_subscriberWaitsetsMutex);
+  _subscriberWaitSets.erase(&waitset);
 }
 
 }  // namespace core
