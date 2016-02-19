@@ -38,12 +38,14 @@ InProcessTrivialSource::InProcessTrivialSource()
 
   setCustomWaitSetUpdateHandler(
       [&](EventLoopSource&, WaitSet& waitset, Handle, bool adding) {
+        auto inprocessWaitSet = reinterpret_cast<InProcessWaitSet*>(&waitset);
+
         std::lock_guard<std::mutex> lock(_activeWaitSetsMutex);
 
         if (adding) {
-          _activeWaitSets.insert(&waitset);
+          _activeWaitSets.insert(inprocessWaitSet);
         } else {
-          _activeWaitSets.erase(&waitset);
+          _activeWaitSets.erase(inprocessWaitSet);
         }
 
         /*
@@ -52,7 +54,7 @@ InProcessTrivialSource::InProcessTrivialSource()
          *  that we have a waitset, manually trigger readiness.
          */
         if (_signalled && _activeWaitSets.size() == 1) {
-          waitset.signalReadReadinessFromUserspace(
+          inprocessWaitSet->signalReadReadinessFromUserspace(
               reinterpret_cast<EventLoopSource::Handle>(this));
         }
       });

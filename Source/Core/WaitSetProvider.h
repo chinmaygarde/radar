@@ -19,9 +19,6 @@ class WaitSetProvider {
 
   virtual WaitSet::Handle handle() const = 0;
 
-  virtual void signalReadReadinessFromUserspace(
-      EventLoopSource::Handle writeHandle);
-
   virtual void updateSource(WaitSet& waitset,
                             EventLoopSource& source,
                             bool addedOrRemoved);

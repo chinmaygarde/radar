@@ -59,11 +59,6 @@ WaitSet::Handle WaitSet::handle() const {
   return _provider->handle();
 }
 
-void WaitSet::signalReadReadinessFromUserspace(
-    EventLoopSource::Handle writeHandle) {
-  return _provider->signalReadReadinessFromUserspace(writeHandle);
-}
-
 WaitSet::~WaitSet() {
   for (auto const& source : _sources) {
     _provider->updateSource(*this, *source, false);

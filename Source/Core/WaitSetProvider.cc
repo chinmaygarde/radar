@@ -15,14 +15,6 @@ void WaitSetProvider::updateSource(WaitSet& waitset,
   source.updateInWaitSet(waitset, addedOrRemoved);
 }
 
-void WaitSetProvider::signalReadReadinessFromUserspace(
-    EventLoopSource::Handle) {
-  RL_ASSERT_MSG(
-      false,
-      "This platform does not allow signalling read readiness of sources "
-      "from userspace. Only 'InProcess' Core variants support this!");
-}
-
 WaitSetProvider::~WaitSetProvider() {}
 
 }  // namespace core

@@ -29,9 +29,11 @@ class InProcessWaitSet : public WaitSetProvider {
       const std::chrono::nanoseconds& interval);
 
   EventLoopSource* wait(ClockDurationNano timeout) override;
+
   WaitSet::Handle handle() const override;
-  void signalReadReadinessFromUserspace(
-      EventLoopSource::Handle writeHandle) override;
+
+  void signalReadReadinessFromUserspace(EventLoopSource::Handle writeHandle);
+
   void updateSource(WaitSet& waitset,
                     EventLoopSource& source,
                     bool addedOrRemoved) override;
