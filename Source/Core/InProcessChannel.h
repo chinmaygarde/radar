@@ -15,7 +15,7 @@ namespace rl {
 namespace core {
 
 class Channel;
-class InProcessChannelActual;
+class InProcessChannelAttachment;
 
 class InProcessChannel : public ChannelProvider {
  public:
@@ -38,7 +38,7 @@ class InProcessChannel : public ChannelProvider {
   bool doTerminate() override;
 
  private:
-  std::shared_ptr<InProcessChannelActual> _actual;
+  std::shared_ptr<InProcessChannelAttachment> _attachment;
   Channel& _owner;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannel);

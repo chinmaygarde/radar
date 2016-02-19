@@ -5,6 +5,7 @@
 #ifndef RADARLOVE_CORE_MESSAGE_
 #define RADARLOVE_CORE_MESSAGE_
 
+#include <Core/Config.h>
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
 #include <Core/Utilities.h>
@@ -18,11 +19,17 @@
 namespace rl {
 namespace core {
 
+class InProcessAttachment;
+
 class Message {
  public:
   class Attachment {
    public:
+#if RL_DISABLE_XPC
+    using Handle = std::shared_ptr<InProcessAttachment>;
+#else
     using Handle = uintptr_t;
+#endif
 
     Attachment();
 

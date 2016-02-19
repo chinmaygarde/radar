@@ -7,22 +7,23 @@
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #include <Core/InProcessChannel.h>
-#include <Core/InProcessChannelActual.h>
+#include <Core/InProcessChannelAttachment.h>
 
 namespace rl {
 namespace core {
 
 InProcessChannel::InProcessChannel(Channel& owner)
-    : _actual(std::make_shared<InProcessChannelActual>()), _owner(owner) {
-  _actual->addUserspaceCounterpart(owner);
+    : _attachment(std::make_shared<InProcessChannelAttachment>()),
+      _owner(owner) {
+  _attachment->addUserspaceCounterpart(owner);
 }
 
 InProcessChannel::InProcessChannel(Channel& owner,
                                    const Message::Attachment& attachment)
-    : _owner(owner) {
-  _actual = *reinterpret_cast<std::shared_ptr<InProcessChannelActual>*>(
-      attachment.handle());
-  _actual->addUserspaceCounterpart(owner);
+    : _attachment(std::static_pointer_cast<InProcessChannelAttachment>(
+          attachment.handle())),
+      _owner(owner) {
+  _attachment->addUserspaceCounterpart(owner);
 }
 
 InProcessChannel::~InProcessChannel() {
@@ -33,24 +34,24 @@ InProcessChannel::~InProcessChannel() {
 }
 
 std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
-  return _actual->createSource();
+  return _attachment->createSource();
 }
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
                                          ClockDurationNano timeout) {
-  return _actual->writeMessages(std::move(messages), timeout);
+  return _attachment->writeMessages(std::move(messages), timeout);
 }
 
 IOReadResult InProcessChannel::readMessage(ClockDurationNano timeout) {
-  return _actual->readMessage(timeout);
+  return _attachment->readMessage(timeout);
 }
 
 Message::Attachment::Handle InProcessChannel::handle() {
-  return reinterpret_cast<Message::Attachment::Handle>(&_actual);
+  return _attachment;
 }
 
 bool InProcessChannel::doTerminate() {
-  _actual->removeUserspaceCounterpart(_owner);
+  _attachment->removeUserspaceCounterpart(_owner);
   return true;
 }
 

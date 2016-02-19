@@ -6,7 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#include <Core/InProcessChannelActual.h>
+#include <Core/InProcessChannelAttachment.h>
 #include <Core/Channel.h>
 
 #include <algorithm>
@@ -14,13 +14,14 @@
 namespace rl {
 namespace core {
 
-InProcessChannelActual::InProcessChannelActual() {}
+InProcessChannelAttachment::InProcessChannelAttachment() {}
 
-InProcessChannelActual::~InProcessChannelActual() {
+InProcessChannelAttachment::~InProcessChannelAttachment() {
   RL_ASSERT(_userspaceChannels.size() == 0);
 }
 
-std::shared_ptr<EventLoopSource> InProcessChannelActual::createSource() const {
+std::shared_ptr<EventLoopSource> InProcessChannelAttachment::createSource()
+    const {
   using ELS = EventLoopSource;
 
   auto handle = reinterpret_cast<ELS::Handle>(this);
@@ -51,8 +52,8 @@ std::shared_ptr<EventLoopSource> InProcessChannelActual::createSource() const {
                                updateHandler);
 }
 
-IOResult InProcessChannelActual::writeMessages(Messages&& messages,
-                                               ClockDurationNano) {
+IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
+                                                   ClockDurationNano) {
   /*
    *  There is no limit on the size of the message buffer. So the timeout is
    *  ignored. It may be that contention on lock for the message buffer itself
@@ -77,7 +78,7 @@ IOResult InProcessChannelActual::writeMessages(Messages&& messages,
   return IOResult::Success;
 }
 
-IOReadResult InProcessChannelActual::readMessage(ClockDurationNano) {
+IOReadResult InProcessChannelAttachment::readMessage(ClockDurationNano) {
   /*
    *  WIP: Timeout must be respected
    */
@@ -93,17 +94,17 @@ IOReadResult InProcessChannelActual::readMessage(ClockDurationNano) {
   return IOReadResult(IOResult::Success, std::move(readMessage));
 }
 
-Message::Attachment::Handle InProcessChannelActual::handle() {
+Message::Attachment::Handle InProcessChannelAttachment::handle() {
   RL_ASSERT_MSG(false, "Cannot access the handle of a non-userspace resource");
   return 0;
 }
 
-bool InProcessChannelActual::doTerminate() {
+bool InProcessChannelAttachment::doTerminate() {
   _messageBuffer.clear();
   return true;
 }
 
-void InProcessChannelActual::addUserspaceCounterpart(Channel& channel) {
+void InProcessChannelAttachment::addUserspaceCounterpart(Channel& channel) {
   std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
 
   auto found =
@@ -114,7 +115,7 @@ void InProcessChannelActual::addUserspaceCounterpart(Channel& channel) {
   }
 }
 
-void InProcessChannelActual::removeUserspaceCounterpart(Channel& channel) {
+void InProcessChannelAttachment::removeUserspaceCounterpart(Channel& channel) {
   std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
 
   auto found =
@@ -125,7 +126,7 @@ void InProcessChannelActual::removeUserspaceCounterpart(Channel& channel) {
   }
 }
 
-Channel* InProcessChannelActual::randomChannel() const {
+Channel* InProcessChannelAttachment::randomChannel() const {
   std::lock_guard<std::mutex> lock(_userspaceChannelsMutex);
   auto size = _userspaceChannels.size();
   if (size == 0) {

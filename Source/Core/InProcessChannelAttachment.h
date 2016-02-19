@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_INPROCESSCHANNELACTUAL_H_
-#define RADARLOVE_CORE_INPROCESSCHANNELACTUAL_H_
+#ifndef RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
+#define RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
 
 #include <Core/Config.h>
 
@@ -11,6 +11,7 @@
 
 #include <Core/Macros.h>
 #include <Core/ChannelProvider.h>
+#include <Core/InProcessAttachment.h>
 
 #include <mutex>
 #include <vector>
@@ -22,9 +23,10 @@ namespace core {
 
 class Channel;
 
-class InProcessChannelActual : public ChannelProvider {
+class InProcessChannelAttachment : public ChannelProvider,
+                                   public InProcessAttachment {
  public:
-  InProcessChannelActual();
+  InProcessChannelAttachment();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
 
@@ -41,7 +43,7 @@ class InProcessChannelActual : public ChannelProvider {
 
   void removeUserspaceCounterpart(Channel& channel);
 
-  ~InProcessChannelActual() override;
+  ~InProcessChannelAttachment() override;
 
  private:
   mutable std::mutex _userspaceChannelsMutex;
@@ -52,7 +54,7 @@ class InProcessChannelActual : public ChannelProvider {
 
   Channel* randomChannel() const;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannelActual);
+  RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannelAttachment);
 };
 
 }  // namespace core
@@ -60,4 +62,4 @@ class InProcessChannelActual : public ChannelProvider {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#endif  // RADARLOVE_CORE_INPROCESSCHANNELACTUAL_H_
+#endif  // RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
