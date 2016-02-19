@@ -48,9 +48,8 @@ InProcessTrivialSource::InProcessTrivialSource()
 
         /*
          *  The source could have been signalled before being added to the
-         * waitset.
-         *  In this case, the writer failed to notify any waitsets. Now that we
-         *  have a waitset, manually trigger readiness.
+         *  waitset. In this case, the writer failed to notify any waitsets. Now
+         *  that we have a waitset, manually trigger readiness.
          */
         if (_signalled && _activeWaitSets.size() == 1) {
           waitset.signalReadReadinessFromUserspace(

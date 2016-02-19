@@ -9,9 +9,8 @@
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
-
-#include "InProcessTrivialSource.h"
-#include "InProcessTimerSource.h"
+#include <Core/InProcessWaitSet.h>
+#include <Core/InProcessTrivialSource.h>
 
 namespace rl {
 namespace core {
@@ -26,7 +25,17 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet&, bool) {
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     ClockDurationNano repeatInterval) {
-  return std::make_shared<InProcessTimerSource>(repeatInterval);
+  EventLoopSource::RWHandlesProvider provider = [repeatInterval] {
+    return InProcessWaitSet::TimerHandles(repeatInterval);
+  };
+  /*
+   *  InProcess timers require the cooperation of the platform waitset to
+   *  perform their jobs. The only wait to indicate to the waitset that this
+   *  source is a timer is by specifying the handles provider. Everything else
+   *  is left null.
+   */
+  return std::make_shared<EventLoopSource>(provider, nullptr, nullptr, nullptr,
+                                           nullptr);
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
