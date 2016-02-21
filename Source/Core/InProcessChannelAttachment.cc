@@ -28,12 +28,7 @@ IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
    */
   RL_ASSERT(messages.size() != 0);
 
-  std::lock_guard<std::mutex> lock(_messageBufferMutex);
-
-  for (auto& message : messages) {
-    message.rewindRead();
-    _messageBuffer.push_back(std::move(message));
-  }
+  bufferMessages(std::move(messages));
 
   signalReadReadinessOnUserspaceChannels();
 
@@ -78,12 +73,23 @@ void InProcessChannelAttachment::unregisterUserspaceChannel(Channel& channel) {
   _userspaceChannels.erase(&channel);
 }
 
+IOResult InProcessChannelAttachment::bufferMessages(Messages&& messages) {
+  std::lock_guard<std::mutex> lock(_messageBufferMutex);
+
+  for (auto& message : messages) {
+    message.rewindRead();
+    _messageBuffer.push_back(std::move(message));
+  }
+
+  return IOResult::Success;
+}
+
 void InProcessChannelAttachment::signalReadReadinessOnUserspaceChannels() {
   std::lock_guard<std::mutex> channelLock(_userspaceChannelsMutex);
   std::lock_guard<std::mutex> waitsetLock(_subscriberWaitsetsMutex);
 
-  for (const auto& waitset : _subscriberWaitSets) {
-    for (const auto& channel : _userspaceChannels) {
+  for (InProcessWaitSet* waitset : _subscriberWaitSets) {
+    for (Channel* channel : _userspaceChannels) {
       waitset->signalReadReadinessFromUserspace(
           reinterpret_cast<EventLoopSource::Handle>(channel));
     }

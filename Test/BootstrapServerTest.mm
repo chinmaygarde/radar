@@ -70,6 +70,7 @@ TEST(BootstrapServerTest, Acquire) {
   rl::core::Latch ready(1);
 
   auto thread = std::thread([&]() {
+    rl::core::thread::SetName("listener");
     auto advertised = rl::core::BootstrapServerAcquireAdvertised(name);
     ASSERT_NE(advertised, nullptr);
 

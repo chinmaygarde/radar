@@ -51,6 +51,7 @@ class InProcessChannelAttachment : public InProcessAttachment {
   std::mutex _userspaceChannelsMutex;
   std::unordered_set<Channel*> _userspaceChannels;
 
+  IOResult bufferMessages(Messages&& messages);
   void signalReadReadinessOnUserspaceChannels();
 
   RL_DISALLOW_COPY_AND_ASSIGN(InProcessChannelAttachment);

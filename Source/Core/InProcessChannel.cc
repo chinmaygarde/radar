@@ -70,9 +70,6 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
 
 IOResult InProcessChannel::writeMessages(Messages&& messages,
                                          ClockDurationNano timeout) {
-  if (messages.size() == 0) {
-    return IOResult::Success;
-  }
   return _attachment->writeMessages(std::move(messages), timeout);
 }
 
