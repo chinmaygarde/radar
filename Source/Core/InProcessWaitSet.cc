@@ -43,36 +43,39 @@ WaitSet::Handle InProcessWaitSet::handle() const {
 
 void InProcessWaitSet::updateSource(WaitSet& waitset,
                                     EventLoopSource& source,
-                                    bool added) {
-  {
-    std::lock_guard<std::mutex> lock(_readySourcesMutex);
-
-    if (IsTimer(source.handles())) {
-      if (added) {
-        setupTimer(source, TimerClock::now());
-      } else {
-        teardownTimer(source);
-      }
-
-      /*
-       *  Notify waiting members
-       */
-      _conditionVariable.notify_all();
-    } else {
-      if (added) {
-        setupSource(source);
-      } else {
-        teardownSource(source);
-      }
-    }
-  }
+                                    bool addedOrRemoved) {
+  addOrRemoveSource(source, addedOrRemoved);
 
   /*
    *  Custom wait set update handlers may trigger a "userspace" signal. We don't
    *  want to be holding onto the lock in case this happens. This is why the
    *  additional scope is introduced.
    */
-  WaitSetProvider::updateSource(waitset, source, added);
+  WaitSetProvider::updateSource(waitset, source, addedOrRemoved);
+
+  /*
+   *  Notify waiting members or source availability
+   */
+  _readySourcesCV.notify_all();
+}
+
+void InProcessWaitSet::addOrRemoveSource(EventLoopSource& source,
+                                         bool addedOrRemoved) {
+  std::lock_guard<std::mutex> lock(_readySourcesMutex);
+
+  if (IsTimer(source.handles())) {
+    if (addedOrRemoved) {
+      setupTimer(source, TimerClock::now());
+    } else {
+      teardownTimer(source);
+    }
+  } else {
+    if (addedOrRemoved) {
+      setupSource(source);
+    } else {
+      teardownSource(source);
+    }
+  }
 }
 
 void InProcessWaitSet::setupTimer(EventLoopSource& source,
@@ -154,7 +157,7 @@ EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
   auto upperBound = TimerClock::now() +
                     std::chrono::duration_cast<TimerClockDuration>(timeout);
 
-  auto satisfied = _conditionVariable.wait_until(
+  auto satisfied = _readySourcesCV.wait_until(
       lock, nextTimerTimeout(upperBound),
       std::bind(&InProcessWaitSet::isAwakable, this));
 
@@ -212,13 +215,14 @@ EventLoopSource* InProcessWaitSet::sourceOnWakeNoLock() {
 
 void InProcessWaitSet::signalReadReadinessFromUserspace(
     EventLoopSource::Handle writeHandle) {
-  std::lock_guard<std::mutex> lock(_readySourcesMutex);
+  {
+    std::lock_guard<std::mutex> lock(_readySourcesMutex);
+    auto result = _watchedSources[writeHandle];
+    RL_ASSERT(result != nullptr);
+    _readySources.insert(result);
+  }
 
-  auto result = _watchedSources[writeHandle];
-  RL_ASSERT(result != nullptr);
-  _readySources.insert(result);
-
-  _conditionVariable.notify_all();
+  _readySourcesCV.notify_all();
 }
 
 }  // namespace core

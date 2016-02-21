@@ -62,11 +62,14 @@ class InProcessWaitSet : public WaitSetProvider {
       std::unordered_map<EventLoopSource::Handle, EventLoopSource*>;
   using ActiveTimersHeap = std::vector<ActiveTimer>;
 
-  std::condition_variable _conditionVariable;
   WriteHandleSourcesMap _watchedSources;
   ActiveTimersHeap _timers;
+
+  std::condition_variable _readySourcesCV;
   std::mutex _readySourcesMutex;
   std::unordered_set<EventLoopSource*> _readySources;
+
+  void addOrRemoveSource(EventLoopSource& source, bool addedOrRemoved);
 
   TimerClockPoint nextTimerTimeout(TimerClockPoint upperBound) const;
   bool isAwakable() const;
