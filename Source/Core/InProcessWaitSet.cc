@@ -148,21 +148,6 @@ InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimerTimeout(
 }
 
 EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
-  /*
-   *  Try to see if there are any sources signalled without waiting on the
-   *  condition variable
-   */
-  {
-    std::lock_guard<std::mutex> lock(_readySourcesMutex);
-    if (auto source = timerOrSourceOnWakeNoLock(TimerClock::now())) {
-      return source;
-    }
-  }
-
-  /*
-   *  There were no pre-signalled sources and we are forced to wait on the
-   *  condition variable
-   */
   std::unique_lock<std::mutex> lock(_readySourcesMutex);
 
   auto upperBound = TimerClock::now() +
