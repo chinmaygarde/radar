@@ -118,10 +118,21 @@ bool InProcessWaitSet::isTimerExpired(TimerClockPoint now) const {
 }
 
 bool InProcessWaitSet::isAwakable() const {
-  bool hasReadySources = _readySources.size() > 0;
+  if (_readySources.size() > 0) {
+    /*
+     *  Some sources are ready to be serviced.
+     */
+    return true;
+  }
 
-  return hasReadySources ||
-         isTimerExpired(TimerClock::now()) /* syscall so last */;
+  if (isTimerExpired(TimerClock::now())) {
+    /*
+     *  Some timers are ready to be serviced.
+     */
+    return true;
+  }
+
+  return false;
 }
 
 InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimerTimeout(
