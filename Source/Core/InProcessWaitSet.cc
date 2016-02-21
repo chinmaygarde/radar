@@ -199,8 +199,6 @@ EventLoopSource* InProcessWaitSet::timerOnWakeNoLock(TimerClockPoint now) {
 }
 
 EventLoopSource* InProcessWaitSet::sourceOnWakeNoLock() {
-  RL_ASSERT(!_readySourcesMutex.try_lock());
-
   auto found = _readySources.begin();
 
   if (found == _readySources.end()) {
