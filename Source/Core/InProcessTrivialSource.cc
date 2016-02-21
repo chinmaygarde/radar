@@ -25,7 +25,7 @@ InProcessTrivialSource::InProcessTrivialSource()
     _signalled = true;
     for (const auto& waitset : _activeWaitSets) {
       waitset->signalReadReadinessFromUserspace(
-          reinterpret_cast<EventLoopSource::Handle>(this));
+          {reinterpret_cast<EventLoopSource::Handle>(this)});
     }
     return IOResult::Success;
   });
@@ -55,7 +55,7 @@ InProcessTrivialSource::InProcessTrivialSource()
          */
         if (_signalled && _activeWaitSets.size() == 1) {
           inprocessWaitSet->signalReadReadinessFromUserspace(
-              reinterpret_cast<EventLoopSource::Handle>(this));
+              {reinterpret_cast<EventLoopSource::Handle>(this)});
         }
       });
 }

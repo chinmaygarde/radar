@@ -85,13 +85,26 @@ IOResult InProcessChannelAttachment::bufferMessages(Messages&& messages) {
 }
 
 void InProcessChannelAttachment::signalReadReadinessOnUserspaceChannels() {
-  std::lock_guard<std::mutex> channelLock(_userspaceChannelsMutex);
-  std::lock_guard<std::mutex> waitsetLock(_subscriberWaitsetsMutex);
+  std::vector<EventLoopSource::Handle> readyHandles;
 
-  for (InProcessWaitSet* waitset : _subscriberWaitSets) {
+  {
+    /*
+     *  Prepare a collection of all "userspace" handles that are ready.
+     */
+    std::lock_guard<std::mutex> channelLock(_userspaceChannelsMutex);
     for (Channel* channel : _userspaceChannels) {
-      waitset->signalReadReadinessFromUserspace(
-          reinterpret_cast<EventLoopSource::Handle>(channel));
+      readyHandles.emplace_back(channel->source()->readHandle());
+    }
+  }
+
+  {
+    /*
+     *  Signal to all the waitsets that are subscribed to these channels that
+     *  they have channels ready to have data read from.
+     */
+    std::lock_guard<std::mutex> waitsetLock(_subscriberWaitsetsMutex);
+    for (InProcessWaitSet* waitset : _subscriberWaitSets) {
+      waitset->signalReadReadinessFromUserspace(readyHandles);
     }
   }
 }

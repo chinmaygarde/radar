@@ -223,15 +223,27 @@ EventLoopSource* InProcessWaitSet::sourceOnWakeNoLock() {
 }
 
 void InProcessWaitSet::signalReadReadinessFromUserspace(
-    EventLoopSource::Handle writeHandle) {
-  {
-    std::lock_guard<std::mutex> lock(_readySourcesMutex);
-    auto result = _watchedSources[writeHandle];
-    RL_ASSERT(result != nullptr);
-    _readySources.insert(result);
+    const std::vector<EventLoopSource::Handle>& handles) {
+  if (markHandlesReady(handles)) {
+    _readySourcesCV.notify_all();
+  }
+}
+
+bool InProcessWaitSet::markHandlesReady(
+    const std::vector<EventLoopSource::Handle>& handles) {
+  bool marked = false;
+
+  std::lock_guard<std::mutex> lock(_readySourcesMutex);
+
+  for (const auto& handle : handles) {
+    auto found = _watchedSources.find(handle);
+    if (found != _watchedSources.end()) {
+      _readySources.insert(found->second);
+      marked = true;
+    }
   }
 
-  _readySourcesCV.notify_all();
+  return marked;
 }
 
 }  // namespace core

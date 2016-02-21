@@ -32,7 +32,8 @@ class InProcessWaitSet : public WaitSetProvider {
 
   WaitSet::Handle handle() const override;
 
-  void signalReadReadinessFromUserspace(EventLoopSource::Handle writeHandle);
+  void signalReadReadinessFromUserspace(
+      const std::vector<EventLoopSource::Handle>& handles);
 
   void updateSource(WaitSet& waitset,
                     EventLoopSource& source,
@@ -70,6 +71,8 @@ class InProcessWaitSet : public WaitSetProvider {
   std::unordered_set<EventLoopSource*> _readySources;
 
   void addOrRemoveSource(EventLoopSource& source, bool addedOrRemoved);
+
+  bool markHandlesReady(const std::vector<EventLoopSource::Handle>& handles);
 
   TimerClockPoint nextTimerTimeout(TimerClockPoint upperBound) const;
   bool isAwakable() const;
