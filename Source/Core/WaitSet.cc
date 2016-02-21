@@ -59,6 +59,10 @@ WaitSet::Handle WaitSet::handle() const {
   return _provider->handle();
 }
 
+WaitSetProvider& WaitSet::provider() const {
+  return *_provider;
+}
+
 WaitSet::~WaitSet() {
   for (auto const& source : _sources) {
     _provider->updateSource(*this, *source, false);

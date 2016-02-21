@@ -57,6 +57,8 @@ class WaitSet {
 
   Handle handle() const;
 
+  WaitSetProvider& provider() const;
+
  private:
   std::unique_ptr<WaitSetProvider> _provider;
   std::vector<std::shared_ptr<EventLoopSource>> _sources;
