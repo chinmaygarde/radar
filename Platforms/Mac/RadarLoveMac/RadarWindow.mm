@@ -65,15 +65,25 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 }
 
 - (void)launchShell {
+  /*
+   *  Create the render surface and initialize the shell.
+   */
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
   _renderSurface->surfaceWasCreated();
+
+  /*
+   *  Create a managed interface and register it with the shell.
+   */
   _application = std::make_shared<sample::SampleApplication>();
   auto interface =
       rl::core::make_unique<rl::interface::Interface>(_application);
   _shell->registerManagedInterface(std::move(interface));
 
+  /*
+   *  Fire the initial window resize.
+   */
   [self windowWasResized];
 }
 

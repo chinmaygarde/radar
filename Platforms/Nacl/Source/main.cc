@@ -21,6 +21,9 @@
 
 #include "Sample.h"
 
+namespace rl {
+namespace nacl {
+
 class RenderSurfaceNacl : public rl::coordinator::RenderSurface {
  public:
   explicit RenderSurfaceNacl(pp::Graphics3D& context)
@@ -53,15 +56,17 @@ class RenderSurfaceNacl : public rl::coordinator::RenderSurface {
   RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceNacl);
 };
 
-class RadarLoveInstance : public pp::Instance {
+class RadarPlatformInstance : public pp::Instance {
  public:
-  explicit RadarLoveInstance(PP_Instance instance) : pp::Instance(instance) {
+  explicit RadarPlatformInstance(PP_Instance instance)
+      : pp::Instance(instance) {
     auto ppInstance = pp::Instance::pp_instance();
     auto ppInterface = pp::Module::Get()->get_browser_interface();
     RL_CHECK(nacl_io_init_ppapi(ppInstance, ppInterface));
   }
 
-  virtual ~RadarLoveInstance() {
+  virtual ~RadarPlatformInstance() {
+    _renderSurface->surfaceWasDestroyed();
     _shell->shutdown();
     _shell.reset();
 
@@ -77,7 +82,7 @@ class RadarLoveInstance : public pp::Instance {
     if (_context.is_null()) {
       auto result = initializeOpenGL(newWidth, newHeight);
       RL_ASSERT(result);
-      initializeRadarLove();
+      initializeRadarPlatform();
     } else {
       auto result = _context.ResizeBuffers(newWidth, newHeight);
       RL_ASSERT(result >= 0);
@@ -90,7 +95,6 @@ class RadarLoveInstance : public pp::Instance {
     RL_ASSERT(_renderSurface != nullptr && _shell != nullptr);
     rl::geom::Size size(width, height);
     _renderSurface->surfaceSizeUpdated(size);
-    _shell->interface().setSize(size);
   }
 
   bool initializeOpenGL(int32_t newWidth, int32_t newHeight) {
@@ -116,11 +120,21 @@ class RadarLoveInstance : public pp::Instance {
     return true;
   }
 
-  void initializeRadarLove() {
+  void initializeRadarPlatform() {
+    /*
+     *  Create the render surface and initialize the shell.
+     */
     _renderSurface = std::make_shared<RenderSurfaceNacl>(_context);
+    _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
+    _renderSurface->surfaceWasCreated();
+
+    /*
+     *  Create a managed interface and register it with the shell.
+     */
     _application = std::make_shared<sample::SampleApplication>();
-    _shell =
-        rl::core::make_unique<rl::shell::Shell>(_renderSurface, _application);
+    auto interface =
+        rl::core::make_unique<rl::interface::Interface>(_application);
+    _shell->registerManagedInterface(std::move(interface));
   }
 
  private:
@@ -130,25 +144,28 @@ class RadarLoveInstance : public pp::Instance {
 
   pp::Graphics3D _context;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(RadarLoveInstance);
+  RL_DISALLOW_COPY_AND_ASSIGN(RadarPlatformInstance);
 };
 
-class RadarLoveModule : public pp::Module {
+class RadarPlatformModule : public pp::Module {
  public:
-  RadarLoveModule() : pp::Module() {}
+  RadarPlatformModule() : pp::Module() {}
 
-  virtual ~RadarLoveModule() {}
+  virtual ~RadarPlatformModule() {}
 
   virtual pp::Instance* CreateInstance(PP_Instance instance) {
-    return new RadarLoveInstance(instance);
+    return new RadarPlatformInstance(instance);
   }
 
  private:
-  RL_DISALLOW_COPY_AND_ASSIGN(RadarLoveModule);
+  RL_DISALLOW_COPY_AND_ASSIGN(RadarPlatformModule);
 };
+
+}  // namespace nacl
+}  // namespace rl
 
 namespace pp {
 Module* CreateModule() {
-  return new RadarLoveModule();
+  return new rl::nacl::RadarPlatformModule();
 }
 }  // namespace pp
