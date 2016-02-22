@@ -15,13 +15,7 @@
 namespace rl {
 namespace core {
 
-void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet&, bool) {
-  RL_ASSERT_MSG(
-      false,
-      "In-process loop sources require an extra bit of context to signal "
-      "the waitset from userspace. There can be no default simple read "
-      "handler without this.");
-}
+void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet&, bool) {}
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     ClockDurationNano repeatInterval) {
