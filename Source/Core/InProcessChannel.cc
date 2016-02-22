@@ -56,8 +56,7 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
   EventLoopSource::WaitSetUpdateHandler updateHandler = [&](
       EventLoopSource&, WaitSet& waitset, EventLoopSource::Handle,
       bool adding) {
-    auto& inprocessWaitset =
-        reinterpret_cast<InProcessWaitSet&>(waitset.provider());
+    auto& inprocessWaitset = static_cast<InProcessWaitSet&>(waitset.provider());
     if (adding) {
       _attachment->addSubscriberWaitset(inprocessWaitset);
     } else {
