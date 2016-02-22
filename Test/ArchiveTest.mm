@@ -76,7 +76,7 @@ TEST(ArchiveTest, AddData) {
   ASSERT_TRUE(::remove(name) == 0);
 }
 
-TEST(ArchiveTest, AddDataMultiple) {
+TEST_SLOW(ArchiveTest, AddDataMultiple) {
   auto name = "/tmp/sample4.db";
   {
     rl::core::Archive archive(name, true);
@@ -90,7 +90,7 @@ TEST(ArchiveTest, AddDataMultiple) {
   ASSERT_TRUE(::remove(name) == 0);
 }
 
-TEST(ArchiveTest, ReadData) {
+TEST_SLOW(ArchiveTest, ReadData) {
   auto name = "/tmp/sample5.db";
   {
     rl::core::Archive archive(name, true);

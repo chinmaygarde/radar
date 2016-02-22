@@ -33,6 +33,15 @@
  */
 #define TEST(className, testName) -(void)test##testName
 
+/**
+ *  Denote that this is a slow test
+ *
+ *  @param className the test class name. This must be the same as the argument
+ *                   passed to `RL_DECLARE_TEST_START`
+ *  @param testName  the test case name
+ */
+#define TEST_SLOW(className, testName) TEST(className, testName)
+
 /*
  *  Assertions
  */
@@ -52,6 +61,8 @@
 #define RL_DECLARE_TEST_END
 
 #include <gtest/gtest.h>
+
+#define TEST_SLOW(className, testName) TEST(className, RLSlowTest##testName)
 
 #endif  // RL_USE_XCODE_TEST_RUNNER
 

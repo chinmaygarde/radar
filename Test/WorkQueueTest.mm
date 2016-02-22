@@ -14,7 +14,7 @@ TEST(WorkQueue, SimpleInitialization) {
   ASSERT_GE(queue.workerCount(), 0);
 }
 
-TEST(WorkQueue, SimpleWork) {
+TEST_SLOW(WorkQueue, SimpleWork) {
   auto size = 5000;
   std::atomic<int> count(0);
 

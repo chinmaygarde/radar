@@ -85,7 +85,7 @@ TEST(ChannelTest, TestSimpleReads) {
   thread.join();
 }
 
-TEST(ChannelTest, TestLargeReadWrite) {
+TEST_SLOW(ChannelTest, TestLargeReadWrite) {
   rl::core::Channel channel;
 
   rl::core::Latch latch(1);
@@ -392,7 +392,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
  *  This is to test the passing of an OOL buffer along with attachments. Only
  *  a concern on Socket channels
  */
-TEST(ChannelTest, TestLargeReadWriteWithAttachments) {
+TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
   const auto rawSize = 20000009;
 
   rl::core::Channel channel;
