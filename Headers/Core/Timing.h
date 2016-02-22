@@ -25,8 +25,6 @@ using ClockPointMicro = std::chrono::time_point<Clock, ClockDurationMicro>;
 using ClockDuration = ClockDurationSeconds;
 using ClockPoint = ClockPointSeconds;
 
-static const ClockDurationMilli ClockDurationGod = ClockDurationMilli(16);
-
 namespace clock {
 
 ClockDurationSeconds LoggingClockDuration(void);
