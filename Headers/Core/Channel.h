@@ -66,14 +66,14 @@ class Channel {
 
   /**
    *  Update the callback that will be invoked when a message arrives on this
-   *  channel. The channel must be scheduled in a loop
+   *  channel. The channel must be scheduled in a loop.
    *
-   *  @param callback the new message received callback
+   *  @param callback the new message received callback.
    */
   void setMessageCallback(MessageCallback callback);
 
   /**
-   *  Terminate the channel connection and cleanup underlying resources
+   *  Terminate the channel connection and cleanup underlying resources.
    */
   void terminate();
 

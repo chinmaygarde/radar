@@ -13,7 +13,8 @@
 namespace rl {
 namespace core {
 
-static std::map<std::string, std::shared_ptr<core::Channel>> BootstrapRegistry;
+static std::mutex RegistryMutex;
+static std::map<std::string, std::weak_ptr<core::Channel>> BootstrapRegistry;
 
 bool BootstrapServerAdvertise(const std::string& name,
                               std::shared_ptr<core::Channel> channel) {
@@ -21,20 +22,45 @@ bool BootstrapServerAdvertise(const std::string& name,
     return false;
   }
 
-  auto result = BootstrapRegistry.emplace(name, channel);
+  std::lock_guard<std::mutex> lock(RegistryMutex);
 
-  return result.second;
+  auto found = BootstrapRegistry.find(name);
+
+  /*
+   *  Make sure an entry does not already exist. It it does, the channel for
+   *  that should have already expired. If not, a valid channel registration is
+   *  is present and this new registration should fail.
+   */
+  if (found != BootstrapRegistry.end() && found->second.lock()) {
+    return false;
+  }
+
+  BootstrapRegistry[name] = channel;
+  return true;
 }
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name) {
-  auto prototype = BootstrapRegistry[name];
+  std::lock_guard<std::mutex> lock(RegistryMutex);
 
-  if (!prototype) {
+  auto found = BootstrapRegistry.find(name);
+
+  if (found == BootstrapRegistry.end()) {
     return nullptr;
   }
 
-  return std::make_shared<core::Channel>(prototype->asMessageAttachment());
+  if (auto prototype = found->second.lock()) {
+    return std::make_shared<core::Channel>(prototype->asMessageAttachment());
+  } else {
+    /*
+     *  Between the last time the bootstrap registry was accessed and now,
+     *  the channel prototype for this name went away. Get rid of then entry
+     *  in our collection. Book-keeping.
+     */
+    BootstrapRegistry.erase(found);
+  }
+
+  return nullptr;
 }
 
 }  // namespace core
