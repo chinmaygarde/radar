@@ -103,7 +103,8 @@ void SetName(const char* name) {
 #elif RL_OS_BSD
   pthread_set_name_np(pthread_self(), name);
 #elif RL_OS_WINDOWS || RL_OS_NACL
-// No platform supported implementation
+  // No platform supported implementation
+  RL_UNUSED(name);
 #else
 #error Unknown Platform
 #endif
