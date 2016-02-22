@@ -86,6 +86,16 @@ static inline void _RL_AssertLog(const char* file,
   RL_ASSERT_MSG((condition), "Condition Failed: (" #condition ")")
 
 /*
+ *  Mark an expression as unused
+ *
+ *  @param expr the expression to be marked as unused
+ */
+#define RL_UNUSED(expr) \
+  do {                  \
+    (void)(expr);       \
+  } while (0)
+
+/*
  *  Error Checking
  */
 
