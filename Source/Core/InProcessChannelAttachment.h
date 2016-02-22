@@ -29,7 +29,7 @@ class InProcessChannelAttachment : public InProcessAttachment {
  public:
   InProcessChannelAttachment();
 
-  ~InProcessChannelAttachment();
+  ~InProcessChannelAttachment() override;
 
   IOResult writeMessages(Messages&& message, ClockDurationNano timeout);
 
