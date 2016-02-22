@@ -64,17 +64,24 @@ static void ResizeInterface(rl::shell::Shell& shell,
                             int height) {
   rl::geom::Size size(width, height);
   surface.surfaceSizeUpdated(size);
-  shell.interface().setSize(size);
 }
 
 static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
+  /*
+   *  Create the render surface and initialize the shell.
+   */
   auto renderSurface = std::make_shared<RenderSurfaceLinux>(windowAndRenderer);
-  auto application = std::make_shared<sample::SampleApplication>();
-  rl::shell::Shell shell(renderSurface, application);
-
+  auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(renderSurface);
   renderSurface->surfaceWasCreated();
 
-  ResizeInterface(shell, *renderSurface, kInitialWindowWidth,
+  /*
+   *  Create a managed interface and register it with the shell.
+   */
+  auto application = std::make_shared<sample::SampleApplication>();
+  auto interface = rl::core::make_unique<rl::interface::Interface>(application);
+  shell->registerManagedInterface(std::move(interface));
+
+  ResizeInterface(*shell, *renderSurface, kInitialWindowWidth,
                   kInitialWindowHeight);
 
   bool keepRunning = true;
@@ -87,7 +94,7 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
       if (event.type == SDL_WINDOWEVENT) {
         switch (event.window.event) {
           case SDL_WINDOWEVENT_RESIZED:
-            ResizeInterface(shell, *renderSurface, event.window.data1,
+            ResizeInterface(*shell, *renderSurface, event.window.data1,
                             event.window.data2);
             break;
           case SDL_WINDOWEVENT_CLOSE:
@@ -108,7 +115,7 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
   }
 
   renderSurface->surfaceWasDestroyed();
-  shell.shutdown();
+  shell->shutdown();
 }
 
 int main(int argc, const char* argv[]) {

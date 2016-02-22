@@ -11,14 +11,14 @@
 namespace rl {
 namespace core {
 
-bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel> channel) {
+bool BootstrapServerAdvertise(const std::string&,
+                              std::shared_ptr<core::Channel>) {
   RL_ASSERT_MSG(false, "WIP");
   return false;
 }
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
-    const std::string& name) {
+    const std::string&) {
   RL_ASSERT_MSG(false, "WIP");
   return nullptr;
 }

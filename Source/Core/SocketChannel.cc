@@ -139,7 +139,7 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
     return ELS::Handles(readHandle(), writeHandle()); /* bi-di connection */
   };
 
-  ELS::IOHandler readHandler = [this](ELS::Handle handle) {
+  ELS::IOHandler readHandler = [this](ELS::Handle) {
     return _channel.readPendingMessageNow();
   };
 
