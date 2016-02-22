@@ -53,14 +53,16 @@ std::shared_ptr<EventLoopSource> InProcessChannel::createSource() const {
     return _owner.readPendingMessageNow();
   };
 
-  EventLoopSource::WaitSetUpdateHandler updateHandler = [&](
+  std::shared_ptr<InProcessChannelAttachment> attachment = _attachment;
+
+  EventLoopSource::WaitSetUpdateHandler updateHandler = [attachment](
       EventLoopSource&, WaitSet& waitset, EventLoopSource::Handle,
       bool adding) {
     auto& inprocessWaitset = static_cast<InProcessWaitSet&>(waitset.provider());
     if (adding) {
-      _attachment->addSubscriberWaitset(inprocessWaitset);
+      attachment->addSubscriberWaitset(inprocessWaitset);
     } else {
-      _attachment->removeSubscriberWaitset(inprocessWaitset);
+      attachment->removeSubscriberWaitset(inprocessWaitset);
     }
   };
 
