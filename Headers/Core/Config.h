@@ -22,15 +22,18 @@
  *  Android is a Linux subtype
  */
 #define RL_OS_ANDROID 1
+
 #endif
 
 #if __raspberrypi__
+
 /*
  *  RaspberryPi is considered a linux subtype (for Raspbian). Unlike other
  *  targets. The define this option is swithed on is specified manually in the
  *  build manifest.
  */
 #define RL_OS_RASPBERRYPI 1
+
 #endif
 
 #elif __native_client__
@@ -152,6 +155,16 @@
 #endif
 
 #endif  // !defined(RL_SHMEM)
+
+/*
+ *  In case selection by platform ends up will all in process variants (instead
+ *  of the the other way around by setting RL_DISABLE_XPC), set that flag
+ *  manually.
+ */
+#if (RL_CHANNELS == RL_CHANNELS_INPROCESS) && \
+    (RL_WAITSET == RL_WAITSET_INPROCESS) && (RL_SHMEM == RL_SHMEM_DISABLED)
+#define RL_DISABLE_XPC 1
+#endif
 
 /*
  *  Assertions against bad configurations
