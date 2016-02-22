@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Animation/SpringSimulation.h>
-#include <Animation/Utilities.h>
+#include <Animation/AnimationUtilities.h>
 #include <Animation/SpringSolution.h>
 
 namespace rl {

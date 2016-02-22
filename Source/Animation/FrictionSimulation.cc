@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Animation/FrictionSimulation.h>
-#include <Animation/Utilities.h>
+#include <Animation/AnimationUtilities.h>
 #include <cmath>
 
 namespace rl {

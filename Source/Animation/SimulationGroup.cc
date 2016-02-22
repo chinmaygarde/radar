@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Animation/SimulationGroup.h>
+#include <Animation/AnimationUtilities.h>
 
 namespace rl {
 namespace animation {
