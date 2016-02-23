@@ -307,7 +307,7 @@ bool Message::setAttachments(std::vector<Attachment>&& attachments) {
   return true;
 }
 
-const Message::Attachment::Handle MessageAttachmentHandleNull = 0;
+const Message::Attachment::Handle MessageAttachmentHandleNull = -1;
 
 }  // namespace core
 }  // namespace rl

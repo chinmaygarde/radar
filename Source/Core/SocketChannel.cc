@@ -18,6 +18,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/un.h>
 #include <unistd.h>
 
 #include <mutex>
@@ -86,12 +87,59 @@ static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
   RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
 }
 
-static bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
+SocketChannel::Handle SocketChannel::CreateServerHandle(
+    const std::string& name) {
+  auto nameLength = name.length();
+
+  if (nameLength == 0 || nameLength > 64) {
+    return -1;
+  }
+
+  /*
+   *  Step 1: Create a server socket
+   */
+  Handle handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
+
+  if (handle == -1) {
+    RL_LOG_ERRNO();
+    return -1;
+  }
+
+  /*
+   *  Step 2: Unlink an old binding if one exists
+   */
+  ::unlink(name.c_str());
+
+  /*
+   *  Step 3: Create a new socket binding to the specified path
+   */
+  struct sockaddr_un local = {};
+  local.sun_family = AF_UNIX;
+  strncpy(local.sun_path, name.data(), nameLength);
+
+  auto len = static_cast<socklen_t>(sizeof(local.sun_family) + nameLength);
+  auto localAddress = reinterpret_cast<struct sockaddr*>(&local);
+
+  RL_CHECK(::bind(handle, localAddress, len));
+
+  /*
+   *  Step 4: Listen for incoming connections
+   */
+  RL_CHECK(::listen(handle, 10));
+
+  return handle;
+}
+
+bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
   if (handle != -1) {
     RL_CHECK(::close(handle));
     return true;
   }
   return false;
+}
+
+bool SocketChannel::DestroyServerHandle(Handle handle) {
+  return SocketChannel_CloseHandle(handle);
 }
 
 SocketChannel::SocketChannel(Channel& channel,
@@ -143,7 +191,7 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
     return _channel.readPendingMessageNow();
   };
 
-  /**
+  /*
    *  We are specifying a null write handler since we will
    *  never directly signal this source. Instead, we will write
    *  to the handle directly.
@@ -513,10 +561,10 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   }
 
   /*
-   *  ========================================================================
+   *  ==========================================================================
    *  Read the contents of the message (with either inline or OOL memory buffer)
    *  and its attachments.
-   *  ========================================================================
+   *  ==========================================================================
    */
   auto totalDescriptors = header.oolDescriptors();
   auto inlineMessageSize = received - sizeof(SocketPayloadHeader);

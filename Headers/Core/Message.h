@@ -28,7 +28,7 @@ class Message {
 #if RL_DISABLE_XPC
     using Handle = std::shared_ptr<InProcessAttachment>;
 #else
-    using Handle = uintptr_t;
+    using Handle = intptr_t;
 #endif
 
     Attachment();

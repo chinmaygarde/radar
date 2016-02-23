@@ -26,12 +26,21 @@ class SocketChannel : public ChannelProvider {
 
   explicit SocketChannel(Channel& owner, const Message::Attachment& attachment);
 
+  static Handle CreateServerHandle(const std::string& name);
+
+  static bool DestroyServerHandle(Handle handle);
+
   ~SocketChannel();
+
   std::shared_ptr<EventLoopSource> createSource() const override;
+
   IOResult writeMessages(Messages&& message,
                          ClockDurationNano timeout) override;
+
   IOReadResult readMessage(ClockDurationNano timeout) override;
+
   Message::Attachment::Handle handle() override;
+
   bool doTerminate() override;
 
  private:
