@@ -4,6 +4,8 @@
 
 #include <Core/Config.h>
 
+#if RL_CHANNELS == RL_CHANNELS_SOCKET
+
 #include "RadarTest.h"
 
 #include <Core/Core.h>
@@ -51,3 +53,5 @@ TEST(BootstrapSocketServerTest, ScheduleInLoop) {
 }
 
 RL_DECLARE_TEST_END
+
+#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET

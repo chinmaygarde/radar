@@ -5,6 +5,10 @@
 #ifndef RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
 #define RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_SOCKET
+
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 
@@ -29,5 +33,7 @@ class BootstrapSocketServer {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #endif  // RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
