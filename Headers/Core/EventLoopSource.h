@@ -10,6 +10,7 @@
 
 #include <chrono>
 #include <functional>
+#include <mutex>
 #include <utility>
 
 namespace rl {
@@ -151,7 +152,8 @@ class EventLoopSource {
   WaitSetUpdateHandler _customWaitSetUpdateHandler;
   WakeFunction _wakeFunction;
   ReadAttemptCallback _readAttemptCallback;
-  bool _handlesAllocated;
+  std::atomic_bool _handlesAllocated;
+  std::mutex _handlesAllocationMutex;
 
   void updateInWaitSetForSimpleRead(WaitSet& waitset, bool shouldAdd);
 

@@ -48,9 +48,16 @@ EventLoopSource::Handles EventLoopSource::handles() {
    *  Handles are allocated lazily
    */
   if (!_handlesAllocated) {
+    std::lock_guard<std::mutex> lock(_handlesAllocationMutex);
+
+    if (_handlesAllocated) {
+      return _handles;
+    }
+
     if (_handlesProvider) {
       _handles = _handlesProvider();
     }
+
     _handlesAllocated = true;
   }
 
