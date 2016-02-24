@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
-#define RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
+#ifndef RADARLOVE_CORE_SOCKETBOOTSTRAPSERVER_H_
+#define RADARLOVE_CORE_SOCKETBOOTSTRAPSERVER_H_
 
 #include <Core/Config.h>
 
@@ -15,11 +15,11 @@
 namespace rl {
 namespace core {
 
-class BootstrapSocketServer {
+class SocketBootstrapServer {
  public:
-  BootstrapSocketServer();
+  SocketBootstrapServer();
 
-  ~BootstrapSocketServer();
+  ~SocketBootstrapServer();
 
   std::shared_ptr<EventLoopSource> source() const;
 
@@ -28,7 +28,7 @@ class BootstrapSocketServer {
 
   IOResult onListenReadResult(EventLoopSource::Handle readHandle);
 
-  RL_DISALLOW_COPY_AND_ASSIGN(BootstrapSocketServer);
+  RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServer);
 };
 
 }  // namespace core
@@ -36,4 +36,4 @@ class BootstrapSocketServer {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#endif  // RADARLOVE_CORE_BOOTSTRAPSOCKETSERVER_H_
+#endif  // RADARLOVE_CORE_SOCKETBOOTSTRAPSERVER_H_

@@ -9,18 +9,18 @@
 #include "RadarTest.h"
 
 #include <Core/Core.h>
-#include <Core/BootstrapSocketServer.h>
+#include <Core/SocketBootstrapServer.h>
 
 #include <thread>
 
-RL_DECLARE_TEST_START(BootstrapSocketServerTest)
+RL_DECLARE_TEST_START(SocketBootstrapServerTest)
 
-TEST(BootstrapSocketServerTest, InitializeFromProvider) {
+TEST(SocketBootstrapServerTest, InitializeFromProvider) {
   rl::core::BootstrapSocketServer bootstrap;
   ASSERT_NE(bootstrap.source(), nullptr);
 }
 
-TEST(BootstrapSocketServerTest, ScheduleInLoop) {
+TEST(SocketBootstrapServerTest, ScheduleInLoop) {
   auto termination = rl::core::EventLoopSource::Trivial();
 
   termination->setWakeFunction([](rl::core::IOResult result) {

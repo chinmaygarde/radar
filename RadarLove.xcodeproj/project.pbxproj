@@ -51,9 +51,9 @@
 		9E222CDE1B6A9387005D02EE /* InterfaceTransaction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */; };
 		9E222CE11B6A9394005D02EE /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CDF1B6A9394005D02EE /* Action.h */; };
 		9E222CE21B6A9394005D02EE /* InterfaceTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */; };
-		9E28335C1C7BD05700EF1864 /* BootstrapSocketServerTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E28335B1C7BD05700EF1864 /* BootstrapSocketServerTest.mm */; };
-		9E2833671C7BF0FF00EF1864 /* BootstrapSocketServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E2833651C7BF0FF00EF1864 /* BootstrapSocketServer.cc */; };
-		9E2833681C7BF0FF00EF1864 /* BootstrapSocketServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E2833661C7BF0FF00EF1864 /* BootstrapSocketServer.h */; };
+		9E28335C1C7BD05700EF1864 /* SocketBootstrapServerTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E28335B1C7BD05700EF1864 /* SocketBootstrapServerTest.mm */; };
+		9E2833671C7BF0FF00EF1864 /* SocketBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E2833651C7BF0FF00EF1864 /* SocketBootstrapServer.cc */; };
+		9E2833681C7BF0FF00EF1864 /* SocketBootstrapServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E2833661C7BF0FF00EF1864 /* SocketBootstrapServer.h */; };
 		9E293DB41B714DB10037A431 /* TouchEventChannel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E293DB31B714DB10037A431 /* TouchEventChannel.cc */; };
 		9E293DB61B714DBF0037A431 /* TouchEventChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E293DB51B714DBF0037A431 /* TouchEventChannel.h */; };
 		9E3FABE01C5165AC002561F0 /* Archive.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E3FABDF1C5165AC002561F0 /* Archive.cc */; };
@@ -120,7 +120,6 @@
 		9E910BB01C5051E60097E9DE /* BootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */; };
 		9E910BB11C5051E60097E9DE /* InProcessBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */; };
 		9E910BB21C5051E60097E9DE /* MachBootstrapServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */; };
-		9E910BB31C5051E60097E9DE /* SocketBootstrapServer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E910BAF1C5051E60097E9DE /* SocketBootstrapServer.cc */; };
 		9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544041C31D1C8002EEC68 /* Protocol.h */; };
 		9E95440F1C31D1DD002EEC68 /* Protocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E95440E1C31D1DD002EEC68 /* Protocol.cc */; };
 		9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */; };
@@ -382,9 +381,9 @@
 		9E222CDC1B6A9387005D02EE /* InterfaceTransaction.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceTransaction.cc; sourceTree = "<group>"; };
 		9E222CDF1B6A9394005D02EE /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		9E222CE01B6A9394005D02EE /* InterfaceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceTransaction.h; sourceTree = "<group>"; };
-		9E28335B1C7BD05700EF1864 /* BootstrapSocketServerTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BootstrapSocketServerTest.mm; sourceTree = "<group>"; };
-		9E2833651C7BF0FF00EF1864 /* BootstrapSocketServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BootstrapSocketServer.cc; sourceTree = "<group>"; };
-		9E2833661C7BF0FF00EF1864 /* BootstrapSocketServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootstrapSocketServer.h; sourceTree = "<group>"; };
+		9E28335B1C7BD05700EF1864 /* SocketBootstrapServerTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SocketBootstrapServerTest.mm; sourceTree = "<group>"; };
+		9E2833651C7BF0FF00EF1864 /* SocketBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketBootstrapServer.cc; sourceTree = "<group>"; };
+		9E2833661C7BF0FF00EF1864 /* SocketBootstrapServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketBootstrapServer.h; sourceTree = "<group>"; };
 		9E293DB31B714DB10037A431 /* TouchEventChannel.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchEventChannel.cc; sourceTree = "<group>"; };
 		9E293DB51B714DBF0037A431 /* TouchEventChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchEventChannel.h; sourceTree = "<group>"; };
 		9E3FABDF1C5165AC002561F0 /* Archive.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cc; sourceTree = "<group>"; };
@@ -463,7 +462,6 @@
 		9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BootstrapServer.cc; sourceTree = "<group>"; };
 		9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessBootstrapServer.cc; sourceTree = "<group>"; };
 		9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachBootstrapServer.mm; sourceTree = "<group>"; };
-		9E910BAF1C5051E60097E9DE /* SocketBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketBootstrapServer.cc; sourceTree = "<group>"; };
 		9E9544041C31D1C8002EEC68 /* Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
 		9E95440E1C31D1DD002EEC68 /* Protocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Protocol.cc; sourceTree = "<group>"; };
 		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
@@ -699,7 +697,7 @@
 				EA46E6291C6FF1D600DBE77E /* ProtocolTest.mm */,
 				EA2D4A5A1C2D5A9900575608 /* PipeTrivialSourceTest.mm */,
 				9E62F8101B796D81008DE08E /* SharedMemoryTest.mm */,
-				9E28335B1C7BD05700EF1864 /* BootstrapSocketServerTest.mm */,
+				9E28335B1C7BD05700EF1864 /* SocketBootstrapServerTest.mm */,
 				9E62F8F91B7983A2008DE08E /* LatchTest.mm */,
 				EA18580E1C26744600FF64C6 /* EventLoopObserverTest.mm */,
 				EAC90A891BF949FB001214C1 /* ThreadLocalTest.mm */,
@@ -1010,11 +1008,10 @@
 				9E6057451C61488C00161760 /* ArchiveTransaction.cc */,
 				9E6057461C61488C00161760 /* ArchiveTransaction.h */,
 				9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */,
-				9E2833651C7BF0FF00EF1864 /* BootstrapSocketServer.cc */,
-				9E2833661C7BF0FF00EF1864 /* BootstrapSocketServer.h */,
 				9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */,
 				9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */,
-				9E910BAF1C5051E60097E9DE /* SocketBootstrapServer.cc */,
+				9E2833651C7BF0FF00EF1864 /* SocketBootstrapServer.cc */,
+				9E2833661C7BF0FF00EF1864 /* SocketBootstrapServer.h */,
 				9EAECEA81B685469000FA38A /* Channel.cc */,
 				9E029CA81BAB73C2007E5DF8 /* ChannelProvider.h */,
 				9EF226A61C49B56A00A2B027 /* DebugTagGenerator.cc */,
@@ -1248,7 +1245,7 @@
 				9E16A6DE1BE2E9BC00FFEDFC /* Term.h in Headers */,
 				9E8655FA1BE45E2700997766 /* TransactionPayload.h in Headers */,
 				EAE21F301C36479E00EAA2FF /* Allocation.h in Headers */,
-				9E2833681C7BF0FF00EF1864 /* BootstrapSocketServer.h in Headers */,
+				9E2833681C7BF0FF00EF1864 /* SocketBootstrapServer.h in Headers */,
 				9E16A6DB1BE2E9BC00FFEDFC /* Expression.h in Headers */,
 				9EF07B6A1C0641BD00735CAA /* InterfaceController.h in Headers */,
 				EA29316F1C5EC10400AE35F8 /* ArchiveInterface.h in Headers */,
@@ -1467,7 +1464,7 @@
 				9E9544811C347217002EEC68 /* LayoutTest.mm in Sources */,
 				EA46E62A1C6FF1D600DBE77E /* ProtocolTest.mm in Sources */,
 				9E9544821C347217002EEC68 /* EventLoopTest.mm in Sources */,
-				9E28335C1C7BD05700EF1864 /* BootstrapSocketServerTest.mm in Sources */,
+				9E28335C1C7BD05700EF1864 /* SocketBootstrapServerTest.mm in Sources */,
 				9E9544831C347217002EEC68 /* MessageDecoderTest.mm in Sources */,
 				9E9544841C347217002EEC68 /* MessageEncoderTest.mm in Sources */,
 				9E9544851C347217002EEC68 /* PipeTrivialSourceTest.mm in Sources */,
@@ -1501,8 +1498,7 @@
 				9E8481951C126B3D006DE159 /* TraceEvent.cc in Sources */,
 				9E8656181BE45E3A00997766 /* StatisticsRenderer.cc in Sources */,
 				9EAECEE71B685469000FA38A /* Rect.cc in Sources */,
-				9E910BB31C5051E60097E9DE /* SocketBootstrapServer.cc in Sources */,
-				9E2833671C7BF0FF00EF1864 /* BootstrapSocketServer.cc in Sources */,
+				9E2833671C7BF0FF00EF1864 /* SocketBootstrapServer.cc in Sources */,
 				9EBA79C01B87EF17005D84FA /* InterfaceStatistics.cc in Sources */,
 				9EA039E81C177F6D00F36467 /* Suggestion.cc in Sources */,
 				EA6090D71BA41E8C00C2E263 /* EPollEventLoopSource.cc in Sources */,
