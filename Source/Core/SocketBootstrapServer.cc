@@ -6,6 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
+#include <Core/BootstrapServer.h>
 #include <Core/SocketBootstrapServer.h>
 #include <Core/SocketChannel.h>
 
@@ -20,7 +21,7 @@ SocketBootstrapServer::SocketBootstrapServer() {
 
   EventLoopSource::RWHandlesCollector collector = [](
       EventLoopSource::Handles handles) {
-    auto closed = SocketChannel::DestroyServerHandle(
+    auto closed = SocketChannel::DestroyHandle(
         static_cast<SocketChannel::Handle>(handles.first));
     RL_ASSERT(closed);
     RL_ASSERT(handles.second == 0);

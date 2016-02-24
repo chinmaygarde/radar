@@ -26,10 +26,6 @@ class SocketChannel : public ChannelProvider {
 
   explicit SocketChannel(Channel& owner, const Message::Attachment& attachment);
 
-  static Handle CreateServerHandle(const std::string& name);
-
-  static bool DestroyServerHandle(Handle handle);
-
   ~SocketChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
@@ -42,6 +38,12 @@ class SocketChannel : public ChannelProvider {
   Message::Attachment::Handle handle() override;
 
   bool doTerminate() override;
+
+  static Handle CreateServerHandle(const std::string& name);
+
+  static Handle CreateClientHandle(const std::string& name);
+
+  static bool DestroyHandle(Handle handle);
 
  private:
   std::mutex _readBufferMutex;

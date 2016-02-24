@@ -16,7 +16,7 @@
 RL_DECLARE_TEST_START(SocketBootstrapServerTest)
 
 TEST(SocketBootstrapServerTest, InitializeFromProvider) {
-  rl::core::BootstrapSocketServer bootstrap;
+  rl::core::SocketBootstrapServer bootstrap;
   ASSERT_NE(bootstrap.source(), nullptr);
 }
 
@@ -32,7 +32,7 @@ TEST(SocketBootstrapServerTest, ScheduleInLoop) {
   rl::core::Latch readyLatch(1);
 
   std::thread server([&]() {
-    rl::core::BootstrapSocketServer bootstrap;
+    rl::core::SocketBootstrapServer bootstrap;
     ASSERT_NE(bootstrap.source(), nullptr);
 
     auto loop = rl::core::EventLoop::Current();

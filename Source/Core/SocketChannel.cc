@@ -130,6 +130,39 @@ SocketChannel::Handle SocketChannel::CreateServerHandle(
   return handle;
 }
 
+SocketChannel::Handle SocketChannel::CreateClientHandle(
+    const std::string& name) {
+  auto nameLength = name.length();
+
+  if (nameLength == 0 || nameLength > 64) {
+    return -1;
+  }
+
+  Handle handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
+
+  if (handle == -1) {
+    RL_LOG_ERRNO();
+    return -1;
+  }
+
+  struct sockaddr_un remote = {};
+  remote.sun_family = AF_UNIX;
+  strncpy(remote.sun_path, name.data(), nameLength);
+
+  auto len = static_cast<socklen_t>(sizeof(remote.sun_family) + nameLength);
+  auto remoteAddress = reinterpret_cast<struct sockaddr*>(&remote);
+
+  auto result = RL_TEMP_FAILURE_RETRY(::connect(handle, remoteAddress, len));
+
+  if (result == -1) {
+    RL_LOG_ERRNO();
+    RL_CHECK(::close(handle));
+    return -1;
+  }
+
+  return handle;
+}
+
 bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
   if (handle != -1) {
     RL_CHECK(::close(handle));
@@ -138,7 +171,7 @@ bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
   return false;
 }
 
-bool SocketChannel::DestroyServerHandle(Handle handle) {
+bool SocketChannel::DestroyHandle(Handle handle) {
   return SocketChannel_CloseHandle(handle);
 }
 
