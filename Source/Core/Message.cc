@@ -307,7 +307,11 @@ bool Message::setAttachments(std::vector<Attachment>&& attachments) {
   return true;
 }
 
+#if RL_DISABLE_XPC
+const Message::Attachment::Handle MessageAttachmentHandleNull = nullptr;
+#else
 const Message::Attachment::Handle MessageAttachmentHandleNull = -1;
+#endif
 
 }  // namespace core
 }  // namespace rl

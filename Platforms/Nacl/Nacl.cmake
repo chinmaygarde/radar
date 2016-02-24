@@ -28,8 +28,6 @@
 
 SET(CMAKE_SYSTEM_NAME Generic)
 
-set(NACL_SDK_ROOT "/Applications/nacl_sdk/pepper_45")
-
 include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include)
 include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include/newlib)
 
