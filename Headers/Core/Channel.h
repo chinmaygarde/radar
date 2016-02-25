@@ -106,7 +106,8 @@ class Channel {
    *
    *  @return the result of attempting to read the message
    */
-  IOResult readPendingMessageNow();
+  IOResult readPendingMessageNow(
+      ClockDurationNano timeout = ClockDurationNano::max());
 
   /**
    *  Directly drain all pending messages on this channel bypassing all the

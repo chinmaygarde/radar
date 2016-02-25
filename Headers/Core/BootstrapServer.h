@@ -20,8 +20,8 @@ namespace core {
  *
  *  @return if the advertisement was successful
  */
-bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel> channel);
+IOResult BootstrapServerAdvertise(const std::string& name,
+                                  std::shared_ptr<core::Channel> channel);
 
 /**
  *  Get a reference to a channel that was previously advertised as being a

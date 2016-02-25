@@ -12,20 +12,20 @@
 namespace rl {
 namespace core {
 
-bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel> channel) {
+IOResult BootstrapServerAdvertise(const std::string& name,
+                                  std::shared_ptr<core::Channel> channel) {
   if (name.size() == 0) {
-    return false;
+    return IOResult::Failure;
   }
 
   if (!channel) {
-    return false;
+    return IOResult::Failure;
   }
 
   const auto attachment = channel->asMessageAttachment();
 
   if (!attachment.isValid()) {
-    return false;
+    return IOResult::Failure;
   }
 
   @autoreleasepool {
@@ -33,16 +33,17 @@ bool BootstrapServerAdvertise(const std::string& name,
         portWithMachPort:static_cast<uint32_t>(attachment.handle())];
 
     if (!port.isValid) {
-      return false;
+      return IOResult::Failure;
     }
 
-    return
-        [[NSMachBootstrapServer sharedInstance]
-            registerPort:port
-                    name:[NSString stringWithUTF8String:name.c_str()]] == YES;
+    NSMachBootstrapServer* server = [NSMachBootstrapServer sharedInstance];
+    auto nameString = [NSString stringWithUTF8String:name.c_str()];
+    bool advertised = [server registerPort:port name:nameString] == YES;
+
+    return advertised ? IOResult::Success : IOResult::Failure;
   }
 
-  return false;
+  return IOResult::Failure;
 }
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(

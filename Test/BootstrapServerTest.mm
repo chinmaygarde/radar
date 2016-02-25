@@ -23,15 +23,15 @@ TEST(BootstrapServerTest, NotFound) {
 TEST(BootstrapServerTest, Advertise) {
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise("advertise", channel);
-  ASSERT_EQ(advertised, true);
+  ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   auto anotherChannel = std::make_shared<rl::core::Channel>();
   auto anotherAdvertised =
       rl::core::BootstrapServerAdvertise("", anotherChannel);
-  ASSERT_EQ(anotherAdvertised, false);
+  ASSERT_EQ(anotherAdvertised, rl::core::IOResult::Failure);
 
   anotherAdvertised = rl::core::BootstrapServerAdvertise("advertise2", nullptr);
-  ASSERT_EQ(anotherAdvertised, false);
+  ASSERT_EQ(anotherAdvertised, rl::core::IOResult::Failure);
 }
 
 TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
@@ -41,7 +41,7 @@ TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
    */
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise("advertise9", channel);
-  ASSERT_EQ(advertised, true);
+  ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   auto alias = rl::core::BootstrapServerAcquireAdvertised("advertise9");
   ASSERT_NE(channel, alias);
@@ -52,20 +52,20 @@ TEST(BootstrapServerTest, AdvertiseAgain) {
 
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
-  ASSERT_EQ(advertised, true);
+  ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   advertised = rl::core::BootstrapServerAdvertise(name, channel);
-  ASSERT_EQ(advertised, false);
+  ASSERT_EQ(advertised, rl::core::IOResult::Failure);
 
   advertised = rl::core::BootstrapServerAdvertise(name, nullptr);
-  ASSERT_EQ(advertised, false);
+  ASSERT_EQ(advertised, rl::core::IOResult::Failure);
 }
 
 TEST(BootstrapServerTest, Acquire) {
   auto name = "helloworld";
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
-  ASSERT_EQ(advertised, true);
+  ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   rl::core::Latch ready(1);
 

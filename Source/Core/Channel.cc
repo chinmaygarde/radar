@@ -86,8 +86,8 @@ void Channel::setMessageCallback(MessageCallback callback) {
   _messageCallback = callback;
 }
 
-IOResult Channel::readPendingMessageNow() {
-  auto result = _provider->readMessage(ClockDurationNano::max());
+IOResult Channel::readPendingMessageNow(ClockDurationNano timeout) {
+  auto result = _provider->readMessage(timeout);
 
   switch (result.first) {
     case IOResult::Success:

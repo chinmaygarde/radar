@@ -168,7 +168,8 @@ void Protocol::startAdvertisingWithBootstrapServerIfNecessary() {
   }
 
   if (!_isAdvertising) {
-    _isAdvertising = BootstrapServerAdvertise(advertisementName(), _channel);
+    _isAdvertising = BootstrapServerAdvertise(advertisementName(), _channel) ==
+                     IOResult::Success;
   }
 }
 
