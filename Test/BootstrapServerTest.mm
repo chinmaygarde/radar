@@ -5,14 +5,17 @@
 #include "RadarTest.h"
 
 #include <Core/Core.h>
-
 #include <Core/BootstrapServer.h>
+
+#include "BootstrapServerTestUtil.h"
 
 #include <thread>
 
 RL_DECLARE_TEST_START(BootstrapServerTest)
 
 TEST(BootstrapServerTest, NotFound) {
+  rl::test::AutoBootstrapServer daemon;
+
   auto found = rl::core::BootstrapServerAcquireAdvertised("sample");
   ASSERT_EQ(found, nullptr);
 
@@ -21,6 +24,8 @@ TEST(BootstrapServerTest, NotFound) {
 }
 
 TEST(BootstrapServerTest, Advertise) {
+  rl::test::AutoBootstrapServer daemon;
+
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise("advertise", channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Success);
@@ -35,6 +40,8 @@ TEST(BootstrapServerTest, Advertise) {
 }
 
 TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
+  rl::test::AutoBootstrapServer daemon;
+
   /*
    *  The channel acquired after advertisement is not the channel being
    *  advertised. Instead, its an alias of the same.
@@ -48,6 +55,8 @@ TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
 }
 
 TEST(BootstrapServerTest, AdvertiseAgain) {
+  rl::test::AutoBootstrapServer daemon;
+
   auto name = "hello";
 
   auto channel = std::make_shared<rl::core::Channel>();
@@ -62,6 +71,8 @@ TEST(BootstrapServerTest, AdvertiseAgain) {
 }
 
 TEST(BootstrapServerTest, Acquire) {
+  rl::test::AutoBootstrapServer daemon;
+
   auto name = "helloworld";
   auto channel = std::make_shared<rl::core::Channel>();
   auto advertised = rl::core::BootstrapServerAdvertise(name, channel);

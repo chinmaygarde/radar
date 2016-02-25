@@ -64,6 +64,14 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   return nullptr;
 }
 
+bool BootstrapServerSetup() {
+  return true;
+}
+
+bool BootstrapServerTeardown() {
+  return true;
+}
+
 }  // namespace core
 }  // namespace rl
 

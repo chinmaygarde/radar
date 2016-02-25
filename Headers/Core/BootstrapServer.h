@@ -34,6 +34,23 @@ IOResult BootstrapServerAdvertise(const std::string& name,
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
     const std::string& name);
 
+/**
+ *  Setup a globally accessible bootstrap server in this process. This is a
+ *  coordinator only API.
+ *
+ *  @return if the global bootstrap server was successfully setup.
+ */
+bool BootstrapServerSetup();
+
+/**
+ *  Teardown the globally accessible bootstrap server that was previously
+ *  initialized in this process. This is a coordinator only API
+ *
+ *  @return if the global bootstrap server was successfully torn down. Returns
+ *          true if this process does not contain a functional bootstrap server.
+ */
+bool BootstrapServerTeardown();
+
 }  // namespace core
 }  // namespace rl
 

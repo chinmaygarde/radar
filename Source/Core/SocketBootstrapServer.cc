@@ -9,6 +9,9 @@
 #include <Core/BootstrapServer.h>
 #include <Core/SocketBootstrapServer.h>
 #include <Core/SocketChannel.h>
+#include <Core/Latch.h>
+
+#include <thread>
 
 namespace rl {
 namespace core {
@@ -217,6 +220,71 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
   }
 
   return resolvedChannel;
+}
+
+static std::mutex LocalInstanceMutex;
+using BootstrapServerInstance =
+    std::pair<std::unique_ptr<SocketBootstrapServer> /* server */,
+              std::shared_ptr<EventLoopSource> /* termination source */>;
+
+BootstrapServerInstance LocalInstance;
+
+bool BootstrapServerSetup() {
+  std::lock_guard<std::mutex> lock(LocalInstanceMutex);
+
+  if (LocalInstance.first) {
+    return true;
+  }
+
+  Latch readyLatch(1);
+
+  LocalInstance.first = make_unique<SocketBootstrapServer>();
+  LocalInstance.second = EventLoopSource::Trivial();
+
+  std::thread bootstrapServerThread([&]() {
+    auto loop = EventLoop::Current();
+
+    /*
+     *  Add the bootstrap server source.
+     */
+    loop->addSource(LocalInstance.first->source());
+
+    /*
+     *  Add the source used to signal loop termination.
+     */
+    loop->addSource(LocalInstance.second);
+
+    loop->loop([&]() { readyLatch.countDown(); });
+  });
+
+  /*
+   *  Wait for the event loop servicing the bootstrap server to be fully ready.
+   */
+  readyLatch.wait();
+
+  bootstrapServerThread.detach();
+
+  return true;
+}
+
+bool BootstrapServerTeardown() {
+  std::lock_guard<std::mutex> lock(LocalInstanceMutex);
+
+  if (!LocalInstance.first) {
+    return true;
+  }
+
+  LocalInstance.second->setWakeFunction([](IOResult) {
+    /*
+     *  The thread is detached. Terminate its event loop.
+     */
+    EventLoop::Current()->terminate();
+  });
+
+  LocalInstance.first = nullptr;
+  LocalInstance.second = nullptr;
+
+  return true;
 }
 
 }  // namespace core

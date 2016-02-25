@@ -462,6 +462,7 @@
 		9E910BAC1C5051E60097E9DE /* BootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BootstrapServer.cc; sourceTree = "<group>"; };
 		9E910BAD1C5051E60097E9DE /* InProcessBootstrapServer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InProcessBootstrapServer.cc; sourceTree = "<group>"; };
 		9E910BAE1C5051E60097E9DE /* MachBootstrapServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachBootstrapServer.mm; sourceTree = "<group>"; };
+		9E92B1821C7E820E00071672 /* BootstrapServerTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootstrapServerTestUtil.h; sourceTree = "<group>"; };
 		9E9544041C31D1C8002EEC68 /* Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
 		9E95440E1C31D1DD002EEC68 /* Protocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Protocol.cc; sourceTree = "<group>"; };
 		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
@@ -688,6 +689,7 @@
 				9E95448F1C347AAF002EEC68 /* XCTest */,
 				9E3FABEB1C5165CE002561F0 /* ArchiveTest.mm */,
 				EA7AFB851C48BAA6009CE9FA /* BootstrapServerTest.mm */,
+				9E92B1821C7E820E00071672 /* BootstrapServerTestUtil.h */,
 				9E62F74A1B796D80008DE08E /* ChannelTest.mm */,
 				9E6745E91BF2BB3200D110DE /* LayoutTest.mm */,
 				9E62F80C1B796D81008DE08E /* EventLoopTest.mm */,
