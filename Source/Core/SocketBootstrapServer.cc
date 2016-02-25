@@ -166,14 +166,20 @@ IOResult SocketBootstrapServer::onListenReadResult(
 }
 
 IOResult BootstrapServerAdvertise(const std::string& name,
-                                  std::shared_ptr<Channel> channel) {
-  if (name.length() == 0 || !channel) {
+                                  std::shared_ptr<Channel> advertisedChannel) {
+  /*
+   *  ==========================================================================
+   *  Step 1: Sanitize arguments and acquire connection to the bootstrap server.
+   *  ==========================================================================
+   */
+  if (name.length() == 0 || !advertisedChannel) {
     return IOResult::Failure;
   }
 
-  Message::Attachment localChannelAttachment = channel->asMessageAttachment();
+  Message::Attachment advertisedChannelAttachment =
+      advertisedChannel->asMessageAttachment();
 
-  if (!localChannelAttachment.isValid()) {
+  if (!advertisedChannelAttachment.isValid()) {
     return IOResult::Failure;
   }
 
@@ -194,37 +200,27 @@ IOResult BootstrapServerAdvertise(const std::string& name,
 
   Channel serverChannel(std::move(serverAttachment));
 
+  /*
+   *  ==========================================================================
+   *  Step 2: Send the advertisement message.
+   *  ==========================================================================
+   */
+
   Message requestMessage;
 
   if (!requestMessage.encode(name) ||
-      !requestMessage.addAttachment(std::move(localChannelAttachment))) {
+      !requestMessage.addAttachment(std::move(advertisedChannelAttachment))) {
     /*
      *  Could not encode the request message.
      */
     return IOResult::Failure;
   }
 
-  bool registrationResult = false;
-
-  Channel::MessageCallback responseCallback = [&registrationResult](
-      Message responseMessage, Namespace* ns) {
-
-    if (responseMessage.readCompleted()) {
-      return;
-    }
-
-    if (!responseMessage.decode(registrationResult, ns)) {
-      registrationResult = false;
-      return;
-    }
-  };
-
-  serverChannel.setMessageCallback(responseCallback);
-
   Messages messages;
   messages.push_back(std::move(requestMessage));
 
-  auto result = serverChannel.sendMessages(std::move(messages));
+  auto result = serverChannel.sendMessages(std::move(messages),
+                                           SocketBootstrapServerTimeout);
 
   if (result != IOResult::Success) {
     /*
@@ -232,6 +228,24 @@ IOResult BootstrapServerAdvertise(const std::string& name,
      */
     return result;
   }
+
+  /*
+   *  ==========================================================================
+   *  Step 3: Read the response back from the bootstrap server.
+   *  ==========================================================================
+   */
+
+  bool registrationResult = false;
+
+  Channel::MessageCallback responseCallback = [&registrationResult](
+      Message responseMessage, Namespace* ns) {
+    if (!responseMessage.decode(registrationResult, ns)) {
+      registrationResult = false;
+      return;
+    }
+  };
+
+  serverChannel.setMessageCallback(responseCallback);
 
   result = serverChannel.readPendingMessageNow(SocketBootstrapServerTimeout);
 
@@ -248,6 +262,11 @@ IOResult BootstrapServerAdvertise(const std::string& name,
 
 std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
     const std::string& name) {
+  /*
+   *  ==========================================================================
+   *  Step 1: Sanitize arguments and acquire connection to the bootstrap server.
+   *  ==========================================================================
+   */
   if (name.length() == 0) {
     return nullptr;
   }
@@ -270,6 +289,12 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
 
   Channel serverChannel(std::move(attachment));
 
+  /*
+   *  ==========================================================================
+   *  Step 2: Send acquisition request message.
+   *  ==========================================================================
+   */
+
   Message requestMessage;
 
   if (requestMessage.encode(name)) {
@@ -282,7 +307,8 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
   Messages messages;
   messages.push_back(std::move(requestMessage));
 
-  IOResult result = serverChannel.sendMessages(std::move(messages));
+  IOResult result = serverChannel.sendMessages(std::move(messages),
+                                               SocketBootstrapServerTimeout);
 
   if (result != IOResult::Success) {
     /*
@@ -290,6 +316,12 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
      */
     return nullptr;
   }
+
+  /*
+   *  ==========================================================================
+   *  Step 3: Read the response from the bootstrap server.
+   *  ==========================================================================
+   */
 
   std::shared_ptr<Channel> resolvedChannel;
   Channel::MessageCallback channelResolutionCallback = [&resolvedChannel](
