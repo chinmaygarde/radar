@@ -242,6 +242,8 @@ bool BootstrapServerSetup() {
   LocalInstance.second = EventLoopSource::Trivial();
 
   std::thread bootstrapServerThread([&]() {
+    thread::SetName("rl.bootstrap_server");
+
     auto loop = EventLoop::Current();
 
     /*
