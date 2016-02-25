@@ -52,10 +52,117 @@ std::shared_ptr<EventLoopSource> SocketBootstrapServer::source() const {
   return _source;
 }
 
+bool SocketBootstrapServer::attemptRegistration(
+    const std::string& name,
+    Message::Attachment channelAttachment) {
+  RL_WIP;
+}
+
+std::shared_ptr<Channel> SocketBootstrapServer::acquireRegistration(
+    const std::string& name) {
+  RL_WIP;
+}
+
+IOResult SocketBootstrapServer::sendBoostrapResponse(
+    Channel& replyChannel,
+    BootstrapResponse response) {
+  Message responseMessage;
+
+  if (!responseMessage.encode(response.first)) {
+    return IOResult::Failure;
+  }
+
+  if (response.second) {
+    auto attachment = response.second->asMessageAttachment();
+
+    if (!attachment.isValid()) {
+      return IOResult::Failure;
+    }
+
+    responseMessage.addAttachment(std::move(attachment));
+  }
+
+  Messages messages;
+  messages.emplace_back(std::move(responseMessage));
+
+  return replyChannel.sendMessages(std::move(messages),
+                                   SocketBootstrapServerTimeout);
+}
+
+SocketBootstrapServer::BootstrapResponse
+SocketBootstrapServer::processBootstrapMessageRequest(
+    Message&& requestMessage) {
+  /*
+   *  A valid bootstrap client message always contains at least one string
+   *  name.
+   */
+  std::string name;
+  if (!requestMessage.decode(name)) {
+    return BootstrapResponse(false, nullptr);
+  }
+
+  switch (requestMessage.attachments().size()) {
+    case 0:
+      /*
+       *  If the request message contains no attachements, it is a channel
+       *  acquisition attempt.
+       */
+      if (auto channel = acquireRegistration(name)) {
+        return BootstrapResponse(true, channel);
+      }
+      break;
+    case 1:
+      /*
+       *  If the request message contains one attachement, it is an
+       *  advertisement attempt and the attachment is the channel being
+       *  advertised.
+       */
+      if (attemptRegistration(name, requestMessage.attachments()[0])) {
+        /*
+         *  Channel registration was successful.
+         */
+        return BootstrapResponse(true, nullptr);
+      }
+      break;
+    default:
+      /*
+       *  Everything else is a failure.
+       */
+      break;
+  }
+
+  return BootstrapResponse(false, nullptr);
+}
+
+IOResult SocketBootstrapServer::processBootstrapMessageRequestAndReply(
+    Channel& replyChannel,
+    Message&& requestMessage) {
+  auto result = processBootstrapMessageRequest(std::move(requestMessage));
+  return sendBoostrapResponse(replyChannel, result);
+}
+
 IOResult SocketBootstrapServer::onListenReadResult(
     EventLoopSource::Handle readHandle) {
-  RL_ASSERT_MSG(false, "WIP");
-  return IOResult::Timeout;
+  auto client = SocketChannel::AcceptClientHandle(
+      static_cast<SocketChannel::Handle>(readHandle));
+
+  if (!client) {
+    return IOResult::Failure;
+  }
+
+  Channel::MessageCallback messageCallback = [&](Message requestMessage,
+                                                 Namespace* ns) {
+    processBootstrapMessageRequestAndReply(*client, std::move(requestMessage));
+  };
+
+  client->setMessageCallback(messageCallback);
+  client->readPendingMessageNow(SocketBootstrapServerTimeout);
+
+  /*
+   *  No matter what happens on the client channel. We want the connection to be
+   *  immediately terminated. Signal failure here.
+   */
+  return IOResult::Failure;
 }
 
 IOResult BootstrapServerAdvertise(const std::string& name,

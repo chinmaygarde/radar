@@ -28,6 +28,21 @@ class SocketBootstrapServer {
 
   IOResult onListenReadResult(EventLoopSource::Handle readHandle);
 
+  bool attemptRegistration(const std::string& name,
+                           Message::Attachment channelAttachment);
+
+  std::shared_ptr<Channel> acquireRegistration(const std::string& name);
+
+  using BootstrapResponse = std::pair<bool, std::shared_ptr<Channel>>;
+
+  static IOResult sendBoostrapResponse(Channel& replyChannel,
+                                       BootstrapResponse response);
+
+  BootstrapResponse processBootstrapMessageRequest(Message&& requestMessage);
+
+  IOResult processBootstrapMessageRequestAndReply(Channel& replyChannel,
+                                                  Message&& requestMessage);
+
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServer);
 };
 
