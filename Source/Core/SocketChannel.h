@@ -43,6 +43,8 @@ class SocketChannel : public ChannelProvider {
 
   static Handle CreateClientHandle(const std::string& name);
 
+  static std::unique_ptr<Channel> AcceptClientHandle(Handle handle);
+
   static bool DestroyHandle(Handle handle);
 
  private:

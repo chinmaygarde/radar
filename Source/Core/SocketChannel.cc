@@ -163,6 +163,31 @@ SocketChannel::Handle SocketChannel::CreateClientHandle(
   return handle;
 }
 
+std::unique_ptr<Channel> AcceptClientHandle(SocketChannel::Handle handle) {
+  struct sockaddr_un client = {};
+
+  auto clientAddress = reinterpret_cast<struct sockaddr*>(&client);
+  auto length = static_cast<socklen_t>(sizeof(client));
+
+  auto descriptor =
+      RL_TEMP_FAILURE_RETRY(::accept(handle, clientAddress, &length));
+
+  if (descriptor == -1) {
+    RL_LOG_ERRNO();
+    return nullptr;
+  }
+
+  Message::Attachment attachement(descriptor);
+
+  /*
+   *  Paranoid check since we have already check for the validity of the
+   *  descriptor.
+   */
+  RL_ASSERT(attachement.isValid());
+
+  return make_unique<Channel>(std::move(attachement));
+}
+
 bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
   if (handle != -1) {
     RL_CHECK(::close(handle));

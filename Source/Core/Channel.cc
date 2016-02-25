@@ -58,13 +58,12 @@ void Channel::terminate() {
   }
 }
 
-IOResult Channel::sendMessages(Messages messages) {
+IOResult Channel::sendMessages(Messages messages, ClockDurationNano timeout) {
   if (messages.size() == 0) {
     return IOResult::Success;
   }
 
-  auto result =
-      _provider->writeMessages(std::move(messages), ClockDurationNano::max());
+  auto result = _provider->writeMessages(std::move(messages), timeout);
 
   switch (result) {
     case IOResult::Failure:

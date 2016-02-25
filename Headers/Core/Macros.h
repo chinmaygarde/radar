@@ -96,6 +96,11 @@ static inline void _RL_AssertLog(const char* file,
   } while (0)
 
 /*
+ *  Denotes that this code path is a work-in-progress.
+ */
+#define RL_WIP RL_ASSERT_MSG(false, "WIP")
+
+/*
  *  Error Checking
  */
 

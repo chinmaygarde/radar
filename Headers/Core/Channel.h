@@ -51,10 +51,12 @@ class Channel {
    *  Sends the specified messages down the channel
    *
    *  @param messages the messages to send
+   *  @param timeout  the timeout on the message write
    *
    *  @return the result of attempting to send the message
    */
-  IOResult sendMessages(Messages message);
+  IOResult sendMessages(Messages message,
+                        ClockDurationNano timeout = ClockDurationNano::max());
 
   /**
    *  When a message arrive on this channel, a callback may be invoked on the
