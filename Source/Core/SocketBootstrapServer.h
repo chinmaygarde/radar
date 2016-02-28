@@ -12,6 +12,8 @@
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 
+#include <map>
+
 namespace rl {
 namespace core {
 
@@ -25,6 +27,7 @@ class SocketBootstrapServer {
 
  private:
   std::shared_ptr<EventLoopSource> _source;
+  std::map<std::string, std::shared_ptr<Channel>> _channels;
 
   IOResult onListenReadResult(EventLoopSource::Handle readHandle);
 

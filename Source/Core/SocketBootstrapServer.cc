@@ -55,12 +55,35 @@ std::shared_ptr<EventLoopSource> SocketBootstrapServer::source() const {
 bool SocketBootstrapServer::attemptRegistration(
     const std::string& name,
     Message::Attachment channelAttachment) {
-  RL_WIP;
+  if (name.length() == 0 || !channelAttachment.isValid()) {
+    /*
+     *  The new registration has invalid arguments.
+     */
+    return false;
+  }
+
+  auto emplaced = _channels.emplace(
+      name, std::make_shared<Channel>(std::move(channelAttachment)));
+
+  return emplaced.second;
 }
 
 std::shared_ptr<Channel> SocketBootstrapServer::acquireRegistration(
     const std::string& name) {
-  RL_WIP;
+  if (name.length() == 0) {
+    /*
+     *  Invalid name argument.
+     */
+    return nullptr;
+  }
+
+  auto found = _channels.find(name);
+
+  if (found == _channels.end()) {
+    return nullptr;
+  }
+
+  return found->second;
 }
 
 IOResult SocketBootstrapServer::sendBoostrapResponse(
