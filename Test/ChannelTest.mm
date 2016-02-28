@@ -5,6 +5,7 @@
 #include "RadarTest.h"
 
 #include <Core/Core.h>
+#include <Instrumentation/Stopwatch.h>
 
 #include <thread>
 
@@ -48,6 +49,22 @@ static bool MemorySetOrCheckPattern(uint8_t* buffer,
 TEST(ChannelTest, SimpleInitialization) {
   rl::core::Channel channel;
   ASSERT_TRUE(channel.source() != nullptr);
+}
+
+TEST_SLOW(ChannelTest, ReadTimeout) {
+  auto ms = 50;
+
+  rl::core::Channel channel;
+  rl::instrumentation::Stopwatch stopwatch;
+
+  {
+    rl::instrumentation::AutoStopwatchLap lap(stopwatch);
+    auto result =
+        channel.readPendingMessageNow(rl::core::ClockDurationMilli(ms));
+    ASSERT_EQ(result, rl::core::IOResult::Timeout);
+  }
+
+  ASSERT_GE(stopwatch.lastLap(), rl::core::ClockDurationMilli(ms));
 }
 
 TEST(ChannelTest, TestSimpleReads) {
