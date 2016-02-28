@@ -163,7 +163,8 @@ SocketChannel::Handle SocketChannel::CreateClientHandle(
   return handle;
 }
 
-std::unique_ptr<Channel> AcceptClientHandle(SocketChannel::Handle handle) {
+std::unique_ptr<Channel> SocketChannel::AcceptClientHandle(
+    SocketChannel::Handle handle) {
   struct sockaddr_un client = {};
 
   auto clientAddress = reinterpret_cast<struct sockaddr*>(&client);
