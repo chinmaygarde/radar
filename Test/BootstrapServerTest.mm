@@ -70,7 +70,7 @@ TEST(BootstrapServerTest, AdvertiseAgain) {
   ASSERT_EQ(advertised, rl::core::IOResult::Failure);
 }
 
-TEST(BootstrapServerTest, Acquire) {
+TEST(BootstrapServerTest, AcquireAndSendMessage) {
   rl::test::AutoBootstrapServer daemon;
 
   auto name = "helloworld";
