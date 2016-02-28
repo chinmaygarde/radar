@@ -320,7 +320,7 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
 
   Message requestMessage;
 
-  if (requestMessage.encode(name)) {
+  if (!requestMessage.encode(name)) {
     /*
      *  Could not encode request message.
      */
@@ -348,12 +348,17 @@ std::shared_ptr<Channel> BootstrapServerAcquireAdvertised(
 
   std::shared_ptr<Channel> resolvedChannel;
   Channel::MessageCallback channelResolutionCallback = [&resolvedChannel](
-      Message responseMessage, Namespace*) {
-    if (!responseMessage.readCompleted() ||
-        responseMessage.attachments().size() != 1) {
+      Message responseMessage, Namespace* ns) {
+    bool result = false;
+
+    if (!responseMessage.decode(result, ns)) {
+      return;
+    }
+
+    if (!result || responseMessage.attachments().size() != 1) {
       /*
-       *  The response does not contain any useful data. Only one channel is
-       *  present. Validate this on our end.
+       *  The response was failure. Or in case or success, the one channel is
+       *  not present.
        */
       return;
     }
