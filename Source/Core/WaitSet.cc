@@ -55,8 +55,30 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
   return true;
 }
 
-EventLoopSource* WaitSet::wait(ClockDurationNano timeout) {
-  return _provider->wait(timeout);
+WaitSet::Result WaitSet::wait(ClockDurationNano timeout) {
+  auto result = _provider->wait(timeout);
+
+  /*
+   *  In case of terminations initiated from the remote end, we need to cleanup
+   *  our collection of sources.
+   */
+  if (result.first == WaitSet::WakeReason::Error && result.second != nullptr) {
+    std::lock_guard<std::mutex> lock(_sourcesMutex);
+
+    auto errorItem = result.second;
+
+    auto found =
+        std::find_if(_sources.begin(), _sources.end(),
+                     [errorItem](const std::shared_ptr<EventLoopSource>& item) {
+                       return item.get() == errorItem;
+                     });
+
+    if (found != _sources.end()) {
+      _sources.erase(found);
+    }
+  }
+
+  return result;
 }
 
 WaitSet::Handle WaitSet::handle() const {

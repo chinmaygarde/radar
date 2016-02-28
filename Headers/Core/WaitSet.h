@@ -22,6 +22,14 @@ class WaitSet {
  public:
   using Handle = uintptr_t;
 
+  enum class WakeReason {
+    ReadAvailable,
+    Timeout,
+    Error,
+  };
+
+  using Result = std::pair<WakeReason, EventLoopSource*>;
+
   /**
    *  Create an empty wait set to which sources can be added
    */
@@ -50,10 +58,9 @@ class WaitSet {
   /**
    *  Waits for events to be signalled on the waitset
    *
-   *  @return the first loop source signalled on the waitset or nullptr
-   *          on timeout
+   *  @return the result of the wait
    */
-  EventLoopSource* wait(ClockDurationNano timeout);
+  Result wait(ClockDurationNano timeout);
 
   Handle handle() const;
 

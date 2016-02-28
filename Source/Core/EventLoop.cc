@@ -73,7 +73,7 @@ void EventLoop::loop(std::function<void(void)> onReady) {
       /*
        *  Sleep indefinitely the first time around
        */
-      auto* source = _waitSet.wait(timeout);
+      EventLoopSource* source = _waitSet.wait(timeout).second;
 
       /*
        * =======================================================================

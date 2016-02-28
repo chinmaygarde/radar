@@ -28,7 +28,7 @@ KQueueWaitSet::~KQueueWaitSet() {
   _handle = -1;
 }
 
-EventLoopSource* KQueueWaitSet::wait(ClockDurationNano timeout) {
+WaitSet::Result KQueueWaitSet::wait(ClockDurationNano timeout) {
   struct kevent event = {};
 
   struct timespec timeoutTS = {
@@ -43,10 +43,23 @@ EventLoopSource* KQueueWaitSet::wait(ClockDurationNano timeout) {
 
   RL_ASSERT(val != -1);
 
-  /*
-   *  A kevent return value of zero indicates a timeout was encountered.
-   */
-  return val == 0 ? nullptr : static_cast<EventLoopSource*>(event.udata);
+  switch (val) {
+    case 0:
+      /*
+       *  A kevent return value of zero indicates a timeout was encountered.
+       */
+      return WaitSet::Result(WaitSet::WakeReason::Timeout, nullptr);
+    case 1:
+      /*
+       *  The only available kevent source queried woke up.
+       */
+      return WaitSet::Result(WaitSet::WakeReason::ReadAvailable,
+                             static_cast<EventLoopSource*>(event.udata));
+    default:
+      break;
+  }
+
+  return WaitSet::Result(WaitSet::WakeReason::Error, nullptr);
 }
 
 WaitSet::Handle KQueueWaitSet::handle() const {

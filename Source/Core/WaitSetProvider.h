@@ -15,7 +15,7 @@ namespace core {
 
 class WaitSetProvider {
  public:
-  virtual EventLoopSource* wait(ClockDurationNano timeout) = 0;
+  virtual WaitSet::Result wait(ClockDurationNano timeout) = 0;
 
   virtual WaitSet::Handle handle() const = 0;
 
