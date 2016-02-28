@@ -61,6 +61,7 @@ class WaitSet {
 
  private:
   std::unique_ptr<WaitSetProvider> _provider;
+  std::mutex _sourcesMutex;
   std::vector<std::shared_ptr<EventLoopSource>> _sources;
 
   RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);
