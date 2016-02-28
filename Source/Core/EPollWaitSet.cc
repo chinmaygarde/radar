@@ -25,7 +25,7 @@ EPollWaitSet::~EPollWaitSet() {
   RL_CHECK(::close(_handle));
 }
 
-EventLoopSource* EPollWaitSet::wait(ClockDurationNano timeout) {
+WaitSet::Result EPollWaitSet::wait(ClockDurationNano timeout) {
   struct epoll_event event = {};
 
   int val = RL_TEMP_FAILURE_RETRY(
@@ -33,7 +33,32 @@ EventLoopSource* EPollWaitSet::wait(ClockDurationNano timeout) {
 
   RL_ASSERT(val != -1);
 
-  return val == 0 ? nullptr : static_cast<EventLoopSource*>(event.data.ptr);
+  switch (val) {
+    case 0:
+      /*
+       *  A zero return from an epoll_wait indicates the expiry of a timeout.
+       */
+      return WaitSet::Result(WaitSet::WakeReason::Timeout, nullptr);
+    case 1: {
+      /*
+       *  The only indicated item woke up. Check if it was because of a read or
+       *  error.
+       */
+      auto result = WaitSet::WakeReason::ReadAvailable;
+      if (event.events & (EPOLLERR | EPOLLHUP)) {
+        /*
+         *  In case of error or hangups, the source has awoken for termination.
+         */
+        result = WaitSet::WakeReason::Error;
+      }
+      return WaitSet::Result(result,
+                             static_cast<EventLoopSource*>(event.data.ptr));
+    }
+    default:
+      break;
+  }
+
+  return WaitSet::Result(WaitSet::WakeReason::Error, nullptr);
 }
 
 WaitSet::Handle EPollWaitSet::handle() const {

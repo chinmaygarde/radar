@@ -18,9 +18,11 @@ namespace core {
 class EPollWaitSet : public WaitSetProvider {
  public:
   EPollWaitSet();
+
   ~EPollWaitSet();
 
-  EventLoopSource* wait(ClockDurationNano timeout) override;
+  WaitSet::Result wait(ClockDurationNano timeout) override;
+
   WaitSet::Handle handle() const override;
 
  private:

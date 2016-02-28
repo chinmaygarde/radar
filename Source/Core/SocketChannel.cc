@@ -190,11 +190,22 @@ std::unique_ptr<Channel> SocketChannel::AcceptClientHandle(
 }
 
 bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
-  if (handle != -1) {
-    RL_CHECK(::close(handle));
-    return true;
+  if (handle == -1) {
+    return false;
   }
-  return false;
+
+  auto result = RL_TEMP_FAILURE_RETRY(::close(handle));
+
+  /*
+   *  In case the remote end of the channel is already closed, we don't want
+   *  to error out when closing our own reference. Everything else is a failure.
+   */
+  if (result == -1 && errno != EBADF) {
+    RL_LOG_ERRNO();
+    return false;
+  }
+
+  return true;
 }
 
 bool SocketChannel::DestroyHandle(Handle handle) {
