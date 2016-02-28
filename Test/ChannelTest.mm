@@ -67,6 +67,43 @@ TEST_SLOW(ChannelTest, ReadTimeout) {
   ASSERT_GE(stopwatch.lastLap(), rl::core::ClockDurationMilli(ms));
 }
 
+TEST(ChannelTest, ChannelDeathRemovesChannelAliasesFromWaitsets) {
+  rl::core::Channel channel;
+  rl::core::Message::Attachment channelAttachment =
+      channel.asMessageAttachment();
+
+  bool aliasTerminated = false;
+  rl::core::Latch readyLatch(1);
+  std::thread waiter([&]() {
+    rl::core::thread::SetName("waiter");
+    auto loop = rl::core::EventLoop::Current();
+
+    rl::core::Channel aliasChannel(channelAttachment);
+
+    aliasChannel.setTerminationCallback([&]() {
+      aliasTerminated = true;
+      ASSERT_EQ(loop, rl::core::EventLoop::Current());
+      rl::core::EventLoop::Current()->terminate();
+    });
+
+    loop->addSource(aliasChannel.source());
+
+    loop->loop([&]() { readyLatch.countDown(); });
+  });
+
+  readyLatch.wait();
+
+  bool sourceTerminated = false;
+  channel.setTerminationCallback([&]() { sourceTerminated = true; });
+
+  channel.terminate();
+
+  waiter.join();
+
+  ASSERT_EQ(sourceTerminated, true);
+  ASSERT_EQ(aliasTerminated, true);
+}
+
 TEST(ChannelTest, TestSimpleReads) {
   rl::core::Channel channel;
 
