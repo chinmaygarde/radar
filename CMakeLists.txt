@@ -191,6 +191,10 @@ endif()
 # Tweaks for the various platforms and compilers
 ################################################################################
 
+if(NOT WINDOWS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
 # Basic version checks. GCC >= 4.9 and Clang >= 3.7 or AppleClang.
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Require at least GCC 4.9
@@ -219,10 +223,6 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -Wpessimizing-move                    \
     -Wredundant-move")
-endif()
-
-if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(LINUX)
