@@ -82,7 +82,7 @@ TEST(ChannelTest, ChannelDeathRemovesChannelAliasesFromWaitsets) {
 
     rl::core::Channel aliasChannel(channelAttachment);
 
-    aliasChannel.setTerminationCallback([&]() {
+    aliasChannel.setTerminationCallback([&](rl::core::Channel&) {
       aliasTerminated = true;
       ASSERT_EQ(loop, rl::core::EventLoop::Current());
       rl::core::EventLoop::Current()->terminate();
@@ -96,7 +96,8 @@ TEST(ChannelTest, ChannelDeathRemovesChannelAliasesFromWaitsets) {
   readyLatch.wait();
 
   bool sourceTerminated = false;
-  channel.setTerminationCallback([&]() { sourceTerminated = true; });
+  channel.setTerminationCallback(
+      [&](rl::core::Channel&) { sourceTerminated = true; });
 
   channel.terminate();
 
