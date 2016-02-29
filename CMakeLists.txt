@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.2)
 
 ################################################################################
 ################################################################################
@@ -191,18 +191,38 @@ endif()
 # Tweaks for the various platforms and compilers
 ################################################################################
 
-if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+# Basic version checks. GCC >= 4.9 and Clang >= 3.7 or AppleClang.
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  # Require at least GCC 4.9
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
+    message(FATAL_ERROR "GCC version must be at least 4.9!")
+  endif()
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  # Require at least Clang 3.7
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.7)
+    message(FATAL_ERROR "Clang version must be at least 3.7!")
+  endif()
+else()
+  message(FATAL_ERROR "Unsupported Compiler!")
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # We add the no-unknown-warning-option because we want to add flags that are
-  # only available on newer Clang versions without crapping out on older
-  # defaults
+# Work around issues/missing features in older but still supported compilers.
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  # Work around bug with -Wextra on older GCC
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=36750
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-field-initializers")
+  endif()
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
+        NOT CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+  # When these flags are added to -Wall or -Wextra, this check can be removed.
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -Wno-unknown-warning-option           \
     -Wpessimizing-move                    \
     -Wredundant-move")
+endif()
+
+if(NOT WINDOWS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(LINUX)
