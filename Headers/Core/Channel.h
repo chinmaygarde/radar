@@ -28,7 +28,7 @@ class ChannelProvider;
 class Channel {
  public:
   using MessageCallback = std::function<void(Message, Namespace*)>;
-  using TerminationCallback = std::function<void(void)>;
+  using TerminationCallback = std::function<void(Channel&)>;
 
   /**
    *  Create a new channel

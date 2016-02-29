@@ -54,7 +54,7 @@ void Channel::terminate() {
   _terminated = true;
 
   if (_terminationCallback) {
-    _terminationCallback();
+    _terminationCallback(*this);
   }
 }
 
