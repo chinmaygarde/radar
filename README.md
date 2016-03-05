@@ -1,4 +1,4 @@
-Radar [![Build Status](http://radar.run:8000/api/badges/chinmaygarde/radar/status.svg)](http://radar.run:8000/chinmaygarde/radar) [![Documentation](https://img.shields.io/badge/documentation-latest-green.svg)](http://radar.thefreakinmanual.com)
+Radar [![Build Status](http://radar.run:8000/api/badges/chinmaygarde/radar/status.svg)](http://radar.run:8000/chinmaygarde/radar) [![Documentation](https://img.shields.io/badge/documentation-latest-green.svg)](http://radar.run)
 =================
 
 Nothing to see here. Come back in bit.
