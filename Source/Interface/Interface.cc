@@ -110,22 +110,6 @@ void Interface::shutdown(std::function<void()> onShutdown) {
   });
 }
 
-const geom::Size& Interface::size() const {
-  return _size;
-}
-
-void Interface::setSize(const geom::Size& size) {
-  if (_size == size) {
-    return;
-  }
-
-  _size = size;
-
-  if (isRunning()) {
-    _loop->dispatchAsync([&]() { didUpdateSize(); });
-  }
-}
-
 void Interface::attemptCoordinatorChannelAcquisition() {
   _interfaceAcquisition.sendRequest(
       std::bind(&Interface::onCoordinatorChannelAcquisition, this,
@@ -296,16 +280,6 @@ void Interface::didTerminate() {
   if (auto delegate = _delegate.lock()) {
     delegate->didTerminate(*this);
   }
-}
-
-void Interface::didUpdateSize() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didUpdateSize(*this);
-  }
-
-  _rootEntity.setFrame({{0.0, 0.0}, size()});
-  setupConstraintSuggestions(
-      layout::Suggestion::Anchor(_rootEntity, layout::priority::Strong));
 }
 
 void Interface::performTerminationCleanup() {

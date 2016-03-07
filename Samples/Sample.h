@@ -17,7 +17,6 @@ class SampleApplication : public rl::interface::InterfaceDelegate {
   virtual void didEnterBackground(rl::interface::Interface& interface) override;
   virtual void didTerminate(rl::interface::Interface& interface) override;
   virtual void didBecomeInactive(rl::interface::Interface& interface) override;
-  virtual void didUpdateSize(rl::interface::Interface& interface) override;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(SampleApplication);

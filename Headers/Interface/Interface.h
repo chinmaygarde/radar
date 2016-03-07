@@ -79,13 +79,6 @@ class Interface {
   const geom::Size& size() const;
 
   /**
-   *  Update the size of the interface
-   *
-   *  @param size the new interface size
-   */
-  void setSize(const geom::Size& size);
-
-  /**
    *  Get the transaction on top of the interface transaction stack
    *
    *  @return the top transaction
@@ -129,7 +122,6 @@ class Interface {
   core::Namespace _localNS;
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
-  geom::Size _size;
   std::mutex _transactionStackMutex;
   std::deque<InterfaceTransaction> _transactionStack;
   size_t _popCount;
@@ -157,7 +149,6 @@ class Interface {
   void didEnterBackground();
   void didTerminate();
   void didBecomeInactive();
-  void didUpdateSize();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Interface);
 };

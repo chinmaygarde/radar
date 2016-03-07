@@ -107,6 +107,4 @@ void SampleApplication::didTerminate(rl::interface::Interface& interface) {}
 void SampleApplication::didBecomeInactive(rl::interface::Interface& interface) {
 }
 
-void SampleApplication::didUpdateSize(rl::interface::Interface& interface) {}
-
 }  // namespace sample

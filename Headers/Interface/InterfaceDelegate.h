@@ -45,14 +45,6 @@ class InterfaceDelegate {
    *  @param interface the actual interface
    */
   virtual void didBecomeInactive(Interface& interface) = 0;
-
-  /**
-   *  The interface size was updated. The new size may be accessed via the
-   *  size() property
-   *
-   *  @param interface the interface whose size was updated
-   */
-  virtual void didUpdateSize(Interface& interface) = 0;
 };
 
 }  // namespace interface
