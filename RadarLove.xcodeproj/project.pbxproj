@@ -123,7 +123,7 @@
 		9E9544051C31D1C8002EEC68 /* Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544041C31D1C8002EEC68 /* Protocol.h */; };
 		9E95440F1C31D1DD002EEC68 /* Protocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E95440E1C31D1DD002EEC68 /* Protocol.cc */; };
 		9E9544111C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */; };
-		9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */; };
+		9E9544131C31D617002EEC68 /* CoordinatorAcquisitionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E9544121C31D617002EEC68 /* CoordinatorAcquisitionProtocol.h */; };
 		9E95446F1C3471DA002EEC68 /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECE271B68543F000FA38A /* libRadarLove.a */; };
 		9E95447F1C347217002EEC68 /* ChannelTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E62F74A1B796D80008DE08E /* ChannelTest.mm */; };
 		9E9544811C347217002EEC68 /* LayoutTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E6745E91BF2BB3200D110DE /* LayoutTest.mm */; };
@@ -466,7 +466,7 @@
 		9E9544041C31D1C8002EEC68 /* Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
 		9E95440E1C31D1DD002EEC68 /* Protocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Protocol.cc; sourceTree = "<group>"; };
 		9E9544101C31D609002EEC68 /* InterfaceAcquisitionProtocol.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceAcquisitionProtocol.cc; sourceTree = "<group>"; };
-		9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceAcquisitionProtocol.h; sourceTree = "<group>"; };
+		9E9544121C31D617002EEC68 /* CoordinatorAcquisitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoordinatorAcquisitionProtocol.h; sourceTree = "<group>"; };
 		9E9544251C334296002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E95446A1C3471DA002EEC68 /* RadarLoveXCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RadarLoveXCTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E9544901C347AC1002EEC68 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -762,7 +762,7 @@
 		9E8655D21BE45E2700997766 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				9E9544121C31D617002EEC68 /* InterfaceAcquisitionProtocol.h */,
+				9E9544121C31D617002EEC68 /* CoordinatorAcquisitionProtocol.h */,
 				9E8655D41BE45E2700997766 /* Color.h */,
 				9E8655D51BE45E2700997766 /* Coordinator.h */,
 				9E8655D71BE45E2700997766 /* Statistics.h */,
@@ -1299,7 +1299,7 @@
 				9E029C7C1BA9E833007E5DF8 /* MessageSerializable.h in Headers */,
 				EA7D30FA1BE736FE0038BF5A /* LayoutUtilities.h in Headers */,
 				9E8655F51BE45E2700997766 /* Primitive.h in Headers */,
-				9E9544131C31D617002EEC68 /* InterfaceAcquisitionProtocol.h in Headers */,
+				9E9544131C31D617002EEC68 /* CoordinatorAcquisitionProtocol.h in Headers */,
 				9E029CA91BAB73C2007E5DF8 /* ChannelProvider.h in Headers */,
 				9E16A7001BE2E9D700FFEDFC /* Symbol.h in Headers */,
 				9EAECE791B685460000FA38A /* Channel.h in Headers */,

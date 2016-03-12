@@ -11,7 +11,7 @@
 
 #include <Core/DebugTagGenerator.h>
 #include <Coordinator/EntityLease.h>
-#include <Coordinator/InterfaceAcquisitionProtocol.h>
+#include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/ProgramCatalog.h>
@@ -64,15 +64,15 @@ class Coordinator : RenderSurfaceObserver {
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   core::DebugTagGenerator _interfaceTagGenerator;
-  std::list<InterfaceController> _interfaces;
+  std::list<InterfaceController> _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
-  InterfaceAcquisitionProtocol _interfaceAcquisitionProtocol;
+  CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
 
   Statistics _stats;
   StatisticsRenderer _statsRenderer;
 
-  InterfaceAcquisitionProtocol::VendorResult acquireFreshInterfaceChannel();
+  CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
 
   void surfaceWasCreated() override;
   void surfaceSizeUpdated(const geom::Size& size) override;
@@ -91,8 +91,6 @@ class Coordinator : RenderSurfaceObserver {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };
-
-extern const char* CoordinatorInterfaceChannelVendorName;
 
 }  // namespace coordinator
 }  // namespace rl

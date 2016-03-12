@@ -18,8 +18,8 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
           std::chrono::duration_cast<core::ClockDurationNano>(
               core::ClockDurationSeconds(1.0 / 60.0)))),
       _touchEventChannel(touchEventChannel),
-      _interfaceAcquisitionProtocol(
-          std::bind(&Coordinator::acquireFreshInterfaceChannel, this)) {
+      _coordinatorAcquisitionProtocol(
+          std::bind(&Coordinator::acquireFreshCoordinatorChannel, this)) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
   _surface->setObserver(this);
@@ -121,20 +121,20 @@ void Coordinator::setupOrTeardownChannels(bool setup) {
   if (setup) {
     scheduleInterfaceChannels(true);
     _loop->addSource(_animationsSource);
-    _loop->addSource(_interfaceAcquisitionProtocol.source());
+    _loop->addSource(_coordinatorAcquisitionProtocol.source());
   } else {
     scheduleInterfaceChannels(false);
     _loop->removeSource(_animationsSource);
-    _loop->removeSource(_interfaceAcquisitionProtocol.source());
+    _loop->removeSource(_coordinatorAcquisitionProtocol.source());
   }
 }
 
-InterfaceAcquisitionProtocol::VendorResult
-Coordinator::acquireFreshInterfaceChannel() {
+CoordinatorAcquisitionProtocol::VendorResult
+Coordinator::acquireFreshCoordinatorChannel() {
   /*
    *  Create a new interface controller for this reques
    */
-  _interfaces.emplace_back(_interfaceTagGenerator.acquire());
+  _interfaceControllers.emplace_back(_interfaceTagGenerator.acquire());
 
   /*
    *  Schedule all channels
@@ -144,9 +144,9 @@ Coordinator::acquireFreshInterfaceChannel() {
   /*
    *  Return the vendor result to the protocol
    */
-  auto& interface = _interfaces.back();
-  return InterfaceAcquisitionProtocol::VendorResult(interface.channel(),
-                                                    interface.debugTag());
+  auto& controller = _interfaceControllers.back();
+  return CoordinatorAcquisitionProtocol::VendorResult(controller.channel(),
+                                                      controller.debugTag());
 }
 
 void Coordinator::scheduleInterfaceChannels(bool schedule) {
@@ -154,7 +154,7 @@ void Coordinator::scheduleInterfaceChannels(bool schedule) {
     return;
   }
 
-  for (auto& interface : _interfaces) {
+  for (auto& interface : _interfaceControllers) {
     interface.scheduleChannel(*_loop, schedule);
   }
 }
@@ -167,7 +167,7 @@ void Coordinator::onDisplayLink() {
 
   auto wasUpdated = false;
 
-  for (auto& interface : _interfaces) {
+  for (auto& interface : _interfaceControllers) {
     wasUpdated |= interface.updateInterface(touchesIfAny);
   }
 
@@ -197,7 +197,7 @@ void Coordinator::renderFrame() {
 
   bool wasRendered = false;
 
-  for (auto& interface : _interfaces) {
+  for (auto& interface : _interfaceControllers) {
     wasRendered |= interface.renderCurrentInterfaceState(frame);
   }
 
@@ -206,9 +206,6 @@ void Coordinator::renderFrame() {
     surfaceAccess.finalizeForPresentation();
   }
 }
-
-const char* CoordinatorInterfaceChannelVendorName =
-    "com.radarlove.coordinator.interface";
 
 }  // namespace coordinator
 }  // namespace rl

@@ -2,21 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/InterfaceAcquisitionProtocol.h>
+#include <Coordinator/CoordinatorAcquisitionProtocol.h>
 
 namespace rl {
 namespace coordinator {
 
-InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol(
-    InterfaceChannelVendor vendor)
+CoordinatorAcquisitionProtocol::CoordinatorAcquisitionProtocol(
+    ChannelVendor vendor)
     : _vendor(vendor), core::Protocol(true) {
   RL_ASSERT(_vendor);
 }
 
-InterfaceAcquisitionProtocol::InterfaceAcquisitionProtocol()
+CoordinatorAcquisitionProtocol::CoordinatorAcquisitionProtocol()
     : core::Protocol(false) {}
 
-void InterfaceAcquisitionProtocol::onRequest(
+void CoordinatorAcquisitionProtocol::onRequest(
     core::Message requestMessage,
     std::unique_ptr<core::Channel> replyChannel,
     core::ProtocolPayloadIdentifier identifier) {
@@ -59,15 +59,15 @@ void InterfaceAcquisitionProtocol::onRequest(
   RL_ASSERT(result == core::IOResult::Success);
 }
 
-bool InterfaceAcquisitionProtocol::populateRequestPayload(core::Message&) {
+bool CoordinatorAcquisitionProtocol::populateRequestPayload(core::Message&) {
   /*
    *  There is nothing extra to encode
    */
   return true;
 }
 
-std::string InterfaceAcquisitionProtocol::advertisementName() const {
-  return "com.radar.interface_acquisition";
+std::string CoordinatorAcquisitionProtocol::advertisementName() const {
+  return "com.radar.coordinator_acquisition";
 }
 
 }  // namespace coordinator

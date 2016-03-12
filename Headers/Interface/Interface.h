@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 
-#include <Coordinator/InterfaceAcquisitionProtocol.h>
+#include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/ModelEntity.h>
@@ -129,7 +129,7 @@ class Interface {
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
   toolbox::StateMachine _state;
-  coordinator::InterfaceAcquisitionProtocol _interfaceAcquisition;
+  coordinator::CoordinatorAcquisitionProtocol _coordinatorAcquisition;
   std::unique_ptr<core::Archive> _spliceArchive;
 
   void attemptCoordinatorChannelAcquisition();

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_INTERFACEACQUISITIONPROTOCOL_H_
-#define RADARLOVE_COORDINATOR_INTERFACEACQUISITIONPROTOCOL_H_
+#ifndef RADARLOVE_COORDINATOR_COORDINATORACQUISITIONPROTOCOL_H_
+#define RADARLOVE_COORDINATOR_COORDINATORACQUISITIONPROTOCOL_H_
 
 #include <Core/Core.h>
 
@@ -11,32 +11,32 @@ namespace rl {
 namespace coordinator {
 
 /**
- *  The protocol used by the coordinator to vend interface channels to
- *  interested applications.
+ *  The protocol used by the coordinator to vend communication channels to
+ *  interested interfaces.
  */
-class InterfaceAcquisitionProtocol : public core::Protocol {
+class CoordinatorAcquisitionProtocol : public core::Protocol {
  public:
   using VendorResult = std::pair<std::shared_ptr<core::Channel> /* channel */,
                                  std::string /* tag */>;
-  using InterfaceChannelVendor = std::function<VendorResult(void)>;
+  using ChannelVendor = std::function<VendorResult(void)>;
 
   /**
-   *  Create the client side of the interface acquisition protocol
+   *  Create the client side of the coordinator acquisition protocol.
    */
-  explicit InterfaceAcquisitionProtocol();
+  explicit CoordinatorAcquisitionProtocol();
 
   /**
-   *  Create the vendor side of the interface acquisition protocol. The protocol
-   *  automatically advertised with the bootstrap server.
+   *  Create the vendor side of the coordinator acquisition protocol. The
+   *  protocol automatically advertised with the bootstrap server.
    *
    *  @param vendor the channel acquisition callback for this vendor. A channel
    *                will be requested when the bootstrap server notices a
    *                pending advertisement resolution for this protocol.
    */
-  explicit InterfaceAcquisitionProtocol(InterfaceChannelVendor vendor);
+  explicit CoordinatorAcquisitionProtocol(ChannelVendor vendor);
 
  private:
-  InterfaceChannelVendor _vendor;
+  ChannelVendor _vendor;
 
   std::string advertisementName() const override;
 
@@ -46,10 +46,10 @@ class InterfaceAcquisitionProtocol : public core::Protocol {
 
   bool populateRequestPayload(core::Message& message) override;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(InterfaceAcquisitionProtocol);
+  RL_DISALLOW_COPY_AND_ASSIGN(CoordinatorAcquisitionProtocol);
 };
 
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_INTERFACEACQUISITIONPROTOCOL_H_
+#endif  // RADARLOVE_COORDINATOR_COORDINATORACQUISITIONPROTOCOL_H_

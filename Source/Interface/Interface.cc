@@ -111,7 +111,7 @@ void Interface::shutdown(std::function<void()> onShutdown) {
 }
 
 void Interface::attemptCoordinatorChannelAcquisition() {
-  _interfaceAcquisition.sendRequest(
+  _coordinatorAcquisition.sendRequest(
       std::bind(&Interface::onCoordinatorChannelAcquisition, this,
                 std::placeholders::_1, std::placeholders::_2));
 }
@@ -231,14 +231,14 @@ void Interface::scheduleChannels() {
    *  The event loop is ready, schedule all event channels the interface cares
    *  about
    */
-  _loop->addSource(_interfaceAcquisition.source());
+  _loop->addSource(_coordinatorAcquisition.source());
 }
 
 void Interface::unscheduleChannels() {
   /*
    *  The event loop is about to die, unschedule all active channels
    */
-  _loop->removeSource(_interfaceAcquisition.source());
+  _loop->removeSource(_coordinatorAcquisition.source());
 }
 
 Interface::State Interface::state() const {
