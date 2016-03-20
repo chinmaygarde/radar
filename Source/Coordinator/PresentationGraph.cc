@@ -14,17 +14,18 @@ PresentationGraph::PresentationGraph(core::Namespace& localNS)
       _root(nullptr),
       _layoutSolver(localNS),
       _proxyResolver(_localNS,
-                     // clang-format off
-          std::bind(&PresentationGraph::onProxyConstraintsAddition,
-                    this, std::placeholders::_1),
-          std::bind(&PresentationGraph::onProxyConstraintsRemoval,
-                    this, std::placeholders::_1),
-          std::bind(&PresentationGraph::onSuggestionsCommit,
-                    this, std::placeholders::_1),
-          std::bind(&PresentationGraph::resolveConstraintConstant,
-                    this, std::placeholders::_1)
-                     // clang-format on
-                     ) {}
+                     std::bind(&PresentationGraph::onProxyConstraintsAddition,
+                               this,
+                               std::placeholders::_1),
+                     std::bind(&PresentationGraph::onProxyConstraintsRemoval,
+                               this,
+                               std::placeholders::_1),
+                     std::bind(&PresentationGraph::onSuggestionsCommit,
+                               this,
+                               std::placeholders::_1),
+                     std::bind(&PresentationGraph::resolveConstraintConstant,
+                               this,
+                               std::placeholders::_1)) {}
 
 PresentationGraph::~PresentationGraph() {}
 
@@ -295,13 +296,13 @@ void PresentationGraph::resolveConstraintUpdate(
   auto found = _entities.find(variable.identifier());
   if (found == _entities.end()) {
     /*
-     *  In case the entity created as a result of proxy resolution, it will not
-     *  be present in the graph owned collection of entities.
+     *  In case the entity is created as a result of proxy resolution, it will
+     *  not be present in the graph owned collection of entities.
      */
     return;
   }
   /*
-   *  Actually update the property
+   *  Actually update the property.
    */
   layout::Variable::SetProperty(*found->second, variable.property(), value);
 }
