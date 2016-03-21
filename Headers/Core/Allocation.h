@@ -20,11 +20,11 @@ namespace core {
  *  1: In case of reallocation failures due to memory constraints, the old
  *     allocation is freed and the `isReady` method returns false.
  *  2: All allocations, including resizes that cause extensions in the memory
- *     arena are zero'ed out
+ *     arena are zero'ed out.
  *
  *  After each call to resize, you are responsible for fetching the new
  *  reference to the memory arena as the old one may have been invalidated. Use
- *  `resize` like you would treat a `realloc`
+ *  `resize` like you would treat a `realloc`.
  *
  *  You are still responsible for writing within the bounds of the memory arena.
  *  If your program breaks because of this, please keep both pieces.
@@ -33,40 +33,43 @@ class Allocation : public MessageSerializable {
  public:
   /**
    *  A new zero sized allocation. This is not ready till the call to the first
-   *  non zero resize
+   *  non zero resize.
    */
   Allocation();
 
+  /**
+   *  Collect the allocation.
+   */
   ~Allocation();
 
   /**
-   *  @return Get a pointer to the underlying memory arena
+   *  @return Get a pointer to the underlying memory arena.
    */
   uint8_t* data();
 
   uint8_t* data() const;
 
   /**
-   *  @return the size of the underlying allocation
+   *  @return the size of the underlying allocation.
    */
   size_t size() const;
 
   /**
-   *  Resize the memory arena to the new value
+   *  Resize the memory arena to the new value.
    *
-   *  @param size the new size of the allocation
+   *  @param size the new size of the allocation.
    *
-   *  @return if the resized arena is ready for writing into
+   *  @return if the resized arena is ready for writing into.
    */
   bool resize(size_t size);
 
   /**
-   *  @return if the allocation is ready for writing into
+   *  @return if the allocation is ready for writing into.
    */
   bool isReady() const;
 
   /**
-   *  Zero out the current allocation
+   *  Zero out the current allocation.
    */
   void makeZero();
 
