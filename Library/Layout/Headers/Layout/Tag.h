@@ -6,6 +6,7 @@
 #define RADARLOVE_LAYOUT_TAG_H_
 
 #include <Core/Core.h>
+
 #include <Layout/Symbol.h>
 
 namespace rl {

@@ -252,8 +252,9 @@ endif()
 add_subdirectory("Library/Core")
 add_subdirectory("Library/Animation")
 add_subdirectory("Library/Event")
+add_subdirectory("Library/Layout")
 
-target_link_libraries(RadarLove Animation Event)
+target_link_libraries(RadarLove Animation Layout)
 
 ################################################################################
 # Google Test Library

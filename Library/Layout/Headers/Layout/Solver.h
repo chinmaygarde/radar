@@ -9,7 +9,6 @@
 #include <Layout/Constraint.h>
 #include <Layout/EditInfo.h>
 #include <Layout/Result.h>
-#include <Layout/Row.h>
 #include <Layout/Suggestion.h>
 #include <Layout/Symbol.h>
 #include <Layout/Tag.h>
@@ -22,6 +21,8 @@
 
 namespace rl {
 namespace layout {
+
+class Row;
 
 class Solver {
  public:
