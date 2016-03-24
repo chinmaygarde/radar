@@ -5,7 +5,7 @@
 #include "RadarTest.h"
 
 #include <Core/Core.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>
 

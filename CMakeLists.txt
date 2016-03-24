@@ -97,72 +97,6 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Haiku.*")
 endif()
 
 ################################################################################
-# Define the base library target
-################################################################################
-
-file(GLOB_RECURSE RADAR_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-  "Source/*.mm"
-)
-
-if(NOT APPLE)
-  # On non-Apple platforms, there is no actual Objective-C in '.mm' files.
-  # Treat them as C++
-
-  file(GLOB_RECURSE RADAR_SRC_MM
-    "Source/*.mm"
-  )
-
-  set_property(
-    SOURCE
-    ${RADAR_SRC_MM}
-    APPEND_STRING
-    PROPERTY
-    COMPILE_FLAGS
-    " -x c++ "
-  )
-endif()
-
-file(GLOB RADAR_IMGUI_SRC
-  "ThirdParty/imgui/imgui_draw.cpp"
-  "ThirdParty/imgui/imgui.cpp"
-  # "ThirdParty/imgui/imgui_demo.cpp"
-)
-
-set_property(
-  SOURCE
-  ${RADAR_SRC}
-  APPEND_STRING
-  PROPERTY
-  COMPILE_FLAGS
-  " -Werror -Wextra "
-)
-
-if(DISABLE_XPC)
-  # Usage:
-  #     $ cmake -DDISABLE_XPC=1
-  set_property(
-    SOURCE
-    ${RADAR_SRC}
-    APPEND
-    PROPERTY
-    COMPILE_DEFINITIONS
-    "RL_DISABLE_XPC=1"
-  )
-endif()
-
-
-include_directories ("Headers")
-include_directories ("ThirdParty")
-
-add_library(Radar
-    ${RADAR_SRC}
-    ${RADAR_IMGUI_SRC}
-)
-
-################################################################################
 # Enable Sanitizers (Requires Custom Clang Setup)
 # Usage:
 #     $ cmake -DSANITIZE=address
@@ -247,8 +181,7 @@ add_subdirectory("Library/Shell")
 add_subdirectory("Library/Toolbox")
 
 add_subdirectory("ThirdParty/sqlite3")
-
-target_link_libraries(Radar Shell)
+add_subdirectory("ThirdParty/imgui")
 
 ################################################################################
 # Google Test Library
@@ -301,7 +234,7 @@ endif()
 
 include_directories ( Source )
 add_executable( RadarTest ${RADAR_TEST_SRC} )
-target_link_libraries( RadarTest Radar gtest gtest_main)
+target_link_libraries( RadarTest Core Interface gtest gtest_main)
 add_test( RadarTestAll RadarTest )
 
 ################################################################################

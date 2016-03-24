@@ -5,8 +5,8 @@
 #include "RadarTest.h"
 
 #include <Core/Macros.h>
-#include <Instrumentation/Trace.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/Trace.h>
+#include <Core/TraceEvent.h>
 #include <sstream>
 #include <thread>
 

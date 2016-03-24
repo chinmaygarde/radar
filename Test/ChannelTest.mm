@@ -5,7 +5,7 @@
 #include "RadarTest.h"
 
 #include <Core/Core.h>
-#include <Instrumentation/Stopwatch.h>
+#include <Core/Stopwatch.h>
 
 #include <thread>
 

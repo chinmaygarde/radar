@@ -38,6 +38,13 @@ file(GLOB_RECURSE RIDL_SRC
 include_directories("Source")
 add_library(RIDL ${RIDL_SRC})
 
+target_link_libraries(RIDL Core)
+
 ################################################################################
 # Tests
 ################################################################################
+
+file(GLOB_RECURSE RIDL_TEST_SRC
+  "Test/*.h"
+  "Test/*.cc"
+)

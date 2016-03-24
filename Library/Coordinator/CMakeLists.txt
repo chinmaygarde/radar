@@ -40,4 +40,9 @@ add_library(Coordinator ${COORDINATOR_SRC})
 target_include_directories(Coordinator PUBLIC Headers)
 include_directories("Headers" "Source")
 
-target_link_libraries(Coordinator Core Geometry Animation Layout)
+target_link_libraries(Coordinator Core Geometry Animation Layout imgui)
+
+if (APPLE)
+  set(CMAKE_SHARED_LINKER_FLAGS
+      "${CMAKE_SHARED_LINKER_FLAGS} -framework OpenGL")
+endif()

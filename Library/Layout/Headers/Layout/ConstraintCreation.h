@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
 #define RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
 
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 #include <Layout/Constraint.h>
 #include <Layout/Expression.h>
 #include <Layout/Term.h>
