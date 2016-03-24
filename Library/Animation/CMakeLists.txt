@@ -40,4 +40,4 @@ add_library(Animation ${ANIMATION_SRC})
 target_include_directories(Animation PUBLIC Headers)
 include_directories("Headers" "Source")
 
-target_link_libraries(Animation Core)
+target_link_libraries(Animation Core Geometry)

@@ -253,6 +253,7 @@ add_subdirectory("Library/Core")
 add_subdirectory("Library/Animation")
 add_subdirectory("Library/Event")
 add_subdirectory("Library/Layout")
+add_subdirectory("Library/Geometry")
 
 target_link_libraries(RadarLove Animation Layout)
 

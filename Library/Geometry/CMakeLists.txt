@@ -30,14 +30,12 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE EVENT_SRC
+file(GLOB_RECURSE GEOMETRY_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
 )
 
-add_library(Event ${EVENT_SRC})
-target_include_directories(Event PUBLIC Headers)
+add_library(Geometry ${GEOMETRY_SRC})
+target_include_directories(Geometry PUBLIC Headers)
 include_directories("Headers" "Source")
-
-target_link_libraries(Event Core Geometry)
