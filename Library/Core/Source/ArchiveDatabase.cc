@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/ArchiveDatabase.h>
 #include <Core/Archive.h>
-#include <Core/ArchiveStatement.h>
-#include <Core/ArchiveClassRegistration.h>
+
+#include "ArchiveDatabase.h"
+#include "ArchiveStatement.h"
+#include "ArchiveClassRegistration.h"
 
 #include <sqlite3/sqlite3.h>
 

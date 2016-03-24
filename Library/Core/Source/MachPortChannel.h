@@ -12,7 +12,7 @@
 #include <Core/Channel.h>
 
 #include <Core/ChannelProvider.h>
-#include <Core/MachPort.h>
+#include "MachPort.h"
 
 namespace rl {
 namespace core {

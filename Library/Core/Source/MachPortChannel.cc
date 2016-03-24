@@ -6,7 +6,8 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include <Core/MachPortChannel.h>
+#include "MachPortChannel.h"
+
 #include <Core/Message.h>
 #include <Core/Utilities.h>
 

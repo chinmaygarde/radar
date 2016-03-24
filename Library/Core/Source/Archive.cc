@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 #include <Core/Archive.h>
-#include <Core/ArchiveClassRegistration.h>
-#include <Core/ArchiveVector.h>
-#include <Core/ArchiveDatabase.h>
-#include <Core/ArchiveStatement.h>
+#include "ArchiveClassRegistration.h"
+#include "ArchiveVector.h"
+#include "ArchiveDatabase.h"
+#include "ArchiveStatement.h"
 
 namespace rl {
 namespace core {

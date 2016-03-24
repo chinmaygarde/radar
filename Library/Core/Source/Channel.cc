@@ -8,9 +8,9 @@
 #include <Core/Message.h>
 #include <Core/Utilities.h>
 
-#include <Core/InProcessChannel.h>
-#include <Core/MachPortChannel.h>
-#include <Core/SocketChannel.h>
+#include "InProcessChannel.h"
+#include "MachPortChannel.h"
+#include "SocketChannel.h"
 
 namespace rl {
 namespace core {

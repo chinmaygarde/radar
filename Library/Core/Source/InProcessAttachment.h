@@ -5,6 +5,10 @@
 #ifndef RADARLOVE_CORE_INPROCESSATTACHMENT_H_
 #define RADARLOVE_CORE_INPROCESSATTACHMENT_H_
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_INPROCESS
+
 #include <Core/Macros.h>
 
 namespace rl {
@@ -22,5 +26,7 @@ class InProcessAttachment {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #endif  // RADARLOVE_CORE_INPROCESSATTACHMENT_H_

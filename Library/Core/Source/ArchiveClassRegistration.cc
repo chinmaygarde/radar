@@ -2,9 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/ArchiveClassRegistration.h>
-#include <Core/ArchiveDatabase.h>
-#include <Core/ArchiveStatement.h>
+#include "ArchiveClassRegistration.h"
+#include "ArchiveDatabase.h"
+#include "ArchiveStatement.h"
+
 #include <sstream>
 
 namespace rl {

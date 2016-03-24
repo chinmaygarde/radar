@@ -249,6 +249,10 @@ if(RASPBERRY)
   target_link_libraries(RadarLove rt)
 endif()
 
+add_subdirectory("Library/Core")
+
+target_link_libraries(RadarLove Core)
+
 ################################################################################
 # Google Test Library
 ################################################################################
@@ -463,4 +467,4 @@ endif()
 # Tools
 ################################################################################
 
-add_subdirectory(Tools/RIDL)
+add_subdirectory("Tools/RIDL")

@@ -6,7 +6,7 @@
 
 #if RL_SHMEM == RL_SHMEM_POSIX
 
-#include <Core/SharedMemoryHandle.h>
+#include "SharedMemoryHandle.h"
 
 #include <fcntl.h>
 #include <unistd.h>

@@ -12,8 +12,9 @@
 #if (RL_SHMEM == RL_SHMEM_POSIX) || (RL_SHMEM == RL_SHMEM_ASHMEM)
 
 #include <Core/SharedMemory.h>
-#include <Core/SharedMemoryHandle.h>
 #include <Core/Utilities.h>
+
+#include "SharedMemoryHandle.h"
 
 #include <sys/mman.h>
 #include <sys/stat.h>

@@ -7,11 +7,11 @@
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 
 #include <Core/EventLoopSource.h>
-#include <Core/MachTrivialSource.h>
 #include <Core/Macros.h>
-#include <Core/PipeTrivialSource.h>
 #include <Core/Utilities.h>
 #include <Core/WaitSet.h>
+
+#include "MachTrivialSource.h"
 
 #include <sys/event.h>
 #include <unistd.h>
