@@ -39,3 +39,5 @@ file(GLOB_RECURSE COORDINATOR_SRC
 add_library(Coordinator ${COORDINATOR_SRC})
 target_include_directories(Coordinator PUBLIC Headers)
 include_directories("Headers" "Source")
+
+target_link_libraries(Coordinator Core Geometry Animation Layout)

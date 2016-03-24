@@ -7,7 +7,6 @@
 
 #include <Core/Core.h>
 #include <Animation/Action.h>
-#include <Coordinator/PresentationEntity.h>
 
 namespace rl {
 namespace animation {
@@ -16,7 +15,6 @@ template <typename Type>
 class Interpolator {
  public:
   Interpolator(
-      coordinator::PresentationEntity::Borrowed entity,
       const interface::Action& action,
       const typename interface::Entity::Accessors<Type>::Setter& setter,
       const Type& from,
@@ -28,10 +26,9 @@ class Interpolator {
 
   void start(const core::ClockPoint& time);
 
-  void step(const core::ClockPoint& time);
+  Type step(const core::ClockPoint& time);
 
  private:
-  coordinator::PresentationEntity::Borrowed _entity;
   const interface::Action _action;
   const typename interface::Entity::Accessors<Type>::Setter _setter;
   Type _from;

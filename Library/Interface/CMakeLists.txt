@@ -40,4 +40,4 @@ add_library(Interface ${INTERFACE_SRC})
 target_include_directories(Interface PUBLIC Headers)
 include_directories("Headers" "Source")
 
-target_link_libraries(Interface Core Geometry Animation Entity Layout Toolbox)
+target_link_libraries(Interface Coordinator Toolbox)

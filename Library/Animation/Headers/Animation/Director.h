@@ -8,7 +8,6 @@
 #include <Core/Core.h>
 
 #include <Animation/Interpolator.h>
-#include <Coordinator/PresentationEntity.h>
 #include <Core/Stopwatch.h>
 
 #include <unordered_map>

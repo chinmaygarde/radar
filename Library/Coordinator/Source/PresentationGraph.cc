@@ -246,12 +246,11 @@ void PresentationGraph::prepareActionSingle(
    */
   animation::Director::Key key(presentationEntity.identifier(), property);
 
+  RL_ASSERT_MSG(false, "WIP: The entity is no longer held by the interpolator");
   /*
    *  Prepare the interpolator
    */
   auto interpolator = core::make_unique<animation::Interpolator<T>>(
-      /* target entity */
-      &presentationEntity,
       /* action to be performed */
       action,
       /* setter after single step */

@@ -10,13 +10,11 @@ namespace animation {
 
 template <typename Type>
 Interpolator<Type>::Interpolator(
-    coordinator::PresentationEntity::Borrowed entity,
     const interface::Action& action,
     const typename interface::Entity::Accessors<Type>::Setter& setter,
     const Type& from,
     const Type& to)
-    : _entity(entity),
-      _action(action),
+    : _action(action),
       _setter(setter),
       _from(from),
       _to(to),
@@ -28,9 +26,9 @@ void Interpolator<Type>::start(const core::ClockPoint& time) {
 }
 
 template <typename Type>
-void Interpolator<Type>::step(const core::ClockPoint& time) {
+Type Interpolator<Type>::step(const core::ClockPoint& time) {
   auto timeSinceStart = time - _start;
-  _setter(*_entity, x(_action.unitInterpolation(timeSinceStart)));
+  return x(_action.unitInterpolation(timeSinceStart));
 }
 
 template <typename Type>
