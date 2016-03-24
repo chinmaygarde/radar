@@ -44,7 +44,7 @@ if(APPLE)
   set(CMAKE_CXX_COMPILER clang++)
 endif()
 
-project(RadarLove)
+project(Radar)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
@@ -100,7 +100,7 @@ endif()
 # Define the base library target
 ################################################################################
 
-file(GLOB_RECURSE RADARLOVE_SRC
+file(GLOB_RECURSE RADAR_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
@@ -111,13 +111,13 @@ if(NOT APPLE)
   # On non-Apple platforms, there is no actual Objective-C in '.mm' files.
   # Treat them as C++
 
-  file(GLOB_RECURSE RADARLOVE_SRC_MM
+  file(GLOB_RECURSE RADAR_SRC_MM
     "Source/*.mm"
   )
 
   set_property(
     SOURCE
-    ${RADARLOVE_SRC_MM}
+    ${RADAR_SRC_MM}
     APPEND_STRING
     PROPERTY
     COMPILE_FLAGS
@@ -125,20 +125,20 @@ if(NOT APPLE)
   )
 endif()
 
-file(GLOB RADARLOVE_IMGUI_SRC
+file(GLOB RADAR_IMGUI_SRC
   "ThirdParty/imgui/imgui_draw.cpp"
   "ThirdParty/imgui/imgui.cpp"
   # "ThirdParty/imgui/imgui_demo.cpp"
 )
 
-file(GLOB RADARLOVE_SQLITE_SRC
+file(GLOB RADAR_SQLITE_SRC
   "ThirdParty/sqlite3/*.h"
   "ThirdParty/sqlite3/*.c"
 )
 
 set_property(
   SOURCE
-  ${RADARLOVE_SRC}
+  ${RADAR_SRC}
   APPEND_STRING
   PROPERTY
   COMPILE_FLAGS
@@ -150,7 +150,7 @@ if(DISABLE_XPC)
   #     $ cmake -DDISABLE_XPC=1
   set_property(
     SOURCE
-    ${RADARLOVE_SRC}
+    ${RADAR_SRC}
     APPEND
     PROPERTY
     COMPILE_DEFINITIONS
@@ -160,7 +160,7 @@ endif()
 
 set_property(
   SOURCE
-  ${RADARLOVE_SQLITE_SRC}
+  ${RADAR_SQLITE_SRC}
   APPEND
   PROPERTY
   COMPILE_DEFINITIONS
@@ -170,10 +170,10 @@ set_property(
 include_directories ("Headers")
 include_directories ("ThirdParty")
 
-add_library(RadarLove
-    ${RADARLOVE_SRC}
-    ${RADARLOVE_IMGUI_SRC}
-    ${RADARLOVE_SQLITE_SRC}
+add_library(Radar
+    ${RADAR_SRC}
+    ${RADAR_IMGUI_SRC}
+    ${RADAR_SQLITE_SRC}
 )
 
 ################################################################################
@@ -226,7 +226,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
 endif()
 
 if(LINUX)
-  target_link_libraries(RadarLove dl rt GL)
+  target_link_libraries(Radar dl rt GL)
 endif()
 
 if (FREEBSD)
@@ -235,7 +235,7 @@ if (FREEBSD)
   link_directories(
     "/usr/local/lib"
   )
-  target_link_libraries(RadarLove GLESv2)
+  target_link_libraries(Radar GLESv2)
 endif()
 
 if (APPLE)
@@ -246,7 +246,7 @@ endif()
 
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
-  target_link_libraries(RadarLove rt)
+  target_link_libraries(Radar rt)
 endif()
 
 add_subdirectory("Library/Animation")
@@ -260,7 +260,7 @@ add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/Toolbox")
 
-target_link_libraries(RadarLove Shell)
+target_link_libraries(Radar Shell)
 
 ################################################################################
 # Google Test Library
@@ -274,7 +274,7 @@ include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 # Unit Tests Target
 ################################################################################
 
-file(GLOB RADARLOVE_TEST_SRC
+file(GLOB RADAR_TEST_SRC
   "Test/*.h"
   "Test/*.cc"
   "Test/*.mm"
@@ -285,13 +285,13 @@ if(NOT APPLE)
   # tests, all test files have the ".mm" extension. On non-Apple platforms,
   # there is no actual Objective-C in these files. So treat them as C++
 
-  file(GLOB RADARLOVE_TEST_SRC_MM
+  file(GLOB RADAR_TEST_SRC_MM
     "Test/*.mm"
   )
 
   set_property(
     SOURCE
-    ${RADARLOVE_TEST_SRC_MM}
+    ${RADAR_TEST_SRC_MM}
     APPEND_STRING
     PROPERTY
     COMPILE_FLAGS
@@ -303,7 +303,7 @@ if(DISABLE_XPC)
   # Certain tests are disabled based on which backend is being tested.
   set_property(
     SOURCE
-    ${RADARLOVE_TEST_SRC}
+    ${RADAR_TEST_SRC}
     APPEND
     PROPERTY
     COMPILE_DEFINITIONS
@@ -312,16 +312,16 @@ if(DISABLE_XPC)
 endif()
 
 include_directories ( Source )
-add_executable( RadarLoveTest ${RADARLOVE_TEST_SRC} )
-target_link_libraries( RadarLoveTest RadarLove gtest gtest_main)
-add_test( RadarLoveTestAll RadarLoveTest )
+add_executable( RadarTest ${RADAR_TEST_SRC} )
+target_link_libraries( RadarTest Radar gtest gtest_main)
+add_test( RadarTestAll RadarTest )
 
 ################################################################################
 # Linux Desktop Shell
 ################################################################################
 
 if(LINUX)
-  file(GLOB RADARLOVE_LINUX_DESKTOP_SOURCES
+  file(GLOB RADAR_LINUX_DESKTOP_SOURCES
     "Platforms/Linux/*.h"
     "Platforms/Linux/*.cc"
     "Samples/*.h"
@@ -330,15 +330,15 @@ if(LINUX)
 
   include_directories ("Samples")
 
-  add_executable( RadarLoveLinuxDesktop ${RADARLOVE_LINUX_DESKTOP_SOURCES} )
+  add_executable( RadarLinuxDesktop ${RADAR_LINUX_DESKTOP_SOURCES} )
 
   include(FindPkgConfig)
 
   pkg_search_module(SDL2 REQUIRED sdl2)
 
   include_directories(${SDL2_INCLUDE_DIRS})
-  target_link_libraries(RadarLoveLinuxDesktop
-    RadarLove
+  target_link_libraries(RadarLinuxDesktop
+    Radar
     pthread
     ${SDL2_LIBRARIES}
     rt
@@ -350,7 +350,7 @@ endif()
 ################################################################################
 
 if(RASPBERRY)
-  file(GLOB RADARLOVE_RASPBERRY_DESKTOP_SOURCES
+  file(GLOB RADAR_RASPBERRY_DESKTOP_SOURCES
     "Platforms/RaspberryPi/Source/*.h"
     "Platforms/RaspberryPi/Source/*.cc"
     "Samples/*.h"
@@ -368,12 +368,12 @@ if(RASPBERRY)
     "/opt/vc/lib"
   )
 
-  add_executable( RadarLoveRaspberryPi ${RADARLOVE_RASPBERRY_DESKTOP_SOURCES} )
+  add_executable( RadarRaspberryPi ${RADAR_RASPBERRY_DESKTOP_SOURCES} )
 
   include_directories(${SDL2_INCLUDE_DIRS})
 
-  target_link_libraries(RadarLoveRaspberryPi
-    RadarLove
+  target_link_libraries(RadarRaspberryPi
+    Radar
     pthread
     rt
     EGL
@@ -390,19 +390,19 @@ endif()
 ################################################################################
 
 if(FREEBSD)
-  file(GLOB RADARLOVE_BSD_DESKTOP_SOURCES
+  file(GLOB RADAR_BSD_DESKTOP_SOURCES
     "Samples/*.h"
     "Samples/*.cc"
   )
   include_directories ("Samples")
 
-  add_executable( RadarLoveBSDDesktop ${RADARLOVE_BSD_DESKTOP_SOURCES} )
+  add_executable( RadarBSDDesktop ${RADAR_BSD_DESKTOP_SOURCES} )
 
   include_directories("/usr/local/include")
   link_directories("/usr/local/lib")
 
-  target_link_libraries(RadarLoveBSDDesktop
-    RadarLove
+  target_link_libraries(RadarBSDDesktop
+    Radar
     pthread
   )
 endif()
@@ -413,7 +413,7 @@ endif()
 
 if(RL_PLATFORM_NACL)
 
-  file(GLOB RADARLOVE_NACL_SOURCES
+  file(GLOB RADAR_NACL_SOURCES
     "Platforms/Nacl/Source/*.h"
     "Platforms/Nacl/Source/*.cc"
     "Samples/*.h"
@@ -424,10 +424,10 @@ if(RL_PLATFORM_NACL)
 
   include_directories ("Samples")
 
-  add_executable( RadarLoveNacl ${RADARLOVE_NACL_SOURCES} )
+  add_executable( RadarNacl ${RADAR_NACL_SOURCES} )
 
-  target_link_libraries(RadarLoveNacl
-    RadarLove
+  target_link_libraries(RadarNacl
+    Radar
     "ppapi"
     "ppapi_cpp"
     "nacl_io"
@@ -438,34 +438,34 @@ if(RL_PLATFORM_NACL)
 
   # Execuatable Shell
   add_custom_command(
-    OUTPUT "RadarLoveNacl.pexe"
-    COMMAND ${RL_PNACL_FINALIZE} -o RadarLoveNacl.pexe RadarLoveNacl
-    DEPENDS RadarLoveNacl
+    OUTPUT "RadarNacl.pexe"
+    COMMAND ${RL_PNACL_FINALIZE} -o RadarNacl.pexe RadarNacl
+    DEPENDS RadarNacl
     COMMENT "Finalizing Native Client PEXE" VERBATIM
   )
 
   add_custom_target(
-    RadarLoveNaclPexe ALL
-    DEPENDS "RadarLoveNacl.pexe"
+    RadarNaclPexe ALL
+    DEPENDS "RadarNacl.pexe"
   )
 
   # Test Target
   add_custom_command(
-    OUTPUT "RadarLoveTest.pexe"
-    COMMAND ${RL_PNACL_FINALIZE} -o RadarLoveTest.pexe RadarLoveTest
-    DEPENDS RadarLoveTest
+    OUTPUT "RadarTest.pexe"
+    COMMAND ${RL_PNACL_FINALIZE} -o RadarTest.pexe RadarTest
+    DEPENDS RadarTest
     COMMENT "Finalizing Native Client Test PEXE" VERBATIM
   )
 
   add_custom_target(
-    RadarLoveNaclTest ALL
-    DEPENDS "RadarLoveTest.pexe"
+    RadarNaclTest ALL
+    DEPENDS "RadarTest.pexe"
   )
 
   # Copy over the HTML harness and manifest
 
-  configure_file("Platforms/Nacl/RadarLove.html" "RadarLove.html" COPYONLY)
-  configure_file("Platforms/Nacl/RadarLove.nmf" "RadarLove.nmf" COPYONLY)
+  configure_file("Platforms/Nacl/Radar.html" "Radar.html" COPYONLY)
+  configure_file("Platforms/Nacl/Radar.nmf" "Radar.nmf" COPYONLY)
   configure_file("Platforms/Nacl/Server" "Server" COPYONLY)
   configure_file("Platforms/Nacl/GDBInit" "GDBInit" COPYONLY)
   configure_file("Platforms/Nacl/Debug" "Debug" COPYONLY)
