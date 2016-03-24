@@ -30,13 +30,14 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE CORE_SRC
+file(GLOB_RECURSE ANIMATION_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
-  "Source/*.mm"
 )
 
-add_library(Core ${CORE_SRC})
-target_include_directories(Core PUBLIC Headers)
+add_library(Animation ${ANIMATION_SRC})
+target_include_directories(Animation PUBLIC Headers)
 include_directories("Headers" "Source")
+
+target_link_libraries(Animation Core)

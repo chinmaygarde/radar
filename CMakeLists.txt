@@ -250,8 +250,9 @@ if(RASPBERRY)
 endif()
 
 add_subdirectory("Library/Core")
+add_subdirectory("Library/Animation")
 
-target_link_libraries(RadarLove Core)
+target_link_libraries(RadarLove Animation)
 
 ################################################################################
 # Google Test Library
