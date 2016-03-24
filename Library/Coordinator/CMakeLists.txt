@@ -30,14 +30,12 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE SHELL_SRC
+file(GLOB_RECURSE COORDINATOR_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
 )
 
-add_library(Shell ${SHELL_SRC})
-target_include_directories(Shell PUBLIC Headers)
+add_library(Coordinator ${COORDINATOR_SRC})
+target_include_directories(Coordinator PUBLIC Headers)
 include_directories("Headers" "Source")
-
-target_link_libraries(Shell Interface Coordinator)

@@ -9,7 +9,7 @@
 
 #include <Geometry/Geometry.h>
 
-#include <Coordinator/Color.h>
+#include <Entity/Color.h>
 #include <Coordinator/Frame.h>
 
 namespace rl {

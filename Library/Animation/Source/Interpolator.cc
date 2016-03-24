@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Animation/Interpolator.h>
-#include <Coordinator/Color.h>
+#include <Entity/Color.h>
 
 namespace rl {
 namespace animation {

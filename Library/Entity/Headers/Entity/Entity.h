@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_INTERFACE_ENTITY_
 #define RADARLOVE_INTERFACE_ENTITY_
 
-#include <Coordinator/Color.h>
+#include <Entity/Color.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 
