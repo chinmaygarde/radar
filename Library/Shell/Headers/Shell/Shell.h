@@ -8,7 +8,7 @@
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
-#include <Host/Host.h>
+#include <Shell/Host.h>
 #include <Interface/Interface.h>
 
 #include <thread>

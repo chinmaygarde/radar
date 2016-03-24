@@ -257,8 +257,9 @@ add_subdirectory("Library/Geometry")
 add_subdirectory("Library/Toolbox")
 add_subdirectory("Library/Interface")
 add_subdirectory("Library/Entity")
+add_subdirectory("Library/Shell")
 
-target_link_libraries(RadarLove Interface)
+target_link_libraries(RadarLove Shell)
 
 ################################################################################
 # Google Test Library

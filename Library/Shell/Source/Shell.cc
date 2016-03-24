@@ -5,7 +5,7 @@
 #include <Shell/Shell.h>
 
 #include <Coordinator/Coordinator.h>
-#include <Host/Host.h>
+#include <Shell/Host.h>
 #include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
 
