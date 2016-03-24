@@ -131,11 +131,6 @@ file(GLOB RADAR_IMGUI_SRC
   # "ThirdParty/imgui/imgui_demo.cpp"
 )
 
-file(GLOB RADAR_SQLITE_SRC
-  "ThirdParty/sqlite3/*.h"
-  "ThirdParty/sqlite3/*.c"
-)
-
 set_property(
   SOURCE
   ${RADAR_SRC}
@@ -158,14 +153,6 @@ if(DISABLE_XPC)
   )
 endif()
 
-set_property(
-  SOURCE
-  ${RADAR_SQLITE_SRC}
-  APPEND
-  PROPERTY
-  COMPILE_DEFINITIONS
-  "SQLITE_OMIT_LOAD_EXTENSION=1"
-)
 
 include_directories ("Headers")
 include_directories ("ThirdParty")
@@ -173,7 +160,6 @@ include_directories ("ThirdParty")
 add_library(Radar
     ${RADAR_SRC}
     ${RADAR_IMGUI_SRC}
-    ${RADAR_SQLITE_SRC}
 )
 
 ################################################################################
@@ -259,6 +245,8 @@ add_subdirectory("Library/Interface")
 add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/Toolbox")
+
+add_subdirectory("ThirdParty/sqlite3")
 
 target_link_libraries(Radar Shell)
 

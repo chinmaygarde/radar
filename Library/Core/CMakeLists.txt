@@ -40,3 +40,10 @@ file(GLOB_RECURSE CORE_SRC
 add_library(Core ${CORE_SRC})
 target_include_directories(Core PUBLIC Headers)
 include_directories("Headers" "Source")
+
+target_link_libraries(Core sqlite3)
+
+if (APPLE)
+  set(CMAKE_SHARED_LINKER_FLAGS
+      "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+endif()
