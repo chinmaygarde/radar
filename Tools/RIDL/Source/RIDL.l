@@ -31,7 +31,7 @@ WS                      [ \t\v\n\f]
 
 <<EOF>>                return rl::Parser::make_END(CURRENT_LOC);
 
-"//".*                 {  /* Comment Consumed */          }
+"//".*                 {  /* Comment Consumed */  }
 
 
 "protocol"             return rl::Parser::make_PROTOCOL(CURRENT_LOC);
@@ -52,7 +52,7 @@ WS                      [ \t\v\n\f]
 "]"                    return rl::Parser::make_SQUARE_RIGHT(CURRENT_LOC);
 
 
-{WS}+                  {  /* Whitespace Consumed */          }
+{WS}+                  {  /* Whitespace Consumed */  }
 .                      return rl::Parser::make_INVALID_TOKEN(CURRENT_LOC);
 
 %%

@@ -458,3 +458,9 @@ if(RL_PLATFORM_NACL)
   configure_file("Platforms/Nacl/Debug" "Debug" COPYONLY)
 
 endif()
+
+################################################################################
+# Tools
+################################################################################
+
+add_subdirectory(Tools/RIDL)

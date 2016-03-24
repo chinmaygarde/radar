@@ -11,25 +11,25 @@ Driver::Driver() {}
 
 Driver::~Driver() {}
 
-Driver::Result Driver::parse(const std::string& text) {
+Driver::ParserResult Driver::parse(const std::string& text) {
   Scanner scanner(text);
 
   if (!scanner.isReady()) {
-    return Result(ParserResult::ParserError, {});
+    return ParserResult::ParserError;
   }
 
   Parser parser(*this, scanner.handle());
 
   switch (parser.parse()) {
     case 0: /* parsing was successful (return is due to end-of-input) */
-      return Result(ParserResult::Success, {});
+      return ParserResult::Success;
     case 1: /* contains a syntax error */
-      return Result(ParserResult::SyntaxError, {});
+      return ParserResult::SyntaxError;
     case 2: /* memory exhaustion */
-      return Result(ParserResult::OutOfMemory, {});
+      return ParserResult::OutOfMemory;
   }
 
-  return Result(ParserResult::ParserError, {});
+  return ParserResult::ParserError;
 }
 
 void Driver::error(rl::location loc, const std::string& message) {
@@ -37,3 +37,4 @@ void Driver::error(rl::location loc, const std::string& message) {
 }
 
 }  // namespace rl
+
