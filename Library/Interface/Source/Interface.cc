@@ -4,7 +4,7 @@
 
 #include <Coordinator/Coordinator.h>
 #include <Core/ThreadLocal.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
 
 #include <limits>

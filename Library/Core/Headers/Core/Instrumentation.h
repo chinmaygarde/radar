@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_
 #define RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_
 
-#include <Instrumentation/Trace.h>
-#include <Instrumentation/Stopwatch.h>
-#include <Instrumentation/Counter.h>
+#include <Core/Trace.h>
+#include <Core/Stopwatch.h>
+#include <Core/Counter.h>
 
 #endif  // RADARLOVE_INSTRUMENTATION_INSTRUMENTATION_H_

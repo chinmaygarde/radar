@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/RenderSurface.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {

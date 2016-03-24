@@ -9,7 +9,7 @@
 
 #include <Animation/Interpolator.h>
 #include <Coordinator/PresentationEntity.h>
-#include <Instrumentation/Stopwatch.h>
+#include <Core/Stopwatch.h>
 
 #include <unordered_map>
 

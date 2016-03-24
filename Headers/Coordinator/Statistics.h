@@ -6,7 +6,7 @@
 #define RADARLOVE_COORDINATOR_COMPOSITORSTATISTICS_H_
 
 #include <Core/Core.h>
-#include <Instrumentation/Instrumentation.h>
+#include <Core/Instrumentation.h>
 
 namespace rl {
 namespace coordinator {

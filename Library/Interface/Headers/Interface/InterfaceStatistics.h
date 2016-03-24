@@ -6,7 +6,7 @@
 #define RADARLOVE_INTERFACE_INTERFACESTATISTICS_H_
 
 #include <Core/Core.h>
-#include <Instrumentation/Instrumentation.h>
+#include <Core/Instrumentation.h>
 
 namespace rl {
 namespace interface {

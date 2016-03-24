@@ -6,7 +6,7 @@
 #define RADARLOVE_INSTRUMENTATION_TRACE_H_
 
 #include <Core/Core.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 
 #include <thread>
 #include <mutex>

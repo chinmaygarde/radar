@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Instrumentation/TraceEvent.h>
-#include <Instrumentation/Trace.h>
+#include <Core/TraceEvent.h>
+#include <Core/Trace.h>
 
 #include <sstream>
 

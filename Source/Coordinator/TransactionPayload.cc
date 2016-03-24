@@ -4,7 +4,7 @@
 
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {

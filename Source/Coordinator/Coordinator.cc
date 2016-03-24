@@ -4,7 +4,7 @@
 
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/Frame.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {

@@ -6,7 +6,7 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 
 #define HANDLE_CAST(x) static_cast<int>((x))
 

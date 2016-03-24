@@ -6,7 +6,7 @@
 
 #include <Coordinator/Coordinator.h>
 #include <Host/Host.h>
-#include <Instrumentation/TraceEvent.h>
+#include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
 
 namespace rl {

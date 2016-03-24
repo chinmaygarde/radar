@@ -5,7 +5,7 @@
 #include <Core/Config.h>
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
-#include <Instrumentation/Trace.h>
+#include <Core/Trace.h>
 
 #include <sys/stat.h>
 #include <sys/types.h>
