@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_INTERFACE_MODELENTITY_H_
 #define RADARLOVE_INTERFACE_MODELENTITY_H_
 
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 
 namespace rl {
 namespace interface {

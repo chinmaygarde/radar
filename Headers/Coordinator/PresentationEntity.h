@@ -8,7 +8,7 @@
 #include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 
 #include <map>
 

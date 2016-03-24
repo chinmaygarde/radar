@@ -40,5 +40,4 @@ add_library(Layout ${LAYOUT_SRC})
 target_include_directories(Layout PUBLIC Headers)
 include_directories("Headers" "Source")
 
-target_link_libraries(Layout Core)
-target_link_libraries(Layout Event)
+target_link_libraries(Layout Core Event Entity)

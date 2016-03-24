@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Interface/Entity.h>
-#include <Interface/Interface.h>
+#include <Entity/Entity.h>
 
 namespace rl {
 namespace interface {
@@ -147,10 +146,13 @@ void Entity::setOpacity(double opacity) {
 
 void Entity::notifyInterfaceIfNecessary(Property property,
                                         core::Name other) const {
+  RL_ASSERT_MSG(false, "WIP");
+#if 0
   if (!_notifiesInterfaceOnUpdate) {
     return;
   }
   Interface::current().transaction().mark(*this, property, other);
+#endif
 }
 
 enum ArchiveKey {

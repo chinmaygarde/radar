@@ -8,7 +8,7 @@
 #include <Core/Core.h>
 
 #include <Animation/TimingCurve.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 
 namespace rl {
 namespace interface {

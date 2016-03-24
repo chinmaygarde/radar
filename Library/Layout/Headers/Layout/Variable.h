@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Core/Utilities.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 
 namespace rl {
 namespace layout {

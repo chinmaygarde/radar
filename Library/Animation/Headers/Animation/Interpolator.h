@@ -6,7 +6,7 @@
 #define RADARLOVE_ANIMATION_INTERPOLATOR_
 
 #include <Core/Core.h>
-#include <Interface/Action.h>
+#include <Animation/Action.h>
 #include <Coordinator/PresentationEntity.h>
 
 namespace rl {

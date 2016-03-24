@@ -5,6 +5,7 @@
 #ifndef RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 #define RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 
+#include <Animation/Action.h>
 #include <Animation/Director.h>
 #include <Coordinator/EntityArena.h>
 #include <Coordinator/Frame.h>
@@ -12,7 +13,6 @@
 #include <Coordinator/TransactionPayload.h>
 #include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
-#include <Interface/Action.h>
 #include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>

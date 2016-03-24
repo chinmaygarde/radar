@@ -6,7 +6,7 @@
 #define RADARLOVE_COORDINATOR_TRANSFERENTITY_H_
 
 #include <Core/Core.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 
 namespace rl {
 namespace coordinator {

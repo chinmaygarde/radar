@@ -30,14 +30,14 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE ANIMATION_SRC
+file(GLOB_RECURSE INTERFACE_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
 )
 
-add_library(Animation ${ANIMATION_SRC})
-target_include_directories(Animation PUBLIC Headers)
+add_library(Interface ${INTERFACE_SRC})
+target_include_directories(Interface PUBLIC Headers)
 include_directories("Headers" "Source")
 
-target_link_libraries(Animation Core Geometry Entity)
+target_link_libraries(Interface Core Geometry Animation Entity Layout Toolbox)

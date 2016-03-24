@@ -5,11 +5,11 @@
 #ifndef RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 #define RADARLOVE_INTERFACE_INTERFACETRANSACTION_
 
+#include <Core/Core.h>
+#include <Animation/Action.h>
 #include <Coordinator/EntityArena.h>
 #include <Coordinator/TransactionPayload.h>
-#include <Core/Core.h>
-#include <Interface/Action.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
 

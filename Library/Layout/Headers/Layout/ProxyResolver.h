@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
-#include <Interface/Entity.h>
+#include <Entity/Entity.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
 

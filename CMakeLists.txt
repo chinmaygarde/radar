@@ -255,8 +255,10 @@ add_subdirectory("Library/Event")
 add_subdirectory("Library/Layout")
 add_subdirectory("Library/Geometry")
 add_subdirectory("Library/Toolbox")
+add_subdirectory("Library/Interface")
+add_subdirectory("Library/Entity")
 
-target_link_libraries(RadarLove Animation Layout Toolbox)
+target_link_libraries(RadarLove Interface)
 
 ################################################################################
 # Google Test Library
