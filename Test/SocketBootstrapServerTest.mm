@@ -6,7 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include "RadarTest.h"
+#include <TestRunner/TestRunner.h>
 
 #include <Core/Core.h>
 #include <Core/SocketBootstrapServer.h>

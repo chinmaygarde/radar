@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_TEST_RADARTEST_H_
-#define RADARLOVE_TEST_RADARTEST_H_
+#ifndef RL_TEST_RUNNER_H_
+#define RL_TEST_RUNNER_H_
 
 #if RL_USE_XCODE_TEST_RUNNER
 
@@ -66,4 +66,4 @@
 
 #endif  // RL_USE_XCODE_TEST_RUNNER
 
-#endif  // RADARLOVE_TEST_RADARTEST_H_
+#endif  // RL_TEST_RUNNER_H_

@@ -30,24 +30,23 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE RIDL_SRC
+file(GLOB_RECURSE TEST_RUNNER_SRC
+  "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
+  "Source/*.mm"
 )
 
-include_directories("Source")
-add_library(RIDL ${RIDL_SRC})
-
-target_link_libraries(RIDL Core)
-
-################################################################################
-# Tests
-################################################################################
-
-file(GLOB_RECURSE RIDL_TEST_SRC
-  "Test/*.h"
-  "Test/*.cc"
+add_library(TestRunner ${TEST_RUNNER_SRC})
+target_include_directories(TestRunner PUBLIC
+    "Headers"
+    "../../ThirdParty/gtest/include"
 )
 
-add_executable(RIDLTest ${RIDL_TEST_SRC})
-target_link_libraries(RIDLTest Core TestRunner)
+include_directories(
+    "Headers"
+    "Source"
+    "../../ThirdParty/gtest/include"
+)
+
+target_link_libraries(TestRunner gtest gtest_main)

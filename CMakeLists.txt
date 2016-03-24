@@ -180,16 +180,17 @@ add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/Toolbox")
 
+add_subdirectory("Library/TestRunner")
+
 add_subdirectory("ThirdParty/sqlite3")
 add_subdirectory("ThirdParty/imgui")
+add_subdirectory("ThirdParty/gtest")
 
 ################################################################################
 # Google Test Library
 ################################################################################
 
-add_subdirectory (Test/GoogleTest)
 enable_testing ()
-include_directories (${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 ################################################################################
 # Unit Tests Target
@@ -232,9 +233,8 @@ if(DISABLE_XPC)
   )
 endif()
 
-include_directories ( Source )
 add_executable( RadarTest ${RADAR_TEST_SRC} )
-target_link_libraries( RadarTest Core Interface gtest gtest_main)
+target_link_libraries( RadarTest TestRunner Core Interface)
 add_test( RadarTestAll RadarTest )
 
 ################################################################################

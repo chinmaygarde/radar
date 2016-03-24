@@ -6,7 +6,7 @@
 
 #if RL_SHMEM != RL_SHMEM_DISABLED
 
-#include "RadarTest.h"
+#include <TestRunner/TestRunner.h>
 
 #include <Core/SharedMemory.h>
 
