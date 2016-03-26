@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_GEOMETRY_COLOR_
-#define RADARLOVE_GEOMETRY_COLOR_
+#ifndef RADARLOVE_ENTITY_COLOR_
+#define RADARLOVE_ENTITY_COLOR_
 
 #include <stdint.h>
 #include <string>
 
 namespace rl {
-namespace coordinator {
+namespace entity {
 
 /**
  *  Represents a RGBA color
@@ -99,7 +99,7 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
  */
 static const double TransparencyAlphaThreshold = 0.01;
 
-}  // namespace coordinator
+}  // namespace entity
 }  // namespace rl
 
-#endif  // RADARLOVE_GEOMETRY_COLOR_
+#endif  // RADARLOVE_ENTITY_COLOR_

@@ -63,7 +63,7 @@ class Director {
   Interpolators<geom::Size> _sizeInterpolators;
   Interpolators<geom::Rect> _rectInterpolators;
   Interpolators<geom::Matrix> _matrixInterpolators;
-  Interpolators<coordinator::Color> _colorInterpolators;
+  Interpolators<entity::Color> _colorInterpolators;
 
   template <typename T>
   Interpolators<T>& collection();

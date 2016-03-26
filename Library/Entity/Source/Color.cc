@@ -8,7 +8,7 @@
 #include <sstream>
 
 namespace rl {
-namespace coordinator {
+namespace entity {
 
 ColorHSB ColorHSB::FromRGB(Color rgb) {
   double R = rgb.red;
@@ -119,5 +119,5 @@ void Color::fromString(const std::string& str) {
   stream >> alpha;
 }
 
-}  // namespace coordinator
+}  // namespace entity
 }  // namespace rl

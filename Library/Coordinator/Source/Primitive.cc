@@ -14,13 +14,14 @@
 namespace rl {
 namespace coordinator {
 
-Primitive::Primitive() : _contentColor(ColorWhiteTransparent), _opacity(1.0) {}
+Primitive::Primitive()
+    : _contentColor(entity::ColorWhiteTransparent), _opacity(1.0) {}
 
-const Color& Primitive::contentColor() const {
+const entity::Color& Primitive::contentColor() const {
   return _contentColor;
 }
 
-void Primitive::setContentColor(const Color& color) {
+void Primitive::setContentColor(const entity::Color& color) {
   _contentColor = color;
 }
 

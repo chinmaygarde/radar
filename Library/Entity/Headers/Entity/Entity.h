@@ -148,14 +148,14 @@ class Entity : public core::ArchiveSerializable {
    *
    *  @return the background color
    */
-  const coordinator::Color& backgroundColor() const;
+  const Color& backgroundColor() const;
 
   /**
    *  Set the new background color of the entity
    *
    *  @param backgroundColor the new background color
    */
-  void setBackgroundColor(const coordinator::Color& backgroundColor);
+  void setBackgroundColor(const Color& backgroundColor);
 
   /**
    *  The opacity of the entity. 0.0 is fully transparent and 1.0 is fully
@@ -188,7 +188,7 @@ class Entity : public core::ArchiveSerializable {
   geom::Point _position;
   geom::Point _anchorPoint;
   geom::Matrix _transformation;
-  coordinator::Color _backgroundColor;
+  Color _backgroundColor;
   double _opacity;
 
   explicit Entity(const Entity& entity);
@@ -207,7 +207,7 @@ extern const Entity::Accessors<geom::Rect> BoundsAccessors;
 extern const Entity::Accessors<geom::Point> PositionAccessors;
 extern const Entity::Accessors<geom::Point> AnchorPointAccessors;
 extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
-extern const Entity::Accessors<coordinator::Color> BackgroundColorAccessors;
+extern const Entity::Accessors<Color> BackgroundColorAccessors;
 extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace entity

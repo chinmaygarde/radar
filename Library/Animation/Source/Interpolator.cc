@@ -70,13 +70,13 @@ geom::Rect Interpolator<geom::Rect>::x(double t) const {
 }
 
 template <>
-coordinator::Color Interpolator<coordinator::Color>::x(double t) const {
+entity::Color Interpolator<entity::Color>::x(double t) const {
   /*
    *  TODO: Create a specialization that stores the from and to values in HSB
    */
-  auto from = coordinator::ColorHSB::FromRGB(_from);
-  auto to = coordinator::ColorHSB::FromRGB(_to);
-  auto interpolated = coordinator::ColorHSB{
+  auto from = entity::ColorHSB::FromRGB(_from);
+  auto to = entity::ColorHSB::FromRGB(_to);
+  auto interpolated = entity::ColorHSB{
       _lerp(from.hue, to.hue, t), _lerp(from.saturation, to.saturation, t),
       _lerp(from.brightness, to.brightness, t), _lerp(from.alpha, to.alpha, t)};
   return interpolated.ToRGBA();
@@ -107,7 +107,7 @@ template class Interpolator<geom::Point>;
 template class Interpolator<geom::Size>;
 template class Interpolator<geom::Rect>;
 template class Interpolator<geom::Matrix>;
-template class Interpolator<coordinator::Color>;
+template class Interpolator<entity::Color>;
 
 }  // namespace animation
 }  // namespace rl

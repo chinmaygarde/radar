@@ -69,7 +69,7 @@ Director::Interpolators<geom::Rect>& Director::collection() {
 }
 
 template <>
-Director::Interpolators<coordinator::Color>& Director::collection() {
+Director::Interpolators<entity::Color>& Director::collection() {
   return _colorInterpolators;
 }
 

@@ -13,7 +13,7 @@ Entity::Entity(core::Name identifier, bool notifiesInterfaceOnUpdate)
       _position(geom::PointZero),
       _anchorPoint(geom::Point(0.5, 0.5)),
       _transformation(geom::MatrixIdentity),
-      _backgroundColor(coordinator::ColorWhiteTransparent),
+      _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {}
 
@@ -125,11 +125,11 @@ geom::Matrix Entity::modelMatrix() const {
   return translation * transformation();
 }
 
-const coordinator::Color& Entity::backgroundColor() const {
+const Color& Entity::backgroundColor() const {
   return _backgroundColor;
 }
 
-void Entity::setBackgroundColor(const coordinator::Color& backgroundColor) {
+void Entity::setBackgroundColor(const Color& backgroundColor) {
   _backgroundColor = backgroundColor;
   notifyInterfaceIfNecessary(Property::BackgroundColor);
 }
@@ -250,7 +250,7 @@ const Entity::Accessors<geom::Matrix> TransformationAccessors{
   &Entity::transformation, &Entity::setTransformation
 };
 
-const Entity::Accessors<coordinator::Color> BackgroundColorAccessors{
+const Entity::Accessors<Color> BackgroundColorAccessors{
   &Entity::backgroundColor, &Entity::setBackgroundColor
 };
 
