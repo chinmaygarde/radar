@@ -70,7 +70,7 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
   return payload.deserialize(arena, &_localNS);
 }
 
-void PresentationGraph::onActionCommit(interface::Action&) {
+void PresentationGraph::onActionCommit(animation::Action&) {
   /*
    *  Nothing to do on its own. Its only when we see transfer records with this
    *  action do we need to do some configuration.
@@ -78,7 +78,7 @@ void PresentationGraph::onActionCommit(interface::Action&) {
   RL_TRACE_AUTO("ActionCommit");
 }
 
-void PresentationGraph::onTransferEntityCommit(interface::Action& action,
+void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                                                TransferEntity& transferEntity,
                                                const core::ClockPoint& time) {
   auto& presentationEntity =
@@ -236,7 +236,7 @@ void PresentationGraph::onSuggestionsCommit(
 template <typename T>
 void PresentationGraph::prepareActionSingle(
     const core::ClockPoint& start,
-    interface::Action& action,
+    animation::Action& action,
     PresentationEntity& presentationEntity,
     interface::Entity::Property property,
     const T& propertyValue,

@@ -21,9 +21,9 @@ class TransactionPayload : public core::ArchiveSerializable,
  public:
   using EntityMap = std::map<core::Name, std::unique_ptr<TransferEntity>>;
 
-  using ActionCallback = std::function<void(interface::Action&)>;
+  using ActionCallback = std::function<void(animation::Action&)>;
   using TransferRecordCallback = std::function<
-      void(interface::Action&, TransferEntity&, const core::ClockPoint&)>;
+      void(animation::Action&, TransferEntity&, const core::ClockPoint&)>;
   using ConstraintsCallback =
       std::function<void(std::vector<layout::Constraint>&&)>;
   using SuggestionsCallback =
@@ -33,7 +33,7 @@ class TransactionPayload : public core::ArchiveSerializable,
 
   TransactionPayload(TransactionPayload&& payload);
 
-  explicit TransactionPayload(interface::Action&& action,
+  explicit TransactionPayload(animation::Action&& action,
                               EntityMap&& entities,
                               std::vector<layout::Constraint>&& constraints,
                               std::vector<layout::Suggestion>&& suggestions);
@@ -60,7 +60,7 @@ class TransactionPayload : public core::ArchiveSerializable,
   /*
    *  Used when writing
    */
-  interface::Action _action;
+  animation::Action _action;
   EntityMap _entities;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;

@@ -10,7 +10,7 @@ namespace animation {
 
 template <typename Type>
 Interpolator<Type>::Interpolator(
-    const interface::Action& action,
+    const Action& action,
     const typename interface::Entity::Accessors<Type>::Setter& setter,
     const Type& from,
     const Type& to)

@@ -15,7 +15,7 @@ template <typename Type>
 class Interpolator {
  public:
   Interpolator(
-      const interface::Action& action,
+      const Action& action,
       const typename interface::Entity::Accessors<Type>::Setter& setter,
       const Type& from,
       const Type& to);
@@ -29,7 +29,7 @@ class Interpolator {
   Type step(const core::ClockPoint& time);
 
  private:
-  const interface::Action _action;
+  const Action _action;
   const typename interface::Entity::Accessors<Type>::Setter _setter;
   Type _from;
   Type _to;

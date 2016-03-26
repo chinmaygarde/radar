@@ -53,15 +53,15 @@ class PresentationGraph {
 
   template <typename T>
   void prepareActionSingle(const core::ClockPoint& start,
-                           interface::Action& action,
+                           animation::Action& action,
                            PresentationEntity& presentationEntity,
                            interface::Entity::Property property,
                            const T& propertyValue,
                            const interface::Entity::Accessors<T>& accessors);
 
-  void onActionCommit(interface::Action& action);
+  void onActionCommit(animation::Action& action);
 
-  void onTransferEntityCommit(interface::Action& action,
+  void onTransferEntityCommit(animation::Action& action,
                               TransferEntity& transferEntity,
                               const core::ClockPoint& commitTime);
 

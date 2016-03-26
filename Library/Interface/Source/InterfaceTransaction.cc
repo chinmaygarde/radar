@@ -8,7 +8,7 @@
 namespace rl {
 namespace interface {
 
-InterfaceTransaction::InterfaceTransaction(const Action&& action)
+InterfaceTransaction::InterfaceTransaction(const animation::Action&& action)
     : _action(action) {}
 
 void InterfaceTransaction::mark(const Entity& entity,

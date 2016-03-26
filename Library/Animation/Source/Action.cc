@@ -5,7 +5,7 @@
 #include <Animation/Action.h>
 
 namespace rl {
-namespace interface {
+namespace animation {
 
 Action::Action(double duration)
     : _duration(duration),
@@ -40,11 +40,11 @@ void Action::setAutoReverses(bool autoReverses) {
   _autoReverses = autoReverses;
 }
 
-Entity::PropertyMaskType Action::propertyMask() const {
+interface::Entity::PropertyMaskType Action::propertyMask() const {
   return _propertyMask;
 }
 
-void Action::setPropertyMask(Entity::PropertyMaskType mask) {
+void Action::setPropertyMask(interface::Entity::PropertyMaskType mask) {
   _propertyMask = mask;
 }
 
@@ -147,5 +147,5 @@ bool Action::deserialize(core::ArchiveItem& item, core::Namespace*) {
   return result;
 }
 
-}  // namespace interface
+}  // namespace animation
 }  // namespace rl

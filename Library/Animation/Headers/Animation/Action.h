@@ -11,7 +11,7 @@
 #include <Entity/Entity.h>
 
 namespace rl {
-namespace interface {
+namespace animation {
 
 class Action : public core::ArchiveSerializable,
                public core::MessageSerializable {
@@ -68,9 +68,9 @@ class Action : public core::ArchiveSerializable,
    */
   void setAutoReverses(bool autoReverses);
 
-  Entity::PropertyMaskType propertyMask() const;
+  interface::Entity::PropertyMaskType propertyMask() const;
 
-  void setPropertyMask(Entity::PropertyMaskType mask);
+  void setPropertyMask(interface::Entity::PropertyMaskType mask);
 
   animation::TimingCurve::Type timingCurveType() const;
 
@@ -94,7 +94,7 @@ class Action : public core::ArchiveSerializable,
   core::ClockDuration _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
-  Entity::PropertyMaskType _propertyMask;
+  interface::Entity::PropertyMaskType _propertyMask;
   animation::TimingCurve::Type _timingCurveType;
   animation::TimingCurve _resolvedCurve;
 
@@ -103,7 +103,7 @@ class Action : public core::ArchiveSerializable,
   RL_DISALLOW_ASSIGN(Action);
 };
 
-}  // namespace interface
+}  // namespace animation
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_ACTION_

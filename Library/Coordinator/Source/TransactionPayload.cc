@@ -14,7 +14,7 @@ TransactionPayload::TransactionPayload() {}
 TransactionPayload::TransactionPayload(TransactionPayload&& payload) = default;
 
 TransactionPayload::TransactionPayload(
-    interface::Action&& action,
+    animation::Action&& action,
     EntityMap&& entities,
     std::vector<layout::Constraint>&& constraints,
     std::vector<layout::Suggestion>&& suggestions)
@@ -69,7 +69,7 @@ bool TransactionPayload::deserialize(core::Message& message,
   /*
    *  Step 1: Read the action
    */
-  interface::Action action;
+  animation::Action action;
   result = action.deserialize(message, ns);
 
   if (!result) {

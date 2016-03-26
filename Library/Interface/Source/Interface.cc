@@ -154,14 +154,14 @@ InterfaceTransaction& Interface::transaction() {
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace_back(Action(0.0));
+    _transactionStack.emplace_back(animation::Action(0.0));
     armAutoFlushTransactions(true);
   }
 
   return _transactionStack[_transactionStack.size() - _popCount - 1];
 }
 
-void Interface::pushTransaction(Action&& action) {
+void Interface::pushTransaction(animation::Action&& action) {
   std::lock_guard<std::mutex> lock(_transactionStackMutex);
   _transactionStack.emplace_back(std::move(action));
 }

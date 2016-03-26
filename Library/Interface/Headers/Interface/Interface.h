@@ -90,7 +90,7 @@ class Interface {
    *
    *  @param args the action for the transaction
    */
-  void pushTransaction(Action&& action);
+  void pushTransaction(animation::Action&& action);
 
   /**
    *  Pop the last transaction off the transaction stack

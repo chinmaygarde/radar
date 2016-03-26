@@ -20,7 +20,7 @@ namespace interface {
 
 class InterfaceTransaction {
  public:
-  explicit InterfaceTransaction(const Action&& action);
+  explicit InterfaceTransaction(const animation::Action&& action);
 
   void mark(const Entity& entity,
             Entity::Property property,
@@ -35,7 +35,7 @@ class InterfaceTransaction {
   bool commit(core::Message& arena, std::unique_ptr<core::Archive>& archive);
 
  private:
-  Action _action;
+  animation::Action _action;
   coordinator::TransactionPayload::EntityMap _entities;
   std::vector<layout::Constraint> _constraints;
   std::vector<layout::Suggestion> _suggestions;

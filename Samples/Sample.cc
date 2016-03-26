@@ -53,11 +53,11 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   auto rootWidth = root | Property::BoundsWidth;
   auto rootHeight = root | Property::BoundsHeight;
 
-  rl::interface::Action action;
+  rl::animation::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
   action.setAutoReverses(true);
   action.setDuration(rl::core::ClockDuration(0.5));
-  action.setRepeatCount(rl::interface::Action::RepeatCountInfinity);
+  action.setRepeatCount(rl::animation::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::interface::Entity::TransformationMask);
 
   interface.pushTransaction(std::move(action));
