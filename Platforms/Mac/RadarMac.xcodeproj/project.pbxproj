@@ -13,42 +13,158 @@
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
 		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
-		9E9543F31C31C4F0002EEC68 /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
 		9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9544201C333EF8002EEC68 /* Foundation.framework */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */; };
-		9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAECEF31B685554000FA38A /* libRadarLove.a */; };
+		9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931181CA4C2C500CDBF07 /* libShell.a */; };
+		9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */; };
+		9EE9312D1CA4C40D00CDBF07 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931221CA4C2C500CDBF07 /* libgtest.a */; };
+		9EE9312E1CA4C40D00CDBF07 /* libimgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931201CA4C2C500CDBF07 /* libimgui.a */; };
+		9EE9312F1CA4C40D00CDBF07 /* libInterface.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931141CA4C2C500CDBF07 /* libInterface.a */; };
+		9EE931301CA4C40D00CDBF07 /* libLayout.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931161CA4C2C500CDBF07 /* libLayout.a */; };
+		9EE931311CA4C40D00CDBF07 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */; };
+		9EE931321CA4C40D00CDBF07 /* libToolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */; };
+		9EE931331CA4C41700CDBF07 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931081CA4C2C500CDBF07 /* libAnimation.a */; };
+		9EE931341CA4C41700CDBF07 /* libCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310C1CA4C2C500CDBF07 /* libCore.a */; };
+		9EE931351CA4C41700CDBF07 /* libEntity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310E1CA4C2C500CDBF07 /* libEntity.a */; };
+		9EE931361CA4C41700CDBF07 /* libEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931101CA4C2C500CDBF07 /* libEvent.a */; };
+		9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931121CA4C2C500CDBF07 /* libGeometry.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9E62F8F71B7972DC008DE08E /* PBXContainerItemProxy */ = {
+		9EE931051CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9E62F8C71B796E9E008DE08E;
-			remoteInfo = RadarLoveTest;
+			remoteGlobalIDString = 0E2774CBDA82464F946DEBAD;
+			remoteInfo = RadarTest;
 		};
-		9E9543F11C31C4A4002EEC68 /* PBXContainerItemProxy */ = {
+		9EE931071CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9EAECE261B68543F000FA38A;
-			remoteInfo = RadarLove;
-		};
-		9EAECEF21B685554000FA38A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9EAECE271B68543F000FA38A;
-			remoteInfo = RadarLove;
+			remoteGlobalIDString = B8041CFA340047C2A3F54282;
+			remoteInfo = Animation;
 		};
-		9EAECEF41B68555D000FA38A /* PBXContainerItemProxy */ = {
+		9EE931091CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5BE9E603D594E7F99402E5C;
+			remoteInfo = Coordinator;
+		};
+		9EE9310B1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C03AEF3CAE6144218BF0659D;
+			remoteInfo = Core;
+		};
+		9EE9310D1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D5DC19D8AA2469F9E54CCE0;
+			remoteInfo = Entity;
+		};
+		9EE9310F1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A703294C39214EB3896F6BF1;
+			remoteInfo = Event;
+		};
+		9EE931111CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D0437ABDA48443D3AF1DAE6E;
+			remoteInfo = Geometry;
+		};
+		9EE931131CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 311F833A21C04EA6967C3AA4;
+			remoteInfo = Interface;
+		};
+		9EE931151CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DE9DE4CF874B4EEAA91D5185;
+			remoteInfo = Layout;
+		};
+		9EE931171CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D6A7AF5412F046C3A780914B;
+			remoteInfo = Shell;
+		};
+		9EE931191CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F9922731AA4CB89EBCC862;
+			remoteInfo = Toolbox;
+		};
+		9EE9311B1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C693066DE38249E3B41D770C;
+			remoteInfo = TestRunner;
+		};
+		9EE9311D1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6C9F02AC54534523B953EF20;
+			remoteInfo = sqlite3;
+		};
+		9EE9311F1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95F142C29AF04BF4B62FCBF7;
+			remoteInfo = imgui;
+		};
+		9EE931211CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5843A543A7EC4BD0AAEFA25C;
+			remoteInfo = gtest;
+		};
+		9EE931231CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FC455AC02A17455A85F7E5E7;
+			remoteInfo = gtest_main;
+		};
+		9EE931251CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C786E712BB934DA4AE212B30;
+			remoteInfo = RIDL;
+		};
+		9EE931271CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 062BF9CBB2CE444B9AC8B655;
+			remoteInfo = RIDLTest;
+		};
+		9EE931291CA4C30E00CDBF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9EAECE261B68543F000FA38A;
-			remoteInfo = RadarLove;
+			remoteGlobalIDString = D0F80631BAD842C581A79054;
+			remoteInfo = Shell;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,7 +184,7 @@
 		9E9544201C333EF8002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
 		9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
-		9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RadarLove.xcodeproj; path = ../../RadarLove.xcodeproj; sourceTree = "<group>"; };
+		9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Radar.xcodeproj; path = ../../build/Radar.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +192,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EAECEF61B685561000FA38A /* libRadarLove.a in Frameworks */,
+				9EE931331CA4C41700CDBF07 /* libAnimation.a in Frameworks */,
+				9EE931341CA4C41700CDBF07 /* libCore.a in Frameworks */,
+				9EE931351CA4C41700CDBF07 /* libEntity.a in Frameworks */,
+				9EE931361CA4C41700CDBF07 /* libEvent.a in Frameworks */,
+				9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */,
+				9EE9312D1CA4C40D00CDBF07 /* libgtest.a in Frameworks */,
+				9EE9312E1CA4C40D00CDBF07 /* libimgui.a in Frameworks */,
+				9EE9312F1CA4C40D00CDBF07 /* libInterface.a in Frameworks */,
+				9EE931301CA4C40D00CDBF07 /* libLayout.a in Frameworks */,
+				9EE931311CA4C40D00CDBF07 /* libsqlite3.a in Frameworks */,
+				9EE931321CA4C40D00CDBF07 /* libToolbox.a in Frameworks */,
+				9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */,
+				9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +214,6 @@
 			files = (
 				9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */,
 				9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */,
-				9E9543F31C31C4F0002EEC68 /* libRadarLove.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,11 +282,27 @@
 			path = Interface;
 			sourceTree = "<group>";
 		};
-		9EAECEEF1B685554000FA38A /* Products */ = {
+		9EE930EE1CA4C2C500CDBF07 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9EAECEF31B685554000FA38A /* libRadarLove.a */,
-				9E62F8F81B7972DC008DE08E /* RadarLoveTest */,
+				9EE931061CA4C2C500CDBF07 /* RadarTest */,
+				9EE931081CA4C2C500CDBF07 /* libAnimation.a */,
+				9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */,
+				9EE9310C1CA4C2C500CDBF07 /* libCore.a */,
+				9EE9310E1CA4C2C500CDBF07 /* libEntity.a */,
+				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
+				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
+				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
+				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
+				9EE931181CA4C2C500CDBF07 /* libShell.a */,
+				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
+				9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */,
+				9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */,
+				9EE931201CA4C2C500CDBF07 /* libimgui.a */,
+				9EE931221CA4C2C500CDBF07 /* libgtest.a */,
+				9EE931241CA4C2C500CDBF07 /* libgtest_main.a */,
+				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
+				9EE931281CA4C2C500CDBF07 /* RIDLTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,9 +310,9 @@
 		EA69B8401B5C061D00323F1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */,
 				9E9544201C333EF8002EEC68 /* Foundation.framework */,
 				9E9543FF1C31C652002EEC68 /* OpenGL.framework */,
-				9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -177,9 +320,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9E26F1B21B59CBB50016A899 /* RadarLoveMac */ = {
+		9E26F1B21B59CBB50016A899 /* RadarMac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9E26F1C41B59CBB50016A899 /* Build configuration list for PBXNativeTarget "RadarLoveMac" */;
+			buildConfigurationList = 9E26F1C41B59CBB50016A899 /* Build configuration list for PBXNativeTarget "RadarMac" */;
 			buildPhases = (
 				9E26F1AF1B59CBB50016A899 /* Sources */,
 				9E26F1B01B59CBB50016A899 /* Frameworks */,
@@ -188,9 +331,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				9EAECEF51B68555D000FA38A /* PBXTargetDependency */,
+				9EE9312A1CA4C30E00CDBF07 /* PBXTargetDependency */,
 			);
-			name = RadarLoveMac;
+			name = RadarMac;
 			productName = RadarLoveMac;
 			productReference = 9E26F1B31B59CBB50016A899 /* Radar Love.app */;
 			productType = "com.apple.product-type.application";
@@ -205,7 +348,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9E9543F21C31C4A4002EEC68 /* PBXTargetDependency */,
 			);
 			name = Interface;
 			productName = Interface;
@@ -229,7 +371,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9E26F1AE1B59CBB50016A899 /* Build configuration list for PBXProject "RadarLoveMac" */;
+			buildConfigurationList = 9E26F1AE1B59CBB50016A899 /* Build configuration list for PBXProject "RadarMac" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -242,31 +384,143 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9EAECEEF1B685554000FA38A /* Products */;
-					ProjectRef = 9EAECEEE1B685554000FA38A /* RadarLove.xcodeproj */;
+					ProductGroup = 9EE930EE1CA4C2C500CDBF07 /* Products */;
+					ProjectRef = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				9E26F1B21B59CBB50016A899 /* RadarLoveMac */,
+				9E26F1B21B59CBB50016A899 /* RadarMac */,
 				9E9543E81C31C494002EEC68 /* Interface */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9E62F8F81B7972DC008DE08E /* RadarLoveTest */ = {
+		9EE931061CA4C2C500CDBF07 /* RadarTest */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RadarLoveXCTest.xctest;
-			remoteRef = 9E62F8F71B7972DC008DE08E /* PBXContainerItemProxy */;
+			fileType = "compiled.mach-o.executable";
+			path = RadarTest;
+			remoteRef = 9EE931051CA4C2C500CDBF07 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9EAECEF31B685554000FA38A /* libRadarLove.a */ = {
+		9EE931081CA4C2C500CDBF07 /* libAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRadarLove.a;
-			remoteRef = 9EAECEF21B685554000FA38A /* PBXContainerItemProxy */;
+			path = libAnimation.a;
+			remoteRef = 9EE931071CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCoordinator.a;
+			remoteRef = 9EE931091CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9310C1CA4C2C500CDBF07 /* libCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCore.a;
+			remoteRef = 9EE9310B1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9310E1CA4C2C500CDBF07 /* libEntity.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEntity.a;
+			remoteRef = 9EE9310D1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931101CA4C2C500CDBF07 /* libEvent.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEvent.a;
+			remoteRef = 9EE9310F1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931121CA4C2C500CDBF07 /* libGeometry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGeometry.a;
+			remoteRef = 9EE931111CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931141CA4C2C500CDBF07 /* libInterface.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libInterface.a;
+			remoteRef = 9EE931131CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931161CA4C2C500CDBF07 /* libLayout.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLayout.a;
+			remoteRef = 9EE931151CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931181CA4C2C500CDBF07 /* libShell.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libShell.a;
+			remoteRef = 9EE931171CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libToolbox.a;
+			remoteRef = 9EE931191CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTestRunner.a;
+			remoteRef = 9EE9311B1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsqlite3.a;
+			remoteRef = 9EE9311D1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931201CA4C2C500CDBF07 /* libimgui.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimgui.a;
+			remoteRef = 9EE9311F1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931221CA4C2C500CDBF07 /* libgtest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest.a;
+			remoteRef = 9EE931211CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931241CA4C2C500CDBF07 /* libgtest_main.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest_main.a;
+			remoteRef = 9EE931231CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931261CA4C2C500CDBF07 /* libRIDL.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRIDL.a;
+			remoteRef = 9EE931251CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EE931281CA4C2C500CDBF07 /* RIDLTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = RIDLTest;
+			remoteRef = 9EE931271CA4C2C500CDBF07 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -307,15 +561,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9E9543F21C31C4A4002EEC68 /* PBXTargetDependency */ = {
+		9EE9312A1CA4C30E00CDBF07 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = RadarLove;
-			targetProxy = 9E9543F11C31C4A4002EEC68 /* PBXContainerItemProxy */;
-		};
-		9EAECEF51B68555D000FA38A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RadarLove;
-			targetProxy = 9EAECEF41B68555D000FA38A /* PBXContainerItemProxy */;
+			name = Shell;
+			targetProxy = 9EE931291CA4C30E00CDBF07 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -370,8 +619,16 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../Headers,
-					../../Source,
+					../../Library/Interface/Headers,
+					../../Library/Animation/Headers,
+					../../Library/Toolbox/Headers,
+					../../Library/Layout/Headers,
+					../../Library/Coordinator/Headers,
+					../../Library/Core/Headers,
+					../../Library/Geometry/Headers,
+					../../Library/Entity/Headers,
+					../../Library/Shell/Headers,
+					../../Library/Event/Headers,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -413,8 +670,16 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../Headers,
-					../../Source,
+					../../Library/Interface/Headers,
+					../../Library/Animation/Headers,
+					../../Library/Toolbox/Headers,
+					../../Library/Layout/Headers,
+					../../Library/Coordinator/Headers,
+					../../Library/Core/Headers,
+					../../Library/Geometry/Headers,
+					../../Library/Entity/Headers,
+					../../Library/Shell/Headers,
+					../../Library/Event/Headers,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -467,7 +732,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9E26F1AE1B59CBB50016A899 /* Build configuration list for PBXProject "RadarLoveMac" */ = {
+		9E26F1AE1B59CBB50016A899 /* Build configuration list for PBXProject "RadarMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9E26F1C21B59CBB50016A899 /* Debug */,
@@ -476,7 +741,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9E26F1C41B59CBB50016A899 /* Build configuration list for PBXNativeTarget "RadarLoveMac" */ = {
+		9E26F1C41B59CBB50016A899 /* Build configuration list for PBXNativeTarget "RadarMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9E26F1C51B59CBB50016A899 /* Debug */,

@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #import "RadarAppDelegate.h"
-#include <Instrumentation/Trace.h>
+#include <Core/Trace.h>
 
 #include <iostream>
 #include <fstream>
