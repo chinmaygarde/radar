@@ -5,6 +5,7 @@
 #include <Shell/Host.h>
 
 namespace rl {
+namespace shell {
 
 Host::Host() {}
 
@@ -28,4 +29,5 @@ event::TouchEventChannel& Host::touchEventChannel() {
   return _touchEventChannel;
 }
 
+}  // namespace shell
 }  // namespace rl

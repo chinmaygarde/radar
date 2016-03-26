@@ -2,13 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_HOST_HOST_
-#define RADARLOVE_HOST_HOST_
+#ifndef RADARLOVE_SHELL_HOST_
+#define RADARLOVE_SHELL_HOST_
 
 #include <Core/Core.h>
 #include <Event/TouchEventChannel.h>
 
 namespace rl {
+namespace shell {
+
 class Host {
  public:
   explicit Host();
@@ -34,6 +36,8 @@ class Host {
 
   RL_DISALLOW_COPY_AND_ASSIGN(Host);
 };
+
+}  // namespace shell
 }  // namespace rl
 
-#endif  // RADARLOVE_HOST_HOST_
+#endif  // RADARLOVE_SHELL_HOST_
