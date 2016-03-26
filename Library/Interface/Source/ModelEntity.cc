@@ -7,7 +7,8 @@
 namespace rl {
 namespace interface {
 
-ModelEntity::ModelEntity(core::Name identifier) : Entity(identifier, true) {}
+ModelEntity::ModelEntity(core::Name identifier, UpdateCallback updateCallback)
+    : Entity(identifier, updateCallback) {}
 
 void ModelEntity::addChild(const ModelEntity& child) {
   child.notifyInterfaceIfNecessary(Property::AddedTo, identifier());

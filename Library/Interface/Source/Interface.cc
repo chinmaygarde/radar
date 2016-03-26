@@ -12,8 +12,6 @@
 namespace rl {
 namespace interface {
 
-RL_THREAD_LOCAL core::ThreadLocal CurrentInterface;
-
 using LT = toolbox::StateMachine::LegalTransition;
 
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
@@ -22,7 +20,12 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
 Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
                      std::unique_ptr<core::Archive> spliceArchive)
     : _localNS(),
-      _rootEntity(_localNS),
+      _rootEntity(_localNS,
+                  std::bind(&Interface::entityDidRecordUpdateUpdate,
+                            this,
+                            std::placeholders::_1,
+                            std::placeholders::_2,
+                            std::placeholders::_3)),
       _loop(nullptr),
       _popCount(0),
       _delegate(delegate),
@@ -63,7 +66,6 @@ void Interface::run(std::function<void()> onReady) {
 
   _loop = core::EventLoop::Current();
   _loop->loop([&]() {
-    CurrentInterface.set(reinterpret_cast<uintptr_t>(this));
     scheduleChannels();
     _state.setState(Active, true);
     attemptCoordinatorChannelAcquisition();
@@ -89,7 +91,10 @@ core::Namespace& Interface::ns() {
 }
 
 std::unique_ptr<ModelEntity> Interface::createEntity() {
-  return core::make_unique<ModelEntity>(core::Name{_localNS});
+  ModelEntity::UpdateCallback callback = std::bind(
+      &Interface::entityDidRecordUpdateUpdate, this, std::placeholders::_1,
+      std::placeholders::_2, std::placeholders::_3);
+  return core::make_unique<ModelEntity>(core::Name{_localNS}, callback);
 }
 
 void Interface::shutdown(std::function<void()> onShutdown) {
@@ -104,7 +109,6 @@ void Interface::shutdown(std::function<void()> onShutdown) {
     performTerminationCleanup();
     unscheduleChannels();
     _loop->terminate();
-    CurrentInterface.set(reinterpret_cast<uintptr_t>(nullptr));
     if (onShutdown) {
       onShutdown();
     }
@@ -145,6 +149,12 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
   }
 
   _loop->dispatchAsync([&] { flushTransactions(); });
+}
+
+void Interface::entityDidRecordUpdateUpdate(const entity::Entity& entity,
+                                            entity::Entity::Property property,
+                                            core::Name otherIdentifier) {
+  transaction().mark(entity, property, otherIdentifier);
 }
 
 InterfaceTransaction& Interface::transaction() {
@@ -244,13 +254,6 @@ void Interface::unscheduleChannels() {
 
 Interface::State Interface::state() const {
   return static_cast<Interface::State>(_state.state());
-}
-
-Interface& Interface::current() {
-  auto interface = reinterpret_cast<Interface*>(CurrentInterface.get());
-  RL_ASSERT_MSG(interface != nullptr,
-                "Layer modification on non-interface threads is forbidden");
-  return *interface;
 }
 
 void Interface::didFinishLaunching() {

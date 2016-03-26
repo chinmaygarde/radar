@@ -7,7 +7,7 @@
 namespace rl {
 namespace entity {
 
-Entity::Entity(core::Name identifier, bool notifiesInterfaceOnUpdate)
+Entity::Entity(core::Name identifier, UpdateCallback updateCallback)
     : _identifier(identifier),
       _bounds(geom::RectZero),
       _position(geom::PointZero),
@@ -15,7 +15,7 @@ Entity::Entity(core::Name identifier, bool notifiesInterfaceOnUpdate)
       _transformation(geom::MatrixIdentity),
       _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
-      _notifiesInterfaceOnUpdate(notifiesInterfaceOnUpdate) {}
+      _updateCallback(updateCallback) {}
 
 Entity::Entity(const Entity& entity)
     : _identifier(entity._identifier),
@@ -25,7 +25,7 @@ Entity::Entity(const Entity& entity)
       _transformation(entity._transformation),
       _backgroundColor(entity._backgroundColor),
       _opacity(entity._opacity),
-      _notifiesInterfaceOnUpdate(false) {}
+      _updateCallback(nullptr) {}
 
 void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
   RL_ASSERT(_identifier == entity._identifier);
@@ -145,13 +145,9 @@ void Entity::setOpacity(double opacity) {
 
 void Entity::notifyInterfaceIfNecessary(Property property,
                                         core::Name other) const {
-  RL_ASSERT_MSG(false, "WIP");
-#if 0
-  if (!_notifiesInterfaceOnUpdate) {
-    return;
+  if (_updateCallback) {
+    _updateCallback(*this, property, other);
   }
-  Interface::current().transaction().mark(*this, property, other);
-#endif
 }
 
 enum ArchiveKey {

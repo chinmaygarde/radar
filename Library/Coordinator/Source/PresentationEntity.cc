@@ -9,7 +9,7 @@ namespace rl {
 namespace coordinator {
 
 PresentationEntity::PresentationEntity(core::Name identifier)
-    : Entity(identifier, false), _lastModelViewMatrix(geom::MatrixIdentity) {}
+    : Entity(identifier, nullptr), _lastModelViewMatrix(geom::MatrixIdentity) {}
 
 PresentationEntity::~PresentationEntity() {}
 

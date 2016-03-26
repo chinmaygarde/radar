@@ -99,14 +99,6 @@ class Interface {
 
   State state() const;
 
-  /**
-   *  If the current thread has an interface attached to it, that interface is
-   *  returned. In not returns nullptr.
-   *
-   *  @return the current interface if one is present
-   */
-  static Interface& current();
-
   void setupConstraints(const std::vector<layout::Constraint>& constraints);
 
   void setupConstraintSuggestions(
@@ -128,9 +120,9 @@ class Interface {
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
+  std::unique_ptr<core::Archive> _spliceArchive;
   toolbox::StateMachine _state;
   coordinator::CoordinatorAcquisitionProtocol _coordinatorAcquisition;
-  std::unique_ptr<core::Archive> _spliceArchive;
 
   void attemptCoordinatorChannelAcquisition();
   void onCoordinatorChannelAcquisition(core::IOResult result,
@@ -143,6 +135,10 @@ class Interface {
   void flushTransactions();
   bool sendTransactionMessage();
   void performTerminationCleanup();
+
+  void entityDidRecordUpdateUpdate(const entity::Entity& entity,
+                                   entity::Entity::Property property,
+                                   core::Name otherIdentifier);
 
   void didFinishLaunching();
   void didBecomeActive();

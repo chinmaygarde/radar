@@ -12,7 +12,7 @@ namespace interface {
 
 class ModelEntity : public entity::Entity {
  public:
-  ModelEntity(core::Name identifier);
+  ModelEntity(core::Name identifier, UpdateCallback updateCallback);
 
   void addChild(const ModelEntity& child);
 

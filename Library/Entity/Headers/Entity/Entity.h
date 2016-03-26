@@ -56,7 +56,12 @@ class Entity : public core::ArchiveSerializable {
     Setter setter;
   };
 
-  explicit Entity(core::Name identifier, bool notifiesInterfaceOnUpdate);
+  using UpdateCallback = std::function<void(const Entity& /*entity*/,
+                                            Entity::Property /*property*/,
+                                            core::Name /*otherIdentifier*/)>;
+
+  explicit Entity(core::Name identifier,
+                  UpdateCallback updateCallback = nullptr);
 
   virtual ~Entity();
 
@@ -198,7 +203,7 @@ class Entity : public core::ArchiveSerializable {
       core::Name identifier = core::Name() /* dead name */) const;
 
  private:
-  bool _notifiesInterfaceOnUpdate;
+  UpdateCallback _updateCallback;
 
   RL_DISALLOW_ASSIGN(Entity);
 };

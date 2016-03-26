@@ -8,7 +8,7 @@ namespace rl {
 namespace coordinator {
 
 TransferEntity::TransferEntity(core::Name identifier)
-    : Entity(identifier, false), _updateMask(0) {}
+    : Entity(identifier, nullptr), _updateMask(0) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
     : Entity(transferEntity),
