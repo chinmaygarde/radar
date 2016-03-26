@@ -70,7 +70,7 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
      *  Create a new touch entity for this identifier
      */
 
-    auto touchEntity = core::make_unique<interface::Entity>(
+    auto touchEntity = core::make_unique<entity::Entity>(
         core::Name(_localNS), false /* notifies interface */);
     touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});
     touchEntity->setPosition(touch.location());
@@ -135,7 +135,7 @@ void ProxyResolver::updateTouches(
   }
 }
 
-void ProxyResolver::updateEntityPosition(interface::Entity& entity,
+void ProxyResolver::updateEntityPosition(entity::Entity& entity,
                                          const geom::Point& position) {
   /*
    *  These are touch entities, so no view matrix conversions are necessary
@@ -151,13 +151,12 @@ void ProxyResolver::updateEntityPosition(interface::Entity& entity,
       {{positionX, position.x, priority}, {positionY, position.y, priority}});
 }
 
-interface::Entity* ProxyResolver::touchEntityForProxy(
+entity::Entity* ProxyResolver::touchEntityForProxy(
     Variable::Proxy proxy) const {
   return touchEntityForTouchNumber(static_cast<Variable::ProxyType>(proxy));
 }
 
-interface::Entity* ProxyResolver::touchEntityForTouchNumber(
-    size_t number) const {
+entity::Entity* ProxyResolver::touchEntityForTouchNumber(size_t number) const {
   if (number == 0) {
     return nullptr;
   }

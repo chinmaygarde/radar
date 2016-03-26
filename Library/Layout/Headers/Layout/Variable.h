@@ -57,9 +57,9 @@ class Variable : public core::ArchiveSerializable,
 
   Proxy proxy() const;
 
-  static double GetProperty(interface::Entity& entity, Property property);
+  static double GetProperty(entity::Entity& entity, Property property);
 
-  static void SetProperty(interface::Entity& entity,
+  static void SetProperty(entity::Entity& entity,
                           Property property,
                           double value);
 

@@ -45,9 +45,9 @@ bool Suggestion::deserialize(core::Message& message, core::Namespace* ns) {
   return result;
 }
 
-std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
+std::vector<Suggestion> Suggestion::Anchor(entity::Entity& entity,
                                            double priority) {
-  using Property = interface::Entity::Property;
+  using Property = entity::Entity::Property;
 
   std::vector<Property> properties = {Property::Position, Property::Bounds};
   std::vector<Suggestion> suggestions;
@@ -61,10 +61,10 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
   return suggestions;
 }
 
-std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
-                                           interface::Entity::Property property,
+std::vector<Suggestion> Suggestion::Anchor(entity::Entity& entity,
+                                           entity::Entity::Property property,
                                            double priority) {
-  using Entity = interface::Entity;
+  using Entity = entity::Entity;
   using Property = layout::Variable::Property;
 
   std::vector<Suggestion> suggestions;
@@ -86,7 +86,7 @@ std::vector<Suggestion> Suggestion::Anchor(interface::Entity& entity,
       suggestions.push_back(
           {{identifier, Property::BoundsHeight}, bounds.size.height, priority});
     } break;
-    case interface::Entity::Property::Position: {
+    case entity::Entity::Property::Position: {
       auto position = entity.position();
       suggestions.push_back(
           {{identifier, Property::PositionX}, position.x, priority});

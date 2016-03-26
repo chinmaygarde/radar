@@ -37,8 +37,8 @@ class ProxyResolver {
       std::map<Constraint, std::set<Variable::Proxy>, Constraint::Compare>;
   using ConditionConstraintsMap =
       std::map<std::set<Variable::Proxy>, std::vector<Constraint>>;
-  using IdentifierEntityMap = std::map<event::TouchEvent::Identifier,
-                                       std::unique_ptr<interface::Entity>>;
+  using IdentifierEntityMap =
+      std::map<event::TouchEvent::Identifier, std::unique_ptr<entity::Entity>>;
   using ConstraintOperation =
       std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;
 
@@ -59,7 +59,7 @@ class ProxyResolver {
   void setupConstraintsForProxies();
   void clearConstraintsForProxies();
 
-  void updateEntityPosition(interface::Entity& entity,
+  void updateEntityPosition(entity::Entity& entity,
                             const geom::Point& position);
   void performOperationOnProxiesSatisfyingCurrentCondition(
       ConstraintOperation operation);
@@ -67,8 +67,8 @@ class ProxyResolver {
   Variable resolvedVariableForProxy(const Variable& variable);
   double constantResolutionCallback(const Variable& variable);
 
-  interface::Entity* touchEntityForProxy(Variable::Proxy proxy) const;
-  interface::Entity* touchEntityForTouchNumber(size_t index) const;
+  entity::Entity* touchEntityForProxy(Variable::Proxy proxy) const;
+  entity::Entity* touchEntityForTouchNumber(size_t index) const;
 
   size_t size() const;
 

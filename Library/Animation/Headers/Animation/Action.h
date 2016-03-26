@@ -68,9 +68,9 @@ class Action : public core::ArchiveSerializable,
    */
   void setAutoReverses(bool autoReverses);
 
-  interface::Entity::PropertyMaskType propertyMask() const;
+  entity::Entity::PropertyMaskType propertyMask() const;
 
-  void setPropertyMask(interface::Entity::PropertyMaskType mask);
+  void setPropertyMask(entity::Entity::PropertyMaskType mask);
 
   animation::TimingCurve::Type timingCurveType() const;
 
@@ -94,7 +94,7 @@ class Action : public core::ArchiveSerializable,
   core::ClockDuration _duration;
   uint64_t _repeatCount;
   bool _autoReverses;
-  interface::Entity::PropertyMaskType _propertyMask;
+  entity::Entity::PropertyMaskType _propertyMask;
   animation::TimingCurve::Type _timingCurveType;
   animation::TimingCurve _resolvedCurve;
 

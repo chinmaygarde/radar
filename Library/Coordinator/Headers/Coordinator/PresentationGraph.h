@@ -55,9 +55,9 @@ class PresentationGraph {
   void prepareActionSingle(const core::ClockPoint& start,
                            animation::Action& action,
                            PresentationEntity& presentationEntity,
-                           interface::Entity::Property property,
+                           entity::Entity::Property property,
                            const T& propertyValue,
-                           const interface::Entity::Accessors<T>& accessors);
+                           const entity::Entity::Accessors<T>& accessors);
 
   void onActionCommit(animation::Action& action);
 

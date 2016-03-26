@@ -145,7 +145,7 @@ inline Constraint operator|(double priority, const Constraint& constraint) {
   return constraint | priority;
 }
 
-inline Variable operator|(const interface::Entity& entity,
+inline Variable operator|(const entity::Entity& entity,
                           Variable::Property property) {
   return {entity.identifier(), property};
 }

@@ -11,8 +11,8 @@ namespace interface {
 InterfaceTransaction::InterfaceTransaction(const animation::Action&& action)
     : _action(action) {}
 
-void InterfaceTransaction::mark(const Entity& entity,
-                                Entity::Property property,
+void InterfaceTransaction::mark(const entity::Entity& entity,
+                                entity::Entity::Property property,
                                 core::Name other) {
   auto& transferEntity = _entities[entity.identifier()];
 

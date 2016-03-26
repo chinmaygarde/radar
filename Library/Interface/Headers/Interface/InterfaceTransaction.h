@@ -22,8 +22,8 @@ class InterfaceTransaction {
  public:
   explicit InterfaceTransaction(const animation::Action&& action);
 
-  void mark(const Entity& entity,
-            Entity::Property property,
+  void mark(const entity::Entity& entity,
+            entity::Entity::Property property,
             core::Name identifier);
 
   void mark(const std::vector<layout::Constraint>& constraints);

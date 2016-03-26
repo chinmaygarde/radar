@@ -10,7 +10,7 @@
 #include <Geometry/Geometry.h>
 
 namespace rl {
-namespace interface {
+namespace entity {
 
 class Entity : public core::ArchiveSerializable {
  public:
@@ -210,7 +210,7 @@ extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
 extern const Entity::Accessors<coordinator::Color> BackgroundColorAccessors;
 extern const Entity::Accessors<double> OpacityAccessors;
 
-}  // namespace interface
+}  // namespace entity
 }  // namespace rl
 
 #endif  // RADARLOVE_INTERFACE_ENTITY_

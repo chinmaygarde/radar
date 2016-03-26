@@ -19,8 +19,8 @@ class Director {
  public:
   struct Key {
     core::Name entityIdentifier;
-    interface::Entity::Property entityProperty;
-    Key(core::Name ident, interface::Entity::Property prop)
+    entity::Entity::Property entityProperty;
+    Key(core::Name ident, entity::Entity::Property prop)
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 

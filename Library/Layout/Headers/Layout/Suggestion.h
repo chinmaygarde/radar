@@ -37,11 +37,11 @@ class Suggestion : public core::ArchiveSerializable,
 
   bool deserialize(core::ArchiveItem& item, core::Namespace* ns) override;
 
-  static std::vector<Suggestion> Anchor(interface::Entity& entity,
-                                        interface::Entity::Property property,
+  static std::vector<Suggestion> Anchor(entity::Entity& entity,
+                                        entity::Entity::Property property,
                                         double priority);
 
-  static std::vector<Suggestion> Anchor(interface::Entity& entity,
+  static std::vector<Suggestion> Anchor(entity::Entity& entity,
                                         double priority);
 
  private:

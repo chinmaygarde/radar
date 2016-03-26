@@ -67,7 +67,8 @@ void Interface::run(std::function<void()> onReady) {
     scheduleChannels();
     _state.setState(Active, true);
     attemptCoordinatorChannelAcquisition();
-    transaction().mark(_rootEntity, Entity::Property::MakeRoot, core::Name{});
+    transaction().mark(_rootEntity, entity::Entity::Property::MakeRoot,
+                       core::Name{});
     if (onReady) {
       onReady();
     }

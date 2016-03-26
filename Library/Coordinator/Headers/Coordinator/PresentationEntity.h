@@ -16,7 +16,7 @@ namespace rl {
 namespace coordinator {
 
 class Frame;
-class PresentationEntity : public interface::Entity {
+class PresentationEntity : public entity::Entity {
  public:
   using Borrowed = PresentationEntity*;
   using IdentifierMap =

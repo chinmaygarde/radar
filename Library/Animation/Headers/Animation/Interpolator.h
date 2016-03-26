@@ -14,11 +14,10 @@ namespace animation {
 template <typename Type>
 class Interpolator {
  public:
-  Interpolator(
-      const Action& action,
-      const typename interface::Entity::Accessors<Type>::Setter& setter,
-      const Type& from,
-      const Type& to);
+  Interpolator(const Action& action,
+               const typename entity::Entity::Accessors<Type>::Setter& setter,
+               const Type& from,
+               const Type& to);
 
   const Type& from() const;
 
@@ -30,7 +29,7 @@ class Interpolator {
 
  private:
   const Action _action;
-  const typename interface::Entity::Accessors<Type>::Setter _setter;
+  const typename entity::Entity::Accessors<Type>::Setter _setter;
   Type _from;
   Type _to;
   core::ClockPoint _start;

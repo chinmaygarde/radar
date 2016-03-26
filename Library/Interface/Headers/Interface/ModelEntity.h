@@ -10,7 +10,7 @@
 namespace rl {
 namespace interface {
 
-class ModelEntity : public Entity {
+class ModelEntity : public entity::Entity {
  public:
   ModelEntity(core::Name identifier);
 

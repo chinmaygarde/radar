@@ -90,8 +90,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
    *  specifies an update for a property, setup an interpolator. Then merge
    *  all enabled properties on the transfer entity.
    */
-  using Property = interface::Entity::Property;
-  using PropertyMask = interface::Entity::PropertyMask;
+  using Property = entity::Entity::Property;
+  using PropertyMask = entity::Entity::PropertyMask;
 
   /*
 
@@ -136,32 +136,32 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
           case Property::Bounds:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.bounds(),
-                                interface::BoundsAccessors);
+                                entity::BoundsAccessors);
             break;
           case Property::Position:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.position(),
-                                interface::PositionAccessors);
+                                entity::PositionAccessors);
             break;
           case Property::AnchorPoint:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.anchorPoint(),
-                                interface::AnchorPointAccessors);
+                                entity::AnchorPointAccessors);
             break;
           case Property::Transformation:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.transformation(),
-                                interface::TransformationAccessors);
+                                entity::TransformationAccessors);
             break;
           case Property::BackgroundColor:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.backgroundColor(),
-                                interface::BackgroundColorAccessors);
+                                entity::BackgroundColorAccessors);
             break;
           case Property::Opacity:
             prepareActionSingle(time, action, presentationEntity, prop,
                                 transferEntity.opacity(),
-                                interface::OpacityAccessors);
+                                entity::OpacityAccessors);
             break;
           default:
             RL_ASSERT("Unreachable");
@@ -238,9 +238,9 @@ void PresentationGraph::prepareActionSingle(
     const core::ClockPoint& start,
     animation::Action& action,
     PresentationEntity& presentationEntity,
-    interface::Entity::Property property,
+    entity::Entity::Property property,
     const T& propertyValue,
-    const interface::Entity::Accessors<T>& accessors) {
+    const entity::Entity::Accessors<T>& accessors) {
   /*
    *  Prepare the key for the animation in the animation director
    */

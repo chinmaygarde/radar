@@ -33,7 +33,7 @@ Variable::Proxy Variable::proxy() const {
   return _proxy;
 }
 
-double Variable::GetProperty(interface::Entity& entity, Property property) {
+double Variable::GetProperty(entity::Entity& entity, Property property) {
   switch (property) {
     case Property::BoundsOriginX:
       return entity.bounds().origin.x;
@@ -58,7 +58,7 @@ double Variable::GetProperty(interface::Entity& entity, Property property) {
   return 0.0;
 }
 
-void Variable::SetProperty(interface::Entity& entity,
+void Variable::SetProperty(entity::Entity& entity,
                            Property property,
                            double value) {
   switch (property) {

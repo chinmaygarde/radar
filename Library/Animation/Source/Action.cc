@@ -40,11 +40,11 @@ void Action::setAutoReverses(bool autoReverses) {
   _autoReverses = autoReverses;
 }
 
-interface::Entity::PropertyMaskType Action::propertyMask() const {
+entity::Entity::PropertyMaskType Action::propertyMask() const {
   return _propertyMask;
 }
 
-void Action::setPropertyMask(interface::Entity::PropertyMaskType mask) {
+void Action::setPropertyMask(entity::Entity::PropertyMaskType mask) {
   _propertyMask = mask;
 }
 

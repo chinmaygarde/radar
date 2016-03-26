@@ -5,7 +5,7 @@
 #include <Entity/Entity.h>
 
 namespace rl {
-namespace interface {
+namespace entity {
 
 Entity::Entity(core::Name identifier, bool notifiesInterfaceOnUpdate)
     : _identifier(identifier),
@@ -27,8 +27,7 @@ Entity::Entity(const Entity& entity)
       _opacity(entity._opacity),
       _notifiesInterfaceOnUpdate(false) {}
 
-void Entity::mergeProperties(const interface::Entity& entity,
-                             PropertyMaskType only) {
+void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
   RL_ASSERT(_identifier == entity._identifier);
 
   if (only & PropertyMask::BoundsMask) {
@@ -260,5 +259,5 @@ const Entity::Accessors<double> OpacityAccessors{
 };
 // clang-format on
 
-}  // namespace interface
+}  // namespace entity
 }  // namespace rl
