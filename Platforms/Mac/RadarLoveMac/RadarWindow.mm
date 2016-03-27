@@ -31,7 +31,7 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 };
 }
 
-static void SendEvent(rl::event::TouchEventChannel& channel,
+static void SendEvent(rl::shell::Shell& shell,
                       NSView* view,
                       NSEvent* event,
                       rl::event::TouchEvent::Phase phase) {
@@ -43,7 +43,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 
   std::vector<Event> events;
   events.emplace_back(Event(identifier, {loc.x, loc.y}, phase));
-  channel.sendTouchEvents(events);
+  shell.dispatchTouchEvents(events);
 }
 
 @interface RadarWindow ()<NSWindowDelegate>
@@ -71,7 +71,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
   _renderSurface =
       std::make_shared<rl::RenderSurfaceMac>(self.surface.openGLContext);
   _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
-  _renderSurface->surfaceWasCreated();
+  _shell->renderSurfaceWasSetup();
 
   /*
    *  Create a managed interface and register it with the shell.
@@ -92,24 +92,20 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 }
 
 - (void)windowWasResized {
-  const CGSize boundsSize = self.surface.bounds.size;
-  rl::geom::Size size(boundsSize.width, boundsSize.height);
-  _renderSurface->surfaceSizeUpdated(size);
+  const CGSize size = self.surface.bounds.size;
+  _shell->renderSurfaceDidUpdateSize({size.width, size.height});
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
-  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::event::TouchEvent::Phase::Began);
+  SendEvent(*_shell, _surface, theEvent, rl::event::TouchEvent::Phase::Began);
 }
 
 - (void)mouseUp:(NSEvent*)theEvent {
-  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::event::TouchEvent::Phase::Ended);
+  SendEvent(*_shell, _surface, theEvent, rl::event::TouchEvent::Phase::Ended);
 }
 
 - (void)mouseDragged:(nonnull NSEvent*)theEvent {
-  SendEvent(_shell->host().touchEventChannel(), _surface, theEvent,
-            rl::event::TouchEvent::Phase::Moved);
+  SendEvent(*_shell, _surface, theEvent, rl::event::TouchEvent::Phase::Moved);
 }
 
 - (void)windowWillClose:(NSNotification*)notification {
@@ -118,7 +114,7 @@ static void SendEvent(rl::event::TouchEventChannel& channel,
 }
 
 - (void)dealloc {
-  _renderSurface->surfaceWasDestroyed();
+  _shell->renderSurfaceWasTornDown();
 }
 
 @end

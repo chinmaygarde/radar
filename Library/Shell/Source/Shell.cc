@@ -57,14 +57,6 @@ void Shell::attachHostOnCurrentThread() {
   RL_TRACE_INSTANT("ShellAttached");
 }
 
-coordinator::Coordinator& Shell::coordinator() {
-  return _coordinator;
-}
-
-Host& Shell::host() {
-  return _host;
-}
-
 void Shell::shutdown() {
   /*
    *  Make sure all managed interfaces are torn down before the host and
@@ -148,6 +140,22 @@ void Shell::teardownManagedInterfaces() {
   }
 
   _managedInterfaces.clear();
+}
+
+void Shell::dispatchTouchEvents(const std::vector<event::TouchEvent>& events) {
+  _host.touchEventChannel().sendTouchEvents(events);
+}
+
+void Shell::renderSurfaceWasSetup() {
+  _coordinator.renderSurfaceWasSetup();
+}
+
+void Shell::renderSurfaceDidUpdateSize(const geom::Size& size) {
+  _coordinator.renderSurfaceSizeUpdated(size);
+}
+
+void Shell::renderSurfaceWasTornDown() {
+  _coordinator.renderSurfaceWasTornDown();
 }
 
 }  // namespace shell

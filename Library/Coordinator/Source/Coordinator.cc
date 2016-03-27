@@ -5,6 +5,7 @@
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/Frame.h>
 #include <Core/TraceEvent.h>
+#include <Coordinator/RenderSurface.h>
 
 namespace rl {
 namespace coordinator {
@@ -22,15 +23,11 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
           std::bind(&Coordinator::acquireFreshCoordinatorChannel, this)) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
-  _surface->setObserver(this);
-
   _animationsSource->setWakeFunction(
       std::bind(&Coordinator::onDisplayLink, this));
 }
 
-Coordinator::~Coordinator() {
-  _surface->setObserver(nullptr);
-}
+Coordinator::~Coordinator() = default;
 
 void Coordinator::run(std::function<void()> onReady) {
   if (_loop != nullptr) {
@@ -67,15 +64,24 @@ bool Coordinator::isRunning() const {
   return _loop != nullptr;
 }
 
-void Coordinator::surfaceWasCreated() {
+void Coordinator::renderSurfaceWasSetup() {
+  /*
+   *  Can be called on any thread.
+   */
   _loop->dispatchAsync([&] { startComposition(); });
 }
 
-void Coordinator::surfaceSizeUpdated(const geom::Size& size) {
+void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
+  /*
+   *  Can be called on any thread.
+   */
   _loop->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
 }
 
-void Coordinator::surfaceWasDestroyed() {
+void Coordinator::renderSurfaceWasTornDown() {
+  /*
+   *  Can be called on any thread.
+   */
   _loop->dispatchAsync([&] { stopComposition(); });
 }
 

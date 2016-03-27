@@ -8,27 +8,9 @@
 namespace rl {
 namespace coordinator {
 
-void RenderSurface::surfaceWasCreated() {
-  if (_observer != nullptr) {
-    _observer->surfaceWasCreated();
-  }
-}
+RenderSurface::RenderSurface() = default;
 
-void RenderSurface::surfaceSizeUpdated(const geom::Size& size) {
-  if (_observer != nullptr) {
-    _observer->surfaceSizeUpdated(size);
-  }
-}
-
-void RenderSurface::surfaceWasDestroyed() {
-  if (_observer != nullptr) {
-    _observer->surfaceWasDestroyed();
-  }
-}
-
-void RenderSurface::setObserver(RenderSurfaceObserver* observer) {
-  _observer = observer;
-}
+RenderSurface::~RenderSurface() = default;
 
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
     : _surface(surface), _finalized(false) {

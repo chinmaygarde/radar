@@ -13,33 +13,11 @@
 namespace rl {
 namespace coordinator {
 
-class RenderSurfaceObserver {
+class RenderSurface {
  public:
-  virtual ~RenderSurfaceObserver() {}
+  explicit RenderSurface();
 
-  /**
-   *  Invoked when the surface is first created.
-   */
-  virtual void surfaceWasCreated() = 0;
-
-  /**
-   *  Invoked when the surface size is updated
-   *
-   *  @param size the new size of the surface
-   */
-  virtual void surfaceSizeUpdated(const geom::Size& size) = 0;
-
-  /**
-   *  Invoked after the surface is destroyed
-   */
-  virtual void surfaceWasDestroyed() = 0;
-};
-
-class RenderSurface : RenderSurfaceObserver {
- public:
-  explicit RenderSurface() : _observer(nullptr) {}
-
-  virtual ~RenderSurface() {}
+  virtual ~RenderSurface();
 
   /**
    *  Make the current surface current for rendering into
@@ -54,26 +32,16 @@ class RenderSurface : RenderSurfaceObserver {
    *  @return if the operation was successful
    */
   virtual bool present() = 0;
-
-  void setObserver(RenderSurfaceObserver* observer);
-
-  /*
-   *  Invoked by host on changes to underlying surface
-   */
-  void surfaceWasCreated() override;
-  void surfaceSizeUpdated(const geom::Size& size) override;
-  void surfaceWasDestroyed() override;
-
- private:
-  RenderSurfaceObserver* _observer;
 };
 
 class ScopedRenderSurfaceAccess {
  public:
   explicit ScopedRenderSurfaceAccess(RenderSurface& surface);
+
   ~ScopedRenderSurfaceAccess();
 
   bool acquired() const;
+
   bool finalized() const;
 
   void finalizeForPresentation();

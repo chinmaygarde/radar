@@ -24,27 +24,32 @@ class Shell {
       std::shared_ptr<coordinator::RenderSurface> surface);
 
   /**
-   *  Get a reference to the coordinator
-   *
-   *  @return the coordinator
-   */
-  coordinator::Coordinator& coordinator();
-
-  /**
-   *  Get a reference to the host
-   *
-   *  @return the host
-   */
-  Host& host();
-
-  /**
    *  Blocking operation that gracefully shuts down all subsystems and makes
    *  sure all callbacks are sent.
    */
   void shutdown();
 
+  /**
+   *  Register an interface hosted within the process of the coordinator. This
+   *  can only be used rarely since but is convenient for simple interfaces.
+   *
+   *  @param interface the interface to register.
+   */
   void registerManagedInterface(
       std::unique_ptr<interface::Interface>&& interface);
+
+  /**
+   *  Dispatch touch events to the coordinator.
+   *
+   *  @param events the events to dispatch.
+   */
+  void dispatchTouchEvents(const std::vector<event::TouchEvent>& events);
+
+  void renderSurfaceWasSetup();
+
+  void renderSurfaceDidUpdateSize(const geom::Size& size);
+
+  void renderSurfaceWasTornDown();
 
  private:
   Shell(std::shared_ptr<coordinator::RenderSurface> surface);

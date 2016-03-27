@@ -15,7 +15,6 @@
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/ProgramCatalog.h>
-#include <Coordinator/RenderSurface.h>
 #include <Coordinator/Statistics.h>
 #include <Coordinator/StatisticsRenderer.h>
 #include <Event/TouchEventChannel.h>
@@ -25,7 +24,9 @@
 namespace rl {
 namespace coordinator {
 
-class Coordinator : RenderSurfaceObserver {
+class RenderSurface;
+
+class Coordinator {
  public:
   /**
    *  Create a coordinator instance with the given render surface
@@ -58,6 +59,12 @@ class Coordinator : RenderSurfaceObserver {
    */
   void shutdown(std::function<void()> onShutdown = nullptr);
 
+  void renderSurfaceWasSetup();
+
+  void renderSurfaceSizeUpdated(const geom::Size& size);
+
+  void renderSurfaceWasTornDown();
+
  private:
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
@@ -68,16 +75,10 @@ class Coordinator : RenderSurfaceObserver {
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
-
   Statistics _stats;
   StatisticsRenderer _statsRenderer;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
-
-  void surfaceWasCreated() override;
-  void surfaceSizeUpdated(const geom::Size& size) override;
-  void surfaceWasDestroyed() override;
-
   void startComposition();
   void commitCompositionSizeUpdate(const geom::Size& size);
   void stopComposition();
