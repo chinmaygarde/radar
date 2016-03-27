@@ -145,10 +145,6 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
     -Wredundant-move")
 endif()
 
-if(LINUX)
-  target_link_libraries(Radar dl rt GL)
-endif()
-
 if (FREEBSD)
   # The default Mesa install target dumps its headers in a slightly different
   # directory
