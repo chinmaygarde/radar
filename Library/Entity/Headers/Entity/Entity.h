@@ -48,14 +48,6 @@ class Entity : public core::ArchiveSerializable {
 // clang-format on
 #undef RL_MASK
 
-  template <typename T>
-  struct Accessors {
-    using Getter = std::function<const T&(const Entity&)>;
-    Getter getter;
-    using Setter = std::function<void(Entity&, const T&)>;
-    Setter setter;
-  };
-
   using UpdateCallback = std::function<void(const Entity& /*entity*/,
                                             Entity::Property /*property*/,
                                             core::Name /*otherIdentifier*/)>;
@@ -207,13 +199,6 @@ class Entity : public core::ArchiveSerializable {
 
   RL_DISALLOW_ASSIGN(Entity);
 };
-
-extern const Entity::Accessors<geom::Rect> BoundsAccessors;
-extern const Entity::Accessors<geom::Point> PositionAccessors;
-extern const Entity::Accessors<geom::Point> AnchorPointAccessors;
-extern const Entity::Accessors<geom::Matrix> TransformationAccessors;
-extern const Entity::Accessors<Color> BackgroundColorAccessors;
-extern const Entity::Accessors<double> OpacityAccessors;
 
 }  // namespace entity
 }  // namespace rl

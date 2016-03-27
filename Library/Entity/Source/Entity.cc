@@ -229,31 +229,5 @@ bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   return result;
 }
 
-// clang-format off
-const Entity::Accessors<geom::Rect> BoundsAccessors{
-  &Entity::bounds, &Entity::setBounds
-};
-
-const Entity::Accessors<geom::Point> PositionAccessors{
-  &Entity::position, &Entity::setPosition
-};
-
-const Entity::Accessors<geom::Point> AnchorPointAccessors{
-  &Entity::anchorPoint, &Entity::setAnchorPoint
-};
-
-const Entity::Accessors<geom::Matrix> TransformationAccessors{
-  &Entity::transformation, &Entity::setTransformation
-};
-
-const Entity::Accessors<Color> BackgroundColorAccessors{
-  &Entity::backgroundColor, &Entity::setBackgroundColor
-};
-
-const Entity::Accessors<double> OpacityAccessors{
-  &Entity::opacity, &Entity::setOpacity
-};
-// clang-format on
-
 }  // namespace entity
 }  // namespace rl

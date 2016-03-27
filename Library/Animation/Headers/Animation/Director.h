@@ -26,11 +26,23 @@ class Director {
 
   explicit Director();
 
-  template <typename T>
+  template <typename T, typename... InterpolatorArgs>
   void setInterpolator(Key key,
-                       std::unique_ptr<Interpolator<T>> interpolator,
-                       const core::ClockPoint& startTime) {
-    auto result = collection<T>().emplace(key, std::move(interpolator));
+                       const core::ClockPoint& startTime,
+                       InterpolatorArgs&&... args) {
+    /*
+     *  Create a fresh interpolator and attempt to insert it into the
+     *  collection. If one doesn't already exist, the emplace will succeed and
+     *  we can start the interpolation.
+     *
+     *  Note: This logic will be augmented once interpolation replacement
+     *  behavior is settled upon.
+     */
+    auto& interpolators = collection<T>();
+    auto interpolator = core::make_unique<Interpolator<T>>(
+        std::forward<InterpolatorArgs>(args)...);
+
+    auto result = interpolators.emplace(key, std::move(interpolator));
     if (result.second) {
       (*(result.first)).second->start(startTime);
     }

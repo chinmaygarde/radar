@@ -6,6 +6,7 @@
 #define RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 
 #include <Animation/Action.h>
+#include <Animation/Interpolator.h>
 #include <Animation/Director.h>
 #include <Coordinator/EntityArena.h>
 #include <Coordinator/Frame.h>
@@ -50,14 +51,6 @@ class PresentationGraph {
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);
-
-  template <typename T>
-  void prepareActionSingle(const core::ClockPoint& start,
-                           animation::Action& action,
-                           PresentationEntity& presentationEntity,
-                           entity::Entity::Property property,
-                           const T& propertyValue,
-                           const entity::Entity::Accessors<T>& accessors);
 
   void onActionCommit(animation::Action& action);
 

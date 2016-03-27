@@ -9,15 +9,14 @@ namespace rl {
 namespace animation {
 
 template <typename Type>
-Interpolator<Type>::Interpolator(
-    const Action& action,
-    const typename entity::Entity::Accessors<Type>::Setter& setter,
-    const Type& from,
-    const Type& to)
+Interpolator<Type>::Interpolator(const Action& action,
+                                 const Type& from,
+                                 const Type& to,
+                                 Stepper stepper)
     : _action(action),
-      _setter(setter),
       _from(from),
       _to(to),
+      _stepper(stepper),
       _start(core::ClockPoint::min()) {}
 
 template <typename Type>
@@ -26,9 +25,10 @@ void Interpolator<Type>::start(const core::ClockPoint& time) {
 }
 
 template <typename Type>
-Type Interpolator<Type>::step(const core::ClockPoint& time) {
+void Interpolator<Type>::step(const core::ClockPoint& time) {
   auto timeSinceStart = time - _start;
-  return x(_action.unitInterpolation(timeSinceStart));
+  auto newValue = x(_action.unitInterpolation(timeSinceStart));
+  _stepper(newValue);
 }
 
 template <typename Type>

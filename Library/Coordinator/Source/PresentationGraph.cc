@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Animation/Interpolator.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/TransactionPayload.h>
 
@@ -121,50 +120,122 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
     return true;
   });
 
-  const auto interpolatedProperties = action.propertyMask();
+  const auto allowedInterpolatableProperties = action.propertyMask();
 
   /*
    *  Step 2: Setup interpolators on updated items and properties enabled
    *          via actions mask
    */
   transferEntity.walkEnabledProperties(
-      interpolatedProperties, [&](Property prop) {
+      allowedInterpolatableProperties, [&](Property prop) {
+        /*
+         *  Prepare the key for the animation in the animation director
+         */
+        animation::Director::Key key(presentationEntity.identifier(), prop);
+
         /*
          *  Only the animatable properties are cycled over in this callback.
          */
         switch (prop) {
           case Property::Bounds:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.bounds(),
-                                entity::BoundsAccessors);
+            _animationDirector.setInterpolator<geom::Rect>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.bounds(),
+                /* to value */
+                transferEntity.bounds(),
+                /* stepper */
+                std::bind(&PresentationEntity::setBounds, &presentationEntity,
+                          std::placeholders::_1));
+
             break;
           case Property::Position:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.position(),
-                                entity::PositionAccessors);
+            _animationDirector.setInterpolator<geom::Point>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.position(),
+                /* to value */
+                transferEntity.position(),
+                /* stepper */
+                std::bind(&PresentationEntity::setPosition, &presentationEntity,
+                          std::placeholders::_1));
             break;
           case Property::AnchorPoint:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.anchorPoint(),
-                                entity::AnchorPointAccessors);
+            _animationDirector.setInterpolator<geom::Point>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.anchorPoint(),
+                /* to value */
+                transferEntity.anchorPoint(),
+                /* stepper */
+                std::bind(&PresentationEntity::setAnchorPoint,
+                          &presentationEntity, std::placeholders::_1));
             break;
           case Property::Transformation:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.transformation(),
-                                entity::TransformationAccessors);
+            _animationDirector.setInterpolator<geom::Matrix>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.transformation(),
+                /* to value */
+                transferEntity.transformation(),
+                /* stepper */
+                std::bind(&PresentationEntity::setTransformation,
+                          &presentationEntity, std::placeholders::_1));
             break;
           case Property::BackgroundColor:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.backgroundColor(),
-                                entity::BackgroundColorAccessors);
+            _animationDirector.setInterpolator<entity::Color>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.backgroundColor(),
+                /* to value */
+                transferEntity.backgroundColor(),
+                /* stepper */
+                std::bind(&PresentationEntity::setBackgroundColor,
+                          &presentationEntity, std::placeholders::_1));
             break;
           case Property::Opacity:
-            prepareActionSingle(time, action, presentationEntity, prop,
-                                transferEntity.opacity(),
-                                entity::OpacityAccessors);
+            _animationDirector.setInterpolator<double>(
+                /* key */
+                key,
+                /* start time */
+                time,
+                /* action */
+                action,
+                /* from value */
+                presentationEntity.opacity(),
+                /* to value */
+                transferEntity.opacity(),
+                /* stepper */
+                std::bind(&PresentationEntity::setOpacity, &presentationEntity,
+                          std::placeholders::_1));
             break;
           default:
-            RL_ASSERT("Unreachable");
+            RL_ASSERT("Non animatable property encountered.");
             break;
         }
         return true;
@@ -174,7 +245,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
    *  Step 3: Merge non interpolated properties from the transfer entity to the
    *          presentation entity.
    */
-  presentationEntity.mergeProperties(transferEntity, ~interpolatedProperties);
+  presentationEntity.mergeProperties(transferEntity,
+                                     ~allowedInterpolatableProperties);
 }
 
 void PresentationGraph::onConstraintsCommit(
@@ -231,39 +303,6 @@ void PresentationGraph::onSuggestionsCommit(
     RL_ASSERT_MSG(suggestionResult == layout::Result::Success,
                   "Must be able to apply constraint suggestion");
   }
-}
-
-template <typename T>
-void PresentationGraph::prepareActionSingle(
-    const core::ClockPoint& start,
-    animation::Action& action,
-    PresentationEntity& presentationEntity,
-    entity::Entity::Property property,
-    const T& propertyValue,
-    const entity::Entity::Accessors<T>& accessors) {
-  /*
-   *  Prepare the key for the animation in the animation director
-   */
-  animation::Director::Key key(presentationEntity.identifier(), property);
-
-  RL_ASSERT_MSG(false, "WIP: The entity is no longer held by the interpolator");
-  /*
-   *  Prepare the interpolator
-   */
-  auto interpolator = core::make_unique<animation::Interpolator<T>>(
-      /* action to be performed */
-      action,
-      /* setter after single step */
-      accessors.setter,
-      /* from value */
-      accessors.getter(presentationEntity),
-      /* to value */
-      propertyValue);
-
-  /*
-   *  Setup the intepolator in the animation director
-   */
-  _animationDirector.setInterpolator(key, std::move(interpolator), start);
 }
 
 bool PresentationGraph::render(Frame& frame) {

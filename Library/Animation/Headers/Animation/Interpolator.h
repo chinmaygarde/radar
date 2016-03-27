@@ -14,10 +14,11 @@ namespace animation {
 template <typename Type>
 class Interpolator {
  public:
+  using Stepper = std::function<void(const Type& /* value */)>;
   Interpolator(const Action& action,
-               const typename entity::Entity::Accessors<Type>::Setter& setter,
                const Type& from,
-               const Type& to);
+               const Type& to,
+               Stepper stepper);
 
   const Type& from() const;
 
@@ -25,13 +26,13 @@ class Interpolator {
 
   void start(const core::ClockPoint& time);
 
-  Type step(const core::ClockPoint& time);
+  void step(const core::ClockPoint& time);
 
  private:
   const Action _action;
-  const typename entity::Entity::Accessors<Type>::Setter _setter;
   Type _from;
   Type _to;
+  const Stepper _stepper;
   core::ClockPoint _start;
 
   Type x(double unitTime) const;
