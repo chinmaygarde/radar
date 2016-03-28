@@ -337,6 +337,9 @@ void PresentationGraph::resolveConstraintUpdate(
      *  In case the entity is created as a result of proxy resolution, it will
      *  not be present in the graph owned collection of entities.
      */
+    RL_ASSERT_MSG(!variable.isProxy(),
+                  "Entity for a non-proxy identifier was not found. There is a "
+                  "cleanup error.");
     return;
   }
   /*
