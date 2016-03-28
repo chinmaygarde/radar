@@ -15,9 +15,9 @@ Vagrant.configure(2) do |config|
       sudo apt-get update
       sudo apt-get install -y build-essential
       sudo apt-get install -y cmake
-      sudo apt-get install -y valgrind
       sudo apt-get install -y libgles2-mesa-dev
       sudo apt-get install -y libsdl2-dev
+      sudo apt-get install -y ninja-build
     SHELL
     linux.vm.provider :virtualbox do |vb|
       vb.memory = GUEST_MEMORY
