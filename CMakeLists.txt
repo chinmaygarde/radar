@@ -217,21 +217,12 @@ if(NOT APPLE)
   )
 endif()
 
-if(DISABLE_XPC)
-  # Certain tests are disabled based on which backend is being tested.
-  set_property(
-    SOURCE
-    ${RADAR_TEST_SRC}
-    APPEND
-    PROPERTY
-    COMPILE_DEFINITIONS
-    "RL_DISABLE_XPC=1"
-  )
+add_executable(RadarTest ${RADAR_TEST_SRC})
+target_link_libraries(RadarTest TestRunner Core Interface)
+if(LINUX)
+  target_link_libraries(RadarTest rt)
 endif()
-
-add_executable( RadarTest ${RADAR_TEST_SRC} )
-target_link_libraries( RadarTest TestRunner Core Interface)
-add_test( RadarTestAll RadarTest )
+add_test(RadarTestAll RadarTest)
 
 ################################################################################
 # Linux Desktop Shell

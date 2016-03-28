@@ -35,7 +35,11 @@ file(GLOB_RECURSE LINUX_PLATFORM_SRC
 
 add_executable(RadarLinux ${LINUX_PLATFORM_SRC})
 
-include_directories("Source" ${SDL2_INCLUDE_DIRS})
+include_directories(
+  ${SDL2_INCLUDE_DIRS}
+  "Source"
+  "../../Samples"
+)
 
 include(FindPkgConfig)
 

@@ -34,10 +34,24 @@ file(GLOB_RECURSE CORE_SRC
   "Headers/*.h"
   "Source/*.h"
   "Source/*.cc"
+)
+
+file(GLOB_RECURSE CORE_SRC_MM
   "Source/*.mm"
 )
 
-add_library(Core ${CORE_SRC})
+if(NOT APPLE)
+  set_property(
+    SOURCE
+    ${CORE_SRC_MM}
+    APPEND_STRING
+    PROPERTY
+    COMPILE_FLAGS
+    " -x c++ "
+  )
+endif()
+
+add_library(Core ${CORE_SRC} ${CORE_SRC_MM})
 target_include_directories(Core PUBLIC Headers)
 include_directories("Headers" "Source")
 

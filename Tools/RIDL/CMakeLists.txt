@@ -36,8 +36,8 @@ file(GLOB_RECURSE RIDL_SRC
 )
 
 include_directories("Source")
-add_library(RIDL ${RIDL_SRC})
 
+add_library(RIDL ${RIDL_SRC})
 target_link_libraries(RIDL Core)
 
 ################################################################################
@@ -51,3 +51,5 @@ file(GLOB_RECURSE RIDL_TEST_SRC
 
 add_executable(RIDLTest ${RIDL_TEST_SRC})
 target_link_libraries(RIDLTest Core TestRunner)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")

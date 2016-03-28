@@ -4,6 +4,8 @@
 
 #include <Core/Config.h>
 
+#if 0
+
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <TestRunner/TestRunner.h>
@@ -55,3 +57,5 @@ TEST(SocketBootstrapServerTest, ScheduleInLoop) {
 RL_DECLARE_TEST_END
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
+
+#endif

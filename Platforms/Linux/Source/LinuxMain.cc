@@ -58,21 +58,15 @@ static SDLWindowAndRenderer SetupSDL(void) {
   return std::make_pair(window, renderer);
 }
 
-static void ResizeInterface(rl::shell::Shell& shell,
-                            RenderSurfaceLinux& surface,
-                            int width,
-                            int height) {
-  rl::geom::Size size(width, height);
-  surface.surfaceSizeUpdated(size);
-}
-
 static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
   /*
    *  Create the render surface and initialize the shell.
    */
   auto renderSurface = std::make_shared<RenderSurfaceLinux>(windowAndRenderer);
   auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(renderSurface);
-  renderSurface->surfaceWasCreated();
+  shell->renderSurfaceWasSetup();
+  shell->renderSurfaceDidUpdateSize(
+      {kInitialWindowWidth, kInitialWindowHeight});
 
   /*
    *  Create a managed interface and register it with the shell.
@@ -80,9 +74,6 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
   auto application = std::make_shared<sample::SampleApplication>();
   auto interface = rl::core::make_unique<rl::interface::Interface>(application);
   shell->registerManagedInterface(std::move(interface));
-
-  ResizeInterface(*shell, *renderSurface, kInitialWindowWidth,
-                  kInitialWindowHeight);
 
   bool keepRunning = true;
   while (keepRunning) {
@@ -94,8 +85,10 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
       if (event.type == SDL_WINDOWEVENT) {
         switch (event.window.event) {
           case SDL_WINDOWEVENT_RESIZED:
-            ResizeInterface(*shell, *renderSurface, event.window.data1,
-                            event.window.data2);
+            shell->renderSurfaceDidUpdateSize({
+                static_cast<double>(event.window.data1), /* width */
+                static_cast<double>(event.window.data2)  /* height */
+            });
             break;
           case SDL_WINDOWEVENT_CLOSE:
             keepRunning = false;
@@ -114,7 +107,7 @@ static void SetupEventLoop(SDLWindowAndRenderer& windowAndRenderer) {
     }
   }
 
-  renderSurface->surfaceWasDestroyed();
+  shell->renderSurfaceWasTornDown();
   shell->shutdown();
 }
 
