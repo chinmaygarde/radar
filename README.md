@@ -35,3 +35,16 @@ Build Instructions
 * Build. You can also selectively build a particular target by specifying its name after the command.
   * `make -j<jobs>`
   * `ninja`
+
+Linters & Formatters
+--------------------
+
+All tools are run from the source root and require `rake`
+
+#### Formatters
+* Make sure `clang-format` is installed.
+  * `rake format`
+
+#### Linters
+* Make sure `cpplint` is installed.
+  * `rake lint`

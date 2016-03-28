@@ -91,5 +91,5 @@ def source_files
 end
 
 def source_folders
-  ["Headers", "Source", "Platforms"]
+  ["Library", "Platforms"]
 end
