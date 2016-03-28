@@ -15,7 +15,7 @@
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/ProgramCatalog.h>
-#include <Coordinator/Statistics.h>
+#include <Coordinator/CoordinatorStatistics.h>
 #include <Coordinator/StatisticsRenderer.h>
 #include <Event/TouchEventChannel.h>
 
@@ -75,7 +75,7 @@ class Coordinator {
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
-  Statistics _stats;
+  CoordinatorStatistics _stats;
   StatisticsRenderer _statsRenderer;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_COMPOSITORSTATISTICS_H_
-#define RADARLOVE_COORDINATOR_COMPOSITORSTATISTICS_H_
+#ifndef RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_
+#define RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_
 
 #include <Core/Core.h>
 #include <Core/Instrumentation.h>
@@ -11,17 +11,11 @@
 namespace rl {
 namespace coordinator {
 
-class Statistics {
+class CoordinatorStatistics {
  public:
-  explicit Statistics();
+  explicit CoordinatorStatistics();
 
   instrumentation::Stopwatch& frameTimer();
-
-  instrumentation::Stopwatch& transactionUpdateTimer();
-
-  instrumentation::Stopwatch& interpolations();
-
-  instrumentation::Counter& interpolationsCount();
 
   instrumentation::Counter& entityCount();
 
@@ -35,23 +29,20 @@ class Statistics {
 
  private:
   instrumentation::Stopwatch _frameTimer;
-  instrumentation::Stopwatch _transactionUpdateTimer;
-  instrumentation::Stopwatch _interpolations;
-  instrumentation::Counter _interpolationsCount;
   instrumentation::Counter _entityCount;
   instrumentation::Counter _primitiveCount;
   instrumentation::Counter _frameCount;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Statistics);
+  RL_DISALLOW_COPY_AND_ASSIGN(CoordinatorStatistics);
 };
 
 class StatisticsFrame {
  public:
-  StatisticsFrame(Statistics& stats);
+  StatisticsFrame(CoordinatorStatistics& stats);
   ~StatisticsFrame();
 
  private:
-  Statistics& _stats;
+  CoordinatorStatistics& _stats;
 
   RL_DISALLOW_COPY_AND_ASSIGN(StatisticsFrame);
 };
@@ -59,4 +50,4 @@ class StatisticsFrame {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_COMPOSITORSTATISTICS_H_
+#endif  // RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_

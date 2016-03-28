@@ -174,7 +174,7 @@ StatisticsRenderer::StatisticsRenderer()
       _vbo(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
-  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
       &StatisticsRenderer::drawLists);
 }
 
@@ -237,7 +237,7 @@ void StatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void StatisticsRenderer::render(Statistics& stats, Frame& frame) {
+void StatisticsRenderer::render(CoordinatorStatistics& stats, Frame& frame) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -265,17 +265,11 @@ void StatisticsRenderer::render(Statistics& stats, Frame& frame) {
   _StatisticsRenderer = nullptr;
 }
 
-void StatisticsRenderer::buildStatsUI(Statistics& stats) {
+void StatisticsRenderer::buildStatsUI(CoordinatorStatistics& stats) {
   if (ImGui::Begin("Coordinator Statistics")) {
     ImGui::Text("Entities: %zu", stats.entityCount().count());
     ImGui::Text("Primitives: %zu", stats.primitiveCount().count());
     ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());
-    ImGui::Text("Interpolations (%zu): %.2f ms",
-                stats.interpolationsCount().count(),
-                stats.interpolations().lastLap().count() * 1e3);
-    ImGui::Text("Last Transaction Update: %.2f ms",
-                stats.transactionUpdateTimer().lastLap().count() * 1e3);
-
     ImGui::Text("Frame Time (minus swap):");
     auto frameMs = stats.frameTimer().currentLap().count() * 1e3;
     ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);

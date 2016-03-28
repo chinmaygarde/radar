@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Coordinator/Frame.h>
-#include <Coordinator/Statistics.h>
+#include <Coordinator/CoordinatorStatistics.h>
 
 namespace rl {
 namespace coordinator {
@@ -18,7 +18,7 @@ class StatisticsRenderer {
   explicit StatisticsRenderer();
   ~StatisticsRenderer();
 
-  void render(Statistics& stats, Frame& frame);
+  void render(CoordinatorStatistics& stats, Frame& frame);
 
  private:
   bool _setupComplete;
@@ -27,7 +27,7 @@ class StatisticsRenderer {
   unsigned int _fontAtlas;
 
   void performSetupIfNecessary();
-  void buildStatsUI(Statistics& stats);
+  void buildStatsUI(CoordinatorStatistics& stats);
   void cleanup();
   static void drawLists(void* data);
 

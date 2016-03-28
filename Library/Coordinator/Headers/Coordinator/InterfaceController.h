@@ -6,7 +6,7 @@
 #define RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 
 #include <Coordinator/PresentationGraph.h>
-#include <Coordinator/Statistics.h>
+#include <Coordinator/InterfaceStatistics.h>
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
 
@@ -36,7 +36,7 @@ class InterfaceController {
   bool _isUpdating;
   std::shared_ptr<core::Channel> _channel;
   PresentationGraph _graph;
-  Statistics _stats;
+  InterfaceStatistics _stats;
 
   void onChannelMessage(core::Message message);
   void setNeedsUpdate();
