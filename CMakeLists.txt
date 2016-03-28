@@ -37,14 +37,14 @@ cmake_minimum_required(VERSION 3.0.2)
 ################################################################################
 ################################################################################
 
+project(Radar)
+
 if(APPLE)
   # Avoid consulting cc which will always default to AppleClang. If a newer
   # version on Clang is in the path, that will be used over AppleClang.
   set(CMAKE_C_COMPILER clang)
   set(CMAKE_CXX_COMPILER clang++)
 endif()
-
-project(Radar)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
@@ -238,28 +238,7 @@ add_test( RadarTestAll RadarTest )
 ################################################################################
 
 if(LINUX)
-  file(GLOB RADAR_LINUX_DESKTOP_SOURCES
-    "Platforms/Linux/*.h"
-    "Platforms/Linux/*.cc"
-    "Samples/*.h"
-    "Samples/*.cc"
-  )
-
-  include_directories ("Samples")
-
-  add_executable( RadarLinuxDesktop ${RADAR_LINUX_DESKTOP_SOURCES} )
-
-  include(FindPkgConfig)
-
-  pkg_search_module(SDL2 REQUIRED sdl2)
-
-  include_directories(${SDL2_INCLUDE_DIRS})
-  target_link_libraries(RadarLinuxDesktop
-    Radar
-    pthread
-    ${SDL2_LIBRARIES}
-    rt
-  )
+  add_subdirectory("Platforms/Linux")
 endif()
 
 ################################################################################

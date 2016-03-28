@@ -8,8 +8,9 @@
 
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
-#include <Core/SocketChannel.h>
 #include <Core/Utilities.h>
+
+#include "SocketChannel.h"
 
 #include <errno.h>
 #include <fcntl.h>

@@ -7,9 +7,10 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/BootstrapServer.h>
-#include <Core/SocketBootstrapServer.h>
-#include <Core/SocketChannel.h>
 #include <Core/Latch.h>
+
+#include "SocketChannel.h"
+#include "SocketBootstrapServer.h"
 
 #include <thread>
 
@@ -29,13 +30,13 @@ SocketBootstrapServer::SocketBootstrapServer() {
         SocketChannel::CreateServerHandle(SocketBootstrapServerName), 0);
   };
 
-  EventLoopSource::RWHandlesCollector collector = [](
-      EventLoopSource::Handles handles) {
-    auto closed = SocketChannel::DestroyHandle(
-        static_cast<SocketChannel::Handle>(handles.first));
-    RL_ASSERT(closed);
-    RL_ASSERT(handles.second == 0);
-  };
+  EventLoopSource::RWHandlesCollector collector =
+      [](EventLoopSource::Handles handles) {
+        auto closed = SocketChannel::DestroyHandle(
+            static_cast<SocketChannel::Handle>(handles.first));
+        RL_ASSERT(closed);
+        RL_ASSERT(handles.second == 0);
+      };
 
   EventLoopSource::IOHandler listenReadHandler = std::bind(
       &SocketBootstrapServer::onListenReadResult, this, std::placeholders::_1);
