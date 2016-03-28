@@ -376,7 +376,7 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 TEST(LayoutTest, VariableCreationViaOverloading) {
   rl::core::Namespace ns;
 
-  rl::interface::Entity entity(rl::core::Name{ns}, false);
+  rl::entity::Entity entity(rl::core::Name{ns}, nullptr);
   auto variable = entity | rl::layout::Variable::Property::BoundsOriginX;
   ASSERT_EQ(variable.property(), rl::layout::Variable::Property::BoundsOriginX);
   ASSERT_EQ(variable.identifier(), entity.identifier());
