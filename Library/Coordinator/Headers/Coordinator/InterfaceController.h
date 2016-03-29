@@ -37,8 +37,8 @@ class InterfaceController {
   bool _needsUpdate;
   bool _isUpdating;
   std::shared_ptr<core::Channel> _channel;
-  PresentationGraph _graph;
   InterfaceStatistics _stats;
+  PresentationGraph _graph;
 
   void onChannelMessage(core::Message message);
   void setNeedsUpdate();

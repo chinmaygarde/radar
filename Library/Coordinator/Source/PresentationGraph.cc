@@ -8,8 +8,10 @@
 namespace rl {
 namespace coordinator {
 
-PresentationGraph::PresentationGraph(core::Namespace& localNS)
+PresentationGraph::PresentationGraph(core::Namespace& localNS,
+                                     InterfaceStatistics& stats)
     : _localNS(localNS),
+      _stats(stats),
       _root(nullptr),
       _layoutSolver(localNS),
       _proxyResolver(_localNS,
@@ -267,12 +269,16 @@ void PresentationGraph::onConstraintsCommit(
       RL_ASSERT(addResult == layout::Result::Success);
     }
   }
+
+  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
 }
 
 void PresentationGraph::onProxyConstraintsAddition(
     const std::vector<layout::Constraint>& constraints) {
   auto addResult = _layoutSolver.addConstraints(constraints);
   RL_ASSERT(addResult == layout::Result::Success);
+
+  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
 }
 
 void PresentationGraph::onProxyConstraintsRemoval(

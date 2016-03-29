@@ -29,8 +29,8 @@ InterfaceController::InterfaceController(const std::string& debugTag)
       _needsUpdate(false),
       _isUpdating(false),
       _channel(std::make_shared<core::Channel>()),
-      _graph(_localNS),
-      _stats(debugTag) {}
+      _stats(debugTag),
+      _graph(_localNS, _stats) {}
 
 std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;

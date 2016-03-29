@@ -18,6 +18,10 @@ Solver::Solver(core::Namespace& localNS)
 
 Solver::~Solver() {}
 
+size_t Solver::constraintsCount() const {
+  return _constraints.size();
+}
+
 Result Solver::addConstraint(const Constraint& constraint) {
   if (_constraints.find(constraint) != _constraints.end()) {
     return Result::DuplicateConstraint;

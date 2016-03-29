@@ -10,6 +10,7 @@
 #include <Animation/Director.h>
 #include <Coordinator/EntityArena.h>
 #include <Coordinator/Frame.h>
+#include <Coordinator/InterfaceStatistics.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Coordinator/TransferEntity.h>
@@ -25,7 +26,8 @@ namespace coordinator {
 
 class PresentationGraph {
  public:
-  explicit PresentationGraph(core::Namespace& localNS);
+  explicit PresentationGraph(core::Namespace& localNS,
+                             InterfaceStatistics& stats);
 
   ~PresentationGraph();
 
@@ -41,6 +43,7 @@ class PresentationGraph {
 
  private:
   core::Namespace& _localNS;
+  InterfaceStatistics& _stats;
   PresentationEntity::IdentifierMap _entities;
   PresentationEntity* _root;
   animation::Director _animationDirector;

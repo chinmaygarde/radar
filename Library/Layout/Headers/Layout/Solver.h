@@ -53,6 +53,8 @@ class Solver {
 
   Result applySuggestion(const Suggestion& suggestion);
 
+  size_t constraintsCount() const;
+
   enum class FlushResult {
     NoUpdates,
     Updated,
