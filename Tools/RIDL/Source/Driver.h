@@ -28,7 +28,7 @@ class Driver {
 
   ParserResult parse(const std::string& text);
 
-  location location;
+  rl::location location;
 
  private:
   friend class Parser;

@@ -26,6 +26,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+include(FindPkgConfig)
+
+pkg_search_module(SDL2 REQUIRED sdl2)
+
 file(GLOB_RECURSE LINUX_PLATFORM_SRC
   "../../Samples/*.cc"
   "../../Samples/*.h"
@@ -35,14 +40,13 @@ file(GLOB_RECURSE LINUX_PLATFORM_SRC
 
 add_executable(RadarLinux ${LINUX_PLATFORM_SRC})
 
+target_link_libraries(RadarLinux
+  ${SDL2_LIBRARIES}
+  Shell
+)
+
 include_directories(
   ${SDL2_INCLUDE_DIRS}
   "Source"
   "../../Samples"
 )
-
-include(FindPkgConfig)
-
-pkg_search_module(SDL2 REQUIRED sdl2)
-
-target_link_libraries(RadarLinux Shell pthread ${SDL2_LIBRARIES} rt dl)

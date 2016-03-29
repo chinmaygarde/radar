@@ -50,6 +50,5 @@ file(GLOB_RECURSE RIDL_TEST_SRC
 )
 
 add_executable(RIDLTest ${RIDL_TEST_SRC})
-target_link_libraries(RIDLTest Core TestRunner)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+target_link_libraries(RIDLTest Core TestRunner)

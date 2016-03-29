@@ -52,12 +52,18 @@ if(NOT APPLE)
 endif()
 
 add_library(Core ${CORE_SRC} ${CORE_SRC_MM})
+
 target_include_directories(Core PUBLIC Headers)
+
 include_directories("Headers" "Source")
 
-target_link_libraries(Core sqlite3)
+target_link_libraries(Core sqlite3 pthread)
 
 if (APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS
       "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+endif()
+
+if (LINUX)
+  target_link_libraries(Core dl rt)
 endif()

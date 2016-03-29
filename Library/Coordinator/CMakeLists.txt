@@ -37,7 +37,9 @@ file(GLOB_RECURSE COORDINATOR_SRC
 )
 
 add_library(Coordinator ${COORDINATOR_SRC})
+
 target_include_directories(Coordinator PUBLIC Headers)
+
 include_directories("Headers" "Source")
 
 target_link_libraries(Coordinator Core Geometry Animation Layout imgui)
@@ -45,4 +47,9 @@ target_link_libraries(Coordinator Core Geometry Animation Layout imgui)
 if (APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS
       "${CMAKE_SHARED_LINKER_FLAGS} -framework OpenGL")
+endif()
+
+if (LINUX)
+  find_library(GLES_LIBRARY NAMES GLESv2)
+  target_link_libraries(Coordinator ${GLES_LIBRARY})
 endif()
