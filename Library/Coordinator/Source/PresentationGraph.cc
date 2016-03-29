@@ -285,6 +285,8 @@ void PresentationGraph::onProxyConstraintsRemoval(
     const std::vector<layout::Constraint>& constraints) {
   auto removeResult = _layoutSolver.removeConstraints(constraints);
   RL_ASSERT(removeResult == layout::Result::Success);
+
+  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
 }
 
 void PresentationGraph::onSuggestionsCommit(
