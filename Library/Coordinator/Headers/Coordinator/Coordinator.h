@@ -86,7 +86,8 @@ class Coordinator {
   void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
 
-  void renderFrame();
+  void renderSingleFrame();
+  void renderFrameStatistics(Frame& frame);
 
   void onDisplayLink();
 

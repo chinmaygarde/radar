@@ -178,11 +178,11 @@ void Coordinator::onDisplayLink() {
   }
 
   if (wasUpdated) {
-    renderFrame();
+    renderSingleFrame();
   }
 }
 
-void Coordinator::renderFrame() {
+void Coordinator::renderSingleFrame() {
   RL_TRACE_AUTO("RenderFrame");
 
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
@@ -208,9 +208,18 @@ void Coordinator::renderFrame() {
   }
 
   if (wasRendered) {
-    _statsRenderer.render(_stats, frame);
+    renderFrameStatistics(frame);
     surfaceAccess.finalizeForPresentation();
   }
+}
+
+void Coordinator::renderFrameStatistics(Frame& frame) {
+  std::vector<std::reference_wrapper<InterfaceStatistics>> interfaceStats;
+  interfaceStats.reserve(_interfaceControllers.size());
+  for (auto& interfaceController : _interfaceControllers) {
+    interfaceStats.push_back(std::ref(interfaceController.statistics()));
+  }
+  _statsRenderer.render(frame, _stats, interfaceStats);
 }
 
 }  // namespace coordinator

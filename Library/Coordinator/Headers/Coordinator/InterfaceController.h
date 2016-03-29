@@ -29,6 +29,8 @@ class InterfaceController {
 
   const std::string& debugTag() const;
 
+  InterfaceStatistics& statistics();
+
  private:
   std::string _debugTag;
   core::Namespace _localNS;

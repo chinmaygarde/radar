@@ -12,7 +12,9 @@ namespace coordinator {
 
 class InterfaceStatistics {
  public:
-  InterfaceStatistics();
+  InterfaceStatistics(const std::string& tag);
+
+  const std::string tag() const;
 
   instrumentation::Stopwatch& interpolations();
 
@@ -25,6 +27,7 @@ class InterfaceStatistics {
   void stop();
 
  private:
+  std::string _tag;
   instrumentation::Stopwatch _interpolations;
   instrumentation::Stopwatch _transactionUpdateTimer;
   instrumentation::Counter _interpolationsCount;

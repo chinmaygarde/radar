@@ -237,7 +237,36 @@ void StatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-void StatisticsRenderer::render(CoordinatorStatistics& stats, Frame& frame) {
+static void BuildStatsUI(CoordinatorStatistics& coordinatorStats) {
+  if (ImGui::Begin("Coordinator Statistics")) {
+    ImGui::Text("Entities: %zu", coordinatorStats.entityCount().count());
+    ImGui::Text("Primitives: %zu", coordinatorStats.primitiveCount().count());
+    ImGui::Text("Frames Rendered: %zu", coordinatorStats.frameCount().count());
+    ImGui::Text("Frame Time (minus swap):");
+    auto frameMs = coordinatorStats.frameTimer().currentLap().count() * 1e3;
+    ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
+  }
+  ImGui::End();
+}
+
+static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
+  if (ImGui::Begin(interfaceStats.tag().c_str())) {
+    ImGui::Text("Interpolations (%zu): %.2f ms",
+                interfaceStats.interpolationsCount().count(),
+                interfaceStats.interpolations().lastLap().count() * 1e3);
+    ImGui::Text("Last Transaction Update:");
+    ImGui::Text(
+        "    %.2f ms",
+        interfaceStats.transactionUpdateTimer().lastLap().count() * 1e3);
+  }
+  ImGui::End();
+}
+
+void StatisticsRenderer::render(
+    Frame& frame,
+    CoordinatorStatistics& coordinatorStats,
+    const std::vector<std::reference_wrapper<InterfaceStatistics>>&
+        interfaceStats) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -255,26 +284,30 @@ void StatisticsRenderer::render(CoordinatorStatistics& stats, Frame& frame) {
 
   ImGui::NewFrame();
 
-  ImGui::SetNextWindowSize(ImVec2(240, 160), ImGuiSetCond_FirstUseEver);
-  ImGui::SetNextWindowPos(ImVec2(size.width - 260, 20), ImGuiSetCond_Always);
+  const double leftMargin = size.width - 260.0;
+  double currentTopMargin = 20.0;
 
-  buildStatsUI(stats);
+  ImGui::SetNextWindowSize(ImVec2(240, 120), ImGuiSetCond_FirstUseEver);
+  ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
+                          ImGuiSetCond_Always);
+
+  BuildStatsUI(coordinatorStats);
+
+  currentTopMargin += 130.0;
+
+  const double kTopMarginIncrement = 100;
+
+  for (const auto& interfaceStat : interfaceStats) {
+    ImGui::SetNextWindowSize(ImVec2(240, 90), ImGuiSetCond_FirstUseEver);
+    ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
+                            ImGuiSetCond_Always);
+    BuildStatsUI(interfaceStat);
+    currentTopMargin += kTopMarginIncrement;
+  }
 
   ImGui::Render();
 
   _StatisticsRenderer = nullptr;
-}
-
-void StatisticsRenderer::buildStatsUI(CoordinatorStatistics& stats) {
-  if (ImGui::Begin("Coordinator Statistics")) {
-    ImGui::Text("Entities: %zu", stats.entityCount().count());
-    ImGui::Text("Primitives: %zu", stats.primitiveCount().count());
-    ImGui::Text("Frames Rendered: %zu", stats.frameCount().count());
-    ImGui::Text("Frame Time (minus swap):");
-    auto frameMs = stats.frameTimer().currentLap().count() * 1e3;
-    ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
-  }
-  ImGui::End();
 }
 
 }  // namespace coordinator

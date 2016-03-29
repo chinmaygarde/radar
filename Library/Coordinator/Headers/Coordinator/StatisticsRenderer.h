@@ -8,6 +8,7 @@
 #include <Core/Core.h>
 #include <Coordinator/Frame.h>
 #include <Coordinator/CoordinatorStatistics.h>
+#include <Coordinator/InterfaceStatistics.h>
 
 namespace rl {
 namespace coordinator {
@@ -18,7 +19,10 @@ class StatisticsRenderer {
   explicit StatisticsRenderer();
   ~StatisticsRenderer();
 
-  void render(CoordinatorStatistics& stats, Frame& frame);
+  void render(Frame& frame,
+              CoordinatorStatistics& coordinatorStats,
+              const std::vector<std::reference_wrapper<InterfaceStatistics>>&
+                  interfaceStats);
 
  private:
   bool _setupComplete;
@@ -27,7 +31,6 @@ class StatisticsRenderer {
   unsigned int _fontAtlas;
 
   void performSetupIfNecessary();
-  void buildStatsUI(CoordinatorStatistics& stats);
   void cleanup();
   static void drawLists(void* data);
 

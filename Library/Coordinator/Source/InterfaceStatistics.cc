@@ -7,7 +7,11 @@
 namespace rl {
 namespace coordinator {
 
-InterfaceStatistics::InterfaceStatistics() {}
+InterfaceStatistics::InterfaceStatistics(const std::string& tag) : _tag(tag) {}
+
+const std::string InterfaceStatistics::tag() const {
+  return _tag;
+}
 
 instrumentation::Stopwatch& InterfaceStatistics::interpolations() {
   return _interpolations;
