@@ -9,6 +9,7 @@ Prerequisites
   * `brew install cmake`
 
 #### Linux
+* A C++ 11 compiler: `GCC 4.9` or above **or** `Clang 3.7` or above.
 * CMake, SDL 2, OpenGLES 2.
   * `apt-get install -y cmake libgles2-mesa-dev libsdl2-dev ninja-build`.
   * There is also a preconfigured `Vagrantfile` in source root if that is your style.
