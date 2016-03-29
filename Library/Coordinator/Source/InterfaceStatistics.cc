@@ -29,6 +29,10 @@ instrumentation::Counter& InterfaceStatistics::constraintsCount() {
   return _constraintsCount;
 }
 
+instrumentation::Counter& InterfaceStatistics::editVariablesCount() {
+  return _editVariablesCount;
+}
+
 void InterfaceStatistics::start() {
   _interpolations.start();
   _interpolationsCount.reset();

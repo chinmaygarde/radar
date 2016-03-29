@@ -259,6 +259,7 @@ static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
         "    %.2f ms",
         interfaceStats.transactionUpdateTimer().lastLap().count() * 1e3);
     ImGui::Text("Constraints: %lu", interfaceStats.constraintsCount().count());
+    ImGui::Text("Edit Vars: %lu", interfaceStats.editVariablesCount().count());
   }
   ImGui::End();
 }
@@ -296,10 +297,10 @@ void StatisticsRenderer::render(
 
   currentTopMargin += 130.0;
 
-  const double kTopMarginIncrement = 120;
+  const double kTopMarginIncrement = 140;
 
   for (const auto& interfaceStat : interfaceStats) {
-    ImGui::SetNextWindowSize(ImVec2(240, 100), ImGuiSetCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(240, 120), ImGuiSetCond_FirstUseEver);
     ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
                             ImGuiSetCond_Always);
     BuildStatsUI(interfaceStat);

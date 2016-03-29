@@ -55,6 +55,8 @@ class Solver {
 
   size_t constraintsCount() const;
 
+  size_t editVariableCount() const;
+
   enum class FlushResult {
     NoUpdates,
     Updated,

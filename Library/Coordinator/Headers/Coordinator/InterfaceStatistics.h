@@ -24,6 +24,8 @@ class InterfaceStatistics {
 
   instrumentation::Counter& constraintsCount();
 
+  instrumentation::Counter& editVariablesCount();
+
   void start();
 
   void stop();
@@ -34,6 +36,7 @@ class InterfaceStatistics {
   instrumentation::Stopwatch _transactionUpdateTimer;
   instrumentation::Counter _interpolationsCount;
   instrumentation::Counter _constraintsCount;
+  instrumentation::Counter _editVariablesCount;
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceStatistics);
 };

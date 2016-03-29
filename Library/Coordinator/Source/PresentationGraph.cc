@@ -304,6 +304,8 @@ void PresentationGraph::onSuggestionsCommit(
           suggestion.variable(), suggestion.priority());
 
       if (editAddResult == layout::Result::Success) {
+        _stats.editVariablesCount().reset(_layoutSolver.editVariableCount());
+
         suggestionResult = _layoutSolver.applySuggestion(suggestion);
       }
     }
