@@ -53,6 +53,8 @@ class Solver {
 
   Result applySuggestion(const Suggestion& suggestion);
 
+  Result suggestValueForVariable(const Variable& variable, double value);
+
   size_t constraintsCount() const;
 
   size_t editVariableCount() const;
@@ -110,8 +112,6 @@ class Solver {
   void removeMarkerEffects(const Symbol& marker, double strength);
 
   Symbol leavingSymbolForMarker(const Symbol& marker) const;
-
-  Result suggestValueForVariable(const Variable& variable, double value);
 
   void suggestValueForEditInfoWithoutDualOptimization(EditInfo& info,
                                                       double value);

@@ -56,6 +56,8 @@ class PresentationGraph {
 
   void updateRootEntity(PresentationEntity* entity);
 
+  void updateRootSizeSuggestions();
+
   PresentationEntity& presentationEntityForName(const core::Name& name);
 
   bool applyTransactionSingle(core::Message& arena,

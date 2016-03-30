@@ -42,11 +42,70 @@ void PresentationGraph::updateSize(const geom::Size& size) {
   if (_root) {
     _root->setFrame({geom::PointZero, _size});
   }
+
+  updateRootSizeSuggestions();
 }
 
 void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
+  /*
+   *  Cleanup the old entity if there is one.
+   */
+  using Prop = layout::Variable::Property;
+  if (_root != nullptr) {
+    const auto identifier = _root->identifier();
+    _layoutSolver.removeEditVariable({identifier, Prop::BoundsWidth});
+    _layoutSolver.removeEditVariable({identifier, Prop::BoundsHeight});
+    _layoutSolver.removeEditVariable({identifier, Prop::PositionX});
+    _layoutSolver.removeEditVariable({identifier, Prop::PositionY});
+  }
+
   _root = entity;
+
+  if (_root == nullptr) {
+    return;
+  }
+
   _root->setFrame({geom::PointZero, _size});
+
+  /**
+   *  Add root edit variables.
+   */
+  const auto identifier = _root->identifier();
+  const auto priority = rl::layout::priority::Strong;
+
+  auto boundsWidth = layout::Variable{identifier, Prop::BoundsWidth};
+  auto boundsHeight = layout::Variable{identifier, Prop::BoundsHeight};
+  auto positionX = layout::Variable{identifier, Prop::PositionX};
+  auto positionY = layout::Variable{identifier, Prop::PositionY};
+
+  _layoutSolver.addEditVariable(boundsWidth, priority);
+  _layoutSolver.addEditVariable(boundsHeight, priority);
+  _layoutSolver.addEditVariable(positionX, priority);
+  _layoutSolver.addEditVariable(positionY, priority);
+
+  updateRootSizeSuggestions();
+}
+
+void PresentationGraph::updateRootSizeSuggestions() {
+  if (_root == nullptr) {
+    return;
+  }
+
+  using Prop = layout::Variable::Property;
+  const auto identifier = _root->identifier();
+
+  auto boundsWidth = layout::Variable{identifier, Prop::BoundsWidth};
+  auto boundsHeight = layout::Variable{identifier, Prop::BoundsHeight};
+  auto positionX = layout::Variable{identifier, Prop::PositionX};
+  auto positionY = layout::Variable{identifier, Prop::PositionY};
+
+  auto bounds = _root->bounds();
+  auto position = _root->position();
+
+  _layoutSolver.suggestValueForVariable(boundsWidth, bounds.size.width);
+  _layoutSolver.suggestValueForVariable(boundsHeight, bounds.size.height);
+  _layoutSolver.suggestValueForVariable(positionX, position.x);
+  _layoutSolver.suggestValueForVariable(positionY, position.y);
 }
 
 PresentationEntity& PresentationGraph::presentationEntityForName(
