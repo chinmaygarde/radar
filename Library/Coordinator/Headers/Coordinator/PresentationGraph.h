@@ -27,9 +27,12 @@ namespace coordinator {
 class PresentationGraph {
  public:
   explicit PresentationGraph(core::Namespace& localNS,
+                             const geom::Size& size,
                              InterfaceStatistics& stats);
 
   ~PresentationGraph();
+
+  void updateSize(const geom::Size& size);
 
   bool applyTransactions(core::Message& arena);
 
@@ -45,10 +48,13 @@ class PresentationGraph {
   core::Namespace& _localNS;
   InterfaceStatistics& _stats;
   PresentationEntity::IdentifierMap _entities;
+  geom::Size _size;
   PresentationEntity* _root;
   animation::Director _animationDirector;
   layout::Solver _layoutSolver;
   layout::ProxyResolver _proxyResolver;
+
+  void updateRootEntity(PresentationEntity* entity);
 
   PresentationEntity& presentationEntityForName(const core::Name& name);
 

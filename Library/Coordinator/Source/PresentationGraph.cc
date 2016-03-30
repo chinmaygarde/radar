@@ -9,9 +9,11 @@ namespace rl {
 namespace coordinator {
 
 PresentationGraph::PresentationGraph(core::Namespace& localNS,
+                                     const geom::Size& size,
                                      InterfaceStatistics& stats)
     : _localNS(localNS),
       _stats(stats),
+      _size(size),
       _root(nullptr),
       _layoutSolver(localNS),
       _proxyResolver(_localNS,
@@ -29,6 +31,23 @@ PresentationGraph::PresentationGraph(core::Namespace& localNS,
                                std::placeholders::_1)) {}
 
 PresentationGraph::~PresentationGraph() {}
+
+void PresentationGraph::updateSize(const geom::Size& size) {
+  if (_size == size) {
+    return;
+  }
+
+  _size = size;
+
+  if (_root) {
+    _root->setFrame({geom::PointZero, _size});
+  }
+}
+
+void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
+  _root = entity;
+  _root->setFrame({geom::PointZero, _size});
+}
 
 PresentationEntity& PresentationGraph::presentationEntityForName(
     const core::Name& name) {
@@ -113,7 +132,7 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
             .removeChild(&presentationEntity);
       } break;
       case Property::MakeRoot:
-        _root = &presentationEntity;
+        updateRootEntity(&presentationEntity);
         break;
       default:
         RL_ASSERT("Unreachable");

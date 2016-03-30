@@ -23,14 +23,15 @@ class ScopedUpdate {
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedUpdate);
 };
 
-InterfaceController::InterfaceController(const std::string& debugTag)
+InterfaceController::InterfaceController(const std::string& debugTag,
+                                         const geom::Size& size)
     : _debugTag(debugTag),
       _localNS(),
       _needsUpdate(false),
       _isUpdating(false),
       _channel(std::make_shared<core::Channel>()),
       _stats(debugTag),
-      _graph(_localNS, _stats) {}
+      _graph(_localNS, size, _stats) {}
 
 std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;
@@ -63,6 +64,10 @@ void InterfaceController::onChannelMessage(core::Message message) {
   if (_graph.applyTransactions(message)) {
     setNeedsUpdate();
   }
+}
+
+void InterfaceController::updateSize(const geom::Size& size) {
+  _graph.updateSize(size);
 }
 
 bool InterfaceController::needsUpdate() const {

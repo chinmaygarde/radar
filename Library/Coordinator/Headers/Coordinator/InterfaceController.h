@@ -15,11 +15,13 @@ namespace coordinator {
 
 class InterfaceController {
  public:
-  InterfaceController(const std::string& debugTag);
+  InterfaceController(const std::string& debugTag, const geom::Size& size);
 
   void scheduleChannel(core::EventLoop& loop, bool schedule);
 
   std::shared_ptr<core::Channel> channel() const;
+
+  void updateSize(const geom::Size& size);
 
   bool needsUpdate() const;
 

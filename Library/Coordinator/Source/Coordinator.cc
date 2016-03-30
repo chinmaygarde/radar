@@ -94,14 +94,15 @@ void Coordinator::stopComposition() {
 }
 
 void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
-  if (size == _surfaceSize) {
+  if (_surfaceSize == size) {
     return;
   }
 
-  /*
-   *  Commit size update
-   */
   _surfaceSize = size;
+
+  for (auto& interfaceController : _interfaceControllers) {
+    interfaceController.updateSize(_surfaceSize);
+  }
 }
 
 /**
@@ -140,7 +141,8 @@ Coordinator::acquireFreshCoordinatorChannel() {
   /*
    *  Create a new interface controller for this reques
    */
-  _interfaceControllers.emplace_back(_interfaceTagGenerator.acquire());
+  _interfaceControllers.emplace_back(_interfaceTagGenerator.acquire(),
+                                     _surfaceSize);
 
   /*
    *  Schedule all channels
