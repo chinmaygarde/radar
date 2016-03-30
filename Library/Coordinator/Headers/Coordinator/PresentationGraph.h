@@ -82,9 +82,15 @@ class PresentationGraph {
 
   void onSuggestionsCommit(std::vector<layout::Suggestion>&& suggestions);
 
+  void onEditVariableUpdate(const layout::Variable& variable, bool addOrRemove);
+
+  void onEditVariableSuggest(const layout::Variable& variable, double value);
+
   void resolveConstraintUpdate(const layout::Variable& variable, double value);
 
   double resolveConstraintConstant(const layout::Variable& variable) const;
+
+  void syncSolverStats();
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationGraph);
 };

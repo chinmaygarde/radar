@@ -23,9 +23,14 @@ PresentationGraph::PresentationGraph(core::Namespace& localNS,
                      std::bind(&PresentationGraph::onProxyConstraintsRemoval,
                                this,
                                std::placeholders::_1),
-                     std::bind(&PresentationGraph::onSuggestionsCommit,
+                     std::bind(&PresentationGraph::onEditVariableUpdate,
                                this,
-                               std::placeholders::_1),
+                               std::placeholders::_1,
+                               std::placeholders::_2),
+                     std::bind(&PresentationGraph::onEditVariableSuggest,
+                               this,
+                               std::placeholders::_1,
+                               std::placeholders::_2),
                      std::bind(&PresentationGraph::resolveConstraintConstant,
                                this,
                                std::placeholders::_1)) {}
@@ -84,6 +89,8 @@ void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
   _layoutSolver.addEditVariable(positionY, priority);
 
   updateRootSizeSuggestions();
+
+  syncSolverStats();
 }
 
 void PresentationGraph::updateRootSizeSuggestions() {
@@ -348,28 +355,27 @@ void PresentationGraph::onConstraintsCommit(
     }
   }
 
-  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
+  syncSolverStats();
 }
 
 void PresentationGraph::onProxyConstraintsAddition(
     const std::vector<layout::Constraint>& constraints) {
   auto addResult = _layoutSolver.addConstraints(constraints);
   RL_ASSERT(addResult == layout::Result::Success);
-
-  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
+  syncSolverStats();
 }
 
 void PresentationGraph::onProxyConstraintsRemoval(
     const std::vector<layout::Constraint>& constraints) {
   auto removeResult = _layoutSolver.removeConstraints(constraints);
   RL_ASSERT(removeResult == layout::Result::Success);
-
-  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
+  syncSolverStats();
 }
 
 void PresentationGraph::onSuggestionsCommit(
     std::vector<layout::Suggestion>&& suggestions) {
   RL_TRACE_AUTO("ConstraintSuggestionsCommit");
+
   for (const auto& suggestion : suggestions) {
     /*
      *  If the edit variable for the suggestion does not exist yet in the
@@ -382,8 +388,6 @@ void PresentationGraph::onSuggestionsCommit(
           suggestion.variable(), suggestion.priority());
 
       if (editAddResult == layout::Result::Success) {
-        _stats.editVariablesCount().reset(_layoutSolver.editVariableCount());
-
         suggestionResult = _layoutSolver.applySuggestion(suggestion);
       }
     }
@@ -391,6 +395,35 @@ void PresentationGraph::onSuggestionsCommit(
     RL_ASSERT_MSG(suggestionResult == layout::Result::Success,
                   "Must be able to apply constraint suggestion");
   }
+
+  syncSolverStats();
+}
+
+void PresentationGraph::onEditVariableUpdate(const layout::Variable& variable,
+                                             bool addOrRemove) {
+  auto result = layout::Result::InternalSolverError;
+
+  if (addOrRemove) {
+    result = _layoutSolver.addEditVariable(variable, layout::priority::Strong);
+  } else {
+    result = _layoutSolver.removeEditVariable(variable);
+  }
+
+  RL_ASSERT(result == layout::Result::Success);
+
+  syncSolverStats();
+}
+
+void PresentationGraph::onEditVariableSuggest(const layout::Variable& variable,
+                                              double value) {
+  auto result = _layoutSolver.suggestValueForVariable(variable, value);
+  RL_ASSERT(result == layout::Result::Success);
+  syncSolverStats();
+}
+
+void PresentationGraph::syncSolverStats() {
+  _stats.constraintsCount().reset(_layoutSolver.constraintsCount());
+  _stats.editVariablesCount().reset(_layoutSolver.editVariableCount());
 }
 
 bool PresentationGraph::render(Frame& frame) {

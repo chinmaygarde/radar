@@ -18,14 +18,18 @@ class ProxyResolver {
  public:
   using ProxyConstraintCallback =
       std::function<void(const std::vector<Constraint>&)>;
-  using ProxySuggestionCallback =
-      std::function<void(std::vector<Suggestion>&&)>;
+  using ProxyEditUpdateCallback =
+      std::function<void(const Variable& /* variable */,
+                         bool /* addOrRemove */)>;
+  using ProxyEditSuggestCallback =
+      std::function<void(const Variable& /* variable */, double /* value */)>;
 
   ProxyResolver(
       core::Namespace& localNS,
       ProxyConstraintCallback addCallback,
       ProxyConstraintCallback removeCallback,
-      ProxySuggestionCallback suggestionsCallback,
+      ProxyEditUpdateCallback editUpdateCallback,
+      ProxyEditSuggestCallback editSuggetCallback,
       Constraint::ConstantResolutionCallback constantResolutionCallback);
 
   void registerProxyConstraint(Constraint&& constraint);
@@ -45,7 +49,8 @@ class ProxyResolver {
   core::Namespace& _localNS;
   ProxyConstraintCallback _addConstraintCallback;
   ProxyConstraintCallback _removeConstraintCallback;
-  ProxySuggestionCallback _suggestionsCallback;
+  ProxyEditUpdateCallback _editUpdateCallback;
+  ProxyEditSuggestCallback _editSuggestCallback;
   Constraint::ConstantResolutionCallback _constantResolutionCallback;
   IdentifierEntityMap _touchEntities;
   std::vector<event::TouchEvent::Identifier> _indexedTouches;
@@ -65,7 +70,11 @@ class ProxyResolver {
       ConstraintOperation operation);
 
   Variable resolvedVariableForProxy(const Variable& variable);
+
   double constantResolutionCallback(const Variable& variable);
+
+  void reportTouchEditsToDelegate(const core::Name& identifier,
+                                  bool addOrRemove);
 
   entity::Entity* touchEntityForProxy(Variable::Proxy proxy) const;
   entity::Entity* touchEntityForTouchNumber(size_t index) const;

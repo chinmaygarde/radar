@@ -13,16 +13,19 @@ ProxyResolver::ProxyResolver(
     core::Namespace& localNS,
     ProxyConstraintCallback addCallback,
     ProxyConstraintCallback removeCallback,
-    ProxySuggestionCallback suggestionsCallback,
+    ProxyEditUpdateCallback editUpdateCallback,
+    ProxyEditSuggestCallback editSuggetCallback,
     Constraint::ConstantResolutionCallback constantResolutionCallback)
     : _localNS(localNS),
       _addConstraintCallback(addCallback),
       _removeConstraintCallback(removeCallback),
-      _suggestionsCallback(suggestionsCallback),
+      _editUpdateCallback(editUpdateCallback),
+      _editSuggestCallback(editSuggetCallback),
       _constantResolutionCallback(constantResolutionCallback) {
   RL_ASSERT(addCallback != nullptr);
   RL_ASSERT(removeCallback != nullptr);
-  RL_ASSERT(suggestionsCallback != nullptr);
+  RL_ASSERT(editUpdateCallback != nullptr);
+  RL_ASSERT(editSuggetCallback != nullptr);
   RL_ASSERT(constantResolutionCallback != nullptr);
 }
 
@@ -69,21 +72,28 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
     /*
      *  Create a new touch entity for this identifier
      */
-
     auto touchEntity = core::make_unique<entity::Entity>(
         core::Name(_localNS), nullptr /* notifies interface */);
+
     touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});
     touchEntity->setPosition(touch.location());
+
+    /*
+     *  Make sure the the appropriate edits are added to the layout solver
+     *  by invoking the appropriate edit callbacks.
+     */
+    reportTouchEditsToDelegate(touchEntity->identifier(), true);
 
     auto identifierTouchPair =
         std::make_pair(identifier, std::move(touchEntity));
 
     auto res = _touchEntities.insert(std::move(identifierTouchPair));
 
-    if (res.second) {
-      addedNewIndexedTouches = true;
-      _indexedTouches.push_back(identifier);
-    }
+    RL_ASSERT_MSG(res.second,
+                  "A touch being added must not already be present");
+
+    addedNewIndexedTouches = true;
+    _indexedTouches.push_back(identifier);
   }
 
   RL_ASSERT(_indexedTouches.size() == _touchEntities.size());
@@ -112,12 +122,27 @@ void ProxyResolver::clearTouches(
   for (const auto& touch : touches) {
     auto identifier = touch.identifier();
 
-    auto res = _touchEntities.erase(identifier);
-    RL_ASSERT_MSG(res != 0, "A touch that was not already active was ended");
+    /*
+     *  Step 1: Erase the touch entity. Make sure to cleanup the edit variables
+     *          for said entity before collecting the entity.
+     */
+    auto touchEntityFound = _touchEntities.find(identifier);
+    RL_ASSERT_MSG(touchEntityFound != _touchEntities.end(),
+                  "A touch that was not already active was ended");
+
+    reportTouchEditsToDelegate(touchEntityFound->second->identifier(), false);
+
+    _touchEntities.erase(touchEntityFound);
+
+    /*
+     *  Step 2: Collect the indexed touch used for book-keeping.
+     */
 
     auto found =
         std::find(_indexedTouches.begin(), _indexedTouches.end(), identifier);
-    RL_ASSERT(found != _indexedTouches.end());
+    RL_ASSERT_MSG(found != _indexedTouches.end(),
+                  "Internal inconsistency: The indexed counterpart for a touch "
+                  "counterpart was not found.");
 
     _indexedTouches.erase(found);
   }
@@ -135,6 +160,12 @@ void ProxyResolver::updateTouches(
   }
 }
 
+void ProxyResolver::reportTouchEditsToDelegate(const core::Name& identifier,
+                                               bool addOrRemove) {
+  _editUpdateCallback({identifier, Variable::Property::PositionX}, addOrRemove);
+  _editUpdateCallback({identifier, Variable::Property::PositionY}, addOrRemove);
+}
+
 void ProxyResolver::updateEntityPosition(entity::Entity& entity,
                                          const geom::Point& position) {
   /*
@@ -145,10 +176,8 @@ void ProxyResolver::updateEntityPosition(entity::Entity& entity,
   Variable positionX = {entity.identifier(), Variable::Property::PositionX};
   Variable positionY = {entity.identifier(), Variable::Property::PositionY};
 
-  auto priority = layout::priority::Required - 1.0;
-
-  _suggestionsCallback(
-      {{positionX, position.x, priority}, {positionY, position.y, priority}});
+  _editSuggestCallback(positionX, position.x);
+  _editSuggestCallback(positionY, position.y);
 }
 
 entity::Entity* ProxyResolver::touchEntityForProxy(
