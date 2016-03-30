@@ -10,7 +10,7 @@
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
 #include <Core/Macros.h>
-#include <Core/WaitSetProvider.h>
+#include "WaitSetProvider.h"
 
 #include <condition_variable>
 #include <queue>
@@ -28,7 +28,7 @@ class InProcessWaitSet : public WaitSetProvider {
   static EventLoopSource::Handles TimerHandles(
       const std::chrono::nanoseconds& interval);
 
-  EventLoopSource* wait(ClockDurationNano timeout) override;
+  WaitSet::Result wait(ClockDurationNano timeout) override;
 
   WaitSet::Handle handle() const override;
 

@@ -6,7 +6,7 @@
 
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
-#include <Core/InProcessTrivialSource.h>
+#include "InProcessTrivialSource.h"
 
 #include <Core/WaitSet.h>
 

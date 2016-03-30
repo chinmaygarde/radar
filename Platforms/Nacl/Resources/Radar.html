@@ -7,13 +7,13 @@
   -->
 <head>
 
-  <title>Radar Love</title>
+  <title>Radar</title>
 
   <script type="text/javascript">
-    RadarLoveModule = null;
+    RadarModule = null;
     function moduleDidLoad() {
-      RadarLoveModule = document.getElementById('RadarLove');
-      console.log("RadarLove Module Load Successful");
+      RadarModule = document.getElementById('Radar');
+      console.log("Radar Module Load Successful");
     }
 
     function handleMessage(message_event) {
@@ -30,9 +30,9 @@
         listener.addEventListener('message', handleMessage, true);
       </script>
 
-      <embed id="RadarLove"
+      <embed id="Radar"
              width="800" height="600"
-             src="RadarLove.nmf"
+             src="Radar.nmf"
              type="application/x-pnacl" />
     </div>
   </p>

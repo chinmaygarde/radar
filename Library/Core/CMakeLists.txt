@@ -67,3 +67,7 @@ endif()
 if (LINUX)
   target_link_libraries(Core dl rt)
 endif()
+
+if (NACL)
+  target_link_libraries(Core ppapi_gles2)
+endif()

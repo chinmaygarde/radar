@@ -66,7 +66,7 @@ class RadarPlatformInstance : public pp::Instance {
   }
 
   virtual ~RadarPlatformInstance() {
-    _renderSurface->surfaceWasDestroyed();
+    _shell->renderSurfaceWasTornDown();
     _shell->shutdown();
     _shell.reset();
 
@@ -94,7 +94,7 @@ class RadarPlatformInstance : public pp::Instance {
   void resizeInterface(int32_t width, int32_t height) {
     RL_ASSERT(_renderSurface != nullptr && _shell != nullptr);
     rl::geom::Size size(width, height);
-    _renderSurface->surfaceSizeUpdated(size);
+    _shell->renderSurfaceDidUpdateSize(size);
   }
 
   bool initializeOpenGL(int32_t newWidth, int32_t newHeight) {
@@ -126,7 +126,7 @@ class RadarPlatformInstance : public pp::Instance {
      */
     _renderSurface = std::make_shared<RenderSurfaceNacl>(_context);
     _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
-    _renderSurface->surfaceWasCreated();
+    _shell->renderSurfaceWasSetup();
 
     /*
      *  Create a managed interface and register it with the shell.

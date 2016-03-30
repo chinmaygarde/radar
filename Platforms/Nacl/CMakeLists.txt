@@ -26,31 +26,58 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-SET(CMAKE_SYSTEM_NAME Generic)
+file(GLOB RADAR_NACL_SOURCES
+  "Source/*.h"
+  "Source/*.cc"
+  "../../Samples/*.h"
+  "../../Samples/*.cc"
+)
 
-include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include)
-include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include/newlib)
+# Generate the Executable
 
-link_directories(${NACL_SDK_ROOT}/lib/pnacl/Release)
+include_directories ("../../Samples")
 
-set(CMAKE_C_COMPILER
-    ${NACL_SDK_ROOT}/toolchain/mac_pnacl/bin/pnacl-clang)
-set(CMAKE_CXX_COMPILER
-    ${NACL_SDK_ROOT}/toolchain/mac_pnacl/bin/pnacl-clang++)
-set(CMAKE_AR
-    ${NACL_SDK_ROOT}/toolchain/mac_pnacl/bin/pnacl-ar CACHE STRING "")
-set(CMAKE_RANLIB
-    ${NACL_SDK_ROOT}/toolchain/mac_pnacl/bin/pnacl-ranlib CACHE STRING "")
-set(CMAKE_FIND_ROOT_PATH
-    ${NACL_SDK_ROOT}/toolchain/mac_pnacl)
+add_executable(RadarNacl ${RADAR_NACL_SOURCES})
 
-set(CMAKE_C_FLAGS    "-U__STRICT_ANSI__" CACHE STRING "")
-set(CMAKE_CXX_FLAGS  "-U__STRICT_ANSI__" CACHE STRING "")
+target_link_libraries(RadarNacl
+  Shell
+  "ppapi"
+  "ppapi_cpp"
+  "nacl_io"
+)
 
-set(NACL BOOL ON)
+# Finalize PEXEs
 
-set(RL_PNACL_FINALIZE ${NACL_SDK_ROOT}/toolchain/mac_pnacl/bin/pnacl-finalize)
+# Execuatable Shell
+add_custom_command(
+  OUTPUT "RadarNacl.pexe"
+  COMMAND ${RL_PNACL_FINALIZE} -o RadarNacl.pexe RadarNacl
+  DEPENDS RadarNacl
+  COMMENT "Finalizing Native Client PEXE" VERBATIM
+)
 
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+add_custom_target(
+  RadarNaclPexe ALL
+  DEPENDS "RadarNacl.pexe"
+)
+
+# Test Target
+add_custom_command(
+  OUTPUT "RadarTest.pexe"
+  COMMAND ${RL_PNACL_FINALIZE} -o RadarTest.pexe RadarTest
+  DEPENDS RadarTest
+  COMMENT "Finalizing Native Client Test PEXE" VERBATIM
+)
+
+add_custom_target(
+  RadarNaclTest ALL
+  DEPENDS "RadarTest.pexe"
+)
+
+# Copy over the HTML harness and manifest
+
+configure_file("Resources/Radar.html" "Radar.html" COPYONLY)
+configure_file("Resources/Radar.nmf" "Radar.nmf" COPYONLY)
+configure_file("Resources/Server" "Server" COPYONLY)
+configure_file("Resources/GDBInit" "GDBInit" COPYONLY)
+configure_file("Resources/Debug" "Debug" COPYONLY)

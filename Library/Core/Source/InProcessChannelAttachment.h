@@ -10,9 +10,10 @@
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #include <Core/Macros.h>
-#include <Core/InProcessAttachment.h>
 #include <Core/Message.h>
 #include <Core/WaitSet.h>
+
+#include "InProcessAttachment.h"
 
 #include <mutex>
 #include <vector>

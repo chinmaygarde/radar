@@ -16,10 +16,10 @@ namespace core {
 static std::mutex RegistryMutex;
 static std::map<std::string, std::weak_ptr<core::Channel>> BootstrapRegistry;
 
-bool BootstrapServerAdvertise(const std::string& name,
-                              std::shared_ptr<core::Channel> channel) {
+IOResult BootstrapServerAdvertise(const std::string& name,
+                                  std::shared_ptr<core::Channel> channel) {
   if (name.size() == 0 || channel == nullptr) {
-    return false;
+    return IOResult::Failure;
   }
 
   std::lock_guard<std::mutex> lock(RegistryMutex);
@@ -32,11 +32,11 @@ bool BootstrapServerAdvertise(const std::string& name,
    *  is present and this new registration should fail.
    */
   if (found != BootstrapRegistry.end() && found->second.lock()) {
-    return false;
+    return IOResult::Failure;
   }
 
   BootstrapRegistry[name] = channel;
-  return true;
+  return IOResult::Success;
 }
 
 std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
@@ -61,6 +61,16 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   }
 
   return nullptr;
+}
+
+bool BootstrapServerSetup() {
+  // Nothing to do since everything is in process.
+  return true;
+}
+
+bool BootstrapServerTeardown() {
+  BootstrapRegistry.clear();
+  return true;
 }
 
 }  // namespace core

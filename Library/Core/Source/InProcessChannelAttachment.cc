@@ -6,8 +6,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#include <Core/InProcessChannelAttachment.h>
-#include <Core/InProcessWaitSet.h>
+#include "InProcessChannelAttachment.h"
+#include "InProcessWaitSet.h"
+
 #include <Core/Channel.h>
 
 #include <algorithm>

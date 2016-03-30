@@ -174,7 +174,7 @@ StatisticsRenderer::StatisticsRenderer()
       _vbo(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
-  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
+  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
       &StatisticsRenderer::drawLists);
 }
 
@@ -258,8 +258,8 @@ static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
     ImGui::Text(
         "    %.2f ms",
         interfaceStats.transactionUpdateTimer().lastLap().count() * 1e3);
-    ImGui::Text("Constraints: %lu", interfaceStats.constraintsCount().count());
-    ImGui::Text("Edit Vars: %lu", interfaceStats.editVariablesCount().count());
+    ImGui::Text("Constraints: %zu", interfaceStats.constraintsCount().count());
+    ImGui::Text("Edit Vars: %zu", interfaceStats.editVariablesCount().count());
   }
   ImGui::End();
 }

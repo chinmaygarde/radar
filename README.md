@@ -16,6 +16,12 @@ Prerequisites
     * `vagrant up linux; vagrant ssh linux; cd /vagrant;`.
     * Limitation: In the Vagrant environment, you wont be able to run the desktop application, only build the tools, run tests, etc..
 
+#### Native Client
+* The [Native Client SDK](https://developer.chrome.com/native-client/sdk/download)
+* Update to `Pepper 44` or above.
+  * `naclsdk update; naclsdk update pepper_44;`
+
+
 Build Instructions
 ------------------
 
@@ -36,6 +42,19 @@ Build Instructions
 * Build. You can also selectively build a particular target by specifying its name after the command.
   * `make -j<jobs>`
   * `ninja`
+
+#### Building for Native Client
+* Create a directory and move into it.
+  * `mkdir -p build/nacl; cd build/nacl;`
+* Generate a `Makefile` project via `CMake` (`Ninja` works too) and ensure you pass in two additional variables: `CMAKE_TOOLCHAIN_FILE` and `NACL_SDK_ROOT`
+  * `cmake ../../ -DCMAKE_TOOLCHAIN_FILE=../../Platforms/Nacl/Nacl.cmake -DNACL_SDK_ROOT=/path/to/nacl_sdk/pepper_44/`
+* Build like the other targets
+  * `make -j<jobs>`
+  * Or, `ninja` if you specified `-G Ninja` to `CMake`
+* To run in your browser, change into the `Platforms/Nacl` directory in your `build` directory and run the web server.
+  * `cd Platforms/Nacl`
+  * `./Server`
+* Navigate the `Chrome Browser` to [the application](http://localhost:8000/Radar.html)
 
 Linters & Formatters
 --------------------

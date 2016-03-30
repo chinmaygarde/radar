@@ -122,7 +122,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.7)
     message(FATAL_ERROR "Clang version must be at least 3.7!")
   endif()
-else()
+elseif (NOT NACL)
   message(FATAL_ERROR "Unsupported Compiler!")
 endif()
 
@@ -323,65 +323,8 @@ endif()
 # Native Client (PNaCl Only) Shell
 ################################################################################
 
-if(RL_PLATFORM_NACL)
-
-  file(GLOB RADAR_NACL_SOURCES
-    "Platforms/Nacl/Source/*.h"
-    "Platforms/Nacl/Source/*.cc"
-    "Samples/*.h"
-    "Samples/*.cc"
-  )
-
-  # Generate the Executable
-
-  include_directories ("Samples")
-
-  add_executable( RadarNacl ${RADAR_NACL_SOURCES} )
-
-  target_link_libraries(RadarNacl
-    Radar
-    "ppapi"
-    "ppapi_cpp"
-    "nacl_io"
-    "ppapi_gles2"
-  )
-
-  # Finalize PEXEs
-
-  # Execuatable Shell
-  add_custom_command(
-    OUTPUT "RadarNacl.pexe"
-    COMMAND ${RL_PNACL_FINALIZE} -o RadarNacl.pexe RadarNacl
-    DEPENDS RadarNacl
-    COMMENT "Finalizing Native Client PEXE" VERBATIM
-  )
-
-  add_custom_target(
-    RadarNaclPexe ALL
-    DEPENDS "RadarNacl.pexe"
-  )
-
-  # Test Target
-  add_custom_command(
-    OUTPUT "RadarTest.pexe"
-    COMMAND ${RL_PNACL_FINALIZE} -o RadarTest.pexe RadarTest
-    DEPENDS RadarTest
-    COMMENT "Finalizing Native Client Test PEXE" VERBATIM
-  )
-
-  add_custom_target(
-    RadarNaclTest ALL
-    DEPENDS "RadarTest.pexe"
-  )
-
-  # Copy over the HTML harness and manifest
-
-  configure_file("Platforms/Nacl/Radar.html" "Radar.html" COPYONLY)
-  configure_file("Platforms/Nacl/Radar.nmf" "Radar.nmf" COPYONLY)
-  configure_file("Platforms/Nacl/Server" "Server" COPYONLY)
-  configure_file("Platforms/Nacl/GDBInit" "GDBInit" COPYONLY)
-  configure_file("Platforms/Nacl/Debug" "Debug" COPYONLY)
-
+if(NACL)
+  add_subdirectory("Platforms/Nacl")
 endif()
 
 ################################################################################

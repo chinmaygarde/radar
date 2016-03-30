@@ -2,11 +2,11 @@
   "program": {
     "portable": {
       "pnacl-translate": {
-        "url": "RadarLoveNacl.pexe",
+        "url": "RadarNacl.pexe",
         "optlevel": 2
       },
       "pnacl-debug": {
-        "url": "RadarLoveNacl",
+        "url": "RadarNacl",
         "optlevel": 0
       }
     }

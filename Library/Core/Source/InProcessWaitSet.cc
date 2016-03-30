@@ -6,7 +6,7 @@
 
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
-#include <Core/InProcessWaitSet.h>
+#include "InProcessWaitSet.h"
 
 #include <algorithm>
 
@@ -147,7 +147,7 @@ InProcessWaitSet::TimerClockPoint InProcessWaitSet::nextTimerTimeout(
   return next;
 }
 
-EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
+WaitSet::Result InProcessWaitSet::wait(ClockDurationNano timeout) {
   std::unique_lock<std::mutex> lock(_readySourcesMutex);
 
   auto upperBound = TimerClock::now() +
@@ -157,7 +157,13 @@ EventLoopSource* InProcessWaitSet::wait(ClockDurationNano timeout) {
       lock, nextTimerTimeout(upperBound),
       std::bind(&InProcessWaitSet::isAwakable, this));
 
-  return satisfied ? timerOrSourceOnWakeNoLock(TimerClock::now()) : nullptr;
+  auto source =
+      satisfied ? timerOrSourceOnWakeNoLock(TimerClock::now()) : nullptr;
+
+  auto result = source == nullptr ? WaitSet::WakeReason::Timeout
+                                  : WaitSet::WakeReason::ReadAvailable;
+
+  return WaitSet::Result(result, source);
 }
 
 EventLoopSource* InProcessWaitSet::timerOrSourceOnWakeNoLock(

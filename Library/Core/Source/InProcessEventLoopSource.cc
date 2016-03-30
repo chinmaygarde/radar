@@ -9,8 +9,8 @@
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
-#include <Core/InProcessWaitSet.h>
-#include <Core/InProcessTrivialSource.h>
+#include "InProcessWaitSet.h"
+#include "InProcessTrivialSource.h"
 
 namespace rl {
 namespace core {
