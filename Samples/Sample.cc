@@ -62,8 +62,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
 
   interface.pushTransaction(std::move(action));
 
-  const auto rows = 10;
-  const auto cols = 10;
+  const auto rows = 25;
+  const auto cols = 25;
 
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {

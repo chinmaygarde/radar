@@ -45,9 +45,12 @@ class PresentationGraph {
   animation::Director& animationDirector();
 
  private:
+  using IdentifierPresentationEntityMap =
+      std::map<core::Name, std::unique_ptr<PresentationEntity>>;
+
   core::Namespace& _localNS;
   InterfaceStatistics& _stats;
-  PresentationEntity::IdentifierMap _entities;
+  IdentifierPresentationEntityMap _entities;
   geom::Size _size;
   PresentationEntity* _root;
   animation::Director _animationDirector;
