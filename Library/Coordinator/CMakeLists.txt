@@ -53,3 +53,7 @@ if (LINUX)
   find_library(GLES_LIBRARY NAMES GLESv2)
   target_link_libraries(Coordinator ${GLES_LIBRARY})
 endif()
+
+if (NACL)
+  target_link_libraries(Coordinator ppapi_gles2)
+endif()
