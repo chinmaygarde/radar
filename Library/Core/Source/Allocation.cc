@@ -2,8 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/Config.h>
 #include <Core/Allocation.h>
 #include <Core/Message.h>
+
+#if RL_OS_WINDOWS
+#define bzero(buffer, length) (memset((buffer), '\0', (length)), (void) 0)
+#endif  // RL_OS_WINDOWS
 
 namespace rl {
 namespace core {

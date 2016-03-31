@@ -5,6 +5,10 @@
 #ifndef RADARLOVE_CORE_PIPETRIVIALSOURCE_H_
 #define RADARLOVE_CORE_PIPETRIVIALSOURCE_H_
 
+#include <Core/Config.h>
+
+#if !RL_OS_WINDOWS
+
 #include <Core/EventLoopSource.h>
 
 namespace rl {
@@ -24,5 +28,7 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource();
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // !RL_OS_WINDOWS
 
 #endif  // RADARLOVE_CORE_PIPETRIVIALSOURCE_H_

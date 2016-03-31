@@ -122,7 +122,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.7)
     message(FATAL_ERROR "Clang version must be at least 3.7!")
   endif()
-elseif (NOT NACL)
+elseif (NOT NACL AND NOT WINDOWS)
   message(FATAL_ERROR "Unsupported Compiler!")
 endif()
 

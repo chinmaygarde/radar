@@ -8,11 +8,13 @@
 #include "ArchiveDatabase.h"
 #include "ArchiveStatement.h"
 
+#include <iterator>
+
 namespace rl {
 namespace core {
 
 Archive::Archive(const std::string& path, bool recreate)
-    : _db(make_unique<ArchiveDatabase>(path, recreate)), _transactionCount(0) {}
+    : _db(core::make_unique<ArchiveDatabase>(path, recreate)), _transactionCount(0) {}
 
 Archive::~Archive() {
   RL_ASSERT_MSG(_transactionCount == 0,

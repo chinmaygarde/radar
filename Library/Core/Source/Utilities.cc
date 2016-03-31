@@ -9,7 +9,10 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+
+#if !RL_OS_WINDOWS
 #include <unistd.h>
+#endif  // !RL_OS_WINDOWS
 
 #if RL_OS_MAC
 #include <pthread/pthread.h>
@@ -35,6 +38,8 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
   }
   return static_cast<int>(nano.count() / 1000000);
 }
+
+#if !RL_OS_WINDOWS
 
 void LogUnixHandleProperties(int handle) {
   RL_LOG("~~~~~~~~ Introspecting handle: %d", handle);
@@ -92,6 +97,8 @@ void LogUnixHandleProperties(int handle) {
 
   RL_LOG("Size is: %d", static_cast<int>(statBuf.st_size));
 }
+
+#endif  // !RL_OS_WINDOWS
 
 namespace thread {
 

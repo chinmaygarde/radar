@@ -25,7 +25,7 @@ class ProtocolPayloadHeader {
 
   Type type() const { return _type; }
 
-  bool identifier() const { return _identifier; }
+  uint64_t identifier() const { return _identifier; }
 
  private:
   Type _type;
