@@ -6,6 +6,8 @@
 
 #include "LayoutUtilities.h"
 
+#include <iterator>
+
 namespace rl {
 namespace layout {
 
@@ -107,10 +109,10 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Suggestion::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Suggestion",
-    .autoAssignName = true,
-    .members =
+    /* .superClass = */ nullptr,
+    /* .className = */ "Suggestion",
+    /* .autoAssignName = */ true,
+    /* .members = */
         {
             ArchiveKey::Variable,  //
             ArchiveKey::Value,     //

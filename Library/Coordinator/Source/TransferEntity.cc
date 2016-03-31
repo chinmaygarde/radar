@@ -163,10 +163,10 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef TransferEntity::ArchiveDefinition = {
-    .superClass = &Entity::ArchiveDefinition,
-    .className = "TransferEntity",
-    .autoAssignName = false,
-    .members =
+    /* .superClass = */ &Entity::ArchiveDefinition,
+    /* .className = */ "TransferEntity",
+    /* .autoAssignName = */ false,
+    /* .members = */
         {
             ArchiveKey::UpdateMask,   //
             ArchiveKey::AddedTo,      //

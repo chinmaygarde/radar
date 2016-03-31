@@ -47,10 +47,10 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Term::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Term",
-    .autoAssignName = true,
-    .members =
+    /* .superClass = */ nullptr,
+	/* .className = */ "Term",
+	/* .autoAssignName = */ true,
+	/* .members = */
         {
             ArchiveKey::Variable,     //
             ArchiveKey::Coefficient,  //

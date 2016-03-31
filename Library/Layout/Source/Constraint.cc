@@ -127,10 +127,10 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Constraint::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Constraint",
-    .autoAssignName = false,
-    .members =
+	/* .superClass = */ nullptr,
+    /* .className = */ "Constraint",
+    /* .autoAssignName = */ false,
+    /* .members = */
         {
             ArchiveKey::Identifier,  //
             ArchiveKey::Expression,  //

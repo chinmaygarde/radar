@@ -102,10 +102,10 @@ enum ActionArchiveKey {
 };
 
 const core::ArchiveDef Action::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Action",
-    .autoAssignName = true,
-    .members = {
+    /* .superClass = */ nullptr,
+	/* .className = */ "Action",
+	/* .autoAssignName = */ true,
+	/* .members = */ {
         ActionArchiveKey::Duration,        //
         ActionArchiveKey::RepeatCount,     //
         ActionArchiveKey::AutoReverses,    //

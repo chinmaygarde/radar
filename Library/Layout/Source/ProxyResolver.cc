@@ -5,6 +5,7 @@
 #include <Layout/ProxyResolver.h>
 
 #include <algorithm>
+#include <iterator>
 
 namespace rl {
 namespace layout {
