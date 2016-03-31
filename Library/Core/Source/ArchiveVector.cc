@@ -15,10 +15,10 @@ ArchiveVector::ArchiveVector(std::vector<int64_t>&& keys)
 ArchiveVector::ArchiveVector() {}
 
 const ArchiveDef ArchiveVector::ArchiveDefinition = {
-    .superClass = nullptr,
-    .className = "Meta_Vector",
-    .autoAssignName = true,
-    .members = {0},
+    /* .superClass = */ nullptr,
+    /* .className = */ "Meta_Vector",
+    /* .autoAssignName = */ true,
+    /* .members = */ {0},
 };
 
 ArchiveSerializable::ArchiveName ArchiveVector::archiveName() const {

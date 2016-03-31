@@ -15,7 +15,7 @@ namespace core {
 
 class ArchiveStatement;
 class ArchiveClassRegistration;
-class ArchiveDef;
+struct ArchiveDef;
 
 class ArchiveDatabase {
  public:

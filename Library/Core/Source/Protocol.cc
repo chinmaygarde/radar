@@ -23,6 +23,8 @@ class ProtocolPayloadHeader {
         _identifier(autoAssignID ? ++_LastProtocolPayloadIdentifier
                                  : identifier) {}
 
+  ProtocolPayloadHeader(const ProtocolPayloadHeader&) = default;
+
   Type type() const { return _type; }
 
   uint64_t identifier() const { return _identifier; }
@@ -31,7 +33,7 @@ class ProtocolPayloadHeader {
   Type _type;
   uint64_t _identifier;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(ProtocolPayloadHeader);
+  RL_DISALLOW_ASSIGN(ProtocolPayloadHeader);
 };
 
 static_assert(rl_trivially_copyable(ProtocolPayloadHeader),
