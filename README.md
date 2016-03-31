@@ -9,7 +9,7 @@ Prerequisites
   * `brew install cmake`
 
 #### Linux
-* A C++ 11 compiler: `GCC 4.9` or above **or** `Clang 3.7` or above.
+* A C++ 11 compiler: `GCC 4.9` or above **or** `Clang 3.7` or newer.
 * CMake, SDL 2, OpenGLES 2.
   * `apt-get install -y cmake libgles2-mesa-dev libsdl2-dev ninja-build`.
   * There is also a preconfigured `Vagrantfile` in source root if that is your style.
@@ -20,6 +20,10 @@ Prerequisites
 * The [Native Client SDK](https://developer.chrome.com/native-client/sdk/download)
 * Update to `Pepper 44` or above.
   * `naclsdk update; naclsdk update pepper_44;`
+
+#### Windows 10 (Universal Application)
+* Visual Studio Community 2015 or newer.
+* CMake version 3.4 or newer.
 
 
 Build Instructions
@@ -55,6 +59,14 @@ Build Instructions
   * `cd Platforms/Nacl`
   * `./Server`
 * Navigate the `Chrome Browser` to [the application](http://localhost:8000/Radar.html)
+
+#### Building on Windows 10 (Universal)
+* Ensure you have at least `CMake` version 3.4.
+* Create a directory and move into it.
+  * `mkdir build; cd build;`
+* Generate a `Visual Studio` solution via `CMake` and ensure you specify the `CMAKE_SYSTEM_NAME` and `CMAKE_SYSTEM_VERSION` variables.
+  * `cmake ../ -G "Visual Studio 14 2015" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0`
+* Open the `Radar` solution generated and run any of the given targets.
 
 Linters & Formatters
 --------------------
