@@ -218,13 +218,8 @@ if(NOT APPLE)
     "Test/*.mm"
   )
 
-  set_property(
-    SOURCE
-    ${RADAR_TEST_SRC_MM}
-    APPEND_STRING
-    PROPERTY
-    COMPILE_FLAGS
-    " -x c++ "
+  set_source_files_properties(${RADAR_TEST_SRC_MM}
+    PROPERTIES LANGUAGE CXX
   )
 endif()
 
