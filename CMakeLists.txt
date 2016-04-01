@@ -218,9 +218,20 @@ if(NOT APPLE)
     "Test/*.mm"
   )
 
-  set_source_files_properties(${RADAR_TEST_SRC_MM}
-    PROPERTIES LANGUAGE CXX
-  )
+  if(UNIX)
+    set_property(
+      SOURCE
+      ${RADAR_TEST_SRC_MM}
+      APPEND_STRING
+      PROPERTY
+      COMPILE_FLAGS
+      " -x c++ "
+    )
+  else()
+    set_source_files_properties(${RADAR_TEST_SRC_MM}
+      PROPERTIES LANGUAGE CXX
+    )
+  endif()
 endif()
 
 add_executable(RadarTest ${RADAR_TEST_SRC})

@@ -41,7 +41,20 @@ file(GLOB_RECURSE CORE_SRC_MM
 )
 
 if(NOT APPLE)
-  set_source_files_properties(${CORE_SRC_MM} PROPERTIES LANGUAGE CXX)
+  if(UNIX)
+    set_property(
+      SOURCE
+      ${CORE_SRC_MM}
+      APPEND_STRING
+      PROPERTY
+      COMPILE_FLAGS
+      " -x c++ "
+    )
+  else()
+    set_source_files_properties(${CORE_SRC_MM}
+      PROPERTIES LANGUAGE CXX
+    )
+  endif()
 endif()
 
 add_library(Core ${CORE_SRC} ${CORE_SRC_MM})
