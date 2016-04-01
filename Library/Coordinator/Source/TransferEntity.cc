@@ -167,12 +167,12 @@ const core::ArchiveDef TransferEntity::ArchiveDefinition = {
     /* .className = */ "TransferEntity",
     /* .autoAssignName = */ false,
     /* .members = */
-        {
-            ArchiveKey::UpdateMask,   //
-            ArchiveKey::AddedTo,      //
-            ArchiveKey::RemovedFrom,  //
-            ArchiveKey::MakeRoot,     //
-        },
+    {
+        ArchiveKey::UpdateMask,   //
+        ArchiveKey::AddedTo,      //
+        ArchiveKey::RemovedFrom,  //
+        ArchiveKey::MakeRoot,     //
+    },
 };
 
 TransferEntity::ArchiveName TransferEntity::archiveName() const {

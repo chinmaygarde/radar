@@ -113,11 +113,11 @@ const core::ArchiveDef Suggestion::ArchiveDefinition = {
     /* .className = */ "Suggestion",
     /* .autoAssignName = */ true,
     /* .members = */
-        {
-            ArchiveKey::Variable,  //
-            ArchiveKey::Value,     //
-            ArchiveKey::Priority   //
-        },
+    {
+        ArchiveKey::Variable,  //
+        ArchiveKey::Value,     //
+        ArchiveKey::Priority   //
+    },
 };
 
 Suggestion::ArchiveName Suggestion::archiveName() const {

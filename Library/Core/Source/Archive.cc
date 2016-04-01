@@ -14,7 +14,8 @@ namespace rl {
 namespace core {
 
 Archive::Archive(const std::string& path, bool recreate)
-    : _db(core::make_unique<ArchiveDatabase>(path, recreate)), _transactionCount(0) {}
+    : _db(core::make_unique<ArchiveDatabase>(path, recreate)),
+      _transactionCount(0) {}
 
 Archive::~Archive() {
   RL_ASSERT_MSG(_transactionCount == 0,

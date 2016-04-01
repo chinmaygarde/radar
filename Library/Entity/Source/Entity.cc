@@ -165,15 +165,15 @@ const core::ArchiveDef Entity::ArchiveDefinition = {
     /* .className = */ "Entity",
     /* .autoAssignName = */ false,
     /* .members = */
-        {
-            ArchiveKey::Identifier,       //
-            ArchiveKey::Bounds,           //
-            ArchiveKey::Position,         //
-            ArchiveKey::AnchorPoint,      //
-            ArchiveKey::Transformation,   //
-            ArchiveKey::BackgroundColor,  //
-            ArchiveKey::Opacity,          //
-        },
+    {
+        ArchiveKey::Identifier,       //
+        ArchiveKey::Bounds,           //
+        ArchiveKey::Position,         //
+        ArchiveKey::AnchorPoint,      //
+        ArchiveKey::Transformation,   //
+        ArchiveKey::BackgroundColor,  //
+        ArchiveKey::Opacity,          //
+    },
 };
 
 Entity::ArchiveName Entity::archiveName() const {

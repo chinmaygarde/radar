@@ -77,7 +77,7 @@ enum ArchiveKey {
 };
 
 const core::ArchiveDef Expression::ArchiveDefinition = {
-	/* .superClass = */ nullptr,
+    /* .superClass = */ nullptr,
     /* .className = */ "Expression",
     /* .autoAssignName = */ true,
     /* .members = */ {

@@ -138,12 +138,12 @@ enum ArchiveKey {
 
 const core::ArchiveDef Variable::ArchiveDefinition = {
     /* .superClass = */ nullptr,
-	/* .className = */ "Variable",
-	/* .autoAssignName = */ true,
-	/* .members = */
-	           {ArchiveKey::Identifier,  //
-                ArchiveKey::Property,    //
-                ArchiveKey::Proxy},
+    /* .className = */ "Variable",
+    /* .autoAssignName = */ true,
+    /* .members = */
+    {ArchiveKey::Identifier,  //
+     ArchiveKey::Property,    //
+     ArchiveKey::Proxy},
 };
 
 Variable::ArchiveName Variable::archiveName() const {

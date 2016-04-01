@@ -138,9 +138,9 @@ enum TransactionArchiveKey {
 
 const core::ArchiveDef TransactionPayload::ArchiveDefinition = {
     /* .superClass = */ nullptr,
-	/* .className = */ "TransactionPayload",
-	/* .autoAssignName = */ true,
-	/* .members = */ {
+    /* .className = */ "TransactionPayload",
+    /* .autoAssignName = */ true,
+    /* .members = */ {
         TransactionArchiveKey::Action,       //
         TransactionArchiveKey::Constraints,  //
         TransactionArchiveKey::Suggestions,  //

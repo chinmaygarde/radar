@@ -87,8 +87,7 @@ class Frame {
 class ScopedFrame : public Frame {
  public:
   template <class... T>
-  ScopedFrame(T&&... args)
-      : Frame(std::forward<T>(args)...) {
+  ScopedFrame(T&&... args) : Frame(std::forward<T>(args)...) {
     begin();
   }
 

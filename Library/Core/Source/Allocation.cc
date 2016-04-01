@@ -7,7 +7,7 @@
 #include <Core/Message.h>
 
 #if RL_OS_WINDOWS
-#define bzero(buffer, length) (memset((buffer), '\0', (length)), (void) 0)
+#define bzero(buffer, length) (memset((buffer), '\0', (length)), (void)0)
 #endif  // RL_OS_WINDOWS
 
 namespace rl {
