@@ -4,6 +4,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RadarWindow : NSWindow
+@interface RadarSurface : NSOpenGLView
 
 @end

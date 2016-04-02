@@ -16,7 +16,7 @@
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
 		9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9544201C333EF8002EEC68 /* Foundation.framework */; };
-		9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */; };
+		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931181CA4C2C500CDBF07 /* libShell.a */; };
 		9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */; };
 		9EE9312D1CA4C40D00CDBF07 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931221CA4C2C500CDBF07 /* libgtest.a */; };
@@ -163,7 +163,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D0F80631BAD842C581A79054;
+			remoteGlobalIDString = 20A80498F93B484BB1C4F796;
 			remoteInfo = Shell;
 		};
 /* End PBXContainerItemProxy section */
@@ -182,8 +182,8 @@
 		9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceMain.cc; sourceTree = "<group>"; };
 		9E9543FF1C31C652002EEC68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9E9544201C333EF8002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
-		9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
+		9EA6744B1B742C4900C8A8B4 /* RadarSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarSurface.h; sourceTree = "<group>"; };
+		9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarSurface.mm; sourceTree = "<group>"; };
 		9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Radar.xcodeproj; path = ../../build/Radar.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -253,8 +253,8 @@
 		9E26F1B51B59CBB50016A899 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9EA6744B1B742C4900C8A8B4 /* RadarWindow.h */,
-				9EA6744C1B742C4900C8A8B4 /* RadarWindow.mm */,
+				9EA6744B1B742C4900C8A8B4 /* RadarSurface.h */,
+				9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */,
 				9E26F1B61B59CBB50016A899 /* RadarAppDelegate.h */,
 				9E26F1B71B59CBB50016A899 /* RadarAppDelegate.mm */,
 				9E26F1BC1B59CBB50016A899 /* Assets.xcassets */,
@@ -295,12 +295,12 @@
 				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
 				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
 				9EE931181CA4C2C500CDBF07 /* libShell.a */,
-				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
 				9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */,
-				9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */,
-				9EE931201CA4C2C500CDBF07 /* libimgui.a */,
+				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
 				9EE931221CA4C2C500CDBF07 /* libgtest.a */,
 				9EE931241CA4C2C500CDBF07 /* libgtest_main.a */,
+				9EE931201CA4C2C500CDBF07 /* libimgui.a */,
+				9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */,
 				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
 				9EE931281CA4C2C500CDBF07 /* RIDLTest */,
 			);
@@ -544,7 +544,7 @@
 			files = (
 				9E26F1BB1B59CBB50016A899 /* MacMain.m in Sources */,
 				9E02AF4A1BA3A24500BA1AEA /* Sample.cc in Sources */,
-				9EA6744D1B742C4900C8A8B4 /* RadarWindow.mm in Sources */,
+				9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */,
 				9E26F1B81B59CBB50016A899 /* RadarAppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

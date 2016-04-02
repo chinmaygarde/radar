@@ -309,7 +309,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Radar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="RadarWindow">
+        <window title="Radar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
@@ -318,7 +318,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <openGLView autoresizesSubviews="NO" focusRingType="none" rendererType="accelerated" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-5I-k2W">
+                    <openGLView autoresizesSubviews="NO" focusRingType="none" rendererType="accelerated" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-5I-k2W" customClass="RadarSurface">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                     </openGLView>
                 </subviews>
@@ -329,9 +329,6 @@
                     <constraint firstAttribute="trailing" secondItem="MoN-5I-k2W" secondAttribute="trailing" id="wc8-Gb-91T"/>
                 </constraints>
             </view>
-            <connections>
-                <outlet property="surface" destination="MoN-5I-k2W" id="Gsp-3b-Iuo"/>
-            </connections>
             <point key="canvasLocation" x="695" y="472"/>
         </window>
     </objects>

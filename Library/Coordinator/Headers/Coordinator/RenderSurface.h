@@ -32,6 +32,10 @@ class RenderSurface {
    *  @return if the operation was successful
    */
   virtual bool present() = 0;
+
+  virtual void contextAccessWillBegin();
+
+  virtual void contextAccessDidEnd();
 };
 
 class ScopedRenderSurfaceAccess {
