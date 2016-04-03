@@ -1,4 +1,4 @@
-# Copyright 2016 The Chromium Authors. All rights reserved.
+# Copyright 2015 The Chromium Authors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -26,35 +26,32 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+if(__treat_as_cxx)
+  return()
+endif()
+set(__treat_as_cxx INCLUDED)
+
 ################################################################################
-# Library
+# Treats the specified sources as C++ files
 ################################################################################
 
-file(GLOB_RECURSE CORE_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
+function(TreatAsCXX SOURCES_ARGS_LIST)
 
-file(GLOB_RECURSE CORE_SRC_MM
-  "Source/*.mm"
-)
-
-TreatAsCXX("${CORE_SRC_MM}")
-
-add_library(Core ${CORE_SRC} ${CORE_SRC_MM})
-
-target_include_directories(Core PUBLIC Headers)
-
-include_directories("Headers" "Source")
-
-target_link_libraries(Core sqlite3 pthread)
-
-if (APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS
-      "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+if(NOT APPLE)
+  if(UNIX)
+    set_property(
+      SOURCE
+      ${SOURCES_ARGS_LIST}
+      APPEND_STRING
+      PROPERTY
+      COMPILE_FLAGS
+      " -x c++ "
+    )
+  else()
+    set_source_files_properties(${SOURCES_ARGS_LIST}
+      PROPERTIES LANGUAGE CXX
+    )
+  endif()
 endif()
 
-if (LINUX)
-  target_link_libraries(Core dl rt)
-endif()
+endfunction()

@@ -162,6 +162,14 @@ if(RASPBERRY)
 endif()
 
 ################################################################################
+# Import CMake Modules
+################################################################################
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Tools/CMake")
+
+include(TreatAsCXX)
+
+################################################################################
 ################################################################################
 ###############     _     _ _                    _               ###############
 ###############    | |   (_) |                  (_)              ###############
@@ -209,30 +217,11 @@ file(GLOB RADAR_TEST_SRC
   "Test/*.mm"
 )
 
-if(NOT APPLE)
-  # Since we want to run either the XCTest or GTest harness to run all unit
-  # tests, all test files have the ".mm" extension. On non-Apple platforms,
-  # there is no actual Objective-C in these files. So treat them as C++
+file(GLOB RADAR_TEST_SRC_MM
+  "Test/*.mm"
+)
 
-  file(GLOB RADAR_TEST_SRC_MM
-    "Test/*.mm"
-  )
-
-  if(UNIX)
-    set_property(
-      SOURCE
-      ${RADAR_TEST_SRC_MM}
-      APPEND_STRING
-      PROPERTY
-      COMPILE_FLAGS
-      " -x c++ "
-    )
-  else()
-    set_source_files_properties(${RADAR_TEST_SRC_MM}
-      PROPERTIES LANGUAGE CXX
-    )
-  endif()
-endif()
+TreatAsCXX("${RADAR_TEST_SRC_MM}")
 
 add_executable(RadarTest ${RADAR_TEST_SRC})
 target_link_libraries(RadarTest TestRunner Core Interface)
