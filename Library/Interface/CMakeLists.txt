@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE INTERFACE_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Interface ${INTERFACE_SRC})
-target_include_directories(Interface PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Interface)
 
 target_link_libraries(Interface Coordinator Toolbox)

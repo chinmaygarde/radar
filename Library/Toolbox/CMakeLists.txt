@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE TOOLBOX_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Toolbox ${TOOLBOX_SRC})
-target_include_directories(Toolbox PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Toolbox)
 
 target_link_libraries(Toolbox Core)

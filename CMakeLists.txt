@@ -168,6 +168,8 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Tools/CMake")
 
 include(TreatAsCXX)
+include(StandardRadarLibrary)
+include(StandardRadarTest)
 
 ################################################################################
 ################################################################################

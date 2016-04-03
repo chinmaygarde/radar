@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE EVENT_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Event ${EVENT_SRC})
-target_include_directories(Event PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Event)
 
 target_link_libraries(Event Core Geometry)

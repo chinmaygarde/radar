@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE SHELL_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Shell ${SHELL_SRC})
-target_include_directories(Shell PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Shell)
 
 target_link_libraries(Shell Interface Coordinator)

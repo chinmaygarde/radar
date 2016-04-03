@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE ENTITY_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Entity ${ENTITY_SRC})
-target_include_directories(Entity PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Entity)
 
 target_link_libraries(Entity Core Geometry)

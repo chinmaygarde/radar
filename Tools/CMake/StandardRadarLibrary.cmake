@@ -26,19 +26,34 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-################################################################################
-# Library
-################################################################################
-
-StandardRadarLibrary(Core)
-
-target_link_libraries(Core sqlite3 pthread)
-
-if (APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS
-      "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+if(__standard_radar_library)
+  return()
 endif()
+set(__standard_radar_library INCLUDED)
 
-if (LINUX)
-  target_link_libraries(Core dl rt)
-endif()
+
+function(StandardRadarLibrary LIBRARY_NAME_ARG)
+
+message(STATUS 
+    "Processing library named '${LIBRARY_NAME_ARG}' with standard layout.")
+
+file(GLOB_RECURSE LIBRARY_SRC_CC
+  "Headers/*.h"
+  "Source/*.h"
+  "Source/*.c"
+  "Source/*.cc"
+)
+
+file(GLOB_RECURSE LIBRARY_SRC_MM
+  "Source/*.mm"
+)
+
+TreatAsCXX("${LIBRARY_SRC_MM}")
+
+add_library(${LIBRARY_NAME_ARG} ${LIBRARY_SRC_CC} ${LIBRARY_SRC_MM})
+
+target_include_directories(${LIBRARY_NAME_ARG} PUBLIC "Headers")
+
+include_directories("Headers" "Source")
+
+endfunction()

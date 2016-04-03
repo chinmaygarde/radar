@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE ANIMATION_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Animation ${ANIMATION_SRC})
-target_include_directories(Animation PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Animation)
 
 target_link_libraries(Animation Core Geometry Entity)

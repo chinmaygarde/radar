@@ -30,17 +30,7 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE COORDINATOR_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Coordinator ${COORDINATOR_SRC})
-
-target_include_directories(Coordinator PUBLIC Headers)
-
-include_directories("Headers" "Source")
+StandardRadarLibrary(Coordinator)
 
 target_link_libraries(Coordinator Core Geometry Animation Layout imgui)
 

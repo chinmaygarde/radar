@@ -30,12 +30,4 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE GEOMETRY_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Geometry ${GEOMETRY_SRC})
-target_include_directories(Geometry PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Geometry)

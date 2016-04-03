@@ -30,14 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE LAYOUT_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-)
-
-add_library(Layout ${LAYOUT_SRC})
-target_include_directories(Layout PUBLIC Headers)
-include_directories("Headers" "Source")
+StandardRadarLibrary(Layout)
 
 target_link_libraries(Layout Core Event Entity)

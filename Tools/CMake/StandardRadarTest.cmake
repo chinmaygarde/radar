@@ -26,19 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-################################################################################
-# Library
-################################################################################
-
-StandardRadarLibrary(Core)
-
-target_link_libraries(Core sqlite3 pthread)
-
-if (APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS
-      "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+if(__standard_radar_test)
+  return()
 endif()
-
-if (LINUX)
-  target_link_libraries(Core dl rt)
-endif()
+set(__standard_radar_test INCLUDED)
