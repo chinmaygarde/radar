@@ -12,13 +12,13 @@ RenderSurface::RenderSurface() = default;
 
 RenderSurface::~RenderSurface() = default;
 
-void RenderSurface::contextAccessWillBegin() {
+void RenderSurface::accessWillBegin() {
   /*
    *  Base class does nothing.
    */
 }
 
-void RenderSurface::contextAccessDidEnd() {
+void RenderSurface::accessDidEnd() {
   /*
    *  Base class does nothing.
    */
@@ -27,19 +27,19 @@ void RenderSurface::contextAccessDidEnd() {
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
     : _surface(surface), _finalized(false) {
   RL_TRACE_AUTO("SurfaceMakeCurrent");
-  _acquired = _surface.makeCurrent();
+  _surface.accessWillBegin();
 
-  _surface.contextAccessWillBegin();
+  _acquired = _surface.makeCurrent();
 }
 
 ScopedRenderSurfaceAccess::~ScopedRenderSurfaceAccess() {
-  _surface.contextAccessDidEnd();
-
   if (_acquired && _finalized) {
     RL_TRACE_AUTO("SurfacePresent");
     bool result = _surface.present();
     RL_ASSERT(result);
   }
+
+  _surface.accessDidEnd();
 }
 
 bool ScopedRenderSurfaceAccess::acquired() const {

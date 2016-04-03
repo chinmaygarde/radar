@@ -31,7 +31,6 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
      *  OpenGL commands are about to begin. Lock the context so that window
      *  resizes don't interfere this frame.
      */
-    _contextMutex.lock();
     CGLLockContext(_context.CGLContextObj);
   }
 
@@ -40,11 +39,9 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
      *  Frame access ended. Window resizes can now be serviced.
      */
     CGLUnlockContext(_context.CGLContextObj);
-    _contextMutex.unlock();
   }
 
  private:
-  std::mutex _contextMutex;
   NSOpenGLContext* _context;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceMac);
@@ -86,6 +83,13 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   _shell->registerManagedInterface(std::move(interface));
 }
 
+- (void)prepareOpenGL {
+  [super prepareOpenGL];
+
+  const GLint value = 1;
+  [self.openGLContext setValues:&value forParameter:NSOpenGLCPSwapInterval];
+}
+
 - (void)reshape {
   _renderSurface->contextAccessWillBegin();
 
@@ -107,16 +111,23 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   [self dispatchEvent:theEvent phase:rl::event::TouchEvent::Phase::Moved];
 }
 
+- (BOOL)isFlipped {
+  return YES;
+}
+
+- (BOOL)isOpaque {
+  return YES;
+}
+
 - (void)dispatchEvent:(NSEvent*)event
                 phase:(rl::event::TouchEvent::Phase)phase {
   NSPoint loc = [self convertPoint:event.locationInWindow fromView:nil];
-  loc.y = self.frame.size.height - loc.y;
 
   using Event = rl::event::TouchEvent;
   auto identifier = static_cast<uint64_t>(event.pointingDeviceID);
 
   std::vector<Event> events;
-  events.emplace_back(Event(identifier, {loc.x, loc.y}, phase));
+  events.emplace_back(Event{identifier, {loc.x, loc.y}, phase});
   _shell->dispatchTouchEvents(events);
 }
 
