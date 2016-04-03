@@ -31,6 +31,17 @@ if(__standard_radar_library)
 endif()
 set(__standard_radar_library INCLUDED)
 
+################################################################################
+# Declares that the current source directory contains a library in the
+# "standard" Radar library format.
+#
+# The directory format of a "standard" Radar library is as follows:
+# - LibraryName
+#     - Headers/LibraryName        : Public library headers
+#     - Source                     : Source files (includes private headers)
+#     - CMakeLists.txt             : The file that calls this function
+#
+################################################################################
 
 function(StandardRadarLibrary LIBRARY_NAME_ARG)
 
