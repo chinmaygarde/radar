@@ -30,25 +30,6 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(Layout)
+StandardRadarLibrary(BenchmarkRunner)
 
-target_link_libraries(Layout Core Event Entity)
-
-################################################################################
-# Test
-################################################################################
-
-StandardRadarTest(Layout)
-
-################################################################################
-# Benchmark
-################################################################################
-
-file(GLOB_RECURSE BENCH_SRC
-  "Bench/*.h"
-  "Bench/*.cc"
-)
-
-add_executable(LayoutBench ${BENCH_SRC})
-
-target_link_libraries(LayoutBench BenchmarkRunner Layout)
+target_link_libraries(BenchmarkRunner benchmark)

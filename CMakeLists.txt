@@ -183,7 +183,13 @@ include(StandardRadarTest)
 ################################################################################
 ################################################################################
 
+add_subdirectory("ThirdParty/googlebenchmark")
+add_subdirectory("ThirdParty/gtest")
+add_subdirectory("ThirdParty/imgui")
+add_subdirectory("ThirdParty/sqlite3")
+
 add_subdirectory("Library/Animation")
+add_subdirectory("Library/BenchmarkRunner")
 add_subdirectory("Library/Coordinator")
 add_subdirectory("Library/Core")
 add_subdirectory("Library/Entity")
@@ -194,10 +200,6 @@ add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/TestRunner")
 add_subdirectory("Library/Toolbox")
-
-add_subdirectory("ThirdParty/gtest")
-add_subdirectory("ThirdParty/imgui")
-add_subdirectory("ThirdParty/sqlite3")
 
 enable_testing ()
 
