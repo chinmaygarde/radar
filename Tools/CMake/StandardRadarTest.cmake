@@ -30,3 +30,44 @@ if(__standard_radar_test)
   return()
 endif()
 set(__standard_radar_test INCLUDED)
+
+################################################################################
+# Declares that the current source directory contains a test in the
+# "standard" Radar library format. This generates a standalone test runner.
+#
+# For a description of the "standard" library format, see
+# `StandardRadarLibrary.cmake`
+################################################################################
+
+function(StandardRadarTest TEST_NAME_ARG)
+
+string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
+
+message(STATUS 
+    "Processing test target '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
+
+file(GLOB_RECURSE TEST_SRC_CC
+  "Test/*.h"
+  "Test/*.c"
+  "Test/*.cc"
+)
+
+file(GLOB_RECURSE TEST_SRC_MM
+  "Test/*.mm"
+)
+
+TreatAsCXX("${TEST_SRC_MM}")
+
+add_executable(${TEST_TARGET_NAME} ${TEST_SRC_CC} ${TEST_SRC_MM})
+
+include_directories("Headers" "Source" "Test")
+
+target_link_libraries(${TEST_TARGET_NAME} TestRunner ${TEST_NAME_ARG})
+
+if(LINUX)
+  target_link_libraries(${TEST_TARGET_NAME} rt)
+endif()
+
+add_test(RadarAllTests ${TEST_TARGET_NAME})
+
+endfunction()

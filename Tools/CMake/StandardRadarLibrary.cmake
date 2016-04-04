@@ -39,6 +39,7 @@ set(__standard_radar_library INCLUDED)
 # - LibraryName
 #     - Headers/LibraryName        : Public library headers
 #     - Source                     : Source files (includes private headers)
+#     - Test                       : Test files (see `StandardRadarTest.cmake`)
 #     - CMakeLists.txt             : The file that calls this function
 #
 ################################################################################

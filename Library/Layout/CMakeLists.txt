@@ -33,3 +33,9 @@
 StandardRadarLibrary(Layout)
 
 target_link_libraries(Layout Core Event Entity)
+
+################################################################################
+# Test
+################################################################################
+
+StandardRadarTest(Layout)
