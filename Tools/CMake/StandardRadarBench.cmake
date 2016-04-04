@@ -26,22 +26,46 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-################################################################################
-# Library
-################################################################################
-
-StandardRadarLibrary(Layout)
-
-target_link_libraries(Layout Core Event Entity)
+if(__standard_radar_bench)
+  return()
+endif()
+set(__standard_radar_bench INCLUDED)
 
 ################################################################################
-# Test
+# Declares that the current source directory contains a benchmark in the
+# "standard" Radar library format. This generates a standalone benchmark runner.
+#
+# For a description of the "standard" library format, see
+# `StandardRadarLibrary.cmake`
 ################################################################################
 
-StandardRadarTest(Layout)
+function(StandardRadarBench BENCH_NAME_ARG)
 
-################################################################################
-# Benchmark
-################################################################################
+string(CONCAT BENCH_TARGET_NAME ${BENCH_NAME_ARG} "Benchmark")
 
-StandardRadarBench(Layout)
+message(STATUS 
+    "\tAdding benchmark '${BENCH_TARGET_NAME}' for '${BENCH_NAME_ARG}'.")
+
+file(GLOB_RECURSE BENCH_SRC_CC
+  "Bench/*.h"
+  "Bench/*.c"
+  "Bench/*.cc"
+)
+
+file(GLOB_RECURSE BENCH_SRC_MM
+  "Bench/*.mm"
+)
+
+TreatAsCXX("${BENCH_SRC_MM}")
+
+add_executable(${BENCH_TARGET_NAME} ${BENCH_SRC_CC} ${BENCH_SRC_MM})
+
+include_directories("Headers" "Source" "Bench")
+
+target_link_libraries(${BENCH_TARGET_NAME} BenchmarkRunner ${BENCH_NAME_ARG})
+
+if(LINUX)
+  target_link_libraries(${BENCH_TARGET_NAME} rt)
+endif()
+
+endfunction()
