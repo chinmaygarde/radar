@@ -44,7 +44,7 @@ function(StandardRadarTest TEST_NAME_ARG)
 string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
 
 message(STATUS 
-    "Processing test target '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
+    "\tAdding test '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
 
 file(GLOB_RECURSE TEST_SRC_CC
   "Test/*.h"
@@ -69,5 +69,7 @@ if(LINUX)
 endif()
 
 add_test(RadarAllTests ${TEST_TARGET_NAME})
+
+enable_testing()
 
 endfunction()

@@ -47,7 +47,7 @@ set(__standard_radar_library INCLUDED)
 function(StandardRadarLibrary LIBRARY_NAME_ARG)
 
 message(STATUS 
-    "Processing library named '${LIBRARY_NAME_ARG}' with standard layout.")
+    "Found library '${LIBRARY_NAME_ARG}' with standard layout.")
 
 file(GLOB_RECURSE LIBRARY_SRC_CC
   "Headers/*.h"

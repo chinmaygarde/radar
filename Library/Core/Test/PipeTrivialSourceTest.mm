@@ -4,12 +4,8 @@
 
 #include <TestRunner/TestRunner.h>
 
-#if 0
-
-// Temporarily disabled till private variables can be accessed.
-
 #include <Core/Core.h>
-#include <Core/PipeTrivialSource.h>
+#include "PipeTrivialSource.h"
 
 #include <thread>
 
@@ -48,5 +44,3 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
 RL_DECLARE_TEST_END
 
 #endif  // RL_CHANNELS != RL_CHANNELS_INPROCESS
-
-#endif
