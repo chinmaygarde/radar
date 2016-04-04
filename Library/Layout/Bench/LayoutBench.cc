@@ -72,3 +72,22 @@ static void SolverAddRemove(benchmark::State& state) {
 }
 
 BENCHMARK(SolverAddRemove);
+
+static void SolverAddMany(benchmark::State& state) {
+  rl::core::Namespace ns;
+  rl::layout::Solver solver(ns);
+
+  while (state.KeepRunning()) {
+    for (auto i = 0, count = state.range_x(); i < count; i++) {
+      state.PauseTiming();
+      rl::layout::Variable something(
+          ns, rl::layout::Variable::Property::BoundsWidth);
+      auto constraintX = something == 200.0;
+      state.ResumeTiming();
+      auto res = solver.addConstraints({constraintX});
+      RL_ASSERT(res == rl::layout::Result::Success);
+    }
+  }
+}
+
+BENCHMARK(SolverAddMany)->Arg(1)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
