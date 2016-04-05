@@ -68,4 +68,6 @@ if(LINUX)
   target_link_libraries(${BENCH_TARGET_NAME} rt)
 endif()
 
+add_dependencies(bench ${BENCH_TARGET_NAME})
+
 endfunction()

@@ -68,8 +68,6 @@ if(LINUX)
   target_link_libraries(${TEST_TARGET_NAME} rt)
 endif()
 
-add_test(RadarAllTests ${TEST_TARGET_NAME})
-
-enable_testing()
+add_test(${TEST_NAME_ARG} ${TEST_TARGET_NAME})
 
 endfunction()

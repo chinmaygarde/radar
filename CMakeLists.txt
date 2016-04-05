@@ -48,6 +48,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 # Try to detect the platform we are on
 ################################################################################
 
+include(CheckIncludeFiles)
+
+# The RaspberryPi has the bcm_host.h file at a specific location.
+check_include_files("/opt/vc/include/bcm_host.h" RASPBERRY)
+
 if(WIN32)
   if(NOT WINDOWS)
     set(WINDOWS TRUE)
@@ -147,7 +152,6 @@ if (FREEBSD)
   link_directories(
     "/usr/local/lib"
   )
-  target_link_libraries(Radar GLESv2)
 endif()
 
 if (APPLE)
@@ -158,7 +162,6 @@ endif()
 
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
-  target_link_libraries(Radar rt)
 endif()
 
 ################################################################################
@@ -184,10 +187,15 @@ include(StandardRadarBench)
 ################################################################################
 ################################################################################
 
-add_subdirectory("ThirdParty/googlebenchmark")
-add_subdirectory("ThirdParty/gtest")
-add_subdirectory("ThirdParty/imgui")
-add_subdirectory("ThirdParty/sqlite3")
+enable_testing()
+add_custom_target(bench)
+
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
+
+add_subdirectory("ThirdParty/googlebenchmark" EXCLUDE_FROM_ALL)
+add_subdirectory("ThirdParty/gtest" EXCLUDE_FROM_ALL)
+add_subdirectory("ThirdParty/imgui" EXCLUDE_FROM_ALL)
+add_subdirectory("ThirdParty/sqlite3" EXCLUDE_FROM_ALL)
 
 add_subdirectory("Library/Animation")
 add_subdirectory("Library/BenchmarkRunner")
@@ -201,8 +209,6 @@ add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/TestRunner")
 add_subdirectory("Library/Toolbox")
-
-enable_testing ()
 
 ################################################################################
 ################################################################################
@@ -249,10 +255,7 @@ if(RASPBERRY)
 
   add_executable( RadarRaspberryPi ${RADAR_RASPBERRY_DESKTOP_SOURCES} )
 
-  include_directories(${SDL2_INCLUDE_DIRS})
-
   target_link_libraries(RadarRaspberryPi
-    Radar
     pthread
     rt
     EGL
@@ -281,7 +284,6 @@ if(FREEBSD)
   link_directories("/usr/local/lib")
 
   target_link_libraries(RadarBSDDesktop
-    Radar
     pthread
   )
 endif()

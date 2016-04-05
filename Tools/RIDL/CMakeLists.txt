@@ -30,25 +30,12 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE RIDL_SRC
-  "Source/*.h"
-  "Source/*.cc"
-)
+StandardRadarLibrary(RIDL)
 
-include_directories("Source")
-
-add_library(RIDL ${RIDL_SRC})
 target_link_libraries(RIDL Core)
 
 ################################################################################
 # Tests
 ################################################################################
 
-file(GLOB_RECURSE RIDL_TEST_SRC
-  "Test/*.h"
-  "Test/*.cc"
-)
-
-add_executable(RIDLTest ${RIDL_TEST_SRC})
-
-target_link_libraries(RIDLTest Core TestRunner)
+StandardRadarTest(RIDL)
