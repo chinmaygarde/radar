@@ -8,7 +8,7 @@ namespace rl {
 namespace core {
 
 EventLoopObserver::EventLoopObserver(Callback callback, int64_t priority)
-    : _priority(priority), _callback(callback) {
+    : _callback(callback), _priority(priority) {
   RL_ASSERT_MSG(_callback, "A callback must be provided to the loop observer");
 }
 

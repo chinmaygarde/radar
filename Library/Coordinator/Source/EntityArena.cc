@@ -15,7 +15,7 @@ struct EntityArenaHeader {
   reinterpret_cast<EntityArenaHeader*>(_base)->entityCount = (x);
 
 EntityArena::EntityArena(uint8_t* base, size_t maxSize, bool reader)
-    : _maxSize(maxSize), _base(base), _utilization(sizeof(EntityArenaHeader)) {
+    : _base(base), _maxSize(maxSize), _utilization(sizeof(EntityArenaHeader)) {
   if (base == nullptr) {
     _encodedEntities = 0;
     return;

@@ -15,14 +15,14 @@ Constraint::Constraint(core::Name name,
                        Relation relation,
                        double priority)
     : _identifier(name),
-      _expression(expression),
       _relation(relation),
+      _expression(expression),
       _priority(priority) {}
 
 Constraint::Constraint(const Constraint& c)
     : _identifier(c._identifier),
-      _expression(c._expression),
       _relation(c._relation),
+      _expression(c._expression),
       _priority(c._priority) {}
 
 Constraint::Relation Constraint::relation() const {

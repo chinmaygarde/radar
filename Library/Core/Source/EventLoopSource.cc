@@ -20,10 +20,10 @@ EventLoopSource::EventLoopSource(RWHandlesProvider handleProvider,
                                  WaitSetUpdateHandler waitsetUpdateHandler)
     : _handlesProvider(handleProvider),
       _handlesCollector(handleCollector),
+      _handles(Handles(-1, -1)),
       _readHandler(readHandler),
       _writeHandler(writeHandler),
       _customWaitSetUpdateHandler(waitsetUpdateHandler),
-      _handles(Handles(-1, -1)),
       _handlesAllocated(false) {}
 
 EventLoopSource::EventLoopSource()

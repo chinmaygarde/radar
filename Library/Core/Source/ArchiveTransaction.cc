@@ -12,9 +12,9 @@ ArchiveTransaction::ArchiveTransaction(int64_t& transactionCount,
                                        ArchiveStatement& beginStatement,
                                        ArchiveStatement& endStatement,
                                        ArchiveStatement& rollbackStatement)
-    : _transactionCount(transactionCount),
-      _endStatement(endStatement),
+    : _endStatement(endStatement),
       _rollbackStatement(rollbackStatement),
+      _transactionCount(transactionCount),
       _cleanup(false),
       _successful(false),
       _abandoned(false) {
@@ -25,8 +25,8 @@ ArchiveTransaction::ArchiveTransaction(int64_t& transactionCount,
 }
 
 ArchiveTransaction::ArchiveTransaction(ArchiveTransaction&& other)
-    : _transactionCount(other._transactionCount),
-      _endStatement(other._endStatement),
+    : _endStatement(other._endStatement),
+      _transactionCount(other._transactionCount),
       _rollbackStatement(other._rollbackStatement),
       _cleanup(other._cleanup),
       _successful(other._successful),

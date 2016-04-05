@@ -9,7 +9,7 @@ namespace coordinator {
 
 CoordinatorAcquisitionProtocol::CoordinatorAcquisitionProtocol(
     ChannelVendor vendor)
-    : _vendor(vendor), core::Protocol(true) {
+    : core::Protocol(true), _vendor(vendor) {
   RL_ASSERT(_vendor);
 }
 

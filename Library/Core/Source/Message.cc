@@ -58,11 +58,11 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
 
 Message::Message(Message&& message)
     : _buffer(message._buffer),
+      _attachments(std::move(message._attachments)),
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
-      _vmAllocated(message._vmAllocated),
-      _attachments(std::move(message._attachments)) {
+      _vmAllocated(message._vmAllocated) {
   message._buffer = nullptr;
 }
 
