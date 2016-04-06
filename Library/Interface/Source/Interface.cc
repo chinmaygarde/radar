@@ -222,20 +222,20 @@ void Interface::flushTransactions() {
 
   std::lock_guard<std::mutex> lock(_transactionStackMutex);
 
-  RL_ASSERT_MSG(_transactionStack.size() == 1,
-                "All pending transactions must be committed.");
-
   /*
-   *  Commit all explicit transactions.
+   *  Commit all explicitly committed transactions.
    */
   for (auto& transaction : _committedTransactions) {
     result &= transaction->commit(arena, _spliceArchive);
   }
 
   /*
-   *  Commit the implicit transaction.
+   *  Commit the transactions still pending on the transaction stack.
    */
-  result &= (*_transactionStack.back()).commit(arena, _spliceArchive);
+  for (auto i = _transactionStack.rbegin(), end = _transactionStack.rend();
+       i != end; i++) {
+    (*i)->commit(arena, _spliceArchive);
+  }
 
   core::Messages messages;
   messages.push_back(std::move(arena));
