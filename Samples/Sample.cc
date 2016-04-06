@@ -104,10 +104,40 @@ static void AddDraggableEntity(rl::interface::Interface& interface) {
   AddPanRecognizer(interface, *sub1);
 }
 
+static void AddRadialArrangement(rl::interface::Interface& interface) {
+  using Property = rl::layout::Variable::Property;
+
+  auto& root = interface.rootEntity();
+
+  auto rootW = root | Property::BoundsWidth;
+  auto rootH = root | Property::BoundsHeight;
+
+  for (auto i = 0, count = 50; i < count; i++) {
+    auto entity = interface.createEntity();
+
+    entity->setFrame({0.0, 0.0, 15.0, 15.0});
+    entity->setBackgroundColor({1.0, 1.0, 1.0, 1.0});
+
+    auto posX = *entity | Property::PositionX;
+    auto posY = *entity | Property::PositionY;
+
+    auto angle = 2.0 * ((double)i / count) * M_PI;
+
+    interface.setupConstraints({
+        posX == (rootW / 2.0) + (rootW * 0.25 * cos(angle)),  //
+        posY == (rootH / 2.0) + (rootH * 0.25 * sin(angle)),  //
+    });
+
+    root.addChild(*entity);
+  }
+}
+
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   AddGridToRoot(interface);
 
   AddDraggableEntity(interface);
+
+  AddRadialArrangement(interface);
 }
 
 void SampleApplication::didEnterBackground(
