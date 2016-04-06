@@ -19,27 +19,19 @@
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931181CA4C2C500CDBF07 /* libShell.a */; };
 		9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */; };
-		9EE9312D1CA4C40D00CDBF07 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931221CA4C2C500CDBF07 /* libgtest.a */; };
-		9EE9312E1CA4C40D00CDBF07 /* libimgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931201CA4C2C500CDBF07 /* libimgui.a */; };
 		9EE9312F1CA4C40D00CDBF07 /* libInterface.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931141CA4C2C500CDBF07 /* libInterface.a */; };
 		9EE931301CA4C40D00CDBF07 /* libLayout.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931161CA4C2C500CDBF07 /* libLayout.a */; };
-		9EE931311CA4C40D00CDBF07 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */; };
 		9EE931321CA4C40D00CDBF07 /* libToolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */; };
 		9EE931331CA4C41700CDBF07 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931081CA4C2C500CDBF07 /* libAnimation.a */; };
 		9EE931341CA4C41700CDBF07 /* libCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310C1CA4C2C500CDBF07 /* libCore.a */; };
 		9EE931351CA4C41700CDBF07 /* libEntity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310E1CA4C2C500CDBF07 /* libEntity.a */; };
 		9EE931361CA4C41700CDBF07 /* libEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931101CA4C2C500CDBF07 /* libEvent.a */; };
 		9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931121CA4C2C500CDBF07 /* libGeometry.a */; };
+		9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FD1CB48D2D000DF505 /* libsqlite3.a */; };
+		9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FB1CB48D2D000DF505 /* libimgui.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9EE931051CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0E2774CBDA82464F946DEBAD;
-			remoteInfo = RadarTest;
-		};
 		9EE931071CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -117,34 +109,6 @@
 			remoteGlobalIDString = C693066DE38249E3B41D770C;
 			remoteInfo = TestRunner;
 		};
-		9EE9311D1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6C9F02AC54534523B953EF20;
-			remoteInfo = sqlite3;
-		};
-		9EE9311F1CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 95F142C29AF04BF4B62FCBF7;
-			remoteInfo = imgui;
-		};
-		9EE931211CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5843A543A7EC4BD0AAEFA25C;
-			remoteInfo = gtest;
-		};
-		9EE931231CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FC455AC02A17455A85F7E5E7;
-			remoteInfo = gtest_main;
-		};
 		9EE931251CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -163,8 +127,71 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 20A80498F93B484BB1C4F796;
+			remoteGlobalIDString = 9853998C534D4B0BBE553F33;
 			remoteInfo = Shell;
+		};
+		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A606E36AFC6C41449E188B7A;
+			remoteInfo = BenchmarkRunner;
+		};
+		9EF068E91CB48CD8000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7BF841308D354FCD98AB239C;
+			remoteInfo = CoreTest;
+		};
+		9EF068EB1CB48CD8000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C26F12B457D6465E89DD0EDD;
+			remoteInfo = LayoutBenchmark;
+		};
+		9EF068ED1CB48CD8000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84AE24D700CE4AD79D574199;
+			remoteInfo = LayoutTest;
+		};
+		9EF068F41CB48D2D000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65AC76601D12477CB7555D57;
+			remoteInfo = benchmark;
+		};
+		9EF068F61CB48D2D000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 946143C5B5A141C9AF0EBA37;
+			remoteInfo = gtest;
+		};
+		9EF068F81CB48D2D000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0E74682B0CB446B0B7FEE2FF;
+			remoteInfo = gtest_main;
+		};
+		9EF068FA1CB48D2D000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 977F0FA61839499C850F1385;
+			remoteInfo = imgui;
+		};
+		9EF068FC1CB48D2D000DF505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADD950248ACA47598F02AEC0;
+			remoteInfo = sqlite3;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -192,16 +219,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */,
+				9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */,
 				9EE931331CA4C41700CDBF07 /* libAnimation.a in Frameworks */,
 				9EE931341CA4C41700CDBF07 /* libCore.a in Frameworks */,
 				9EE931351CA4C41700CDBF07 /* libEntity.a in Frameworks */,
 				9EE931361CA4C41700CDBF07 /* libEvent.a in Frameworks */,
 				9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */,
-				9EE9312D1CA4C40D00CDBF07 /* libgtest.a in Frameworks */,
-				9EE9312E1CA4C40D00CDBF07 /* libimgui.a in Frameworks */,
 				9EE9312F1CA4C40D00CDBF07 /* libInterface.a in Frameworks */,
 				9EE931301CA4C40D00CDBF07 /* libLayout.a in Frameworks */,
-				9EE931311CA4C40D00CDBF07 /* libsqlite3.a in Frameworks */,
 				9EE931321CA4C40D00CDBF07 /* libToolbox.a in Frameworks */,
 				9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */,
 				9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */,
@@ -285,22 +311,26 @@
 		9EE930EE1CA4C2C500CDBF07 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9EE931061CA4C2C500CDBF07 /* RadarTest */,
+				9EF068F51CB48D2D000DF505 /* libbenchmark.a */,
+				9EF068F71CB48D2D000DF505 /* libgtest.a */,
+				9EF068F91CB48D2D000DF505 /* libgtest_main.a */,
+				9EF068FB1CB48D2D000DF505 /* libimgui.a */,
+				9EF068FD1CB48D2D000DF505 /* libsqlite3.a */,
 				9EE931081CA4C2C500CDBF07 /* libAnimation.a */,
+				9EF068E81CB48CD8000DF505 /* libBenchmarkRunner.a */,
 				9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */,
 				9EE9310C1CA4C2C500CDBF07 /* libCore.a */,
+				9EF068EA1CB48CD8000DF505 /* CoreTest */,
 				9EE9310E1CA4C2C500CDBF07 /* libEntity.a */,
 				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
 				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
 				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
 				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
+				9EF068EC1CB48CD8000DF505 /* LayoutBenchmark */,
+				9EF068EE1CB48CD8000DF505 /* LayoutTest */,
 				9EE931181CA4C2C500CDBF07 /* libShell.a */,
 				9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */,
 				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
-				9EE931221CA4C2C500CDBF07 /* libgtest.a */,
-				9EE931241CA4C2C500CDBF07 /* libgtest_main.a */,
-				9EE931201CA4C2C500CDBF07 /* libimgui.a */,
-				9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */,
 				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
 				9EE931281CA4C2C500CDBF07 /* RIDLTest */,
 			);
@@ -397,13 +427,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9EE931061CA4C2C500CDBF07 /* RadarTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = RadarTest;
-			remoteRef = 9EE931051CA4C2C500CDBF07 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9EE931081CA4C2C500CDBF07 /* libAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -481,34 +504,6 @@
 			remoteRef = 9EE9311B1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9EE9311E1CA4C2C500CDBF07 /* libsqlite3.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libsqlite3.a;
-			remoteRef = 9EE9311D1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9EE931201CA4C2C500CDBF07 /* libimgui.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libimgui.a;
-			remoteRef = 9EE9311F1CA4C2C500CDBF07 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9EE931221CA4C2C500CDBF07 /* libgtest.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libgtest.a;
-			remoteRef = 9EE931211CA4C2C500CDBF07 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9EE931241CA4C2C500CDBF07 /* libgtest_main.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libgtest_main.a;
-			remoteRef = 9EE931231CA4C2C500CDBF07 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9EE931261CA4C2C500CDBF07 /* libRIDL.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -521,6 +516,69 @@
 			fileType = "compiled.mach-o.executable";
 			path = RIDLTest;
 			remoteRef = 9EE931271CA4C2C500CDBF07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068E81CB48CD8000DF505 /* libBenchmarkRunner.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBenchmarkRunner.a;
+			remoteRef = 9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068EA1CB48CD8000DF505 /* CoreTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CoreTest;
+			remoteRef = 9EF068E91CB48CD8000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068EC1CB48CD8000DF505 /* LayoutBenchmark */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = LayoutBenchmark;
+			remoteRef = 9EF068EB1CB48CD8000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068EE1CB48CD8000DF505 /* LayoutTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = LayoutTest;
+			remoteRef = 9EF068ED1CB48CD8000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068F51CB48D2D000DF505 /* libbenchmark.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libbenchmark.a;
+			remoteRef = 9EF068F41CB48D2D000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068F71CB48D2D000DF505 /* libgtest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest.a;
+			remoteRef = 9EF068F61CB48D2D000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068F91CB48D2D000DF505 /* libgtest_main.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest_main.a;
+			remoteRef = 9EF068F81CB48D2D000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068FB1CB48D2D000DF505 /* libimgui.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimgui.a;
+			remoteRef = 9EF068FA1CB48D2D000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EF068FD1CB48D2D000DF505 /* libsqlite3.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsqlite3.a;
+			remoteRef = 9EF068FC1CB48D2D000DF505 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

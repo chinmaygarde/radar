@@ -27,7 +27,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
                             std::placeholders::_2,
                             std::placeholders::_3)),
       _loop(nullptr),
-      _popCount(0),
       _delegate(delegate),
       _spliceArchive(std::move(spliceArchive)),
       _state({
@@ -165,16 +164,18 @@ InterfaceTransaction& Interface::transaction() {
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace_back(animation::Action(0.0));
+    _transactionStack.emplace_back(
+        core::make_unique<InterfaceTransaction>(animation::Action{0.0}));
     armAutoFlushTransactions(true);
   }
 
-  return _transactionStack[_transactionStack.size() - _popCount - 1];
+  return *_transactionStack.back();
 }
 
 void Interface::pushTransaction(animation::Action&& action) {
   std::lock_guard<std::mutex> lock(_transactionStackMutex);
-  _transactionStack.emplace_back(std::move(action));
+  _transactionStack.emplace_back(
+      core::make_unique<InterfaceTransaction>(std::move(action)));
 }
 
 void Interface::popTransaction() {
@@ -184,7 +185,8 @@ void Interface::popTransaction() {
     return;
   }
 
-  _popCount++;
+  _committedTransactions.emplace_back(std::move(_transactionStack.back()));
+  _transactionStack.pop_back();
 }
 
 void Interface::autoFlushObserver(core::EventLoopObserver::Activity activity) {
@@ -220,9 +222,20 @@ void Interface::flushTransactions() {
 
   std::lock_guard<std::mutex> lock(_transactionStackMutex);
 
-  for (auto& transaction : _transactionStack) {
-    result &= transaction.commit(arena, _spliceArchive);
+  RL_ASSERT_MSG(_transactionStack.size() == 1,
+                "All pending transactions must be committed.");
+
+  /*
+   *  Commit all explicit transactions.
+   */
+  for (auto& transaction : _committedTransactions) {
+    result &= transaction->commit(arena, _spliceArchive);
   }
+
+  /*
+   *  Commit the implicit transaction.
+   */
+  result &= (*_transactionStack.back()).commit(arena, _spliceArchive);
 
   core::Messages messages;
   messages.push_back(std::move(arena));
@@ -230,7 +243,7 @@ void Interface::flushTransactions() {
   result = _coordinatorChannel->sendMessages(std::move(messages)) ==
            core::IOResult::Success;
 
-  _popCount = 0;
+  _committedTransactions.clear();
   _transactionStack.clear();
 
   RL_ASSERT_MSG(result, "Must be able to flush the coordinator transaction");

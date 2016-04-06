@@ -192,10 +192,10 @@ add_custom_target(bench)
 
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
 
-add_subdirectory("ThirdParty/googlebenchmark" EXCLUDE_FROM_ALL)
-add_subdirectory("ThirdParty/gtest" EXCLUDE_FROM_ALL)
-add_subdirectory("ThirdParty/imgui" EXCLUDE_FROM_ALL)
-add_subdirectory("ThirdParty/sqlite3" EXCLUDE_FROM_ALL)
+add_subdirectory("ThirdParty/googlebenchmark")
+add_subdirectory("ThirdParty/gtest")
+add_subdirectory("ThirdParty/imgui")
+add_subdirectory("ThirdParty/sqlite3")
 
 add_subdirectory("Library/Animation")
 add_subdirectory("Library/BenchmarkRunner")

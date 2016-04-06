@@ -37,18 +37,9 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
   });
 }
 
-void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
+static void AddGridToRoot(rl::interface::Interface& interface) {
   using Property = rl::layout::Variable::Property;
-
   auto& root = interface.rootEntity();
-  root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
-
-  auto sub1 = interface.createEntity();
-  sub1->setFrame({10.0, 10.0, 100.0, 100.0});
-  sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
-  root.addChild(*sub1);
-
-  AddPanRecognizer(interface, *sub1);
 
   auto rootWidth = root | Property::BoundsWidth;
   auto rootHeight = root | Property::BoundsHeight;
@@ -87,6 +78,18 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   }
 
   interface.popTransaction();
+}
+
+static void AddDraggableEntity(rl::interface::Interface& interface) {
+  using Property = rl::layout::Variable::Property;
+
+  auto& root = interface.rootEntity();
+  root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
+
+  auto sub1 = interface.createEntity();
+  sub1->setFrame({10.0, 10.0, 100.0, 100.0});
+  sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
+  root.addChild(*sub1);
 
   auto sub2 = interface.createEntity();
   sub2->setFrame({10.0, 10.0, 80.0, 80.0});
@@ -97,6 +100,14 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   sub3->setFrame({10.0, 10.0, 60.0, 60.0});
   sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
   sub2->addChild(*sub3);
+
+  AddPanRecognizer(interface, *sub1);
+}
+
+void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
+  AddGridToRoot(interface);
+
+  AddDraggableEntity(interface);
 }
 
 void SampleApplication::didEnterBackground(

@@ -14,7 +14,7 @@
 #include <Layout/Constraint.h>
 #include <Toolbox/StateMachine.h>
 
-#include <deque>
+#include <vector>
 #include <mutex>
 
 namespace rl {
@@ -115,8 +115,8 @@ class Interface {
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
   std::mutex _transactionStackMutex;
-  std::deque<InterfaceTransaction> _transactionStack;
-  size_t _popCount;
+  std::vector<std::unique_ptr<InterfaceTransaction>> _transactionStack;
+  std::vector<std::unique_ptr<InterfaceTransaction>> _committedTransactions;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::weak_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
