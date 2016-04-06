@@ -38,7 +38,7 @@ set(__treat_as_cxx INCLUDED)
 function(TreatAsCXX SOURCES_ARGS_LIST)
 
 if(NOT APPLE)
-  if(UNIX)
+  if(UNIX OR NACL)
     set_property(
       SOURCE
       ${SOURCES_ARGS_LIST}

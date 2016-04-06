@@ -30,6 +30,10 @@
 # Library
 ################################################################################
 
+if(NOT RADAR_BENCHMARKING_ENABLED)
+  return()
+endif()
+
 StandardRadarLibrary(BenchmarkRunner)
 
 target_link_libraries(BenchmarkRunner benchmark)

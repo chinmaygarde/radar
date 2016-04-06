@@ -187,12 +187,21 @@ include(StandardRadarBench)
 ################################################################################
 ################################################################################
 
+if(NOT (APPLE OR LINUX))
+  set(RADAR_BENCHMARKING_ENABLED OFF CACHE BOOL "Disable benchmarking")
+endif()
+
+option(RADAR_BENCHMARKING_ENABLED
+    "If benchmarking targets be generated" ON)
+
 enable_testing()
-add_custom_target(bench)
 
-set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
+if(RADAR_BENCHMARKING_ENABLED)
+  add_custom_target(bench)
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
+  add_subdirectory("ThirdParty/googlebenchmark")
+endif()
 
-add_subdirectory("ThirdParty/googlebenchmark")
 add_subdirectory("ThirdParty/gtest")
 add_subdirectory("ThirdParty/imgui")
 add_subdirectory("ThirdParty/sqlite3")

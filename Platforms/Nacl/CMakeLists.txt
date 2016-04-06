@@ -61,19 +61,6 @@ add_custom_target(
   DEPENDS "RadarNacl.pexe"
 )
 
-# Test Target
-add_custom_command(
-  OUTPUT "RadarTest.pexe"
-  COMMAND ${RL_PNACL_FINALIZE} -o RadarTest.pexe RadarTest
-  DEPENDS RadarTest
-  COMMENT "Finalizing Native Client Test PEXE" VERBATIM
-)
-
-add_custom_target(
-  RadarNaclTest ALL
-  DEPENDS "RadarTest.pexe"
-)
-
 # Copy over the HTML harness and manifest
 
 configure_file("Resources/Radar.html" "Radar.html" COPYONLY)

@@ -41,6 +41,12 @@ set(__standard_radar_bench INCLUDED)
 
 function(StandardRadarBench BENCH_NAME_ARG)
 
+if (NOT RADAR_BENCHMARKING_ENABLED)
+  message(STATUS 
+      "\tSkipping benchmark target for '${BENCH_NAME_ARG}'.")
+  return()
+endif()
+
 string(CONCAT BENCH_TARGET_NAME ${BENCH_NAME_ARG} "Benchmark")
 
 message(STATUS 
