@@ -37,6 +37,8 @@ class Allocation : public MessageSerializable {
    */
   Allocation();
 
+  Allocation(uint8_t* bytes, size_t size);
+
   /**
    *  Collect the allocation.
    */

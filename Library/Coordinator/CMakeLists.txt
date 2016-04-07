@@ -32,7 +32,14 @@
 
 StandardRadarLibrary(Coordinator)
 
-target_link_libraries(Coordinator Core Geometry Animation Layout imgui)
+target_link_libraries(Coordinator
+  Core
+  Geometry
+  Animation
+  Layout
+  ImageDecoder
+  imgui
+)
 
 if (APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS

@@ -15,6 +15,18 @@ namespace core {
 
 Allocation::Allocation() : _allocation(nullptr), _size(0) {}
 
+Allocation::Allocation(uint8_t* bytes, size_t size)
+    : _allocation(bytes), _size(size) {
+  if (_size == 0) {
+    free(_allocation);
+    _allocation = nullptr;
+  }
+
+  if (_allocation == nullptr) {
+    _size = 0;
+  }
+}
+
 Allocation::~Allocation() {
   free(_allocation);
   _allocation = nullptr;
