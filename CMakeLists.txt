@@ -42,10 +42,16 @@ cmake_minimum_required(VERSION 3.0.2)
 
 project(Radar)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
 ################################################################################
-# Try to detect the platform we are on
+################################################################################
+##################     _____ _               _            ######################
+##################    /  __ \ |             | |           ######################
+##################    | /  \/ |__   ___  ___| | _____     ######################
+##################    | |   | '_ \ / _ \/ __| |/ / __|    ######################
+##################    | \__/\ | | |  __/ (__|   <\__ \    ######################
+##################     \____/_| |_|\___|\___|_|\_\___/    ######################
+##################                                        ######################
+################################################################################
 ################################################################################
 
 include(CheckIncludeFiles)
@@ -98,17 +104,6 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Haiku.*")
 endif()
 
 ################################################################################
-# Enable Sanitizers (Requires Custom Clang Setup)
-# Usage:
-#     $ cmake -DSANITIZE=address
-#     Any supported Clang sanitizer can be specified
-################################################################################
-
-if(SANITIZE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${SANITIZE} -g -O1")
-endif()
-
-################################################################################
 # Tweaks for the various platforms and compilers
 ################################################################################
 
@@ -149,20 +144,16 @@ endif()
 if (FREEBSD)
   # The default Mesa install target dumps its headers in a slightly different
   # directory
-  link_directories(
-    "/usr/local/lib"
-  )
-endif()
-
-if (APPLE)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
-    -framework OpenGL                                   \
-    -framework Foundation")
+  link_directories("/usr/local/lib")
 endif()
 
 if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+enable_testing()
 
 ################################################################################
 # Import CMake Modules
@@ -177,6 +168,42 @@ include(StandardRadarBench)
 
 ################################################################################
 ################################################################################
+################     _____       _   _                      ####################
+################    |  _  |     | | (_)                     ####################
+################    | | | |_ __ | |_ _  ___  _ __  ___      ####################
+################    | | | | '_ \| __| |/ _ \| '_ \/ __|     ####################
+################    \ \_/ / |_) | |_| | (_) | | | \__ \     ####################
+################     \___/| .__/ \__|_|\___/|_| |_|___/     ####################
+################          | |                               ####################
+################          |_|                               ####################
+################                                            ####################
+################################################################################
+################################################################################
+
+################################################################################
+# Control benchmarking
+################################################################################
+
+if(NOT (APPLE OR LINUX))
+  set(RADAR_BENCHMARKING_ENABLED OFF CACHE BOOL "Disable benchmarking")
+endif()
+
+option(RADAR_BENCHMARKING_ENABLED
+    "If benchmarking targets be generated" ON)
+
+################################################################################
+# Enable Sanitizers (Requires Custom Clang Setup)
+# Usage:
+#     $ cmake -DSANITIZE=address
+#     Any supported Clang sanitizer can be specified
+################################################################################
+
+if(SANITIZE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${SANITIZE} -g -O1")
+endif()
+
+################################################################################
+################################################################################
 ###############     _     _ _                    _               ###############
 ###############    | |   (_) |                  (_)              ###############
 ###############    | |    _| |__  _ __ __ _ _ __ _  ___  ___     ###############
@@ -187,16 +214,8 @@ include(StandardRadarBench)
 ################################################################################
 ################################################################################
 
-if(NOT (APPLE OR LINUX))
-  set(RADAR_BENCHMARKING_ENABLED OFF CACHE BOOL "Disable benchmarking")
-endif()
-
-option(RADAR_BENCHMARKING_ENABLED
-    "If benchmarking targets be generated" ON)
-
-enable_testing()
-
 if(RADAR_BENCHMARKING_ENABLED)
+  # Build the benchmarking target with its tests disabled.
   add_custom_target(bench)
   set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
   add_subdirectory("ThirdParty/googlebenchmark")
@@ -234,6 +253,17 @@ add_subdirectory("Library/Toolbox")
 ################################################################################
 
 ################################################################################
+# Mac OSX
+################################################################################
+
+# 1: `mkdir build`
+# 2: `cd build`
+# 3: `cmake ../ -G Ninja`
+# 4: `open ../Platforms/Mac/RadarMac.xcodeproj`
+#
+# Xcode is your friend.
+
+################################################################################
 # Linux Desktop Shell
 ################################################################################
 
@@ -246,57 +276,7 @@ endif()
 ################################################################################
 
 if(RASPBERRY)
-  file(GLOB RADAR_RASPBERRY_DESKTOP_SOURCES
-    "Platforms/RaspberryPi/Source/*.h"
-    "Platforms/RaspberryPi/Source/*.cc"
-    "Samples/*.h"
-    "Samples/*.cc"
-  )
-
-  include_directories (
-    "Samples"
-    "/opt/vc/include"
-    "/opt/vc/include/interface/vcos/pthreads"
-    "/opt/vc/include/interface/vmcs_host/linux"
-  )
-
-  link_directories(
-    "/opt/vc/lib"
-  )
-
-  add_executable( RadarRaspberryPi ${RADAR_RASPBERRY_DESKTOP_SOURCES} )
-
-  target_link_libraries(RadarRaspberryPi
-    pthread
-    rt
-    EGL
-    GLESv2
-    openmaxil
-    bcm_host
-    vcos
-    vchiq_arm
-  )
-endif()
-
-################################################################################
-# FreeBSD Desktop Shell
-################################################################################
-
-if(FREEBSD)
-  file(GLOB RADAR_BSD_DESKTOP_SOURCES
-    "Samples/*.h"
-    "Samples/*.cc"
-  )
-  include_directories ("Samples")
-
-  add_executable( RadarBSDDesktop ${RADAR_BSD_DESKTOP_SOURCES} )
-
-  include_directories("/usr/local/include")
-  link_directories("/usr/local/lib")
-
-  target_link_libraries(RadarBSDDesktop
-    pthread
-  )
+  add_subdirectory("Platforms/RaspberryPi")
 endif()
 
 ################################################################################
@@ -306,6 +286,12 @@ endif()
 if(NACL)
   add_subdirectory("Platforms/Nacl")
 endif()
+
+################################################################################
+# FreeBSD
+################################################################################
+
+# Everything should be automatic. There is no shell, only tests and benchmarks.
 
 ################################################################################
 ################################################################################

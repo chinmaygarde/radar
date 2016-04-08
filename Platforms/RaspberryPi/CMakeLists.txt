@@ -1,4 +1,4 @@
-# Copyright 2016 The Chromium Authors. All rights reserved.
+# Copyright 2015 The Chromium Authors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -26,31 +26,36 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-################################################################################
-# Library
-################################################################################
-
-StandardRadarLibrary(Coordinator)
-
-target_link_libraries(Coordinator
-  Core
-  Geometry
-  Animation
-  Layout
-  ImageDecoder
-  imgui
+file(GLOB RADAR_RASPI_SOURCES
+  "Source/*.h"
+  "Source/*.cc"
+  "../../Samples/*.h"
+  "../../Samples/*.cc"
 )
 
-if (APPLE)
-  find_library(OPENGL_FRAMEWORK OpenGL)
-  target_link_libraries(Coordinator ${OPENGL_FRAMEWORK})
-endif()
+# Generate the Executable
 
-if (LINUX)
-  find_library(GLES_LIBRARY GLESv2)
-  target_link_libraries(Coordinator ${GLES_LIBRARY})
-endif()
+include_directories(
+  "../../Samples"
+  "/opt/vc/include"
+  "/opt/vc/include/interface/vcos/pthreads"
+  "/opt/vc/include/interface/vmcs_host/linux"
+)
 
-if (NACL)
-  target_link_libraries(Coordinator ppapi_gles2)
-endif()
+link_directories(
+  "/opt/vc/lib"
+)
+
+add_executable(RadarRaspberryPi ${RADAR_RASPI_SOURCES})
+
+target_link_libraries(RadarRaspberryPi
+  Shell
+  pthread
+  rt
+  EGL
+  GLESv2
+  openmaxil
+  bcm_host
+  vcos
+  vchiq_arm
+)

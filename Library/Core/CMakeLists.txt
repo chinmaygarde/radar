@@ -35,8 +35,8 @@ StandardRadarLibrary(Core)
 target_link_libraries(Core sqlite3 pthread)
 
 if (APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS
-      "${CMAKE_SHARED_LINKER_FLAGS} -framework Foundation")
+  find_library(FOUNDATION Foundation)
+  target_link_libraries(Core ${FOUNDATION})
 endif()
 
 if (LINUX)
