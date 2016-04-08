@@ -1,7 +1,7 @@
 build:
   image: chinmaygarde/radar:v2
   commands:
-    - cmake .
+    - cmake . -DCMAKE_BUILD_TYPE=Release
     - make
     - make -C Docs htmlonly
 deploy:
