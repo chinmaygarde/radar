@@ -29,37 +29,48 @@
 set(CMAKE_SYSTEM_NAME Generic)
 SET(CMAKE_SYSTEM_VERSION 1)
 
-set(NACL BOOL ON)
+set(ANDROID BOOL ON)
+set(ANDROID_PLATFORM_VERSION 16)
+set(ANDROID_ARCH arm)
+set(ANDROID_TOOLCHAIN arm-linux-androideabi)
+set(ANDROID_GCC_VERSION 4.9)
 
-include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include)
-include_directories(BEFORE SYSTEM ${NACL_SDK_ROOT}/include/newlib)
+################################################################################
+# Setup the toolchain on the host
+################################################################################
 
-link_directories(${NACL_SDK_ROOT}/lib/pnacl/Release)
+set(ANDROID_ROOT "${ANDROID_NDK_ROOT}" CACHE STRING "Android NDK Root")
 
 if(CMAKE_HOST_APPLE)
-  set(PNACL_TOOLCHAIN "mac_pnacl")
-elseif(CMAKE_HOST_UNIX)
-  set(PNACL_TOOLCHAIN "linux_pnacl")
+  set(TOOLCHAIN_HOST_DIR "darwin-x86_64")
 else()
-  message(FATAL_ERROR "PNACL_TOOLCHAIN variable not set for this platform")
+  message(FATAL_ERROR "TOOLCHAIN_HOST_DIR not set for this platform")
 endif()
 
-set(CMAKE_C_COMPILER
-    ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN}/bin/pnacl-clang)
-set(CMAKE_CXX_COMPILER
-    ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN}/bin/pnacl-clang++)
-set(CMAKE_AR
-    ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN}/bin/pnacl-ar CACHE STRING "")
-set(CMAKE_RANLIB
-    ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN}/bin/pnacl-ranlib CACHE STRING "")
-set(CMAKE_FIND_ROOT_PATH
-    ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN})
+set(TOOLCHAIN
+  "${ANDROID_ROOT}/toolchains/${ANDROID_TOOLCHAIN}-${ANDROID_GCC_VERSION}/prebuilt/${TOOLCHAIN_HOST_DIR}/bin/${ANDROID_TOOLCHAIN}")
 
-set(CMAKE_C_FLAGS    "-U__STRICT_ANSI__" CACHE STRING "")
-set(CMAKE_CXX_FLAGS  "-U__STRICT_ANSI__" CACHE STRING "")
+set(CMAKE_C_COMPILER   "${TOOLCHAIN}-gcc")
+set(CMAKE_CXX_COMPILER "${TOOLCHAIN}-g++")
+set(CMAKE_AR           "${TOOLCHAIN}-ar" CACHE STRING "")
+set(CMAKE_RANLIB       "${TOOLCHAIN}-ranlib" CACHE STRING "")
 
-set(RL_PNACL_FINALIZE ${NACL_SDK_ROOT}/toolchain/${PNACL_TOOLCHAIN}/bin/pnacl-finalize)
-
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+################################################################################
+# Setup sysroot
+################################################################################
+
+set(ANDROID_SYSROOT "${ANDROID_NDK_ROOT}/platforms/android-${ANDROID_PLATFORM_VERSION}/arch-${ANDROID_ARCH}")
+
+set(CMAKE_FIND_ROOT_PATH "${ANDROID_SYSROOT}")
+set(CMAKE_SYSROOT "${ANDROID_SYSROOT}")
+
+set(CMAKE_C_COMPILER_WORKS TRUE)
+set(CMAKE_CXX_COMPILER_WORKS TRUE)
+
+include_directories("${ANDROID_NDK_ROOT}/sources/android/support/include")
+include_directories("${ANDROID_NDK_ROOT}/sources/cxx-stl/llvm-libc++/libcxx/include")
+include_directories("${ANDROID_NDK_ROOT}/sources/cxx-stl/llvm-libc++abi/libcxxabi/include")

@@ -111,16 +111,16 @@ if(NOT WINDOWS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-# Basic version checks. GCC >= 4.9 and Clang >= 3.7 or AppleClang.
+# Basic version checks. GCC >= 4.9 and Clang >= 3.6 or AppleClang.
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Require at least GCC 4.9
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
     message(FATAL_ERROR "GCC version must be at least 4.9!")
   endif()
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # Require at least Clang 3.7
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.7)
-    message(FATAL_ERROR "Clang version must be at least 3.7!")
+  # Require at least Clang 3.6
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.6)
+    message(FATAL_ERROR "Clang version must be at least 3.6!")
   endif()
 elseif (NOT NACL AND NOT WINDOWS)
   message(FATAL_ERROR "Unsupported Compiler!")
@@ -135,10 +135,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   endif()
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
         NOT CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
-  # When these flags are added to -Wall or -Wextra, this check can be removed.
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -Wpessimizing-move                    \
-    -Wredundant-move")
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.6)
+    # When these flags are added to -Wall or -Wextra, this check can be removed.
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+      -Wpessimizing-move                    \
+      -Wredundant-move")
+  endif()
 endif()
 
 if (FREEBSD)
