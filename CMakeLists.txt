@@ -186,14 +186,23 @@ include(StandardRadarBench)
 # Control benchmarking
 ################################################################################
 
-if(NOT (APPLE OR LINUX))
-  # Benchmarking is enabled on only Mac and Linux. Disable it unconditionally
-  # elsewhere.
+if(NOT (APPLE OR LINUX OR WINDOWS))
   set(RADAR_BENCHMARKING_ENABLED OFF CACHE BOOL "Disable benchmarking")
 endif()
 
 option(RADAR_BENCHMARKING_ENABLED
-    "If benchmarking targets be generated" ON)
+    "If benchmarking targets will be generated" ON)
+
+################################################################################
+# Control testing
+################################################################################
+
+if(NOT (APPLE OR LINUX OR WINDOWS))
+  set(RADAR_TESTING_ENABLED OFF CACHE BOOL "Disable testing")
+endif()
+
+option(RADAR_TESTING_ENABLED
+    "If testing targets will be generated" ON)
 
 ################################################################################
 # Enable Sanitizers (Requires Custom Clang Setup)

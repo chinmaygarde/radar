@@ -32,6 +32,7 @@ SET(CMAKE_SYSTEM_VERSION 1)
 set(ANDROID BOOL ON)
 set(ANDROID_PLATFORM_VERSION 21)
 set(ANDROID_ARCH arm)
+set(ANDROID_CXX_LIB_ARCH armeabi)
 set(ANDROID_TOOLCHAIN arm-linux-androideabi)
 set(ANDROID_GCC_VERSION 4.9)
 
@@ -74,3 +75,5 @@ set(CMAKE_CXX_COMPILER_WORKS TRUE)
 include_directories("${ANDROID_NDK_ROOT}/sources/android/support/include")
 include_directories("${ANDROID_NDK_ROOT}/sources/cxx-stl/llvm-libc++/libcxx/include")
 include_directories("${ANDROID_NDK_ROOT}/sources/cxx-stl/llvm-libc++abi/libcxxabi/include")
+
+link_directories("${ANDROID_NDK_ROOT}/sources/cxx-stl/llvm-libc++/libs/${ANDROID_CXX_LIB_ARCH}")

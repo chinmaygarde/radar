@@ -41,6 +41,12 @@ set(__standard_radar_test INCLUDED)
 
 function(StandardRadarTest TEST_NAME_ARG)
 
+if (NOT RADAR_TESTING_ENABLED)
+  message(STATUS 
+      "\tSkipping test target for '${TEST_NAME_ARG}'.")
+  return()
+endif()
+
 string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
 
 message(STATUS 
