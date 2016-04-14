@@ -28,9 +28,9 @@
 #include <Sample.h>
 
 #define LOGI(...) \
-  ((void)__android_log_print(ANDROID_LOG_INFO, "radarlove", __VA_ARGS__))
+  ((void)__android_log_print(ANDROID_LOG_INFO, "Radar", __VA_ARGS__))
 #define LOGW(...) \
-  ((void)__android_log_print(ANDROID_LOG_WARN, "radarlove", __VA_ARGS__))
+  ((void)__android_log_print(ANDROID_LOG_WARN, "Radar", __VA_ARGS__))
 
 /**
  *  Shared state for our app.
@@ -43,7 +43,6 @@ struct engine {
   EGLContext context;
 
   rl::shell::Shell* shell;
-  rl::coordinator::RenderSurface* renderSurface;
 
   engine()
       : app(nullptr),
@@ -52,8 +51,7 @@ struct engine {
         context(EGL_NO_CONTEXT),
         width(0),
         height(0),
-        shell(nullptr),
-        renderSurface(nullptr) {}
+        shell(nullptr) {}
 
   void setSize(int32_t w, int32_t h) {
     bool changed = w != width || h != height;
@@ -64,12 +62,8 @@ struct engine {
     if (changed) {
       rl::geom::Size size(w, h);
 
-      if (renderSurface != nullptr) {
-        renderSurface->surfaceSizeUpdated(size);
-      }
-
       if (shell != nullptr) {
-        shell->interface().setSize(size);
+        shell->renderSurfaceDidUpdateSize(size);
       }
     }
   }
@@ -119,7 +113,7 @@ struct engine {
     auto y = AMotionEvent_getY(event, pointerIndex);
     auto pointerIdentifier = AMotionEvent_getPointerId(event, pointerIndex);
 
-    shell->host().touchEventChannel().sendTouchEvents(
+    shell->dispatchTouchEvents(
         {rl::event::TouchEvent{pointerIdentifier, {x, y}, phase}});
   }
 
@@ -315,14 +309,21 @@ void android_main(struct android_app* state) {
   state->onInputEvent = engine_handle_input;
   engine.app = state;
 
+  /*
+   *  Create the render surface and initialize the shell.
+   */
   auto renderSurface = std::make_shared<RenderSurfaceAndroid>(&engine);
+  auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(renderSurface);
+  shell->renderSurfaceWasSetup();
+
+  engine.shell = shell.get();
+
+  /*
+   *  Create a managed interface and register it with the shell.
+   */
   auto application = std::make_shared<sample::SampleApplication>();
-  rl::shell::Shell shell(renderSurface, application);
-
-  renderSurface->surfaceWasCreated();
-
-  engine.shell = &shell;
-  engine.renderSurface = renderSurface.get();
+  auto interface = rl::core::make_unique<rl::interface::Interface>(application);
+  shell->registerManagedInterface(std::move(interface));
 
   /*
    *  Setup Platform Event Loop
@@ -356,6 +357,6 @@ void android_main(struct android_app* state) {
     }
   }
 
-  renderSurface->surfaceWasDestroyed();
-  shell.shutdown();
+  shell->renderSurfaceWasTornDown();
+  shell->shutdown();
 }

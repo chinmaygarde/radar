@@ -153,6 +153,10 @@ if(RASPBERRY)
   add_definitions("-D__raspberrypi__=1")
 endif()
 
+if(ANDROID)
+  set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
+endif()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 enable_testing()
@@ -298,6 +302,14 @@ endif()
 
 if(NACL)
   add_subdirectory("Platforms/Nacl")
+endif()
+
+################################################################################
+# Android Shell
+################################################################################
+
+if(ANDROID)
+  add_subdirectory("Platforms/Android")
 endif()
 
 ################################################################################

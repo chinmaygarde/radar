@@ -27,14 +27,14 @@
 #include <android/log.h>
 
 #define LOGI(...) \
-  ((void)__android_log_print(ANDROID_LOG_INFO, "radarlove", __VA_ARGS__))
+  ((void)__android_log_print(ANDROID_LOG_INFO, "Radar", __VA_ARGS__))
 #define LOGE(...) \
-  ((void)__android_log_print(ANDROID_LOG_ERROR, "radarlove", __VA_ARGS__))
+  ((void)__android_log_print(ANDROID_LOG_ERROR, "Radar", __VA_ARGS__))
 
 /* For debug builds, always enable the debug traces in this library */
 #ifndef NDEBUG
 #define LOGV(...) \
-  ((void)__android_log_print(ANDROID_LOG_VERBOSE, "radarlove", __VA_ARGS__))
+  ((void)__android_log_print(ANDROID_LOG_VERBOSE, "Radar", __VA_ARGS__))
 #else
 #define LOGV(...) ((void)0)
 #endif
