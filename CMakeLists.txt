@@ -187,6 +187,8 @@ include(StandardRadarBench)
 ################################################################################
 
 if(NOT (APPLE OR LINUX))
+  # Benchmarking is enabled on only Mac and Linux. Disable it unconditionally
+  # elsewhere.
   set(RADAR_BENCHMARKING_ENABLED OFF CACHE BOOL "Disable benchmarking")
 endif()
 
