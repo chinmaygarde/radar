@@ -32,14 +32,19 @@
 
 StandardRadarLibrary(Core)
 
-target_link_libraries(Core sqlite3 pthread)
+target_link_libraries(Core sqlite3)
 
-if (APPLE)
+if(NOT ANDROID)
+  # pthread is implicit on Android.
+  target_link_libraries(Core pthread)
+endif()
+
+if(APPLE)
   find_library(FOUNDATION Foundation)
   target_link_libraries(Core ${FOUNDATION})
 endif()
 
-if (LINUX)
+if(LINUX)
   target_link_libraries(Core dl rt)
 endif()
 
