@@ -124,11 +124,11 @@ std::string GetName() {
   char name[24] = {0};
   RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
   return name;
-#elif RL_OS_LINUX
+#elif RL_OS_LINUX && !RL_OS_ANDROID
   char name[24] = {0};
   RL_CHECK(pthread_getname_np(pthread_self(), name, sizeof(name)));
   return name;
-#elif RL_OS_BSD || RL_OS_WINDOWS || RL_OS_NACL
+#elif RL_OS_BSD || RL_OS_WINDOWS || RL_OS_NACL || RL_OS_ANDROID
   // No platform supported implementation
   return "";
 #else
