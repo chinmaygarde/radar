@@ -6,9 +6,9 @@ model {
         buildToolsVersion = "23.0.0"
 
         defaultConfig.with {
-            applicationId = "com.radarlove.shell"
+            applicationId = "run.radar.shell"
             minSdkVersion.apiLevel    = 9
-            targetSdkVersion.apiLevel = 23
+            targetSdkVersion.apiLevel = 21
         }
     }
 
@@ -17,37 +17,10 @@ model {
         targetCompatibility=JavaVersion.VERSION_1_7
     }
 
-    android.ndk {
-        moduleName = "RadarLove"
-        CFlags.add("-I${file("src/main/jni/native_app_glue")}".toString())
-        cppFlags.addAll(["-I${file("src/main/jni/RadarLove/Headers")}".toString(),
-                         "-I${file("src/main/jni/RadarLove/Source")}".toString(),
-                         "-I${file("src/main/jni/ThirdParty")}".toString(),
-                         "-I${file("src/main/jni/Samples")}".toString(),
-                         "-I${file("src/main/jni/native_app_glue")}".toString()])
-        ldLibs.addAll(["log", "android", "EGL", "GLESv1_CM", "GLESv2"])
-        stl = "c++_static"
-    }
     android.buildTypes {
         release {
             minifyEnabled = false
             proguardFiles.add(file('proguard-rules.txt'))
         }
-    }
-    android.productFlavors {
-        create ("arm7") {
-            ndk.abiFilters.add("armeabi-v7a")
-        }
-        create ("arm8") {
-            ndk.abiFilters.add("arm64-v8a")
-        }
-        create ("x86-32") {
-            ndk.abiFilters.add("x86")
-        }
-        // for detailed abiFilter descriptions, refer to "Supported ABIs" @
-        // https://developer.android.com/ndk/guides/abis.html#sa
-        // build one including all productFlavors
-        // build one including all productFlavors
-        create("fat")
     }
 }
