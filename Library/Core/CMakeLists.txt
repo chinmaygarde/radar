@@ -32,20 +32,20 @@
 
 StandardRadarLibrary(Core)
 
-target_link_libraries(Core sqlite3)
+target_link_libraries(Core PRIVATE sqlite3)
 
 if(NOT ANDROID)
   # pthread is implicit on Android.
-  target_link_libraries(Core pthread)
+  target_link_libraries(Core PRIVATE pthread)
 endif()
 
 if(APPLE)
   find_library(FOUNDATION Foundation)
-  target_link_libraries(Core ${FOUNDATION})
+  target_link_libraries(Core PRIVATE ${FOUNDATION})
 endif()
 
 if(LINUX)
-  target_link_libraries(Core dl rt)
+  target_link_libraries(Core PRIVATE dl rt)
 endif()
 
 ################################################################################

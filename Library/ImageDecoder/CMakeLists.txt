@@ -32,7 +32,10 @@
 
 StandardRadarLibrary(ImageDecoder)
 
-target_link_libraries(ImageDecoder Core Geometry stb)
+target_link_libraries(ImageDecoder
+  PUBLIC  Core Geometry
+  PRIVATE stb
+)
 
 ################################################################################
 # Test

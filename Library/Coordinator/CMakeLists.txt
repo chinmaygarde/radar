@@ -33,24 +33,20 @@
 StandardRadarLibrary(Coordinator)
 
 target_link_libraries(Coordinator
-  Core
-  Geometry
-  Animation
-  Layout
-  ImageDecoder
-  imgui
+  PUBLIC  Core Geometry Animation Layout ImageDecoder
+  PRIVATE imgui
 )
 
 if (APPLE)
   find_library(OPENGL_FRAMEWORK OpenGL)
-  target_link_libraries(Coordinator ${OPENGL_FRAMEWORK})
+  target_link_libraries(Coordinator PRIVATE ${OPENGL_FRAMEWORK})
 endif()
 
 if (LINUX)
   find_library(GLES_LIBRARY GLESv2)
-  target_link_libraries(Coordinator ${GLES_LIBRARY})
+  target_link_libraries(Coordinator PRIVATE ${GLES_LIBRARY})
 endif()
 
 if (NACL)
-  target_link_libraries(Coordinator ppapi_gles2)
+  target_link_libraries(Coordinator PRIVATE ppapi_gles2)
 endif()
