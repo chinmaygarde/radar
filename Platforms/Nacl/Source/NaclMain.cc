@@ -2,12 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <ppapi/cpp/graphics_3d.h>
+#include <ppapi/cpp/input_event.h>
 #include <ppapi/cpp/instance.h>
+#include <ppapi/cpp/instance.h>
+#include <ppapi/cpp/module.h>
 #include <ppapi/cpp/module.h>
 #include <ppapi/cpp/var.h>
-#include <ppapi/cpp/graphics_3d.h>
-#include <ppapi/cpp/instance.h>
-#include <ppapi/cpp/module.h>
 #include <ppapi/cpp/var.h>
 #include <ppapi/cpp/var_array.h>
 #include <ppapi/lib/gl/gles2/gl2ext_ppapi.h>
@@ -59,13 +60,16 @@ class RenderSurfaceNacl : public rl::coordinator::RenderSurface {
 class RadarPlatformInstance : public pp::Instance {
  public:
   explicit RadarPlatformInstance(PP_Instance instance)
-      : pp::Instance(instance) {
+      : pp::Instance(instance), _tracingTouch(false) {
     auto ppInstance = pp::Instance::pp_instance();
     auto ppInterface = pp::Module::Get()->get_browser_interface();
     RL_CHECK(nacl_io_init_ppapi(ppInstance, ppInterface));
+
+    auto result = RequestInputEvents(PP_INPUTEVENT_CLASS_MOUSE);
+    RL_ASSERT(result == PP_OK);
   }
 
-  virtual ~RadarPlatformInstance() {
+  ~RadarPlatformInstance() override {
     _shell->renderSurfaceWasTornDown();
     _shell->shutdown();
     _shell.reset();
@@ -73,9 +77,75 @@ class RadarPlatformInstance : public pp::Instance {
     RL_CHECK(nacl_io_uninit());
   }
 
-  virtual void HandleMessage(const pp::Var& var_message) {}
+  bool HandleInputEvent(const pp::InputEvent& event) override {
+    switch (event.GetType()) {
+      /*
+       *  TouchEvent::Phase::Began
+       */
+      case PP_INPUTEVENT_TYPE_MOUSEDOWN: {
+        _tracingTouch = true;
 
-  virtual void DidChangeView(const pp::View& view) {
+        HandleEvent(pp::MouseInputEvent{event},
+                    event::TouchEvent::Phase::Began);
+      } break;
+      /*
+       *  TouchEvent::Phase::Ended
+       */
+      case PP_INPUTEVENT_TYPE_MOUSEUP: {
+        _tracingTouch = false;
+
+        HandleEvent(pp::MouseInputEvent{event},
+                    event::TouchEvent::Phase::Ended);
+      } break;
+      /*
+       *  TouchEvent::Phase::Moved
+       */
+      case PP_INPUTEVENT_TYPE_MOUSEMOVE: {
+        if (!_tracingTouch) {
+          break;
+        }
+
+        HandleEvent(pp::MouseInputEvent{event},
+                    event::TouchEvent::Phase::Moved);
+      } break;
+      /*
+       *  TouchEvent::Phase::Cancelled
+       */
+      case PP_INPUTEVENT_TYPE_MOUSELEAVE: {
+        if (!_tracingTouch) {
+          break;
+        }
+
+        HandleEvent(pp::MouseInputEvent{event},
+                    event::TouchEvent::Phase::Cancelled);
+      } break;
+      default:
+        break;
+    }
+    return true;
+  }
+
+  void HandleEvent(const pp::MouseInputEvent& event,
+                   event::TouchEvent::Phase phase) {
+    RL_ASSERT(!event.is_null());
+
+    auto position = event.GetPosition();
+
+    std::vector<event::TouchEvent> events;
+    events.emplace_back(
+        event::TouchEvent{0,
+                          {static_cast<double>(position.x()),  //
+                           static_cast<double>(position.y())},
+                          phase});
+
+    _shell->dispatchTouchEvents(events);
+  }
+
+  void Log(const pp::Var& value) { LogToConsole(PP_LOGLEVEL_LOG, value); }
+
+  void HandleMessage(const pp::Var& var_message) override {}
+
+  void DidChangeView(const pp::View& view) override {
     int32_t newWidth = view.GetRect().width() * view.GetDeviceScale();
     int32_t newHeight = view.GetRect().height() * view.GetDeviceScale();
 
@@ -141,6 +211,7 @@ class RadarPlatformInstance : public pp::Instance {
   std::unique_ptr<rl::shell::Shell> _shell;
   std::shared_ptr<RenderSurfaceNacl> _renderSurface;
   std::shared_ptr<sample::SampleApplication> _application;
+  bool _tracingTouch;
 
   pp::Graphics3D _context;
 
