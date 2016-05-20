@@ -23,6 +23,10 @@ File::~File() {
   }
 }
 
+File::File(File&& other) : _handle(other._handle) {
+  other._handle = -1;
+}
+
 bool File::isReady() const {
   return _handle != -1;
 }

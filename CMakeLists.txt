@@ -241,6 +241,7 @@ endif()
 add_subdirectory("ThirdParty/gtest")
 add_subdirectory("ThirdParty/imgui")
 add_subdirectory("ThirdParty/sqlite3")
+add_subdirectory("ThirdParty/uriparser")
 add_subdirectory("ThirdParty/stb")
 
 add_subdirectory("Library/Animation")

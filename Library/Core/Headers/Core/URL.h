@@ -2,33 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_FILE_H_
-#define RADAR_CORE_FILE_H_
+#ifndef RADAR_CORE_URL_H_
+#define RADAR_CORE_URL_H_
 
 #include <Core/Macros.h>
 
 namespace rl {
 namespace core {
 
-class File {
+class URL {
  public:
-  using Handle = int;
-
-  File(const std::string& path);
-
-  File(File&& file);
-
-  ~File();
-
-  bool isReady() const;
-
  private:
-  Handle _handle;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(File);
+  RL_DISALLOW_COPY_AND_ASSIGN(URL);
 };
 
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADAR_CORE_FILE_H_
+#endif  // RADAR_CORE_URL_H_

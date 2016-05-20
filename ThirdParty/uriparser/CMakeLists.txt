@@ -30,29 +30,23 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(Core)
-
-target_link_libraries(Core
-  PRIVATE sqlite3
-  PRIVATE uriparser
+file(GLOB URI_PARSER_SRC
+  "Source/src/UriCommon.c"
+  "Source/src/UriCompare.c"
+  "Source/src/UriEscape.c"
+  "Source/src/UriFile.c"
+  "Source/src/UriIp4.c"
+  "Source/src/UriIp4Base.c"
+  "Source/src/UriNormalize.c"
+  "Source/src/UriNormalizeBase.c"
+  "Source/src/UriParse.c"
+  "Source/src/UriParseBase.c"
+  "Source/src/UriQuery.c"
+  "Source/src/UriRecompose.c"
+  "Source/src/UriResolve.c"
+  "Source/src/UriShorten.c"
 )
 
-if(NOT ANDROID)
-  # pthread is implicit on Android.
-  target_link_libraries(Core PRIVATE pthread)
-endif()
-
-if(APPLE)
-  find_library(FOUNDATION Foundation)
-  target_link_libraries(Core PRIVATE ${FOUNDATION})
-endif()
-
-if(LINUX)
-  target_link_libraries(Core PRIVATE dl rt)
-endif()
-
-################################################################################
-# Test
-################################################################################
-
-StandardRadarTest(Core)
+add_library(uriparser ${URI_PARSER_SRC})
+target_include_directories(uriparser PUBLIC Headers)
+include_directories("Headers/uriparser" "Source")
