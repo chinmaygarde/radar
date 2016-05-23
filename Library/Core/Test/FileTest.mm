@@ -10,7 +10,7 @@
 RL_DECLARE_TEST_START(FileTest)
 
 TEST(FileTest, SimpleFail) {
-  rl::core::File file("no/such/file/exists.txt");
+  rl::core::File file(std::string{"file://no/such/file/exists.txt"});
   ASSERT_FALSE(file.isReady());
 }
 

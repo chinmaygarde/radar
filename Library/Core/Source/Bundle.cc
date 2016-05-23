@@ -11,5 +11,7 @@ Bundle::Bundle() {}
 
 Bundle::~Bundle() {}
 
+File Bundle::fileForURI(const URI& url) const {}
+
 }  // namespace core
 }  // namespace rl

@@ -6,7 +6,7 @@
 #define RADAR_CORE_BUNDLE_H_
 
 #include <Core/Macros.h>
-#include <Core/URL.h>
+#include <Core/URI.h>
 #include <Core/File.h>
 
 namespace rl {
@@ -16,7 +16,7 @@ class Bundle {
  public:
   Bundle();
 
-  File fileForURL(const URL& url) const;
+  File fileForURI(const URI& url) const;
 
   virtual ~Bundle();
 

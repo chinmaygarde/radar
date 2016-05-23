@@ -6,6 +6,7 @@
 #define RADAR_CORE_FILE_H_
 
 #include <Core/Macros.h>
+#include <Core/URI.h>
 
 namespace rl {
 namespace core {
@@ -14,7 +15,7 @@ class File {
  public:
   using Handle = int;
 
-  File(const std::string& path);
+  File(const URI& uri);
 
   File(File&& file);
 

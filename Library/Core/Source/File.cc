@@ -12,8 +12,13 @@
 namespace rl {
 namespace core {
 
-File::File(const std::string& path) : _handle(-1) {
-  _handle = RL_TEMP_FAILURE_RETRY(::open(path.c_str(), O_RDONLY));
+File::File(const URI& uri) : _handle(-1) {
+  if (!uri.isValid()) {
+    return;
+  }
+
+  _handle = RL_TEMP_FAILURE_RETRY(
+      ::open(uri.filesystemRepresentation().c_str(), O_RDONLY));
 }
 
 File::~File() {
