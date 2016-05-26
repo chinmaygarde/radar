@@ -162,8 +162,8 @@ Result Solver::suggestValueForVariable(const Variable& variable, double value) {
   return dualOptimize();
 }
 
-Solver::FlushResult Solver::flushUpdates(SolverUpdateCallback callback) const {
-  FlushResult result = FlushResult::NoUpdates;
+size_t Solver::flushUpdates(SolverUpdateCallback callback) const {
+  size_t updateCount = 0;
 
   for (auto& i : _vars) {
     auto foundRow = _rows.find(i.second);
@@ -175,13 +175,14 @@ Solver::FlushResult Solver::flushUpdates(SolverUpdateCallback callback) const {
     auto& row = foundRow->second;
 
     if (row->constantHasUpdate()) {
-      callback(i.first, row->constant());
+      if (callback(i.first, row->constant()) == FlushResult::Updated) {
+        updateCount++;
+      }
       row->resolveConstantUpdate();
-      result = FlushResult::Updated;
     }
   }
 
-  return result;
+  return updateCount;
 }
 
 Symbol Solver::symbolForVariable(const Variable& variable) {

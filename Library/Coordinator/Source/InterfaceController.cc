@@ -145,7 +145,7 @@ bool InterfaceController::enforceConstraints() {
   RL_ASSERT_MSG(_isUpdating,
                 "Can only enforce constraints within an update phase");
 
-  return _graph.applyConstraints() == layout::Solver::FlushResult::Updated;
+  return _graph.applyConstraints() > 0;
 }
 
 bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {

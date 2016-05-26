@@ -65,8 +65,8 @@ class Solver {
   };
 
   using SolverUpdateCallback =
-      std::function<void(const Variable&, double value)>;
-  FlushResult flushUpdates(SolverUpdateCallback callback) const;
+      std::function<FlushResult(const Variable&, double value)>;
+  size_t flushUpdates(SolverUpdateCallback callback) const;
 
  private:
   core::Namespace& _localNS;

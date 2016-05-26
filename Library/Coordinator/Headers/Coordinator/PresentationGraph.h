@@ -38,7 +38,15 @@ class PresentationGraph {
 
   void applyTouchMap(const event::TouchEvent::PhaseMap& touches);
 
-  layout::Solver::FlushResult applyConstraints();
+  /**
+   *  Applies pending constraint updates to the presentation graph and returns
+   *  the number of visual entities on which constraint updates were performed.
+   *
+   *  @return the number of visual entities on which constraint updates were
+   *          applied. Most notably, touch entity updates do NOT count to this
+   *          number.
+   */
+  size_t applyConstraints();
 
   bool render(Frame& frame);
 
@@ -86,7 +94,9 @@ class PresentationGraph {
 
   void onEditVariableSuggest(const layout::Variable& variable, double value);
 
-  void resolveConstraintUpdate(const layout::Variable& variable, double value);
+  layout::Solver::FlushResult resolveConstraintUpdate(
+      const layout::Variable& variable,
+      double value);
 
   double resolveConstraintConstant(const layout::Variable& variable) const;
 

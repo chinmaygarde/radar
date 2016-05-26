@@ -443,13 +443,13 @@ void PresentationGraph::applyTouchMap(
   _proxyResolver.applyTouchMap(touches);
 }
 
-layout::Solver::FlushResult PresentationGraph::applyConstraints() {
+size_t PresentationGraph::applyConstraints() {
   namespace P = std::placeholders;
   return _layoutSolver.flushUpdates(std::bind(
       &PresentationGraph::resolveConstraintUpdate, this, P::_1, P::_2));
 }
 
-void PresentationGraph::resolveConstraintUpdate(
+layout::Solver::FlushResult PresentationGraph::resolveConstraintUpdate(
     const layout::Variable& variable,
     double value) {
   auto found = _entities.find(variable.identifier());
@@ -461,12 +461,13 @@ void PresentationGraph::resolveConstraintUpdate(
     RL_ASSERT_MSG(!variable.isProxy(),
                   "Entity for a non-proxy identifier was not found. There is a "
                   "cleanup error.");
-    return;
+    return layout::Solver::FlushResult::NoUpdates;
   }
   /*
    *  Actually update the property.
    */
   layout::Variable::SetProperty(*found->second, variable.property(), value);
+  return layout::Solver::FlushResult::Updated;
 }
 
 double PresentationGraph::resolveConstraintConstant(
