@@ -20,7 +20,8 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
               core::ClockDurationSeconds(1.0 / 60.0)))),
       _touchEventChannel(touchEventChannel),
       _coordinatorAcquisitionProtocol(
-          std::bind(&Coordinator::acquireFreshCoordinatorChannel, this)) {
+          std::bind(&Coordinator::acquireFreshCoordinatorChannel, this)),
+      _forceFrame(true) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
   _animationsSource->setWakeFunction(
@@ -181,24 +182,30 @@ void Coordinator::onDisplayLink() {
     wasUpdated |= interface.updateInterface(touchesIfAny);
   }
 
+  wasUpdated |= _forceFrame;
+
   if (wasUpdated) {
-    renderSingleFrame();
+    /*
+     *  If the scene was updated but the frame could not be rendered (for
+     *  whatever reason), force the next frame.
+     */
+    _forceFrame = !renderSingleFrame();
   }
 }
 
-void Coordinator::renderSingleFrame() {
+bool Coordinator::renderSingleFrame() {
   RL_TRACE_AUTO("RenderFrame");
 
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 
   if (!surfaceAccess.acquired()) {
-    return;
+    return false;
   }
 
   ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
 
   if (!frame.isReady()) {
-    return;
+    return false;
   }
 
   StatisticsFrame statistics(_stats);
@@ -215,6 +222,8 @@ void Coordinator::renderSingleFrame() {
     renderFrameStatistics(frame);
     surfaceAccess.finalizeForPresentation();
   }
+
+  return true;
 }
 
 void Coordinator::renderFrameStatistics(Frame& frame) {

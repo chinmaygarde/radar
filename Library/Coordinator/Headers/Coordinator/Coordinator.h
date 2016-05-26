@@ -77,6 +77,7 @@ class Coordinator {
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
   CoordinatorStatistics _stats;
   StatisticsRenderer _statsRenderer;
+  bool _forceFrame;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
   void startComposition();
@@ -86,7 +87,7 @@ class Coordinator {
   void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
 
-  void renderSingleFrame();
+  bool renderSingleFrame();
   void renderFrameStatistics(Frame& frame);
 
   void onDisplayLink();
