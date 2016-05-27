@@ -104,8 +104,6 @@ void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
   for (auto& interfaceController : _interfaceControllers) {
     interfaceController.updateSize(_surfaceSize);
   }
-
-  onDisplayLink();
 }
 
 /**

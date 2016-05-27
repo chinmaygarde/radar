@@ -67,7 +67,7 @@ void InterfaceController::onChannelMessage(core::Message message) {
 }
 
 void InterfaceController::updateSize(const geom::Size& size) {
-  _graph.updateSize(size);
+  _needsUpdate |= _graph.updateSize(size);
 }
 
 bool InterfaceController::needsUpdate() const {

@@ -32,7 +32,7 @@ class PresentationGraph {
 
   ~PresentationGraph();
 
-  void updateSize(const geom::Size& size);
+  bool updateSize(const geom::Size& size);
 
   bool applyTransactions(core::Message& arena);
 

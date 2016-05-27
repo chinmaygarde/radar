@@ -37,9 +37,9 @@ PresentationGraph::PresentationGraph(core::Namespace& localNS,
 
 PresentationGraph::~PresentationGraph() {}
 
-void PresentationGraph::updateSize(const geom::Size& size) {
+bool PresentationGraph::updateSize(const geom::Size& size) {
   if (_size == size) {
-    return;
+    return false;
   }
 
   _size = size;
@@ -49,6 +49,7 @@ void PresentationGraph::updateSize(const geom::Size& size) {
   }
 
   updateRootSizeSuggestions();
+  return true;
 }
 
 void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
