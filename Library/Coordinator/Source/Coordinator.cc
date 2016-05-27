@@ -194,6 +194,14 @@ void Coordinator::onDisplayLink() {
 bool Coordinator::renderSingleFrame() {
   RL_TRACE_AUTO("RenderFrame");
 
+  if (_surfaceSize.width <= 0.0 || _surfaceSize.height <= 0.0) {
+    /*
+     *  Don't bother the platform if the surface size is zero. Just say we have
+     *  rendered and go on with it.
+     */
+    return true;
+  }
+
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 
   if (!surfaceAccess.acquired()) {

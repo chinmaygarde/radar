@@ -26,7 +26,15 @@ Frame::Frame(geom::Size size,
 }
 
 bool Frame::isReady() const {
-  return glGetError() == GL_NO_ERROR && _size.width * _size.height > 0.0;
+  if (_size.width <= 0.0 && _size.height <= 0.0) {
+    return false;
+  }
+
+  if (glGetError() != GL_NO_ERROR) {
+    return false;
+  }
+
+  return true;
 }
 
 const geom::Size& Frame::size() const {
