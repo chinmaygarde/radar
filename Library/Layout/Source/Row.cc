@@ -8,7 +8,7 @@
 namespace rl {
 namespace layout {
 
-Row::Row(double constant) : _constant(constant), _constantHasUpdate(true) {}
+Row::Row(double constant) : _constant(constant), _constantHasUpdate(false) {}
 
 double Row::constant() const {
   return _constant;
@@ -62,9 +62,10 @@ void Row::solve(const Symbol& symbol) {
 
   _cells.erase(symbol);
 
-  setConstantUpdated(coefficient != 1.0);
+  setConstantUpdated(coefficient != 1.0 && !NearZero(_constant));
 
   _constant *= coefficient;
+
   for (auto& cell : _cells) {
     cell.second = cell.second * coefficient;
   }
