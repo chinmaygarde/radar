@@ -9,6 +9,8 @@
 #include <Shell/Shell.h>
 #include "Sample.h"
 
+#include <atomic>
+
 namespace rl {
 
 class RenderSurfaceMac : public coordinator::RenderSurface {
@@ -22,6 +24,10 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   }
 
   bool present() {
+    if (_rejectNonMainThreadPresents && ![NSThread isMainThread]) {
+      return true;
+    }
+
     [_context flushBuffer];
     return true;
   }
@@ -31,18 +37,25 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
      *  OpenGL commands are about to begin. Lock the context so that window
      *  resizes don't interfere this frame.
      */
-    CGLLockContext(_context.CGLContextObj);
+    auto error = CGLLockContext(_context.CGLContextObj);
+    RL_ASSERT(error == kCGLNoError);
   }
 
   void contextAccessDidEnd() {
     /*
      *  Frame access ended. Window resizes can now be serviced.
      */
-    CGLUnlockContext(_context.CGLContextObj);
+    auto error = CGLUnlockContext(_context.CGLContextObj);
+    RL_ASSERT(error == kCGLNoError);
+  }
+
+  void setRejectsNonMainThreadPresents(bool rejects) {
+    _rejectNonMainThreadPresents = rejects;
   }
 
  private:
   NSOpenGLContext* _context;
+  std::atomic_bool _rejectNonMainThreadPresents;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RenderSurfaceMac);
 };
@@ -83,20 +96,16 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   _shell->registerManagedInterface(std::move(interface));
 }
 
-- (void)prepareOpenGL {
-  [super prepareOpenGL];
-
-  const GLint value = 1;
-  [self.openGLContext setValues:&value forParameter:NSOpenGLCPSwapInterval];
-}
-
 - (void)reshape {
-  _renderSurface->contextAccessWillBegin();
-
   CGSize size = self.bounds.size;
+
+  _renderSurface->setRejectsNonMainThreadPresents(true);
+
   _shell->renderSurfaceDidUpdateSize({size.width, size.height});
 
-  _renderSurface->contextAccessDidEnd();
+  _shell->redrawCurrentFrameNow();
+
+  _renderSurface->setRejectsNonMainThreadPresents(false);
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {

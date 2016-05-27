@@ -154,6 +154,10 @@ void Shell::renderSurfaceDidUpdateSize(const geom::Size& size) {
   _coordinator.renderSurfaceSizeUpdated(size);
 }
 
+void Shell::redrawCurrentFrameNow() {
+  _coordinator.redrawCurrentFrameNow();
+}
+
 void Shell::renderSurfaceWasTornDown() {
   _coordinator.renderSurfaceWasTornDown();
 }

@@ -65,24 +65,24 @@ class Coordinator {
 
   void renderSurfaceWasTornDown();
 
+  void redrawCurrentFrameNow();
+
  private:
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
   std::shared_ptr<ProgramCatalog> _programCatalog;
   core::DebugTagGenerator _interfaceTagGenerator;
+  std::mutex _interfaceControllersMutex;
   std::list<InterfaceController> _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
   CoordinatorStatistics _stats;
   StatisticsRenderer _statsRenderer;
-  bool _forceFrame;
+  bool _forceAnotherFrame;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
-  void startComposition();
-  void commitCompositionSizeUpdate(const geom::Size& size);
-  void stopComposition();
   std::shared_ptr<ProgramCatalog> accessCatalog();
   void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
@@ -90,7 +90,7 @@ class Coordinator {
   bool renderSingleFrame();
   void renderFrameStatistics(Frame& frame);
 
-  void onDisplayLink();
+  void updateAndRenderInterfaceControllers(bool force);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Coordinator);
 };

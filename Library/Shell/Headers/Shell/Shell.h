@@ -49,6 +49,8 @@ class Shell {
 
   void renderSurfaceDidUpdateSize(const geom::Size& size);
 
+  void redrawCurrentFrameNow();
+
   void renderSurfaceWasTornDown();
 
  private:

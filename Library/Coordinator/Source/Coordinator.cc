@@ -21,11 +21,11 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
       _touchEventChannel(touchEventChannel),
       _coordinatorAcquisitionProtocol(
           std::bind(&Coordinator::acquireFreshCoordinatorChannel, this)),
-      _forceFrame(true) {
+      _forceAnotherFrame(true) {
   RL_ASSERT_MSG(_surface != nullptr,
                 "A surface must be provided to the coordinator");
-  _animationsSource->setWakeFunction(
-      std::bind(&Coordinator::onDisplayLink, this));
+  _animationsSource->setWakeFunction(std::bind(
+      &Coordinator::updateAndRenderInterfaceControllers, this, false));
 }
 
 Coordinator::~Coordinator() = default;
@@ -53,7 +53,6 @@ void Coordinator::shutdown(std::function<void()> onShutdown) {
 
   _loop->dispatchAsync([&] {
     setupOrTeardownChannels(false);
-    stopComposition();
     _loop->terminate();
     if (onShutdown) {
       onShutdown();
@@ -67,34 +66,13 @@ bool Coordinator::isRunning() const {
 
 void Coordinator::renderSurfaceWasSetup() {
   /*
-   *  Can be called on any thread.
+   *  This method may be called on any thread.
    */
-  _loop->dispatchAsync([&] { startComposition(); });
 }
 
 void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
-  /*
-   *  Can be called on any thread.
-   */
-  _loop->dispatchAsync([&, size] { commitCompositionSizeUpdate(size); });
-}
+  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
 
-void Coordinator::renderSurfaceWasTornDown() {
-  /*
-   *  Can be called on any thread.
-   */
-  _loop->dispatchAsync([&] { stopComposition(); });
-}
-
-void Coordinator::startComposition() {
-  //
-}
-
-void Coordinator::stopComposition() {
-  //
-}
-
-void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
   if (_surfaceSize == size) {
     return;
   }
@@ -104,6 +82,12 @@ void Coordinator::commitCompositionSizeUpdate(const geom::Size& size) {
   for (auto& interfaceController : _interfaceControllers) {
     interfaceController.updateSize(_surfaceSize);
   }
+}
+
+void Coordinator::renderSurfaceWasTornDown() {
+  /*
+   *  This method may be called on any thread.
+   */
 }
 
 /**
@@ -139,6 +123,8 @@ void Coordinator::setupOrTeardownChannels(bool setup) {
 
 CoordinatorAcquisitionProtocol::VendorResult
 Coordinator::acquireFreshCoordinatorChannel() {
+  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
+
   /*
    *  Create a new interface controller for this reques
    */
@@ -168,9 +154,11 @@ void Coordinator::scheduleInterfaceChannels(bool schedule) {
   }
 }
 
-void Coordinator::onDisplayLink() {
-  RL_TRACE_INSTANT("OnDisplayLink");
-  RL_TRACE_AUTO("OnDisplayLink");
+void Coordinator::updateAndRenderInterfaceControllers(bool force) {
+  RL_TRACE_INSTANT("UpdateAndRenderInterfaceControllers");
+  RL_TRACE_AUTO("UpdateAndRenderInterfaceControllers");
+
+  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
 
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
 
@@ -180,15 +168,17 @@ void Coordinator::onDisplayLink() {
     wasUpdated |= interface.updateInterface(touchesIfAny);
   }
 
-  wasUpdated |= _forceFrame;
-
-  if (wasUpdated) {
+  if (wasUpdated || _forceAnotherFrame || force) {
     /*
      *  If the scene was updated but the frame could not be rendered (for
      *  whatever reason), force the next frame.
      */
-    _forceFrame = !renderSingleFrame();
+    _forceAnotherFrame = !renderSingleFrame();
   }
+}
+
+void Coordinator::redrawCurrentFrameNow() {
+  updateAndRenderInterfaceControllers(true);
 }
 
 bool Coordinator::renderSingleFrame() {
