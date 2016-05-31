@@ -6,10 +6,10 @@
 
 #if !RL_OS_WINDOWS
 
-#include <Coordinator/Program.h>
+#include <Compositor/Program.h>
 
 #define RL_OPENGL_ALLOWED 1
-#include <Coordinator/OpenGL.h>
+#include <Compositor/OpenGL.h>
 
 #include <algorithm>
 

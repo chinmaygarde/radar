@@ -7,9 +7,8 @@
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Coordinator/ProgramCatalog.h>
-#include <Coordinator/CoordinatorStatistics.h>
-#include <Coordinator/PresentationGraph.h>
+#include <Compositor/ProgramCatalog.h>
+#include <Compositor/CoordinatorStatistics.h>
 
 #include <mutex>
 #include <deque>
@@ -87,7 +86,8 @@ class Frame {
 class ScopedFrame : public Frame {
  public:
   template <class... T>
-  ScopedFrame(T&&... args) : Frame(std::forward<T>(args)...) {
+  ScopedFrame(T&&... args)
+      : Frame(std::forward<T>(args)...) {
     begin();
   }
 

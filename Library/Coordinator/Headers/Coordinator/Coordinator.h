@@ -10,13 +10,12 @@
 #include <Geometry/Geometry.h>
 
 #include <Core/DebugTagGenerator.h>
-#include <Coordinator/EntityLease.h>
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Coordinator/ProgramCatalog.h>
-#include <Coordinator/CoordinatorStatistics.h>
-#include <Coordinator/StatisticsRenderer.h>
+#include <Compositor/ProgramCatalog.h>
+#include <Compositor/CoordinatorStatistics.h>
+#include <Compositor/StatisticsRenderer.h>
 #include <Event/TouchEventChannel.h>
 
 #include <list>

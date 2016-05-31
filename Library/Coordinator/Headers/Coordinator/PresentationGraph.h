@@ -8,9 +8,8 @@
 #include <Animation/Action.h>
 #include <Animation/Interpolator.h>
 #include <Animation/Director.h>
-#include <Coordinator/EntityArena.h>
-#include <Coordinator/Frame.h>
-#include <Coordinator/InterfaceStatistics.h>
+#include <Compositor/Frame.h>
+#include <Compositor/InterfaceStatistics.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Coordinator/TransferEntity.h>

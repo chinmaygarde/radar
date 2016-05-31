@@ -7,7 +7,6 @@
 
 #include <Core/Core.h>
 #include <Animation/Action.h>
-#include <Coordinator/EntityArena.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Entity/Entity.h>
 #include <Layout/Constraint.h>

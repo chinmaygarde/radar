@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_COORDINATOR_PROGRAMCATALOG_
 #define RADARLOVE_COORDINATOR_PROGRAMCATALOG_
 
-#include <Coordinator/Program.h>
+#include <Compositor/Program.h>
 
 #include <algorithm>
 #include <map>

@@ -6,12 +6,12 @@
 
 #if !RL_OS_WINDOWS
 
-#include <Coordinator/StatisticsRenderer.h>
-#include <Coordinator/Program.h>
+#include <Compositor/StatisticsRenderer.h>
+#include <Compositor/Program.h>
 #include <imgui/imgui.h>
 
 #define RL_OPENGL_ALLOWED 1
-#include <Coordinator/OpenGL.h>
+#include <Compositor/OpenGL.h>
 
 namespace rl {
 namespace coordinator {
@@ -174,7 +174,7 @@ StatisticsRenderer::StatisticsRenderer()
       _vbo(GL_NONE),
       _fontAtlas(GL_NONE) {
   auto& io = ImGui::GetIO();
-  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
       &StatisticsRenderer::drawLists);
 }
 

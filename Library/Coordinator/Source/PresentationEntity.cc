@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/PresentationEntity.h>
-#include <Coordinator/Primitive.h>
+#include <Compositor/Primitive.h>
 
 namespace rl {
 namespace coordinator {

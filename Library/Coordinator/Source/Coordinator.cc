@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/Coordinator.h>
-#include <Coordinator/Frame.h>
+#include <Compositor/Frame.h>
 #include <Core/TraceEvent.h>
 #include <Coordinator/RenderSurface.h>
 

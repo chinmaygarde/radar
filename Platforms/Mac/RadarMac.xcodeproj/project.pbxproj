@@ -12,6 +12,7 @@
 		9E26F1BB1B59CBB50016A899 /* MacMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E26F1BA1B59CBB50016A899 /* MacMain.m */; };
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
+		9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E309CD11CFE4E290059BD07 /* libCompositor.a */; };
 		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
@@ -33,6 +34,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9E309CD01CFE4E290059BD07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DE6792944BAE47B9B421D55F;
+			remoteInfo = Compositor;
+		};
 		9ED38F4C1CF678AC00D40928 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -163,7 +171,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = C2BF23BCAD53457EA5688EA2;
+			remoteGlobalIDString = CAF8EF0BB3BB42BCA65E5A68;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -256,6 +264,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */,
 				9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */,
 				9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */,
 				9EE931331CA4C41700CDBF07 /* libAnimation.a in Frameworks */,
@@ -366,6 +375,7 @@
 				9ED38F4F1CF678AC00D40928 /* libstb.a */,
 				9EE931081CA4C2C500CDBF07 /* libAnimation.a */,
 				9EF068E81CB48CD8000DF505 /* libBenchmarkRunner.a */,
+				9E309CD11CFE4E290059BD07 /* libCompositor.a */,
 				9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */,
 				9EE9310C1CA4C2C500CDBF07 /* libCore.a */,
 				9EF068EA1CB48CD8000DF505 /* CoreTest */,
@@ -478,6 +488,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9E309CD11CFE4E290059BD07 /* libCompositor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCompositor.a;
+			remoteRef = 9E309CD01CFE4E290059BD07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9ED38F4D1CF678AC00D40928 /* liburiparser.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -768,6 +785,7 @@
 					../../Library/Animation/Headers,
 					../../Library/Toolbox/Headers,
 					../../Library/Layout/Headers,
+					../../Library/Compositor/Headers,
 					../../Library/Coordinator/Headers,
 					../../Library/Core/Headers,
 					../../Library/Geometry/Headers,
@@ -819,6 +837,7 @@
 					../../Library/Animation/Headers,
 					../../Library/Toolbox/Headers,
 					../../Library/Layout/Headers,
+					../../Library/Compositor/Headers,
 					../../Library/Coordinator/Headers,
 					../../Library/Core/Headers,
 					../../Library/Geometry/Headers,

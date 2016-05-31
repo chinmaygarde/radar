@@ -6,9 +6,9 @@
 #define RADARLOVE_COORDINATOR_STATISTICSRENDERER_H_
 
 #include <Core/Core.h>
-#include <Coordinator/Frame.h>
-#include <Coordinator/CoordinatorStatistics.h>
-#include <Coordinator/InterfaceStatistics.h>
+#include <Compositor/Frame.h>
+#include <Compositor/CoordinatorStatistics.h>
+#include <Compositor/InterfaceStatistics.h>
 
 namespace rl {
 namespace coordinator {

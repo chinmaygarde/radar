@@ -10,7 +10,7 @@
 #include <Geometry/Geometry.h>
 
 #include <Entity/Color.h>
-#include <Coordinator/Frame.h>
+#include <Compositor/Frame.h>
 
 namespace rl {
 namespace coordinator {

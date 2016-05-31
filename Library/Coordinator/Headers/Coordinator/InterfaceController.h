@@ -6,7 +6,7 @@
 #define RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 
 #include <Coordinator/PresentationGraph.h>
-#include <Coordinator/InterfaceStatistics.h>
+#include <Compositor/InterfaceStatistics.h>
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
 
