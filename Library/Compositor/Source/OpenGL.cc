@@ -14,7 +14,7 @@
 #include <cstring>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 void GLAssertError(const char* file, int line, const char* fmt...) {
   GLenum res = glGetError();
@@ -148,7 +148,7 @@ void GLDescribeFramebuffer(void) {
   glGetError();
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS

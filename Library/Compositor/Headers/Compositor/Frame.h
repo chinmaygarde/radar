@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_FRAME_
-#define RADARLOVE_COORDINATOR_FRAME_
+#ifndef RADARLOVE_COMPOSITOR_FRAME_
+#define RADARLOVE_COMPOSITOR_FRAME_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
@@ -14,7 +14,7 @@
 #include <deque>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class Frame {
  public:
@@ -97,7 +97,7 @@ class ScopedFrame : public Frame {
   RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_FRAME_
+#endif  // RADARLOVE_COMPOSITOR_FRAME_

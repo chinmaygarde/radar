@@ -5,7 +5,7 @@
 #include <Compositor/InterfaceStatistics.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 InterfaceStatistics::InterfaceStatistics(const std::string& tag) : _tag(tag) {}
 
@@ -51,5 +51,5 @@ InterfaceStatisticsFrame::~InterfaceStatisticsFrame() {
   _stats.stop();
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl

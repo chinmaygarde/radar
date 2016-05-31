@@ -8,7 +8,7 @@
 #include <Core/Instrumentation.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class InterfaceStatistics {
  public:
@@ -53,7 +53,7 @@ class InterfaceStatisticsFrame {
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceStatisticsFrame);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // RADAR_COORDINATOR_INTERFACESTATISTICS_H_

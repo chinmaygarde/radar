@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_PROGRAMCATALOG_
-#define RADARLOVE_COORDINATOR_PROGRAMCATALOG_
+#ifndef RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
+#define RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 
 #include <Compositor/Program.h>
 
@@ -12,7 +12,7 @@
 #include <memory>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class ProgramCatalog {
  public:
@@ -80,7 +80,7 @@ class BasicPrimitiveProgram : public Program {
   RL_DISALLOW_COPY_AND_ASSIGN(BasicPrimitiveProgram);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_PROGRAMCATALOG_
+#endif  // RADARLOVE_COMPOSITOR_PROGRAMCATALOG_

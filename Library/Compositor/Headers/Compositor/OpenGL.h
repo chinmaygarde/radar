@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_OPENGL_
-#define RADARLOVE_COORDINATOR_OPENGL_
+#ifndef RADARLOVE_COMPOSITOR_OPENGL_
+#define RADARLOVE_COMPOSITOR_OPENGL_
 
 #if !RL_OPENGL_ALLOWED
 /*
@@ -33,7 +33,7 @@
 #include <sstream>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 void GLAssertError(const char* file, int line, const char* fmt...);
 void GLDescribeFramebuffer(void);
@@ -61,13 +61,13 @@ struct GLMatrix {
   // clang-format on
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-static_assert(sizeof(rl::coordinator::GLMatrix) == 16 * sizeof(GLfloat),
+static_assert(sizeof(rl::compositor::GLMatrix) == 16 * sizeof(GLfloat),
               "GLMatrix must have the expected size");
 
 #define RL_GLAssert(x, ...) \
-  rl::coordinator::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
+  rl::compositor::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
 
-#endif  // RADARLOVE_COORDINATOR_OPENGL_
+#endif  // RADARLOVE_COMPOSITOR_OPENGL_

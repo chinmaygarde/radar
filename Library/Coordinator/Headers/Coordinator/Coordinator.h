@@ -70,24 +70,24 @@ class Coordinator {
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
-  std::shared_ptr<ProgramCatalog> _programCatalog;
+  std::shared_ptr<compositor::ProgramCatalog> _programCatalog;
   core::DebugTagGenerator _interfaceTagGenerator;
   std::mutex _interfaceControllersMutex;
   std::list<InterfaceController> _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
-  CoordinatorStatistics _stats;
-  StatisticsRenderer _statsRenderer;
+  compositor::CoordinatorStatistics _stats;
+  compositor::StatisticsRenderer _statsRenderer;
   bool _forceAnotherFrame;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
-  std::shared_ptr<ProgramCatalog> accessCatalog();
+  std::shared_ptr<compositor::ProgramCatalog> accessCatalog();
   void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
 
   bool renderSingleFrame();
-  void renderFrameStatistics(Frame& frame);
+  void renderFrameStatistics(compositor::Frame& frame);
 
   void updateAndRenderInterfaceControllers(bool force);
 

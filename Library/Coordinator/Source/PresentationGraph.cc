@@ -10,7 +10,7 @@ namespace coordinator {
 
 PresentationGraph::PresentationGraph(core::Namespace& localNS,
                                      const geom::Size& size,
-                                     InterfaceStatistics& stats)
+                                     compositor::InterfaceStatistics& stats)
     : _localNS(localNS),
       _stats(stats),
       _size(size),
@@ -427,7 +427,7 @@ void PresentationGraph::syncSolverStats() {
   _stats.editVariablesCount().reset(_layoutSolver.editVariableCount());
 }
 
-bool PresentationGraph::render(Frame& frame) {
+bool PresentationGraph::render(compositor::Frame& frame) {
   if (_root == nullptr) {
     return false;
   }

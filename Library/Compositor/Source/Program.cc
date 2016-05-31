@@ -14,7 +14,7 @@
 #include <algorithm>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 Program::Program(std::vector<std::string> attributes,
                  std::string vertexShader,
@@ -149,7 +149,7 @@ Program::~Program() {
   glDeleteProgram(_program);
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS

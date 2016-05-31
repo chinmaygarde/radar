@@ -96,12 +96,12 @@ void Coordinator::renderSurfaceWasTornDown() {
  *
  *  @return the program catalog
  */
-std::shared_ptr<ProgramCatalog> Coordinator::accessCatalog() {
+std::shared_ptr<compositor::ProgramCatalog> Coordinator::accessCatalog() {
   if (_programCatalog != nullptr) {
     return _programCatalog;
   }
 
-  _programCatalog = std::make_shared<ProgramCatalog>();
+  _programCatalog = std::make_shared<compositor::ProgramCatalog>();
 
   /*
    *  Setup catalog
@@ -198,13 +198,13 @@ bool Coordinator::renderSingleFrame() {
     return false;
   }
 
-  ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
+  compositor::ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
 
   if (!frame.isReady()) {
     return false;
   }
 
-  StatisticsFrame statistics(_stats);
+  compositor::StatisticsFrame statistics(_stats);
 
   _stats.frameCount().increment();
 
@@ -222,8 +222,9 @@ bool Coordinator::renderSingleFrame() {
   return true;
 }
 
-void Coordinator::renderFrameStatistics(Frame& frame) {
-  std::vector<std::reference_wrapper<InterfaceStatistics>> interfaceStats;
+void Coordinator::renderFrameStatistics(compositor::Frame& frame) {
+  std::vector<std::reference_wrapper<compositor::InterfaceStatistics>>
+      interfaceStats;
   interfaceStats.reserve(_interfaceControllers.size());
   for (auto& interfaceController : _interfaceControllers) {
     interfaceStats.push_back(std::ref(interfaceController.statistics()));

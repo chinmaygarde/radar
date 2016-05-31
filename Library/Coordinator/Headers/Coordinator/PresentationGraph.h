@@ -27,7 +27,7 @@ class PresentationGraph {
  public:
   explicit PresentationGraph(core::Namespace& localNS,
                              const geom::Size& size,
-                             InterfaceStatistics& stats);
+                             compositor::InterfaceStatistics& stats);
 
   ~PresentationGraph();
 
@@ -47,7 +47,7 @@ class PresentationGraph {
    */
   size_t applyConstraints();
 
-  bool render(Frame& frame);
+  bool render(compositor::Frame& frame);
 
   animation::Director& animationDirector();
 
@@ -56,7 +56,7 @@ class PresentationGraph {
       std::map<core::Name, std::unique_ptr<PresentationEntity>>;
 
   core::Namespace& _localNS;
-  InterfaceStatistics& _stats;
+  compositor::InterfaceStatistics& _stats;
   IdentifierPresentationEntityMap _entities;
   geom::Size _size;
   PresentationEntity* _root;

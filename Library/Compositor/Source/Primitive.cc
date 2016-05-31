@@ -12,7 +12,7 @@
 #include <Compositor/OpenGL.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 Primitive::Primitive()
     : _contentColor(entity::ColorWhiteTransparent), _opacity(1.0) {}
@@ -79,7 +79,7 @@ void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS

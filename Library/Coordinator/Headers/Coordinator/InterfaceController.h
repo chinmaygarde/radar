@@ -27,11 +27,11 @@ class InterfaceController {
 
   bool updateInterface(const event::TouchEvent::PhaseMap& touchesIfAny);
 
-  bool renderCurrentInterfaceState(Frame& frame);
+  bool renderCurrentInterfaceState(compositor::Frame& frame);
 
   const std::string& debugTag() const;
 
-  InterfaceStatistics& statistics();
+  compositor::InterfaceStatistics& statistics();
 
  private:
   std::string _debugTag;
@@ -39,7 +39,7 @@ class InterfaceController {
   bool _needsUpdate;
   bool _isUpdating;
   std::shared_ptr<core::Channel> _channel;
-  InterfaceStatistics _stats;
+  compositor::InterfaceStatistics _stats;
   PresentationGraph _graph;
 
   void onChannelMessage(core::Message message);

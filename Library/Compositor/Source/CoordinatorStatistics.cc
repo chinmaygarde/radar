@@ -5,7 +5,7 @@
 #include <Compositor/CoordinatorStatistics.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 CoordinatorStatistics::CoordinatorStatistics() {}
 
@@ -44,5 +44,5 @@ StatisticsFrame::~StatisticsFrame() {
   _stats.stop();
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl

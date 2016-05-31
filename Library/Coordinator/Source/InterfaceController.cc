@@ -148,7 +148,8 @@ bool InterfaceController::enforceConstraints() {
   return _graph.applyConstraints() > 0;
 }
 
-bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {
+bool InterfaceController::renderCurrentInterfaceState(
+    compositor::Frame& frame) {
   RL_TRACE_AUTO("RenderInterfaceState");
 
   RL_ASSERT_MSG(!_isUpdating,
@@ -157,7 +158,7 @@ bool InterfaceController::renderCurrentInterfaceState(Frame& frame) {
   return _graph.render(frame);
 }
 
-InterfaceStatistics& InterfaceController::statistics() {
+compositor::InterfaceStatistics& InterfaceController::statistics() {
   return _stats;
 }
 

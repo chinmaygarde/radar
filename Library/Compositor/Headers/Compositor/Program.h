@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_PROGRAM_
-#define RADARLOVE_COORDINATOR_PROGRAM_
+#ifndef RADARLOVE_COMPOSITOR_PROGRAM_
+#define RADARLOVE_COMPOSITOR_PROGRAM_
 
 #include <Core/Core.h>
 
@@ -12,7 +12,7 @@
 #include <string>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class Program {
  public:
@@ -71,7 +71,7 @@ class Program {
   RL_DISALLOW_COPY_AND_ASSIGN(Program);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_PROGRAM_
+#endif  // RADARLOVE_COMPOSITOR_PROGRAM_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_STATISTICSRENDERER_H_
-#define RADARLOVE_COORDINATOR_STATISTICSRENDERER_H_
+#ifndef RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
+#define RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
 
 #include <Core/Core.h>
 #include <Compositor/Frame.h>
@@ -11,7 +11,7 @@
 #include <Compositor/InterfaceStatistics.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class StatisticsRendererProgram;
 class StatisticsRenderer {
@@ -37,7 +37,7 @@ class StatisticsRenderer {
   RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRenderer);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_STATISTICSRENDERER_H_
+#endif  // RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_

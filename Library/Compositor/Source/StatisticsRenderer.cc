@@ -14,7 +14,7 @@
 #include <Compositor/OpenGL.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 static const std::string RendererVertexShader = R"--(
   uniform mat4 ProjMtx;
@@ -312,7 +312,7 @@ void StatisticsRenderer::render(
   _StatisticsRenderer = nullptr;
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS

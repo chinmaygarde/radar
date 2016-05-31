@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_
-#define RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_
+#ifndef RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_
+#define RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_
 
 #include <Core/Core.h>
 #include <Core/Instrumentation.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class CoordinatorStatistics {
  public:
@@ -47,7 +47,7 @@ class StatisticsFrame {
   RL_DISALLOW_COPY_AND_ASSIGN(StatisticsFrame);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_COORDINATORSTATISTICS_H_
+#endif  // RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_

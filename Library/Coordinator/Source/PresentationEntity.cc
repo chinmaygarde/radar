@@ -34,7 +34,8 @@ geom::Point PresentationEntity::convertPointFromWindow(
   return geom::Point{pointInWindowVector.a, pointInWindowVector.b};
 }
 
-bool PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
+bool PresentationEntity::render(compositor::Frame& frame,
+                                const geom::Matrix& viewMatrix) {
   frame.statistics().primitiveCount().increment();
 
   /*
@@ -42,7 +43,7 @@ bool PresentationEntity::render(Frame& frame, const geom::Matrix& viewMatrix) {
    */
   _lastModelViewMatrix = viewMatrix * modelMatrix();
 
-  Primitive p;
+  compositor::Primitive p;
   p.setContentColor(backgroundColor());
   p.setOpacity(opacity());
 

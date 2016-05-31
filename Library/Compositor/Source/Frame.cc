@@ -13,7 +13,7 @@
 #include <Compositor/OpenGL.h>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 Frame::Frame(geom::Size size,
              std::shared_ptr<ProgramCatalog> catalog,
@@ -84,7 +84,7 @@ CoordinatorStatistics& Frame::statistics() {
 
 Frame::~Frame() {}
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS

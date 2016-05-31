@@ -9,13 +9,13 @@
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 #include <Entity/Entity.h>
+#include <Compositor/Frame.h>
 
 #include <map>
 
 namespace rl {
 namespace coordinator {
 
-class Frame;
 class PresentationEntity : public entity::Entity {
  public:
   using Borrowed = PresentationEntity*;
@@ -34,7 +34,7 @@ class PresentationEntity : public entity::Entity {
 
   geom::Point convertPointFromWindow(const geom::Point& point) const;
 
-  bool render(Frame& frame, const geom::Matrix& viewMatrix);
+  bool render(compositor::Frame& frame, const geom::Matrix& viewMatrix);
 
  private:
   std::vector<Borrowed> _children;
