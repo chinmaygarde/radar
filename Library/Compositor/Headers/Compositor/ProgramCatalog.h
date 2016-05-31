@@ -16,7 +16,7 @@ namespace compositor {
 
 class ProgramCatalog {
  public:
-  enum Type {
+  enum class Type {
     None = 0,
     BasicPrimitve,
     TexturedPrimitive,

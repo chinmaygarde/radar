@@ -36,7 +36,8 @@ void main() {
 namespace rl {
 namespace compositor {
 
-ProgramCatalog::ProgramCatalog() : _prepared(false), _current(None, nullptr) {}
+ProgramCatalog::ProgramCatalog()
+    : _prepared(false), _current(ProgramCatalog::Type::None, nullptr) {}
 
 void ProgramCatalog::startUsing() {
   prepareIfNecessary();
@@ -45,7 +46,7 @@ void ProgramCatalog::startUsing() {
 }
 
 void ProgramCatalog::stopUsing() {
-  _current = std::make_pair(None, nullptr);
+  _current = std::make_pair(ProgramCatalog::Type::None, nullptr);
 }
 
 ProgramCatalog::ProgramRef ProgramCatalog::useProgramType(Type type) {
@@ -76,7 +77,8 @@ void ProgramCatalog::prepareIfNecessary() {
   _prepared = true;
 
   // Prepare Simple Primitive Program
-  _catalog[BasicPrimitve] = core::make_unique<BasicPrimitiveProgram>();
+  _catalog[ProgramCatalog::Type::BasicPrimitve] =
+      core::make_unique<BasicPrimitiveProgram>();
 }
 
 BasicPrimitiveProgram::BasicPrimitiveProgram()
