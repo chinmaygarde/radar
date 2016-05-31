@@ -6,8 +6,7 @@
 
 #if !RL_OS_WINDOWS
 
-#define RL_OPENGL_ALLOWED 1
-#include <Compositor/OpenGL.h>
+#include "OpenGL.h"
 
 #include <cassert>
 #include <cstdarg>

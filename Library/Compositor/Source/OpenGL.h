@@ -5,17 +5,6 @@
 #ifndef RADARLOVE_COMPOSITOR_OPENGL_
 #define RADARLOVE_COMPOSITOR_OPENGL_
 
-#if !RL_OPENGL_ALLOWED
-/*
- *  An OpenGL backend to the compositor is merely a current implementation
- *  OpenGL headers and types have the alarming tendency to get included in
- *  places they really shouldn't be. If you hit this error, think about if that
- *  file really needs this. Knowing that the file would need
- *  rewrites/modifications for other backend.
- */
-#error Importing OpenGL Header. This is an invasive header
-#endif
-
 #include <Core/Config.h>
 
 #if RL_OS_MAC

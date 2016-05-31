@@ -8,8 +8,7 @@
 
 #include <Compositor/Program.h>
 
-#define RL_OPENGL_ALLOWED 1
-#include <Compositor/OpenGL.h>
+#include "OpenGL.h"
 
 #include <algorithm>
 

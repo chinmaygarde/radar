@@ -8,9 +8,7 @@
 
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
-
-#define RL_OPENGL_ALLOWED 1
-#include <Compositor/OpenGL.h>
+#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

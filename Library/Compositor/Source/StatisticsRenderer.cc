@@ -10,8 +10,7 @@
 #include <Compositor/Program.h>
 #include <imgui/imgui.h>
 
-#define RL_OPENGL_ALLOWED 1
-#include <Compositor/OpenGL.h>
+#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {
