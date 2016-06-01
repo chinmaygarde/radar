@@ -9,56 +9,24 @@
 namespace rl {
 namespace image {
 
-ImageDecoderResult::ImageDecoderResult(
-    geom::Size size,
-    Components components,
-    std::unique_ptr<core::Allocation> allocation)
-    : _success(true),
-      _size(size),
-      _components(components),
-      _allocation(std::move(allocation)) {}
+ImageDecoder::ImageDecoder(std::unique_ptr<core::Allocation> sourceAllocation)
+    : _sourceAllocation(std::move(sourceAllocation)) {}
 
-ImageDecoderResult::ImageDecoderResult() : _success(false) {}
-
-ImageDecoderResult::ImageDecoderResult(ImageDecoderResult&&) = default;
-
-bool ImageDecoderResult::wasSuccessful() const {
-  return _success;
-}
-
-const geom::Size& ImageDecoderResult::size() const {
-  return _size;
-}
-
-Components ImageDecoderResult::components() const {
-  return _components;
-}
-
-const std::unique_ptr<core::Allocation>& ImageDecoderResult::allocation()
-    const {
-  return _allocation;
-}
-
-ImageDecoderResult::~ImageDecoderResult() {}
-
-ImageDecoder::ImageDecoder(std::unique_ptr<core::Allocation> allocation)
-    : _allocation(std::move(allocation)) {}
-
-ImageDecoderResult ImageDecoder::decode() const {
-  if (_allocation == nullptr || _allocation->size() == 0) {
+ImageResult ImageDecoder::decode() const {
+  if (_sourceAllocation == nullptr || _sourceAllocation->size() == 0) {
     return {};
   }
 
   int width = 0;
   int height = 0;
-  int components = 0;
+  int comps = 0;
 
-  stbi_uc* decoded =
-      stbi_load_from_memory(_allocation->data(), _allocation->size(), &width,
-                            &height, &components, STBI_default);
+  stbi_uc* decoded = stbi_load_from_memory(_sourceAllocation->data(),
+                                           _sourceAllocation->size(), &width,
+                                           &height, &comps, STBI_default);
 
-  auto allocation = core::make_unique<core::Allocation>(
-      decoded, width * height * components * sizeof(stbi_uc));
+  auto destinationAllocation = core::make_unique<core::Allocation>(
+      decoded, width * height * comps * sizeof(stbi_uc));
 
   /*
    *  If either the decoded allocation is null or the size works out to be zero,
@@ -66,42 +34,42 @@ ImageDecoderResult ImageDecoder::decode() const {
    *  job failed.
    */
 
-  if (!allocation->isReady()) {
+  if (!destinationAllocation->isReady()) {
     return {};
   }
 
   /*
    *  Make sure we got a valid component set.
    */
-  auto comp = Components::Invalid;
+  auto components = Components::Invalid;
 
-  switch (components) {
+  switch (comps) {
     case STBI_grey:
-      comp = Components::Grey;
+      components = Components::Grey;
       break;
     case STBI_grey_alpha:
-      comp = Components::GreyAlpha;
+      components = Components::GreyAlpha;
       break;
     case STBI_rgb:
-      comp = Components::RGB;
+      components = Components::RGB;
       break;
     case STBI_rgb_alpha:
-      comp = Components::RGBA;
+      components = Components::RGBA;
       break;
     default:
-      comp = Components::Invalid;
+      components = Components::Invalid;
       break;
   }
 
-  if (comp == Components::Invalid) {
+  if (components == Components::Invalid) {
     return {};
   }
 
-  return ImageDecoderResult{
+  return ImageResult{
       geom::Size{static_cast<double>(width),
                  static_cast<double>(height)},  // size
-      comp,                                     // components
-      std::move(allocation)                     // allocation
+      components,                               // components
+      std::move(destinationAllocation)          // allocation
 
   };
 }
