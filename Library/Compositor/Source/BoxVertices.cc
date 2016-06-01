@@ -37,6 +37,10 @@ bool BoxVertices::draw() {
     return false;
   }
 
+  if (!use()) {
+    return false;
+  }
+
   RL_GLAssert("There must be no errors before drawing box vertices");
 
   /*
