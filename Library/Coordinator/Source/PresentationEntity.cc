@@ -36,7 +36,7 @@ geom::Point PresentationEntity::convertPointFromWindow(
 
 bool PresentationEntity::render(compositor::Frame& frame,
                                 const geom::Matrix& viewMatrix) {
-  frame.statistics().primitiveCount().increment();
+  frame.context().statistics().primitiveCount().increment();
 
   /*
    *  This is incorrect. This method needs to be const.

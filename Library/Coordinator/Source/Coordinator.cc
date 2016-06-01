@@ -90,25 +90,6 @@ void Coordinator::renderSurfaceWasTornDown() {
    */
 }
 
-/**
- *  Initializes and returns the coordinator program catalog. Must be accessed
- *  on the coordinator thread
- *
- *  @return the program catalog
- */
-std::shared_ptr<compositor::ProgramCatalog> Coordinator::accessCatalog() {
-  if (_programCatalog != nullptr) {
-    return _programCatalog;
-  }
-
-  _programCatalog = std::make_shared<compositor::ProgramCatalog>();
-
-  /*
-   *  Setup catalog
-   */
-  return _programCatalog;
-}
-
 void Coordinator::setupOrTeardownChannels(bool setup) {
   if (setup) {
     scheduleInterfaceChannels(true);
@@ -198,38 +179,23 @@ bool Coordinator::renderSingleFrame() {
     return false;
   }
 
-  compositor::ScopedFrame frame(_surfaceSize, accessCatalog(), _stats);
+  compositor::ScopedFrame frame(_surfaceSize, _context);
 
   if (!frame.isReady()) {
     return false;
   }
 
-  compositor::StatisticsFrame statistics(_stats);
-
-  _stats.frameCount().increment();
-
-  bool wasRendered = false;
+  auto wasRendered = false;
 
   for (auto& interface : _interfaceControllers) {
     wasRendered |= interface.renderCurrentInterfaceState(frame);
   }
 
   if (wasRendered) {
-    renderFrameStatistics(frame);
     surfaceAccess.finalizeForPresentation();
   }
 
   return true;
-}
-
-void Coordinator::renderFrameStatistics(compositor::Frame& frame) {
-  std::vector<std::reference_wrapper<compositor::InterfaceStatistics>>
-      interfaceStats;
-  interfaceStats.reserve(_interfaceControllers.size());
-  for (auto& interfaceController : _interfaceControllers) {
-    interfaceStats.push_back(std::ref(interfaceController.statistics()));
-  }
-  _statsRenderer.render(frame, _stats, interfaceStats);
 }
 
 }  // namespace coordinator

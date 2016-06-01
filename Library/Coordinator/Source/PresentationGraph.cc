@@ -431,7 +431,7 @@ bool PresentationGraph::render(compositor::Frame& frame) {
   if (_root == nullptr) {
     return false;
   }
-  frame.statistics().entityCount().increment(_entities.size());
+  frame.context().statistics().entityCount().increment(_entities.size());
   return _root->render(frame, geom::MatrixIdentity);
 }
 

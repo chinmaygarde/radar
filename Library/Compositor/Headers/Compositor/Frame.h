@@ -7,19 +7,14 @@
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Compositor/ProgramCatalog.h>
-#include <Compositor/CoordinatorStatistics.h>
+#include <Compositor/Context.h>
 
 namespace rl {
 namespace compositor {
 
-class BoxVertices;
-
 class Frame {
  public:
-  explicit Frame(geom::Size size,
-                 std::shared_ptr<ProgramCatalog> catalog,
-                 CoordinatorStatistics& stats);
+  explicit Frame(geom::Size size, Context& context);
 
   virtual ~Frame();
 
@@ -51,13 +46,6 @@ class Frame {
   void popOpacity();
 
   /**
-   *  Access the preconfigured catalog of programs for this frame
-   *
-   *  @return the program catalog
-   */
-  std::shared_ptr<ProgramCatalog> programCatalog() const;
-
-  /**
    *  Indicate that the frame has begun rendering. This allows the frame
    *  to perform initial setup operations
    */
@@ -69,18 +57,15 @@ class Frame {
    */
   void end();
 
-  CoordinatorStatistics& statistics();
-
-  BoxVertices& unitBoxVertices();
+  Context& context();
 
  private:
   geom::Size _size;
   geom::Matrix _projectionMatrix;
-  CoordinatorStatistics& _stats;
-  std::shared_ptr<ProgramCatalog> _programCatalog;
-  std::unique_ptr<BoxVertices> _unitBoxVertices;
+  Context& _context;
 
-  void setupFreshFrame();
+  void prepareFrame();
+  void renderStatistics();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Frame);
 };

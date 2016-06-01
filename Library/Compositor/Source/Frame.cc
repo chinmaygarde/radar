@@ -9,24 +9,17 @@
 #include <Core/Utilities.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
+#include <Compositor/Context.h>
 
 #include "OpenGL.h"
-#include "BoxVertices.h"
 
 namespace rl {
 namespace compositor {
 
-Frame::Frame(geom::Size size,
-             std::shared_ptr<ProgramCatalog> catalog,
-             CoordinatorStatistics& stats)
+Frame::Frame(geom::Size size, Context& context)
     : _size(size),
       _projectionMatrix(geom::Matrix::Orthographic(size)),
-      _programCatalog(catalog),
-      _stats(stats),
-      _unitBoxVertices(
-          core::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {
-  RL_ASSERT_MSG(catalog != nullptr, "The program catalog must be valid");
-}
+      _context(context) {}
 
 bool Frame::isReady() const {
   if (_size.width <= 0.0 && _size.height <= 0.0) {
@@ -45,16 +38,18 @@ const geom::Size& Frame::size() const {
 }
 
 void Frame::begin() {
-  setupFreshFrame();
+  _context.beginUsing();
 
-  _programCatalog->startUsing();
+  prepareFrame();
 }
 
 void Frame::end() {
-  _programCatalog->stopUsing();
+  renderStatistics();
+
+  _context.endUsing();
 }
 
-void Frame::setupFreshFrame() {
+void Frame::prepareFrame() {
   glViewport(0, 0, _size.width, _size.height);
   glScissor(0, 0, _size.width, _size.height);
 
@@ -73,20 +68,16 @@ void Frame::setupFreshFrame() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+void Frame::renderStatistics() {
+  _context.renderStatistics(*this);
+}
+
+Context& Frame::context() {
+  return _context;
+}
+
 const geom::Matrix& Frame::projectionMatrix() const {
   return _projectionMatrix;
-}
-
-std::shared_ptr<ProgramCatalog> Frame::programCatalog() const {
-  return _programCatalog;
-}
-
-CoordinatorStatistics& Frame::statistics() {
-  return _stats;
-}
-
-BoxVertices& Frame::unitBoxVertices() {
-  return *_unitBoxVertices;
 }
 
 Frame::~Frame() {}

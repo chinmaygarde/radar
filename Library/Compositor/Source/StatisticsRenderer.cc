@@ -6,11 +6,12 @@
 
 #if !RL_OS_WINDOWS
 
-#include <Compositor/StatisticsRenderer.h>
-#include <Compositor/Program.h>
+#include "StatisticsRenderer.h"
+
 #include <imgui/imgui.h>
 
 #include "OpenGL.h"
+#include "Program.h"
 
 namespace rl {
 namespace compositor {
@@ -236,17 +237,19 @@ void StatisticsRenderer::performSetupIfNecessary() {
   RL_GLAssert("There must be no errors post stat renderer setup");
 }
 
-static void BuildStatsUI(CoordinatorStatistics& coordinatorStats) {
+static void BuildStatsUI(CompositorStatistics& compositorStats) {
   if (ImGui::Begin("Coordinator Statistics")) {
-    ImGui::Text("Entities: %zu", coordinatorStats.entityCount().count());
-    ImGui::Text("Primitives: %zu", coordinatorStats.primitiveCount().count());
-    ImGui::Text("Frames Rendered: %zu", coordinatorStats.frameCount().count());
+    ImGui::Text("Entities: %zu", compositorStats.entityCount().count());
+    ImGui::Text("Primitives: %zu", compositorStats.primitiveCount().count());
+    ImGui::Text("Frames Rendered: %zu", compositorStats.frameCount().count());
     ImGui::Text("Frame Time (minus swap):");
-    auto frameMs = coordinatorStats.frameTimer().currentLap().count() * 1e3;
+    auto frameMs = compositorStats.frameTimer().currentLap().count() * 1e3;
     ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
   }
   ImGui::End();
 }
+
+#if 0
 
 static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
   if (ImGui::Begin(interfaceStats.tag().c_str())) {
@@ -263,11 +266,10 @@ static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
   ImGui::End();
 }
 
-void StatisticsRenderer::render(
-    Frame& frame,
-    CoordinatorStatistics& coordinatorStats,
-    const std::vector<std::reference_wrapper<InterfaceStatistics>>&
-        interfaceStats) {
+#endif
+
+void StatisticsRenderer::render(Frame& frame,
+                                CompositorStatistics& compositorStats) {
   performSetupIfNecessary();
 
   auto& io = ImGui::GetIO();
@@ -292,19 +294,7 @@ void StatisticsRenderer::render(
   ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
                           ImGuiSetCond_Always);
 
-  BuildStatsUI(coordinatorStats);
-
-  currentTopMargin += 130.0;
-
-  const double kTopMarginIncrement = 140;
-
-  for (const auto& interfaceStat : interfaceStats) {
-    ImGui::SetNextWindowSize(ImVec2(240, 120), ImGuiSetCond_FirstUseEver);
-    ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
-                            ImGuiSetCond_Always);
-    BuildStatsUI(interfaceStat);
-    currentTopMargin += kTopMarginIncrement;
-  }
+  BuildStatsUI(compositorStats);
 
   ImGui::Render();
 

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_
-#define RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_
+#ifndef RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICS_H_
+#define RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICS_H_
 
 #include <Core/Core.h>
 #include <Core/Instrumentation.h>
@@ -11,9 +11,9 @@
 namespace rl {
 namespace compositor {
 
-class CoordinatorStatistics {
+class CompositorStatistics {
  public:
-  explicit CoordinatorStatistics();
+  explicit CompositorStatistics();
 
   instrumentation::Stopwatch& frameTimer();
 
@@ -33,21 +33,10 @@ class CoordinatorStatistics {
   instrumentation::Counter _primitiveCount;
   instrumentation::Counter _frameCount;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(CoordinatorStatistics);
-};
-
-class StatisticsFrame {
- public:
-  StatisticsFrame(CoordinatorStatistics& stats);
-  ~StatisticsFrame();
-
- private:
-  CoordinatorStatistics& _stats;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsFrame);
+  RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
 };
 
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_COORDINATORSTATISTICS_H_
+#endif  // RADARLOVE_COMPOSITOR_COMPOSITORSTATISTICS_H_

@@ -37,6 +37,8 @@ bool BoxVertices::draw() {
     return false;
   }
 
+  RL_GLAssert("There must be no errors before drawing box vertices");
+
   /*
    *  Index 0 contains three floats per vertex.
    */

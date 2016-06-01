@@ -7,7 +7,7 @@
 
 #include <Core/Core.h>
 #include <Compositor/Frame.h>
-#include <Compositor/CoordinatorStatistics.h>
+#include <Compositor/CompositorStatistics.h>
 #include <Compositor/InterfaceStatistics.h>
 
 namespace rl {
@@ -16,16 +16,15 @@ namespace compositor {
 class StatisticsRendererProgram;
 class StatisticsRenderer {
  public:
-  explicit StatisticsRenderer();
+  StatisticsRenderer();
+
   ~StatisticsRenderer();
 
-  void render(Frame& frame,
-              CoordinatorStatistics& coordinatorStats,
-              const std::vector<std::reference_wrapper<InterfaceStatistics>>&
-                  interfaceStats);
+  void render(Frame& frame, CompositorStatistics& compositorStats);
 
  private:
   bool _setupComplete;
+
   std::unique_ptr<StatisticsRendererProgram> _program;
   unsigned int _vbo;
   unsigned int _fontAtlas;

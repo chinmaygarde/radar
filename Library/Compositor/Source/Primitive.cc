@@ -7,9 +7,11 @@
 #if !RL_OS_WINDOWS
 
 #include <Compositor/Primitive.h>
+#include <Compositor/Context.h>
 
 #include "OpenGL.h"
 #include "BoxVertices.h"
+#include "ProgramCatalog.h"
 
 namespace rl {
 namespace compositor {
@@ -31,28 +33,30 @@ bool Primitive::render(Frame& frame,
   /*
    *  Select the program to use
    */
-  auto program = static_cast<const BasicPrimitiveProgram*>(
-      frame.programCatalog()->useProgramType(
-          ProgramCatalog::Type::BasicPrimitve));
+  auto& program = frame.context().programCatalog().boxProgram();
+
+  if (!program.use()) {
+    return false;
+  }
 
   /*
    *  Setup Uniform Data
    */
   GLMatrix modelViewProjection = frame.projectionMatrix() * modelViewMatrix;
 
-  glUniformMatrix4fv(program->modelViewProjectionUniform(), 1, GL_FALSE,
+  glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
-  glUniform4f(program->contentColorUniform(), _contentColor.red,
+  glUniform4f(program.contentColorUniform(), _contentColor.red,
               _contentColor.green, _contentColor.blue,
               _contentColor.alpha * _opacity);
 
-  glUniform2f(program->sizeUniform(), size.width, size.height);
+  glUniform2f(program.sizeUniform(), size.width, size.height);
 
   /*
    *  Setup vertices and draw.
    */
-  bool drawn = frame.unitBoxVertices().draw();
+  bool drawn = frame.context().unitBoxVertices().draw();
 
   RL_GLAssert("No errors while rendering");
   RL_ASSERT(drawn);

@@ -13,9 +13,7 @@
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Compositor/ProgramCatalog.h>
-#include <Compositor/CoordinatorStatistics.h>
-#include <Compositor/StatisticsRenderer.h>
+#include <Compositor/Context.h>
 #include <Event/TouchEventChannel.h>
 
 #include <list>
@@ -70,24 +68,20 @@ class Coordinator {
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
-  std::shared_ptr<compositor::ProgramCatalog> _programCatalog;
+  compositor::Context _context;
   core::DebugTagGenerator _interfaceTagGenerator;
   std::mutex _interfaceControllersMutex;
   std::list<InterfaceController> _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
-  compositor::CoordinatorStatistics _stats;
-  compositor::StatisticsRenderer _statsRenderer;
   bool _forceAnotherFrame;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
-  std::shared_ptr<compositor::ProgramCatalog> accessCatalog();
   void setupOrTeardownChannels(bool setup);
   void scheduleInterfaceChannels(bool schedule);
 
   bool renderSingleFrame();
-  void renderFrameStatistics(compositor::Frame& frame);
 
   void updateAndRenderInterfaceControllers(bool force);
 

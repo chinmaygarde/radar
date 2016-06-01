@@ -6,7 +6,7 @@
 
 #if !RL_OS_WINDOWS
 
-#include <Compositor/Program.h>
+#include "Program.h"
 
 #include "OpenGL.h"
 
