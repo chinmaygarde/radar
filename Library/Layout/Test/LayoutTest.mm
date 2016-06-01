@@ -219,6 +219,7 @@ TEST(LayoutTest, ConstraintsAdd) {
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
+        return rl::layout::Solver::FlushResult::Updated;
       });
 
   ASSERT_EQ(updates[one], 0.0);
@@ -255,6 +256,7 @@ TEST(LayoutTest, ConstraintsAddParameterConst) {
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
+        return rl::layout::Solver::FlushResult::Updated;
       });
 
   ASSERT_EQ(updates[one], 0.0);
@@ -326,6 +328,7 @@ TEST(LayoutTest, EditConstraintFlush) {
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
+        return rl::layout::Solver::FlushResult::Updated;
       });
 
   ASSERT_EQ(updates[one], 0.0);
@@ -365,6 +368,7 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
   solver.flushUpdates(
       [&updates](const rl::layout::Variable& var, double value) {
         updates[var.identifier()] = value;
+        return rl::layout::Solver::FlushResult::Updated;
       });
 
   ASSERT_EQ(updates[four], 100.0);
