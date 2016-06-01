@@ -50,7 +50,7 @@ bool PresentationEntity::render(compositor::Frame& frame,
   auto success = p.render(frame, _lastModelViewMatrix, bounds().size);
 
   for (const auto& child : _children) {
-    success |= child->render(frame, _lastModelViewMatrix);
+    success &= child->render(frame, _lastModelViewMatrix);
   }
 
   return success;

@@ -49,9 +49,13 @@ bool BoxVertices::draw() {
   static const GLuint kVertexIndex = 0;
 
   glVertexAttribPointer(kVertexIndex, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
   glEnableVertexAttribArray(kVertexIndex);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+  glDisableVertexAttribArray(kVertexIndex);
+
   return true;
 }
 
