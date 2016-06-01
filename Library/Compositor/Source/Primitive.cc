@@ -9,6 +9,7 @@
 #include <Compositor/Primitive.h>
 
 #include "OpenGL.h"
+#include "BoxVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -34,21 +35,6 @@ bool Primitive::render(Frame& frame,
       frame.programCatalog()->useProgramType(
           ProgramCatalog::Type::BasicPrimitve));
 
-  // clang-format off
-  GLCoord coords[] = {
-    { 0.0, 1.0, 0.0 },
-    { 0.0, 0.0, 0.0 },
-    { 1.0, 1.0, 0.0 },
-    { 1.0, 0.0, 0.0 },
-  };
-  // clang-format on
-
-  /*
-   *  Upload Vertex Data.
-   */
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, coords);
-
   /*
    *  Setup Uniform Data
    */
@@ -63,9 +49,13 @@ bool Primitive::render(Frame& frame,
 
   glUniform2f(program->sizeUniform(), size.width, size.height);
 
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(coords) / sizeof(GLCoord));
+  /*
+   *  Setup vertices and draw.
+   */
+  bool drawn = frame.unitBoxVertices().draw();
 
   RL_GLAssert("No errors while rendering");
+  RL_ASSERT(drawn);
 
   return true;
 }

@@ -10,11 +10,10 @@
 #include <Compositor/ProgramCatalog.h>
 #include <Compositor/CoordinatorStatistics.h>
 
-#include <mutex>
-#include <deque>
-
 namespace rl {
 namespace compositor {
+
+class BoxVertices;
 
 class Frame {
  public:
@@ -72,11 +71,14 @@ class Frame {
 
   CoordinatorStatistics& statistics();
 
+  BoxVertices& unitBoxVertices();
+
  private:
   geom::Size _size;
   geom::Matrix _projectionMatrix;
-  std::shared_ptr<ProgramCatalog> _programCatalog;
   CoordinatorStatistics& _stats;
+  std::shared_ptr<ProgramCatalog> _programCatalog;
+  std::unique_ptr<BoxVertices> _unitBoxVertices;
 
   void setupFreshFrame();
 

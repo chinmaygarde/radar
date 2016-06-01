@@ -6,9 +6,12 @@
 
 #if !RL_OS_WINDOWS
 
+#include <Core/Utilities.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive.h>
+
 #include "OpenGL.h"
+#include "BoxVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -19,7 +22,9 @@ Frame::Frame(geom::Size size,
     : _size(size),
       _projectionMatrix(geom::Matrix::Orthographic(size)),
       _programCatalog(catalog),
-      _stats(stats) {
+      _stats(stats),
+      _unitBoxVertices(
+          core::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {
   RL_ASSERT_MSG(catalog != nullptr, "The program catalog must be valid");
 }
 
@@ -78,6 +83,10 @@ std::shared_ptr<ProgramCatalog> Frame::programCatalog() const {
 
 CoordinatorStatistics& Frame::statistics() {
   return _stats;
+}
+
+BoxVertices& Frame::unitBoxVertices() {
+  return *_unitBoxVertices;
 }
 
 Frame::~Frame() {}
