@@ -8,6 +8,7 @@
 #include <Entity/Color.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
+#include <Image/Image.h>
 
 namespace rl {
 namespace entity {
@@ -26,6 +27,7 @@ class Entity : public core::ArchiveSerializable {
     AnchorPoint,
     Transformation,
     BackgroundColor,
+    Contents,
     Opacity,
     MakeRoot,
 
@@ -42,6 +44,7 @@ class Entity : public core::ArchiveSerializable {
     AnchorPointMask     = RL_MASK(AnchorPoint),
     TransformationMask  = RL_MASK(Transformation),
     BackgroundColorMask = RL_MASK(BackgroundColor),
+    ContentsMask        = RL_MASK(Contents),
     OpacityMask         = RL_MASK(Opacity),
     MakeRootMask        = RL_MASK(MakeRoot),
   };
@@ -169,6 +172,10 @@ class Entity : public core::ArchiveSerializable {
    */
   void setOpacity(double opacity);
 
+  const std::unique_ptr<image::Image>& contents() const;
+
+  void setContents(std::unique_ptr<image::Image> image);
+
   void mergeProperties(const Entity& entity, PropertyMaskType only);
 
   static const core::ArchiveDef ArchiveDefinition;
@@ -186,6 +193,7 @@ class Entity : public core::ArchiveSerializable {
   geom::Point _anchorPoint;
   geom::Matrix _transformation;
   Color _backgroundColor;
+  std::unique_ptr<image::Image> _contents;
   double _opacity;
 
   explicit Entity(const Entity& entity);

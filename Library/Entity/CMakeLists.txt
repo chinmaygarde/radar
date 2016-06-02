@@ -32,4 +32,4 @@
 
 StandardRadarLibrary(Entity)
 
-target_link_libraries(Entity Core Geometry)
+target_link_libraries(Entity Core Geometry Image)

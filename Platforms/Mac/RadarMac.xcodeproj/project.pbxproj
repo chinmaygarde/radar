@@ -14,6 +14,8 @@
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
 		9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E309CD11CFE4E290059BD07 /* libCompositor.a */; };
 		9E309CFA1D00C3130059BD07 /* libImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E309CF51D00C3130059BD07 /* libImage.a */; };
+		9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4F1CF678AC00D40928 /* libstb.a */; };
+		9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4D1CF678AC00D40928 /* liburiparser.a */; };
 		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
@@ -265,6 +267,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */,
+				9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */,
 				9E309CFA1D00C3130059BD07 /* libImage.a in Frameworks */,
 				9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */,
 				9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */,
@@ -791,6 +795,7 @@
 					../../Library/Coordinator/Headers,
 					../../Library/Core/Headers,
 					../../Library/Geometry/Headers,
+					../../Library/Image/Headers,
 					../../Library/Entity/Headers,
 					../../Library/Shell/Headers,
 					../../Library/Event/Headers,
@@ -843,6 +848,7 @@
 					../../Library/Coordinator/Headers,
 					../../Library/Core/Headers,
 					../../Library/Geometry/Headers,
+					../../Library/Image/Headers,
 					../../Library/Entity/Headers,
 					../../Library/Shell/Headers,
 					../../Library/Event/Headers,

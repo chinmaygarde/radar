@@ -143,6 +143,15 @@ void Entity::setOpacity(double opacity) {
   notifyInterfaceIfNecessary(Property::Opacity);
 }
 
+const std::unique_ptr<image::Image>& Entity::contents() const {
+  return _contents;
+}
+
+void Entity::setContents(std::unique_ptr<image::Image> image) {
+  _contents = std::move(image);
+  notifyInterfaceIfNecessary(Property::Contents);
+}
+
 void Entity::notifyInterfaceIfNecessary(Property property,
                                         core::Name other) const {
   if (_updateCallback) {
