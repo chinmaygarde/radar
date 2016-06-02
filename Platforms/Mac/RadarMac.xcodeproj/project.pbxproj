@@ -13,6 +13,7 @@
 		9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BC1B59CBB50016A899 /* Assets.xcassets */; };
 		9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E26F1BE1B59CBB50016A899 /* MainMenu.xib */; };
 		9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E309CD11CFE4E290059BD07 /* libCompositor.a */; };
+		9E309CFA1D00C3130059BD07 /* libImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E309CF51D00C3130059BD07 /* libImage.a */; };
 		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
@@ -41,6 +42,27 @@
 			remoteGlobalIDString = DE6792944BAE47B9B421D55F;
 			remoteInfo = Compositor;
 		};
+		9E309CF41D00C3130059BD07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F244101560BD4246907581FD;
+			remoteInfo = Image;
+		};
+		9E309CF61D00C3130059BD07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5CD8E482FB774D28B13DA81B;
+			remoteInfo = ImageBenchmark;
+		};
+		9E309CF81D00C3130059BD07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B1B59BF8F0942B78F9D6F78;
+			remoteInfo = ImageTest;
+		};
 		9ED38F4C1CF678AC00D40928 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -54,27 +76,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = CF314B0138664B958E0545B5;
 			remoteInfo = stb;
-		};
-		9ED38F501CF678AC00D40928 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5CFDA93A81AE4C16BE9BFE2D;
-			remoteInfo = ImageDecoder;
-		};
-		9ED38F521CF678AC00D40928 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 34DF51CABA1E44EFA156DB52;
-			remoteInfo = ImageDecoderBenchmark;
-		};
-		9ED38F541CF678AC00D40928 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D1C961728227426BAECB6ED1;
-			remoteInfo = ImageDecoderTest;
 		};
 		9EE931071CA4C2C500CDBF07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -171,7 +172,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = CAF8EF0BB3BB42BCA65E5A68;
+			remoteGlobalIDString = F3CB63242FD54732BC4A17A0;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -264,6 +265,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E309CFA1D00C3130059BD07 /* libImage.a in Frameworks */,
 				9E309CD21CFE4E460059BD07 /* libCompositor.a in Frameworks */,
 				9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */,
 				9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */,
@@ -382,9 +384,9 @@
 				9EE9310E1CA4C2C500CDBF07 /* libEntity.a */,
 				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
 				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
-				9ED38F511CF678AC00D40928 /* libImageDecoder.a */,
-				9ED38F531CF678AC00D40928 /* ImageDecoderBenchmark */,
-				9ED38F551CF678AC00D40928 /* ImageDecoderTest */,
+				9E309CF51D00C3130059BD07 /* libImage.a */,
+				9E309CF71D00C3130059BD07 /* ImageBenchmark */,
+				9E309CF91D00C3130059BD07 /* ImageTest */,
 				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
 				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
 				9EF068EC1CB48CD8000DF505 /* LayoutBenchmark */,
@@ -495,6 +497,27 @@
 			remoteRef = 9E309CD01CFE4E290059BD07 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9E309CF51D00C3130059BD07 /* libImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libImage.a;
+			remoteRef = 9E309CF41D00C3130059BD07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9E309CF71D00C3130059BD07 /* ImageBenchmark */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = ImageBenchmark;
+			remoteRef = 9E309CF61D00C3130059BD07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9E309CF91D00C3130059BD07 /* ImageTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = ImageTest;
+			remoteRef = 9E309CF81D00C3130059BD07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9ED38F4D1CF678AC00D40928 /* liburiparser.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -507,27 +530,6 @@
 			fileType = archive.ar;
 			path = libstb.a;
 			remoteRef = 9ED38F4E1CF678AC00D40928 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9ED38F511CF678AC00D40928 /* libImageDecoder.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libImageDecoder.a;
-			remoteRef = 9ED38F501CF678AC00D40928 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9ED38F531CF678AC00D40928 /* ImageDecoderBenchmark */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = ImageDecoderBenchmark;
-			remoteRef = 9ED38F521CF678AC00D40928 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9ED38F551CF678AC00D40928 /* ImageDecoderTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = ImageDecoderTest;
-			remoteRef = 9ED38F541CF678AC00D40928 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9EE931081CA4C2C500CDBF07 /* libAnimation.a */ = {

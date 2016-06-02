@@ -32,4 +32,4 @@
 
 StandardRadarLibrary(Interface)
 
-target_link_libraries(Interface Coordinator Toolbox)
+target_link_libraries(Interface Coordinator Image Toolbox)

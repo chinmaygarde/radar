@@ -2,18 +2,23 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <ImageDecoder/ImageDecoder.h>
+#include <Image/Image.h>
 
 #include <stb_image.h>
+
+#include "ImageSource.h"
 
 namespace rl {
 namespace image {
 
-ImageDecoder::ImageDecoder(std::unique_ptr<core::Allocation> sourceAllocation)
-    : _sourceAllocation(std::move(sourceAllocation)) {}
+Image::Image(std::unique_ptr<core::Allocation> sourceAllocation)
+    : _source(ImageSource::Create(std::move(sourceAllocation))) {}
 
-ImageResult ImageDecoder::decode() const {
-  if (_sourceAllocation == nullptr || _sourceAllocation->size() == 0) {
+Image::Image(std::unique_ptr<core::File> sourceFile)
+    : _source(ImageSource::Create(std::move(sourceFile))) {}
+
+ImageResult Image::decode() const {
+  if (_source == nullptr || _source->sourceDataSize() == 0) {
     return {};
   }
 
@@ -21,9 +26,13 @@ ImageResult ImageDecoder::decode() const {
   int height = 0;
   int comps = 0;
 
-  stbi_uc* decoded = stbi_load_from_memory(_sourceAllocation->data(),
-                                           _sourceAllocation->size(), &width,
-                                           &height, &comps, STBI_default);
+  stbi_uc* decoded =
+      stbi_load_from_memory(_source->sourceData(),      // Source Data
+                            _source->sourceDataSize(),  // Source Data Size
+                            &width,                     // Out: Width
+                            &height,                    // Out: Height
+                            &comps,                     // Out: Components
+                            STBI_default);
 
   auto destinationAllocation = core::make_unique<core::Allocation>(
       decoded, width * height * comps * sizeof(stbi_uc));
@@ -70,11 +79,10 @@ ImageResult ImageDecoder::decode() const {
                  static_cast<double>(height)},  // size
       components,                               // components
       std::move(destinationAllocation)          // allocation
-
   };
 }
 
-ImageDecoder::~ImageDecoder() {}
+Image::~Image() = default;
 
 }  // namespace image
 }  // namespace rl

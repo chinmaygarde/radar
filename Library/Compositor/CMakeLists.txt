@@ -33,7 +33,7 @@
 StandardRadarLibrary(Compositor)
 
 target_link_libraries(Compositor
-  PUBLIC  Core Geometry Entity
+  PUBLIC  Core Geometry Entity ImageDecoder
   PRIVATE imgui
 )
 

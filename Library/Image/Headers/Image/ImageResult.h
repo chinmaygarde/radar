@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_IMAGEDECODER_IMAGERESULT_H_
-#define RADAR_IMAGEDECODER_IMAGERESULT_H_
+#ifndef RADAR_IMAGE_IMAGERESULT_H_
+#define RADAR_IMAGE_IMAGERESULT_H_
 
 #include <Core/Macros.h>
 #include <Geometry/Size.h>
@@ -52,4 +52,4 @@ class ImageResult {
 }  // namespace image
 }  // namespace rl
 
-#endif  // RADAR_IMAGEDECODER_IMAGERESULT_H_
+#endif  // RADAR_IMAGE_IMAGERESULT_H_

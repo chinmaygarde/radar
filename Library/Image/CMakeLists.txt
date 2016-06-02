@@ -30,9 +30,9 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(ImageDecoder)
+StandardRadarLibrary(Image)
 
-target_link_libraries(ImageDecoder
+target_link_libraries(Image
   PUBLIC  Core Geometry
   PRIVATE stb
 )
@@ -41,12 +41,12 @@ target_link_libraries(ImageDecoder
 # Test
 ################################################################################
 
-StandardRadarTest(ImageDecoder)
-include_directories(ImageDecoderTest "Fixtures")
+StandardRadarTest(Image)
+include_directories(ImageTest "Fixtures")
 
 ################################################################################
 # Benchmark
 ################################################################################
 
-StandardRadarBench(ImageDecoder)
-include_directories(ImageDecoderBenchmark "Fixtures")
+StandardRadarBench(Image)
+include_directories(ImageBenchmark "Fixtures")

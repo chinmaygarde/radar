@@ -15,6 +15,7 @@
  *  General Utilities
  */
 #include <Core/Allocation.h>
+#include <Core/File.h>
 #include <Core/Guard.h>
 #include <Core/Latch.h>
 #include <Core/Macros.h>
