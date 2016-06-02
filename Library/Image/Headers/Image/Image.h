@@ -16,9 +16,15 @@ class ImageSource;
 
 class Image {
  public:
-  Image(std::unique_ptr<core::Allocation> sourceAllocation);
+  Image();
 
-  Image(std::unique_ptr<core::File> sourceFile);
+  Image(core::Allocation sourceAllocation);
+
+  Image(core::File sourceFile);
+
+  Image(Image&& image);
+
+  Image& operator=(Image&& image);
 
   ImageResult decode() const;
 

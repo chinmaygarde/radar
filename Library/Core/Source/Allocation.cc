@@ -27,9 +27,17 @@ Allocation::Allocation(uint8_t* bytes, size_t size)
   }
 }
 
+Allocation::Allocation(Allocation&& other)
+    : _allocation(other._allocation), _size(other._size) {
+  other._allocation = nullptr;
+  other._size = 0;
+}
+
 Allocation::~Allocation() {
-  free(_allocation);
-  _allocation = nullptr;
+  if (_allocation != nullptr) {
+    free(_allocation);
+    _allocation = nullptr;
+  }
 }
 
 bool Allocation::resize(size_t newSize) {

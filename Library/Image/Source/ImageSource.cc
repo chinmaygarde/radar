@@ -9,13 +9,11 @@
 namespace rl {
 namespace image {
 
-std::unique_ptr<ImageSource> ImageSource::Create(
-    std::unique_ptr<core::Allocation> allocation) {
+std::unique_ptr<ImageSource> ImageSource::Create(core::Allocation allocation) {
   return core::make_unique<DataImageSource>(std::move(allocation));
 }
 
-std::unique_ptr<ImageSource> ImageSource::Create(
-    std::unique_ptr<core::File> file) {
+std::unique_ptr<ImageSource> ImageSource::Create(core::File file) {
   return core::make_unique<FileImageSource>(std::move(file));
 }
 

@@ -26,7 +26,7 @@ class ImageResult {
 
   ImageResult(geom::Size size,
               Components components,
-              std::unique_ptr<core::Allocation> allocation);
+              core::Allocation allocation);
 
   ImageResult(ImageResult&&);
 
@@ -38,13 +38,13 @@ class ImageResult {
 
   Components components() const;
 
-  const std::unique_ptr<core::Allocation>& allocation() const;
+  const core::Allocation& allocation() const;
 
  private:
   bool _success;
   geom::Size _size;
   Components _components;
-  std::unique_ptr<core::Allocation> _allocation;
+  core::Allocation _allocation;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ImageResult);
 };

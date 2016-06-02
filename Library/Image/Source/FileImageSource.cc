@@ -7,8 +7,7 @@
 namespace rl {
 namespace image {
 
-FileImageSource::FileImageSource(std::unique_ptr<core::File> file)
-    : _file(std::move(file)) {}
+FileImageSource::FileImageSource(core::File file) : _file(std::move(file)) {}
 
 uint8_t* FileImageSource::sourceData() const {
   RL_WIP;

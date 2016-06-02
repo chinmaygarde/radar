@@ -15,10 +15,10 @@ namespace image {
 
 class FileImageSource : public ImageSource {
  public:
-  FileImageSource(std::unique_ptr<core::File> file);
+  FileImageSource(core::File file);
 
  private:
-  std::unique_ptr<core::File> _file;
+  core::File _file;
 
   uint8_t* sourceData() const override;
 

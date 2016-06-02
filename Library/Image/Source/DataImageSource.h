@@ -15,10 +15,10 @@ namespace image {
 
 class DataImageSource : public ImageSource {
  public:
-  DataImageSource(std::unique_ptr<core::Allocation> allocation);
+  DataImageSource(core::Allocation allocation);
 
  private:
-  std::unique_ptr<core::Allocation> _allocation;
+  core::Allocation _allocation;
 
   uint8_t* sourceData() const override;
 

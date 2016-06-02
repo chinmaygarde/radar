@@ -9,13 +9,11 @@ namespace image {
 
 ImageResult::ImageResult(geom::Size size,
                          Components components,
-                         std::unique_ptr<core::Allocation> allocation)
+                         core::Allocation allocation)
     : _success(true),
       _size(size),
       _components(components),
-      _allocation(std::move(allocation)) {
-  RL_ASSERT(_allocation);
-}
+      _allocation(std::move(allocation)) {}
 
 ImageResult::ImageResult() : _success(false) {}
 
@@ -33,7 +31,7 @@ Components ImageResult::components() const {
   return _components;
 }
 
-const std::unique_ptr<core::Allocation>& ImageResult::allocation() const {
+const core::Allocation& ImageResult::allocation() const {
   return _allocation;
 }
 

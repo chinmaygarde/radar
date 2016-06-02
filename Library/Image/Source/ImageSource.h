@@ -14,10 +14,9 @@ namespace image {
 
 class ImageSource {
  public:
-  static std::unique_ptr<ImageSource> Create(
-      std::unique_ptr<core::Allocation> allocation);
+  static std::unique_ptr<ImageSource> Create(core::Allocation allocation);
 
-  static std::unique_ptr<ImageSource> Create(std::unique_ptr<core::File> file);
+  static std::unique_ptr<ImageSource> Create(core::File file);
 
   ImageSource();
 

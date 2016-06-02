@@ -14,6 +14,8 @@ class URI {
  public:
   URI(const std::string& string);
 
+  URI(URI&& uri);
+
   ~URI();
 
   bool isValid() const;

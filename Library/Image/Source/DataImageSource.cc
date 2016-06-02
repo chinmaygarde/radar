@@ -7,23 +7,15 @@
 namespace rl {
 namespace image {
 
-DataImageSource::DataImageSource(std::unique_ptr<core::Allocation> allocation)
+DataImageSource::DataImageSource(core::Allocation allocation)
     : _allocation(std::move(allocation)) {}
 
 uint8_t* DataImageSource::sourceData() const {
-  if (!_allocation) {
-    return nullptr;
-  }
-
-  return _allocation->data();
+  return _allocation.data();
 }
 
 size_t DataImageSource::sourceDataSize() const {
-  if (!_allocation) {
-    return 0;
-  }
-
-  return _allocation->size();
+  return _allocation.size();
 }
 
 }  // namespace image

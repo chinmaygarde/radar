@@ -11,11 +11,17 @@
 namespace rl {
 namespace image {
 
-Image::Image(std::unique_ptr<core::Allocation> sourceAllocation)
+Image::Image() = default;
+
+Image::Image(core::Allocation sourceAllocation)
     : _source(ImageSource::Create(std::move(sourceAllocation))) {}
 
-Image::Image(std::unique_ptr<core::File> sourceFile)
+Image::Image(core::File sourceFile)
     : _source(ImageSource::Create(std::move(sourceFile))) {}
+
+Image::Image(Image&& image) = default;
+
+Image& Image::operator=(Image&& image) = default;
 
 ImageResult Image::decode() const {
   if (_source == nullptr || _source->sourceDataSize() == 0) {
@@ -34,8 +40,8 @@ ImageResult Image::decode() const {
                             &comps,                     // Out: Components
                             STBI_default);
 
-  auto destinationAllocation = core::make_unique<core::Allocation>(
-      decoded, width * height * comps * sizeof(stbi_uc));
+  auto destinationAllocation =
+      core::Allocation{decoded, width * height * comps * sizeof(stbi_uc)};
 
   /*
    *  If either the decoded allocation is null or the size works out to be zero,
@@ -43,7 +49,7 @@ ImageResult Image::decode() const {
    *  job failed.
    */
 
-  if (!destinationAllocation->isReady()) {
+  if (!destinationAllocation.isReady()) {
     return {};
   }
 

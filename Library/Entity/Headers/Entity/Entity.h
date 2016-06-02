@@ -172,9 +172,9 @@ class Entity : public core::ArchiveSerializable {
    */
   void setOpacity(double opacity);
 
-  const std::unique_ptr<image::Image>& contents() const;
+  const image::Image& contents() const;
 
-  void setContents(std::unique_ptr<image::Image> image);
+  void setContents(image::Image image);
 
   void mergeProperties(const Entity& entity, PropertyMaskType only);
 
@@ -193,7 +193,7 @@ class Entity : public core::ArchiveSerializable {
   geom::Point _anchorPoint;
   geom::Matrix _transformation;
   Color _backgroundColor;
-  std::unique_ptr<image::Image> _contents;
+  image::Image _contents;
   double _opacity;
 
   explicit Entity(const Entity& entity);

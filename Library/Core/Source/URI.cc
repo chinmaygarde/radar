@@ -20,9 +20,16 @@ URI::URI(const std::string& string)
   _valid = uriParseUriA(&parser, string.data()) == URI_SUCCESS;
 }
 
+URI::URI(URI&& other) : _state(other._state), _valid(other._valid) {
+  other._state = nullptr;
+  other._valid = false;
+}
+
 URI::~URI() {
-  uriFreeUriMembersA(_uri);
-  free(_state);
+  if (_state != nullptr) {
+    uriFreeUriMembersA(_uri);
+    free(_state);
+  }
 }
 
 bool URI::isValid() const {
