@@ -44,16 +44,20 @@ bool PresentationEntity::render(compositor::Frame& frame,
   _lastModelViewMatrix = viewMatrix * modelMatrix();
 
   compositor::Primitive p;
-  p.setContentColor(backgroundColor());
+  p.setColor(backgroundColor());
   p.setOpacity(opacity());
 
-  auto success = p.render(frame, _lastModelViewMatrix, bounds().size);
-
-  for (const auto& child : _children) {
-    success &= child->render(frame, _lastModelViewMatrix);
+  if (!p.render(frame, _lastModelViewMatrix, bounds().size)) {
+    return false;
   }
 
-  return success;
+  for (const auto& child : _children) {
+    if (!child->render(frame, _lastModelViewMatrix)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 }  // namespace coordinator

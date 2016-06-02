@@ -19,19 +19,9 @@ class Primitive {
  public:
   explicit Primitive();
 
-  /**
-   *  The solid color of the contents of this primitive
-   *
-   *  @return the content color
-   */
-  const entity::Color& contentColor() const;
+  const entity::Color& color() const;
 
-  /**
-   *  Sets the content color of this primitve
-   *
-   *  @param color the new content color
-   */
-  void setContentColor(const entity::Color& color);
+  void setColor(const entity::Color& color);
 
   double opacity() const;
 
@@ -42,7 +32,7 @@ class Primitive {
               const geom::Size& size);
 
  private:
-  entity::Color _contentColor;
+  entity::Color _color;
   double _opacity;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);

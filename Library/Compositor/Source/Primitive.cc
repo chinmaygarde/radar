@@ -16,15 +16,14 @@
 namespace rl {
 namespace compositor {
 
-Primitive::Primitive()
-    : _contentColor(entity::ColorWhiteTransparent), _opacity(1.0) {}
+Primitive::Primitive() : _color(entity::ColorWhiteTransparent), _opacity(1.0) {}
 
-const entity::Color& Primitive::contentColor() const {
-  return _contentColor;
+const entity::Color& Primitive::color() const {
+  return _color;
 }
 
-void Primitive::setContentColor(const entity::Color& color) {
-  _contentColor = color;
+void Primitive::setColor(const entity::Color& color) {
+  _color = color;
 }
 
 bool Primitive::render(Frame& frame,
@@ -47,9 +46,8 @@ bool Primitive::render(Frame& frame,
   glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
-  glUniform4f(program.contentColorUniform(), _contentColor.red,
-              _contentColor.green, _contentColor.blue,
-              _contentColor.alpha * _opacity);
+  glUniform4f(program.contentColorUniform(), _color.red, _color.green,
+              _color.blue, _color.alpha * _opacity);
 
   glUniform2f(program.sizeUniform(), size.width, size.height);
 
