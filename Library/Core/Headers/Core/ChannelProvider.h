@@ -50,11 +50,11 @@ class ChannelProvider {
 
   /**
    *  Since channels can be sent as message down other channels, providers must
-   *  return a handle appropriate for transport
+   *  return an attachment appropriate for transport
    *
-   *  @return the attachment handle for this provider
+   *  @return the attachment for this provider
    */
-  virtual Message::Attachment::Handle handle() = 0;
+  virtual const Attachment& attachment() = 0;
 
   /**
    *  The desctuctor

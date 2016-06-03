@@ -31,30 +31,30 @@ void CoordinatorAcquisitionProtocol::onRequest(
     std::tie(channel, tag) = _vendor();
   }
 
-  auto result = fulfillRequest(
-      identifier, std::move(replyChannel),
-      [&channel, &tag](core::Message& responseMessage) {
-        if (channel == nullptr) {
-          return false;
-        }
+  auto result =
+      fulfillRequest(identifier, std::move(replyChannel),
+                     [&channel, &tag](core::Message& responseMessage) {
+                       if (channel == nullptr) {
+                         return false;
+                       }
 
-        /*
-         *  Encode the tag name
-         */
-        responseMessage.encode(tag);
+                       /*
+                        *  Encode the tag name
+                        */
+                       responseMessage.encode(tag);
 
-        /*
-         *  Encode the attachment
-         */
+                       /*
+                        *  Encode the attachment
+                        */
 
-        const auto attachment = channel->asMessageAttachment();
+                       const auto& attachment = channel->attachment();
 
-        if (!attachment.isValid()) {
-          return false;
-        }
+                       if (!attachment.isValid()) {
+                         return false;
+                       }
 
-        return responseMessage.addAttachment(channel->asMessageAttachment());
-      });
+                       return responseMessage.encode(attachment);
+                     });
 
   RL_ASSERT(result == core::IOResult::Success);
 }

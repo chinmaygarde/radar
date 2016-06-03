@@ -65,7 +65,8 @@ class MachPayload {
      *  Figure out the total size of the mach message.
      */
     const bool hasMemoryArena = message.size() > 0;
-    const size_t ports = message.attachments().size();
+
+    const size_t ports = message.attachmentsSize();
 
     const size_t messageSize = MachMessageSize(hasMemoryArena, ports, false);
 
@@ -252,7 +253,7 @@ class MachPayload {
 
     uint8_t* memoryArenaAddress = nullptr;
     size_t memoryArenaSize = 0;
-    std::vector<Message::Attachment> attachments;
+    std::vector<Attachment> attachments;
 
     size_t offset = sizeof(mach_msg_header_t) + sizeof(mach_msg_body_t);
 
@@ -304,7 +305,9 @@ class MachPayload {
     }
 
     Message message(memoryArenaAddress, memoryArenaSize);
-    message.setAttachments(std::move(attachments));
+    for (auto attachment : attachments) {
+      message.encode(std::move(attachment));
+    }
     return message;
   }
 
@@ -316,7 +319,7 @@ class MachPayload {
   RL_DISALLOW_COPY_AND_ASSIGN(MachPayload);
 };
 
-MachPort::MachPort(const Message::Attachment& attachment) {
+MachPort::MachPort(Attachment attachment) {
   RL_ASSERT_MSG(attachment.isValid(),
                 "Mach ports can only be created from valid channel handles");
 
@@ -362,36 +365,39 @@ MachPort::MachPort(size_t queueLimit) {
 void MachPort::setupWithPortHandle(Handle handle) {
   RL_ASSERT(handle != MACH_PORT_NULL);
 
-  _handle = handle;
+  mach_port_name_t setHandle = MACH_PORT_NULL;
 
   /*
    *  Step 1: Allocate the port set that will be used as the observer in the
    *          waitset
    */
   kern_return_t res = mach_port_allocate(mach_task_self(),
-                                         MACH_PORT_RIGHT_PORT_SET, &_setHandle);
-  RL_ASSERT(res == KERN_SUCCESS && _setHandle != MACH_PORT_NULL);
+                                         MACH_PORT_RIGHT_PORT_SET, &setHandle);
+  RL_ASSERT(res == KERN_SUCCESS && setHandle != MACH_PORT_NULL);
 
   /*
    *  Step 2: Insert the port into the port set. And we are all done.
    */
-  res = mach_port_insert_member(mach_task_self(), _handle, _setHandle);
+  res = mach_port_insert_member(mach_task_self(), handle, setHandle);
   RL_ASSERT(res == KERN_SUCCESS);
+
+  _portAttachment = Attachment{handle};
+  _setAttachment = Attachment{setHandle};
 }
 
 MachPort::~MachPort() {
   /*
    *  `doTerminate()` should have already collected the port
    */
-  RL_ASSERT(_handle == MACH_PORT_NULL && _setHandle == MACH_PORT_NULL);
+  RL_ASSERT(!_portAttachment.isValid() && !_setAttachment.isValid());
 }
 
-MachPort::Handle MachPort::portHandle() const {
-  return _handle;
+const Attachment& MachPort::portAttachment() const {
+  return _portAttachment;
 }
 
-MachPort::Handle MachPort::setHandle() const {
-  return _setHandle;
+const Attachment& MachPort::setAttachment() const {
+  return _setAttachment;
 }
 
 static inline bool MachPortModRef(mach_port_name_t name,
@@ -414,28 +420,31 @@ static inline mach_port_urefs_t MachPortGetRef(mach_port_name_t name,
 bool MachPort::doTerminate() {
   auto success = true;
 
+  mach_port_name_t handle = _portAttachment.handle();
+  mach_port_name_t setHandle = _setAttachment.handle();
+
   kern_return_t result =
-      mach_port_extract_member(mach_task_self(), _handle, _setHandle);
+      mach_port_extract_member(mach_task_self(), handle, setHandle);
   if (result != KERN_SUCCESS && result != KERN_NOT_IN_SET) {
     success = false;
   }
 
-  bool releaseSend = MachPortModRef(_handle, MACH_PORT_RIGHT_SEND, -1);
-  auto refs = MachPortGetRef(_handle, MACH_PORT_RIGHT_SEND);
+  bool releaseSend = MachPortModRef(handle, MACH_PORT_RIGHT_SEND, -1);
+  auto refs = MachPortGetRef(handle, MACH_PORT_RIGHT_SEND);
   bool releaseReceive =
-      refs == 0 ? MachPortModRef(_handle, MACH_PORT_RIGHT_RECEIVE, -1) : true;
+      refs == 0 ? MachPortModRef(handle, MACH_PORT_RIGHT_RECEIVE, -1) : true;
 
   if (!releaseSend || !releaseReceive) {
     success = false;
   } else {
-    _handle = MACH_PORT_NULL;
+    _portAttachment.invalidate();
   }
 
-  result = mach_port_destroy(mach_task_self(), _setHandle);
+  result = mach_port_destroy(mach_task_self(), setHandle);
   if (result != KERN_SUCCESS) {
     success = false;
   } else {
-    _setHandle = MACH_PORT_NULL;
+    _setAttachment.invalidate();
   }
 
   return success;
@@ -461,8 +470,10 @@ IOResult MachPort::sendMessages(Messages&& messages,
   /*
    *  This is incorrect. Multiple messages need to be sent in one call
    */
+  mach_port_t handle = _portAttachment.handle();
+
   for (auto const& message : messages) {
-    MachPayload payload(message, _handle);
+    MachPayload payload(message, handle);
     result = payload.send(timeoutOption, timeout);
 
     if (result == IOResult::Failure) {
@@ -474,7 +485,7 @@ IOResult MachPort::sendMessages(Messages&& messages,
 }
 
 IOReadResult MachPort::readMessage(ClockDurationNano requestedTimeout) {
-  MachPayload payload(_handle);
+  MachPayload payload(_portAttachment.handle());
 
   mach_msg_option_t timeoutOption = 0;
   mach_msg_timeout_t timeout = MACH_MSG_TIMEOUT_NONE;

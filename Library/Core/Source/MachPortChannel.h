@@ -20,15 +20,14 @@ namespace core {
 class MachPortChannel : public ChannelProvider {
  public:
   explicit MachPortChannel(Channel& owner);
-  explicit MachPortChannel(Channel& owner,
-                           const Message::Attachment& attachment);
+  explicit MachPortChannel(Channel& owner, const Attachment& attachment);
   ~MachPortChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
   IOResult writeMessages(Messages&& message,
                          ClockDurationNano timeout) override;
   IOReadResult readMessage(ClockDurationNano timeout) override;
-  Message::Attachment::Handle handle() override;
+  const Attachment& attachment() override;
   bool doTerminate() override;
 
  private:

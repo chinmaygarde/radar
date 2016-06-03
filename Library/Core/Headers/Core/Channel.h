@@ -40,7 +40,7 @@ class Channel {
    *
    *  @param attachment the attachment. Must be valid.
    */
-  explicit Channel(const Message::Attachment& attachment);
+  explicit Channel(const Attachment& attachment);
 
   /**
    *  The channel destructor
@@ -122,7 +122,7 @@ class Channel {
   /**
    *  @return get the channel representation as a message attachment
    */
-  Message::Attachment asMessageAttachment() const;
+  const Attachment& attachment() const;
 
   void setMessagesNamespace(Namespace* ns);
 

@@ -29,7 +29,7 @@ static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
 #endif
 }
 
-Channel::Channel(const Message::Attachment& attachment)
+Channel::Channel(const Attachment& attachment)
     : _localNS(nullptr),
       _terminated(false),
       _provider(ChannelSelectProvider(*this, attachment)) {}
@@ -125,8 +125,8 @@ Done:
   return messages;
 }
 
-Message::Attachment Channel::asMessageAttachment() const {
-  return _provider->handle();
+const Attachment& Channel::attachment() const {
+  return _provider->attachment();
 }
 
 void Channel::setMessagesNamespace(Namespace* ns) {

@@ -20,12 +20,12 @@ class MachPort {
 
   explicit MachPort(size_t queueLimit);
 
-  explicit MachPort(const Message::Attachment& attachment);
+  explicit MachPort(Attachment attachment);
 
   ~MachPort();
 
-  Handle portHandle() const;
-  Handle setHandle() const;
+  const Attachment& portAttachment() const;
+  const Attachment& setAttachment() const;
 
   IOResult sendMessages(Messages&& messages, ClockDurationNano timeout);
 
@@ -36,8 +36,8 @@ class MachPort {
   static void LogRights(Handle handle);
 
  private:
-  Handle _setHandle;
-  Handle _handle;
+  Attachment _setAttachment;
+  Attachment _portAttachment;
 
   void setupWithPortHandle(Handle handle);
 

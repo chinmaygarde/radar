@@ -22,7 +22,7 @@ IOResult BootstrapServerAdvertise(const std::string& name,
     return IOResult::Failure;
   }
 
-  const auto attachment = channel->asMessageAttachment();
+  const auto& attachment = channel->attachment();
 
   if (!attachment.isValid()) {
     return IOResult::Failure;
@@ -57,8 +57,7 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
       return nullptr;
     }
 
-    return std::make_shared<core::Channel>(
-        core::Message::Attachment{port.machPort});
+    return std::make_shared<core::Channel>(core::Attachment{port.machPort});
   }
 
   return nullptr;

@@ -32,7 +32,8 @@ MachTrivialSource::MachTrivialSource()
     /*
      *  Vend the portset handles
      */
-    return Handles(_port.setHandle(), _port.setHandle());
+    EventLoopSource::Handle handle = _port.setAttachment().handle();
+    return Handles(handle, handle);
   });
 
   setWriter([&](Handle) {

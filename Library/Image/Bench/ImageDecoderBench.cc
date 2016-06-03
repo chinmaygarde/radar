@@ -3,18 +3,21 @@
 // found in the LICENSE file.
 
 #include <BenchmarkRunner/BenchmarkRunner.h>
-#include <ImageDecoder/ImageDecoder.h>
+#include <Image/Image.h>
 
 #include <SampleJPG.h>
 #include <SamplePNG.h>
 
 static void BenchDecodeJPG(benchmark::State& state) {
-  auto allocation = rl::core::make_unique<rl::core::Allocation>();
-  RL_ASSERT(allocation->resize(SampleJPGLength));
-  memcpy(allocation->data(), SampleJPG, SampleJPGLength);
-  rl::image::ImageDecoder decoder(std::move(allocation));
+  rl::core::Allocation allocation;
+
+  RL_ASSERT(allocation.resize(SampleJPGLength));
+  memcpy(allocation.data(), SampleJPG, SampleJPGLength);
+
+  rl::image::Image image(std::move(allocation));
+
   while (state.KeepRunning()) {
-    auto res = decoder.decode();
+    auto res = image.decode();
     RL_ASSERT(res.wasSuccessful());
   }
 }
@@ -22,12 +25,14 @@ static void BenchDecodeJPG(benchmark::State& state) {
 BENCHMARK(BenchDecodeJPG);
 
 static void BenchDecodePNG(benchmark::State& state) {
-  auto allocation = rl::core::make_unique<rl::core::Allocation>();
-  RL_ASSERT(allocation->resize(SamplePNGLength));
-  memcpy(allocation->data(), SamplePNG, SamplePNGLength);
-  rl::image::ImageDecoder decoder(std::move(allocation));
+  rl::core::Allocation allocation;
+
+  RL_ASSERT(allocation.resize(SamplePNGLength));
+  memcpy(allocation.data(), SamplePNG, SamplePNGLength);
+
+  rl::image::Image image(std::move(allocation));
   while (state.KeepRunning()) {
-    auto res = decoder.decode();
+    auto res = image.decode();
     RL_ASSERT(res.wasSuccessful());
   }
 }

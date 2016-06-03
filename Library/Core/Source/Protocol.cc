@@ -66,15 +66,13 @@ void Protocol::onChannelMessage(Message message, Namespace* ns) {
   if (header.type() == ProtocolPayloadHeader::Type::Request) {
     RL_ASSERT_MSG(_isVendor, "Only protocol vendors may service requests");
 
-    /*
-     *  The first attachment in the request messages is the reply channel
-     */
-    if (message.attachments().size() != 1) {
+    Attachment attachment;
+
+    if (!message.decode(attachment)) {
       return;
     }
 
-    auto replyChannel =
-        make_unique<Channel>(Message::Attachment{message.attachments()[0]});
+    auto replyChannel = make_unique<Channel>(Attachment{std::move(attachment)});
 
     onRequest(std::move(message), std::move(replyChannel), header.identifier());
 
@@ -124,7 +122,7 @@ void Protocol::sendRequest(Response response) {
     return response(IOResult::Failure, Message{});
   }
 
-  if (!message.addAttachment(_channel->asMessageAttachment())) {
+  if (!message.encode(_channel->attachment())) {
     return response(IOResult::Failure, Message{});
   }
 

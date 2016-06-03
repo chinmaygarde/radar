@@ -126,15 +126,15 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
     return;
   }
 
-  if (message.attachments().size() != 1) {
-    return;
-  }
-
   /*
    *  Channel acqusition messages contain one attachment with the channel handle
    */
-  _coordinatorChannel = std::make_shared<core::Channel>(
-      core::Message::Attachment{message.attachments()[0]});
+  core::Attachment attachment;
+  if (!message.decode(attachment)) {
+    return;
+  }
+
+  _coordinatorChannel = std::make_shared<core::Channel>(std::move(attachment));
 
   /*
    *  The message contains one string containing the debug tag

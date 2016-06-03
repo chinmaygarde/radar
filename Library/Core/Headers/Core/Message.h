@@ -7,6 +7,7 @@
 
 #include <Core/Config.h>
 #include <Core/Macros.h>
+#include <Core/Attachment.h>
 #include <Core/MessageSerializable.h>
 #include <Core/Utilities.h>
 
@@ -19,30 +20,8 @@
 namespace rl {
 namespace core {
 
-class InProcessAttachment;
-
 class Message {
  public:
-  class Attachment {
-   public:
-#if RL_DISABLE_XPC
-    using Handle = std::shared_ptr<InProcessAttachment>;
-#else
-    using Handle = intptr_t;
-#endif
-
-    Attachment();
-
-    Attachment(Handle handle);
-
-    bool isValid() const;
-
-    Handle handle() const;
-
-   private:
-    Handle _handle;
-  };
-
   /**
    *  Create an uninitialized message with the given reserved length.
    *
@@ -73,11 +52,6 @@ class Message {
    *  Moves a given message
    */
   Message(Message&& message);
-
-  /**
-   *  Construct a message with the given attachment
-   */
-  Message(std::vector<Attachment>&& attachments);
 
   /**
    *  Collect the message
@@ -111,6 +85,8 @@ class Message {
   }
 
   bool encode(const MessageSerializable& value);
+
+  bool encode(const Attachment& attachment);
 
   bool encode(const std::string& value);
 
@@ -150,6 +126,8 @@ class Message {
   }
 
   bool decode(MessageSerializable& value, Namespace* ns);
+
+  bool decode(Attachment& attachment);
 
   bool decode(std::string& string);
 
@@ -206,29 +184,9 @@ class Message {
    */
   void rewindRead();
 
-  /**
-   *  The list of message attachments
-   *
-   *  @return the message attachments
-   */
+  size_t attachmentsSize() const;
+
   const std::vector<Attachment>& attachments() const;
-
-  /**
-   *  Adds an attachment to the message
-   *
-   *  @param attachment the attchment to add to the message
-   *  @return if the given attachment was added to the message. The attachment
-   *          must be valid
-   */
-  bool addAttachment(const Attachment& attachment);
-
-  /**
-   *  Replace all the attachments currently in the message
-   *
-   *  @param attachments the new message attachments
-   *  @return if the set of valid attachments was set on the message
-   */
-  bool setAttachments(std::vector<Attachment>&& attachments);
 
  private:
   uint8_t* _buffer;
@@ -253,8 +211,6 @@ class Message {
 };
 
 using Messages = std::vector<Message>;
-
-extern const Message::Attachment::Handle MessageAttachmentHandleNull;
 
 }  // namespace core
 }  // namespace rl

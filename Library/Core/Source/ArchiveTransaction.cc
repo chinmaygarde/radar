@@ -26,8 +26,8 @@ ArchiveTransaction::ArchiveTransaction(int64_t& transactionCount,
 
 ArchiveTransaction::ArchiveTransaction(ArchiveTransaction&& other)
     : _endStatement(other._endStatement),
-      _transactionCount(other._transactionCount),
       _rollbackStatement(other._rollbackStatement),
+      _transactionCount(other._transactionCount),
       _cleanup(other._cleanup),
       _successful(other._successful),
       _abandoned(false) {

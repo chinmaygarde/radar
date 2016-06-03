@@ -270,7 +270,10 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
   rl::core::Channel other;
 
-  rl::core::Message message({other.asMessageAttachment()});
+  rl::core::Message message;
+
+  ASSERT_EQ(message.encode(other.attachment()), true);
+
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   ASSERT_EQ(chan.sendMessages(std::move(messages)),
@@ -328,7 +331,8 @@ TEST(ChannelTest, AliasingChannels) {
    */
   rl::core::Channel other;
 
-  rl::core::Message message({other.asMessageAttachment()});
+  rl::core::Message message;
+  ASSERT_EQ(message.encode(other.attachment()), true);
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   ASSERT_EQ(chan.sendMessages(std::move(messages)),
@@ -377,7 +381,8 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
   rl::core::Channel other;
 
-  rl::core::Message message({other.asMessageAttachment()});
+  rl::core::Message message;
+  ASSERT_EQ(message.encode(other.attachment()), true);
 
   auto someChar = 'x';
   ASSERT_EQ(message.encode(someChar), true);
@@ -429,12 +434,15 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
   rl::core::Channel other5;
   rl::core::Channel other6;
 
-  rl::core::Message message({
-      other0.asMessageAttachment(), other1.asMessageAttachment(),
-      other2.asMessageAttachment(), other3.asMessageAttachment(),
-      other4.asMessageAttachment(), other5.asMessageAttachment(),
-      other6.asMessageAttachment(),
-  });
+  rl::core::Message message;
+
+  ASSERT_EQ(message.encode(other0.attachment()), true);
+  ASSERT_EQ(message.encode(other1.attachment()), true);
+  ASSERT_EQ(message.encode(other2.attachment()), true);
+  ASSERT_EQ(message.encode(other3.attachment()), true);
+  ASSERT_EQ(message.encode(other4.attachment()), true);
+  ASSERT_EQ(message.encode(other5.attachment()), true);
+  ASSERT_EQ(message.encode(other6.attachment()), true);
 
   auto someChar = 'x';
   ASSERT_EQ(message.encode(someChar), true);
@@ -516,12 +524,13 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
   rl::core::Channel other5;
   rl::core::Channel other6;
 
-  message.setAttachments({
-      other0.asMessageAttachment(), other1.asMessageAttachment(),
-      other2.asMessageAttachment(), other3.asMessageAttachment(),
-      other4.asMessageAttachment(), other5.asMessageAttachment(),
-      other6.asMessageAttachment(),
-  });
+  ASSERT_EQ(message.encode(other0.attachment()), true);
+  ASSERT_EQ(message.encode(other1.attachment()), true);
+  ASSERT_EQ(message.encode(other2.attachment()), true);
+  ASSERT_EQ(message.encode(other3.attachment()), true);
+  ASSERT_EQ(message.encode(other4.attachment()), true);
+  ASSERT_EQ(message.encode(other5.attachment()), true);
+  ASSERT_EQ(message.encode(other6.attachment()), true);
 
   messages.emplace_back(std::move(message));
   ASSERT_EQ(channel.sendMessages(std::move(messages)),
@@ -591,10 +600,9 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
   rl::core::Channel other1;
   rl::core::Channel other2;
 
-  message.setAttachments({
-      other0.asMessageAttachment(), other1.asMessageAttachment(),
-      other2.asMessageAttachment(),
-  });
+  ASSERT_EQ(message.encode(other0.attachment()), true);
+  ASSERT_EQ(message.encode(other1.attachment()), true);
+  ASSERT_EQ(message.encode(other2.attachment()), true);
 
   messages.emplace_back(std::move(message));
   ASSERT_EQ(channel.sendMessages(std::move(messages)),

@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <TestRunner/TestRunner.h>
-#include <ImageDecoder/ImageDecoder.h>
+#include <Image/Image.h>
 
 #include <SampleJPG.h>
 #include <SamplePNG.h>
@@ -11,39 +11,37 @@
 RL_DECLARE_TEST_START(ImageDecoderTest)
 
 TEST(ImageDecoderTest, SimpleDecoderJPG) {
-  auto allocation = rl::core::make_unique<rl::core::Allocation>();
+  rl::core::Allocation allocation;
 
-  ASSERT_TRUE(allocation->resize(SampleJPGLength));
+  ASSERT_TRUE(allocation.resize(SampleJPGLength));
+  memcpy(allocation.data(), SampleJPG, SampleJPGLength);
 
-  memcpy(allocation->data(), SampleJPG, SampleJPGLength);
+  rl::image::Image image(std::move(allocation));
 
-  rl::image::ImageDecoder decoder(std::move(allocation));
-
-  auto res = decoder.decode();
+  auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
   ASSERT_EQ(res.components(), rl::image::Components::RGB);
   ASSERT_EQ(res.size().width, 313);
   ASSERT_EQ(res.size().height, 234.0);
-  ASSERT_TRUE(res.allocation()->isReady());
+  ASSERT_TRUE(res.allocation().isReady());
 }
 
 TEST(ImageDecoderTest, SimpleDecoderPNG) {
-  auto allocation = rl::core::make_unique<rl::core::Allocation>();
+  rl::core::Allocation allocation;
 
-  ASSERT_TRUE(allocation->resize(SamplePNGLength));
+  ASSERT_TRUE(allocation.resize(SamplePNGLength));
+  memcpy(allocation.data(), SamplePNG, SamplePNGLength);
 
-  memcpy(allocation->data(), SamplePNG, SamplePNGLength);
+  rl::image::Image image(std::move(allocation));
 
-  rl::image::ImageDecoder decoder(std::move(allocation));
-
-  auto res = decoder.decode();
+  auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
   ASSERT_EQ(res.components(), rl::image::Components::RGBA);
   ASSERT_EQ(res.size().width, 800.0);
   ASSERT_EQ(res.size().height, 600.0);
-  ASSERT_TRUE(res.allocation()->isReady());
+  ASSERT_TRUE(res.allocation().isReady());
 }
 
 RL_DECLARE_TEST_END

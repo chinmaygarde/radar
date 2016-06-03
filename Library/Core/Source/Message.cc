@@ -43,11 +43,6 @@ Message::Message(size_t length) : Message(nullptr, 0, false) {
 Message::Message(uint8_t* buffer, size_t bufferSize)
     : Message(buffer, bufferSize, false) {}
 
-Message::Message(std::vector<Attachment>&& attachments)
-    : Message(nullptr, 0, false) {
-  _attachments = std::move(attachments);
-}
-
 Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
     : _buffer(vmAllocated ? buffer
                           : MessageCreateBufferCopy(buffer, bufferLength)),
@@ -90,19 +85,6 @@ Message::~Message() {
   } else {
     free(_buffer);
   }
-}
-
-Message::Attachment::Attachment() : _handle(MessageAttachmentHandleNull) {}
-
-Message::Attachment::Attachment(Message::Attachment::Handle handle)
-    : _handle(handle) {}
-
-bool Message::Attachment::isValid() const {
-  return _handle != MessageAttachmentHandleNull;
-}
-
-Message::Attachment::Handle Message::Attachment::handle() const {
-  return _handle;
 }
 
 static inline size_t Message_NextPOTSize(size_t x) {
@@ -159,6 +141,15 @@ bool Message::encode(const MessageSerializable& value) {
   return value.serialize(*this);
 }
 
+bool Message::encode(const Attachment& attachment) {
+  if (!attachment.isValid()) {
+    return false;
+  }
+
+  _attachments.emplace_back(std::move(attachment));
+  return true;
+}
+
 bool Message::encode(const std::string& value) {
   auto stringLength = value.size();
   /*
@@ -198,6 +189,17 @@ size_t Message::encodeOffsetRawUnsafe(size_t size) {
 
 bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
+}
+
+bool Message::decode(Attachment& attachment) {
+  if (_attachmentsRead >= _attachments.size()) {
+    return false;
+  }
+
+  attachment = _attachments[_attachmentsRead];
+  _attachmentsRead++;
+
+  return attachment.isValid();
 }
 
 bool Message::decode(std::string& string) {
@@ -289,35 +291,13 @@ void Message::rewindRead() {
   _attachmentsRead = 0;
 }
 
-const std::vector<Message::Attachment>& Message::attachments() const {
+size_t Message::attachmentsSize() const {
+  return _attachments.size();
+}
+
+const std::vector<Attachment>& Message::attachments() const {
   return _attachments;
 }
-
-bool Message::addAttachment(const Attachment& attachment) {
-  if (!attachment.isValid()) {
-    return false;
-  }
-
-  _attachments.emplace_back(attachment);
-  return true;
-}
-
-bool Message::setAttachments(std::vector<Attachment>&& attachments) {
-  for (const auto& attachment : attachments) {
-    if (!attachment.isValid()) {
-      return false;
-    }
-  }
-
-  _attachments = std::move(attachments);
-  return true;
-}
-
-#if RL_DISABLE_XPC
-const Message::Attachment::Handle MessageAttachmentHandleNull = nullptr;
-#else
-const Message::Attachment::Handle MessageAttachmentHandleNull = -1;
-#endif
 
 }  // namespace core
 }  // namespace rl

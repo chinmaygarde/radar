@@ -19,8 +19,7 @@ namespace core {
 MachPortChannel::MachPortChannel(Channel& channel)
     : _channel(channel), _port(1024) {}
 
-MachPortChannel::MachPortChannel(Channel& channel,
-                                 const Message::Attachment& attachment)
+MachPortChannel::MachPortChannel(Channel& channel, const Attachment& attachment)
     : _channel(channel), _port(attachment) {}
 
 MachPortChannel::~MachPortChannel() {
@@ -32,7 +31,7 @@ MachPortChannel::~MachPortChannel() {
 std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   using ELS = EventLoopSource;
 
-  auto setHandle = _port.setHandle();
+  auto setHandle = _port.setAttachment().handle();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
   auto readHandler = [&](ELS::Handle) {
     return _channel.readPendingMessageNow();
@@ -78,8 +77,8 @@ IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
   return _port.readMessage(timeout);
 }
 
-Message::Attachment::Handle MachPortChannel::handle() {
-  return static_cast<Message::Attachment::Handle>(_port.portHandle());
+const Attachment& MachPortChannel::attachment() {
+  return _port.portAttachment();
 }
 
 bool MachPortChannel::doTerminate() {
