@@ -14,7 +14,7 @@ namespace image {
 
 class ImageSource;
 
-class Image {
+class Image : public core::MessageSerializable {
  public:
   Image();
 
@@ -22,18 +22,16 @@ class Image {
 
   Image(core::File sourceFile);
 
-  Image(Image&& image);
-
-  Image& operator=(Image&& image);
-
   ImageResult decode() const;
 
   ~Image();
 
- private:
-  std::unique_ptr<ImageSource> _source;
+  bool serialize(core::Message& message) const override;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Image);
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
+
+ private:
+  std::shared_ptr<ImageSource> _source;
 };
 
 }  // namespace image

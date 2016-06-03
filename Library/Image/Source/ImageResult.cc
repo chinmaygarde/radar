@@ -35,7 +35,7 @@ const core::Allocation& ImageResult::allocation() const {
   return _allocation;
 }
 
-ImageResult::~ImageResult() {}
+ImageResult::~ImageResult() = default;
 
 }  // namespace image
 }  // namespace rl

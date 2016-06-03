@@ -53,6 +53,10 @@ void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
   if (only & PropertyMask::OpacityMask) {
     _opacity = entity._opacity;
   }
+
+  if (only & PropertyMask::ContentsMask) {
+    _contents = entity._contents;
+  }
 }
 
 Entity::~Entity() {}

@@ -236,6 +236,7 @@ class Message {
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
+  size_t _attachmentsRead;
   bool _vmAllocated;
 
   bool resizeBuffer(size_t size);

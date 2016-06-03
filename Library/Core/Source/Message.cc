@@ -54,6 +54,7 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
       _bufferLength(_buffer == nullptr ? 0 : bufferLength),
       _dataLength(_bufferLength),
       _sizeRead(0),
+      _attachmentsRead(0),
       _vmAllocated(vmAllocated) {}
 
 Message::Message(Message&& message)
@@ -62,26 +63,30 @@ Message::Message(Message&& message)
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
+      _attachmentsRead(message._attachmentsRead),
       _vmAllocated(message._vmAllocated) {
   message._buffer = nullptr;
 }
 
 Message::~Message() {
+  if (_buffer == nullptr) {
+    return;
+  }
+
   if (_vmAllocated) {
-    if (_buffer) {
 #if RL_OS_MAC
-      kern_return_t res =
-          vm_deallocate(mach_task_self(),
-                        reinterpret_cast<vm_address_t>(_buffer), _bufferLength);
-      RL_ASSERT(res == KERN_SUCCESS);
+    kern_return_t res =
+        vm_deallocate(mach_task_self(), reinterpret_cast<vm_address_t>(_buffer),
+                      _bufferLength);
+    RL_ASSERT(res == KERN_SUCCESS);
 #elif RL_OS_LINUX || RL_OS_BSD
-      RL_CHECK(::munmap(_buffer, _bufferLength));
+    RL_CHECK(::munmap(_buffer, _bufferLength));
 #elif RL_OS_WINDOWS || RL_OS_NACL
-      RL_ASSERT_MSG(false, "No platform owned buffer implementation");
+    RL_ASSERT_MSG(false, "No platform owned buffer implementation");
 #else
 #error Unknown Platform
 #endif
-    }
+
   } else {
     free(_buffer);
   }
@@ -281,6 +286,7 @@ bool Message::readCompleted() const {
 
 void Message::rewindRead() {
   _sizeRead = 0;
+  _attachmentsRead = 0;
 }
 
 const std::vector<Message::Attachment>& Message::attachments() const {

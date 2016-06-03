@@ -19,9 +19,15 @@ Image::Image(core::Allocation sourceAllocation)
 Image::Image(core::File sourceFile)
     : _source(ImageSource::Create(std::move(sourceFile))) {}
 
-Image::Image(Image&& image) = default;
+bool Image::serialize(core::Message& message) const {
+  RL_WIP;
+  return false;
+}
 
-Image& Image::operator=(Image&& image) = default;
+bool Image::deserialize(core::Message& message, core::Namespace* ns) {
+  RL_WIP;
+  return false;
+}
 
 ImageResult Image::decode() const {
   if (_source == nullptr || _source->sourceDataSize() == 0) {

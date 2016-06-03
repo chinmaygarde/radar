@@ -100,21 +100,25 @@ bool TransferEntity::serialize(core::Message& message) const {
       case Property::RemovedFrom:
         return message.encode(_removedFrom);
       case Property::Bounds:
-        return message.encode(bounds());
+        return message.encode(_bounds);
       case Property::Position:
-        return message.encode(position());
+        return message.encode(_position);
       case Property::AnchorPoint:
-        return message.encode(anchorPoint());
+        return message.encode(_anchorPoint);
       case Property::Transformation:
-        return message.encode(transformation());
+        return message.encode(_transformation);
       case Property::BackgroundColor:
-        return message.encode(backgroundColor());
+        return message.encode(_backgroundColor);
+      case Property::Contents:
+        return message.encode(_contents);
       case Property::Opacity:
-        return message.encode(opacity());
+        return message.encode(_opacity);
       case Property::MakeRoot:
-        return message.encode(identifier());
-      default:
-        return false;
+        return message.encode(_identifier);
+      case Property::None:
+      case Property::Sentinel:
+        RL_ASSERT(false);
+        break;
     }
     return false;
   });
@@ -144,11 +148,14 @@ bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
         return message.decode(_transformation, ns);
       case Property::BackgroundColor:
         return message.decode(_backgroundColor, ns);
+      case Property::Contents:
+        return message.decode(_contents, ns);
       case Property::Opacity:
         return message.decode(_opacity, ns);
       case Property::MakeRoot:
         return message.decode(_makeRoot, ns);
-      default:
+      case Property::None:
+      case Property::Sentinel:
         return false;
     }
     return false;
