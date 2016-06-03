@@ -96,7 +96,6 @@ TEST(MessageTest, EncodeInvalidAttachment) {
   rl::core::Message message;
 
   ASSERT_EQ(message.encode(invalid), false);
-  ASSERT_EQ(message.attachmentsSize(), 0);
 }
 
 TEST(MessageTest, EncodeValidAttachment) {
@@ -105,7 +104,6 @@ TEST(MessageTest, EncodeValidAttachment) {
   rl::core::Message message;
 
   ASSERT_EQ(message.encode(channel.attachment()), true);
-  ASSERT_EQ(message.attachmentsSize(), 1);
 }
 
 TEST(MessageTest, EncodeMultipleValidAttachment) {
@@ -114,7 +112,6 @@ TEST(MessageTest, EncodeMultipleValidAttachment) {
   for (size_t i = 0; i < 10; i++) {
     rl::core::Channel channel;
     ASSERT_EQ(message.encode(channel.attachment()), true);
-    ASSERT_EQ(message.attachmentsSize(), i + 1);
   }
 }
 
@@ -133,7 +130,8 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
     ASSERT_EQ(message.encode(channel->attachment()), true);
   }
 
-  ASSERT_EQ(message.attachmentsSize(), count);
+  rl::core::Attachment invalid;
+  ASSERT_EQ(message.encode(invalid), false);
 
   size_t initialRead = 0;
 

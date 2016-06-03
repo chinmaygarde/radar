@@ -252,9 +252,17 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-        ASSERT_EQ(message.attachments().size(), 1);
-        ASSERT_EQ(message.attachments()[0].isValid(), true);
+        rl::core::Attachment attachment;
+
+        ASSERT_EQ(message.decode(attachment), true);
+
+        /*
+         *  There is only one attachment
+         */
+        ASSERT_EQ(message.decode(attachment), false);
+
         ASSERT_EQ(message.readCompleted(), true);
+
         rl::core::EventLoop::Current()->terminate();
       });
 
@@ -294,14 +302,22 @@ TEST(ChannelTest, AliasingChannels) {
   rl::core::Latch aliasLatch(1);
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-        ASSERT_EQ(message.attachments().size(), 1);
-        ASSERT_EQ(message.attachments()[0].isValid(), 1);
+
+        rl::core::Attachment attachment;
+
+        ASSERT_EQ(message.decode(attachment), true);
+
+        /*
+         *  There is only one attachment.
+         */
+        ASSERT_EQ(message.decode(attachment), false);
+
         rl::core::EventLoop::Current()->terminate();
 
         /*
          *  Alias of the channel
          */
-        rl::core::Channel aliasOther(message.attachments()[0]);
+        rl::core::Channel aliasOther(attachment);
         ASSERT_NE(aliasOther.source(), nullptr);
 
         rl::core::Message messageToAlias;
@@ -361,8 +377,16 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-        ASSERT_EQ(message.attachments().size(), 1);
-        ASSERT_EQ(message.attachments()[0].isValid(), true);
+
+        rl::core::Attachment attachment;
+
+        ASSERT_EQ(message.decode(attachment), true);
+
+        /*
+         *  Only one attachment is present.
+         */
+        ASSERT_EQ(message.decode(attachment), false);
+
         auto character = 'a';
         ASSERT_EQ(message.decode(character, nullptr), true);
         ASSERT_EQ(character, 'x');
@@ -400,14 +424,17 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
 
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-        ASSERT_EQ(message.attachments().size(), 7);
-        ASSERT_EQ(message.attachments()[0].isValid(), true);
-        ASSERT_EQ(message.attachments()[1].isValid(), true);
-        ASSERT_EQ(message.attachments()[2].isValid(), true);
-        ASSERT_EQ(message.attachments()[3].isValid(), true);
-        ASSERT_EQ(message.attachments()[4].isValid(), true);
-        ASSERT_EQ(message.attachments()[5].isValid(), true);
-        ASSERT_EQ(message.attachments()[6].isValid(), true);
+        size_t count = 0;
+
+        while (true) {
+          rl::core::Attachment attachment;
+          if (message.decode(attachment)) {
+            count++;
+          } else {
+            break;
+          }
+        }
+        ASSERT_EQ(count, 7);
 
         auto character = 'a';
         ASSERT_EQ(message.decode(character, nullptr), true);
@@ -482,14 +509,18 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
           ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
                                               false /* check */));
 
-          ASSERT_EQ(message.attachments().size(), 7);
-          ASSERT_EQ(message.attachments()[0].isValid(), true);
-          ASSERT_EQ(message.attachments()[1].isValid(), true);
-          ASSERT_EQ(message.attachments()[2].isValid(), true);
-          ASSERT_EQ(message.attachments()[3].isValid(), true);
-          ASSERT_EQ(message.attachments()[4].isValid(), true);
-          ASSERT_EQ(message.attachments()[5].isValid(), true);
-          ASSERT_EQ(message.attachments()[6].isValid(), true);
+          size_t count = 0;
+
+          while (true) {
+            rl::core::Attachment attachment;
+            if (message.decode(attachment)) {
+              count++;
+            } else {
+              break;
+            }
+          }
+
+          ASSERT_EQ(count, 7);
 
           ASSERT_TRUE(loop == rl::core::EventLoop::Current());
           loop->terminate();
@@ -566,10 +597,18 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
           ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
                                               false /* check */));
 
-          ASSERT_EQ(message.attachments().size(), 3);
-          ASSERT_EQ(message.attachments()[0].isValid(), true);
-          ASSERT_EQ(message.attachments()[1].isValid(), true);
-          ASSERT_EQ(message.attachments()[2].isValid(), true);
+          size_t count = 0;
+
+          while (true) {
+            rl::core::Attachment attachment;
+            if (message.decode(attachment)) {
+              count++;
+            } else {
+              break;
+            }
+          }
+
+          ASSERT_EQ(count, 3);
 
           ASSERT_TRUE(loop == rl::core::EventLoop::Current());
           loop->terminate();

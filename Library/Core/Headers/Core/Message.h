@@ -20,6 +20,8 @@
 namespace rl {
 namespace core {
 
+class MachPayload;
+
 class Message {
  public:
   /**
@@ -184,10 +186,6 @@ class Message {
    */
   void rewindRead();
 
-  size_t attachmentsSize() const;
-
-  const std::vector<Attachment>& attachments() const;
-
  private:
   uint8_t* _buffer;
   std::vector<Attachment> _attachments;
@@ -198,14 +196,16 @@ class Message {
   bool _vmAllocated;
 
   bool resizeBuffer(size_t size);
-
   uint8_t* encodeRawUnsafe(size_t size);
-
   uint8_t* decodeRawUnsafe(size_t size);
-
   uint8_t* alignAllocation(uint8_t* allocation,
                            size_t alignment,
                            bool encoding);
+
+  friend class MachPayload;
+
+  size_t attachmentsSize() const;
+  const std::vector<Attachment>& attachments() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };
