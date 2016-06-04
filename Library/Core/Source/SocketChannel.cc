@@ -36,7 +36,7 @@ class SocketPayloadHeader {
   SocketPayloadHeader() : SocketPayloadHeader(false, 0) {}
 
   SocketPayloadHeader(bool isDataInline, uint8_t oolDescriptors)
-      : _isDataInline(isDataInline), _oolDescriptors(oolDescriptors) {}
+      : _oolDescriptors(oolDescriptors), _isDataInline(isDataInline) {}
 
   uint8_t oolDescriptors() const { return _oolDescriptors; }
 
@@ -171,7 +171,7 @@ std::unique_ptr<Channel> SocketChannel::AcceptClientHandle(
   auto clientAddress = reinterpret_cast<struct sockaddr*>(&client);
   auto length = static_cast<socklen_t>(sizeof(client));
 
-  auto descriptor =
+  int descriptor =
       RL_TEMP_FAILURE_RETRY(::accept(handle, clientAddress, &length));
 
   if (descriptor == -1) {
