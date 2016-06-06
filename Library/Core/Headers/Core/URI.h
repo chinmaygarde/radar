@@ -7,6 +7,8 @@
 
 #include <Core/Macros.h>
 
+#include <string>
+
 namespace rl {
 namespace core {
 

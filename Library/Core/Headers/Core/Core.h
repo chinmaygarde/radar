@@ -22,6 +22,7 @@
 #include <Core/Namespace.h>
 #include <Core/Timing.h>
 #include <Core/Utilities.h>
+#include <Core/Thread.h>
 
 /*
  *  Bootstrap Server

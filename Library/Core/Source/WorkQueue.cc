@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 #include <Core/WorkQueue.h>
+#include <Core/Thread.h>
 
-#include <string>
 #include <algorithm>
 
 namespace rl {
@@ -53,7 +53,7 @@ WorkQueue::WorkQueue(std::string queueName)
 void WorkQueue::workerMain(std::string name,
                            Latch& latch,
                            std::shared_ptr<EventLoopSource> terminationSource) {
-  thread::SetName(name.c_str());
+  core::thread::SetName(name.c_str());
 
   auto loop = EventLoop::Current();
 

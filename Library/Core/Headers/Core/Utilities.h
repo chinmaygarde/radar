@@ -46,33 +46,6 @@ void HashCombine(size_t& seed, T const& v) {
  */
 int ToUnixTimeoutMS(ClockDurationNano nano);
 
-#if !RL_OS_WINDOWS
-
-/**
- *  Tries to log various properties about the UNIX handle (used for debugging)
- *
- *  @param handle the handle to log properties on
- */
-void LogUnixHandleProperties(int handle);
-
-#endif  // !RL_OS_WINDOWS
-
-namespace thread {
-/**
- *  Set the name of current thread of execution
- *
- *  @param name the name to set
- */
-void SetName(const char* name);
-
-/**
- *  Get the name of the current thread of execution
- *
- *  @return the name of the thread
- */
-std::string GetName();
-
-}  // namespace thread
 }  // namespace core
 }  // namespace rl
 
