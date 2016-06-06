@@ -6,7 +6,6 @@
 #define RADARLOVE_CORE_MACROS_
 
 #include <Core/Config.h>
-#include <Core/Timing.h>
 #include <Core/Utilities.h>
 
 #include <errno.h>

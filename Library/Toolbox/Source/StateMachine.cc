@@ -9,7 +9,7 @@ namespace rl {
 namespace toolbox {
 
 StateMachine::StateMachine(std::vector<LegalTransition> legalTransitions)
-    : _currentState(0), _activated(false) {
+    : _currentState(0) {
   for (const auto& transition : legalTransitions) {
     State from, to;
     Callback callback;

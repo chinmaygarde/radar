@@ -44,7 +44,6 @@ class StateMachine {
 
  private:
   State _currentState;
-  bool _activated;
   std::map<State, std::set<State>> _legalTransitions;
   std::map<std::pair<State, State>, Callback> _transitionCallbacks;
 
