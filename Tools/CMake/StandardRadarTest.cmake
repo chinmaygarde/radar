@@ -52,6 +52,8 @@ string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
 message(STATUS 
     "\tAdding test '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
 
+# Find all test files and mark ObjC files as C++ on Linux.
+
 file(GLOB_RECURSE TEST_SRC_CC
   "Test/*.h"
   "Test/*.c"
@@ -64,9 +66,15 @@ file(GLOB_RECURSE TEST_SRC_MM
 
 TreatAsCXX("${TEST_SRC_MM}")
 
+# Add the test executable target.
+
 add_executable(${TEST_TARGET_NAME} ${TEST_SRC_CC} ${TEST_SRC_MM})
 
+# Tests can include private headers directly.
+
 include_directories("Headers" "Source" "Test")
+
+# Link against the test runner containing the program entry point.
 
 target_link_libraries(${TEST_TARGET_NAME} TestRunner ${TEST_NAME_ARG})
 
@@ -74,6 +82,19 @@ if(LINUX)
   target_link_libraries(${TEST_TARGET_NAME} rt)
 endif()
 
+# Add the target to CTest
+
 add_test(${TEST_NAME_ARG} ${TEST_TARGET_NAME})
+
+# Copy fixtures, if any.
+
+file(GLOB_RECURSE TEST_FIXTURES
+  "Fixtures/*"
+)
+
+file(COPY ${TEST_FIXTURES}
+  DESTINATION "Fixtures"
+  USE_SOURCE_PERMISSIONS
+)
 
 endfunction()
