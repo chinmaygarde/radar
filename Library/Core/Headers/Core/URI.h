@@ -16,7 +16,7 @@ class URI {
  public:
   URI();
 
-  URI(const std::string& string);
+  URI(std::string source);
 
   URI(URI&& uri);
 
@@ -31,6 +31,7 @@ class URI {
   URI append(const URI& component) const;
 
  private:
+  std::string _source;
   void* _state;
   bool _valid;
 

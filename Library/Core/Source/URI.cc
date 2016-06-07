@@ -17,14 +17,19 @@ URI::URI() : _state(nullptr), _valid(false) {}
 
 URI::URI(void* state) : _state(state), _valid(state != nullptr) {}
 
-URI::URI(const std::string& string)
-    : _state(calloc(1, sizeof(UriUriA))), _valid(false) {
+URI::URI(std::string source)
+    : _source(std::move(source)),
+      _state(calloc(1, sizeof(UriUriA))),
+      _valid(false) {
   UriParserStateA parser;
   parser.uri = _uri;
-  _valid = uriParseUriA(&parser, string.data()) == URI_SUCCESS;
+  _valid = uriParseUriA(&parser, _source.data()) == URI_SUCCESS;
 }
 
-URI::URI(URI&& other) : _state(other._state), _valid(other._valid) {
+URI::URI(URI&& other)
+    : _source(std::move(other._source)),
+      _state(other._state),
+      _valid(other._valid) {
   other._state = nullptr;
   other._valid = false;
 }
