@@ -6,6 +6,7 @@
 #define RADARLOVE_CORE_UTILITIES_
 
 #include <Core/Timing.h>
+#include <Core/URI.h>
 
 #include <functional>
 #include <memory>
@@ -45,6 +46,8 @@ void HashCombine(size_t& seed, T const& v) {
  *  @return the duration in milliseconds
  */
 int ToUnixTimeoutMS(ClockDurationNano nano);
+
+URI GetExecutablePath();
 
 }  // namespace core
 }  // namespace rl

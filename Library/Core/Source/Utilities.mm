@@ -3,18 +3,11 @@
 // found in the LICENSE file.
 
 #include <Core/Config.h>
-#include <Core/Macros.h>
 #include <Core/Utilities.h>
-#include <Core/Trace.h>
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#if !RL_OS_WINDOWS
-#include <unistd.h>
-#endif  // !RL_OS_WINDOWS
-
-#include <string>
+#if RL_OS_MAC
+#include <Foundation/Foundation.h>
+#endif
 
 namespace rl {
 namespace core {
@@ -24,6 +17,14 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
     return -1;
   }
   return static_cast<int>(nano.count() / 1000000);
+}
+
+URI GetExecutablePath() {
+#if RL_OS_MAC
+  return URI{[[NSBundle mainBundle] executablePath].UTF8String};
+#else
+#error Unknown Platform
+#endif
 }
 
 }  // namespace core

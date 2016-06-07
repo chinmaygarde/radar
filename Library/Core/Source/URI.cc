@@ -13,6 +13,10 @@
 namespace rl {
 namespace core {
 
+URI::URI() : _state(nullptr), _valid(false) {}
+
+URI::URI(void* state) : _state(state), _valid(state != nullptr) {}
+
 URI::URI(const std::string& string)
     : _state(calloc(1, sizeof(UriUriA))), _valid(false) {
   UriParserStateA parser;
@@ -37,6 +41,10 @@ bool URI::isValid() const {
 }
 
 std::string URI::toString() const {
+  if (!_valid) {
+    return "";
+  }
+
   int maxChars = 0;
 
   if (uriToStringCharsRequiredA(_uri, &maxChars) != 0) {
@@ -69,6 +77,10 @@ std::string URI::toString() const {
 }
 
 std::string URI::filesystemRepresentation() const {
+  if (!_valid) {
+    return "";
+  }
+
   auto path = toString();
 
 #ifdef RL_OS_WINDOWS
@@ -76,6 +88,26 @@ std::string URI::filesystemRepresentation() const {
 #else
   return unixFilesystemRepresentation(path);
 #endif
+}
+
+URI URI::append(const URI& component) const {
+  if (!_valid || !component._valid) {
+    return {};
+  }
+
+  UriUriA* absoluteDest =
+      reinterpret_cast<UriUriA*>(calloc(1, sizeof(UriUriA)));
+  UriUriA* relativeSource = reinterpret_cast<UriUriA*>(component._state);
+  UriUriA* absoluteBase = reinterpret_cast<UriUriA*>(_state);
+
+  if (uriAddBaseUriExA(absoluteDest, relativeSource, absoluteBase,
+                       URI_RESOLVE_IDENTICAL_SCHEME_COMPAT) != 0) {
+    uriFreeUriMembersA(absoluteDest);
+    free(absoluteDest);
+    return {};
+  }
+
+  return URI{absoluteDest};
 }
 
 std::string URI::unixFilesystemRepresentation(const std::string& path) const {

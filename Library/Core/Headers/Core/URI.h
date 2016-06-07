@@ -14,6 +14,8 @@ namespace core {
 
 class URI {
  public:
+  URI();
+
   URI(const std::string& string);
 
   URI(URI&& uri);
@@ -26,9 +28,13 @@ class URI {
 
   std::string toString() const;
 
+  URI append(const URI& component) const;
+
  private:
   void* _state;
   bool _valid;
+
+  URI(void* state);
 
   std::string unixFilesystemRepresentation(const std::string& uriString) const;
   std::string windowsFilesystemRepresentation(
