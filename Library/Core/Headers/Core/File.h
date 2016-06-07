@@ -7,24 +7,42 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Core/FileHandle.h>
+
+#include <sys/stat.h>
 
 namespace rl {
 namespace core {
 
 class File {
  public:
-  using Handle = int;
+  enum class Type {
+    Unknown,
+    File,
+    Directory,
+    CharacterDevice,
+    BlockDevice,
+    NamedPipe,
+    SymbolicLink,
+    Socket,
+  };
 
-  File(const URI& uri);
+  File(URI uri);
 
   File(File&& file);
 
   ~File();
 
-  bool isReady() const;
+  Type type() const;
+
+  bool isValid() const;
+
+  bool setAsWorkingDirectory() const;
 
  private:
-  Handle _handle;
+  struct stat _stat;
+  URI _uri;
+  bool _valid;
 
   RL_DISALLOW_COPY_AND_ASSIGN(File);
 };

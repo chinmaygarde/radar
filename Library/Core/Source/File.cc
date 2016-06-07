@@ -4,37 +4,73 @@
 
 #include <Core/File.h>
 
-#include <fcntl.h>
+#include <sys/types.h>
 #include <unistd.h>
-
-#include <string>
 
 namespace rl {
 namespace core {
 
-File::File(const URI& uri) : _handle(-1) {
-  if (!uri.isValid()) {
+File::File(URI uri) : _uri(std::move(uri)), _valid(false) {
+  if (!_uri.isValid()) {
     return;
   }
 
-  _handle = RL_TEMP_FAILURE_RETRY(
-      ::open(uri.filesystemRepresentation().c_str(), O_RDONLY));
+  _valid = RL_TEMP_FAILURE_RETRY(
+               ::stat(_uri.filesystemRepresentation().c_str(), &_stat)) == 0;
 }
 
-File::~File() {
-  if (_handle != -1) {
-    RL_TEMP_FAILURE_RETRY_AND_CHECK(::close(_handle));
-    _handle = -1;
+File::File(File&& other) = default;
+
+bool File::isValid() const {
+  return _valid;
+}
+
+File::Type File::type() const {
+  if (!_valid) {
+    return Type::Unknown;
   }
+
+  if (S_ISREG(_stat.st_mode)) {
+    return Type::File;
+  }
+
+  if (S_ISDIR(_stat.st_mode)) {
+    return Type::Directory;
+  }
+
+  if (S_ISCHR(_stat.st_mode)) {
+    return Type::CharacterDevice;
+  }
+
+  if (S_ISBLK(_stat.st_mode)) {
+    return Type::BlockDevice;
+  }
+
+  if (S_ISFIFO(_stat.st_mode)) {
+    return Type::NamedPipe;
+  }
+
+  if (S_ISLNK(_stat.st_mode)) {
+    return Type::SymbolicLink;
+  }
+
+  if (S_ISSOCK(_stat.st_mode)) {
+    return Type::Socket;
+  }
+
+  return Type::Unknown;
 }
 
-File::File(File&& other) : _handle(other._handle) {
-  other._handle = -1;
+bool File::setAsWorkingDirectory() const {
+  if (type() != Type::Directory) {
+    return false;
+  }
+
+  return RL_TEMP_FAILURE_RETRY(
+             ::chdir(_uri.filesystemRepresentation().c_str())) == 0;
 }
 
-bool File::isReady() const {
-  return _handle != -1;
-}
+File::~File() {}
 
 }  // namespace core
 }  // namespace rl

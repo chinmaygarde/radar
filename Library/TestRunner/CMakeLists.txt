@@ -49,4 +49,4 @@ include_directories(
     "../../ThirdParty/gtest/include"
 )
 
-target_link_libraries(TestRunner gtest gtest_main)
+target_link_libraries(TestRunner Core gtest gtest_main)
