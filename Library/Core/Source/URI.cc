@@ -129,7 +129,7 @@ std::string URI::unixFilesystemRepresentation(const std::string& path) const {
 
   Allocation allocation;
 
-  if (!allocation.resize(destinationBufferSize)) {
+  if (!allocation.resize(destinationBufferSize + 1)) {
     return "";
   }
 
@@ -154,7 +154,7 @@ std::string URI::windowsFilesystemRepresentation(
 
   Allocation allocation;
 
-  if (!allocation.resize(destinationBufferSize)) {
+  if (!allocation.resize(destinationBufferSize + 1)) {
     return "";
   }
 
