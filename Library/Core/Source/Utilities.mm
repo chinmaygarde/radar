@@ -9,6 +9,8 @@
 #include <Foundation/Foundation.h>
 #endif
 
+#include <sstream>
+
 namespace rl {
 namespace core {
 
@@ -20,11 +22,17 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
 }
 
 URI GetExecutablePath() {
+  std::stringstream uri;
+
+  uri << "file://";
+
 #if RL_OS_MAC
-  return URI{[[NSBundle mainBundle] executablePath].UTF8String};
+  uri << [[NSBundle mainBundle] executablePath].UTF8String;
 #else
 #error Unknown Platform
 #endif
+
+  return URI{uri.str()};
 }
 
 }  // namespace core
