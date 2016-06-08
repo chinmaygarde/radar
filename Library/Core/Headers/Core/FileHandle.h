@@ -13,6 +13,8 @@ namespace core {
 
 class FileHandle {
  public:
+  using Handle = int;
+
   FileHandle(const URI& uri);
 
   FileHandle(FileHandle&& file);
@@ -21,9 +23,9 @@ class FileHandle {
 
   bool isValid() const;
 
- private:
-  using Handle = int;
+  Handle handle() const;
 
+ private:
   Handle _handle;
 
   RL_DISALLOW_COPY_AND_ASSIGN(FileHandle);

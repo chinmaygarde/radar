@@ -7,7 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
-#include <Core/FileHandle.h>
+#include <Core/FileMapping.h>
 
 #include <sys/stat.h>
 
@@ -35,9 +35,13 @@ class File {
 
   Type type() const;
 
+  size_t size() const;
+
   bool isValid() const;
 
   bool setAsWorkingDirectory() const;
+
+  FileMapping map() const;
 
  private:
   struct stat _stat;

@@ -7,16 +7,15 @@
 namespace rl {
 namespace image {
 
-FileImageSource::FileImageSource(core::File file) : _file(std::move(file)) {}
+FileImageSource::FileImageSource(const core::File& file)
+    : _mapping(file.map()) {}
 
 uint8_t* FileImageSource::sourceData() const {
-  RL_WIP;
-  return nullptr;
+  return _mapping.mapping();
 }
 
 size_t FileImageSource::sourceDataSize() const {
-  RL_WIP;
-  return 0;
+  return _mapping.size();
 }
 
 }  // namespace image

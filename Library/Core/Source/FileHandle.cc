@@ -34,5 +34,9 @@ bool FileHandle::isValid() const {
   return _handle != -1;
 }
 
+FileHandle::Handle FileHandle::handle() const {
+  return _handle;
+}
+
 }  // namespace core
 }  // namespace rl

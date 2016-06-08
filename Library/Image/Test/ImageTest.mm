@@ -44,4 +44,18 @@ TEST(ImageDecoderTest, SimpleDecoderPNG) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
+TEST(ImageDecoderTest, FromFileHandle) {
+  rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
+
+  rl::image::Image image(std::move(file));
+
+  auto res = image.decode();
+
+  ASSERT_TRUE(res.wasSuccessful());
+  ASSERT_EQ(res.components(), rl::image::Components::RGB);
+  ASSERT_EQ(res.size().width, 177);
+  ASSERT_EQ(res.size().height, 177);
+  ASSERT_TRUE(res.allocation().isReady());
+}
+
 RL_DECLARE_TEST_END

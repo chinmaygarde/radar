@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/File.h>
+#include <Core/FileHandle.h>
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -61,6 +62,10 @@ File::Type File::type() const {
   return Type::Unknown;
 }
 
+size_t File::size() const {
+  return _valid ? _stat.st_size : 0;
+}
+
 bool File::setAsWorkingDirectory() const {
   if (type() != Type::Directory) {
     return false;
@@ -68,6 +73,10 @@ bool File::setAsWorkingDirectory() const {
 
   return RL_TEMP_FAILURE_RETRY(
              ::chdir(_uri.filesystemRepresentation().c_str())) == 0;
+}
+
+FileMapping File::map() const {
+  return _valid ? FileMapping{FileHandle{_uri}, size()} : FileMapping{};
 }
 
 File::~File() {}

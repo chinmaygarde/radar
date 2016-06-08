@@ -6,7 +6,7 @@
 #define RADAR_IMAGE_FILEIMAGESOURCE_H_
 
 #include <Core/Macros.h>
-#include <Core/File.h>
+#include <Core/FileMapping.h>
 
 #include "ImageSource.h"
 
@@ -15,10 +15,10 @@ namespace image {
 
 class FileImageSource : public ImageSource {
  public:
-  FileImageSource(core::File file);
+  FileImageSource(const core::File& file);
 
  private:
-  core::File _file;
+  core::FileMapping _mapping;
 
   uint8_t* sourceData() const override;
 
