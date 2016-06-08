@@ -30,24 +30,6 @@
 # Library
 ################################################################################
 
-file(GLOB_RECURSE TEST_RUNNER_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.cc"
-  "Source/*.mm"
-)
+StandardRadarLibrary(DevSupport)
 
-add_library(TestRunner ${TEST_RUNNER_SRC})
-
-target_include_directories(TestRunner PUBLIC
-    "Headers"
-    "../../ThirdParty/gtest/include"
-)
-
-include_directories(
-    "Headers"
-    "Source"
-    "../../ThirdParty/gtest/include"
-)
-
-target_link_libraries(TestRunner DevSupport gtest gtest_main)
+target_link_libraries(DevSupport Core)

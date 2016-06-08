@@ -4,4 +4,10 @@
 
 #include <BenchmarkRunner/BenchmarkRunner.h>
 
-BENCHMARK_MAIN();
+#include <DevSupport/DevSupport.h>
+
+int main(int argc, char** argv) {
+  rl::dev::UpdateWorkingDirectoryForFixtures();
+  benchmark::Initialize(&argc, argv);
+  benchmark::RunSpecifiedBenchmarks();
+}
