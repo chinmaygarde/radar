@@ -5,9 +5,6 @@
 #include <TestRunner/TestRunner.h>
 #include <Image/Image.h>
 
-#include <SampleJPG.h>
-#include <SamplePNG.h>
-
 RL_DECLARE_TEST_START(ImageDecoderTest)
 
 TEST(ImageDecoderTest, SimgeDecoderJPG) {
