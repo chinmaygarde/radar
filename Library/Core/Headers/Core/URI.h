@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 
 #include <string>
+#include <unordered_set>
 
 namespace rl {
 namespace core {
@@ -31,7 +32,9 @@ class URI {
   URI append(const URI& component) const;
 
  private:
-  std::string _source;
+  using StringComponents = std::unordered_set<std::shared_ptr<std::string>>;
+
+  StringComponents _sources;
   void* _state;
   bool _valid;
 

@@ -18,16 +18,21 @@ URI::URI() : _state(nullptr), _valid(false) {}
 URI::URI(void* state) : _state(state), _valid(state != nullptr) {}
 
 URI::URI(std::string source)
-    : _source(std::move(source)),
-      _state(calloc(1, sizeof(UriUriA))),
-      _valid(false) {
+    : _state(calloc(1, sizeof(UriUriA))), _valid(false) {
   UriParserStateA parser;
+
   parser.uri = _uri;
-  _valid = uriParseUriA(&parser, _source.data()) == URI_SUCCESS;
+
+  auto stringBacking = std::make_shared<std::string>(std::move(source));
+  _valid = uriParseUriA(&parser, stringBacking->data()) == URI_SUCCESS;
+
+  if (_valid) {
+    _sources.insert(std::move(stringBacking));
+  }
 }
 
 URI::URI(URI&& other)
-    : _source(std::move(other._source)),
+    : _sources(std::move(other._sources)),
       _state(other._state),
       _valid(other._valid) {
   other._state = nullptr;
@@ -112,7 +117,17 @@ URI URI::append(const URI& component) const {
     return {};
   }
 
-  return URI{absoluteDest};
+  auto resultant = URI{absoluteDest};
+
+  for (auto source : _sources) {
+    resultant._sources.insert(source);
+  }
+
+  for (auto source : component._sources) {
+    resultant._sources.insert(source);
+  }
+
+  return resultant;
 }
 
 std::string URI::unixFilesystemRepresentation(const std::string& path) const {
