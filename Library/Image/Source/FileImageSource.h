@@ -15,10 +15,18 @@ namespace image {
 
 class FileImageSource : public ImageSource {
  public:
+  FileImageSource();
+
   FileImageSource(const core::File& file);
+
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
   core::FileMapping _mapping;
+
+  ImageSource::Type type() const override;
 
   uint8_t* sourceData() const override;
 

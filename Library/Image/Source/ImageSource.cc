@@ -17,6 +17,19 @@ std::unique_ptr<ImageSource> ImageSource::Create(core::File file) {
   return core::make_unique<FileImageSource>(std::move(file));
 }
 
+std::shared_ptr<ImageSource> ImageSource::ImageSourceForType(Type type) {
+  switch (type) {
+    case Type::File:
+      return std::make_shared<FileImageSource>();
+    case Type::Data:
+      return std::make_shared<DataImageSource>();
+    default:
+      return nullptr;
+  }
+
+  return nullptr;
+}
+
 ImageSource::ImageSource() = default;
 
 ImageSource::~ImageSource() = default;

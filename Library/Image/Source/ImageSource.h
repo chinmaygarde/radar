@@ -12,11 +12,19 @@
 namespace rl {
 namespace image {
 
-class ImageSource {
+class ImageSource : public core::MessageSerializable {
  public:
+  enum class Type : uint8_t {
+    Unknown,
+    File,
+    Data,
+  };
+
   static std::unique_ptr<ImageSource> Create(core::Allocation allocation);
 
   static std::unique_ptr<ImageSource> Create(core::File file);
+
+  static std::shared_ptr<ImageSource> ImageSourceForType(Type type);
 
   ImageSource();
 
@@ -25,11 +33,11 @@ class ImageSource {
  protected:
   friend class Image;
 
+  virtual Type type() const = 0;
+
   virtual uint8_t* sourceData() const = 0;
 
   virtual size_t sourceDataSize() const = 0;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(ImageSource);
 };
 
 }  // namespace image

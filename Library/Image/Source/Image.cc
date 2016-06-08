@@ -20,12 +20,40 @@ Image::Image(core::File sourceFile)
     : _source(ImageSource::Create(std::move(sourceFile))) {}
 
 bool Image::serialize(core::Message& message) const {
-  RL_WIP;
-  return false;
+  if (_source == nullptr) {
+    return false;
+  }
+
+  if (!message.encode(_source->type())) {
+    return false;
+  }
+
+  return _source->serialize(message);
 }
 
 bool Image::deserialize(core::Message& message, core::Namespace* ns) {
-  RL_WIP;
+  if (_source == nullptr) {
+    return false;
+  }
+
+  auto type = ImageSource::Type::Unknown;
+
+  if (!message.decode(type, ns)) {
+    return false;
+  }
+
+  auto source = ImageSource::ImageSourceForType(type);
+
+  if (source == nullptr) {
+    return false;
+  }
+
+  if (source->deserialize(message, ns)) {
+    _source = source;
+  } else {
+    return false;
+  }
+
   return false;
 }
 

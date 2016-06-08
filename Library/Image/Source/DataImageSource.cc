@@ -7,6 +7,8 @@
 namespace rl {
 namespace image {
 
+DataImageSource::DataImageSource() {}
+
 DataImageSource::DataImageSource(core::Allocation allocation)
     : _allocation(std::move(allocation)) {}
 
@@ -16,6 +18,20 @@ uint8_t* DataImageSource::sourceData() const {
 
 size_t DataImageSource::sourceDataSize() const {
   return _allocation.size();
+}
+
+bool DataImageSource::serialize(core::Message& message) const {
+  RL_WIP;
+  return false;
+}
+
+bool DataImageSource::deserialize(core::Message& message, core::Namespace* ns) {
+  RL_WIP;
+  return false;
+}
+
+ImageSource::Type DataImageSource::type() const {
+  return ImageSource::Type::Data;
 }
 
 }  // namespace image

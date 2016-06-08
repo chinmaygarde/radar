@@ -15,10 +15,18 @@ namespace image {
 
 class DataImageSource : public ImageSource {
  public:
+  DataImageSource();
+
   DataImageSource(core::Allocation allocation);
+
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
   core::Allocation _allocation;
+
+  ImageSource::Type type() const override;
 
   uint8_t* sourceData() const override;
 
