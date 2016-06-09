@@ -184,10 +184,6 @@ mach_port_name_t MachPort::name() const {
   return _name;
 }
 
-bool MachPort::isValid() const {
-  return MACH_PORT_VALID(_name);
-}
-
 static inline mach_msg_timeout_t MachMessageTimeOutFromDuration(
     ClockDurationNano timeout) {
   return static_cast<mach_msg_timeout_t>(
@@ -247,6 +243,14 @@ IOReadResult MachPort::receiveMessage(
   }
 
   return IOReadResult(result, Message{});
+}
+
+bool MachPort::isValid() const {
+  return MACH_PORT_VALID(_name);
+}
+
+Attachment::Handle MachPort::handle() const {
+  return _name;
 }
 
 }  // namespace core

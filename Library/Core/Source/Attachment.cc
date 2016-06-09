@@ -7,24 +7,7 @@
 namespace rl {
 namespace core {
 
-Attachment::Attachment() = default;
-
-Attachment::~Attachment() = default;
-
-Attachment::Attachment(Attachment::Handle handle)
-    : _handle(std::make_shared<Attachment::Handle>(handle)) {}
-
-bool Attachment::isValid() const {
-  return _handle != nullptr;
-}
-
-Attachment::Handle Attachment::handle() const {
-  return _handle != nullptr ? *_handle : -1;
-}
-
-void Attachment::invalidate() {
-  _handle = nullptr;
-}
+//
 
 }  // namespace core
 }  // namespace rl

@@ -88,7 +88,7 @@ class Message {
 
   bool encode(const MessageSerializable& value);
 
-  bool encode(const Attachment& attachment);
+  bool encode(const AttachmentRef& attachment);
 
   bool encode(const std::string& value);
 
@@ -129,7 +129,7 @@ class Message {
 
   bool decode(MessageSerializable& value, Namespace* ns);
 
-  bool decode(Attachment& attachment);
+  bool decode(AttachmentRef& attachment);
 
   bool decode(std::string& string);
 
@@ -188,7 +188,7 @@ class Message {
 
  private:
   uint8_t* _buffer;
-  std::vector<Attachment> _attachments;
+  std::vector<AttachmentRef> _attachments;
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
@@ -205,7 +205,7 @@ class Message {
   friend class MachPayload;
 
   size_t attachmentsSize() const;
-  const std::vector<Attachment>& attachments() const;
+  const std::vector<AttachmentRef>& attachments() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };

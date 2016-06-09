@@ -16,21 +16,12 @@ class Attachment {
  public:
   using Handle = intptr_t;
 
-  Attachment();
+  virtual bool isValid() const = 0;
 
-  ~Attachment();
-
-  Attachment(Handle handle);
-
-  bool isValid() const;
-
-  Handle handle() const;
-
-  void invalidate();
-
- private:
-  std::shared_ptr<Handle> _handle;
+  virtual Handle handle() const = 0;
 };
+
+using AttachmentRef = std::shared_ptr<Attachment>;
 
 }  // namespace core
 }  // namespace rl

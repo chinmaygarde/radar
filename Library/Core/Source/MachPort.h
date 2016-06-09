@@ -7,13 +7,14 @@
 
 #include <Core/Macros.h>
 #include <Core/IOResult.h>
+#include <Core/Attachment.h>
 
 #include <mach/mach.h>
 
 namespace rl {
 namespace core {
 
-class MachPort {
+class MachPort : public Attachment {
  public:
   enum class Type {
     SendReceive,
@@ -32,8 +33,6 @@ class MachPort {
 
   bool setQueueLimit(size_t limit);
 
-  bool isValid() const;
-
   void logRights() const;
 
   mach_port_name_t name() const;
@@ -42,6 +41,10 @@ class MachPort {
                         ClockDurationNano requestedTimeout) const;
 
   IOReadResult receiveMessage(ClockDurationNano requestedTimeout) const;
+
+  bool isValid() const override;
+
+  Handle handle() const override;
 
  private:
   mach_port_name_t _name;

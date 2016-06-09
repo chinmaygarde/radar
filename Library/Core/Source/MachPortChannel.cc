@@ -88,7 +88,7 @@ IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
 }
 
 const Attachment& MachPortChannel::attachment() {
-  return _port.name();
+  return _port;
 }
 
 bool MachPortChannel::doTerminate() {

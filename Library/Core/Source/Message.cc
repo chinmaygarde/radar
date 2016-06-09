@@ -141,8 +141,8 @@ bool Message::encode(const MessageSerializable& value) {
   return value.serialize(*this);
 }
 
-bool Message::encode(const Attachment& attachment) {
-  if (!attachment.isValid()) {
+bool Message::encode(const AttachmentRef& attachment) {
+  if (!attachment->isValid()) {
     return false;
   }
 
@@ -191,7 +191,7 @@ bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
 }
 
-bool Message::decode(Attachment& attachment) {
+bool Message::decode(AttachmentRef& attachment) {
   if (_attachmentsRead >= _attachments.size()) {
     return false;
   }
@@ -199,7 +199,7 @@ bool Message::decode(Attachment& attachment) {
   attachment = _attachments[_attachmentsRead];
   _attachmentsRead++;
 
-  return attachment.isValid();
+  return attachment->isValid();
 }
 
 bool Message::decode(std::string& string) {
@@ -295,7 +295,7 @@ size_t Message::attachmentsSize() const {
   return _attachments.size();
 }
 
-const std::vector<Attachment>& Message::attachments() const {
+const std::vector<AttachmentRef>& Message::attachments() const {
   return _attachments;
 }
 

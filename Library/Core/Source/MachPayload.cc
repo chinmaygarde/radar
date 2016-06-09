@@ -4,6 +4,8 @@
 
 #include "MachPayload.h"
 
+#include "MachPort.h"
+
 namespace rl {
 namespace core {
 
@@ -105,7 +107,7 @@ MachPayload::MachPayload(const Message& message, mach_port_t remote) {
     auto attachmentDesc =
         reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
-    attachmentDesc->name = static_cast<mach_port_t>(attachment.handle());
+    attachmentDesc->name = static_cast<mach_port_t>(attachment->handle());
     attachmentDesc->disposition = MACH_MSG_TYPE_COPY_SEND;
     attachmentDesc->type = MACH_MSG_PORT_DESCRIPTOR;
 
@@ -248,7 +250,7 @@ Message MachPayload::asMessage() const {
 
   uint8_t* memoryArenaAddress = nullptr;
   size_t memoryArenaSize = 0;
-  std::vector<Attachment> attachments;
+  std::vector<AttachmentRef> attachments;
 
   size_t offset = sizeof(mach_msg_header_t) + sizeof(mach_msg_body_t);
 
@@ -288,7 +290,8 @@ Message MachPayload::asMessage() const {
         auto attachmentDesc =
             reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
-        attachments.emplace_back(attachmentDesc->name);
+        attachments.emplace_back(std::make_shared<MachPort>(
+            MachPort::Type::SendReceive, attachmentDesc->name));
 
         offset += sizeof(mach_msg_port_descriptor_t);
       } break;
