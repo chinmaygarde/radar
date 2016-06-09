@@ -22,6 +22,7 @@ class MachTrivialSource : public EventLoopSource {
 
  private:
   MachPort _port;
+  MachPort _set;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachTrivialSource);
 };

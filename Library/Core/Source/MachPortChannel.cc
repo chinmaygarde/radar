@@ -17,10 +17,20 @@ namespace rl {
 namespace core {
 
 MachPortChannel::MachPortChannel(Channel& channel)
-    : _channel(channel), _port(1024) {}
+    : _channel(channel),
+      _port(MachPort::Type::SendReceive),
+      _set(MachPort::Type::PortSet) {
+  auto insertionResult = _set.insertMember(_port);
+  RL_ASSERT(insertionResult);
+}
 
 MachPortChannel::MachPortChannel(Channel& channel, const Attachment& attachment)
-    : _channel(channel), _port(attachment) {}
+    : _channel(channel),
+      _port(MachPort::Type::SendReceive, attachment.handle()),
+      _set(MachPort::Type::PortSet) {
+  auto insertionResult = _set.insertMember(_port);
+  RL_ASSERT(insertionResult);
+}
 
 MachPortChannel::~MachPortChannel() {
   /*
@@ -31,7 +41,7 @@ MachPortChannel::~MachPortChannel() {
 std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   using ELS = EventLoopSource;
 
-  auto setHandle = _port.setAttachment().handle();
+  auto setHandle = _port.name();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
   auto readHandler = [&](ELS::Handle) {
     return _channel.readPendingMessageNow();
@@ -74,15 +84,15 @@ IOResult MachPortChannel::writeMessages(Messages&& messages,
 }
 
 IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
-  return _port.readMessage(timeout);
+  return _port.receiveMessage(timeout);
 }
 
 const Attachment& MachPortChannel::attachment() {
-  return _port.portAttachment();
+  return _port.name();
 }
 
 bool MachPortChannel::doTerminate() {
-  return _port.doTerminate();
+  return _set.extractMember(_port);
 }
 
 }  // namespace core

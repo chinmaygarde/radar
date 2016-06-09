@@ -1,45 +1,51 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
+// Copyright 2016 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_MACHPORT_H_
-#define RADARLOVE_CORE_MACHPORT_H_
+#ifndef RADAR_CORE_MACHPORT_H_
+#define RADAR_CORE_MACHPORT_H_
 
-#include <Core/Config.h>
+#include <Core/Macros.h>
+#include <Core/IOResult.h>
 
-#if RL_CHANNELS == RL_CHANNELS_MACH
-
-#include <Core/Core.h>
+#include <mach/mach.h>
 
 namespace rl {
 namespace core {
 
 class MachPort {
  public:
-  using Handle = uint32_t;
+  enum class Type {
+    SendReceive,
+    PortSet,
+  };
 
-  explicit MachPort(size_t queueLimit);
+  MachPort(Type type);
 
-  explicit MachPort(Attachment attachment);
+  MachPort(Type type, mach_port_name_t name);
 
   ~MachPort();
 
-  const Attachment& portAttachment() const;
-  const Attachment& setAttachment() const;
+  bool insertMember(const MachPort& member);
 
-  IOResult sendMessages(Messages&& messages, ClockDurationNano timeout);
+  bool extractMember(const MachPort& member);
 
-  IOReadResult readMessage(ClockDurationNano timeout);
+  bool setQueueLimit(size_t limit);
 
-  bool doTerminate();
+  bool isValid() const;
 
-  static void LogRights(Handle handle);
+  void logRights() const;
+
+  mach_port_name_t name() const;
+
+  IOResult sendMessages(Messages&& messages,
+                        ClockDurationNano requestedTimeout) const;
+
+  IOReadResult receiveMessage(ClockDurationNano requestedTimeout) const;
 
  private:
-  Attachment _setAttachment;
-  Attachment _portAttachment;
-
-  void setupWithPortHandle(Handle handle);
+  mach_port_name_t _name;
+  Type _type;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPort);
 };
@@ -47,6 +53,4 @@ class MachPort {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_CHANNELS == RL_CHANNELS_MACH
-
-#endif  // RADARLOVE_CORE_MACHPORT_H_
+#endif  // RADAR_CORE_MACHPORT_H_

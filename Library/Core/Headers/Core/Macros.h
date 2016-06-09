@@ -34,7 +34,9 @@
  */
 #define RL_LOG(message, ...) \
   printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);
-#define RL_LOG_ERRNO() RL_LOG("%s (%d)", strerror(errno), errno)
+
+#define RL_LOG_ERRNO() RL_LOG("UNIX Error: %s (%d)", strerror(errno), errno)
+#define RL_LOG_MACHERROR(res) RL_LOG("Mach Error: %s", mach_error_string(res))
 
 /**
  *  Log the current line to the console. Used when all hope for a sane
@@ -109,12 +111,12 @@ static inline void _RL_AssertLog(const char* file,
  *  @param call     the Unix call to check the result of
  *  @param expected the expected value of the unix call
  */
-#define RL_CHECK_EXPECT(call, expected)     \
-  {                                         \
-    if ((call) != (expected)) {             \
-      RL_LOG_ERRNO();                       \
-      RL_ASSERT(0 && "Error in UNIX call"); \
-    }                                       \
+#define RL_CHECK_EXPECT(call, expected)           \
+  {                                               \
+    if ((call) != (expected)) {                   \
+      RL_LOG_ERRNO();                             \
+      RL_ASSERT_MSG(false, "Error in UNIX call"); \
+    }                                             \
   }
 
 /**
@@ -146,6 +148,23 @@ static inline void _RL_AssertLog(const char* file,
     } while (_rc == -1 && errno == EINTR);   \
     RL_CHECK_EXPECT(_rc, 0);                 \
     _rc;                                     \
+  })
+
+/**
+ *  Performs the Mach operation and aborts on failure before logging the error.
+ *
+ *  @param exp the mach operation returning `kern_return_t`.
+ *
+ *  @return the return value of the Mach operation.
+ */
+#define RL_MACH_CHECK(exp)                                \
+  ({                                                      \
+    __typeof__(exp) _rc = (exp);                          \
+    if (_rc != KERN_SUCCESS) {                            \
+      RL_LOG("Mach Error: '%s'", mach_error_string(_rc)); \
+      RL_ASSERT_MSG(false, "Fatal Error on Mach Call");   \
+    }                                                     \
+    _rc;                                                  \
   })
 
 /*

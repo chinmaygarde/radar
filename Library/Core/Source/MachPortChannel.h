@@ -10,8 +10,8 @@
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include <Core/Channel.h>
-
 #include <Core/ChannelProvider.h>
+
 #include "MachPort.h"
 
 namespace rl {
@@ -20,19 +20,26 @@ namespace core {
 class MachPortChannel : public ChannelProvider {
  public:
   explicit MachPortChannel(Channel& owner);
+
   explicit MachPortChannel(Channel& owner, const Attachment& attachment);
+
   ~MachPortChannel();
 
   std::shared_ptr<EventLoopSource> createSource() const override;
+
   IOResult writeMessages(Messages&& message,
                          ClockDurationNano timeout) override;
+
   IOReadResult readMessage(ClockDurationNano timeout) override;
+
   const Attachment& attachment() override;
+
   bool doTerminate() override;
 
  private:
   Channel& _channel;
   MachPort _port;
+  MachPort _set;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPortChannel);
 };

@@ -27,12 +27,20 @@ namespace core {
  */
 
 MachTrivialSource::MachTrivialSource()
-    : EventLoopSource(), _port(1 /* q_limit*/) {
+    : EventLoopSource(),
+      _port(MachPort::Type::SendReceive),
+      _set(MachPort::Type::PortSet) {
+  auto res = _port.setQueueLimit(1);
+  RL_ASSERT(res);
+
+  res = _set.insertMember(_port);
+  RL_ASSERT(res);
+
   setHandlesProvider([&]() {
     /*
      *  Vend the portset handles
      */
-    EventLoopSource::Handle handle = _port.setAttachment().handle();
+    EventLoopSource::Handle handle = _set.name();
     return Handles(handle, handle);
   });
 
@@ -51,7 +59,7 @@ MachTrivialSource::MachTrivialSource()
   });
 
   setReader([&](Handle) {
-    auto result = _port.readMessage(ClockDurationMilli(0));
+    auto result = _port.receiveMessage(ClockDurationMilli(0));
     RL_ASSERT(result.first != IOResult::Failure);
     /*
      *  We don't actually care about the message contents. Just need to
@@ -88,7 +96,7 @@ MachTrivialSource::MachTrivialSource()
 }
 
 MachTrivialSource::~MachTrivialSource() {
-  auto res = _port.doTerminate();
+  auto res = _set.extractMember(_port);
   RL_ASSERT(res);
 }
 
