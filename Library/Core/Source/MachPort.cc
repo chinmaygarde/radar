@@ -136,48 +136,48 @@ bool MachPort::extractMember(const MachPort& member) {
 }
 
 void MachPort::logRights() const {
-  mach_port_name_t name = _name;
+  RL_LOG("~~~~~~~~~~~~~~~ Logging Rights for %d", _name);
 
-  kern_return_t result = KERN_SUCCESS;
-  mach_port_urefs_t refs = 0;
+  struct MachRightNamePair {
+    const char* name;
+    mach_port_right_t right;
+  };
 
-  RL_LOG("~~~~~~~~~~ Logging Rights for %d", name);
+#define __MACH_RIGHT_DESC(a) \
+  { #a, a }
 
-  refs = 0;
-  result =
-      mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND, &refs);
+  const MachRightNamePair pairs[] = {
+      __MACH_RIGHT_DESC(MACH_PORT_RIGHT_SEND),
+      __MACH_RIGHT_DESC(MACH_PORT_RIGHT_RECEIVE),
+      __MACH_RIGHT_DESC(MACH_PORT_RIGHT_SEND_ONCE),
+      __MACH_RIGHT_DESC(MACH_PORT_RIGHT_PORT_SET),
+      __MACH_RIGHT_DESC(MACH_PORT_RIGHT_DEAD_NAME),
+  };
 
-  if (result == KERN_INVALID_NAME) {
-    RL_LOG("This name is invalid");
-    return;
+#undef __MACH_RIGHT_DESC
+
+  const auto count = sizeof(pairs) / sizeof(MachRightNamePair);
+
+  for (size_t i = 0; i < count; i++) {
+    mach_port_urefs_t refs = 0;
+    kern_return_t result =
+        mach_port_get_refs(mach_task_self(), _name, pairs[i].right, &refs);
+
+    if (result == KERN_INVALID_NAME) {
+      RL_LOG("This name is invalid");
+      break;
+    }
+
+    if (result == KERN_SUCCESS) {
+      RL_LOG("%30s: %d", pairs[i].name, refs)
+      continue;
+    }
+
+    RL_LOG_MACHERROR(result);
+    break;
   }
 
-  RL_ASSERT(result == KERN_SUCCESS);
-  RL_LOG("Send %d", refs);
-
-  refs = 0;
-  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_RECEIVE,
-                              &refs);
-  RL_ASSERT(result == KERN_SUCCESS);
-  RL_LOG("Receive %d", refs);
-
-  refs = 0;
-  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND_ONCE,
-                              &refs);
-  RL_ASSERT(result == KERN_SUCCESS);
-  RL_LOG("Send Once %d", refs);
-
-  refs = 0;
-  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_PORT_SET,
-                              &refs);
-  RL_ASSERT(result == KERN_SUCCESS);
-  RL_LOG("Port Set %d", refs);
-
-  refs = 0;
-  result = mach_port_get_refs(mach_task_self(), name, MACH_PORT_RIGHT_DEAD_NAME,
-                              &refs);
-  RL_ASSERT(result == KERN_SUCCESS);
-  RL_LOG("Dead %d", refs);
+  RL_LOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 }
 
 mach_port_name_t MachPort::name() const {
