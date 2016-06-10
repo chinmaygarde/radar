@@ -9,6 +9,7 @@
 #include <Core/IOResult.h>
 #include <Core/Macros.h>
 #include <Core/Message.h>
+#include <Core/RawAttachment.h>
 
 #include <memory>
 #include <string>
@@ -40,7 +41,7 @@ class Channel {
    *
    *  @param attachment the attachment. Must be valid.
    */
-  explicit Channel(const Attachment& attachment);
+  explicit Channel(RawAttachment attachment);
 
   /**
    *  The channel destructor
@@ -122,7 +123,7 @@ class Channel {
   /**
    *  @return get the channel representation as a message attachment
    */
-  const Attachment& attachment() const;
+  AttachmentRef attachment() const;
 
   void setMessagesNamespace(Namespace* ns);
 

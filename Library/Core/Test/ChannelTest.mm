@@ -252,7 +252,7 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-        rl::core::Attachment attachment;
+        rl::core::RawAttachment attachment;
 
         ASSERT_EQ(message.decode(attachment), true);
 
@@ -303,7 +303,7 @@ TEST(ChannelTest, AliasingChannels) {
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
 
-        rl::core::Attachment attachment;
+        rl::core::RawAttachment attachment;
 
         ASSERT_EQ(message.decode(attachment), true);
 
@@ -317,7 +317,7 @@ TEST(ChannelTest, AliasingChannels) {
         /*
          *  Alias of the channel
          */
-        rl::core::Channel aliasOther(attachment);
+        rl::core::Channel aliasOther(std::move(attachment));
         ASSERT_NE(aliasOther.source(), nullptr);
 
         rl::core::Message messageToAlias;
@@ -378,7 +378,7 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
 
-        rl::core::Attachment attachment;
+        rl::core::RawAttachment attachment;
 
         ASSERT_EQ(message.decode(attachment), true);
 
@@ -427,7 +427,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
         size_t count = 0;
 
         while (true) {
-          rl::core::Attachment attachment;
+          rl::core::RawAttachment attachment;
           if (message.decode(attachment)) {
             count++;
           } else {
@@ -512,7 +512,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
           size_t count = 0;
 
           while (true) {
-            rl::core::Attachment attachment;
+            rl::core::RawAttachment attachment;
             if (message.decode(attachment)) {
               count++;
             } else {
@@ -600,7 +600,7 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
           size_t count = 0;
 
           while (true) {
-            rl::core::Attachment attachment;
+            rl::core::RawAttachment attachment;
             if (message.decode(attachment)) {
               count++;
             } else {

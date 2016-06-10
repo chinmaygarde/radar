@@ -54,7 +54,7 @@ class ChannelProvider {
    *
    *  @return the attachment for this provider
    */
-  virtual const Attachment& attachment() = 0;
+  virtual AttachmentRef attachment() = 0;
 
   /**
    *  The desctuctor

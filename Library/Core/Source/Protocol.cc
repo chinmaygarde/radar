@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Protocol.h>
+#include <Core/RawAttachment.h>
 
 namespace rl {
 namespace core {
@@ -66,13 +67,13 @@ void Protocol::onChannelMessage(Message message, Namespace* ns) {
   if (header.type() == ProtocolPayloadHeader::Type::Request) {
     RL_ASSERT_MSG(_isVendor, "Only protocol vendors may service requests");
 
-    Attachment attachment;
+    RawAttachment attachment;
 
     if (!message.decode(attachment)) {
       return;
     }
 
-    auto replyChannel = make_unique<Channel>(Attachment{std::move(attachment)});
+    auto replyChannel = make_unique<Channel>(std::move(attachment));
 
     onRequest(std::move(message), std::move(replyChannel), header.identifier());
 

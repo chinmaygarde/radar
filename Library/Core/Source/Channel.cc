@@ -29,15 +29,15 @@ static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
 #endif
 }
 
-Channel::Channel(const Attachment& attachment)
-    : _localNS(nullptr),
-      _terminated(false),
-      _provider(ChannelSelectProvider(*this, attachment)) {}
-
 Channel::Channel()
     : _localNS(nullptr),
       _terminated(false),
       _provider(ChannelSelectProvider(*this)) {}
+
+Channel::Channel(RawAttachment attachment)
+    : _localNS(nullptr),
+      _terminated(false),
+      _provider(ChannelSelectProvider(*this, std::move(attachment))) {}
 
 Channel::~Channel() {
   terminate();
@@ -125,7 +125,7 @@ Done:
   return messages;
 }
 
-const Attachment& Channel::attachment() const {
+AttachmentRef Channel::attachment() const {
   return _provider->attachment();
 }
 

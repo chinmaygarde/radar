@@ -7,7 +7,11 @@
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include <Core/BootstrapServer.h>
+
 #include <Foundation/Foundation.h>
+#include <Core/RawAttachment.h>
+
+#include "MachPort.h"
 
 namespace rl {
 namespace core {
@@ -24,13 +28,13 @@ IOResult BootstrapServerAdvertise(const std::string& name,
 
   const auto& attachment = channel->attachment();
 
-  if (!attachment.isValid()) {
+  if (!attachment->isValid()) {
     return IOResult::Failure;
   }
 
   @autoreleasepool {
     auto port = [NSMachPort
-        portWithMachPort:static_cast<uint32_t>(attachment.handle())];
+        portWithMachPort:static_cast<uint32_t>(attachment->handle())];
 
     if (!port.isValid) {
       return IOResult::Failure;
@@ -57,7 +61,7 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
       return nullptr;
     }
 
-    return std::make_shared<core::Channel>(core::Attachment{port.machPort});
+    return std::make_shared<core::Channel>(core::RawAttachment{port.machPort});
   }
 
   return nullptr;

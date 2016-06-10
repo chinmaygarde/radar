@@ -21,7 +21,7 @@ class MachPortChannel : public ChannelProvider {
  public:
   explicit MachPortChannel(Channel& owner);
 
-  explicit MachPortChannel(Channel& owner, const Attachment& attachment);
+  explicit MachPortChannel(Channel& owner, RawAttachment attachment);
 
   ~MachPortChannel();
 
@@ -32,13 +32,13 @@ class MachPortChannel : public ChannelProvider {
 
   IOReadResult readMessage(ClockDurationNano timeout) override;
 
-  const Attachment& attachment() override;
+  AttachmentRef attachment() override;
 
   bool doTerminate() override;
 
  private:
   Channel& _channel;
-  MachPort _port;
+  std::shared_ptr<MachPort> _port;
   MachPort _set;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPortChannel);

@@ -9,7 +9,7 @@
 #include <Core/Macros.h>
 #include <Core/Attachment.h>
 #include <Core/MessageSerializable.h>
-#include <Core/Utilities.h>
+#include <Core/RawAttachment.h>
 
 #include <string.h>
 
@@ -129,7 +129,7 @@ class Message {
 
   bool decode(MessageSerializable& value, Namespace* ns);
 
-  bool decode(AttachmentRef& attachment);
+  bool decode(RawAttachment& attachment);
 
   bool decode(std::string& string);
 

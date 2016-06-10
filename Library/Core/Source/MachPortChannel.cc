@@ -18,17 +18,18 @@ namespace core {
 
 MachPortChannel::MachPortChannel(Channel& channel)
     : _channel(channel),
-      _port(MachPort::Type::SendReceive),
+      _port(std::make_shared<MachPort>(MachPort::Type::SendReceive)),
       _set(MachPort::Type::PortSet) {
-  auto insertionResult = _set.insertMember(_port);
+  auto insertionResult = _set.insertMember(*_port);
   RL_ASSERT(insertionResult);
 }
 
-MachPortChannel::MachPortChannel(Channel& channel, const Attachment& attachment)
+MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
-      _port(MachPort::Type::SendReceive, attachment.handle()),
+      _port(std::make_shared<MachPort>(MachPort::Type::SendReceive,
+                                       attachment.handle())),
       _set(MachPort::Type::PortSet) {
-  auto insertionResult = _set.insertMember(_port);
+  auto insertionResult = _set.insertMember(*_port);
   RL_ASSERT(insertionResult);
 }
 
@@ -41,7 +42,7 @@ MachPortChannel::~MachPortChannel() {
 std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   using ELS = EventLoopSource;
 
-  auto setHandle = _port.name();
+  auto setHandle = _port->name();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
   auto readHandler = [&](ELS::Handle) {
     return _channel.readPendingMessageNow();
@@ -80,19 +81,19 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
 
 IOResult MachPortChannel::writeMessages(Messages&& messages,
                                         ClockDurationNano timeout) {
-  return _port.sendMessages(std::move(messages), timeout);
+  return _port->sendMessages(std::move(messages), timeout);
 }
 
 IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
-  return _port.receiveMessage(timeout);
+  return _port->receiveMessage(timeout);
 }
 
-const Attachment& MachPortChannel::attachment() {
+AttachmentRef MachPortChannel::attachment() {
   return _port;
 }
 
 bool MachPortChannel::doTerminate() {
-  return _set.extractMember(_port);
+  return _set.extractMember(*_port);
 }
 
 }  // namespace core

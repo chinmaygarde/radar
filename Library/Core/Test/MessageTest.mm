@@ -91,7 +91,7 @@ TEST(MessageTest, MutltipleDecode) {
 }
 
 TEST(MessageTest, EncodeInvalidAttachment) {
-  rl::core::Attachment invalid;
+  auto invalid = std::make_shared<rl::core::RawAttachment>();
 
   rl::core::Message message;
 
@@ -130,20 +130,21 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
     ASSERT_EQ(message.encode(channel->attachment()), true);
   }
 
-  rl::core::Attachment invalid;
+  auto invalid = std::make_shared<rl::core::RawAttachment>();
+
   ASSERT_EQ(message.encode(invalid), false);
 
   size_t initialRead = 0;
 
   for (size_t i = 0; i < count / 2; i++) {
-    rl::core::Attachment attachment;
+    rl::core::RawAttachment attachment;
     ASSERT_EQ(message.decode(attachment), true);
     initialRead++;
   }
 
   size_t secondaryRead = 0;
   while (true) {
-    rl::core::Attachment attachment;
+    rl::core::RawAttachment attachment;
     if (message.decode(attachment)) {
       secondaryRead++;
       continue;
@@ -157,7 +158,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
 
   size_t rewindRead = 0;
   while (true) {
-    rl::core::Attachment attachment;
+    rl::core::RawAttachment attachment;
     if (message.decode(attachment)) {
       rewindRead++;
       continue;

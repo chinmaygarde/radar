@@ -191,15 +191,12 @@ bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
 }
 
-bool Message::decode(AttachmentRef& attachment) {
+bool Message::decode(RawAttachment& attachment) {
   if (_attachmentsRead >= _attachments.size()) {
     return false;
   }
 
-  attachment = _attachments[_attachmentsRead];
-  _attachmentsRead++;
-
-  return attachment->isValid();
+  return attachment.setHandle(_attachments.at(_attachmentsRead)->handle());
 }
 
 bool Message::decode(std::string& string) {
