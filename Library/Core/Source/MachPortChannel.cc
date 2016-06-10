@@ -18,19 +18,70 @@ namespace core {
 
 MachPortChannel::MachPortChannel(Channel& channel)
     : _channel(channel),
-      _port(std::make_shared<MachPort>(MachPort::Type::SendReceive)),
-      _set(MachPort::Type::PortSet) {
-  auto insertionResult = _set.insertMember(*_port);
-  RL_ASSERT(insertionResult);
+      _port(std::make_shared<MachPort>(MachPort::Type::SendReceive)) {
+  setupPortSetMemberships();
 }
 
 MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
-      _port(std::make_shared<MachPort>(MachPort::Type::SendReceive,
-                                       attachment.takeHandle())),
-      _set(MachPort::Type::PortSet) {
-  auto insertionResult = _set.insertMember(*_port);
-  RL_ASSERT(insertionResult);
+      _port(std::make_shared<MachPort>(MachPort::Type::Send,
+                                       attachment.takeHandle())) {
+  setupPortSetMemberships();
+}
+
+bool MachPortChannel::setupPortSetMemberships() {
+  if (_port == nullptr || !_port->isValid()) {
+    return false;
+  }
+
+  if (_port->type() == MachPort::Type::SendReceive) {
+    /*
+     *  We only need to create the port set for this channel if the primary port
+     *  is capable of receiving messages, i.e, has a receive right.
+     */
+    _set = core::make_unique<MachPort>(MachPort::Type::PortSet);
+
+    if (!_set->isValid()) {
+      /*
+       *  Check portset allocation validity.
+       */
+      return false;
+    }
+
+    /*
+     *  Attempt to insert the port into the newly setup portset.
+     */
+    return _set->insertMember(*_port);
+  }
+
+  /*
+   *  We are done.
+   */
+  return true;
+}
+
+bool MachPortChannel::teardownPortSetMemberships() {
+  if (_port == nullptr || !_port->isValid()) {
+    return true;
+  }
+
+  if (_port->type() == MachPort::Type::SendReceive) {
+    /*
+     *  If the primary port is a receive type port, we had added the same to the
+     *  portset. We must not collect the same.
+     */
+
+    if (_set == nullptr || !_set->isValid()) {
+      return false;
+    }
+
+    return _set->extractMember(*_port);
+  }
+
+  /*
+   *  We are done.
+   */
+  return true;
 }
 
 MachPortChannel::~MachPortChannel() {
@@ -93,7 +144,7 @@ AttachmentRef MachPortChannel::attachment() {
 }
 
 bool MachPortChannel::doTerminate() {
-  return _set.extractMember(*_port);
+  return teardownPortSetMemberships();
 }
 
 }  // namespace core

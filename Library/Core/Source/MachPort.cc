@@ -48,15 +48,19 @@ MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
       }
 
     } break;
+
+    case Type::Send:
+      /*
+       *  Not needed by Radar. So unsupported.
+       */
+      break;
   }
+  //
 }
 
 MachPort::MachPort(Type type, mach_port_name_t name)
     : _name(name), _type(type) {
-  /*
-   *  Investigate if we should assume ownership or are already given the same
-   *  when the attachment is decoded from the message.
-   */
+  //
 }
 
 MachPort::~MachPort() {
@@ -70,6 +74,10 @@ MachPort::~MachPort() {
                                        MACH_PORT_RIGHT_SEND, -1));
       RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
                                        MACH_PORT_RIGHT_RECEIVE, -1));
+      break;
+    case Type::Send:
+      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
+                                       MACH_PORT_RIGHT_SEND, -1));
       break;
     case Type::PortSet:
       RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
@@ -178,6 +186,10 @@ void MachPort::logRights() const {
   }
 
   RL_LOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+}
+
+MachPort::Type MachPort::type() const {
+  return _type;
 }
 
 mach_port_name_t MachPort::name() const {

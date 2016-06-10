@@ -18,6 +18,7 @@ class MachPort : public Attachment {
  public:
   enum class Type {
     SendReceive,
+    Send,
     PortSet,
   };
 
@@ -34,6 +35,8 @@ class MachPort : public Attachment {
   bool setQueueLimit(size_t limit);
 
   void logRights() const;
+
+  Type type() const;
 
   mach_port_name_t name() const;
 
