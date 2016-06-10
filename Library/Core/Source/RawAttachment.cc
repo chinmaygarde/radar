@@ -17,7 +17,10 @@ RawAttachment::RawAttachment(RawAttachment&& other) : _handle(other._handle) {
   other._handle = kInvalidAttachmentHandle;
 }
 
-RawAttachment::~RawAttachment() = default;
+RawAttachment::~RawAttachment() {
+  RL_ASSERT_MSG(_handle == kInvalidAttachmentHandle,
+                "The raw attachment must be collected correctly.");
+}
 
 bool RawAttachment::isValid() const {
   return _handle != kInvalidAttachmentHandle;
@@ -25,6 +28,12 @@ bool RawAttachment::isValid() const {
 
 Attachment::Handle RawAttachment::handle() const {
   return _handle;
+}
+
+Attachment::Handle RawAttachment::takeHandle() {
+  auto handle = _handle;
+  _handle = kInvalidAttachmentHandle;
+  return handle;
 }
 
 bool RawAttachment::setHandle(Handle handle) {

@@ -27,7 +27,7 @@ MachPortChannel::MachPortChannel(Channel& channel)
 MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
       _port(std::make_shared<MachPort>(MachPort::Type::SendReceive,
-                                       attachment.handle())),
+                                       attachment.takeHandle())),
       _set(MachPort::Type::PortSet) {
   auto insertionResult = _set.insertMember(*_port);
   RL_ASSERT(insertionResult);

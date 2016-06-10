@@ -25,6 +25,8 @@ class RawAttachment : public Attachment {
 
   Handle handle() const override;
 
+  Handle takeHandle();
+
  private:
   Attachment::Handle _handle;
 
