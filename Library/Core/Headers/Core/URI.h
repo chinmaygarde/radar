@@ -9,6 +9,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <memory>
 
 namespace rl {
 namespace core {
