@@ -59,6 +59,6 @@ std::string GetName() {
 #endif
 }
 
-}  // namespace rl
-}  // namespace core
 }  // namespace thread
+}  // namespace core
+}  // namespace rl

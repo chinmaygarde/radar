@@ -46,7 +46,6 @@ MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
         RL_LOG_MACHERROR(res);
         _name = MACH_PORT_NULL;
       }
-
     } break;
 
     case Type::Send:

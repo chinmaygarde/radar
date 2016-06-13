@@ -16,7 +16,7 @@
 namespace rl {
 namespace compositor {
 
-static const std::string RendererVertexShader = R"--(
+static const char RendererVertexShader[] = R"--(
   uniform mat4 ProjMtx;
 
   attribute vec2 Position;
@@ -33,7 +33,7 @@ static const std::string RendererVertexShader = R"--(
   }
 )--";
 
-static const std::string RendererFragmentShader = R"--(
+static const char RendererFragmentShader[] = R"--(
 
 #ifdef GL_ES
   precision mediump float;

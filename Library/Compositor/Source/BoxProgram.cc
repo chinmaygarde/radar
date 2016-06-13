@@ -9,7 +9,7 @@
 namespace rl {
 namespace compositor {
 
-static const std::string BoxVertexShader = R"--(
+static const char BoxVertexShader[] = R"--(
 
   attribute vec3 position;
 
@@ -24,7 +24,7 @@ static const std::string BoxVertexShader = R"--(
 
 )--";
 
-static const std::string BoxFragmentShader = R"--(
+static const char BoxFragmentShader[] = R"--(
 
 #ifdef GL_ES
   precision mediump float;
