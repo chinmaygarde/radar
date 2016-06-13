@@ -129,7 +129,7 @@ void Interface::onCoordinatorChannelAcquisition(core::IOResult result,
   /*
    *  Channel acqusition messages contain one attachment with the channel handle
    */
-  core::Attachment attachment;
+  core::RawAttachment attachment;
   if (!message.decode(attachment)) {
     return;
   }

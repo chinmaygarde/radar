@@ -15,7 +15,7 @@ class TouchEventChannel : public core::Channel {
  public:
   explicit TouchEventChannel();
 
-  void sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
+  bool sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 
   TouchEvent::PhaseMap drainPendingTouches();
 

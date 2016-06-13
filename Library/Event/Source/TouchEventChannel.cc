@@ -10,20 +10,21 @@ namespace event {
 
 TouchEventChannel::TouchEventChannel() : Channel() {}
 
-void TouchEventChannel::sendTouchEvents(
+bool TouchEventChannel::sendTouchEvents(
     const std::vector<TouchEvent>& touchEvents) {
   RL_TRACE_AUTO("SendTouchEvents");
 
   core::Messages messages;
 
   for (const auto& touch : touchEvents) {
-    core::Message m(sizeof(TouchEvent));
-    m.encode(touch);
+    core::Message m;
+    if (!m.encode(touch)) {
+      return false;
+    }
     messages.emplace_back(std::move(m));
   }
 
-  bool result = sendMessages(std::move(messages)) == core::IOResult::Success;
-  RL_ASSERT(result);
+  return sendMessages(std::move(messages)) == core::IOResult::Success;
 }
 
 TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {

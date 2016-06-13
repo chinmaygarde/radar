@@ -41,7 +41,9 @@ void CoordinatorAcquisitionProtocol::onRequest(
                        /*
                         *  Encode the tag name
                         */
-                       responseMessage.encode(tag);
+                       if (!responseMessage.encode(tag)) {
+                         return false;
+                       }
 
                        /*
                         *  Encode the attachment
@@ -49,7 +51,7 @@ void CoordinatorAcquisitionProtocol::onRequest(
 
                        const auto& attachment = channel->attachment();
 
-                       if (!attachment.isValid()) {
+                       if (!attachment->isValid()) {
                          return false;
                        }
 
