@@ -292,9 +292,14 @@ bool Message::readCompleted() const {
   return _sizeRead == _dataLength && _attachments.size() == _attachmentsRead;
 }
 
-void Message::rewindRead() {
+bool Message::rewindRead() {
+  if (_attachments.size() != 0) {
+    return false;
+  }
+
   _sizeRead = 0;
-  _attachmentsRead = 0;
+
+  return true;
 }
 
 size_t Message::attachmentsSize() const {

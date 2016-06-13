@@ -182,9 +182,12 @@ class Message {
 
   /**
    *  Reset the read cursor used for reading. This makes it so that the same
-   *  message may be read again.
+   *  message may be read again. Only messages that do not contain attachments
+   *  can be rewound for reads. This is because attachment lifecycle is managed
+   *  by the callers of the inital decode.
    */
-  void rewindRead();
+  RL_WARN_UNUSED_RESULT
+  bool rewindRead();
 
  private:
   uint8_t* _buffer;

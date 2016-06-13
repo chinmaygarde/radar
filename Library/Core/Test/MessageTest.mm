@@ -155,21 +155,6 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   }
 
   ASSERT_EQ(initialRead, secondaryRead);
-
-  message.rewindRead();
-
-  size_t rewindRead = 0;
-  while (true) {
-    rl::core::RawAttachment attachment;
-    if (message.decode(attachment)) {
-      rl::core::Channel consumer(std::move(attachment));
-      rewindRead++;
-      continue;
-    }
-    break;
-  }
-
-  ASSERT_EQ(rewindRead, count);
 }
 
 RL_DECLARE_TEST_END
