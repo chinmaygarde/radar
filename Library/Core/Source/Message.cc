@@ -196,7 +196,20 @@ bool Message::decode(RawAttachment& attachment) {
     return false;
   }
 
-  return attachment.setHandle(_attachments.at(_attachmentsRead)->handle());
+  if (attachment.isValid()) {
+    /*
+     *  The destination must be invalid for it to occupy the new handle.
+     */
+    return false;
+  }
+
+  auto handle = _attachments.at(_attachmentsRead)->takeHandle();
+
+  _attachmentsRead++;
+
+  attachment.setHandle(handle);
+
+  return true;
 }
 
 bool Message::decode(std::string& string) {
@@ -241,13 +254,9 @@ uint8_t* Message::alignAllocation(uint8_t* allocation,
 
   if (extra != 0) {
     const auto snap = alignment - extra;
-    uint8_t* snapAllocation = nullptr;
 
-    if (encoding) {
-      snapAllocation = encodeRawUnsafe(snap);
-    } else {
-      snapAllocation = decodeRawUnsafe(snap);
-    }
+    uint8_t* snapAllocation =
+        encoding ? encodeRawUnsafe(snap) : decodeRawUnsafe(snap);
 
     if (snapAllocation == nullptr) {
       return nullptr;

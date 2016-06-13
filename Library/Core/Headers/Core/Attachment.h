@@ -19,6 +19,9 @@ class Attachment {
   virtual bool isValid() const = 0;
 
   virtual Handle handle() const = 0;
+
+  RL_WARN_UNUSED_RESULT
+  virtual Handle takeHandle() = 0;
 };
 
 using AttachmentRef = std::shared_ptr<Attachment>;

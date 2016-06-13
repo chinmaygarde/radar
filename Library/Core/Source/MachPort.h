@@ -17,6 +17,7 @@ namespace core {
 class MachPort : public Attachment {
  public:
   enum class Type {
+    None,
     SendReceive,
     Send,
     PortSet,
@@ -46,6 +47,9 @@ class MachPort : public Attachment {
   IOReadResult receiveMessage(ClockDurationNano requestedTimeout) const;
 
   bool isValid() const override;
+
+  RL_WARN_UNUSED_RESULT
+  Handle takeHandle() override;
 
   Handle handle() const override;
 

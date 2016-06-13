@@ -139,6 +139,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   for (size_t i = 0; i < count / 2; i++) {
     rl::core::RawAttachment attachment;
     ASSERT_EQ(message.decode(attachment), true);
+    rl::core::Channel consumer(std::move(attachment));
     initialRead++;
   }
 
@@ -146,6 +147,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   while (true) {
     rl::core::RawAttachment attachment;
     if (message.decode(attachment)) {
+      rl::core::Channel consumer(std::move(attachment));
       secondaryRead++;
       continue;
     }
@@ -160,6 +162,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   while (true) {
     rl::core::RawAttachment attachment;
     if (message.decode(attachment)) {
+      rl::core::Channel consumer(std::move(attachment));
       rewindRead++;
       continue;
     }

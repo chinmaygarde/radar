@@ -11,6 +11,8 @@ namespace core {
 
 MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
   switch (_type) {
+    case Type::None:
+      break;
     case Type::SendReceive: {
       /*
        *  Allocation the receive port.
@@ -68,6 +70,11 @@ MachPort::~MachPort() {
   }
 
   switch (_type) {
+    case Type::None:
+      /*
+       *  Nothing to do.
+       */
+      break;
     case Type::SendReceive:
       RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
                                        MACH_PORT_RIGHT_SEND, -1));
@@ -266,6 +273,13 @@ bool MachPort::isValid() const {
 
 Attachment::Handle MachPort::handle() const {
   return _name;
+}
+
+Attachment::Handle MachPort::takeHandle() {
+  auto taken = _name;
+  _name = MACH_PORT_NULL;
+  _type = Type::None;
+  return taken;
 }
 
 }  // namespace core

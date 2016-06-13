@@ -23,16 +23,17 @@ class RawAttachment : public Attachment {
 
   bool isValid() const override;
 
-  Handle handle() const override;
+  RL_WARN_UNUSED_RESULT
+  Handle takeHandle() override;
 
-  Handle takeHandle();
+  Handle handle() const override;
 
  private:
   Attachment::Handle _handle;
 
   friend class Message;
 
-  bool setHandle(Handle _handle);
+  void setHandle(Handle _handle);
 
   RL_DISALLOW_COPY_AND_ASSIGN(RawAttachment);
 };

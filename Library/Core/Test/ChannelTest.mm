@@ -256,6 +256,8 @@ TEST(ChannelTest, SendAttachmentsOverChannels) {
 
         ASSERT_EQ(message.decode(attachment), true);
 
+        rl::core::Channel consumer(std::move(attachment));
+
         /*
          *  There is only one attachment
          */
@@ -382,6 +384,8 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
         ASSERT_EQ(message.decode(attachment), true);
 
+        rl::core::Channel consumer(std::move(attachment));
+
         /*
          *  Only one attachment is present.
          */
@@ -429,6 +433,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
         while (true) {
           rl::core::RawAttachment attachment;
           if (message.decode(attachment)) {
+            rl::core::Channel consumer(std::move(attachment));
             count++;
           } else {
             break;
@@ -514,6 +519,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
           while (true) {
             rl::core::RawAttachment attachment;
             if (message.decode(attachment)) {
+              rl::core::Channel consumer(std::move(attachment));
               count++;
             } else {
               break;
@@ -602,6 +608,7 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
           while (true) {
             rl::core::RawAttachment attachment;
             if (message.decode(attachment)) {
+              rl::core::Channel consumer(std::move(attachment));
               count++;
             } else {
               break;

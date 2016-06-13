@@ -26,28 +26,22 @@ bool RawAttachment::isValid() const {
   return _handle != kInvalidAttachmentHandle;
 }
 
-Attachment::Handle RawAttachment::handle() const {
-  return _handle;
-}
-
 Attachment::Handle RawAttachment::takeHandle() {
   auto handle = _handle;
   _handle = kInvalidAttachmentHandle;
   return handle;
 }
 
-bool RawAttachment::setHandle(Handle handle) {
-  if (_handle != kInvalidAttachmentHandle) {
-    /*
-     *  Raw attachments make no assumptions about ownership of the handle.
-     *  We don't want to get into a situation where a valid handle is
-     *  overwritten without anyone getting the chance to collect it correctly.
-     */
-    return false;
-  }
+Attachment::Handle RawAttachment::handle() const {
+  return _handle;
+}
+
+void RawAttachment::setHandle(Handle handle) {
+  RL_ASSERT_MSG(_handle == kInvalidAttachmentHandle,
+                "The caller must ensure that the handle of this instance is "
+                "invalid to avoid incorrect handle lifecycle management");
 
   _handle = handle;
-  return true;
 }
 
 }  // namespace core
