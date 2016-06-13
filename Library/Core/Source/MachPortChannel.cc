@@ -19,14 +19,16 @@ namespace core {
 MachPortChannel::MachPortChannel(Channel& channel)
     : _channel(channel),
       _port(std::make_shared<MachPort>(MachPort::Type::SendReceive)) {
-  setupPortSetMemberships();
+  auto success = setupPortSetMemberships();
+  RL_ASSERT(success);
 }
 
 MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
       _port(std::make_shared<MachPort>(MachPort::Type::Send,
                                        attachment.takeHandle())) {
-  setupPortSetMemberships();
+  auto success = setupPortSetMemberships();
+  RL_ASSERT(success);
 }
 
 bool MachPortChannel::setupPortSetMemberships() {
@@ -34,30 +36,19 @@ bool MachPortChannel::setupPortSetMemberships() {
     return false;
   }
 
-  if (_port->type() == MachPort::Type::SendReceive) {
-    /*
-     *  We only need to create the port set for this channel if the primary port
-     *  is capable of receiving messages, i.e, has a receive right.
-     */
-    _set = core::make_unique<MachPort>(MachPort::Type::PortSet);
+  _set = core::make_unique<MachPort>(MachPort::Type::PortSet);
 
-    if (!_set->isValid()) {
-      /*
-       *  Check portset allocation validity.
-       */
-      return false;
-    }
-
+  if (!_set->isValid()) {
     /*
-     *  Attempt to insert the port into the newly setup portset.
+     *  Check portset allocation validity.
      */
-    return _set->insertMember(*_port);
+    return false;
   }
 
   /*
-   *  We are done.
+   *  Attempt to insert the port into the newly setup portset.
    */
-  return true;
+  return _set->insertMember(*_port);
 }
 
 bool MachPortChannel::teardownPortSetMemberships() {
@@ -91,9 +82,13 @@ MachPortChannel::~MachPortChannel() {
 }
 
 std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
+  if (_set == nullptr || !_set->isValid()) {
+    return nullptr;
+  }
+
   using ELS = EventLoopSource;
 
-  auto setHandle = _port->name();
+  auto setHandle = _set->name();
   auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
   auto readHandler = [&](ELS::Handle) {
     return _channel.readPendingMessageNow();

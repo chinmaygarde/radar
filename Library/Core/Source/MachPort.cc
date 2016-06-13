@@ -134,7 +134,11 @@ bool MachPort::extractMember(const MachPort& member) {
   kern_return_t res =
       mach_port_extract_member(mach_task_self(), member._name, _name);
 
-  if (res != KERN_SUCCESS) {
+  /*
+   *  Investigate why the insertion of a remote member succeeds but removal
+   *  causes a KERN_NOT_IN_SET.
+   */
+  if (res != KERN_SUCCESS && res != KERN_NOT_IN_SET) {
     RL_LOG_MACHERROR(res);
     return false;
   }

@@ -29,6 +29,10 @@ WaitSet::WaitSet() {
 }
 
 bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
+  if (source == nullptr) {
+    return false;
+  }
+
   std::lock_guard<std::mutex> lock(_sourcesMutex);
 
   if (std::find(_sources.begin(), _sources.end(), source) != _sources.end()) {
@@ -42,6 +46,10 @@ bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
 }
 
 bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
+  if (source == nullptr) {
+    return false;
+  }
+
   std::lock_guard<std::mutex> lock(_sourcesMutex);
 
   auto found = std::find(_sources.begin(), _sources.end(), source);

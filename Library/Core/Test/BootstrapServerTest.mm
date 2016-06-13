@@ -93,6 +93,7 @@ TEST(BootstrapServerTest, AcquireAndSendMessage) {
           ASSERT_EQ(message.readCompleted(), true);
           rl::core::EventLoop::Current()->terminate();
         });
+
     ASSERT_EQ(rl::core::EventLoop::Current()->addSource(advertised->source()),
               true);
     rl::core::EventLoop::Current()->loop([&]() { ready.countDown(); });

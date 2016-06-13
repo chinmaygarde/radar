@@ -35,23 +35,23 @@ static inline void KEventInvoke(int queue,
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
                                                    bool shouldAdd) {
-  // clang-format off
-  KEventInvoke(HANDLE_CAST(waitset.handle()),   /* queue */
-               readHandle(),                    /* ident */
-               EVFILT_READ,                     /* filter */
-               shouldAdd ? EV_ADD : EV_DELETE,  /* flags */
-               0,                               /* filter-flags */
-               0,                               /* data */
-               this);                           /* user-data */
-  // clang-format on
+  KEventInvoke(HANDLE_CAST(waitset.handle()),  /* queue */
+               readHandle(),                   /* ident */
+               EVFILT_READ,                    /* filter */
+               shouldAdd ? EV_ADD : EV_DELETE, /* flags */
+               0,                              /* filter-flags */
+               0,                              /* data */
+               this);                          /* user-data */
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     ClockDurationNano repeatInterval) {
   WaitSetUpdateHandler updateHandler = [repeatInterval](
-      EventLoopSource& source, WaitSet& waitset, Handle readHandle,
+      EventLoopSource& source,  //
+      WaitSet& waitset,         //
+      Handle readHandle,        //
       bool adding) {
-    // clang-format off
+
     KEventInvoke(HANDLE_CAST(waitset.handle()), /* queue */
                  readHandle,                    /* ident */
                  EVFILT_TIMER,                  /* filter */
@@ -59,7 +59,6 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
                  NOTE_NSECONDS,                 /* filter-flags */
                  repeatInterval.count(),        /* data */
                  &source);                      /* user-data */
-    // clang-format on
   };
 
   static uintptr_t KQueueTimerIdent = 1;
