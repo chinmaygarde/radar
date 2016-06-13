@@ -26,12 +26,8 @@ class Message {
  public:
   /**
    *  Create an uninitialized message with the given reserved length.
-   *
-   *  @param reservedLength the reserved length. This is a hint that indicates
-   *                        the initial size of the buffer used for the message.
-   *                        This may be resized as needed.
    */
-  explicit Message(size_t reservedLength = 0);
+  explicit Message();
 
   /**
    *  Create a message with pre-initialized message data
@@ -68,6 +64,7 @@ class Message {
    *
    *  @return if the resize operation was successful
    */
+  RL_WARN_UNUSED_RESULT
   bool reserve(size_t length);
 
   /**
@@ -78,7 +75,7 @@ class Message {
    *  @return if the encode operation was successful
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  bool encode(const T& value) {
+  RL_WARN_UNUSED_RESULT bool encode(const T& value) {
     if (auto buffer = encodeRawUnsafe(sizeof(T))) {
       memcpy(buffer, &value, sizeof(T));
       return true;
@@ -86,15 +83,18 @@ class Message {
     return false;
   }
 
+  RL_WARN_UNUSED_RESULT
   bool encode(const MessageSerializable& value);
 
+  RL_WARN_UNUSED_RESULT
   bool encode(const AttachmentRef& attachment);
 
+  RL_WARN_UNUSED_RESULT
   bool encode(const std::string& value);
 
   template <typename T,
             typename = only_if<std::is_base_of<MessageSerializable, T>::value>>
-  bool encode(const std::vector<T>& vec) {
+  RL_WARN_UNUSED_RESULT bool encode(const std::vector<T>& vec) {
     MessageSerializable::EncodedSize count = vec.size();
     auto result = encode(count);
     for (const auto& item : vec) {
@@ -104,11 +104,12 @@ class Message {
   }
 
   template <typename T>
-  T* encodeRaw(size_t size) {
+  RL_WARN_UNUSED_RESULT T* encodeRaw(size_t size) {
     return reinterpret_cast<T*>(
         alignAllocation(encodeRawUnsafe(size), alignof(T), true));
   }
 
+  RL_WARN_UNUSED_RESULT
   size_t encodeOffsetRawUnsafe(size_t size);
 
   /**
@@ -119,7 +120,7 @@ class Message {
    *  @return if the value was successfully decoded
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  bool decode(T& value, core::Namespace*) {
+  RL_WARN_UNUSED_RESULT bool decode(T& value, core::Namespace*) {
     if (auto buffer = decodeRawUnsafe(sizeof(T))) {
       memcpy(&value, buffer, sizeof(T));
       return true;
@@ -127,16 +128,19 @@ class Message {
     return false;
   }
 
+  RL_WARN_UNUSED_RESULT
   bool decode(MessageSerializable& value, Namespace* ns);
 
+  RL_WARN_UNUSED_RESULT
   bool decode(RawAttachment& attachment);
 
+  RL_WARN_UNUSED_RESULT
   bool decode(std::string& string);
 
   template <typename T,
             typename = only_if<std::is_base_of<MessageSerializable, T>::value ||
                                std::is_default_constructible<T>::value>>
-  bool decode(std::vector<T>& vec, Namespace* ns) {
+  RL_WARN_UNUSED_RESULT bool decode(std::vector<T>& vec, Namespace* ns) {
     MessageSerializable::EncodedSize count = 0;
     auto result = decode(count, ns);
     for (MessageSerializable::EncodedSize i = 0; i < count; i++) {
@@ -147,7 +151,7 @@ class Message {
   }
 
   template <typename T>
-  T* decodeRaw(size_t size) {
+  RL_WARN_UNUSED_RESULT T* decodeRaw(size_t size) {
     return reinterpret_cast<T*>(
         alignAllocation(decodeRawUnsafe(size), alignof(T), false));
   }

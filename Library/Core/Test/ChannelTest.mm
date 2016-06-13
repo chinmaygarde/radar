@@ -324,7 +324,7 @@ TEST(ChannelTest, AliasingChannels) {
 
         rl::core::Message messageToAlias;
         char x = 'x';
-        messageToAlias.encode(x);
+        ASSERT_EQ(messageToAlias.encode(x), true);
 
         rl::core::Messages messages;
         messages.emplace_back(std::move(messageToAlias));

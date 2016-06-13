@@ -36,9 +36,7 @@ static inline uint8_t* MessageCreateBufferCopy(const uint8_t* src, size_t len) {
   return reinterpret_cast<uint8_t*>(memmove(allocation, src, len));
 }
 
-Message::Message(size_t length) : Message(nullptr, 0, false) {
-  reserve(length);
-}
+Message::Message() : Message(nullptr, 0, false) {}
 
 Message::Message(uint8_t* buffer, size_t bufferSize)
     : Message(buffer, bufferSize, false) {}

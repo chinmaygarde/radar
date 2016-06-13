@@ -42,7 +42,7 @@ TEST(MessageTest, SimpleDecode) {
 
   uint32_t val = 40;
 
-  message.encode(val);
+  ASSERT_TRUE(message.encode(val));
 
   val = 222;
 
@@ -61,11 +61,11 @@ TEST(MessageTest, MutltipleDecode) {
   double b = 20.0;
   char c = 'c';
 
-  message.encode(val);
-  message.encode(foo);
-  message.encode(a);
-  message.encode(b);
-  message.encode(c);
+  ASSERT_TRUE(message.encode(val));
+  ASSERT_TRUE(message.encode(foo));
+  ASSERT_TRUE(message.encode(a));
+  ASSERT_TRUE(message.encode(b));
+  ASSERT_TRUE(message.encode(c));
 
   val = 0;
   foo = false;

@@ -308,7 +308,10 @@ Message MachPayload::asMessage() const {
 
   Message message(memoryArenaAddress, memoryArenaSize);
   for (auto attachment : attachments) {
-    message.encode(std::move(attachment));
+    if (!message.encode(std::move(attachment))) {
+      RL_ASSERT_MSG(false, "Internal error: Will leak handles in message.");
+      return Message{};
+    }
   }
   return message;
 }

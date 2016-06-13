@@ -102,7 +102,7 @@ TEST(BootstrapServerTest, AcquireAndSendMessage) {
   ready.wait();
 
   rl::core::Message message;
-  message.encode('a');
+  ASSERT_TRUE(message.encode('a'));
   rl::core::Messages messages;
   messages.emplace_back(std::move(message));
   ASSERT_EQ(channel->sendMessages(std::move(messages)),
