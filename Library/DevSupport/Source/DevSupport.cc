@@ -20,9 +20,9 @@ bool UpdateWorkingDirectoryForFixtures() {
    *  Look for fixtures in the executable folder.
    */
 
-  core::File fixturesInExeDir(exe.append(core::URI{"../Fixtures"}));
+  core::URI fixturesInExeDir(exe.append(core::URI{"../Fixtures"}));
 
-  if (fixturesInExeDir.setAsWorkingDirectory()) {
+  if (core::File::SetAsWorkingDirectory(fixturesInExeDir)) {
     return true;
   }
 
@@ -30,8 +30,8 @@ bool UpdateWorkingDirectoryForFixtures() {
    *  Look for fixtures one level above the executable directory.
    */
 
-  core::File fixturesInContainingDir(exe.append(core::URI{"../../Fixtures"}));
-  if (fixturesInContainingDir.setAsWorkingDirectory()) {
+  core::URI fixturesInContainingDir(exe.append(core::URI{"../../Fixtures"}));
+  if (core::File::SetAsWorkingDirectory(fixturesInContainingDir)) {
     return true;
   }
 

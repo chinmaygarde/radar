@@ -28,10 +28,12 @@ class FileHandle : public Attachment {
 
   bool isValid() const override;
 
-  Attachment::Handle handle() const override;
+  Handle fileHandle() const;
+
+  Attachment::Handle attachmentHandle() const override;
 
   RL_WARN_UNUSED_RESULT
-  Attachment::Handle takeHandle() override;
+  Attachment::Handle takeAttachmentHandle() override;
 
  private:
   Handle _handle;

@@ -24,9 +24,9 @@ class RawAttachment : public Attachment {
   bool isValid() const override;
 
   RL_WARN_UNUSED_RESULT
-  Handle takeHandle() override;
+  Handle takeAttachmentHandle() override;
 
-  Handle handle() const override;
+  Handle attachmentHandle() const override;
 
  private:
   Attachment::Handle _handle;

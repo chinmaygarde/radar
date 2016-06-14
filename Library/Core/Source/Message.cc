@@ -201,7 +201,7 @@ bool Message::decode(RawAttachment& attachment) {
     return false;
   }
 
-  auto handle = _attachments.at(_attachmentsRead)->takeHandle();
+  auto handle = _attachments.at(_attachmentsRead)->takeAttachmentHandle();
 
   _attachmentsRead++;
 

@@ -15,6 +15,8 @@ class FileMapping {
  public:
   FileMapping();
 
+  FileMapping(const FileHandle& handle);
+
   FileMapping(const FileHandle& handle, size_t size);
 
   FileMapping(FileMapping&& mapping);
@@ -28,6 +30,8 @@ class FileMapping {
  private:
   uint8_t* _mapping;
   size_t _size;
+
+  void setupMapping(const FileHandle& handle, size_t size);
 
   RL_DISALLOW_COPY_AND_ASSIGN(FileMapping);
 };

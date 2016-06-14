@@ -20,7 +20,9 @@ static const FileHandle::Handle kInvalidFileHandle = -1;
 FileHandle::FileHandle(RawAttachment attachment)
     :
 #if RL_CHANNELS == RL_CHANNELS_MACH
-      _handle(MachFilePort::DescriptorFromPort(attachment.takeHandle(), true))
+      _handle(
+          MachFilePort::DescriptorFromPort(attachment.takeAttachmentHandle(),
+                                           true))
 #else
       _handle(attachment.takeHandle())
 #endif
@@ -54,7 +56,11 @@ bool FileHandle::isValid() const {
   return _handle != kInvalidFileHandle;
 }
 
-Attachment::Handle FileHandle::handle() const {
+FileHandle::Handle FileHandle::fileHandle() const {
+  return _handle;
+}
+
+Attachment::Handle FileHandle::attachmentHandle() const {
 #if RL_CHANNELS == RL_CHANNELS_MACH
   /*
    *  Does this need extra locking to initialize?
@@ -68,7 +74,7 @@ Attachment::Handle FileHandle::handle() const {
 #endif
 }
 
-Attachment::Handle FileHandle::takeHandle() {
+Attachment::Handle FileHandle::takeAttachmentHandle() {
   auto handle = _handle;
   _handle = kInvalidFileHandle;
 #if RL_CHANNELS == RL_CHANNELS_MACH

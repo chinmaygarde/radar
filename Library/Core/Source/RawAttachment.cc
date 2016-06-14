@@ -26,13 +26,13 @@ bool RawAttachment::isValid() const {
   return _handle != kInvalidAttachmentHandle;
 }
 
-Attachment::Handle RawAttachment::takeHandle() {
+Attachment::Handle RawAttachment::takeAttachmentHandle() {
   auto handle = _handle;
   _handle = kInvalidAttachmentHandle;
   return handle;
 }
 
-Attachment::Handle RawAttachment::handle() const {
+Attachment::Handle RawAttachment::attachmentHandle() const {
   return _handle;
 }
 

@@ -34,7 +34,7 @@ IOResult BootstrapServerAdvertise(const std::string& name,
 
   @autoreleasepool {
     auto port = [NSMachPort
-        portWithMachPort:static_cast<uint32_t>(attachment->handle())];
+        portWithMachPort:static_cast<uint32_t>(attachment->attachmentHandle())];
 
     if (!port.isValid) {
       return IOResult::Failure;

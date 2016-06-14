@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Core/FileHandle.h>
 #include <Core/FileMapping.h>
 
 #include <sys/stat.h>
@@ -16,6 +17,8 @@ namespace core {
 
 class File {
  public:
+  static bool SetAsWorkingDirectory(const URI& uri);
+
   enum class Type {
     Unknown,
     File,
@@ -27,7 +30,9 @@ class File {
     Socket,
   };
 
-  File(URI uri);
+  File(const FileHandle& handle);
+
+  File(const URI& uri);
 
   File(File&& file);
 
@@ -39,13 +44,8 @@ class File {
 
   bool isValid() const;
 
-  bool setAsWorkingDirectory() const;
-
-  FileMapping map() const;
-
  private:
   struct stat _stat;
-  URI _uri;
   bool _valid;
 
   RL_DISALLOW_COPY_AND_ASSIGN(File);

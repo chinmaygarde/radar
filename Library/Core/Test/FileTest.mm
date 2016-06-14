@@ -38,6 +38,10 @@ TEST(FileTest, TestFileSendsOverChannel) {
 
           ASSERT_TRUE(fileHandle.isValid());
 
+          rl::core::FileMapping mapping(fileHandle);
+
+          ASSERT_EQ(mapping.size(), 13);
+
           rl::core::EventLoop::Current()->terminate();
         });
 

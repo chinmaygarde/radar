@@ -271,11 +271,11 @@ bool MachPort::isValid() const {
   return MACH_PORT_VALID(_name);
 }
 
-Attachment::Handle MachPort::handle() const {
+Attachment::Handle MachPort::attachmentHandle() const {
   return _name;
 }
 
-Attachment::Handle MachPort::takeHandle() {
+Attachment::Handle MachPort::takeAttachmentHandle() {
   auto taken = _name;
   _name = MACH_PORT_NULL;
   _type = Type::None;

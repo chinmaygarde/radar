@@ -11,16 +11,26 @@
 namespace rl {
 namespace core {
 
-File::File(URI uri) : _uri(std::move(uri)), _valid(false) {
-  if (!_uri.isValid()) {
+File::File(const FileHandle& handle) : _valid(false) {
+  if (!handle.isValid()) {
+    return;
+  }
+
+  _valid = RL_TEMP_FAILURE_RETRY(::fstat(handle.fileHandle(), &_stat)) == 0;
+}
+
+File::File(const URI& uri) : _valid(false) {
+  if (!uri.isValid()) {
     return;
   }
 
   _valid = RL_TEMP_FAILURE_RETRY(
-               ::stat(_uri.filesystemRepresentation().c_str(), &_stat)) == 0;
+               ::stat(uri.filesystemRepresentation().c_str(), &_stat)) == 0;
 }
 
 File::File(File&& other) = default;
+
+File::~File() = default;
 
 bool File::isValid() const {
   return _valid;
@@ -66,20 +76,14 @@ size_t File::size() const {
   return _valid ? _stat.st_size : 0;
 }
 
-bool File::setAsWorkingDirectory() const {
-  if (type() != Type::Directory) {
+bool File::SetAsWorkingDirectory(const URI& uri) {
+  if (!uri.isValid()) {
     return false;
   }
 
   return RL_TEMP_FAILURE_RETRY(
-             ::chdir(_uri.filesystemRepresentation().c_str())) == 0;
+             ::chdir(uri.filesystemRepresentation().c_str())) == 0;
 }
-
-FileMapping File::map() const {
-  return _valid ? FileMapping{FileHandle{_uri}, size()} : FileMapping{};
-}
-
-File::~File() {}
 
 }  // namespace core
 }  // namespace rl

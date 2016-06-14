@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/FileMapping.h>
+#include <Core/File.h>
 
 #include <sys/mman.h>
 
@@ -11,14 +12,33 @@ namespace core {
 
 FileMapping::FileMapping() : _mapping(nullptr), _size(0) {}
 
+FileMapping::FileMapping(const FileHandle& handle)
+    : _mapping(nullptr), _size(0) {
+  File file(handle);
+
+  if (file.isValid()) {
+    setupMapping(handle, file.size());
+  }
+}
+
 FileMapping::FileMapping(const FileHandle& handle, size_t size)
     : _mapping(nullptr), _size(0) {
-  if (size == 0) {
+  setupMapping(handle, size);
+}
+
+FileMapping::FileMapping(FileMapping&& other)
+    : _mapping(other._mapping), _size(other._size) {
+  other._mapping = nullptr;
+  other._size = 0;
+}
+
+void FileMapping::setupMapping(const FileHandle& handle, size_t size) {
+  if (!handle.isValid() || size == 0) {
     return;
   }
 
   auto mapping =
-      ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, handle.handle(), 0);
+      ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, handle.fileHandle(), 0);
 
   if (mapping == MAP_FAILED) {
     return;
@@ -26,12 +46,6 @@ FileMapping::FileMapping(const FileHandle& handle, size_t size)
 
   _mapping = reinterpret_cast<uint8_t*>(mapping);
   _size = size;
-}
-
-FileMapping::FileMapping(FileMapping&& other)
-    : _mapping(other._mapping), _size(other._size) {
-  other._mapping = nullptr;
-  other._size = 0;
 }
 
 uint8_t* FileMapping::mapping() const {
