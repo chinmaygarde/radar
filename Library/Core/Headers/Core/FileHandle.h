@@ -12,6 +12,8 @@
 namespace rl {
 namespace core {
 
+class MachFilePort;
+
 class FileHandle : public Attachment {
  public:
   using Handle = int;
@@ -33,6 +35,10 @@ class FileHandle : public Attachment {
 
  private:
   Handle _handle;
+
+#if RL_CHANNELS == RL_CHANNELS_MACH
+  mutable std::unique_ptr<MachFilePort> _port;
+#endif
 
   RL_DISALLOW_COPY_AND_ASSIGN(FileHandle);
 };

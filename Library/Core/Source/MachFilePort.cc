@@ -4,6 +4,7 @@
 
 #include "MachFilePort.h"
 
+#include <mach/mach.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 
@@ -17,19 +18,27 @@
 
 namespace rl {
 namespace core {
-namespace mach {
 
-int FileDescriptorFromMachPort(mach_port_name_t name) {
+static const int kInvalidDescriptor = -1;
+
+int MachFilePort::DescriptorFromPort(intptr_t name, bool consumePort) {
   if (!MACH_PORT_VALID(name)) {
-    return -1;
+    return kInvalidDescriptor;
   }
 
-  return syscall(SYS_fileport_makefd, name);
+  int result = syscall(SYS_fileport_makefd, name);
+
+  if (consumePort) {
+    RL_MACH_CHECK(mach_port_destroy(mach_task_self(), name));
+  }
+
+  return result;
 }
 
-mach_port_name_t MachPortFromFileDescriptor(int descriptor) {
-  if (descriptor == -1) {
-    return -1;
+RL_WARN_UNUSED_RESULT
+static mach_port_name_t MachPortFromFileDescriptor(int descriptor) {
+  if (descriptor == kInvalidDescriptor) {
+    return MACH_PORT_NULL;
   }
 
   mach_port_name_t port = MACH_PORT_NULL;
@@ -41,6 +50,20 @@ mach_port_name_t MachPortFromFileDescriptor(int descriptor) {
   return MACH_PORT_NULL;
 }
 
-}  // namespace mach
+MachFilePort::MachFilePort(int descriptor)
+    : _name(MachPortFromFileDescriptor(descriptor)) {}
+
+MachFilePort::~MachFilePort() {
+  if (MACH_PORT_VALID(_name)) {
+    RL_MACH_CHECK(mach_port_destroy(mach_task_self(), _name));
+  }
+
+  _name = MACH_PORT_NULL;
+}
+
+intptr_t MachFilePort::name() const {
+  return _name;
+}
+
 }  // namespace core
 }  // namespace rl

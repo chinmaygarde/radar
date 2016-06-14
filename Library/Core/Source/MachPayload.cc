@@ -147,16 +147,15 @@ IOResult MachPayload::send(mach_msg_option_t timeoutOption,
 
   const auto header = reinterpret_cast<mach_msg_header_t*>(payload);
 
-  // clang-format off
-    auto res = mach_msg(header,
-                        MACH_SEND_MSG | timeoutOption,
-                        /* The msgh_size in the header is ignored */
-                        header->msgh_size,
-                        0,
-                        MACH_PORT_NULL,
-                        timeout,
-                        MACH_PORT_NULL);
-  // clang-format on
+  auto res = mach_msg(header,                         // msg
+                      MACH_SEND_MSG | timeoutOption,  // option
+                      /* The msgh_size in the header is ignored */
+                      header->msgh_size,  // send_size
+                      0,                  // receive_limit
+                      MACH_PORT_NULL,     // receive_name
+                      timeout,            // timeout
+                      MACH_PORT_NULL      // notify
+                      );
 
   switch (res) {
     case MACH_MSG_SUCCESS:

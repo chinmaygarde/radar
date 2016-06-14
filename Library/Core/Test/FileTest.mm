@@ -20,8 +20,6 @@ TEST(FileTest, SimpleSuccess) {
   ASSERT_TRUE(file.isValid());
 }
 
-#if 0
-
 TEST(FileTest, TestFileSendsOverChannel) {
   rl::core::Channel channel;
 
@@ -66,7 +64,5 @@ TEST(FileTest, TestFileSendsOverChannel) {
 
   thread.join();
 }
-
-#endif
 
 RL_DECLARE_TEST_END

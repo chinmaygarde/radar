@@ -6,19 +6,27 @@
 #define RADAR_CORE_MACHFILEPORT_H_
 
 #include <Core/Macros.h>
-#include <mach/mach.h>
 
 namespace rl {
 namespace core {
-namespace mach {
 
-RL_WARN_UNUSED_RESULT
-int FileDescriptorFromMachPort(mach_port_name_t name);
+class MachFilePort {
+ public:
+  RL_WARN_UNUSED_RESULT
+  static int DescriptorFromPort(intptr_t name, bool consumePort);
 
-RL_WARN_UNUSED_RESULT
-mach_port_name_t MachPortFromFileDescriptor(int descriptor);
+  MachFilePort(int descriptor);
 
-}  // namespace mach
+  intptr_t name() const;
+
+  ~MachFilePort();
+
+ private:
+  intptr_t _name;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(MachFilePort);
+};
+
 }  // namespace core
 }  // namespace rl
 
