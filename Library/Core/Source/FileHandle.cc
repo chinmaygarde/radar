@@ -24,7 +24,7 @@ FileHandle::FileHandle(RawAttachment attachment)
           MachFilePort::DescriptorFromPort(attachment.takeAttachmentHandle(),
                                            true))
 #else
-      _handle(attachment.takeHandle())
+      _handle(attachment.takeAttachmentHandle())
 #endif
 {
 }

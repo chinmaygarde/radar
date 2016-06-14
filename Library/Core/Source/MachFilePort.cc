@@ -21,7 +21,7 @@ namespace core {
 
 static const int kInvalidDescriptor = -1;
 
-int MachFilePort::DescriptorFromPort(intptr_t name, bool consumePort) {
+int MachFilePort::DescriptorFromPort(Name name, bool consumePort) {
   if (!MACH_PORT_VALID(name)) {
     return kInvalidDescriptor;
   }
@@ -61,7 +61,7 @@ MachFilePort::~MachFilePort() {
   _name = MACH_PORT_NULL;
 }
 
-intptr_t MachFilePort::name() const {
+MachFilePort::Name MachFilePort::name() const {
   return _name;
 }
 

@@ -12,17 +12,19 @@ namespace core {
 
 class MachFilePort {
  public:
+  using Name = intptr_t;
+
   RL_WARN_UNUSED_RESULT
-  static int DescriptorFromPort(intptr_t name, bool consumePort);
+  static int DescriptorFromPort(Name name, bool consumePort);
 
   MachFilePort(int descriptor);
 
-  intptr_t name() const;
+  Name name() const;
 
   ~MachFilePort();
 
  private:
-  intptr_t _name;
+  Name _name;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachFilePort);
 };
