@@ -10,7 +10,12 @@
 namespace rl {
 namespace core {
 
-FileHandle::FileHandle(const URI& uri) : _handle(-1) {
+static const FileHandle::Handle kInvalidFileHandle = -1;
+
+FileHandle::FileHandle(RawAttachment attachment)
+    : _handle(attachment.takeHandle()) {}
+
+FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
   if (!uri.isValid()) {
     return;
   }
@@ -20,22 +25,28 @@ FileHandle::FileHandle(const URI& uri) : _handle(-1) {
 }
 
 FileHandle::FileHandle(FileHandle&& other) : _handle(other._handle) {
-  other._handle = -1;
+  other._handle = kInvalidFileHandle;
 }
 
 FileHandle::~FileHandle() {
-  if (_handle != -1) {
+  if (_handle != kInvalidFileHandle) {
     RL_TEMP_FAILURE_RETRY_AND_CHECK(::close(_handle));
-    _handle = -1;
+    _handle = kInvalidFileHandle;
   }
 }
 
 bool FileHandle::isValid() const {
-  return _handle != -1;
+  return _handle != kInvalidFileHandle;
 }
 
-FileHandle::Handle FileHandle::handle() const {
+Attachment::Handle FileHandle::handle() const {
   return _handle;
+}
+
+Attachment::Handle FileHandle::takeHandle() {
+  auto handle = _handle;
+  _handle = kInvalidFileHandle;
+  return handle;
 }
 
 }  // namespace core

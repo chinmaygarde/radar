@@ -7,13 +7,16 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Core/RawAttachment.h>
 
 namespace rl {
 namespace core {
 
-class FileHandle {
+class FileHandle : public Attachment {
  public:
   using Handle = int;
+
+  FileHandle(RawAttachment attachment);
 
   FileHandle(const URI& uri);
 
@@ -21,9 +24,12 @@ class FileHandle {
 
   ~FileHandle();
 
-  bool isValid() const;
+  bool isValid() const override;
 
-  Handle handle() const;
+  Attachment::Handle handle() const override;
+
+  RL_WARN_UNUSED_RESULT
+  Attachment::Handle takeHandle() override;
 
  private:
   Handle _handle;

@@ -164,7 +164,7 @@ IOResult MachPayload::send(mach_msg_option_t timeoutOption,
     case MACH_SEND_TIMED_OUT:
       return IOResult::Timeout;
     default:
-      RL_LOG("Mach Send Failed: %s", mach_error_string(res));
+      RL_LOG_MACHERROR(res);
       return IOResult::Failure;
   }
 
@@ -226,7 +226,7 @@ IOResult MachPayload::receive(mach_msg_option_t timeoutOption,
     case MACH_RCV_TIMED_OUT:
       return IOResult::Timeout;
     default:
-      RL_LOG("Mach Recv Failed: %s", mach_error_string(res));
+      RL_LOG_MACHERROR(res);
       return IOResult::Failure;
   }
 
