@@ -38,6 +38,9 @@ FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
 
 FileHandle::FileHandle(FileHandle&& other) : _handle(other._handle) {
   other._handle = kInvalidFileHandle;
+#if RL_CHANNELS == RL_CHANNELS_MACH
+  _port = std::move(other._port);
+#endif
 }
 
 FileHandle::~FileHandle() {
