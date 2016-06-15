@@ -7,8 +7,6 @@
 #include <Core/Core.h>
 #include <thread>
 
-RL_DECLARE_TEST_START(EventLoopTest)
-
 TEST(EventLoopTest, CurrentEventLoopAccess) {
   auto loop = rl::core::EventLoop::Current();
   ASSERT_TRUE(loop != nullptr);
@@ -146,5 +144,3 @@ TEST(EventLoopTest, TrivialTriggerFiresOnces) {
   trivialThread.join();
   ASSERT_TRUE(count == 1);
 }
-
-RL_DECLARE_TEST_END

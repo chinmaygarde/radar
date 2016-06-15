@@ -40,8 +40,6 @@ class EchoProtocol : public rl::core::Protocol {
   RL_DISALLOW_COPY_AND_ASSIGN(EchoProtocol);
 };
 
-RL_DECLARE_TEST_START(ProtocolTest)
-
 TEST(Protocol, SimpleEcho) {
   auto serverTermination = rl::core::EventLoopSource::Trivial();
   serverTermination->setWakeFunction([&](rl::core::IOResult res) {
@@ -87,5 +85,3 @@ TEST(Protocol, SimpleEcho) {
   server.join();
   client.join();
 }
-
-RL_DECLARE_TEST_END

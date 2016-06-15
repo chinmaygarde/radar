@@ -7,8 +7,6 @@
 #include <Core/Core.h>
 #include <atomic>
 
-RL_DECLARE_TEST_START(WorkQueueTest)
-
 TEST(WorkQueue, SimpleInitialization) {
   rl::core::WorkQueue queue("test");
   ASSERT_GE(queue.workerCount(), 0);
@@ -29,5 +27,3 @@ TEST_SLOW(WorkQueue, SimpleWork) {
 
   ASSERT_EQ(size, count.load());
 }
-
-RL_DECLARE_TEST_END

@@ -5,8 +5,6 @@
 #include <TestRunner/TestRunner.h>
 #include <Image/Image.h>
 
-RL_DECLARE_TEST_START(ImageTest)
-
 TEST(ImageTest, SimgeDecoderJPG) {
   rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
 
@@ -72,4 +70,3 @@ TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
   ASSERT_EQ(res.size().height, 177);
   ASSERT_TRUE(res.allocation().isReady());
 }
-RL_DECLARE_TEST_END

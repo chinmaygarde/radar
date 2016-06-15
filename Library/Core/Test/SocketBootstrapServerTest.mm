@@ -15,7 +15,7 @@
 
 #include <thread>
 
-RL_DECLARE_TEST_START(SocketBootstrapServerTest)
+
 
 TEST(SocketBootstrapServerTest, InitializeFromProvider) {
   rl::core::SocketBootstrapServer bootstrap;
@@ -53,8 +53,6 @@ TEST(SocketBootstrapServerTest, ScheduleInLoop) {
 
   ASSERT_EQ(started, true);
 }
-
-RL_DECLARE_TEST_END
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 

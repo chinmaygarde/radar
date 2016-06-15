@@ -11,8 +11,6 @@
 
 #include <thread>
 
-RL_DECLARE_TEST_START(BootstrapServerTest)
-
 TEST(BootstrapServerTest, NotFound) {
   rl::test::AutoBootstrapServer daemon;
 
@@ -110,5 +108,3 @@ TEST(BootstrapServerTest, AcquireAndSendMessage) {
 
   thread.join();
 }
-
-RL_DECLARE_TEST_END

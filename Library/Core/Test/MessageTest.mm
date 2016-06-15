@@ -7,8 +7,6 @@
 #include <Core/Message.h>
 #include <Core/Channel.h>
 
-RL_DECLARE_TEST_START(MessageTest)
-
 TEST(MessageTest, SimpleEncode) {
   rl::core::Message message;
 
@@ -156,5 +154,3 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
 
   ASSERT_EQ(initialRead, secondaryRead);
 }
-
-RL_DECLARE_TEST_END

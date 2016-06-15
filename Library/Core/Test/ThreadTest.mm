@@ -10,8 +10,6 @@
 
 #if !RL_OS_BSD && !RL_OS_WINDOWS && !RL_OS_NACL
 
-RL_DECLARE_TEST_START(ThreadTest)
-
 TEST(ThreadTest, GetSetName) {
   std::thread thread([&] {
     const char name[] = "DeRp";
@@ -21,7 +19,5 @@ TEST(ThreadTest, GetSetName) {
   });
   thread.join();
 }
-
-RL_DECLARE_TEST_END
 
 #endif  // !RL_OS_BSD && !RL_OS_WINDOWS && !RL_OS_NACL

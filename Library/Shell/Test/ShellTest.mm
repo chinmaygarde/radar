@@ -18,12 +18,8 @@ class NullRenderSurface : public rl::coordinator::RenderSurface {
   RL_DISALLOW_COPY_AND_ASSIGN(NullRenderSurface);
 };
 
-RL_DECLARE_TEST_START(ShellTest)
-
 TEST(ShellTest, SimpleInitialization) {
   auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(
       std::make_shared<NullRenderSurface>());
   ASSERT_NE(shell, nullptr);
 }
-
-RL_DECLARE_TEST_END

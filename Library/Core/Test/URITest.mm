@@ -7,8 +7,6 @@
 #include <Core/URI.h>
 #include <Core/Utilities.h>
 
-RL_DECLARE_TEST_START(URITest)
-
 TEST(URITest, Simple) {
   rl::core::URI uri("file://hello/world.txt");
   ASSERT_EQ(uri.toString(), "file://hello/world.txt");
@@ -32,5 +30,3 @@ TEST(URITest, AppendToURI) {
   ASSERT_EQ(directory.isValid(), true);
   ASSERT_EQ(directory.toString(), "file:///one/TWO");
 }
-
-RL_DECLARE_TEST_END

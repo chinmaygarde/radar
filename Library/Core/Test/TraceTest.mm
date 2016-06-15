@@ -12,8 +12,6 @@
 
 using Event = rl::instrumentation::TraceEvent;
 
-RL_DECLARE_TEST_START(TraceTest)
-
 TEST(TraceTest, SimpleTraceCapture) {
   Event::MarkDurationBegin(Event::Category::Default, "trace");
   Event::MarkCounter(Event::Category::Default, "counter1", 400);
@@ -54,5 +52,3 @@ TEST(TraceTest, TraceUsingMacros) {
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0);
 }
-
-RL_DECLARE_TEST_END

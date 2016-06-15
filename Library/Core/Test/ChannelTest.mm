@@ -9,8 +9,6 @@
 
 #include <thread>
 
-RL_DECLARE_TEST_START(ChannelTest)
-
 static bool MemorySetOrCheckPattern(uint8_t* buffer,
                                     size_t size,
                                     bool setOrCheck) {
@@ -656,5 +654,3 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
 
   thread.join();
 }
-
-RL_DECLARE_TEST_END

@@ -45,8 +45,6 @@ const rl::core::ArchiveDef Sample::ArchiveDefinition = {
     .members = {999},
 };
 
-RL_DECLARE_TEST_START(ArchiveTest)
-
 TEST(ArchiveTest, SimpleInitialization) {
   auto name = "/tmp/sample.db";
   {
@@ -150,5 +148,3 @@ TEST(ArchiveTest, ReadDataWithNames) {
   }
   ASSERT_TRUE(::remove(name) == 0);
 }
-
-RL_DECLARE_TEST_END

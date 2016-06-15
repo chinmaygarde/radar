@@ -11,8 +11,6 @@
 
 #if RL_CHANNELS != RL_CHANNELS_INPROCESS
 
-RL_DECLARE_TEST_START(PipeTrivialSourceTest)
-
 TEST(PipeTrivialSourceTest, SimpleInitialization) {
   auto pipeSource = rl::core::MakePipeBasedTrivialSource();
   rl::core::Latch ready(1);
@@ -40,7 +38,5 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
 
   ASSERT_EQ(readOnPipe, 1);
 }
-
-RL_DECLARE_TEST_END
 
 #endif  // RL_CHANNELS != RL_CHANNELS_INPROCESS

@@ -6,8 +6,6 @@
 
 #include <Core/Core.h>
 
-RL_DECLARE_TEST_START(NamespaceTest)
-
 TEST(NamespaceTest, OnlyHandlesLocal) {
   rl::core::Namespace ns;
 
@@ -224,5 +222,3 @@ TEST(NamespaceTest, AliasedHandleDiesWithNameLoseAllReferences) {
    */
   ASSERT_NE(local1Handle, local2Handle);
 }
-
-RL_DECLARE_TEST_END

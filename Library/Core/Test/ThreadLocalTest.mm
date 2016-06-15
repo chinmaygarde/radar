@@ -10,8 +10,6 @@
 
 #include <thread>
 
-RL_DECLARE_TEST_START(ThreadLocalTest)
-
 TEST(ThreadLocalTest, SimpleInitialization) {
   std::thread thread([&] {
     rl::core::ThreadLocal local;
@@ -95,7 +93,5 @@ TEST(ThreadLocalTest, SettingSameValue) {
   });
   thread.join();
 }
-
-RL_DECLARE_TEST_END
 
 #endif  // RL_THREAD_LOCAL_PTHREADS
