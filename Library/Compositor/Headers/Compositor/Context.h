@@ -34,8 +34,11 @@ class Context {
 
   void renderStatistics(Frame& frame);
 
+  void dispose();
+
  private:
   bool _beingUsed;
+  bool _disposed;
   CompositorStatistics _compositorStats;
   std::unique_ptr<StatisticsRenderer> _statsRenderer;
   std::unique_ptr<ProgramCatalog> _programCatalog;

@@ -14,6 +14,7 @@ namespace compositor {
 
 Context::Context()
     : _beingUsed(false),
+      _disposed(false),
       _statsRenderer(core::make_unique<StatisticsRenderer>()),
       _programCatalog(core::make_unique<ProgramCatalog>()),
       _unitBoxVertices(
@@ -25,36 +26,48 @@ CompositorStatistics& Context::statistics() {
 }
 
 ProgramCatalog& Context::programCatalog() {
-  RL_ASSERT(_beingUsed);
+  RL_ASSERT(_beingUsed && !_disposed);
   return *_programCatalog;
 }
 
 BoxVertices& Context::unitBoxVertices() {
-  RL_ASSERT(_beingUsed);
+  RL_ASSERT(_beingUsed && !_disposed);
   return *_unitBoxVertices;
 }
 
 void Context::beginUsing() {
-  RL_ASSERT(!_beingUsed);
+  RL_ASSERT(!_beingUsed && !_disposed);
   _beingUsed = true;
 
   _compositorStats.start();
 }
 
 void Context::endUsing() {
-  RL_ASSERT(_beingUsed);
+  RL_ASSERT(_beingUsed && !_disposed);
   _beingUsed = false;
 
   _compositorStats.stop();
 }
 
 void Context::renderStatistics(Frame& frame) {
-  RL_ASSERT(_beingUsed);
+  RL_ASSERT(_beingUsed && !_disposed);
   _statsRenderer->render(frame, _compositorStats);
 }
 
+void Context::dispose() {
+  RL_ASSERT(!_disposed && !_beingUsed);
+
+  _statsRenderer = nullptr;
+  _programCatalog = nullptr;
+
+  _unitBoxVertices->dispose();
+  _unitBoxVertices = nullptr;
+
+  _disposed = true;
+}
+
 Context::~Context() {
-  RL_ASSERT(!_beingUsed);
+  RL_ASSERT(!_beingUsed && _disposed);
 }
 
 }  // namespace compositor

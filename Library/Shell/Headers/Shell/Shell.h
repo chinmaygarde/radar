@@ -23,6 +23,8 @@ class Shell {
   static std::unique_ptr<Shell> CreateWithCurrentThreadAsHost(
       std::shared_ptr<coordinator::RenderSurface> surface);
 
+  ~Shell();
+
   /**
    *  Blocking operation that gracefully shuts down all subsystems and makes
    *  sure all callbacks are sent.
@@ -61,6 +63,7 @@ class Shell {
   Host _host;
   coordinator::Coordinator _coordinator;
   bool _attached;
+  bool _wasShutDown;
   std::mutex _interfacesMutex;
   std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>
       _managedInterfaces;

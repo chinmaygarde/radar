@@ -142,10 +142,9 @@ unsigned int Program::indexForUniform(const std::string& uniform) {
 void Program::onLinkSuccess() {}
 
 Program::~Program() {
-  /*
-   *  Values of 0 are ignored.
-   */
-  glDeleteProgram(_program);
+  if (_program != GL_NONE) {
+    glDeleteProgram(_program);
+  }
 }
 
 }  // namespace compositor

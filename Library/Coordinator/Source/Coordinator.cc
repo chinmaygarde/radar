@@ -53,6 +53,7 @@ void Coordinator::shutdown(std::function<void()> onShutdown) {
 
   _loop->dispatchAsync([&] {
     setupOrTeardownChannels(false);
+    _context.dispose();
     _loop->terminate();
     if (onShutdown) {
       onShutdown();

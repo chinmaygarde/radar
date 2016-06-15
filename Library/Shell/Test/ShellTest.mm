@@ -22,4 +22,5 @@ TEST(ShellTest, SimpleInitialization) {
   auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(
       std::make_shared<NullRenderSurface>());
   ASSERT_NE(shell, nullptr);
+  shell->shutdown();
 }

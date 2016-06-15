@@ -179,15 +179,17 @@ StatisticsRenderer::StatisticsRenderer()
 }
 
 StatisticsRenderer::~StatisticsRenderer() {
-  cleanup();
-}
-
-void StatisticsRenderer::cleanup() {
   /*
-   *  GL_NONEs are ignored
+   *  GL_NONEs are ignored but we don't even want to make the OpenGL call in
+   *  case initialization has not yet taken place.
    */
-  glDeleteBuffers(1, &_vbo);
-  glDeleteTextures(1, &_fontAtlas);
+  if (_vbo != GL_NONE) {
+    glDeleteBuffers(1, &_vbo);
+  }
+
+  if (_fontAtlas != GL_NONE) {
+    glDeleteTextures(1, &_fontAtlas);
+  }
 }
 
 void StatisticsRenderer::performSetupIfNecessary() {

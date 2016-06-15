@@ -35,8 +35,14 @@ std::unique_ptr<Shell> Shell::CreateWithCurrentThreadAsHost(
 Shell::Shell(std::shared_ptr<coordinator::RenderSurface> surface)
     : _compositorThread(),
       _coordinator(surface, _host.touchEventChannel()),
-      _attached(false) {
+      _attached(false),
+      _wasShutDown(false) {
   RL_TRACE_INSTANT("ShellInitialization");
+}
+
+Shell::~Shell() {
+  RL_ASSERT_MSG(_wasShutDown,
+                "Attempted to destroy the shell without shutting it down.");
 }
 
 void Shell::attachHostOnCurrentThread() {
@@ -85,6 +91,8 @@ void Shell::shutdown() {
   if (_hostThread.joinable()) {
     _hostThread.join();
   }
+
+  _wasShutDown = true;
 }
 
 void Shell::registerManagedInterface(

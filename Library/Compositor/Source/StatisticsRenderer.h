@@ -30,7 +30,6 @@ class StatisticsRenderer {
   unsigned int _fontAtlas;
 
   void performSetupIfNecessary();
-  void cleanup();
   static void drawLists(void* data);
 
   RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRenderer);
