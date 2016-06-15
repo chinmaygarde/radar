@@ -9,8 +9,8 @@ namespace image {
 
 FileImageSource::FileImageSource() {}
 
-FileImageSource::FileImageSource(const core::File& file)
-    : _mapping(file.map()) {}
+FileImageSource::FileImageSource(const core::FileHandle& fileHandle)
+    : _mapping(fileHandle) {}
 
 uint8_t* FileImageSource::sourceData() const {
   return _mapping.mapping();

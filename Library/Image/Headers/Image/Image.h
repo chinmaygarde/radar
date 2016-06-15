@@ -20,7 +20,7 @@ class Image : public core::MessageSerializable {
 
   Image(core::Allocation sourceAllocation);
 
-  Image(core::File sourceFile);
+  Image(core::FileHandle sourceFile);
 
   ImageResult decode() const;
 

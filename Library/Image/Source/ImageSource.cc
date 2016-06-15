@@ -13,8 +13,8 @@ std::unique_ptr<ImageSource> ImageSource::Create(core::Allocation allocation) {
   return core::make_unique<DataImageSource>(std::move(allocation));
 }
 
-std::unique_ptr<ImageSource> ImageSource::Create(core::File file) {
-  return core::make_unique<FileImageSource>(std::move(file));
+std::unique_ptr<ImageSource> ImageSource::Create(core::FileHandle fileHandle) {
+  return core::make_unique<FileImageSource>(std::move(fileHandle));
 }
 
 std::shared_ptr<ImageSource> ImageSource::ImageSourceForType(Type type) {

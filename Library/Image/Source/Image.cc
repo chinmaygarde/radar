@@ -16,7 +16,7 @@ Image::Image() = default;
 Image::Image(core::Allocation sourceAllocation)
     : _source(ImageSource::Create(std::move(sourceAllocation))) {}
 
-Image::Image(core::File sourceFile)
+Image::Image(core::FileHandle sourceFile)
     : _source(ImageSource::Create(std::move(sourceFile))) {}
 
 bool Image::serialize(core::Message& message) const {

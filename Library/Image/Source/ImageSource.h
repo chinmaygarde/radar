@@ -22,7 +22,7 @@ class ImageSource : public core::MessageSerializable {
 
   static std::unique_ptr<ImageSource> Create(core::Allocation allocation);
 
-  static std::unique_ptr<ImageSource> Create(core::File file);
+  static std::unique_ptr<ImageSource> Create(core::FileHandle fileHandle);
 
   static std::shared_ptr<ImageSource> ImageSourceForType(Type type);
 

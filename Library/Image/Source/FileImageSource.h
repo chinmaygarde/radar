@@ -17,7 +17,7 @@ class FileImageSource : public ImageSource {
  public:
   FileImageSource();
 
-  FileImageSource(const core::File& file);
+  FileImageSource(const core::FileHandle& fileHandle);
 
   bool serialize(core::Message& message) const override;
 
