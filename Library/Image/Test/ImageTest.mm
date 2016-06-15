@@ -5,9 +5,9 @@
 #include <TestRunner/TestRunner.h>
 #include <Image/Image.h>
 
-RL_DECLARE_TEST_START(ImageDecoderTest)
+RL_DECLARE_TEST_START(ImageTest)
 
-TEST(ImageDecoderTest, SimgeDecoderJPG) {
+TEST(ImageTest, SimgeDecoderJPG) {
   rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
 
   rl::image::Image image(std::move(file));
@@ -21,7 +21,7 @@ TEST(ImageDecoderTest, SimgeDecoderJPG) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
-TEST(ImageDecoderTest, SimgeDecoderPNG) {
+TEST(ImageTest, SimgeDecoderPNG) {
   rl::core::File file(rl::core::URI{"file://Beachball.png"});
 
   rl::image::Image image(std::move(file));
@@ -35,7 +35,7 @@ TEST(ImageDecoderTest, SimgeDecoderPNG) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
-TEST(ImageDecoderTest, SimgeDecoderJPGFromAllocation) {
+TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
   rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
   auto map = file.map();
 
@@ -54,7 +54,7 @@ TEST(ImageDecoderTest, SimgeDecoderJPGFromAllocation) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
-TEST(ImageDecoderTest, SimgeDecoderPNGFromAllocation) {
+TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
   rl::core::File file(rl::core::URI{"file://Beachball.png"});
   auto map = file.map();
 
