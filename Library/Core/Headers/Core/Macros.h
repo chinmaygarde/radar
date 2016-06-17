@@ -207,4 +207,9 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_WARN_UNUSED_RESULT
 #endif
 
+#define RL_RETURN_IF_FALSE(exp) \
+  if (!(exp)) {                 \
+    return false;               \
+  }
+
 #endif  // RADARLOVE_CORE_MACROS_
