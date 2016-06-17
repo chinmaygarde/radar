@@ -28,13 +28,17 @@ EventLoop* EventLoop::Current() {
 
 EventLoop::EventLoop()
     : _waitSet(),
-      _trivialSource(nullptr),
+      _trivialSource(EventLoopSource::Trivial()),
       _shouldTerminate(false),
       _pendingDispatches(make_unique<PendingBlocks>()),
       _beforeSleepObservers(EventLoopObserver::Activity::BeforeSleep),
-      _afterSleepObservers(EventLoopObserver::Activity::AfterSleep) {}
+      _afterSleepObservers(EventLoopObserver::Activity::AfterSleep) {
+  _waitSet.addSource(_trivialSource);
+}
 
-EventLoop::~EventLoop() {}
+EventLoop::~EventLoop() {
+  _waitSet.removeSource(_trivialSource);
+}
 
 bool EventLoop::addSource(std::shared_ptr<EventLoopSource> source) {
   return _waitSet.addSource(source);
@@ -45,15 +49,6 @@ bool EventLoop::removeSource(std::shared_ptr<EventLoopSource> source) {
 }
 
 void EventLoop::loop(std::function<void(void)> onReady) {
-  if (_trivialSource.get() == nullptr) {
-    /*
-     *  A trivial source needs to be added to keep the loop idle
-     *  without any other sources present.
-     */
-    _trivialSource = EventLoopSource::Trivial();
-    addSource(_trivialSource);
-  }
-
   if (onReady) {
     onReady();
   }
@@ -142,14 +137,7 @@ void EventLoop::terminate() {
   }
 
   _shouldTerminate = true;
-
-  /*
-   *  In case the terminate call is made before the call to run, the trivial
-   *  source will be null.
-   */
-  if (_trivialSource) {
-    _trivialSource->writer()(_trivialSource->writeHandle());
-  }
+  _trivialSource->writer()(_trivialSource->writeHandle());
 }
 
 void EventLoop::beforeSleep() {
