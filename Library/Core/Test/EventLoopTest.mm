@@ -42,9 +42,9 @@ TEST(EventLoopTest, SimpleLoop) {
      */
     outer->loop();
 
-    ASSERT_TRUE(terminatedFromInner);
-
     innerThread.join();
+
+    ASSERT_TRUE(terminatedFromInner);
   });
 
   thread.join();

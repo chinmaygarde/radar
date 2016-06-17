@@ -12,6 +12,7 @@
 
 #include <functional>
 #include <list>
+#include <atomic>
 #include <mutex>
 
 namespace rl {
@@ -92,7 +93,7 @@ class EventLoop {
  private:
   WaitSet _waitSet;
   std::shared_ptr<EventLoopSource> _trivialSource;
-  bool _shouldTerminate;
+  std::atomic_bool _shouldTerminate;
   std::mutex _pendingDispatchesMutex;
   std::unique_ptr<PendingBlocks> _pendingDispatches;
   EventLoopObserverCollection _beforeSleepObservers;
