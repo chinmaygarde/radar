@@ -32,19 +32,17 @@ double Suggestion::priority() const {
 }
 
 bool Suggestion::serialize(core::Message& message) const {
-  auto result = true;
-  result &= message.encode(_variable);
-  result &= message.encode(_value);
-  result &= message.encode(_priority);
-  return result;
+  RL_RETURN_IF_FALSE(message.encode(_variable));
+  RL_RETURN_IF_FALSE(message.encode(_value));
+  RL_RETURN_IF_FALSE(message.encode(_priority));
+  return true;
 }
 
 bool Suggestion::deserialize(core::Message& message, core::Namespace* ns) {
-  auto result = true;
-  result &= message.decode(_variable, ns);
-  result &= message.decode(_value, ns);
-  result &= message.decode(_priority, ns);
-  return result;
+  RL_RETURN_IF_FALSE(message.decode(_variable, ns));
+  RL_RETURN_IF_FALSE(message.decode(_value, ns));
+  RL_RETURN_IF_FALSE(message.decode(_priority, ns));
+  return true;
 }
 
 std::vector<Suggestion> Suggestion::Anchor(entity::Entity& entity,
@@ -125,19 +123,18 @@ Suggestion::ArchiveName Suggestion::archiveName() const {
 }
 
 bool Suggestion::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encodeArchivable(ArchiveKey::Variable, _variable);
-  result &= item.encode(ArchiveKey::Value, _value);
-  result &= item.encode(ArchiveKey::Priority, _priority);
-  return result;
+  RL_RETURN_IF_FALSE(item.encodeArchivable(ArchiveKey::Variable, _variable));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Value, _value));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Priority, _priority));
+  return true;
 }
 
 bool Suggestion::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-  result &= item.decodeArchivable(ArchiveKey::Variable, _variable, ns);
-  result &= item.decode(ArchiveKey::Value, _value);
-  result &= item.decode(ArchiveKey::Priority, _priority);
-  return result;
+  RL_RETURN_IF_FALSE(
+      item.decodeArchivable(ArchiveKey::Variable, _variable, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Value, _value));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Priority, _priority));
+  return true;
 }
 
 }  // namespace layout

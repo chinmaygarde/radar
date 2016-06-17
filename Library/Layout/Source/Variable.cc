@@ -151,26 +151,24 @@ Variable::ArchiveName Variable::archiveName() const {
 }
 
 bool Variable::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encode(ArchiveKey::Identifier, _identifier.toString());
-  result &= item.encodeEnum(ArchiveKey::Property, _property);
-  result &= item.encodeEnum(ArchiveKey::Proxy, _proxy);
-  return result;
+  RL_RETURN_IF_FALSE(
+      item.encode(ArchiveKey::Identifier, _identifier.toString()));
+  RL_RETURN_IF_FALSE(item.encodeEnum(ArchiveKey::Property, _property));
+  RL_RETURN_IF_FALSE(item.encodeEnum(ArchiveKey::Proxy, _proxy));
+
+  return true;
 }
 
 bool Variable::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   std::string name;
 
-  auto result = true;
-  result &= item.decode(ArchiveKey::Identifier, name);
-  result &= item.decodeEnum(ArchiveKey::Property, _property);
-  result &= item.decodeEnum(ArchiveKey::Proxy, _proxy);
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Identifier, name));
+  RL_RETURN_IF_FALSE(item.decodeEnum(ArchiveKey::Property, _property));
+  RL_RETURN_IF_FALSE(item.decodeEnum(ArchiveKey::Proxy, _proxy));
 
-  if (result) {
-    _identifier.fromString(name, ns);
-  }
+  _identifier.fromString(name, ns);
 
-  return result;
+  return true;
 }
 
 }  // namespace layout

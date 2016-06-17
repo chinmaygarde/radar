@@ -187,23 +187,23 @@ TransferEntity::ArchiveName TransferEntity::archiveName() const {
 }
 
 bool TransferEntity::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encodeSuper<Entity>(*this);
-  result &= item.encode(ArchiveKey::UpdateMask, _updateMask);
-  result &= item.encode(ArchiveKey::AddedTo, _addedTo);
-  result &= item.encode(ArchiveKey::RemovedFrom, _removedFrom);
-  result &= item.encode(ArchiveKey::MakeRoot, _makeRoot);
-  return result;
+  RL_RETURN_IF_FALSE(item.encodeSuper<Entity>(*this));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::UpdateMask, _updateMask));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::AddedTo, _addedTo));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::RemovedFrom, _removedFrom));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::MakeRoot, _makeRoot));
+
+  return true;
 }
 
 bool TransferEntity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-  result &= item.decodeSuper<Entity>(*this, ns);
-  result &= item.decode(ArchiveKey::UpdateMask, _updateMask);
-  result &= item.decode(ArchiveKey::AddedTo, _addedTo, ns);
-  result &= item.decode(ArchiveKey::RemovedFrom, _removedFrom, ns);
-  result &= item.decode(ArchiveKey::MakeRoot, _makeRoot, ns);
-  return result;
+  RL_RETURN_IF_FALSE(item.decodeSuper<Entity>(*this, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::UpdateMask, _updateMask));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::AddedTo, _addedTo, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::RemovedFrom, _removedFrom, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::MakeRoot, _makeRoot, ns));
+
+  return true;
 }
 
 }  // namespace coordinator

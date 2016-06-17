@@ -34,21 +34,19 @@ TouchEvent::Phase TouchEvent::phase() const {
 }
 
 bool TouchEvent::serialize(core::Message& m) const {
-  bool result = true;
-  result &= Event::serialize(m);
-  result &= m.encode(_identifier);
-  result &= m.encode(_location);
-  result &= m.encode(_phase);
-  return result;
+  RL_RETURN_IF_FALSE(Event::serialize(m));
+  RL_RETURN_IF_FALSE(m.encode(_identifier));
+  RL_RETURN_IF_FALSE(m.encode(_location));
+  RL_RETURN_IF_FALSE(m.encode(_phase));
+  return true;
 }
 
 bool TouchEvent::deserialize(core::Message& message, core::Namespace* ns) {
-  bool result = true;
-  result &= Event::deserialize(message, ns);
-  result &= message.decode(_identifier, ns);
-  result &= message.decode(_location, ns);
-  result &= message.decode(_phase, ns);
-  return result;
+  RL_RETURN_IF_FALSE(Event::deserialize(message, ns));
+  RL_RETURN_IF_FALSE(message.decode(_identifier, ns));
+  RL_RETURN_IF_FALSE(message.decode(_location, ns));
+  RL_RETURN_IF_FALSE(message.decode(_phase, ns));
+  return true;
 }
 
 }  // namespace event

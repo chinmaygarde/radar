@@ -36,74 +36,59 @@ TransactionPayload::TransactionPayload(
       _suggestionsCallback(suggestionsCallback) {}
 
 bool TransactionPayload::serialize(core::Message& message) const {
-  bool result = true;
-
   /*
    *  Step 1: Encode the Action, Constraints and Suggestions
    */
-  result &= message.encode(_action);
+  RL_RETURN_IF_FALSE(message.encode(_action));
 
-  result &= message.encode(_constraints);
+  RL_RETURN_IF_FALSE(message.encode(_constraints));
 
-  result &= message.encode(_suggestions);
+  RL_RETURN_IF_FALSE(message.encode(_suggestions));
 
   /*
    *  Step 2: Encode the transfer record count
    */
-  result &= message.encode(_entities.size());
+  RL_RETURN_IF_FALSE(message.encode(_entities.size()));
 
   /*
    *  Step 3: Encode the transfer records
    */
   for (const auto& pair : _entities) {
-    if (!(*(pair.second)).serialize(message)) {
-      return false;
-    }
+    RL_RETURN_IF_FALSE((*(pair.second)).serialize(message));
   }
 
-  return result;
+  return true;
 }
 
 bool TransactionPayload::deserialize(core::Message& message,
                                      core::Namespace* ns) {
-  bool result = true;
   /*
-   *  Step 1: Read the action
+   *  Step 1: Read the action.
    */
   animation::Action action;
-  result = action.deserialize(message, ns);
-
-  if (!result) {
-    return false;
-  }
-
+  RL_RETURN_IF_FALSE(action.deserialize(message, ns));
   _actionCallback(action);
 
+  /*
+   *  Step 2: Read the constraint set.
+   */
   std::vector<layout::Constraint> constraints;
-  result = message.decode(constraints, ns);
-
-  if (!result) {
-    return false;
-  }
-
-  std::vector<layout::Suggestion> suggestions;
-  result = message.decode(suggestions, ns);
-
-  if (!result) {
-    return false;
-  }
+  RL_RETURN_IF_FALSE(message.decode(constraints, ns));
 
   /*
-   *  Step 2: Read the transfer record count
+   *  Step 3: Read constraint suggestions.
+   */
+  std::vector<layout::Suggestion> suggestions;
+  RL_RETURN_IF_FALSE(message.decode(suggestions, ns));
+
+  /*
+   *  Step 4.1: Read the transfer record count
    */
   size_t transferRecords = 0;
-  result = message.decode(transferRecords, ns);
-  if (!result) {
-    return false;
-  }
+  RL_RETURN_IF_FALSE(message.decode(transferRecords, ns));
 
   /*
-   *  Step 3: Read the transfer records
+   *  Step 4.2: Read the transfer records
    */
   {
     RL_TRACE_AUTO("TransferRecordsCommit");
@@ -153,36 +138,39 @@ TransactionPayload::ArchiveName TransactionPayload::archiveName() const {
 }
 
 bool TransactionPayload::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encodeArchivable(TransactionArchiveKey::Action, _action);
-  result &= item.encode(TransactionArchiveKey::Constraints, _constraints);
-  result &= item.encode(TransactionArchiveKey::Suggestions, _suggestions);
+  RL_RETURN_IF_FALSE(
+      item.encodeArchivable(TransactionArchiveKey::Action, _action));
+  RL_RETURN_IF_FALSE(
+      item.encode(TransactionArchiveKey::Constraints, _constraints));
+  RL_RETURN_IF_FALSE(
+      item.encode(TransactionArchiveKey::Suggestions, _suggestions));
 
   std::vector<TransferEntity> entities;
   for (const auto& entity : _entities) {
     entities.push_back(*(entity.second));
   }
-  result &= item.encode(TransactionArchiveKey::Entities, entities);
+  RL_RETURN_IF_FALSE(item.encode(TransactionArchiveKey::Entities, entities));
 
-  return result;
+  return true;
 }
 
 bool TransactionPayload::deserialize(core::ArchiveItem& item,
                                      core::Namespace* ns) {
-  auto result = true;
-  result &= item.decodeArchivable(TransactionArchiveKey::Action, _action, ns);
-  result &= item.decode(TransactionArchiveKey::Constraints, _constraints, ns);
-  result &= item.decode(TransactionArchiveKey::Suggestions, _suggestions, ns);
+  RL_RETURN_IF_FALSE(
+      item.decodeArchivable(TransactionArchiveKey::Action, _action, ns));
+  RL_RETURN_IF_FALSE(
+      item.decode(TransactionArchiveKey::Constraints, _constraints, ns));
+  RL_RETURN_IF_FALSE(
+      item.decode(TransactionArchiveKey::Suggestions, _suggestions, ns));
   std::vector<TransferEntity> entities;
-  if (item.decode(TransactionArchiveKey::Entities, entities, ns)) {
-    for (auto& entity : entities) {
-      _entities.emplace(entity.identifier(),
-                        core::make_unique<TransferEntity>(std::move(entity)));
-    }
-  } else {
-    result = false;
+  RL_RETURN_IF_FALSE(item.decode(TransactionArchiveKey::Entities, entities, ns))
+
+  for (auto& entity : entities) {
+    _entities.emplace(entity.identifier(),
+                      core::make_unique<TransferEntity>(std::move(entity)));
   }
-  return result;
+
+  return true;
 }
 
 }  // namespace coordinator

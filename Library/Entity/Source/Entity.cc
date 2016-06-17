@@ -194,52 +194,42 @@ Entity::ArchiveName Entity::archiveName() const {
 }
 
 bool Entity::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encode(ArchiveKey::Identifier, _identifier);
-  result &= item.encode(ArchiveKey::Bounds, _bounds.toString());
-  result &= item.encode(ArchiveKey::Position, _position.toString());
-  result &= item.encode(ArchiveKey::AnchorPoint, _anchorPoint.toString());
-  result &= item.encode(ArchiveKey::Transformation, _transformation.toString());
-  result &=
-      item.encode(ArchiveKey::BackgroundColor, _backgroundColor.toString());
-  result &= item.encode(ArchiveKey::Opacity, _opacity);
-  return result;
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Identifier, _identifier));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Bounds, _bounds.toString()));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Position, _position.toString()));
+  RL_RETURN_IF_FALSE(
+      item.encode(ArchiveKey::AnchorPoint, _anchorPoint.toString()));
+  RL_RETURN_IF_FALSE(
+      item.encode(ArchiveKey::Transformation, _transformation.toString()));
+  RL_RETURN_IF_FALSE(
+      item.encode(ArchiveKey::BackgroundColor, _backgroundColor.toString()));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Opacity, _opacity));
+  return true;
 }
 
 bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-
   std::string decoded;
 
-  result &= item.decode(ArchiveKey::Identifier, _identifier, ns);
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Identifier, _identifier, ns));
 
-  result &= item.decode(ArchiveKey::Bounds, decoded);
-  if (result) {
-    _bounds.fromString(decoded);
-  }
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Bounds, decoded));
+  _bounds.fromString(decoded);
 
-  result &= item.decode(ArchiveKey::Position, decoded);
-  if (result) {
-    _position.fromString(decoded);
-  }
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Position, decoded));
+  _position.fromString(decoded);
 
-  result &= item.decode(ArchiveKey::AnchorPoint, decoded);
-  if (result) {
-    _anchorPoint.fromString(decoded);
-  }
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::AnchorPoint, decoded));
+  _anchorPoint.fromString(decoded);
 
-  result &= item.decode(ArchiveKey::Transformation, decoded);
-  if (result) {
-    _transformation.fromString(decoded);
-  }
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Transformation, decoded));
+  _transformation.fromString(decoded);
 
-  result &= item.decode(ArchiveKey::BackgroundColor, decoded);
-  if (result) {
-    _backgroundColor.fromString(decoded);
-  }
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::BackgroundColor, decoded));
+  _backgroundColor.fromString(decoded);
 
-  result &= item.decode(ArchiveKey::Opacity, _opacity);
-  return result;
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Opacity, _opacity));
+
+  return true;
 }
 
 }  // namespace entity

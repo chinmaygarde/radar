@@ -144,21 +144,23 @@ Constraint::ArchiveName Constraint::archiveName() const {
 }
 
 bool Constraint::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encode(ArchiveKey::Identifier, _identifier);
-  result &= item.encodeArchivable(ArchiveKey::Expression, _expression);
-  result &= item.encodeEnum(ArchiveKey::Relation, _relation);
-  result &= item.encode(ArchiveKey::Priority, _priority);
-  return result;
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Identifier, _identifier));
+  RL_RETURN_IF_FALSE(
+      item.encodeArchivable(ArchiveKey::Expression, _expression));
+  RL_RETURN_IF_FALSE(item.encodeEnum(ArchiveKey::Relation, _relation));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Priority, _priority));
+
+  return true;
 }
 
 bool Constraint::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-  result &= item.decode(ArchiveKey::Identifier, _identifier, ns);
-  result &= item.decodeArchivable(ArchiveKey::Expression, _expression, ns);
-  result &= item.decodeEnum(ArchiveKey::Relation, _relation);
-  result &= item.decode(ArchiveKey::Priority, _priority);
-  return result;
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Identifier, _identifier, ns));
+  RL_RETURN_IF_FALSE(
+      item.decodeArchivable(ArchiveKey::Expression, _expression, ns));
+  RL_RETURN_IF_FALSE(item.decodeEnum(ArchiveKey::Relation, _relation));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Priority, _priority));
+
+  return true;
 }
 
 }  // namespace layout

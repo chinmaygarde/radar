@@ -7,8 +7,4 @@
 #include <Core/Core.h>
 #include <thread>
 
-RL_DECLARE_TEST_START(ParserTest)
-
 TEST(ParserTest, Simple) {}
-
-RL_DECLARE_TEST_END

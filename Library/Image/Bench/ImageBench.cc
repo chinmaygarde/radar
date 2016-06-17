@@ -6,7 +6,7 @@
 #include <Image/Image.h>
 
 static void BenchDecodeJPG(benchmark::State& state) {
-  rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
 
   rl::image::Image image(std::move(file));
 
@@ -17,7 +17,7 @@ static void BenchDecodeJPG(benchmark::State& state) {
 }
 
 static void BenchDecodePNG(benchmark::State& state) {
-  rl::core::File file(rl::core::URI{"file://Beachball.png"});
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
 
   rl::image::Image image(std::move(file));
 
@@ -28,8 +28,9 @@ static void BenchDecodePNG(benchmark::State& state) {
 }
 
 static void BenchDecodeJPGFromAllocation(benchmark::State& state) {
-  rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
-  auto map = file.map();
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
+
+  rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
   allocation.resize(map.size());
@@ -44,8 +45,9 @@ static void BenchDecodeJPGFromAllocation(benchmark::State& state) {
 }
 
 static void BenchDecodePNGFromAllocation(benchmark::State& state) {
-  rl::core::File file(rl::core::URI{"file://Beachball.png"});
-  auto map = file.map();
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
+
+  rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
   allocation.resize(map.size());

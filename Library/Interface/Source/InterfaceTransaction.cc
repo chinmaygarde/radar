@@ -52,22 +52,22 @@ bool InterfaceTransaction::commit(core::Message& arena,
   /*
    *  Write to the message arena
    */
-  auto result = arena.encode(payload);
+  RL_RETURN_IF_FALSE(arena.encode(payload));
   for (const auto& extraPayload : _extraPayloads) {
-    result &= arena.encode(extraPayload);
+    RL_RETURN_IF_FALSE(arena.encode(extraPayload));
   }
 
   /*
    *  Write to the archive if one is available
    */
   if (archive) {
-    result &= archive->archive(payload);
+    RL_RETURN_IF_FALSE(archive->archive(payload));
     for (const auto& extraPayload : _extraPayloads) {
-      result &= archive->archive(extraPayload);
+      RL_RETURN_IF_FALSE(archive->archive(extraPayload));
     }
   }
 
-  return result;
+  return true;
 }
 
 }  // namespace interface

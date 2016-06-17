@@ -90,17 +90,15 @@ Expression::ArchiveName Expression::archiveName() const {
 }
 
 bool Expression::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encode(ArchiveKey::Terms, _terms);
-  result &= item.encode(ArchiveKey::Constant, _constant);
-  return result;
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Terms, _terms));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Constant, _constant));
+  return true;
 }
 
 bool Expression::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-  result &= item.decode(ArchiveKey::Terms, _terms, ns);
-  result &= item.decode(ArchiveKey::Constant, _constant);
-  return result;
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Terms, _terms, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Constant, _constant));
+  return true;
 }
 
 }  // namespace layout

@@ -6,7 +6,7 @@
 #include <Image/Image.h>
 
 TEST(ImageTest, SimgeDecoderJPG) {
-  rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
 
   rl::image::Image image(std::move(file));
 
@@ -20,7 +20,7 @@ TEST(ImageTest, SimgeDecoderJPG) {
 }
 
 TEST(ImageTest, SimgeDecoderPNG) {
-  rl::core::File file(rl::core::URI{"file://Beachball.png"});
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
 
   rl::image::Image image(std::move(file));
 
@@ -34,8 +34,8 @@ TEST(ImageTest, SimgeDecoderPNG) {
 }
 
 TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
-  rl::core::File file(rl::core::URI{"file://Beachball.jpg"});
-  auto map = file.map();
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
+  rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
   ASSERT_TRUE(allocation.resize(map.size()));
@@ -53,8 +53,8 @@ TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
 }
 
 TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
-  rl::core::File file(rl::core::URI{"file://Beachball.png"});
-  auto map = file.map();
+  rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
+  rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
   ASSERT_TRUE(allocation.resize(map.size()));

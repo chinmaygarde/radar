@@ -63,19 +63,18 @@ Term::ArchiveName Term::archiveName() const {
 }
 
 bool Term::serialize(core::ArchiveItem& item) const {
-  auto result = true;
-  result &= item.encodeArchivable(ArchiveKey::Variable, _variable);
-  result &= item.encode(ArchiveKey::Coefficient, _coefficient);
-  result &= item.encode(ArchiveKey::Constant, _constant);
-  return result;
+  RL_RETURN_IF_FALSE(item.encodeArchivable(ArchiveKey::Variable, _variable));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Coefficient, _coefficient));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Constant, _constant));
+  return true;
 }
 
 bool Term::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
-  auto result = true;
-  result &= item.decodeArchivable(ArchiveKey::Variable, _variable, ns);
-  result &= item.decode(ArchiveKey::Coefficient, _coefficient);
-  result &= item.decode(ArchiveKey::Constant, _constant);
-  return result;
+  RL_RETURN_IF_FALSE(
+      item.decodeArchivable(ArchiveKey::Variable, _variable, ns));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Coefficient, _coefficient));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Constant, _constant));
+  return true;
 }
 
 }  // namespace layout

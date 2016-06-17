@@ -73,24 +73,25 @@ double Action::unitInterpolation(const core::ClockDuration& time) const {
 }
 
 bool Action::serialize(core::Message& message) const {
-  auto result = true;
-  result &= message.encode(_duration);
-  result &= message.encode(_repeatCount);
-  result &= message.encode(_autoReverses);
-  result &= message.encode(_propertyMask);
-  result &= message.encode(_timingCurveType);
-  return result;
+  RL_RETURN_IF_FALSE(message.encode(_duration));
+  RL_RETURN_IF_FALSE(message.encode(_repeatCount));
+  RL_RETURN_IF_FALSE(message.encode(_autoReverses));
+  RL_RETURN_IF_FALSE(message.encode(_propertyMask));
+  RL_RETURN_IF_FALSE(message.encode(_timingCurveType));
+
+  return true;
 }
 
 bool Action::deserialize(core::Message& message, core::Namespace* ns) {
-  auto result = true;
-  result &= message.decode(_duration, ns);
-  result &= message.decode(_repeatCount, ns);
-  result &= message.decode(_autoReverses, ns);
-  result &= message.decode(_propertyMask, ns);
-  result &= message.decode(_timingCurveType, ns);
+  RL_RETURN_IF_FALSE(message.decode(_duration, ns));
+  RL_RETURN_IF_FALSE(message.decode(_repeatCount, ns));
+  RL_RETURN_IF_FALSE(message.decode(_autoReverses, ns));
+  RL_RETURN_IF_FALSE(message.decode(_propertyMask, ns));
+  RL_RETURN_IF_FALSE(message.decode(_timingCurveType, ns));
+
   resolveCurve();
-  return result;
+
+  return true;
 }
 
 enum ActionArchiveKey {
@@ -120,13 +121,13 @@ Action::ArchiveName Action::archiveName() const {
 bool Action::serialize(core::ArchiveItem& item) const {
   using K = ActionArchiveKey;
 
-  auto result = true;
-  result &= item.encode(K::Duration, _duration.count());
-  result &= item.encode(K::RepeatCount, _repeatCount);
-  result &= item.encode(K::AutoReverses, _autoReverses);
-  result &= item.encode(K::PropertyMask, _propertyMask);
-  result &= item.encodeEnum(K::TimingCurveType, _timingCurveType);
-  return result;
+  RL_RETURN_IF_FALSE(item.encode(K::Duration, _duration.count()));
+  RL_RETURN_IF_FALSE(item.encode(K::RepeatCount, _repeatCount));
+  RL_RETURN_IF_FALSE(item.encode(K::AutoReverses, _autoReverses));
+  RL_RETURN_IF_FALSE(item.encode(K::PropertyMask, _propertyMask));
+  RL_RETURN_IF_FALSE(item.encodeEnum(K::TimingCurveType, _timingCurveType));
+
+  return true;
 }
 
 bool Action::deserialize(core::ArchiveItem& item, core::Namespace*) {
@@ -134,17 +135,17 @@ bool Action::deserialize(core::ArchiveItem& item, core::Namespace*) {
 
   using K = ActionArchiveKey;
 
-  auto result = true;
-
-  result &= item.decode(K::Duration, durationRep);
-  result &= item.decode(K::RepeatCount, _repeatCount);
-  result &= item.decode(K::AutoReverses, _autoReverses);
-  result &= item.decode(K::PropertyMask, _propertyMask);
-  result &= item.decodeEnum(K::TimingCurveType, _timingCurveType);
+  RL_RETURN_IF_FALSE(item.decode(K::Duration, durationRep));
+  RL_RETURN_IF_FALSE(item.decode(K::RepeatCount, _repeatCount));
+  RL_RETURN_IF_FALSE(item.decode(K::AutoReverses, _autoReverses));
+  RL_RETURN_IF_FALSE(item.decode(K::PropertyMask, _propertyMask));
+  RL_RETURN_IF_FALSE(item.decodeEnum(K::TimingCurveType, _timingCurveType));
 
   _duration = core::ClockDuration(durationRep);
 
-  return result;
+  resolveCurve();
+
+  return true;
 }
 
 }  // namespace animation
