@@ -180,7 +180,7 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
   ASSERT_NE(message.size(), 0);
 
   auto sizeWritten = message.size();
-  message.rewindRead();
+  ASSERT_TRUE(message.rewindRead());
 
   rl::layout::Constraint decoded;
   ASSERT_EQ(message.decode(decoded, &ns), true);

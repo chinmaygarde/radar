@@ -234,14 +234,14 @@ void Interface::flushTransactions() {
    */
   for (auto i = _transactionStack.rbegin(), end = _transactionStack.rend();
        i != end; i++) {
-    (*i)->commit(arena, _spliceArchive);
+    result &= (*i)->commit(arena, _spliceArchive);
   }
 
   core::Messages messages;
   messages.push_back(std::move(arena));
 
-  result = _coordinatorChannel->sendMessages(std::move(messages)) ==
-           core::IOResult::Success;
+  result &= _coordinatorChannel->sendMessages(std::move(messages)) ==
+            core::IOResult::Success;
 
   _committedTransactions.clear();
   _transactionStack.clear();

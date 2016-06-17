@@ -133,14 +133,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-field-initializers")
   endif()
-elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND
-        NOT CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.6)
-    # When these flags are added to -Wall or -Wextra, this check can be removed.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-      -Wpessimizing-move                    \
-      -Wredundant-move")
-  endif()
 endif()
 
 if (FREEBSD)
@@ -167,6 +159,7 @@ enable_testing()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Tools/CMake")
 
+include(AddCXXWarningIfSupported)
 include(TreatAsCXX)
 include(StandardRadarLibrary)
 include(StandardRadarTest)
@@ -218,6 +211,14 @@ option(RADAR_TESTING_ENABLED
 if(SANITIZE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${SANITIZE} -g -O1")
 endif()
+
+if (NOT WINDOWS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror ")
+endif()
+
+AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
+AddCXXWarningIfSupported("-Wredundant-move" HAVE_REDUNDANT_MOVE)
+AddCXXWarningIfSupported("-Wloop-analysis" HAVE_LOOP_ANALYSIS)
 
 ################################################################################
 ################################################################################
