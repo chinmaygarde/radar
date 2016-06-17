@@ -9,6 +9,19 @@
 namespace rl {
 namespace dev {
 
+static bool AttemptCWDUpdate(std::string directoryPath) {
+  core::URI directoryURI(directoryPath);
+
+  if (directoryURI.normalize() &&
+      core::File::SetAsWorkingDirectory(directoryURI)) {
+    RL_LOG("Current working directory updated to: '%s'",
+           directoryURI.filesystemRepresentation().c_str());
+    return true;
+  }
+
+  return false;
+}
+
 bool UpdateWorkingDirectoryForFixtures() {
   auto exe = core::GetExecutablePath();
 
@@ -16,22 +29,17 @@ bool UpdateWorkingDirectoryForFixtures() {
     return false;
   }
 
+  auto exeString = exe.toString();
+
   /*
    *  Look for fixtures in the executable folder.
    */
 
-  core::URI fixturesInExeDir(exe.append(core::URI{"../Fixtures"}));
-
-  if (core::File::SetAsWorkingDirectory(fixturesInExeDir)) {
+  if (AttemptCWDUpdate(exeString + "/../Fixtures")) {
     return true;
   }
 
-  /*
-   *  Look for fixtures one level above the executable directory.
-   */
-
-  core::URI fixturesInContainingDir(exe.append(core::URI{"../../Fixtures"}));
-  if (core::File::SetAsWorkingDirectory(fixturesInContainingDir)) {
+  if (AttemptCWDUpdate(exeString + "/../../Fixtures")) {
     return true;
   }
 
