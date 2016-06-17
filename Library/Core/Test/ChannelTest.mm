@@ -507,9 +507,8 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
 
     channel.setMessageCallback(
         [&](rl::core::Message message, rl::core::Namespace* ns) {
-          ASSERT_TRUE(message.size() == sizeWritten);
           ASSERT_TRUE(message.size() == rawSize);
-          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), rawSize,
                                               false /* check */));
 
           size_t count = 0;
