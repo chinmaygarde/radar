@@ -38,7 +38,7 @@ class Shell {
    *  @param interface the interface to register.
    */
   void registerManagedInterface(
-      std::unique_ptr<interface::Interface>&& interface);
+      std::unique_ptr<interface::Interface> interface);
 
   /**
    *  Dispatch touch events to the coordinator.

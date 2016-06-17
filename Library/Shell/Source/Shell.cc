@@ -96,7 +96,7 @@ void Shell::shutdown() {
 }
 
 void Shell::registerManagedInterface(
-    std::unique_ptr<interface::Interface>&& interface) {
+    std::unique_ptr<interface::Interface> interface) {
   RL_ASSERT_MSG(_attached,
                 "The shell must be attached to a host before managed "
                 "interfaces can be registered with it");
