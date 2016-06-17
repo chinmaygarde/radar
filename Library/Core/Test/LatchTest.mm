@@ -42,7 +42,7 @@ TEST(LatchTest, SimpleLatch) {
 
 TEST(LatchTest, AutoLatch) {
   std::thread one, two, three;
-  bool done[3]{false, false, false};
+  bool done[] = {false, false, false};
   {
     rl::core::AutoLatch l(3);
 

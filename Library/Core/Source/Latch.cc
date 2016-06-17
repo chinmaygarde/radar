@@ -18,6 +18,11 @@ void Latch::wait() {
 
 void Latch::countDown() {
   if (--_count == 0) {
+    /*
+     *  This lock is a pessimization but thread sanitizer seems to freak out
+     *  without this. Figure out what is happening with this.
+     */
+    std::lock_guard<std::mutex> lock(_conditionMutex);
     _condition.notify_all();
   }
 }

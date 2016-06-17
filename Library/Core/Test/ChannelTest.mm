@@ -147,7 +147,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWrite) {
 
   rl::core::Latch latch(1);
 
-  size_t sizeWritten = 0;
+  const auto rawSize = 50000003;
 
   std::thread thread([&] {
     auto loop = rl::core::EventLoop::Current();
@@ -158,9 +158,9 @@ TEST_SLOW(ChannelTest, TestLargeReadWrite) {
 
     channel.setMessageCallback(
         [&](rl::core::Message m, rl::core::Namespace* ns) {
-          ASSERT_TRUE(m.size() == sizeWritten);
-          ASSERT_TRUE(MemorySetOrCheckPattern(m.data(), sizeWritten,
-                                              false /* check */));
+          ASSERT_TRUE(m.size() == rawSize);
+          ASSERT_TRUE(
+              MemorySetOrCheckPattern(m.data(), rawSize, false /* check */));
           ASSERT_TRUE(loop == rl::core::EventLoop::Current());
           loop->terminate();
         });
@@ -173,11 +173,9 @@ TEST_SLOW(ChannelTest, TestLargeReadWrite) {
   rl::core::Messages messages;
   rl::core::Message m;
 
-  const auto rawSize = 50000003;
   ASSERT_TRUE(MemorySetOrCheckPattern(m.encodeRaw<uint8_t>(rawSize), rawSize,
                                       true /* set */));
-
-  sizeWritten = m.size();
+  size_t sizeWritten = m.size();
   ASSERT_EQ(sizeWritten, rawSize);
 
   messages.emplace_back(std::move(m));
@@ -209,8 +207,7 @@ TEST(ChannelTest, TestSimpleReadContents) {
           int d = 22;
           ASSERT_TRUE(m.decode(c, nullptr));
           ASSERT_TRUE(m.decode(d, nullptr));
-          ASSERT_TRUE(m.size() == sendSize);
-          ASSERT_TRUE(m.sizeRead() == sendSize);
+          ASSERT_EQ(m.size(), m.sizeRead());
           ASSERT_TRUE(c == 'c');
           ASSERT_TRUE(d == 222);
 
@@ -595,9 +592,8 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
 
     channel.setMessageCallback(
         [&](rl::core::Message message, rl::core::Namespace* ns) {
-          ASSERT_TRUE(message.size() == sizeWritten);
           ASSERT_TRUE(message.size() == rawSize);
-          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), sizeWritten,
+          ASSERT_TRUE(MemorySetOrCheckPattern(message.data(), rawSize,
                                               false /* check */));
 
           size_t count = 0;
