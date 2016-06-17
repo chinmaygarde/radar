@@ -198,6 +198,15 @@ void MachPort::logRights() const {
   RL_LOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 }
 
+bool MachPort::isDeallocated() const {
+  mach_port_urefs_t refs = 0;
+  return mach_port_get_refs(mach_task_self(),           // task
+                            _name,                      // name
+                            MACH_PORT_RIGHT_DEAD_NAME,  // right
+                            &refs                       // (out) refs, unused
+                            ) == KERN_INVALID_NAME;
+}
+
 MachPort::Type MachPort::type() const {
   return _type;
 }

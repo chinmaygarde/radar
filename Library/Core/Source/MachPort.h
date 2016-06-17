@@ -37,6 +37,8 @@ class MachPort : public Attachment {
 
   void logRights() const;
 
+  bool isDeallocated() const;
+
   Type type() const;
 
   mach_port_name_t name() const;
