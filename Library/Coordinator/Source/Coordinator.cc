@@ -39,7 +39,9 @@ void Coordinator::run(std::function<void()> onReady) {
   }
 
   _loop = core::EventLoop::Current();
+
   setupOrTeardownChannels(true);
+
   _loop->loop(onReady);
 }
 
@@ -72,7 +74,7 @@ void Coordinator::renderSurfaceWasSetup() {
 }
 
 void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
-  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
+  auto controllersAccess = _interfaceControllers.access();
 
   if (_surfaceSize == size) {
     return;
@@ -80,8 +82,8 @@ void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
 
   _surfaceSize = size;
 
-  for (auto& interfaceController : _interfaceControllers) {
-    interfaceController.updateSize(_surfaceSize);
+  for (auto& controller : controllersAccess.get()) {
+    controller.updateSize(_surfaceSize);
   }
 }
 
@@ -92,12 +94,13 @@ void Coordinator::renderSurfaceWasTornDown() {
 }
 
 void Coordinator::setupOrTeardownChannels(bool setup) {
+  auto controllers = _interfaceControllers.access();
   if (setup) {
-    scheduleInterfaceChannels(true);
+    scheduleInterfaceChannels(true, controllers);
     _loop->addSource(_animationsSource);
     _loop->addSource(_coordinatorAcquisitionProtocol.source());
   } else {
-    scheduleInterfaceChannels(false);
+    scheduleInterfaceChannels(false, controllers);
     _loop->removeSource(_animationsSource);
     _loop->removeSource(_coordinatorAcquisitionProtocol.source());
   }
@@ -105,34 +108,36 @@ void Coordinator::setupOrTeardownChannels(bool setup) {
 
 CoordinatorAcquisitionProtocol::VendorResult
 Coordinator::acquireFreshCoordinatorChannel() {
-  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
+  auto controllersAccess = _interfaceControllers.access();
 
   /*
    *  Create a new interface controller for this reques
    */
-  _interfaceControllers.emplace_back(_interfaceTagGenerator.acquire(),
-                                     _surfaceSize);
+  controllersAccess.get().emplace_back(_interfaceTagGenerator.acquire(),
+                                       _surfaceSize);
 
   /*
    *  Schedule all channels
    */
-  scheduleInterfaceChannels(true);
+  scheduleInterfaceChannels(true, controllersAccess);
 
   /*
    *  Return the vendor result to the protocol
    */
-  auto& controller = _interfaceControllers.back();
+  auto& controller = controllersAccess.get().back();
   return CoordinatorAcquisitionProtocol::VendorResult(controller.channel(),
                                                       controller.debugTag());
 }
 
-void Coordinator::scheduleInterfaceChannels(bool schedule) {
+void Coordinator::scheduleInterfaceChannels(
+    bool schedule,
+    InterfaceControllers::Access& controllers) {
   if (_loop == nullptr) {
     return;
   }
 
-  for (auto& interface : _interfaceControllers) {
-    interface.scheduleChannel(*_loop, schedule);
+  for (auto& controller : controllers.get()) {
+    controller.scheduleChannel(*_loop, schedule);
   }
 }
 
@@ -140,14 +145,14 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
   RL_TRACE_INSTANT("UpdateAndRenderInterfaceControllers");
   RL_TRACE_AUTO("UpdateAndRenderInterfaceControllers");
 
-  std::lock_guard<std::mutex> lock(_interfaceControllersMutex);
+  auto controllersAccess = _interfaceControllers.access();
 
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
 
   auto wasUpdated = false;
 
-  for (auto& interface : _interfaceControllers) {
-    wasUpdated |= interface.updateInterface(touchesIfAny);
+  for (auto& controller : controllersAccess.get()) {
+    wasUpdated |= controller.updateInterface(touchesIfAny);
   }
 
   if (wasUpdated || _forceAnotherFrame || force) {
@@ -155,7 +160,7 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
      *  If the scene was updated but the frame could not be rendered (for
      *  whatever reason), force the next frame.
      */
-    _forceAnotherFrame = !renderSingleFrame();
+    _forceAnotherFrame = !renderSingleFrame(controllersAccess);
   }
 }
 
@@ -163,7 +168,7 @@ void Coordinator::redrawCurrentFrameNow() {
   updateAndRenderInterfaceControllers(true);
 }
 
-bool Coordinator::renderSingleFrame() {
+bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
   RL_TRACE_AUTO("RenderFrame");
 
   if (_surfaceSize.width <= 0.0 || _surfaceSize.height <= 0.0) {
@@ -188,7 +193,7 @@ bool Coordinator::renderSingleFrame() {
 
   auto wasRendered = false;
 
-  for (auto& interface : _interfaceControllers) {
+  for (auto& interface : controllers.get()) {
     wasRendered |= interface.renderCurrentInterfaceState(frame);
   }
 

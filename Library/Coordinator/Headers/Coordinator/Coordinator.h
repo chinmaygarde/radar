@@ -9,6 +9,7 @@
 
 #include <Geometry/Geometry.h>
 
+#include <Core/Mutexed.h>
 #include <Core/DebugTagGenerator.h>
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
@@ -65,13 +66,15 @@ class Coordinator {
   void redrawCurrentFrameNow();
 
  private:
+  using InterfaceControllers =
+      core::Mutexed<std::list<InterfaceController>, std::mutex>;
+
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
   compositor::Context _context;
   core::DebugTagGenerator _interfaceTagGenerator;
-  std::mutex _interfaceControllersMutex;
-  std::list<InterfaceController> _interfaceControllers;
+  InterfaceControllers _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
@@ -79,9 +82,10 @@ class Coordinator {
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
   void setupOrTeardownChannels(bool setup);
-  void scheduleInterfaceChannels(bool schedule);
+  void scheduleInterfaceChannels(bool schedule,
+                                 InterfaceControllers::Access& controllers);
 
-  bool renderSingleFrame();
+  bool renderSingleFrame(InterfaceControllers::Access& controllers);
 
   void updateAndRenderInterfaceControllers(bool force);
 
