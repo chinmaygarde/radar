@@ -101,13 +101,13 @@ void Shell::registerManagedInterface(
                 "The shell must be attached to a host before managed "
                 "interfaces can be registered with it");
 
-  std::lock_guard<std::mutex> lock(_interfacesMutex);
+  auto interfaces = _managedInterfaces.access();
 
   /*
    *  Make sure the interface is launched on a new managed thread.
    */
   core::Latch interfaceLatch(1);
-  const auto interfaceCount = _managedInterfaces.size();
+  const auto interfaceCount = interfaces.get().size();
   auto interfaceReady = [&]() { interfaceLatch.countDown(); };
   std::thread interfaceThread([&] {
     std::string threadName =
@@ -120,19 +120,19 @@ void Shell::registerManagedInterface(
   /*
    *  Note the registration.
    */
-  _managedInterfaces.emplace(std::move(interface), std::move(interfaceThread));
+  interfaces.get().emplace(std::move(interface), std::move(interfaceThread));
 }
 
 void Shell::teardownManagedInterfaces() {
-  std::lock_guard<std::mutex> lock(_interfacesMutex);
+  auto interfaces = _managedInterfaces.access();
 
   {
     /*
      *  Make sure all interface shut down gracefully.
      */
-    core::AutoLatch shutdownLatch(_managedInterfaces.size());
+    core::AutoLatch shutdownLatch(interfaces.get().size());
     auto onShutdown = [&]() { shutdownLatch.countDown(); };
-    for (auto& interface : _managedInterfaces) {
+    for (auto& interface : interfaces.get()) {
       interface.first->shutdown(onShutdown);
     }
   }
@@ -140,14 +140,14 @@ void Shell::teardownManagedInterfaces() {
   /*
    *  Ensure the threads hosting all managed interfaces shut down.
    */
-  for (auto& interface : _managedInterfaces) {
+  for (auto& interface : interfaces.get()) {
     auto& thread = interface.second;
     if (thread.joinable()) {
       thread.join();
     }
   }
 
-  _managedInterfaces.clear();
+  interfaces.get().clear();
 }
 
 void Shell::dispatchTouchEvents(const std::vector<event::TouchEvent>& events) {

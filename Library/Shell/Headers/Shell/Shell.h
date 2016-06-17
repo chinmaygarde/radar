@@ -8,11 +8,11 @@
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
+#include <Core/Mutexed.h>
 #include <Shell/Host.h>
 #include <Interface/Interface.h>
 
 #include <thread>
-#include <mutex>
 #include <unordered_map>
 
 namespace rl {
@@ -64,8 +64,14 @@ class Shell {
   coordinator::Coordinator _coordinator;
   bool _attached;
   bool _wasShutDown;
-  std::mutex _interfacesMutex;
-  std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>
+
+  /*
+   *  A guarded map between unique pointers to the interface and the threads
+   *  these interfaces are being serviced on.
+   */
+  core::Mutexed<
+      std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>,
+      std::mutex>
       _managedInterfaces;
 
   void attachHostOnCurrentThread();
