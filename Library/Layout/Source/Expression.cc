@@ -58,17 +58,17 @@ void Expression::inferNamespace() {
 }
 
 bool Expression::serialize(core::Message& message) const {
-  auto success = true;
-  success &= message.encode(_terms);
-  success &= message.encode(_constant);
-  return success;
+  RL_RETURN_IF_FALSE(message.encode(_terms));
+  RL_RETURN_IF_FALSE(message.encode(_constant));
+
+  return true;
 }
 
 bool Expression::deserialize(core::Message& message, core::Namespace* ns) {
-  auto success = true;
-  success &= message.decode(_terms, ns);
-  success &= message.decode(_constant, ns);
-  return success;
+  RL_RETURN_IF_FALSE(message.decode(_terms, ns));
+  RL_RETURN_IF_FALSE(message.decode(_constant, ns));
+
+  return true;
 }
 
 enum ArchiveKey {
@@ -92,12 +92,14 @@ Expression::ArchiveName Expression::archiveName() const {
 bool Expression::serialize(core::ArchiveItem& item) const {
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Terms, _terms));
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Constant, _constant));
+
   return true;
 }
 
 bool Expression::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Terms, _terms, ns));
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Constant, _constant));
+
   return true;
 }
 

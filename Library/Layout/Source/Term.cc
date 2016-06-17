@@ -25,19 +25,19 @@ bool Term::isConstant() const {
 }
 
 bool Term::serialize(core::Message& message) const {
-  auto success = true;
-  success &= message.encode(_variable);
-  success &= message.encode(_coefficient);
-  success &= message.encode(_constant);
-  return success;
+  RL_RETURN_IF_FALSE(message.encode(_variable));
+  RL_RETURN_IF_FALSE(message.encode(_coefficient));
+  RL_RETURN_IF_FALSE(message.encode(_constant));
+
+  return true;
 }
 
 bool Term::deserialize(core::Message& message, core::Namespace* ns) {
-  auto success = true;
-  success &= message.decode(_variable, ns);
-  success &= message.decode(_coefficient, ns);
-  success &= message.decode(_constant, ns);
-  return success;
+  RL_RETURN_IF_FALSE(message.decode(_variable, ns));
+  RL_RETURN_IF_FALSE(message.decode(_coefficient, ns));
+  RL_RETURN_IF_FALSE(message.decode(_constant, ns));
+
+  return true;
 }
 
 enum ArchiveKey {
@@ -66,6 +66,7 @@ bool Term::serialize(core::ArchiveItem& item) const {
   RL_RETURN_IF_FALSE(item.encodeArchivable(ArchiveKey::Variable, _variable));
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Coefficient, _coefficient));
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Constant, _constant));
+
   return true;
 }
 
@@ -74,6 +75,7 @@ bool Term::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
       item.decodeArchivable(ArchiveKey::Variable, _variable, ns));
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Coefficient, _coefficient));
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Constant, _constant));
+
   return true;
 }
 

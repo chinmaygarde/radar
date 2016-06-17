@@ -43,10 +43,10 @@ bool ArchiveStatement::isReady() const {
 }
 
 bool ArchiveStatement::reset() {
-  auto success = true;
-  success &= sqlite3_reset(STATEMENT_HANDLE) == SQLITE_OK;
-  success &= sqlite3_clear_bindings(STATEMENT_HANDLE) == SQLITE_OK;
-  return success;
+  RL_RETURN_IF_FALSE(sqlite3_reset(STATEMENT_HANDLE) == SQLITE_OK);
+  RL_RETURN_IF_FALSE(sqlite3_clear_bindings(STATEMENT_HANDLE) == SQLITE_OK);
+
+  return true;
 }
 
 static constexpr int ToParam(size_t index) {

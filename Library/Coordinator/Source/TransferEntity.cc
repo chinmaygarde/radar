@@ -85,12 +85,8 @@ bool TransferEntity::walkEnabledProperties(
 }
 
 bool TransferEntity::serialize(core::Message& message) const {
-  auto success = message.encode(_identifier);
-  success &= message.encode(_updateMask);
-
-  if (!success) {
-    return false;
-  }
+  RL_RETURN_IF_FALSE(message.encode(_identifier));
+  RL_RETURN_IF_FALSE(message.encode(_updateMask));
 
   using Property = Entity::Property;
   return walkEnabledProperties(~0 /* all */, [&](Property property) {
@@ -125,12 +121,8 @@ bool TransferEntity::serialize(core::Message& message) const {
 }
 
 bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
-  auto success = message.decode(_identifier, ns);
-  success &= message.decode(_updateMask, ns);
-
-  if (!success) {
-    return false;
-  }
+  RL_RETURN_IF_FALSE(message.decode(_identifier, ns));
+  RL_RETURN_IF_FALSE(message.decode(_updateMask, ns));
 
   return walkEnabledProperties(~0 /* all */, [&](Property property) {
     switch (property) {

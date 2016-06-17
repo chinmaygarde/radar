@@ -109,25 +109,22 @@ void Variable::SetProperty(entity::Entity& entity,
 }
 
 bool Variable::serialize(core::Message& message) const {
-  auto success = true;
-  success &= message.encode(_identifier);
-  success &= message.encode(_property);
-  success &= message.encode(static_cast<ProxyType>(_proxy));
-  return success;
+  RL_RETURN_IF_FALSE(message.encode(_identifier));
+  RL_RETURN_IF_FALSE(message.encode(_property));
+  RL_RETURN_IF_FALSE(message.encode(static_cast<ProxyType>(_proxy)));
+  return true;
 }
 
 bool Variable::deserialize(core::Message& message, core::Namespace* ns) {
   ProxyType type = 0;
 
-  auto success = true;
-
-  success &= message.decode(_identifier, ns);
-  success &= message.decode(_property, ns);
-  success &= message.decode(type, ns);
+  RL_RETURN_IF_FALSE(message.decode(_identifier, ns));
+  RL_RETURN_IF_FALSE(message.decode(_property, ns));
+  RL_RETURN_IF_FALSE(message.decode(type, ns));
 
   _proxy = static_cast<Proxy>(type);
 
-  return success;
+  return true;
 }
 
 enum ArchiveKey {

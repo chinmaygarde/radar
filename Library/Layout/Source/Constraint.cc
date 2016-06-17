@@ -102,21 +102,21 @@ core::Namespace* Constraint::ns() const {
 }
 
 bool Constraint::serialize(core::Message& message) const {
-  auto success = true;
-  success &= message.encode(_identifier);
-  success &= message.encode(_expression);
-  success &= message.encode(_relation);
-  success &= message.encode(_priority);
-  return success;
+  RL_RETURN_IF_FALSE(message.encode(_identifier));
+  RL_RETURN_IF_FALSE(message.encode(_expression));
+  RL_RETURN_IF_FALSE(message.encode(_relation));
+  RL_RETURN_IF_FALSE(message.encode(_priority));
+
+  return true;
 }
 
 bool Constraint::deserialize(core::Message& message, core::Namespace* ns) {
-  auto success = true;
-  success &= message.decode(_identifier, ns);
-  success &= message.decode(_expression, ns);
-  success &= message.decode(_relation, ns);
-  success &= message.decode(_priority, ns);
-  return success;
+  RL_RETURN_IF_FALSE(message.decode(_identifier, ns));
+  RL_RETURN_IF_FALSE(message.decode(_expression, ns));
+  RL_RETURN_IF_FALSE(message.decode(_relation, ns));
+  RL_RETURN_IF_FALSE(message.decode(_priority, ns));
+
+  return true;
 }
 
 enum ArchiveKey {

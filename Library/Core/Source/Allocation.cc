@@ -101,14 +101,21 @@ bool Allocation::isReady() const {
 }
 
 bool Allocation::serialize(Message& message) const {
-  auto success = true;
-  success &= message.encode(_size);
+  /*
+   *  Encode the size.
+   */
+  RL_RETURN_IF_FALSE(message.encode(_size));
+
+  /*
+   *  Encode the message.
+   */
   auto allocation = message.encodeRaw<uint8_t>(_size);
   if (allocation == nullptr) {
     return false;
   }
   memmove(allocation, _allocation, _size);
-  return success;
+
+  return true;
 }
 
 bool Allocation::deserialize(Message& message, Namespace* ns) {
