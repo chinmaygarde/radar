@@ -130,6 +130,14 @@ URI URI::append(const URI& component) const {
   return resultant;
 }
 
+bool URI::normalize() {
+  if (!_valid) {
+    return false;
+  }
+
+  return uriNormalizeSyntaxA(_uri) == 0;
+}
+
 std::string URI::unixFilesystemRepresentation(const std::string& path) const {
   /*
    *  From Documentation:

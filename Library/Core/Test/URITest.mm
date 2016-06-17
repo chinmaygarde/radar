@@ -30,3 +30,13 @@ TEST(URITest, AppendToURI) {
   ASSERT_EQ(directory.isValid(), true);
   ASSERT_EQ(directory.toString(), "file:///one/TWO");
 }
+
+TEST(URITest, NormalizeURI) {
+  rl::core::URI uri("file:///one/../three");
+
+  ASSERT_TRUE(uri.isValid());
+
+  ASSERT_TRUE(uri.normalize());
+
+  ASSERT_EQ(uri.toString(), "file:///three");
+}

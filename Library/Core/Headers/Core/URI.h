@@ -32,6 +32,8 @@ class URI {
 
   URI append(const URI& component) const;
 
+  bool normalize();
+
  private:
   using StringComponents = std::unordered_set<std::shared_ptr<std::string>>;
 
