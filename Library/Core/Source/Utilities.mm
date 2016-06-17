@@ -22,17 +22,21 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
 }
 
 URI GetExecutablePath() {
-  std::stringstream uri;
+  std::stringstream uriString;
 
-  uri << "file://";
+  uriString << "file://";
 
 #if RL_OS_MAC
-  uri << [[NSBundle mainBundle] executablePath].UTF8String;
+  uriString << [[NSBundle mainBundle] executablePath].UTF8String;
 #else
 #error Unknown Platform
 #endif
 
-  return URI{uri.str()};
+  URI uri(uriString.str());
+
+  uri.normalize();
+
+  return uri;
 }
 
 }  // namespace core
