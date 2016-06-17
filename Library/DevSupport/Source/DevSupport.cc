@@ -31,10 +31,6 @@ bool UpdateWorkingDirectoryForFixtures() {
 
   auto exeString = exe.toString();
 
-  /*
-   *  Look for fixtures in the executable folder.
-   */
-
   if (AttemptCWDUpdate(exeString + "/../Fixtures")) {
     return true;
   }
