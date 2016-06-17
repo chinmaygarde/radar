@@ -4,13 +4,16 @@
 
 #include "FileImageSource.h"
 
+#include <Core/Message.h>
+
 namespace rl {
 namespace image {
 
 FileImageSource::FileImageSource() {}
 
-FileImageSource::FileImageSource(const core::FileHandle& fileHandle)
-    : _mapping(fileHandle) {}
+FileImageSource::FileImageSource(core::FileHandle fileHandle)
+    : _handle(std::make_shared<core::FileHandle>(std::move(fileHandle))),
+      _mapping(*_handle) {}
 
 uint8_t* FileImageSource::sourceData() const {
   return _mapping.mapping();
@@ -21,8 +24,11 @@ size_t FileImageSource::sourceDataSize() const {
 }
 
 bool FileImageSource::serialize(core::Message& message) const {
-  RL_WIP;
-  return false;
+  if (_handle == nullptr || !_handle->isValid()) {
+    return false;
+  }
+
+  return message.encode(_handle);
 }
 
 bool FileImageSource::deserialize(core::Message& message, core::Namespace* ns) {

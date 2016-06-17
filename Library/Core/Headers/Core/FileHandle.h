@@ -18,6 +18,8 @@ class FileHandle : public Attachment {
  public:
   using Handle = int;
 
+  FileHandle();
+
   FileHandle(RawAttachment attachment);
 
   FileHandle(const URI& uri);

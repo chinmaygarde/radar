@@ -17,6 +17,8 @@ namespace core {
 
 static const FileHandle::Handle kInvalidFileHandle = -1;
 
+FileHandle::FileHandle() : _handle(kInvalidFileHandle) {}
+
 FileHandle::FileHandle(RawAttachment attachment)
     :
 #if RL_CHANNELS == RL_CHANNELS_MACH

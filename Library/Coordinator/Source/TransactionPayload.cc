@@ -55,9 +55,10 @@ bool TransactionPayload::serialize(core::Message& message) const {
   /*
    *  Step 3: Encode the transfer records
    */
-  size_t transferRecordsEncoded = 0;
   for (const auto& pair : _entities) {
-    transferRecordsEncoded += (*(pair.second)).serialize(message);
+    if (!(*(pair.second)).serialize(message)) {
+      return false;
+    }
   }
 
   return result;

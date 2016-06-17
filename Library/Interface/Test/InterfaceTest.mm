@@ -34,6 +34,8 @@ class InterfaceTest : public ::testing::Test {
  private:
   std::shared_ptr<NullRenderSurface> _renderSurface;
   std::shared_ptr<rl::shell::Shell> _shell;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(InterfaceTest);
 };
 
 TEST_F(InterfaceTest, SimpleFixtureInitialization) {

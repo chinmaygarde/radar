@@ -17,13 +17,14 @@ class FileImageSource : public ImageSource {
  public:
   FileImageSource();
 
-  FileImageSource(const core::FileHandle& fileHandle);
+  FileImageSource(core::FileHandle fileHandle);
 
   bool serialize(core::Message& message) const override;
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
  private:
+  std::shared_ptr<core::FileHandle> _handle;
   core::FileMapping _mapping;
 
   ImageSource::Type type() const override;
