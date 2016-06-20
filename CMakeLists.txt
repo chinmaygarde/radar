@@ -165,6 +165,7 @@ include(StandardRadarLibrary)
 include(StandardRadarTest)
 include(StandardRadarBench)
 include(HardenToolchain)
+include(SymbolVisibility)
 
 ################################################################################
 ################################################################################
@@ -222,6 +223,7 @@ AddCXXWarningIfSupported("-Wredundant-move" HAVE_REDUNDANT_MOVE)
 AddCXXWarningIfSupported("-Wloop-analysis" HAVE_LOOP_ANALYSIS)
 
 HardenToolchain()
+SetRecommendedSymbolVisibility()
 
 ################################################################################
 ################################################################################
