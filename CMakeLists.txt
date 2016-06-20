@@ -164,6 +164,7 @@ include(TreatAsCXX)
 include(StandardRadarLibrary)
 include(StandardRadarTest)
 include(StandardRadarBench)
+include(HardenToolchain)
 
 ################################################################################
 ################################################################################
@@ -219,6 +220,8 @@ endif()
 AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
 AddCXXWarningIfSupported("-Wredundant-move" HAVE_REDUNDANT_MOVE)
 AddCXXWarningIfSupported("-Wloop-analysis" HAVE_LOOP_ANALYSIS)
+
+HardenToolchain()
 
 ################################################################################
 ################################################################################
