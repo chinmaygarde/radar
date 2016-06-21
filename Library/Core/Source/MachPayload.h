@@ -32,8 +32,6 @@ class MachPayload {
    *
    *  @param message the message to send
    *  @param remote  the port to send the message to
-   *
-   *  @return the initialized mach message payload for the message and port
    */
   MachPayload(const Message& message, mach_port_t remote);
 
@@ -42,8 +40,6 @@ class MachPayload {
    *  port
    *
    *  @param local the local port to receive the message on
-   *
-   *  @return the initialized mach message payload for recieving the message
    */
   MachPayload(mach_port_t local);
 

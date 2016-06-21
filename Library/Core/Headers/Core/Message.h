@@ -42,7 +42,7 @@ class Message {
    *
    *  @param buffer       the message data
    *  @param bufferLength the message data length
-   *  @param vmallocated  the memory is pre-allocated by the platform allocator
+   *  @param vmAllocated  the memory is pre-allocated by the platform allocator
    */
   explicit Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
 

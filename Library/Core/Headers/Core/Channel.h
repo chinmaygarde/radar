@@ -51,7 +51,7 @@ class Channel {
   /**
    *  Sends the specified messages down the channel
    *
-   *  @param messages the messages to send
+   *  @param message  the message to send
    *  @param timeout  the timeout on the message write
    *
    *  @return the result of attempting to send the message

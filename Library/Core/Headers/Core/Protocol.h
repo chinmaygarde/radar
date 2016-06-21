@@ -20,8 +20,6 @@ class Protocol {
   /**
    *  @param isVendor if this instance of the protocol handle serves as the
    *                  vendor (else client)
-   *
-   *  @return the initialized protocol
    */
   explicit Protocol(bool isVendor);
 

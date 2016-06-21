@@ -65,7 +65,7 @@ class Interface {
   /**
    *  Gracefully shutdown the interface
    *
-   *  @return onShutdown the callback to invoke on shutdown
+   *  @param onShutdown the callback to invoke on shutdown
    */
   void shutdown(std::function<void()> onShutdown = nullptr);
 
@@ -88,7 +88,7 @@ class Interface {
   /**
    *  Push a new transaction onto the transaction stack
    *
-   *  @param args the action for the transaction
+   *  @param action the action for the transaction
    */
   void pushTransaction(animation::Action&& action);
 

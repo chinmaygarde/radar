@@ -31,7 +31,7 @@ class ChannelProvider {
    *
    *  @return the write result
    */
-  virtual IOResult writeMessages(Messages&& message,
+  virtual IOResult writeMessages(Messages&& messages,
                                  ClockDurationNano timeout) = 0;
 
   /**
