@@ -59,7 +59,6 @@ MachFilePort::~MachFilePort() {
     RL_MACH_CHECK(
         mach_port_mod_refs(mach_task_self(), _name, MACH_PORT_RIGHT_SEND, -1));
   }
-
   _name = MACH_PORT_NULL;
 }
 

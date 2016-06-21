@@ -20,7 +20,11 @@ namespace core {
 
 KQueueWaitSet::KQueueWaitSet() : _handle(-1) {
   _handle = RL_TEMP_FAILURE_RETRY(::kqueue());
-  RL_ASSERT(_handle != -1);
+
+  if (_handle == -1) {
+    RL_LOG_ERRNO();
+    RL_ASSERT_MSG(false, "Could not create kqueue handle.");
+  }
 }
 
 KQueueWaitSet::~KQueueWaitSet() {
