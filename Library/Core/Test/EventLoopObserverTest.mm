@@ -121,7 +121,7 @@ TEST(EventLoopObserverTest, LoopObserverPriorities) {
   ASSERT_EQ(orderCount, 4);
 }
 
-TEST(EventLoopObserverTest, SingleWakeServicesAllReads) {
+TEST_SLOW(EventLoopObserverTest, SingleWakeServicesAllReads) {
   auto beforeSleep = 0;
   auto afterSleep = 0;
   auto reads = 0;

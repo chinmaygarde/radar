@@ -118,7 +118,10 @@ TEST_SLOW(ArchiveTest, ReadData) {
   ASSERT_TRUE(::remove(name) == 0);
 }
 
-TEST(ArchiveTest, ReadDataWithNames) {
+/*
+ *  This shouldn't be slow. Need to cache compiled statements.
+ */
+TEST_SLOW(ArchiveTest, ReadDataWithNames) {
   auto name = "/tmp/sample6.db";
   {
     rl::core::Archive archive(name, true);

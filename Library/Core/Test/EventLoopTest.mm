@@ -31,7 +31,7 @@ TEST(EventLoopTest, SimpleLoop) {
     bool terminatedFromInner = false;
 
     std::thread innerThread([&] {
-      std::this_thread::sleep_for(rl::core::ClockDurationMilli(4));
+      std::this_thread::sleep_for(rl::core::ClockDurationMilli(1));
       terminatedFromInner = true;
       outer->terminate();
       ASSERT_TRUE(true);
@@ -51,7 +51,7 @@ TEST(EventLoopTest, SimpleLoop) {
   ASSERT_TRUE(true);
 }
 
-TEST(EventLoopTest, Timer) {
+TEST_SLOW(EventLoopTest, Timer) {
   std::thread timerThread([&] {
 
     auto loop = rl::core::EventLoop::Current();
@@ -82,7 +82,7 @@ TEST(EventLoopTest, Timer) {
   timerThread.join();
 }
 
-TEST(EventLoopTest, TimerRepetition) {
+TEST_SLOW(EventLoopTest, TimerRepetition) {
   int count = 0;
 
   std::thread timerThread([&count] {
@@ -112,7 +112,7 @@ TEST(EventLoopTest, TimerRepetition) {
   ASSERT_TRUE(count == 5);
 }
 
-TEST(EventLoopTest, TrivialTriggerFiresOnces) {
+TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
   int count = 0;
   std::thread trivialThread([&count] {
     auto loop = rl::core::EventLoop::Current();
