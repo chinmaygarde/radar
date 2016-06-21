@@ -142,8 +142,8 @@ void Coordinator::scheduleInterfaceChannels(
 }
 
 void Coordinator::updateAndRenderInterfaceControllers(bool force) {
-  RL_TRACE_INSTANT("UpdateAndRenderInterfaceControllers");
-  RL_TRACE_AUTO("UpdateAndRenderInterfaceControllers");
+  RL_TRACE_INSTANT(__function__);
+  RL_TRACE_AUTO(__function__);
 
   auto controllersAccess = _interfaceControllers.access();
 
@@ -169,7 +169,7 @@ void Coordinator::redrawCurrentFrameNow() {
 }
 
 bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
-  RL_TRACE_AUTO("RenderFrame");
+  RL_TRACE_AUTO(__function__);
 
   if (_surfaceSize.width <= 0.0 || _surfaceSize.height <= 0.0) {
     /*

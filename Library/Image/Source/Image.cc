@@ -54,7 +54,13 @@ bool Image::deserialize(core::Message& message, core::Namespace* ns) {
 }
 
 ImageResult Image::decode() const {
-  if (_source == nullptr || _source->sourceDataSize() == 0) {
+  if (_source == nullptr) {
+    return {};
+  }
+
+  _source->prepareForUse();
+
+  if (_source->sourceDataSize() == 0) {
     return {};
   }
 
