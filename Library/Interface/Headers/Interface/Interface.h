@@ -60,7 +60,7 @@ class Interface {
    */
   bool isRunning() const;
 
-  std::unique_ptr<ModelEntity> createEntity();
+  ModelEntity createEntity();
 
   /**
    *  Gracefully shutdown the interface

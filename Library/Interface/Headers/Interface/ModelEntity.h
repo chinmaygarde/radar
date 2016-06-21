@@ -12,13 +12,17 @@ namespace interface {
 
 class ModelEntity : public entity::Entity {
  public:
-  ModelEntity(core::Name identifier, UpdateCallback updateCallback);
+  ModelEntity(ModelEntity&&);
 
   void addChild(const ModelEntity& child);
 
   void removeChild(const ModelEntity& child);
 
  private:
+  friend class Interface;
+
+  ModelEntity(core::Name identifier, UpdateCallback updateCallback);
+
   RL_DISALLOW_COPY_AND_ASSIGN(ModelEntity);
 };
 

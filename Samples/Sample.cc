@@ -59,21 +59,21 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
       auto layer = interface.createEntity();
-      layer->setFrame({0.0, 0.0, 25, 25});
-      layer->setBackgroundColor({RND, RND, RND, 1.0});
+      layer.setFrame({0.0, 0.0, 25, 25});
+      layer.setBackgroundColor({RND, RND, RND, 1.0});
 
       auto rotation = rl::geom::Matrix::RotationZ(RND * M_PI * 2.0);
-      layer->setTransformation(rotation);
+      layer.setTransformation(rotation);
 
-      auto childPositionX = *layer | Property::PositionX;
-      auto childPositionY = *layer | Property::PositionY;
+      auto childPositionX = layer | Property::PositionX;
+      auto childPositionY = layer | Property::PositionY;
 
       interface.setupConstraints({
           childPositionX == (i / rows) * rootWidth + 25,   //
           childPositionY == (j / cols) * rootHeight + 25,  //
       });
 
-      root.addChild(*layer);
+      root.addChild(layer);
     }
   }
 
@@ -87,21 +87,21 @@ static void AddDraggableEntity(rl::interface::Interface& interface) {
   root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
 
   auto sub1 = interface.createEntity();
-  sub1->setFrame({10.0, 10.0, 100.0, 100.0});
-  sub1->setBackgroundColor({1.0, 0.0, 0.0, 1.0});
-  root.addChild(*sub1);
+  sub1.setFrame({10.0, 10.0, 100.0, 100.0});
+  sub1.setBackgroundColor({1.0, 0.0, 0.0, 1.0});
+  root.addChild(sub1);
 
   auto sub2 = interface.createEntity();
-  sub2->setFrame({10.0, 10.0, 80.0, 80.0});
-  sub2->setBackgroundColor({0.0, 1.0, 0.0, 1.0});
-  sub1->addChild(*sub2);
+  sub2.setFrame({10.0, 10.0, 80.0, 80.0});
+  sub2.setBackgroundColor({0.0, 1.0, 0.0, 1.0});
+  sub1.addChild(sub2);
 
   auto sub3 = interface.createEntity();
-  sub3->setFrame({10.0, 10.0, 60.0, 60.0});
-  sub3->setBackgroundColor({0.0, 0.0, 1.0, 1.0});
-  sub2->addChild(*sub3);
+  sub3.setFrame({10.0, 10.0, 60.0, 60.0});
+  sub3.setBackgroundColor({0.0, 0.0, 1.0, 1.0});
+  sub2.addChild(sub3);
 
-  AddPanRecognizer(interface, *sub1);
+  AddPanRecognizer(interface, sub1);
 }
 
 static void AddRadialArrangement(rl::interface::Interface& interface) {
@@ -115,11 +115,11 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
   for (auto i = 0, count = 50; i < count; i++) {
     auto entity = interface.createEntity();
 
-    entity->setFrame({0.0, 0.0, 15.0, 15.0});
-    entity->setBackgroundColor({1.0, 1.0, 1.0, 1.0});
+    entity.setFrame({0.0, 0.0, 15.0, 15.0});
+    entity.setBackgroundColor({1.0, 1.0, 1.0, 1.0});
 
-    auto posX = *entity | Property::PositionX;
-    auto posY = *entity | Property::PositionY;
+    auto posX = entity | Property::PositionX;
+    auto posY = entity | Property::PositionY;
 
     auto angle = 2.0 * ((double)i / count) * M_PI;
 
@@ -128,7 +128,7 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
         posY == (rootH / 2.0) + (rootH * 0.25 * sin(angle)),  //
     });
 
-    root.addChild(*entity);
+    root.addChild(entity);
   }
 }
 
@@ -136,13 +136,13 @@ void SampleApplication::AddEntityWithImage(
     rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
 
-  entity->setFrame({100, 100, 100, 100});
+  entity.setFrame({100, 100, 100, 100});
 
   auto imageURI = _bundle.uriForResource(rl::core::URI{"Beachball.png"});
 
-  entity->setContents(rl::image::Image{std::move(imageURI)});
+  entity.setContents(rl::image::Image{std::move(imageURI)});
 
-  interface.rootEntity().addChild(*entity);
+  interface.rootEntity().addChild(entity);
 }
 
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {

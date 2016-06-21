@@ -10,6 +10,8 @@ namespace interface {
 ModelEntity::ModelEntity(core::Name identifier, UpdateCallback updateCallback)
     : Entity(identifier, updateCallback) {}
 
+ModelEntity::ModelEntity(ModelEntity&&) = default;
+
 void ModelEntity::addChild(const ModelEntity& child) {
   child.notifyInterfaceIfNecessary(Property::AddedTo, identifier());
 }

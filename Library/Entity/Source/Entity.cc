@@ -17,15 +17,9 @@ Entity::Entity(core::Name identifier, UpdateCallback updateCallback)
       _opacity(1.0),
       _updateCallback(updateCallback) {}
 
-Entity::Entity(const Entity& entity)
-    : _identifier(entity._identifier),
-      _bounds(entity._bounds),
-      _position(entity._position),
-      _anchorPoint(entity._anchorPoint),
-      _transformation(entity._transformation),
-      _backgroundColor(entity._backgroundColor),
-      _opacity(entity._opacity),
-      _updateCallback(nullptr) {}
+Entity::Entity(Entity&&) = default;
+
+Entity::~Entity() = default;
 
 void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
   RL_ASSERT(_identifier == entity._identifier);
@@ -58,8 +52,6 @@ void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
     _contents = entity._contents;
   }
 }
-
-Entity::~Entity() {}
 
 core::Name Entity::identifier() const {
   return _identifier;

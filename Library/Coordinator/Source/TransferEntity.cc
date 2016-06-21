@@ -11,11 +11,13 @@ TransferEntity::TransferEntity(core::Name identifier)
     : Entity(identifier, nullptr), _updateMask(0) {}
 
 TransferEntity::TransferEntity(const TransferEntity& transferEntity)
-    : Entity(transferEntity),
+    : Entity(transferEntity.identifier(), nullptr),
       _updateMask(transferEntity._updateMask),
       _addedTo(transferEntity._addedTo),
       _removedFrom(transferEntity._removedFrom),
-      _makeRoot(transferEntity._makeRoot) {}
+      _makeRoot(transferEntity._makeRoot) {
+  mergeProperties(transferEntity, ~0);
+}
 
 core::Name TransferEntity::addedToTarget() const {
   return _addedTo;

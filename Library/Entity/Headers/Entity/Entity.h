@@ -55,8 +55,9 @@ class Entity : public core::ArchiveSerializable {
                                             Entity::Property /*property*/,
                                             core::Name /*otherIdentifier*/)>;
 
-  explicit Entity(core::Name identifier,
-                  UpdateCallback updateCallback = nullptr);
+  Entity(core::Name identifier, UpdateCallback updateCallback = nullptr);
+
+  Entity(Entity&& entity);
 
   virtual ~Entity();
 
@@ -196,8 +197,6 @@ class Entity : public core::ArchiveSerializable {
   image::Image _contents;
   double _opacity;
 
-  explicit Entity(const Entity& entity);
-
   void notifyInterfaceIfNecessary(
       Property property,
       core::Name identifier = core::Name() /* dead name */) const;
@@ -205,7 +204,7 @@ class Entity : public core::ArchiveSerializable {
  private:
   UpdateCallback _updateCallback;
 
-  RL_DISALLOW_ASSIGN(Entity);
+  RL_DISALLOW_COPY_AND_ASSIGN(Entity);
 };
 
 }  // namespace entity

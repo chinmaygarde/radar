@@ -89,11 +89,15 @@ core::Namespace& Interface::ns() {
   return _localNS;
 }
 
-std::unique_ptr<ModelEntity> Interface::createEntity() {
-  ModelEntity::UpdateCallback callback = std::bind(
-      &Interface::entityDidRecordUpdateUpdate, this, std::placeholders::_1,
-      std::placeholders::_2, std::placeholders::_3);
-  return core::make_unique<ModelEntity>(core::Name{_localNS}, callback);
+ModelEntity Interface::createEntity() {
+  ModelEntity::UpdateCallback callback =
+      std::bind(&Interface::entityDidRecordUpdateUpdate, this,  //
+                std::placeholders::_1,                          //
+                std::placeholders::_2,                          //
+                std::placeholders::_3                           //
+                );
+
+  return ModelEntity{core::Name{_localNS}, callback};
 }
 
 void Interface::shutdown(std::function<void()> onShutdown) {
