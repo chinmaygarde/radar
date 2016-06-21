@@ -19,9 +19,9 @@ class MachFilePort {
 
   MachFilePort(int descriptor);
 
-  Name name() const;
-
   ~MachFilePort();
+
+  Name name() const;
 
  private:
   Name _name;

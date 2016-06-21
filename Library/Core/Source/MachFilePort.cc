@@ -29,7 +29,8 @@ int MachFilePort::DescriptorFromPort(Name name, bool consumePort) {
   int result = syscall(SYS_fileport_makefd, name);
 
   if (consumePort) {
-    RL_MACH_CHECK(mach_port_destroy(mach_task_self(), name));
+    RL_MACH_CHECK(
+        mach_port_mod_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND, -1));
   }
 
   return result;
@@ -55,7 +56,8 @@ MachFilePort::MachFilePort(int descriptor)
 
 MachFilePort::~MachFilePort() {
   if (MACH_PORT_VALID(_name)) {
-    RL_MACH_CHECK(mach_port_destroy(mach_task_self(), _name));
+    RL_MACH_CHECK(
+        mach_port_mod_refs(mach_task_self(), _name, MACH_PORT_RIGHT_SEND, -1));
   }
 
   _name = MACH_PORT_NULL;
