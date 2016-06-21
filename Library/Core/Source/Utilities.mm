@@ -27,14 +27,43 @@ URI GetExecutablePath() {
   uriString << "file://";
 
 #if RL_OS_MAC
-  uriString << [[NSBundle mainBundle] executablePath].UTF8String;
+  uriString << [[[NSBundle mainBundle] executablePath]
+                   stringByAddingPercentEncodingWithAllowedCharacters:
+                       [NSCharacterSet URLQueryAllowedCharacterSet]]
+                   .UTF8String;
 #else
 #error Unknown Platform
 #endif
 
   URI uri(uriString.str());
 
-  uri.normalize();
+  if (!uri.normalize()) {
+    return URI{};
+  }
+
+  return uri;
+}
+
+URI GetResourcesPath() {
+  std::stringstream uriString;
+
+  uriString << "file://";
+
+#if RL_OS_MAC
+  uriString << [[[NSBundle mainBundle] resourcePath]
+                   stringByAddingPercentEncodingWithAllowedCharacters:
+                       [NSCharacterSet URLQueryAllowedCharacterSet]]
+                   .UTF8String;
+  uriString << "/Resources";
+#else
+#error Unknown Platform
+#endif
+
+  URI uri(uriString.str());
+
+  if (!uri.normalize()) {
+    return URI{};
+  }
 
   return uri;
 }

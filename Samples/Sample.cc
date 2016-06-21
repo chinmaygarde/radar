@@ -132,11 +132,15 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
   }
 }
 
-static void AddEntityWithImage(rl::interface::Interface& interface) {
+void SampleApplication::AddEntityWithImage(
+    rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
 
   entity->setFrame({100, 100, 100, 100});
-  entity->setContents(rl::image::Image{rl::core::URI{"file:://Beachball.png"}});
+
+  auto imageURI = _bundle.uriForResource(rl::core::URI{"Beachball.png"});
+
+  entity->setContents(rl::image::Image{std::move(imageURI)});
 
   interface.rootEntity().addChild(*entity);
 }

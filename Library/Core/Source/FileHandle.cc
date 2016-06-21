@@ -36,8 +36,14 @@ FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
     return;
   }
 
-  _handle = RL_TEMP_FAILURE_RETRY(
-      ::open(uri.filesystemRepresentation().c_str(), O_RDONLY));
+  auto fileName = uri.filesystemRepresentation();
+
+  _handle = RL_TEMP_FAILURE_RETRY(::open(fileName.c_str(), O_RDONLY));
+
+  if (_handle == -1) {
+    RL_LOG("Could not open file: '%s'", fileName.c_str());
+    RL_LOG_ERRNO();
+  }
 }
 
 FileHandle::FileHandle(FileHandle&& other) : _handle(other._handle) {

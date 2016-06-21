@@ -22,6 +22,8 @@ class URI {
 
   URI(URI&& uri);
 
+  URI& operator=(URI&& uri);
+
   ~URI();
 
   bool isValid() const;
@@ -46,6 +48,8 @@ class URI {
   std::string unixFilesystemRepresentation(const std::string& uriString) const;
   std::string windowsFilesystemRepresentation(
       const std::string& uriString) const;
+
+  void collectState();
 
   RL_DISALLOW_COPY_AND_ASSIGN(URI);
 };

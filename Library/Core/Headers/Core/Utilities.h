@@ -49,6 +49,8 @@ int ToUnixTimeoutMS(ClockDurationNano nano);
 
 URI GetExecutablePath();
 
+URI GetResourcesPath();
+
 }  // namespace core
 }  // namespace rl
 

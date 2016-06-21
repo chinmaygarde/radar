@@ -6,6 +6,7 @@
 #define RADARLOVE_SAMPLE_H_
 
 #include <Interface/Interface.h>
+#include <Core/Bundle.h>
 
 namespace sample {
 class SampleApplication : public rl::interface::InterfaceDelegate {
@@ -19,6 +20,10 @@ class SampleApplication : public rl::interface::InterfaceDelegate {
   virtual void didBecomeInactive(rl::interface::Interface& interface) override;
 
  private:
+  rl::core::Bundle _bundle;
+
+  void AddEntityWithImage(rl::interface::Interface& interface);
+
   RL_DISALLOW_COPY_AND_ASSIGN(SampleApplication);
 };
 

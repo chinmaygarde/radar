@@ -99,7 +99,7 @@ bool TransactionPayload::deserialize(core::Message& message,
       if (message.decode(entity, ns)) {
         _transferRecordCallback(action, entity, _commitTime);
       } else {
-        break;
+        return false;
       }
     }
   }

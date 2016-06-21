@@ -32,10 +32,6 @@ bool Image::serialize(core::Message& message) const {
 }
 
 bool Image::deserialize(core::Message& message, core::Namespace* ns) {
-  if (_source == nullptr) {
-    return false;
-  }
-
   auto type = ImageSource::Type::Unknown;
 
   if (!message.decode(type, ns)) {

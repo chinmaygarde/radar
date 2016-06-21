@@ -25,13 +25,15 @@ class FileImageSource : public ImageSource {
 
  private:
   std::shared_ptr<core::FileHandle> _handle;
-  core::FileMapping _mapping;
+  std::unique_ptr<core::FileMapping> _mapping;
 
   ImageSource::Type type() const override;
 
   uint8_t* sourceData() const override;
 
   size_t sourceDataSize() const override;
+
+  void onPrepareForUse() override;
 
   RL_DISALLOW_COPY_AND_ASSIGN(FileImageSource);
 };

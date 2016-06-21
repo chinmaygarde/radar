@@ -6,6 +6,7 @@
 
 #include <Core/URI.h>
 #include <Core/Utilities.h>
+#include <Core/Bundle.h>
 
 TEST(URITest, Simple) {
   rl::core::URI uri("file://hello/world.txt");
@@ -39,4 +40,11 @@ TEST(URITest, NormalizeURI) {
   ASSERT_TRUE(uri.normalize());
 
   ASSERT_EQ(uri.toString(), "file:///three");
+}
+
+TEST(URITest, SimpleBundle) {
+  rl::core::Bundle bundle;
+
+  auto uri = bundle.uriForResource(rl::core::URI{"file://hello.txt"});
+  ASSERT_TRUE(uri.isValid());
 }

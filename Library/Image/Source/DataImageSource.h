@@ -32,6 +32,8 @@ class DataImageSource : public ImageSource {
 
   size_t sourceDataSize() const override;
 
+  void onPrepareForUse() override;
+
   RL_DISALLOW_COPY_AND_ASSIGN(DataImageSource);
 };
 

@@ -140,7 +140,7 @@ bool Message::encode(const MessageSerializable& value) {
 }
 
 bool Message::encode(const AttachmentRef& attachment) {
-  if (!attachment->isValid()) {
+  if (attachment == nullptr || !attachment->isValid()) {
     return false;
   }
 

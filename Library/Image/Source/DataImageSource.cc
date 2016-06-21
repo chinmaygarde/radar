@@ -20,6 +20,12 @@ size_t DataImageSource::sourceDataSize() const {
   return _allocation.size();
 }
 
+void DataImageSource::onPrepareForUse() {
+  /*
+   *  Nothing to do since we already have an explicit allocation.
+   */
+}
+
 bool DataImageSource::serialize(core::Message& message) const {
   RL_WIP;
   return false;

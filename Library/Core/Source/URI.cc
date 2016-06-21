@@ -39,8 +39,30 @@ URI::URI(URI&& other)
   other._valid = false;
 }
 
+URI& URI::operator=(URI&& other) {
+  /*
+   *  If there is currently any valid state held, clean up our references to it.
+   */
+  collectState();
+
+  _sources = std::move(other._sources);
+
+  _state = other._state;
+  other._state = nullptr;
+
+  _valid = other._valid;
+  other._valid = false;
+
+  return *this;
+}
+
 URI::~URI() {
+  collectState();
+}
+
+void URI::collectState() {
   if (_state != nullptr) {
+    RL_ASSERT(_valid);
     uriFreeUriMembersA(_uri);
     free(_state);
   }
@@ -111,7 +133,7 @@ URI URI::append(const URI& component) const {
   UriUriA* absoluteBase = reinterpret_cast<UriUriA*>(_state);
 
   if (uriAddBaseUriExA(absoluteDest, relativeSource, absoluteBase,
-                       URI_RESOLVE_IDENTICAL_SCHEME_COMPAT) != 0) {
+                       URI_RESOLVE_STRICTLY) != 0) {
     uriFreeUriMembersA(absoluteDest);
     free(absoluteDest);
     return {};

@@ -30,7 +30,11 @@ class ImageSource : public core::MessageSerializable {
 
   virtual ~ImageSource();
 
+  void prepareForUse();
+
  protected:
+  bool _prepared;
+
   friend class Image;
 
   virtual Type type() const = 0;
@@ -38,6 +42,8 @@ class ImageSource : public core::MessageSerializable {
   virtual uint8_t* sourceData() const = 0;
 
   virtual size_t sourceDataSize() const = 0;
+
+  virtual void onPrepareForUse() = 0;
 };
 
 }  // namespace image

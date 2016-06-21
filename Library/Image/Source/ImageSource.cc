@@ -34,5 +34,15 @@ ImageSource::ImageSource() = default;
 
 ImageSource::~ImageSource() = default;
 
+void ImageSource::prepareForUse() {
+  if (_prepared) {
+    return;
+  }
+
+  onPrepareForUse();
+
+  _prepared = true;
+}
+
 }  // namespace image
 }  // namespace rl
