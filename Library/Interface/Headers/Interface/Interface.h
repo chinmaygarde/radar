@@ -43,9 +43,9 @@ class Interface {
     Background,
   };
 
-  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate);
+  explicit Interface(std::shared_ptr<InterfaceDelegate> delegate);
 
-  explicit Interface(std::weak_ptr<InterfaceDelegate> delegate,
+  explicit Interface(std::shared_ptr<InterfaceDelegate> delegate,
                      std::unique_ptr<core::Archive> spliceArchive);
 
   /**
@@ -118,7 +118,7 @@ class Interface {
   std::vector<std::unique_ptr<InterfaceTransaction>> _transactionStack;
   std::vector<std::unique_ptr<InterfaceTransaction>> _committedTransactions;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
-  std::weak_ptr<InterfaceDelegate> _delegate;
+  std::shared_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
   std::unique_ptr<core::Archive> _spliceArchive;
   toolbox::StateMachine _state;

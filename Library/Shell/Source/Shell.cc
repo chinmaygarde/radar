@@ -95,19 +95,23 @@ void Shell::shutdown() {
   _wasShutDown = true;
 }
 
-void Shell::registerManagedInterface(
+bool Shell::registerManagedInterface(
     std::unique_ptr<interface::Interface> interface) {
-  RL_ASSERT_MSG(_attached,
-                "The shell must be attached to a host before managed "
-                "interfaces can be registered with it");
+  if (!_attached) {
+    RL_LOG(
+        "The shell must be attached to a host before managed interfaces can be "
+        "registered with it.")
+    return false;
+  }
 
-  auto interfaces = _managedInterfaces.access();
+  auto interfacesAccess = _managedInterfaces.access();
+  auto& interfaces = interfacesAccess.get();
 
   /*
    *  Make sure the interface is launched on a new managed thread.
    */
   core::Latch interfaceLatch(1);
-  const auto interfaceCount = interfaces.get().size();
+  const auto interfaceCount = interfaces.size();
   auto interfaceReady = [&]() { interfaceLatch.countDown(); };
   std::thread interfaceThread([&] {
     std::string threadName =
@@ -120,7 +124,8 @@ void Shell::registerManagedInterface(
   /*
    *  Note the registration.
    */
-  interfaces.get().emplace(std::move(interface), std::move(interfaceThread));
+  interfaces.emplace(std::move(interface), std::move(interfaceThread));
+  return true;
 }
 
 void Shell::teardownManagedInterfaces() {

@@ -37,7 +37,7 @@ class Shell {
    *
    *  @param interface the interface to register.
    */
-  void registerManagedInterface(
+  bool registerManagedInterface(
       std::unique_ptr<interface::Interface> interface);
 
   /**

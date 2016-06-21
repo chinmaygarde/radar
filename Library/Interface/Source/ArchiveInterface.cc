@@ -8,7 +8,7 @@
 namespace rl {
 namespace interface {
 
-ArchiveInterface::ArchiveInterface(std::weak_ptr<InterfaceDelegate> delegate,
+ArchiveInterface::ArchiveInterface(std::shared_ptr<InterfaceDelegate> delegate,
                                    std::unique_ptr<core::Archive>&& archive)
     : Interface(delegate, nullptr /* splice archive */),
       _archive(std::move(archive)) {

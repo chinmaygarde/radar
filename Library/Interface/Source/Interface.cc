@@ -14,10 +14,10 @@ namespace interface {
 
 using LT = toolbox::StateMachine::LegalTransition;
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate)
+Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate)
     : Interface(delegate, nullptr) {}
 
-Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
+Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate,
                      std::unique_ptr<core::Archive> spliceArchive)
     : _localNS(),
       _rootEntity(_localNS,
@@ -42,8 +42,6 @@ Interface::Interface(std::weak_ptr<InterfaceDelegate> delegate,
 #undef C
           // clang-format on
       }) {
-  RL_ASSERT_MSG(_delegate.lock() != nullptr,
-                "A valid delegate must be present");
 
   /*
    *  Implicit interface transactions are flushed at the maximum available
@@ -274,32 +272,32 @@ Interface::State Interface::state() const {
 }
 
 void Interface::didFinishLaunching() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didFinishLaunching(*this);
+  if (_delegate) {
+    _delegate->didFinishLaunching(*this);
   }
 }
 
 void Interface::didBecomeActive() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didBecomeActive(*this);
+  if (_delegate) {
+    _delegate->didBecomeActive(*this);
   }
 }
 
 void Interface::didBecomeInactive() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didBecomeInactive(*this);
+  if (_delegate) {
+    _delegate->didBecomeInactive(*this);
   }
 }
 
 void Interface::didEnterBackground() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didEnterBackground(*this);
+  if (_delegate) {
+    _delegate->didEnterBackground(*this);
   }
 }
 
 void Interface::didTerminate() {
-  if (auto delegate = _delegate.lock()) {
-    delegate->didTerminate(*this);
+  if (_delegate) {
+    _delegate->didTerminate(*this);
   }
 }
 

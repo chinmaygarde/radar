@@ -14,7 +14,7 @@ namespace interface {
 
 class ArchiveInterface : public Interface {
  public:
-  ArchiveInterface(std::weak_ptr<InterfaceDelegate> delegate,
+  ArchiveInterface(std::shared_ptr<InterfaceDelegate> delegate,
                    std::unique_ptr<core::Archive>&& archive);
 
  private:
