@@ -153,8 +153,8 @@ bool MachPort::extractMember(const MachPort& member) {
   return true;
 }
 
-void MachPort::logRights() const {
-  RL_LOG("~~~~~~~~~~~~~~~ Logging Rights for %d", _name);
+void MachPort::LogRights(mach_port_name_t name) {
+  RL_LOG("~~~~~~~~~~~~~~~ Logging Rights for %d", name);
 
   struct MachRightNamePair {
     const char* name;
@@ -179,7 +179,7 @@ void MachPort::logRights() const {
   for (size_t i = 0; i < count; i++) {
     mach_port_urefs_t refs = 0;
     kern_return_t result =
-        mach_port_get_refs(mach_task_self(), _name, pairs[i].right, &refs);
+        mach_port_get_refs(mach_task_self(), name, pairs[i].right, &refs);
 
     if (result == KERN_INVALID_NAME) {
       RL_LOG("This name is invalid");
@@ -196,6 +196,10 @@ void MachPort::logRights() const {
   }
 
   RL_LOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+}
+
+void MachPort::logRights() const {
+  LogRights(_name);
 }
 
 bool MachPort::isDeallocated() const {
