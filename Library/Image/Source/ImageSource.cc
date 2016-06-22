@@ -44,5 +44,15 @@ void ImageSource::prepareForUse() {
   _prepared = true;
 }
 
+void ImageSource::doneUsing() {
+  if (!_prepared) {
+    return;
+  }
+
+  onDoneUsing();
+
+  _prepared = false;
+}
+
 }  // namespace image
 }  // namespace rl

@@ -26,6 +26,13 @@ void DataImageSource::onPrepareForUse() {
    */
 }
 
+void DataImageSource::onDoneUsing() {
+  /*
+   *  Nothing to do since we have an explicit allocate and we may need to be
+   *  prepared again.
+   */
+}
+
 bool DataImageSource::serialize(core::Message& message) const {
   RL_WIP;
   return false;

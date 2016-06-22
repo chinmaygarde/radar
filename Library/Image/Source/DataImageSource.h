@@ -34,6 +34,8 @@ class DataImageSource : public ImageSource {
 
   void onPrepareForUse() override;
 
+  void onDoneUsing() override;
+
   RL_DISALLOW_COPY_AND_ASSIGN(DataImageSource);
 };
 

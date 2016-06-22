@@ -32,6 +32,8 @@ class ImageSource : public core::MessageSerializable {
 
   void prepareForUse();
 
+  void doneUsing();
+
  protected:
   bool _prepared;
 
@@ -44,6 +46,8 @@ class ImageSource : public core::MessageSerializable {
   virtual size_t sourceDataSize() const = 0;
 
   virtual void onPrepareForUse() = 0;
+
+  virtual void onDoneUsing() = 0;
 };
 
 }  // namespace image

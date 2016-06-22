@@ -31,6 +31,10 @@ void FileImageSource::onPrepareForUse() {
   _mapping = core::make_unique<core::FileMapping>(*_handle);
 }
 
+void FileImageSource::onDoneUsing() {
+  _mapping = nullptr;
+}
+
 bool FileImageSource::serialize(core::Message& message) const {
   return message.encode(_handle);
 }
