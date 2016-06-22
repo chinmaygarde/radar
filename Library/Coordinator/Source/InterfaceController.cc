@@ -8,30 +8,12 @@
 namespace rl {
 namespace coordinator {
 
-class ScopedUpdate {
- public:
-  ScopedUpdate(bool& flag) : _flag(flag) {
-    RL_ASSERT_MSG(flag == false, "Cannot start a nested interface update");
-    flag = true;
-  }
-
-  ~ScopedUpdate() { _flag = false; }
-
- private:
-  bool& _flag;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(ScopedUpdate);
-};
-
 InterfaceController::InterfaceController(const std::string& debugTag,
                                          const geom::Size& size)
     : _debugTag(debugTag),
       _localNS(),
-      _needsUpdate(false),
-      _isUpdating(false),
       _channel(std::make_shared<core::Channel>()),
-      _stats(debugTag),
-      _graph(_localNS, size, _stats) {}
+      _graph(_localNS, size, debugTag) {}
 
 std::shared_ptr<core::Channel> InterfaceController::channel() const {
   return _channel;
@@ -57,109 +39,68 @@ void InterfaceController::scheduleChannel(core::EventLoop& loop,
 }
 
 void InterfaceController::onChannelMessage(core::Message message) {
-  RL_TRACE_AUTO("OnTransactionReceived");
-
-  instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
-
-  if (_graph.applyTransactions(message)) {
-    setNeedsUpdate();
-  }
+  RL_TRACE_AUTO(__function__);
+  auto graphAccess = _graph.access();
+  graphAccess.get().applyTransactions(message);
 }
 
-void InterfaceController::updateSize(const geom::Size& size) {
-  _needsUpdate |= _graph.updateSize(size);
+void InterfaceController::setSize(const geom::Size& size) {
+  RL_TRACE_AUTO(__function__);
+  auto graphAccess = _graph.access();
+  graphAccess.get().updateSize(size);
 }
 
-bool InterfaceController::needsUpdate() const {
-  return _needsUpdate;
-}
+bool InterfaceController::update(const event::TouchEvent::PhaseMap& touches) {
+  RL_TRACE_AUTO(__function__);
 
-void InterfaceController::setNeedsUpdate() {
-  // WIP: This needs to be smarter about scheduling update requests
-  _needsUpdate = true;
-}
-
-bool InterfaceController::updateInterface(
-    const event::TouchEvent::PhaseMap& touches) {
-  RL_TRACE_AUTO("UpdateInterface");
-
-  if (!_needsUpdate && touches.size() == 0) {
-    /*
-     *  The interface was asked to update but there is no pending service call.
-     */
-    return false;
-  }
-
-  ScopedUpdate update(_isUpdating);
+  auto graphAccess = _graph.access();
 
   /*
    *  Step 1: Apply animations
    */
-  bool animationsUpdated = applyAnimations();
+  bool animationsUpdated = applyAnimations(graphAccess);
 
   /*
    *  Step 2: Flush pending touches on the current state of the graph
    */
-  applyPendingTouchEvents(touches);
+  bool touchesUpdated = applyPendingTouchEvents(graphAccess, touches);
 
   /*
    *  Step 3: Enforce constraints
    */
-  bool constraintsEnforced = enforceConstraints();
+  bool constraintsEnforced = enforceConstraints(graphAccess);
 
-  _needsUpdate = animationsUpdated;
+  /*
+   *  Step 4: Resolve any other visual updates not covered by any of the above
+   *  cases.
+   */
+  bool hasVisualUpdates = graphAccess.get().resolveVisualUpdates();
 
-  return animationsUpdated || constraintsEnforced;
+  return (animationsUpdated || touchesUpdated || constraintsEnforced ||
+          hasVisualUpdates);
 }
 
-void InterfaceController::applyPendingTouchEvents(
+bool InterfaceController::applyPendingTouchEvents(
+    Graph::Access& access,
     const event::TouchEvent::PhaseMap& touches) {
-  RL_TRACE_AUTO("ApplyPendingTouches");
-
-  RL_ASSERT_MSG(_isUpdating,
-                "Can only apply touch updates within an update phase");
-
-  if (touches.size() != 0) {
-    _graph.applyTouchMap(touches);
-  }
+  RL_TRACE_AUTO(__function__);
+  return access.get().applyTouchMap(touches);
 }
 
-bool InterfaceController::applyAnimations() {
-  RL_TRACE_AUTO("ApplyAnimations");
-
-  RL_ASSERT_MSG(
-      _isUpdating,
-      "Can only apply animation interpolations within an update phase");
-
-  const auto count =
-      _graph.animationDirector().stepInterpolations(_stats.interpolations());
-
-  _stats.interpolationsCount().reset(count);
-
-  return count > 0;
+bool InterfaceController::applyAnimations(Graph::Access& access) {
+  RL_TRACE_AUTO(__function__);
+  return access.get().stepInterpolations();
 }
 
-bool InterfaceController::enforceConstraints() {
-  RL_TRACE_AUTO("EnforceConstraints");
-
-  RL_ASSERT_MSG(_isUpdating,
-                "Can only enforce constraints within an update phase");
-
-  return _graph.applyConstraints() > 0;
+bool InterfaceController::enforceConstraints(Graph::Access& access) {
+  RL_TRACE_AUTO(__function__);
+  return access.get().applyConstraints() > 0;
 }
 
-bool InterfaceController::renderCurrentInterfaceState(
-    compositor::Frame& frame) {
-  RL_TRACE_AUTO("RenderInterfaceState");
-
-  RL_ASSERT_MSG(!_isUpdating,
-                "Must not render in the middle of an interface update");
-
-  return _graph.render(frame);
-}
-
-compositor::InterfaceStatistics& InterfaceController::statistics() {
-  return _stats;
+bool InterfaceController::render(compositor::Frame& frame) {
+  RL_TRACE_AUTO(__function__);
+  auto access = _graph.access();
+  return access.get().render(frame);
 }
 
 }  // namespace coordinator

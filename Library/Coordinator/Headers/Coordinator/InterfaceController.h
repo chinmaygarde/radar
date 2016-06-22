@@ -9,6 +9,7 @@
 #include <Compositor/InterfaceStatistics.h>
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
+#include <Core/Mutexed.h>
 
 namespace rl {
 namespace coordinator {
@@ -21,33 +22,29 @@ class InterfaceController {
 
   std::shared_ptr<core::Channel> channel() const;
 
-  void updateSize(const geom::Size& size);
+  void setSize(const geom::Size& size);
 
-  bool needsUpdate() const;
+  bool update(const event::TouchEvent::PhaseMap& touchesIfAny);
 
-  bool updateInterface(const event::TouchEvent::PhaseMap& touchesIfAny);
-
-  bool renderCurrentInterfaceState(compositor::Frame& frame);
+  bool render(compositor::Frame& frame);
 
   const std::string& debugTag() const;
 
-  compositor::InterfaceStatistics& statistics();
-
  private:
+  using Graph = core::Mutexed<PresentationGraph, std::mutex>;
+
   std::string _debugTag;
   core::Namespace _localNS;
-  bool _needsUpdate;
-  bool _isUpdating;
   std::shared_ptr<core::Channel> _channel;
-  compositor::InterfaceStatistics _stats;
-  PresentationGraph _graph;
+  Graph _graph;
 
   void onChannelMessage(core::Message message);
   void setNeedsUpdate();
 
-  void applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches);
-  bool applyAnimations();
-  bool enforceConstraints();
+  bool applyPendingTouchEvents(Graph::Access& access,
+                               const event::TouchEvent::PhaseMap& touches);
+  bool applyAnimations(Graph::Access& access);
+  bool enforceConstraints(Graph::Access& access);
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceController);
 };

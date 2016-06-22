@@ -10,12 +10,13 @@ namespace coordinator {
 
 PresentationGraph::PresentationGraph(core::Namespace& localNS,
                                      const geom::Size& size,
-                                     compositor::InterfaceStatistics& stats)
+                                     const std::string& debugTag)
     : _localNS(localNS),
-      _stats(stats),
+      _stats(debugTag),
       _size(size),
       _root(nullptr),
       _layoutSolver(localNS),
+      _hasVisualUpdates(false),
       _proxyResolver(_localNS,
                      std::bind(&PresentationGraph::onProxyConstraintsAddition,
                                this,
@@ -41,6 +42,8 @@ bool PresentationGraph::updateSize(const geom::Size& size) {
   if (_size == size) {
     return false;
   }
+
+  _hasVisualUpdates = false;
 
   _size = size;
 
@@ -134,6 +137,8 @@ PresentationEntity& PresentationGraph::presentationEntityForName(
 }
 
 bool PresentationGraph::applyTransactions(core::Message& arena) {
+  instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
+
   auto applyTime = core::Clock::now();
   do {
     if (!applyTransactionSingle(arena, applyTime)) {
@@ -141,6 +146,12 @@ bool PresentationGraph::applyTransactions(core::Message& arena) {
     }
   } while (!arena.readCompleted());
   RL_ASSERT(arena.readCompleted());
+
+  /*
+   *  TODO: This must not be based on the value of the deserialization, but
+   *  on whether the deserialization actually made any visual difference.
+   */
+  _hasVisualUpdates = true;
   return true;
 }
 
@@ -435,13 +446,22 @@ bool PresentationGraph::render(compositor::Frame& frame) {
   return _root->render(frame, geom::MatrixIdentity);
 }
 
-animation::Director& PresentationGraph::animationDirector() {
-  return _animationDirector;
+bool PresentationGraph::stepInterpolations() {
+  const auto count =
+      _animationDirector.stepInterpolations(_stats.interpolations());
+  _stats.interpolationsCount().reset(count);
+  return count > 0;
 }
 
-void PresentationGraph::applyTouchMap(
+bool PresentationGraph::resolveVisualUpdates() {
+  auto value = _hasVisualUpdates;
+  _hasVisualUpdates = false;
+  return value;
+}
+
+bool PresentationGraph::applyTouchMap(
     const event::TouchEvent::PhaseMap& touches) {
-  _proxyResolver.applyTouchMap(touches);
+  return _proxyResolver.applyTouchMap(touches);
 }
 
 size_t PresentationGraph::applyConstraints() {

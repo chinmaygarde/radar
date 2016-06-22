@@ -83,7 +83,7 @@ void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
   _surfaceSize = size;
 
   for (auto& controller : controllersAccess.get()) {
-    controller.updateSize(_surfaceSize);
+    controller.setSize(_surfaceSize);
   }
 }
 
@@ -152,7 +152,7 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
   auto wasUpdated = false;
 
   for (auto& controller : controllersAccess.get()) {
-    wasUpdated |= controller.updateInterface(touchesIfAny);
+    wasUpdated |= controller.update(touchesIfAny);
   }
 
   if (wasUpdated || _forceAnotherFrame || force) {
@@ -194,7 +194,7 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
   auto wasRendered = false;
 
   for (auto& interface : controllers.get()) {
-    wasRendered |= interface.renderCurrentInterfaceState(frame);
+    wasRendered |= interface.render(frame);
   }
 
   if (wasRendered) {

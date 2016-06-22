@@ -34,7 +34,7 @@ class ProxyResolver {
 
   void registerProxyConstraint(Constraint&& constraint);
 
-  void applyTouchMap(const event::TouchEvent::PhaseMap& map);
+  bool applyTouchMap(const event::TouchEvent::PhaseMap& map);
 
  private:
   using ConstraintConditionsMap =
@@ -57,9 +57,9 @@ class ProxyResolver {
   ConstraintConditionsMap _conditionsByConstraint;
   ConditionConstraintsMap _activeConstraintsByCondition;
 
-  void addTouches(const std::vector<event::TouchEvent>& touches);
-  void updateTouches(const std::vector<event::TouchEvent>& touches);
-  void clearTouches(const std::vector<event::TouchEvent>& touches);
+  bool addTouches(const std::vector<event::TouchEvent>& touches);
+  bool updateTouches(const std::vector<event::TouchEvent>& touches);
+  bool clearTouches(const std::vector<event::TouchEvent>& touches);
 
   void setupConstraintsForProxies();
   void clearConstraintsForProxies();

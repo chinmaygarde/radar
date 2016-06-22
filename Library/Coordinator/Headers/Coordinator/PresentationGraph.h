@@ -27,7 +27,7 @@ class PresentationGraph {
  public:
   explicit PresentationGraph(core::Namespace& localNS,
                              const geom::Size& size,
-                             compositor::InterfaceStatistics& stats);
+                             const std::string& debugTag);
 
   ~PresentationGraph();
 
@@ -35,7 +35,7 @@ class PresentationGraph {
 
   bool applyTransactions(core::Message& arena);
 
-  void applyTouchMap(const event::TouchEvent::PhaseMap& touches);
+  bool applyTouchMap(const event::TouchEvent::PhaseMap& touches);
 
   /**
    *  Applies pending constraint updates to the presentation graph and returns
@@ -47,21 +47,24 @@ class PresentationGraph {
    */
   size_t applyConstraints();
 
-  bool render(compositor::Frame& frame);
+  bool stepInterpolations();
 
-  animation::Director& animationDirector();
+  bool resolveVisualUpdates();
+
+  bool render(compositor::Frame& frame);
 
  private:
   using IdentifierPresentationEntityMap =
       std::map<core::Name, std::unique_ptr<PresentationEntity>>;
 
   core::Namespace& _localNS;
-  compositor::InterfaceStatistics& _stats;
+  compositor::InterfaceStatistics _stats;
   IdentifierPresentationEntityMap _entities;
   geom::Size _size;
   PresentationEntity* _root;
   animation::Director _animationDirector;
   layout::Solver _layoutSolver;
+  bool _hasVisualUpdates;
   layout::ProxyResolver _proxyResolver;
 
   void updateRootEntity(PresentationEntity* entity);

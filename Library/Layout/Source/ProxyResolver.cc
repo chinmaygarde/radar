@@ -60,9 +60,9 @@ double ProxyResolver::constantResolutionCallback(const Variable& variable) {
   return _constantResolutionCallback(variable);
 }
 
-void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
+bool ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
   if (touches.size() == 0) {
-    return;
+    return false;
   }
 
   bool addedNewIndexedTouches = false;
@@ -110,12 +110,14 @@ void ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
       updateEntityPosition(entity, entity.position());
     }
   }
+
+  return true;
 }
 
-void ProxyResolver::clearTouches(
+bool ProxyResolver::clearTouches(
     const std::vector<event::TouchEvent>& touches) {
   if (touches.size() == 0) {
-    return;
+    return false;
   }
 
   clearConstraintsForProxies();
@@ -149,16 +151,23 @@ void ProxyResolver::clearTouches(
   }
 
   RL_ASSERT(_indexedTouches.size() == _touchEntities.size());
+
+  return true;
 }
 
-void ProxyResolver::updateTouches(
+bool ProxyResolver::updateTouches(
     const std::vector<event::TouchEvent>& touches) {
+  if (touches.size() == 0) {
+    return false;
+  }
+
   for (const auto& touch : touches) {
     auto& entity = _touchEntities.at(touch.identifier());
     RL_ASSERT(entity != nullptr);
-
     updateEntityPosition(*entity, touch.location());
   }
+
+  return true;
 }
 
 void ProxyResolver::reportTouchEditsToDelegate(const core::Name& identifier,
@@ -313,7 +322,13 @@ void ProxyResolver::clearConstraintsForProxies() {
   }
 }
 
-void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
+bool ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
+  if (map.size() == 0) {
+    return false;
+  }
+
+  bool updated = false;
+
   using Phase = event::TouchEvent::Phase;
 
   /*
@@ -322,7 +337,7 @@ void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   auto found = map.find(Phase::Began);
   if (found != map.end()) {
     RL_ASSERT(found->second.size() != 0);
-    addTouches(found->second);
+    updated |= addTouches(found->second);
   }
 
   /*
@@ -331,7 +346,7 @@ void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   found = map.find(Phase::Moved);
   if (found != map.end()) {
     RL_ASSERT(found->second.size() != 0);
-    updateTouches(found->second);
+    updated |= updateTouches(found->second);
   }
 
   /*
@@ -340,7 +355,7 @@ void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   found = map.find(Phase::Ended);
   if (found != map.end()) {
     RL_ASSERT(found->second.size() != 0);
-    clearTouches(found->second);
+    updated |= clearTouches(found->second);
   }
 
   /*
@@ -349,8 +364,10 @@ void ProxyResolver::applyTouchMap(const event::TouchEvent::PhaseMap& map) {
   found = map.find(Phase::Cancelled);
   if (found != map.end()) {
     RL_ASSERT(found->second.size() != 0);
-    clearTouches(found->second);
+    updated |= clearTouches(found->second);
   }
+
+  return updated;
 }
 
 }  // namespace layout
