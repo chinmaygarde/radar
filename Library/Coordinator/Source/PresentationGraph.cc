@@ -140,12 +140,10 @@ bool PresentationGraph::applyTransactions(core::Message& arena) {
   instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
 
   auto applyTime = core::Clock::now();
+
   do {
-    if (!applyTransactionSingle(arena, applyTime)) {
-      return false;
-    }
+    RL_RETURN_IF_FALSE(applyTransactionSingle(arena, applyTime))
   } while (!arena.readCompleted());
-  RL_ASSERT(arena.readCompleted());
 
   /*
    *  TODO: This must not be based on the value of the deserialization, but
@@ -159,13 +157,17 @@ bool PresentationGraph::applyTransactionSingle(core::Message& arena,
                                                const core::ClockPoint& time) {
   namespace P = std::placeholders;
   using G = PresentationGraph;
+
   TransactionPayload payload(
       time,  //
       std::bind(&G::onActionCommit, this, P::_1),
       std::bind(&G::onTransferEntityCommit, this, P::_1, P::_2, P::_3),
       std::bind(&G::onConstraintsCommit, this, P::_1),
       std::bind(&G::onSuggestionsCommit, this, P::_1));
-  return payload.deserialize(arena, &_localNS);
+
+  RL_RETURN_IF_FALSE(payload.deserialize(arena, &_localNS));
+
+  return true;
 }
 
 void PresentationGraph::onActionCommit(animation::Action&) {
@@ -173,7 +175,7 @@ void PresentationGraph::onActionCommit(animation::Action&) {
    *  Nothing to do on its own. Its only when we see transfer records with this
    *  action do we need to do some configuration.
    */
-  RL_TRACE_AUTO("ActionCommit");
+  RL_TRACE_AUTO(__function__);
 }
 
 void PresentationGraph::onTransferEntityCommit(animation::Action& action,
@@ -350,7 +352,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
 
 void PresentationGraph::onConstraintsCommit(
     std::vector<layout::Constraint>&& constraints) {
-  RL_TRACE_AUTO("ConstraintsCommit");
+  RL_TRACE_AUTO(__function__);
+
   for (auto& constraint : constraints) {
     if (constraint.hasProxies()) {
       /*
@@ -386,7 +389,7 @@ void PresentationGraph::onProxyConstraintsRemoval(
 
 void PresentationGraph::onSuggestionsCommit(
     std::vector<layout::Suggestion>&& suggestions) {
-  RL_TRACE_AUTO("ConstraintSuggestionsCommit");
+  RL_TRACE_AUTO(__function__);
 
   for (const auto& suggestion : suggestions) {
     /*

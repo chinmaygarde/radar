@@ -15,7 +15,7 @@
 #include <cstdarg>
 
 /*
- *  Logging
+ *  Logging.
  */
 
 #define _RL_FILE_LAST_COMPONENT(file) \
@@ -27,10 +27,10 @@
       _RL_FILE_LAST_COMPONENT(__FILE__), __LINE__
 
 /**
- *  Logs the given message to the console
+ *  Logs the given message to the console.
  *
- *  @param message the message to log
- *  @param args    optional arguments to the message in printf format
+ *  @param message the message to log.
+ *  @param args    optional arguments to the message in printf format.
  */
 #define RL_LOG(message, ...) \
   printf(_RL_LOG_FMT message "\n", _RL_LOG_ARG, ##__VA_ARGS__);
@@ -39,13 +39,12 @@
 #define RL_LOG_MACHERROR(res) RL_LOG("Mach Error: %s", mach_error_string(res))
 
 /**
- *  Log the current line to the console. Used when all hope for a sane
- *  debugging environment is lost http://take.ms/HOpKF
+ *  Log the current line to the console.
  */
 #define RL_LOG_HERE RL_LOG("%s", __FUNCTION__)
 
 /*
- *  Assertions
+ *  Assertions.
  */
 
 static inline void _RL_AssertLog(const char* file,
@@ -64,9 +63,9 @@ static inline void _RL_AssertLog(const char* file,
 /**
  *  Assert that a condition is satisfied along with a given message.
  *
- *  @param condition the condition to check the satisfaction of
- *  @param message   the message to log when the assertion fails
- *  @param args      optional arguments to the message when the assertion fails
+ *  @param condition the condition to check the satisfaction of.
+ *  @param message   the message to log when the assertion fails.
+ *  @param args      optional arguments to the message when the assertion fails.
  */
 #define RL_ASSERT_MSG(condition, message, ...)                   \
   do {                                                           \
@@ -86,9 +85,9 @@ static inline void _RL_AssertLog(const char* file,
   RL_ASSERT_MSG((condition), "Condition Failed: (" #condition ")")
 
 /*
- *  Mark an expression as unused
+ *  Mark an expression as unused.
  *
- *  @param expr the expression to be marked as unused
+ *  @param expr the expression to be marked as unused.
  */
 #define RL_UNUSED(expr) \
   do {                  \
@@ -101,15 +100,15 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_WIP RL_ASSERT_MSG(false, "WIP")
 
 /*
- *  Error Checking
+ *  Error Checking.
  */
 
 /**
  *  Check that the given Unix call successfully completed. If a failure is
  *  detected, the ERRNO is logged and an assertion tripped.
  *
- *  @param call     the Unix call to check the result of
- *  @param expected the expected value of the unix call
+ *  @param call     the Unix call to check the result of.
+ *  @param expected the expected value of the unix call.
  */
 #define RL_CHECK_EXPECT(call, expected)           \
   {                                               \
@@ -123,13 +122,13 @@ static inline void _RL_AssertLog(const char* file,
  *  Check that the given Unix call is successfully completed. In case of
  *  falure, the ERRNO is logged and an assertion tripped.
  *
- *  @param call the Unix call to check the result of
+ *  @param call the Unix call to check the result of.
  */
 #define RL_CHECK(call) RL_CHECK_EXPECT(call, 0)
 
 /**
  *  Retries operation on `EINTR`. Just like `TEMP_FAILURE_RETRY` but available
- *  with non-GNU headers
+ *  with non-GNU headers.
  */
 #define RL_TEMP_FAILURE_RETRY(exp)         \
   ({                                       \
@@ -173,33 +172,33 @@ static inline void _RL_AssertLog(const char* file,
 
 /**
  *  Disable the copy constructor on the given type. Must appear (anywhere) in
- *  the class definition
+ *  the class definition.
  *
- *  @param TypeName the type to disable the copy constructor on
+ *  @param TypeName the type to disable the copy constructor on.
  */
 #define RL_DISALLOW_COPY(TypeName) TypeName(const TypeName&) = delete;
 
 /**
  *  Disable the assignment operator on the given type. Must appear (anywhere) in
- *  the class definition
+ *  the class definition.
  *
- *  @param TypeName the type to disable assignement operator on
+ *  @param TypeName the type to disable assignement operator on.
  */
 #define RL_DISALLOW_ASSIGN(TypeName) void operator=(const TypeName&) = delete;
 
 /**
  *  Disable the copy constructor and the assignement operator on the given type.
- *  Must appear (anywhere) in the class definition
+ *  Must appear (anywhere) in the class definition.
  *
  *  @param TypeName the type to disable the copy constructor and assignement
- *                  operator on
+ *                  operator on.
  */
 #define RL_DISALLOW_COPY_AND_ASSIGN(TypeName) \
   RL_DISALLOW_COPY(TypeName)                  \
   RL_DISALLOW_ASSIGN(TypeName)
 
 /*
- *  Extra Warnings
+ *  Extra Warnings.
  */
 #if defined(__GNUC__)
 #define RL_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
@@ -207,8 +206,17 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_WARN_UNUSED_RESULT
 #endif
 
+/*
+ *  Debugging Macros.
+ */
+#define DEBUG_BREAK() __builtin_trap()
+
+/*
+ *  Macros for repetitious error checking.
+ */
 #define RL_RETURN_IF_FALSE(exp) \
   if (!(exp)) {                 \
+    DEBUG_BREAK();              \
     return false;               \
   }
 

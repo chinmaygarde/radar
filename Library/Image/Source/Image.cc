@@ -24,33 +24,38 @@ bool Image::serialize(core::Message& message) const {
     return false;
   }
 
-  if (!message.encode(_source->type())) {
-    return false;
-  }
+  /*
+   *  Encode the type.
+   */
+  RL_RETURN_IF_FALSE(message.encode(_source->type()));
 
-  return _source->serialize(message);
+  /*
+   *  Encode the image source.
+   */
+  RL_RETURN_IF_FALSE(_source->serialize(message));
+
+  return true;
 }
 
 bool Image::deserialize(core::Message& message, core::Namespace* ns) {
   auto type = ImageSource::Type::Unknown;
 
-  if (!message.decode(type, ns)) {
-    return false;
-  }
+  /*
+   *  Decode the type.
+   */
+  RL_RETURN_IF_FALSE(message.decode(type, ns))
 
+  /*
+   *  Create and decode the image source of that type.
+   */
   auto source = ImageSource::ImageSourceForType(type);
-
   if (source == nullptr) {
     return false;
   }
+  RL_RETURN_IF_FALSE(source->deserialize(message, ns));
+  _source = source;
 
-  if (source->deserialize(message, ns)) {
-    _source = source;
-  } else {
-    return false;
-  }
-
-  return false;
+  return true;
 }
 
 ImageResult Image::decode() const {

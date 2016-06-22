@@ -125,35 +125,36 @@ bool TransferEntity::serialize(core::Message& message) const {
 bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
   RL_RETURN_IF_FALSE(message.decode(_identifier, ns));
   RL_RETURN_IF_FALSE(message.decode(_updateMask, ns));
-
-  return walkEnabledProperties(~0 /* all */, [&](Property property) {
-    switch (property) {
-      case Property::AddedTo:
-        return message.decode(_addedTo, ns);
-      case Property::RemovedFrom:
-        return message.decode(_removedFrom, ns);
-      case Property::Bounds:
-        return message.decode(_bounds, ns);
-      case Property::Position:
-        return message.decode(_position, ns);
-      case Property::AnchorPoint:
-        return message.decode(_anchorPoint, ns);
-      case Property::Transformation:
-        return message.decode(_transformation, ns);
-      case Property::BackgroundColor:
-        return message.decode(_backgroundColor, ns);
-      case Property::Contents:
-        return message.decode(_contents, ns);
-      case Property::Opacity:
-        return message.decode(_opacity, ns);
-      case Property::MakeRoot:
-        return message.decode(_makeRoot, ns);
-      case Property::None:
-      case Property::Sentinel:
+  RL_RETURN_IF_FALSE(
+      walkEnabledProperties(~0 /* all */, [&](Property property) {
+        switch (property) {
+          case Property::AddedTo:
+            return message.decode(_addedTo, ns);
+          case Property::RemovedFrom:
+            return message.decode(_removedFrom, ns);
+          case Property::Bounds:
+            return message.decode(_bounds, ns);
+          case Property::Position:
+            return message.decode(_position, ns);
+          case Property::AnchorPoint:
+            return message.decode(_anchorPoint, ns);
+          case Property::Transformation:
+            return message.decode(_transformation, ns);
+          case Property::BackgroundColor:
+            return message.decode(_backgroundColor, ns);
+          case Property::Contents:
+            return message.decode(_contents, ns);
+          case Property::Opacity:
+            return message.decode(_opacity, ns);
+          case Property::MakeRoot:
+            return message.decode(_makeRoot, ns);
+          case Property::None:
+          case Property::Sentinel:
+            return false;
+        }
         return false;
-    }
-    return false;
-  });
+      }))
+  return true;
 }
 
 enum ArchiveKey {
