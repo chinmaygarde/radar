@@ -84,7 +84,7 @@ bool TextureTransaction::uploadImagesToVRAM() {
     result.second.uploadToVRAM();
   }
 
-  return false;
+  return true;
 }
 
 }  // namespace compositor

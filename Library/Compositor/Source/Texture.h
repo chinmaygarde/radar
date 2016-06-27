@@ -9,6 +9,8 @@
 
 #include <Image/Image.h>
 
+#include "OpenGL.h"
+
 namespace rl {
 namespace compositor {
 
@@ -33,10 +35,14 @@ class Texture {
 
   State state() const;
 
+  void dispose();
+
  private:
   image::Image _image;
   image::ImageResult _imageResult;
   State _state;
+  GLuint _textureHandle;
+  bool _disposed;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Texture);
 };
