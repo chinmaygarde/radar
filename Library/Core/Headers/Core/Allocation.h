@@ -41,6 +41,8 @@ class Allocation : public MessageSerializable {
 
   Allocation(Allocation&& allocation);
 
+  Allocation& operator=(Allocation&&);
+
   /**
    *  Collect the allocation.
    */

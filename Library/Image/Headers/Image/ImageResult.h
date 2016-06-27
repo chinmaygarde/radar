@@ -30,6 +30,8 @@ class ImageResult {
 
   ImageResult(ImageResult&&);
 
+  ImageResult& operator=(ImageResult&&);
+
   ~ImageResult();
 
   const geom::Size& size() const;

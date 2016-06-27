@@ -33,6 +33,16 @@ Allocation::Allocation(Allocation&& other)
   other._size = 0;
 }
 
+Allocation& Allocation::operator=(Allocation&& other) {
+  _allocation = other._allocation;
+  _size = other._size;
+
+  other._allocation = nullptr;
+  other._size = 0;
+
+  return *this;
+}
+
 Allocation::~Allocation() {
   if (_allocation != nullptr) {
     free(_allocation);

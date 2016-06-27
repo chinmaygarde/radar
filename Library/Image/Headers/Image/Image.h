@@ -30,6 +30,14 @@ class Image : public core::MessageSerializable {
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
+  struct Hash {
+    std::size_t operator()(const Image& key) const;
+  };
+
+  struct Equal {
+    bool operator()(const Image& lhs, const Image& rhs) const;
+  };
+
  private:
   std::shared_ptr<ImageSource> _source;
 };

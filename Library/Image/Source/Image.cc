@@ -131,5 +131,13 @@ ImageResult Image::decode() const {
 
 Image::~Image() = default;
 
+std::size_t Image::Hash::operator()(const Image& key) const {
+  return std::hash<decltype(key._source)>()(key._source);
+}
+
+bool Image::Equal::operator()(const Image& lhs, const Image& rhs) const {
+  return lhs._source == rhs._source;
+}
+
 }  // namespace image
 }  // namespace rl

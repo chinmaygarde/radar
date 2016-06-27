@@ -19,6 +19,21 @@ ImageResult::ImageResult() : _success(false) {}
 
 ImageResult::ImageResult(ImageResult&&) = default;
 
+ImageResult& ImageResult::operator=(ImageResult&& other) {
+  _success = other._success;
+  other._success = false;
+
+  _size = other._size;
+  other._size = geom::SizeZero;
+
+  _components = other._components;
+  other._components = Components::Invalid;
+
+  _allocation = std::move(other._allocation);
+
+  return *this;
+}
+
 bool ImageResult::wasSuccessful() const {
   return _success;
 }
