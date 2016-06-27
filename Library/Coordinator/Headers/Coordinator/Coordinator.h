@@ -66,8 +66,7 @@ class Coordinator {
   void redrawCurrentFrameNow();
 
  private:
-  using InterfaceControllers =
-      core::Mutexed<std::list<InterfaceController>, std::mutex>;
+  using InterfaceControllers = core::Mutexed<std::list<InterfaceController>>;
 
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;

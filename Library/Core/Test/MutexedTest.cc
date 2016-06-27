@@ -14,10 +14,15 @@ TEST(MutexedTest, Compiles) {
   ASSERT_EQ(string.access().get(), "Oh hai!");
 }
 
+TEST(MutexedTest, DefaultsToMutex) {
+  rl::core::Mutexed<std::string> string("Oh hai");
+  ASSERT_EQ(string.access().get(), "Oh hai");
+}
+
 TEST_SLOW(MutexedTest, SillyCounter) {
   const size_t limit = 5;
 
-  rl::core::Mutexed<size_t, std::mutex> actual(0);
+  rl::core::Mutexed<size_t> actual(0);
 
   {
     rl::core::WorkQueue wq(__func__);

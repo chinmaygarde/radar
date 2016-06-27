@@ -31,7 +31,7 @@ class InterfaceController {
   const std::string& debugTag() const;
 
  private:
-  using Graph = core::Mutexed<PresentationGraph, std::mutex>;
+  using Graph = core::Mutexed<PresentationGraph>;
 
   std::string _debugTag;
   core::Namespace _localNS;

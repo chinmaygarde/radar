@@ -42,7 +42,7 @@ class TextureTransaction {
       std::unordered_set<image::Image, image::Image::Hash, image::Image::Equal>,
       std::mutex>
       _images;
-  core::Mutexed<Results, std::mutex> _results;
+  core::Mutexed<Results> _results;
   std::unique_ptr<core::Latch> _resultsLatch;
 
   void uncompressOnWQ(image::Image image);

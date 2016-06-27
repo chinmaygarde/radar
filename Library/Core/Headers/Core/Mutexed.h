@@ -7,10 +7,12 @@
 
 #include <Core/Macros.h>
 
+#include <mutex>
+
 namespace rl {
 namespace core {
 
-template <class Resource, class BasicLockable>
+template <class Resource, class BasicLockable = std::mutex>
 class Mutexed {
  public:
   class Access {
