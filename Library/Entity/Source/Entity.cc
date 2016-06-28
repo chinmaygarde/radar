@@ -107,18 +107,32 @@ void Entity::setTransformation(const geom::Matrix& transformation) {
   notifyInterfaceIfNecessary(Property::Transformation);
 }
 
-geom::Matrix Entity::viewMatrix() const {
-  const geom::Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
-                        _position.y - _anchorPoint.y * _bounds.size.height);
+geom::Matrix Entity::modelMatrix() const {
+  /*
+   *  The translation accounts for the offset in the origin of the bounds
+   *  of the entity and its position about its anchor point.
+   */
+  auto translation = geom::Matrix::Translation(
+      {-_bounds.origin.x + _position.x - (_bounds.size.width * _anchorPoint.x),
+       -_bounds.origin.y + _position.y -
+           (_bounds.size.height * _anchorPoint.y)});
 
-  // clang-format off
-  geom::Matrix translation(1.0,   0.0,   0.0, 0.0,
-                     0.0,   1.0,   0.0, 0.0,
-                     0.0,   0.0,   1.0, 0.0,
-                     pos.x, pos.y, 0.0, 1.0);
-  // clang-format on
+  /*
+   *  The transformation of an entity is applied about is anchor point. However,
+   *  if the transformation is identity, we can avoid having to calculate the
+   *  matrix adjustment and also the two matrix multiplications.
+   */
 
-  return translation * transformation();
+  if (_transformation.isIdentity()) {
+    return translation;
+  }
+
+  auto anchorAdjustment =
+      geom::Matrix::Translation({-_anchorPoint.x * _bounds.size.width,
+                                 -_anchorPoint.y * _bounds.size.height});
+
+  return translation * anchorAdjustment.invert() * _transformation *
+         anchorAdjustment;
 }
 
 const Color& Entity::backgroundColor() const {

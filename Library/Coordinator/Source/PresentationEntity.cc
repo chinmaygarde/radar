@@ -35,13 +35,13 @@ geom::Point PresentationEntity::convertPointFromWindow(
 }
 
 bool PresentationEntity::render(compositor::Frame& frame,
-                                const geom::Matrix& superviewMatrix) {
+                                const geom::Matrix& viewMatrix) {
   frame.context().statistics().primitiveCount().increment();
 
   /*
    *  This is incorrect. This method needs to be const.
    */
-  _lastModelViewMatrix = superviewMatrix * viewMatrix();
+  _lastModelViewMatrix = viewMatrix * modelMatrix();
 
   compositor::Primitive p;
   p.setColor(backgroundColor());

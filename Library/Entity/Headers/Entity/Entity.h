@@ -138,11 +138,11 @@ class Entity : public core::ArchiveSerializable {
   void setTransformation(const geom::Matrix& transformation);
 
   /**
-   *  The view matrix of the entity
+   *  The model matrix of the entity
    *
    *  @return the view matrix
    */
-  geom::Matrix viewMatrix() const;
+  geom::Matrix modelMatrix() const;
 
   /**
    *  The background color of the entity
