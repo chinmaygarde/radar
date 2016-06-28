@@ -107,7 +107,7 @@ void Entity::setTransformation(const geom::Matrix& transformation) {
   notifyInterfaceIfNecessary(Property::Transformation);
 }
 
-geom::Matrix Entity::modelMatrix() const {
+geom::Matrix Entity::viewMatrix() const {
   const geom::Point pos(_position.x - _anchorPoint.x * _bounds.size.width,
                         _position.y - _anchorPoint.y * _bounds.size.height);
 
