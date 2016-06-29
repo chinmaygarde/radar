@@ -47,19 +47,19 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
   rl::animation::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
   action.setAutoReverses(true);
-  action.setDuration(rl::core::ClockDuration(1.5));
+  action.setDuration(rl::core::ClockDuration(0.5));
   action.setRepeatCount(rl::animation::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::entity::Entity::TransformationMask);
 
   interface.pushTransaction(std::move(action));
 
-  const auto rows = 10;
-  const auto cols = 10;
+  const auto rows = 25;
+  const auto cols = 25;
 
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
       auto layer = interface.createEntity();
-      layer.setFrame({0.0, 0.0, 50, 50});
+      layer.setFrame({0.0, 0.0, 25, 25});
       layer.setBackgroundColor({RND, RND, RND, 1.0});
 
       auto rotation = rl::geom::Matrix::RotationZ(RND * M_PI * 2.0);
@@ -115,7 +115,7 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
   for (auto i = 0, count = 25; i < count; i++) {
     auto entity = interface.createEntity();
 
-    entity.setFrame({0.0, 0.0, 30.0, 30.0});
+    entity.setFrame({0.0, 0.0, 15.0, 15.0});
     entity.setBackgroundColor({1.0, 1.0, 1.0, 1.0});
 
     auto posX = entity | Property::PositionX;
