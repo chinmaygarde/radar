@@ -46,34 +46,34 @@ struct Vector3 {
 };
 
 struct Vector4 {
-  double a;
-  double b;
-  double c;
-  double d;
+  double x;
+  double y;
+  double z;
+  double w;
 
-  Vector4(double a, double b, double c, double d) : a(a), b(b), c(c), d(d) {}
-  Vector4(const Vector3& v) : a(v.x), b(v.y), c(v.z), d(1.0) {}
-  Vector4(const Point& p) : a(p.x), b(p.y), c(0.0), d(1.0) {}
+  Vector4(double x, double y, double z, double w) : x(x), y(y), z(z), w(w) {}
+  Vector4(const Vector3& v) : x(v.x), y(v.y), z(v.z), w(1.0) {}
+  Vector4(const Point& p) : x(p.x), y(p.y), z(0.0), w(1.0) {}
 
   Vector4 normalize() const {
-    const double inverse = 1.0 / sqrt(a * a + b * b + c * c + d * d);
-    return Vector4(a * inverse, b * inverse, c * inverse, d * inverse);
+    const double inverse = 1.0 / sqrt(x * x + y * y + z * z + w * w);
+    return Vector4(x * inverse, y * inverse, z * inverse, w * inverse);
   }
 
   bool operator==(const Vector4& v) const {
-    return a == v.a && b == v.b && c == v.c && d == v.d;
+    return (x == v.x) && (y == v.y) && (z == v.z) && (w == v.w);
   }
 
   bool operator!=(const Vector4& v) const {
-    return a != v.a || b != v.b || c != v.c || d != v.d;
+    return (x != v.x) || (y != v.y) || (z != v.z) || (w != v.w);
   }
 
   Vector4 operator+(const Vector4& v) const {
-    return Vector4(a + v.a, b + v.b, c + v.c, d + v.d);
+    return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
   }
 
   Vector4 operator-(const Vector4& v) const {
-    return Vector4(a - v.a, b - v.b, c - v.c, d - v.d);
+    return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
   }
 };
 

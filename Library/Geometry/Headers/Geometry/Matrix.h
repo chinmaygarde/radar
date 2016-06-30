@@ -66,19 +66,19 @@ struct Matrix {
 
     // clang-format off
     return Matrix(
-      cosine + cosp * v.a * v.a,
-      cosp * v.a * v.b + v.c * sine,
-      cosp * v.a * v.c - v.b * sine,
+      cosine + cosp * v.x * v.x,
+      cosp * v.x * v.y + v.z * sine,
+      cosp * v.x * v.z - v.y * sine,
       0.0,
 
-      cosp * v.a * v.b - v.c * sine,
-      cosine + cosp * v.b * v.b,
-      cosp * v.b * v.c + v.a * sine,
+      cosp * v.x * v.y - v.z * sine,
+      cosine + cosp * v.y * v.y,
+      cosp * v.y * v.z + v.x * sine,
       0.0,
 
-      cosp * v.a * v.c + v.b * sine,
-      cosp * v.b * v.c - v.a * sine,
-      cosine + cosp * v.c * v.c,
+      cosp * v.x * v.z + v.y * sine,
+      cosp * v.y * v.z - v.x * sine,
+      cosine + cosp * v.z * v.z,
       0.0,
 
       0.0,
@@ -377,10 +377,10 @@ static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
 // clang-format on
 
 static inline Vector4 operator*(const Vector4& v, const Matrix& m) {
-  return Vector4(v.a * m.m[0] + v.b * m.m[4] + v.c * m.m[8] + v.d * m.m[12],
-                 v.a * m.m[1] + v.b * m.m[5] + v.c * m.m[9] + v.d * m.m[13],
-                 v.a * m.m[2] + v.b * m.m[6] + v.c * m.m[10] + v.d * m.m[14],
-                 v.a * m.m[3] + v.b * m.m[7] + v.c * m.m[11] + v.d * m.m[15]);
+  return Vector4(v.x * m.m[0] + v.y * m.m[4] + v.z * m.m[8] + v.w * m.m[12],
+                 v.x * m.m[1] + v.y * m.m[5] + v.z * m.m[9] + v.w * m.m[13],
+                 v.x * m.m[2] + v.y * m.m[6] + v.z * m.m[10] + v.w * m.m[14],
+                 v.x * m.m[3] + v.y * m.m[7] + v.z * m.m[11] + v.w * m.m[15]);
 }
 
 }  // namespace geom

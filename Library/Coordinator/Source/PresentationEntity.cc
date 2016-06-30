@@ -31,7 +31,7 @@ geom::Point PresentationEntity::convertPointFromWindow(
     const geom::Point& point) const {
   auto inverted = _lastModelViewMatrix.invert();
   auto pointInWindowVector = point * inverted;
-  return geom::Point{pointInWindowVector.a, pointInWindowVector.b};
+  return geom::Point{pointInWindowVector.x, pointInWindowVector.y};
 }
 
 bool PresentationEntity::render(compositor::Frame& frame,
