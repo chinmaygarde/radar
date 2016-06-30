@@ -246,10 +246,20 @@ struct Matrix {
 
   static Matrix Orthographic(const Size& size);
 
-  // clang-format off
-  static Matrix Perspective(double fov,   double aspect,
-                            double nearZ, double farZ);
-  // clang-format on
+  /**
+   *  Specify a viewing frustum in the worlds coordinate system.
+   *
+   *  @param fov    angle of the field of view.
+   *  @param aspect aspect ratio.
+   *  @param nearZ  near clipping plane.
+   *  @param farZ   far clipping plane.
+   *
+   *  @return the perspective projection matrix.
+   */
+  static Matrix Perspective(double fov,
+                            double aspect,
+                            double nearZ,
+                            double farZ);
 
   std::string toString() const;
 
