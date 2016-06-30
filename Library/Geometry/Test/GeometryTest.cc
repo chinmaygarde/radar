@@ -50,3 +50,19 @@ TEST(GeometryTest, RotationMatrix) {
                                  0,      0,     0, 1};
   ASSERT_MATRIX_NEAR(rotation, expect);
 }
+
+TEST(GeometryTest, InvertMatrix) {
+  auto rotation = rl::geom::Matrix::RotationZ(M_PI_4);
+  auto invert = rotation.invert();
+  auto expect = rl::geom::Matrix{0.707, -0.707, 0, 0,  //
+                                 0.707, 0.707,  0, 0,  //
+                                 0,     0,      1, 0,  //
+                                 0,     0,      0, 1};
+  ASSERT_MATRIX_NEAR(invert, expect);
+}
+
+TEST(GeometryTest, MutliplicationMatrix) {
+  auto rotation = rl::geom::Matrix::RotationZ(M_PI_4);
+  auto invert = rotation.invert();
+  ASSERT_MATRIX_NEAR(rotation * invert, rl::geom::MatrixIdentity);
+}
