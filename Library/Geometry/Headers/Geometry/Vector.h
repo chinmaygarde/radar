@@ -18,6 +18,8 @@ struct Vector3 {
   double y;
   double z;
 
+  Vector3() : x(0.0), y(0.0), z(0.0) {}
+
   Vector3(const Point& p) : x(p.x), y(p.y), z(0.0) {}
 
   Vector3(const Size& s) : x(s.width), y(s.height), z(0.0) {}
@@ -25,6 +27,16 @@ struct Vector3 {
   Vector3(double x, double y) : x(x), y(y), z(0.0) {}
 
   Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
+
+  double length() const;
+
+  Vector3 scale(double newLength) const;
+
+  double dot(const Vector3& other) const {
+    return ((x * other.x) + (y * other.y) + (z * other.z));
+  }
+
+  Vector3 cross(const Vector3& other) const;
 
   bool operator==(const Vector3& v) const {
     return v.x == x && v.y == y && v.z == z;
@@ -43,6 +55,21 @@ struct Vector3 {
   Vector3 operator-(const Vector3& v) const {
     return Vector3(x - v.x, y - v.y, z - v.z);
   }
+
+  /**
+   *  Make a linear combination of two vectors and return the result.
+   *
+   *  @param a      the first vector.
+   *  @param aScale the scale to use for the first vector.
+   *  @param b      the second vector.
+   *  @param bScale the scale to use for the second vector.
+   *
+   *  @return the combined vector.
+   */
+  static Vector3 Combine(const Vector3& a,
+                         double aScale,
+                         const Vector3& b,
+                         double bScale);
 };
 
 struct Vector4 {
@@ -51,8 +78,12 @@ struct Vector4 {
   double z;
   double w;
 
+  Vector4() : x(0.0), y(0.0), z(0.0), w(1.0) {}
+
   Vector4(double x, double y, double z, double w) : x(x), y(y), z(z), w(w) {}
+
   Vector4(const Vector3& v) : x(v.x), y(v.y), z(v.z), w(1.0) {}
+
   Vector4(const Point& p) : x(p.x), y(p.y), z(0.0), w(1.0) {}
 
   Vector4 normalize() const {
