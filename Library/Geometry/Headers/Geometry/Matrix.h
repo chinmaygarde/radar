@@ -238,18 +238,19 @@ struct Matrix {
 
   Matrix operator+(const Matrix& m) const;
 
-  // clang-format off
-  static Matrix Orthographic(double left,   double right,
-                             double bottom, double top,
-                             double nearZ,  double farZ);
-  // clang-format on
+  static Matrix Orthographic(double left,
+                             double right,
+                             double bottom,
+                             double top,
+                             double nearZ,
+                             double farZ);
 
   static Matrix Orthographic(const Size& size);
 
   /**
    *  Specify a viewing frustum in the worlds coordinate system.
    *
-   *  @param fov    angle of the field of view.
+   *  @param fov    angle of the field of view (in radians).
    *  @param aspect aspect ratio.
    *  @param nearZ  near clipping plane.
    *  @param farZ   far clipping plane.
@@ -260,6 +261,10 @@ struct Matrix {
                             double aspect,
                             double nearZ,
                             double farZ);
+
+  static Matrix LookAt(const Vector3& eye,
+                       const Vector3& center,
+                       const Vector3& up);
 
   std::string toString() const;
 

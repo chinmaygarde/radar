@@ -35,5 +35,10 @@ Vector3 Vector3::cross(const Vector3& other) const {
   };
 }
 
+Vector3 Vector3::normalize() const {
+  const auto len = length();
+  return {x / len, y / len, z / len};
+}
+
 }  // namespace geom
 }  // namespace rl

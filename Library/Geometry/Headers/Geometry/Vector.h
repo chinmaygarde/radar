@@ -28,9 +28,16 @@ struct Vector3 {
 
   Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
 
+  /**
+   *  The length (or magnitude of the vector).
+   *
+   *  @return the calculated length.
+   */
   double length() const;
 
   Vector3 scale(double newLength) const;
+
+  Vector3 normalize() const;
 
   double dot(const Vector3& other) const {
     return ((x * other.x) + (y * other.y) + (z * other.z));
