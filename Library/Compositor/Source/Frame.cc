@@ -8,7 +8,7 @@
 
 #include <Core/Utilities.h>
 #include <Compositor/Frame.h>
-#include <Compositor/Primitive.h>
+#include <Compositor/Primitive/Primitive.h>
 #include <Compositor/Context.h>
 
 #include "OpenGL.h"

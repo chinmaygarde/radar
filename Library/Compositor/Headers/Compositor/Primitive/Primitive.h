@@ -21,7 +21,7 @@ class Primitive {
 
   Primitive();
 
-  ~Primitive();
+  virtual ~Primitive();
 
   Primitive(Primitive&& primitive);
 

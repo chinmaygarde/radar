@@ -4,9 +4,7 @@
 
 #include <Core/Config.h>
 
-#if !RL_OS_WINDOWS
-
-#include <Compositor/Primitive.h>
+#include <Compositor/Primitive/Primitive.h>
 #include <Compositor/Context.h>
 
 #include "OpenGL.h"
@@ -78,5 +76,3 @@ bool Primitive::render(Frame& frame) const {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // !RL_OS_WINDOWS

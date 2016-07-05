@@ -6,7 +6,7 @@
 #define RADAR_COMPOSITOR_FRONTENDPASS_H_
 
 #include <Core/Macros.h>
-#include <Compositor/Primitive.h>
+#include <Compositor/Primitive/Primitive.h>
 
 #include <vector>
 
