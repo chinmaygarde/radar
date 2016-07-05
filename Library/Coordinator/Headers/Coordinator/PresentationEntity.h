@@ -9,7 +9,7 @@
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 #include <Entity/Entity.h>
-#include <Compositor/Frame.h>
+#include <Compositor/FrontendPass.h>
 
 #include <map>
 
@@ -34,11 +34,14 @@ class PresentationEntity : public entity::Entity {
 
   geom::Point convertPointFromWindow(const geom::Point& point) const;
 
-  bool render(compositor::Frame& frame, const geom::Matrix& viewMatrix);
+  void render(compositor::FrontEndPass& frontEndPass,
+              const geom::Matrix& viewMatrix);
 
  private:
   std::vector<Borrowed> _children;
-  geom::Matrix _lastModelViewMatrix;
+  geom::Matrix _renderedModelViewMatrix;
+
+  bool renderContents(compositor::FrontEndPass& frontEndPass) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };

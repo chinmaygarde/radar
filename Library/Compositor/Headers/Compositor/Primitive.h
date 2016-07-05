@@ -17,22 +17,30 @@ namespace compositor {
 
 class Primitive {
  public:
-  explicit Primitive();
+  static const double AlphaThreshold;
 
-  const entity::Color& color() const;
+  Primitive();
 
-  void setColor(const entity::Color& color);
+  ~Primitive();
 
-  double opacity() const;
+  Primitive(Primitive&& primitive);
+
+  void setSize(geom::Size size);
+
+  void setModelViewMatrix(geom::Matrix modelViewMatrix);
+
+  void setSolidColor(entity::Color solidColor);
 
   void setOpacity(double opacity);
 
-  bool render(Frame& frame,
-              const geom::Matrix& modelViewMatrix,
-              const geom::Size& size);
+  bool isRenderable() const;
+
+  bool render(Frame& frame);
 
  private:
-  entity::Color _color;
+  geom::Size _size;
+  geom::Matrix _modelViewMatrix;
+  entity::Color _solidColor;
   double _opacity;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);

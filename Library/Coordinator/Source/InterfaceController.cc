@@ -97,10 +97,12 @@ bool InterfaceController::enforceConstraints(Graph::Access& access) {
   return access.get().applyConstraints() > 0;
 }
 
-bool InterfaceController::render(compositor::Frame& frame) {
+compositor::FrontEndPass InterfaceController::render() {
   RL_TRACE_AUTO(__function__);
+  compositor::FrontEndPass pass;
   auto access = _graph.access();
-  return access.get().render(frame);
+  access.get().render(pass);
+  return pass;
 }
 
 }  // namespace coordinator

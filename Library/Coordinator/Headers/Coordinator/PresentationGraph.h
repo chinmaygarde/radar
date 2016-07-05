@@ -8,7 +8,7 @@
 #include <Animation/Action.h>
 #include <Animation/Interpolator.h>
 #include <Animation/Director.h>
-#include <Compositor/Frame.h>
+#include <Compositor/FrontendPass.h>
 #include <Compositor/InterfaceStatistics.h>
 #include <Coordinator/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
@@ -51,7 +51,7 @@ class PresentationGraph {
 
   bool resolveVisualUpdates();
 
-  bool render(compositor::Frame& frame);
+  void render(compositor::FrontEndPass& frontEndPass);
 
  private:
   using IdentifierPresentationEntityMap =

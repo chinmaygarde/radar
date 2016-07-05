@@ -16,19 +16,38 @@
 namespace rl {
 namespace compositor {
 
-Primitive::Primitive() : _color(entity::ColorWhiteTransparent), _opacity(1.0) {}
+const double Primitive::AlphaThreshold = 1e-3;
 
-const entity::Color& Primitive::color() const {
-  return _color;
+Primitive::Primitive() : _opacity(1.0) {}
+
+Primitive::~Primitive() = default;
+
+Primitive::Primitive(Primitive&& primitive) = default;
+
+void Primitive::setSize(geom::Size size) {
+  _size = size;
 }
 
-void Primitive::setColor(const entity::Color& color) {
-  _color = color;
+void Primitive::setModelViewMatrix(geom::Matrix modelViewMatrix) {
+  _modelViewMatrix = modelViewMatrix;
 }
 
-bool Primitive::render(Frame& frame,
-                       const geom::Matrix& modelViewMatrix,
-                       const geom::Size& size) {
+void Primitive::setSolidColor(entity::Color solidColor) {
+  _solidColor = solidColor;
+}
+
+void Primitive::setOpacity(double opacity) {
+  _opacity = opacity;
+}
+
+bool Primitive::isRenderable() const {
+  /*
+   *  WIP: Easy opportunity to get rid of non-renderable nodes.
+   */
+  return true;
+}
+
+bool Primitive::render(Frame& frame) {
   /*
    *  Select the program to use
    */
@@ -41,15 +60,15 @@ bool Primitive::render(Frame& frame,
   /*
    *  Setup Uniform Data
    */
-  GLMatrix modelViewProjection = frame.projectionMatrix() * modelViewMatrix;
+  GLMatrix modelViewProjection = frame.projectionMatrix() * _modelViewMatrix;
 
   glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
-  glUniform4f(program.contentColorUniform(), _color.red, _color.green,
-              _color.blue, _color.alpha * _opacity);
+  glUniform4f(program.contentColorUniform(), _solidColor.red, _solidColor.green,
+              _solidColor.blue, _solidColor.alpha * _opacity);
 
-  glUniform2f(program.sizeUniform(), size.width, size.height);
+  glUniform2f(program.sizeUniform(), _size.width, _size.height);
 
   /*
    *  Setup vertices and draw.
@@ -60,14 +79,6 @@ bool Primitive::render(Frame& frame,
   RL_ASSERT(drawn);
 
   return true;
-}
-
-double Primitive::opacity() const {
-  return _opacity;
-}
-
-void Primitive::setOpacity(double opacity) {
-  _opacity = opacity;
 }
 
 }  // namespace compositor

@@ -7,6 +7,7 @@
 
 #include <Coordinator/PresentationGraph.h>
 #include <Compositor/InterfaceStatistics.h>
+#include <Compositor/FrontendPass.h>
 #include <Core/Core.h>
 #include <Event/TouchEvent.h>
 #include <Core/Mutexed.h>
@@ -26,7 +27,7 @@ class InterfaceController {
 
   bool update(const event::TouchEvent::PhaseMap& touchesIfAny);
 
-  bool render(compositor::Frame& frame);
+  compositor::FrontEndPass render();
 
   const std::string& debugTag() const;
 

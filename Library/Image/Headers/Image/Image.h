@@ -30,6 +30,8 @@ class Image : public core::MessageSerializable {
 
   bool deserialize(core::Message& message, core::Namespace* ns) override;
 
+  bool isValid() const;
+
   struct Hash {
     std::size_t operator()(const Image& key) const;
   };

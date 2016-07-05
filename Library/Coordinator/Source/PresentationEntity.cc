@@ -9,7 +9,7 @@ namespace rl {
 namespace coordinator {
 
 PresentationEntity::PresentationEntity(core::Name identifier)
-    : Entity(identifier, nullptr), _lastModelViewMatrix(geom::MatrixIdentity) {}
+    : Entity(identifier, nullptr) {}
 
 PresentationEntity::~PresentationEntity() {}
 
@@ -29,32 +29,70 @@ bool PresentationEntity::isWindowPointInside(const geom::Point& point) const {
 
 geom::Point PresentationEntity::convertPointFromWindow(
     const geom::Point& point) const {
-  auto inverted = _lastModelViewMatrix.invert();
+  auto inverted = _renderedModelViewMatrix.invert();
   auto pointInWindowVector = point * inverted;
   return geom::Point{pointInWindowVector.x, pointInWindowVector.y};
 }
 
-bool PresentationEntity::render(compositor::Frame& frame,
+void PresentationEntity::render(compositor::FrontEndPass& frontEndPass,
                                 const geom::Matrix& viewMatrix) {
-  frame.context().statistics().primitiveCount().increment();
-
   /*
-   *  This is incorrect. This method needs to be const.
+   *  Update the model view matrix for the latest render pass. This allows
+   *  us to perform constant time geometry conversions between arbitrary
+   *  entities.
    */
-  _lastModelViewMatrix = viewMatrix * modelMatrix();
 
-  compositor::Primitive p;
-  p.setColor(backgroundColor());
-  p.setOpacity(opacity());
+  _renderedModelViewMatrix = viewMatrix * modelMatrix();
 
-  if (!p.render(frame, _lastModelViewMatrix, bounds().size)) {
-    return false;
+  if (!renderContents(frontEndPass)) {
+    /*
+     *  The `renderContents` step explicitly told us not to bother with this
+     *  subtree. Give up.
+     */
+    return;
   }
 
   for (const auto& child : _children) {
-    if (!child->render(frame, _lastModelViewMatrix)) {
-      return false;
-    }
+    child->render(frontEndPass, _renderedModelViewMatrix);
+  }
+}
+
+bool PresentationEntity::renderContents(
+    compositor::FrontEndPass& frontEndPass) const {
+  /*
+   *  If the size of the entity is less that zero along either dimension, there
+   *  is nothing more to say about this entity.
+   */
+  if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
+    return false;
+  }
+
+  /*
+   *  Opacity must be above the threshold.
+   */
+  if (_opacity < compositor::Primitive::AlphaThreshold) {
+    return false;
+  }
+
+  /*
+   *  Step 1:
+   *  Setup the primitive for the solid background color (if necessary).
+   */
+  if (_backgroundColor.alpha * _opacity >=
+      compositor::Primitive::AlphaThreshold) {
+    compositor::Primitive primitive;
+    primitive.setSolidColor(_backgroundColor);
+    primitive.setSize(_bounds.size);
+    primitive.setOpacity(_opacity);
+    primitive.setModelViewMatrix(_renderedModelViewMatrix);
+  }
+
+  /*
+   *  Step 2:
+   *  Setup the primitive for the contents (if necessary).
+   */
+  if (_contents.isValid()) {
+    // WIP
   }
 
   return true;

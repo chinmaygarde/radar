@@ -93,12 +93,6 @@ static const Color ColorRed(1.0, 0.0, 0.0, 1.0);
 static const Color ColorGreen(0.0, 1.0, 0.0, 1.0);
 static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
 
-/**
- *  The alpha at which we decide the layer or primitive is transparent for
- *  rendering purposes.
- */
-static const double TransparencyAlphaThreshold = 0.01;
-
 }  // namespace entity
 }  // namespace rl
 

@@ -441,12 +441,12 @@ void PresentationGraph::syncSolverStats() {
   _stats.editVariablesCount().reset(_layoutSolver.editVariableCount());
 }
 
-bool PresentationGraph::render(compositor::Frame& frame) {
+void PresentationGraph::render(compositor::FrontEndPass& frontEndPass) {
   if (_root == nullptr) {
-    return false;
+    return;
   }
-  frame.context().statistics().entityCount().increment(_entities.size());
-  return _root->render(frame, geom::MatrixIdentity);
+
+  _root->render(frontEndPass, geom::MatrixIdentity);
 }
 
 bool PresentationGraph::stepInterpolations() {

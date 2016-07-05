@@ -19,6 +19,8 @@ Image::Image(core::Allocation sourceAllocation)
 Image::Image(core::FileHandle sourceFile)
     : _source(ImageSource::Create(std::move(sourceFile))) {}
 
+Image::~Image() = default;
+
 bool Image::serialize(core::Message& message) const {
   if (_source == nullptr) {
     return false;
@@ -129,7 +131,9 @@ ImageResult Image::decode() const {
   };
 }
 
-Image::~Image() = default;
+bool Image::isValid() const {
+  return _source != nullptr;
+}
 
 std::size_t Image::Hash::operator()(const Image& key) const {
   return std::hash<decltype(key._source)>()(key._source);
