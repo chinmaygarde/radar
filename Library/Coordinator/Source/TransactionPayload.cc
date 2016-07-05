@@ -93,9 +93,8 @@ bool TransactionPayload::deserialize(core::Message& message,
   {
     RL_TRACE_AUTO("TransferRecordsCommit");
 
-    TransferEntity entity;
-
     for (size_t i = 0; i < transferRecords; i++) {
+      TransferEntity entity;
       RL_RETURN_IF_FALSE(message.decode(entity, ns));
       _transferRecordCallback(action, entity, _commitTime);
     }
