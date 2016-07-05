@@ -36,9 +36,7 @@ bool BackEndPass::render(core::WorkQueue& preparationWQ, Frame& frame) {
   auto& primitivesStatistics = frame.context().statistics().primitiveCount();
 
   for (const auto& frontEndPass : _frontEndPasses) {
-    if (!frontEndPass.render(*this, frame))
-      return false;
-
+    RL_RETURN_IF_FALSE(frontEndPass.render(*this, frame));
     primitivesStatistics.increment(frontEndPass.primitivesCount());
   }
 

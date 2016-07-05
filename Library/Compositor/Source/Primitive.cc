@@ -58,8 +58,11 @@ bool Primitive::render(Frame& frame) const {
   glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&modelViewProjection));
 
-  glUniform4f(program.contentColorUniform(), _solidColor.red, _solidColor.green,
-              _solidColor.blue, _solidColor.alpha * _opacity);
+  glUniform4f(program.contentColorUniform(),  //
+              _solidColor.red,                //
+              _solidColor.green,              //
+              _solidColor.blue,               //
+              _solidColor.alpha * _opacity);
 
   glUniform2f(program.sizeUniform(), _size.width, _size.height);
 
@@ -69,9 +72,8 @@ bool Primitive::render(Frame& frame) const {
   bool drawn = frame.context().unitBoxVertices().draw();
 
   RL_GLAssert("No errors while rendering");
-  RL_ASSERT(drawn);
 
-  return true;
+  return drawn;
 }
 
 }  // namespace compositor
