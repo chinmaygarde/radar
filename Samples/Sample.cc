@@ -84,7 +84,6 @@ static void AddDraggableEntity(rl::interface::Interface& interface) {
   using Property = rl::layout::Variable::Property;
 
   auto& root = interface.rootEntity();
-  root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
 
   auto sub1 = interface.createEntity();
   sub1.setFrame({10.0, 10.0, 100.0, 100.0});
@@ -146,6 +145,9 @@ void SampleApplication::AddEntityWithImage(
 }
 
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
+  auto& root = interface.rootEntity();
+  root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
+
   AddGridToRoot(interface);
 
   AddDraggableEntity(interface);
