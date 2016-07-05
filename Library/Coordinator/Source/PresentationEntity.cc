@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/PresentationEntity.h>
-#include <Compositor/Primitive/Primitive.h>
+#include <Compositor/Primitive/ColoredBoxPrimitive.h>
 
 namespace rl {
 namespace coordinator {
@@ -80,11 +80,11 @@ bool PresentationEntity::renderContents(
    */
   if (_backgroundColor.alpha * _opacity >=
       compositor::Primitive::AlphaThreshold) {
-    compositor::Primitive primitive;
-    primitive.setSolidColor(_backgroundColor);
-    primitive.setSize(_bounds.size);
-    primitive.setOpacity(_opacity);
-    primitive.setModelViewMatrix(_renderedModelViewMatrix);
+    auto primitive = core::make_unique<compositor::ColoredBoxPrimitive>();
+    primitive->setColor(_backgroundColor);
+    primitive->setSize(_bounds.size);
+    primitive->setOpacity(_opacity);
+    primitive->setModelViewMatrix(_renderedModelViewMatrix);
     frontEndPass.addPrimitive(std::move(primitive));
   }
 

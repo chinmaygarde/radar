@@ -26,14 +26,14 @@ class FrontEndPass {
 
   size_t primitivesCount() const;
 
-  void addPrimitive(Primitive primitive);
+  void addPrimitive(std::unique_ptr<Primitive> primitive);
 
   void prepareInBackendPass(BackEndPass& pass);
 
   bool render(const BackEndPass& pass, Frame& frame) const;
 
  private:
-  std::vector<Primitive> _primitives;
+  std::vector<std::unique_ptr<Primitive>> _primitives;
 
   RL_DISALLOW_COPY_AND_ASSIGN(FrontEndPass);
 };

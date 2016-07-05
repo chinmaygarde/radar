@@ -5,11 +5,6 @@
 #include <Core/Config.h>
 
 #include <Compositor/Primitive/Primitive.h>
-#include <Compositor/Context.h>
-
-#include "OpenGL.h"
-#include "BoxVertices.h"
-#include "ProgramCatalog.h"
 
 namespace rl {
 namespace compositor {
@@ -30,48 +25,8 @@ void Primitive::setModelViewMatrix(geom::Matrix modelViewMatrix) {
   _modelViewMatrix = modelViewMatrix;
 }
 
-void Primitive::setSolidColor(entity::Color solidColor) {
-  _solidColor = solidColor;
-}
-
 void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
-}
-
-bool Primitive::render(Frame& frame) const {
-  /*
-   *  Select the program to use
-   */
-  auto& program = frame.context().programCatalog().boxProgram();
-
-  if (!program.use()) {
-    return false;
-  }
-
-  /*
-   *  Setup Uniform Data
-   */
-  GLMatrix modelViewProjection = frame.projectionMatrix() * _modelViewMatrix;
-
-  glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
-                     reinterpret_cast<const GLfloat*>(&modelViewProjection));
-
-  glUniform4f(program.contentColorUniform(),  //
-              _solidColor.red,                //
-              _solidColor.green,              //
-              _solidColor.blue,               //
-              _solidColor.alpha * _opacity);
-
-  glUniform2f(program.sizeUniform(), _size.width, _size.height);
-
-  /*
-   *  Setup vertices and draw.
-   */
-  bool drawn = frame.context().unitBoxVertices().draw();
-
-  RL_GLAssert("No errors while rendering");
-
-  return drawn;
 }
 
 }  // namespace compositor

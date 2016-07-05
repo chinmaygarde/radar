@@ -17,7 +17,8 @@ size_t FrontEndPass::primitivesCount() const {
   return _primitives.size();
 }
 
-void FrontEndPass::addPrimitive(Primitive primitive) {
+void FrontEndPass::addPrimitive(std::unique_ptr<Primitive> primitive) {
+  RL_ASSERT(primitive != nullptr);
   _primitives.emplace_back(std::move(primitive));
 }
 
@@ -25,7 +26,7 @@ void FrontEndPass::prepareInBackendPass(BackEndPass& pass) {}
 
 bool FrontEndPass::render(const BackEndPass& pass, Frame& frame) const {
   for (const auto& primitive : _primitives) {
-    if (!primitive.render(frame)) {
+    if (!primitive->render(frame)) {
       return false;
     }
   }

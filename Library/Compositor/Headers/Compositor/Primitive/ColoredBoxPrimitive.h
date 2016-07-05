@@ -17,7 +17,13 @@ class ColoredBoxPrimitive : public Primitive {
 
   ~ColoredBoxPrimitive() override;
 
+  void setColor(entity::Color color);
+
+  bool render(Frame& frame) const override;
+
  private:
+  entity::Color _color;
+
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredBoxPrimitive);
 };
 

@@ -29,18 +29,16 @@ class Primitive {
 
   void setModelViewMatrix(geom::Matrix modelViewMatrix);
 
-  void setSolidColor(entity::Color solidColor);
-
   void setOpacity(double opacity);
 
-  bool render(Frame& frame) const;
+  virtual bool render(Frame& frame) const = 0;
 
- private:
+ protected:
   geom::Size _size;
   geom::Matrix _modelViewMatrix;
-  entity::Color _solidColor;
   double _opacity;
 
+ private:
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);
 };
 
