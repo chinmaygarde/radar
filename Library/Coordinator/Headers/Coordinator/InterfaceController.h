@@ -27,6 +27,7 @@ class InterfaceController {
 
   bool update(const event::TouchEvent::PhaseMap& touchesIfAny);
 
+  RL_WARN_UNUSED_RESULT
   compositor::FrontEndPass render();
 
   const std::string& debugTag() const;

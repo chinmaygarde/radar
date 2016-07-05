@@ -36,7 +36,7 @@ WorkQueue::WorkQueue(std::string queueName)
     terminationSource->setWakeFunction(
         std::bind(&WorkQueue::workerTerminate, this));
 
-    std::string name = "rl." + queueName + ".worker" + std::to_string(i + 1);
+    std::string name = "rl." + queueName + ".worker." + std::to_string(i + 1);
 
     std::thread worker(std::bind(&WorkQueue::workerMain, this, name,
                                  std::ref(ready), terminationSource));

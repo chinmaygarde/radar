@@ -40,14 +40,7 @@ void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
-bool Primitive::isRenderable() const {
-  /*
-   *  WIP: Easy opportunity to get rid of non-renderable nodes.
-   */
-  return true;
-}
-
-bool Primitive::render(Frame& frame) {
+bool Primitive::render(Frame& frame) const {
   /*
    *  Select the program to use
    */

@@ -87,5 +87,11 @@ bool TextureTransaction::uploadImagesToVRAM() {
   return true;
 }
 
+bool TextureTransaction::commit(core::WorkQueue& workqueue) {
+  RL_RETURN_IF_FALSE(uncompressImages(workqueue));
+  RL_RETURN_IF_FALSE(uploadImagesToVRAM());
+  return true;
+}
+
 }  // namespace compositor
 }  // namespace rl

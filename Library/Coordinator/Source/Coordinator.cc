@@ -6,6 +6,7 @@
 #include <Compositor/Frame.h>
 #include <Core/TraceEvent.h>
 #include <Coordinator/RenderSurface.h>
+#include <Compositor/BackendPass.h>
 
 namespace rl {
 namespace coordinator {
@@ -15,6 +16,7 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
     : _surface(surface),
       _loop(nullptr),
       _interfaceTagGenerator("rl.interface"),
+      _workQueue("coordinator"),
       _animationsSource(core::EventLoopSource::Timer(
           std::chrono::duration_cast<core::ClockDurationNano>(
               core::ClockDurationSeconds(1.0 / 60.0)))),
@@ -179,6 +181,19 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
     return true;
   }
 
+  /*
+   *  Run the front-end passes before surface acquisition and back-end pass
+   *  initialization.
+   *
+   *  TODO: Figure out how to be lazy in generating these passes.
+   */
+
+  std::vector<compositor::FrontEndPass> frontEndPasses;
+
+  for (auto& interface : controllers.get()) {
+    frontEndPasses.emplace_back(interface.render());
+  }
+
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
 
   if (!surfaceAccess.acquired()) {
@@ -191,13 +206,9 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
     return false;
   }
 
-  auto wasRendered = false;
+  compositor::BackEndPass backEndPass(std::move(frontEndPasses));
 
-  for (auto& interface : controllers.get()) {
-    wasRendered |= interface.render(frame);
-  }
-
-  if (wasRendered) {
+  if (backEndPass.render(_workQueue, frame)) {
     surfaceAccess.finalizeForPresentation();
   }
 

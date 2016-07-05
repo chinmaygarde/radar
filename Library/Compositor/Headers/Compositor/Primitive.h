@@ -33,9 +33,7 @@ class Primitive {
 
   void setOpacity(double opacity);
 
-  bool isRenderable() const;
-
-  bool render(Frame& frame);
+  bool render(Frame& frame) const;
 
  private:
   geom::Size _size;

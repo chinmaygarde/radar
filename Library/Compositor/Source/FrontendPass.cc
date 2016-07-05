@@ -13,12 +13,24 @@ FrontEndPass::~FrontEndPass() = default;
 
 FrontEndPass::FrontEndPass(FrontEndPass&&) = default;
 
+size_t FrontEndPass::primitivesCount() const {
+  return _primitives.size();
+}
+
 void FrontEndPass::addPrimitive(Primitive primitive) {
-  if (!primitive.isRenderable()) {
-    return;
+  _primitives.emplace_back(std::move(primitive));
+}
+
+void FrontEndPass::prepareInBackendPass(BackEndPass& pass) {}
+
+bool FrontEndPass::render(const BackEndPass& pass, Frame& frame) const {
+  for (const auto& primitive : _primitives) {
+    if (!primitive.render(frame)) {
+      return false;
+    }
   }
 
-  _primitives.emplace_back(std::move(primitive));
+  return true;
 }
 
 }  // namespace compositor

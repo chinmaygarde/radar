@@ -85,6 +85,7 @@ bool PresentationEntity::renderContents(
     primitive.setSize(_bounds.size);
     primitive.setOpacity(_opacity);
     primitive.setModelViewMatrix(_renderedModelViewMatrix);
+    frontEndPass.addPrimitive(std::move(primitive));
   }
 
   /*

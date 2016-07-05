@@ -73,6 +73,7 @@ class Coordinator {
   geom::Size _surfaceSize;
   compositor::Context _context;
   core::DebugTagGenerator _interfaceTagGenerator;
+  core::WorkQueue _workQueue;
   InterfaceControllers _interfaceControllers;
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;

@@ -22,9 +22,9 @@ class Image : public core::MessageSerializable {
 
   Image(core::FileHandle sourceFile);
 
-  ImageResult decode() const;
-
   ~Image();
+
+  ImageResult decode() const;
 
   bool serialize(core::Message& message) const override;
 

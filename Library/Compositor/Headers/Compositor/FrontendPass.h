@@ -13,6 +13,9 @@
 namespace rl {
 namespace compositor {
 
+class BackEndPass;
+class Frame;
+
 class FrontEndPass {
  public:
   FrontEndPass();
@@ -21,7 +24,13 @@ class FrontEndPass {
 
   FrontEndPass(FrontEndPass&&);
 
+  size_t primitivesCount() const;
+
   void addPrimitive(Primitive primitive);
+
+  void prepareInBackendPass(BackEndPass& pass);
+
+  bool render(const BackEndPass& pass, Frame& frame) const;
 
  private:
   std::vector<Primitive> _primitives;

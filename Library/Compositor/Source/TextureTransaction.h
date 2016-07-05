@@ -28,23 +28,23 @@ class TextureTransaction {
 
   bool commit(core::WorkQueue& workqueue);
 
-  using Results = std::unordered_map<image::Image,
-                                     Texture,
-                                     image::Image::Hash,
-                                     image::Image::Equal>;
+ private:
+  using GuardedResults = core::Mutexed<std::unordered_map<image::Image,
+                                                          Texture,
+                                                          image::Image::Hash,
+                                                          image::Image::Equal>>;
+  using GuardedImagesSet =
+      core::Mutexed<std::unordered_set<image::Image,
+                                       image::Image::Hash,
+                                       image::Image::Equal>>;
+
+  GuardedImagesSet _images;
+  GuardedResults _results;
+  std::unique_ptr<core::Latch> _resultsLatch;
 
   bool uncompressImages(core::WorkQueue& workqueue);
 
   bool uploadImagesToVRAM();
-
- private:
-  core::Mutexed<
-      std::unordered_set<image::Image, image::Image::Hash, image::Image::Equal>,
-      std::mutex>
-      _images;
-  core::Mutexed<Results> _results;
-  std::unique_ptr<core::Latch> _resultsLatch;
-
   void uncompressOnWQ(image::Image image);
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextureTransaction);
