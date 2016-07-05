@@ -9,11 +9,7 @@ namespace entity {
 
 Entity::Entity(core::Name identifier, UpdateCallback updateCallback)
     : _identifier(identifier),
-      _bounds(geom::RectZero),
-      _position(geom::PointZero),
       _anchorPoint(geom::Point(0.5, 0.5)),
-      _transformation(geom::MatrixIdentity),
-      _backgroundColor(ColorWhiteTransparent),
       _opacity(1.0),
       _updateCallback(updateCallback) {}
 

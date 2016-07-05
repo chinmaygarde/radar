@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Compositor/Primitive/Primitive.h>
+#include <Image/Image.h>
 
 namespace rl {
 namespace compositor {
@@ -17,7 +18,13 @@ class TexturedBoxPrimitive : public Primitive {
 
   ~TexturedBoxPrimitive() override;
 
+  bool render(Frame& frame) const override;
+
+  void setImage(image::Image image);
+
  private:
+  image::Image _image;
+
   RL_DISALLOW_COPY_AND_ASSIGN(TexturedBoxPrimitive);
 };
 

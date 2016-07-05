@@ -7,7 +7,17 @@
 namespace rl {
 namespace compositor {
 
-//
+TexturedBoxPrimitive::TexturedBoxPrimitive() = default;
+
+TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
+
+bool TexturedBoxPrimitive::render(Frame& frame) const {
+  return true;
+}
+
+void TexturedBoxPrimitive::setImage(image::Image image) {
+  _image = std::move(image);
+}
 
 }  // namespace compositor
 }  // namespace rl

@@ -4,6 +4,7 @@
 
 #include <Coordinator/PresentationEntity.h>
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
+#include <Compositor/Primitive/TexturedBoxPrimitive.h>
 
 namespace rl {
 namespace coordinator {
@@ -93,7 +94,12 @@ bool PresentationEntity::renderContents(
    *  Setup the primitive for the contents (if necessary).
    */
   if (_contents.isValid()) {
-    // WIP
+    auto primitive = core::make_unique<compositor::TexturedBoxPrimitive>();
+    primitive->setImage(_contents);
+    primitive->setSize(_bounds.size);
+    primitive->setOpacity(_opacity);
+    primitive->setModelViewMatrix(_renderedModelViewMatrix);
+    frontEndPass.addPrimitive(std::move(primitive));
   }
 
   return true;
