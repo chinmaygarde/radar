@@ -15,6 +15,9 @@ namespace core {
 template <class Resource, class BasicLockable = std::mutex>
 class Mutexed {
  public:
+  using ResourceType = Resource;
+  using LockType = BasicLockable;
+
   class Access {
    public:
     Access(Access&&) = default;

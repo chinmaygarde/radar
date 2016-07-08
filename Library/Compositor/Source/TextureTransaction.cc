@@ -11,15 +11,14 @@ TextureTransaction::TextureTransaction() {}
 
 TextureTransaction::~TextureTransaction() = default;
 
-bool TextureTransaction::addImage(image::Image image) {
+bool TextureTransaction::addTexture(const Texture& texture) {
   if (_resultsLatch != nullptr) {
     return false;
   }
 
-  auto imagesAccess = _images.access();
-  auto& images = imagesAccess.get();
+  auto texturesAccess = _textures.access();
 
-  return images.emplace(std::move(image)).second;
+  return texturesAccess.get().emplace(std::move(texture)).second;
 }
 
 bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
@@ -27,39 +26,30 @@ bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
     return false;
   }
 
-  auto imagesAccess = _images.access();
-  auto& images = imagesAccess.get();
+  auto texturesAccess = _textures.access();
+  auto& textures = texturesAccess.get();
 
-  _resultsLatch = core::make_unique<rl::core::Latch>(images.size());
+  _resultsLatch = core::make_unique<rl::core::Latch>(textures.size());
 
-  for (auto image : images) {
-    workqueue.dispatch(
-        std::bind(&TextureTransaction::uncompressOnWQ, this, std::move(image)));
+  for (auto& constTexture : textures) {
+    if (constTexture.state() != Texture::State::Compressed) {
+      continue;
+    }
+
+    /*
+     *  Decompressing a texture does not modify its hash or equality result.
+     *  Perform a const cast so we can proceed with the decompression.
+     */
+
+    auto& texture = const_cast<Texture&>(constTexture);
+
+    workqueue.dispatch([&]() {
+      texture.uncompress();
+      _resultsLatch->countDown();
+    });
   }
-
-  images.clear();
 
   return true;
-}
-
-void TextureTransaction::uncompressOnWQ(image::Image image) {
-  Texture texture(image);
-
-  /*
-   *  Attempt to uncompress the image but only acquire the lock on the results
-   *  once (and if) the operation was successful.
-   */
-  if (texture.uncompress() && texture.state() == Texture::State::Uncompressed) {
-    auto resultsAccess = _results.access();
-    auto& results = resultsAccess.get();
-    results.emplace(image, std::move(texture));
-  }
-
-  /*
-   *  Successful decompression or not, we have to count down on the latch.
-   */
-  RL_ASSERT(_resultsLatch != nullptr);
-  _resultsLatch->countDown();
 }
 
 bool TextureTransaction::uploadImagesToVRAM() {
@@ -73,15 +63,20 @@ bool TextureTransaction::uploadImagesToVRAM() {
   _resultsLatch->wait();
 
   /*
-   *  Upload to VRAM on the callers thread. Make sure the results mutex is
+   *  Upload to VRAM on the callers thread. Make sure the textures mutex is
    *  acquired after results are done coming in.
    */
 
-  auto resultsAccess = _results.access();
-  auto& results = resultsAccess.get();
+  auto texturesAccess = _textures.access();
+  auto& textures = texturesAccess.get();
 
-  for (auto& result : results) {
-    result.second.uploadToVRAM();
+  for (auto& constTexture : textures) {
+    /*
+     *  Uploading a texture does not modify its hash or equality result.
+     *  Perform a const cast so we can proceed with the upload.
+     */
+    auto& texture = const_cast<Texture&>(constTexture);
+    texture.uploadToVRAM();
   }
 
   return true;

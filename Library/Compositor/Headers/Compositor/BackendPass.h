@@ -16,6 +16,7 @@ namespace rl {
 namespace compositor {
 
 class TextureTransaction;
+class Texture;
 
 class BackEndPass {
  public:
@@ -25,7 +26,7 @@ class BackEndPass {
 
   bool render(core::WorkQueue& preparationWQ, Frame& frame);
 
-  bool addImageForPreparation(image::Image image);
+  bool prepareTexture(const Texture& texture);
 
  private:
   std::vector<FrontEndPass> _frontEndPasses;

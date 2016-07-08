@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
+#include <Compositor/Frame.h>
 
 #include "OpenGL.h"
 #include "BoxVertices.h"
@@ -18,6 +19,8 @@ ColoredBoxPrimitive::~ColoredBoxPrimitive() = default;
 void ColoredBoxPrimitive::setColor(entity::Color color) {
   _color = std::move(color);
 }
+
+void ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) const {}
 
 bool ColoredBoxPrimitive::render(Frame& frame) const {
   /*

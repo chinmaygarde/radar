@@ -19,6 +19,8 @@ Texture::~Texture() {
                 "can be collected.");
 }
 
+Texture::Texture(const Texture& other) : Texture(other._image) {}
+
 Texture::Texture(Texture&& other)
     : _image(std::move(other._image)),
       _imageResult(std::move(other._imageResult)),
@@ -152,6 +154,14 @@ bool Texture::uploadToVRAM() {
 
   _state = State::UploadedToVRAM;
   return true;
+}
+
+std::size_t Texture::Hash::operator()(const Texture& key) const {
+  return image::Image::Hash()(key._image);
+}
+
+bool Texture::Equal::operator()(const Texture& lhs, const Texture& rhs) const {
+  return image::Image::Equal()(lhs._image, rhs._image);
 }
 
 }  // namespace compositor

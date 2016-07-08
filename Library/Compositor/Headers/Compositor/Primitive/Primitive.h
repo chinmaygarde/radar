@@ -10,10 +10,12 @@
 #include <Geometry/Geometry.h>
 
 #include <Entity/Color.h>
-#include <Compositor/Frame.h>
 
 namespace rl {
 namespace compositor {
+
+class BackEndPass;
+class Frame;
 
 class Primitive {
  public:
@@ -30,6 +32,8 @@ class Primitive {
   void setModelViewMatrix(geom::Matrix modelViewMatrix);
 
   void setOpacity(double opacity);
+
+  virtual void prepareToRender(BackEndPass& backEndPass) const = 0;
 
   virtual bool render(Frame& frame) const = 0;
 

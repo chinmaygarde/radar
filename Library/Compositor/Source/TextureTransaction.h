@@ -24,28 +24,20 @@ class TextureTransaction {
 
   ~TextureTransaction();
 
-  bool addImage(image::Image image);
+  bool addTexture(const Texture& texture);
 
   bool commit(core::WorkQueue& workqueue);
 
  private:
-  using GuardedResults = core::Mutexed<std::unordered_map<image::Image,
-                                                          Texture,
-                                                          image::Image::Hash,
-                                                          image::Image::Equal>>;
-  using GuardedImagesSet =
-      core::Mutexed<std::unordered_set<image::Image,
-                                       image::Image::Hash,
-                                       image::Image::Equal>>;
+  using Textures =
+      core::Mutexed<std::unordered_set<Texture, Texture::Hash, Texture::Equal>>;
 
-  GuardedImagesSet _images;
-  GuardedResults _results;
+  Textures _textures;
+
   std::unique_ptr<core::Latch> _resultsLatch;
 
   bool uncompressImages(core::WorkQueue& workqueue);
-
   bool uploadImagesToVRAM();
-  void uncompressOnWQ(image::Image image);
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextureTransaction);
 };

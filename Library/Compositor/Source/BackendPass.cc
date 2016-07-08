@@ -43,8 +43,8 @@ bool BackEndPass::render(core::WorkQueue& preparationWQ, Frame& frame) {
   return true;
 }
 
-bool BackEndPass::addImageForPreparation(image::Image image) {
-  return _textureTransaction->addImage(std::move(image));
+bool BackEndPass::prepareTexture(const Texture& texture) {
+  return _textureTransaction->addTexture(texture);
 }
 
 }  // namespace compositor

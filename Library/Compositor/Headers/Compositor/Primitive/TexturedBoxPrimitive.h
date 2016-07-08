@@ -12,18 +12,22 @@
 namespace rl {
 namespace compositor {
 
+class Texture;
+
 class TexturedBoxPrimitive : public Primitive {
  public:
   TexturedBoxPrimitive();
 
   ~TexturedBoxPrimitive() override;
 
+  void prepareToRender(BackEndPass& backEndPass) const override;
+
   bool render(Frame& frame) const override;
 
   void setImage(image::Image image);
 
  private:
-  image::Image _image;
+  std::unique_ptr<Texture> _texture;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TexturedBoxPrimitive);
 };

@@ -4,6 +4,9 @@
 
 #include <Compositor/Primitive/TexturedBoxPrimitive.h>
 
+#include "Texture.h"
+#include <Compositor/BackendPass.h>
+
 namespace rl {
 namespace compositor {
 
@@ -11,12 +14,20 @@ TexturedBoxPrimitive::TexturedBoxPrimitive() = default;
 
 TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
 
-bool TexturedBoxPrimitive::render(Frame& frame) const {
-  return true;
+void TexturedBoxPrimitive::setImage(image::Image image) {
+  _texture = core::make_unique<Texture>(std::move(image));
 }
 
-void TexturedBoxPrimitive::setImage(image::Image image) {
-  _image = std::move(image);
+void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) const {
+  if (_texture == nullptr) {
+    return;
+  }
+
+  backEndPass.prepareTexture(*_texture);
+}
+
+bool TexturedBoxPrimitive::render(Frame& frame) const {
+  return true;
 }
 
 }  // namespace compositor

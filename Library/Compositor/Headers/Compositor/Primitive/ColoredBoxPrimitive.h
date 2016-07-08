@@ -19,6 +19,8 @@ class ColoredBoxPrimitive : public Primitive {
 
   void setColor(entity::Color color);
 
+  void prepareToRender(BackEndPass& backEndPass) const override;
+
   bool render(Frame& frame) const override;
 
  private:

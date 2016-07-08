@@ -28,7 +28,7 @@ class FrontEndPass {
 
   void addPrimitive(std::unique_ptr<Primitive> primitive);
 
-  void prepareInBackendPass(BackEndPass& pass);
+  bool prepareInBackendPass(BackEndPass& pass);
 
   bool render(const BackEndPass& pass, Frame& frame) const;
 
