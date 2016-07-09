@@ -9,7 +9,7 @@ namespace compositor {
 
 static const char TextureVertexShader[] = R"--(
 
-  attribute vec3 A_Position;
+  attribute vec2 A_Position;
 
   uniform mat4 U_MVP;
   uniform vec2 U_Size;
@@ -17,7 +17,7 @@ static const char TextureVertexShader[] = R"--(
   varying vec2 V_TextureCoordinates;
 
   void main() {
-    V_TextureCoordinates = vec2(A_Position.x, A_Position.y);
+    V_TextureCoordinates = A_Position;
     gl_Position = U_MVP * vec4(A_Position.x * U_Size.x,
                                A_Position.y * U_Size.y,
                                0.0, 1.0);
@@ -37,7 +37,7 @@ static const char TextureFragmentShader[] = R"--(
   varying vec2 V_TextureCoordinates;
 
   void main() {
-    gl_FragColor = texture2D(U_Texture, V_TextureCoordinates) * U_Alpha;
+    gl_FragColor = U_Alpha * texture2D(U_Texture, V_TextureCoordinates);
   }
   
   )--";

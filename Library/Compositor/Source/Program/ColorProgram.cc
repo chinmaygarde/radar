@@ -11,7 +11,7 @@ namespace compositor {
 
 static const char ColorVertexShader[] = R"--(
 
-  attribute vec3 A_Position;
+  attribute vec2 A_Position;
 
   uniform mat4 U_MVP;
   uniform vec2 U_Size;
