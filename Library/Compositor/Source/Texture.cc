@@ -118,6 +118,16 @@ bool Texture::uploadToVRAM() {
   glBindTexture(GL_TEXTURE_2D, _textureHandle);
 
   /*
+   *  Specify default texture properties.
+   */
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+  /*
    *  Upload texture data to VRAM.
    */
   glTexImage2D(GL_TEXTURE_2D,                      // target
@@ -134,6 +144,17 @@ bool Texture::uploadToVRAM() {
   RL_GLAssert("There must be no errors post texture upload.");
 
   _state = State::UploadedToVRAM;
+  return true;
+}
+
+bool Texture::bind(size_t index) const {
+  if (_state != State::UploadedToVRAM || _textureHandle == GL_NONE) {
+    return false;
+  }
+
+  glActiveTexture(GL_TEXTURE0 + index);
+  glBindTexture(GL_TEXTURE_2D, _textureHandle);
+
   return true;
 }
 

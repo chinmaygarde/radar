@@ -33,16 +33,15 @@ bool ColoredBoxPrimitive::render(Frame& frame) const {
   }
 
   /*
-   *  Setup Uniform Data
+   *  Set uniforms.
    */
-
   SetUniform(program.contentColorUniform(), _color, _opacity);
   SetUniform(program.sizeUniform(), _size);
   SetUniform(program.modelViewProjectionUniform(),
              frame.projectionMatrix() * _modelViewMatrix);
 
-  /*
-   *  Setup vertices and draw.
+  /**
+   *  Draw vertices.
    */
   bool drawn =
       frame.context().unitBoxVertices().draw(program.positionAttribute());

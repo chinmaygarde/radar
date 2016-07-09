@@ -7,6 +7,8 @@
 
 #include "Texture.h"
 #include "ProgramCatalog.h"
+#include "Uniform.h"
+#include "BoxVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -28,13 +30,34 @@ void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
 }
 
 bool TexturedBoxPrimitive::render(Frame& frame) const {
+  /*
+   *  Select the program to use.
+   */
   auto& program = frame.context().programCatalog().textureProgram();
 
   if (!program.use()) {
     return false;
   }
 
-  return true;
+  /*
+   *  Bind texture.
+   */
+  if (!_texture->bind()) {
+    return false;
+  }
+
+  /*
+   *  Set uniforms.
+   */
+  SetUniform(program.modelViewProjectionUniform(),
+             frame.projectionMatrix() * _modelViewMatrix);
+  SetUniform(program.sizeUniform(), _size);
+  SetUniform(program.alphaUniform(), _opacity);
+
+  /*
+   *  Draw vertices.
+   */
+  return frame.context().unitBoxVertices().draw(program.positionAttribute());
 }
 
 }  // namespace compositor

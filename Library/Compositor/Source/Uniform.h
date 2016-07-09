@@ -18,6 +18,8 @@ void SetUniform(GLint index, const entity::Color& color);
 
 void SetUniform(GLint index, const entity::Color& color, double alpha);
 
+void SetUniform(GLint index, double alpha);
+
 void SetUniform(GLint index, const geom::Size& size);
 
 }  // namespace compositor

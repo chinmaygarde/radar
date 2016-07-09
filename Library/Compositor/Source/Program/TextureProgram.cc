@@ -32,11 +32,12 @@ static const char TextureFragmentShader[] = R"--(
 #endif
 
   uniform sampler2D U_Texture;
+  uniform float U_Alpha;
 
   varying vec2 V_TextureCoordinates;
 
   void main() {
-    gl_FragColor = texture2D(U_Texture, V_TextureCoordinates);
+    gl_FragColor = texture2D(U_Texture, V_TextureCoordinates) * U_Alpha;
   }
   
   )--";
@@ -45,11 +46,13 @@ TextureProgram::TextureProgram()
     : Program::Program(TextureVertexShader, TextureFragmentShader),
       _modelViewProjectionUniform(-1),
       _sizeUniform(-1),
+      _alphaUniform(-1),
       _positionAttribute(-1) {}
 
 void TextureProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");
   _sizeUniform = indexForUniform("U_Size");
+  _alphaUniform = indexForUniform("U_Alpha");
   _positionAttribute = indexForAttribute("A_Position");
 }
 
@@ -59,6 +62,10 @@ GLint TextureProgram::modelViewProjectionUniform() const {
 
 GLint TextureProgram::sizeUniform() const {
   return _sizeUniform;
+}
+
+GLint TextureProgram::alphaUniform() const {
+  return _alphaUniform;
 }
 
 GLint TextureProgram::positionAttribute() const {
