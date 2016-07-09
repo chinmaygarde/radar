@@ -16,7 +16,7 @@ class BoxVertices : public Vertices {
  public:
   BoxVertices(geom::Rect boxRect);
 
-  bool draw() override;
+  bool draw(size_t index) override;
 
  private:
   bool uploadVertexData() override;

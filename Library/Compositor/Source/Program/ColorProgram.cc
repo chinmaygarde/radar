@@ -11,14 +11,14 @@ namespace compositor {
 
 static const char ColorVertexShader[] = R"--(
 
-  attribute vec3 position;
+  attribute vec3 A_Position;
 
   uniform mat4 U_MVP;
   uniform vec2 U_Size;
 
   void main() {
-    gl_Position = U_MVP * vec4(position.x * U_Size.x,
-                               position.y * U_Size.y,
+    gl_Position = U_MVP * vec4(A_Position.x * U_Size.x,
+                               A_Position.y * U_Size.y,
                                0.0, 1.0);
   }
 
@@ -39,29 +39,33 @@ static const char ColorFragmentShader[] = R"--(
 )--";
 
 ColorProgram::ColorProgram()
-    : Program::Program({"U_MVP", "U_Size", "U_ContentColor"},
-                       ColorVertexShader,
-                       ColorFragmentShader),
+    : Program::Program(ColorVertexShader, ColorFragmentShader),
       _modelViewProjectionUniform(-1),
       _contentColorUniform(-1),
-      _sizeUniform(-1) {}
+      _sizeUniform(-1),
+      _positionAttribute(-1) {}
 
 void ColorProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
+  _positionAttribute = indexForAttribute("A_Position");
 }
 
-unsigned int ColorProgram::modelViewProjectionUniform() const {
+GLint ColorProgram::modelViewProjectionUniform() const {
   return _modelViewProjectionUniform;
 }
 
-unsigned int ColorProgram::contentColorUniform() const {
+GLint ColorProgram::contentColorUniform() const {
   return _contentColorUniform;
 }
 
-unsigned int ColorProgram::sizeUniform() const {
+GLint ColorProgram::sizeUniform() const {
   return _sizeUniform;
+}
+
+GLint ColorProgram::positionAttribute() const {
+  return _positionAttribute;
 }
 
 }  // namespace compositor

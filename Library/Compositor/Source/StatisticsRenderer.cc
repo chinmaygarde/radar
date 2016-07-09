@@ -52,9 +52,7 @@ static const char RendererFragmentShader[] = R"--(
 class StatisticsRendererProgram : public Program {
  public:
   StatisticsRendererProgram()
-      : Program({"Position", "UV", "Color"},
-                RendererVertexShader,
-                RendererFragmentShader) {}
+      : Program(RendererVertexShader, RendererFragmentShader) {}
 
   unsigned int textureUniform;
   unsigned int projMtxUniform;

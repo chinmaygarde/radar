@@ -18,19 +18,21 @@ class ColorProgram : public Program {
  public:
   ColorProgram();
 
-  unsigned int modelViewProjectionUniform() const;
+  GLint modelViewProjectionUniform() const;
 
-  unsigned int contentColorUniform() const;
+  GLint contentColorUniform() const;
 
-  unsigned int sizeUniform() const;
+  GLint sizeUniform() const;
 
- protected:
-  void onLinkSuccess() override;
+  GLint positionAttribute() const;
 
  private:
-  unsigned int _modelViewProjectionUniform;
-  unsigned int _contentColorUniform;
-  unsigned int _sizeUniform;
+  GLint _modelViewProjectionUniform;
+  GLint _contentColorUniform;
+  GLint _sizeUniform;
+  GLint _positionAttribute;
+
+  void onLinkSuccess() override;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ColorProgram);
 };

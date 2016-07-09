@@ -20,7 +20,7 @@ class Vertices {
 
   bool prepare();
 
-  virtual bool draw() = 0;
+  virtual bool draw(size_t index) = 0;
 
   bool dispose();
 

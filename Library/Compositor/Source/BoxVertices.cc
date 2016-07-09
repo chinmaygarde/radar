@@ -32,7 +32,7 @@ bool BoxVertices::uploadVertexData() {
   return true;
 }
 
-bool BoxVertices::draw() {
+bool BoxVertices::draw(size_t index) {
   if (!prepare()) {
     return false;
   }
@@ -43,18 +43,13 @@ bool BoxVertices::draw() {
 
   RL_GLAssert("There must be no errors before drawing box vertices");
 
-  /*
-   *  Index 0 contains three floats per vertex.
-   */
-  static const GLuint kVertexIndex = 0;
+  glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-  glVertexAttribPointer(kVertexIndex, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-  glEnableVertexAttribArray(kVertexIndex);
+  glEnableVertexAttribArray(index);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  glDisableVertexAttribArray(kVertexIndex);
+  glDisableVertexAttribArray(index);
 
   return true;
 }

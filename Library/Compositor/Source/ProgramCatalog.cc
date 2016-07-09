@@ -9,8 +9,14 @@ namespace compositor {
 
 ProgramCatalog::ProgramCatalog() = default;
 
+ProgramCatalog::~ProgramCatalog() = default;
+
 ColorProgram& ProgramCatalog::colorProgram() {
   return _colorProgram;
+}
+
+TextureProgram& ProgramCatalog::textureProgram() {
+  return _textureProgram;
 }
 
 }  // namespace compositor

@@ -15,14 +15,17 @@
 namespace rl {
 namespace compositor {
 
-Program::Program(std::vector<std::string> attributes,
-                 std::string vertexShader,
-                 std::string fragmentShader)
-    : _knownAttributes(attributes),
-      _vertexShader(vertexShader),
+Program::Program(std::string vertexShader, std::string fragmentShader)
+    : _vertexShader(vertexShader),
       _fragmentShader(fragmentShader),
       _linkingComplete(false),
-      _program(0) {}
+      _program(GL_NONE) {}
+
+Program::~Program() {
+  if (_program != GL_NONE) {
+    glDeleteProgram(_program);
+  }
+}
 
 bool Program::use() {
   linkIfNecessary();
@@ -33,7 +36,7 @@ bool Program::use() {
   return true;
 }
 
-static std::string Program_LogShaderInfo(GLuint shader) {
+static std::string LogShaderInfo(GLuint shader) {
   GLint logSize = 0;
   glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
 
@@ -81,30 +84,19 @@ void Program::linkIfNecessary() {
 
   if (status != GL_TRUE) {
     RL_LOG("Vertex Shader Compilation Failed:\n%s\n",
-           Program_LogShaderInfo(vertexShader).c_str());
+           LogShaderInfo(vertexShader).c_str());
     RL_ASSERT_MSG(false, "Vertex shader compilation must be successful");
   }
 
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
   if (status != GL_TRUE) {
     RL_LOG("Fragment Shader Compilation Failed:\n%s\n",
-           Program_LogShaderInfo(fragmentShader).c_str());
+           LogShaderInfo(fragmentShader).c_str());
     RL_ASSERT_MSG(false, "Fragment shader compilation must be successful");
   }
 
   glAttachShader(_program, vertexShader);
   glAttachShader(_program, fragmentShader);
-
-  /*
-   *  Attribute bindings must take place *before* program linking
-   */
-  size_t count = _knownAttributes.size();
-  for (size_t i = 0; i < count; i++) {
-    glBindAttribLocation(_program, static_cast<GLuint>(i),
-                         _knownAttributes[i].c_str());
-  }
-
-  RL_GLAssert("Attribute bindings must be successful");
 
   glLinkProgram(_program);
 
@@ -123,28 +115,18 @@ void Program::linkIfNecessary() {
   RL_GLAssert("Subclasses must not introduce program errors");
 }
 
-unsigned int Program::indexForAttribute(const std::string& attribute) {
-  auto found =
-      std::find(_knownAttributes.cbegin(), _knownAttributes.cend(), attribute);
-  RL_ASSERT_MSG(found != _knownAttributes.end(), "Unknown attribute queried");
-  return static_cast<unsigned int>(
-      std::distance(_knownAttributes.cbegin(), found));
-}
-
-unsigned int Program::indexForUniform(const std::string& uniform) {
-  RL_ASSERT_MSG(_linkingComplete,
-                "May only access uniforms after linking is complete");
-  GLint result = glGetUniformLocation(_program, uniform.c_str());
-  RL_ASSERT_MSG(result != -1, "The unform must be found in the program");
+GLint Program::indexForAttribute(const std::string& attribute) {
+  GLint result = glGetAttribLocation(_program, attribute.c_str());
+  RL_ASSERT_MSG(result != -1, "The attribute must be found in the program.");
   return result;
 }
 
-void Program::onLinkSuccess() {}
-
-Program::~Program() {
-  if (_program != GL_NONE) {
-    glDeleteProgram(_program);
-  }
+GLint Program::indexForUniform(const std::string& uniform) {
+  RL_ASSERT_MSG(_linkingComplete,
+                "May only access uniforms after linking is complete");
+  GLint result = glGetUniformLocation(_program, uniform.c_str());
+  RL_ASSERT_MSG(result != -1, "The uniform must be found in the program");
+  return result;
 }
 
 }  // namespace compositor

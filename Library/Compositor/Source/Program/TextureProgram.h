@@ -15,10 +15,20 @@ class TextureProgram : public Program {
  public:
   TextureProgram();
 
+  GLint modelViewProjectionUniform() const;
+
+  GLint sizeUniform() const;
+
+  GLint positionAttribute() const;
+
  protected:
   void onLinkSuccess() override;
 
  private:
+  GLint _modelViewProjectionUniform;
+  GLint _sizeUniform;
+  GLint _positionAttribute;
+
   RL_DISALLOW_COPY_AND_ASSIGN(TextureProgram);
 };
 

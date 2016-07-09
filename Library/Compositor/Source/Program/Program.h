@@ -11,14 +11,15 @@
 #include <vector>
 #include <string>
 
+#include "OpenGL.h"
+
 namespace rl {
 namespace compositor {
 
 class Program {
  public:
-  explicit Program(std::vector<std::string> attributes,
-                   std::string vertexShader,
-                   std::string fragmentShader);
+  explicit Program(std::string vertexShader, std::string fragmentShader);
+
   virtual ~Program();
 
   /**
@@ -34,6 +35,13 @@ class Program {
    */
   bool use();
 
+ protected:
+  /**
+   *  Invoked each time the program is linked. Subclasses may use this facility
+   *  to cache indices and such. The base implementation does nothing.
+   */
+  virtual void onLinkSuccess() = 0;
+
   /**
    *  Fetches the index for the specified attribute
    *
@@ -41,7 +49,7 @@ class Program {
    *
    *  @return the attribute index
    */
-  unsigned int indexForAttribute(const std::string& attribute);
+  GLint indexForAttribute(const std::string& attribute);
 
   /**
    *  Fetches the index for the specifed uniform
@@ -50,23 +58,13 @@ class Program {
    *
    *  @return the uniform index
    */
-  unsigned int indexForUniform(const std::string& uniform);
-
- protected:
-  /**
-   *  Invoked each time the program is linked. Subclasses may use this facility
-   *  to cache indices and such. The base implementation does nothing.
-   */
-  virtual void onLinkSuccess();
+  GLint indexForUniform(const std::string& uniform);
 
  private:
-  std::vector<std::string> _knownAttributes;
   std::string _vertexShader;
   std::string _fragmentShader;
   bool _linkingComplete;
-  unsigned int _program;
-
-  unsigned int registerNamedAttribute();
+  GLuint _program;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Program);
 };

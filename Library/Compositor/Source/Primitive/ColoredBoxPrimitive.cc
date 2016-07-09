@@ -5,7 +5,7 @@
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
 #include <Compositor/Frame.h>
 
-#include "OpenGL.h"
+#include "Uniform.h"
 #include "BoxVertices.h"
 #include "ProgramCatalog.h"
 
@@ -35,23 +35,17 @@ bool ColoredBoxPrimitive::render(Frame& frame) const {
   /*
    *  Setup Uniform Data
    */
-  GLMatrix modelViewProjection = frame.projectionMatrix() * _modelViewMatrix;
 
-  glUniformMatrix4fv(program.modelViewProjectionUniform(), 1, GL_FALSE,
-                     reinterpret_cast<const GLfloat*>(&modelViewProjection));
-
-  glUniform4f(program.contentColorUniform(),  //
-              _color.red,                     //
-              _color.green,                   //
-              _color.blue,                    //
-              _color.alpha * _opacity);
-
-  glUniform2f(program.sizeUniform(), _size.width, _size.height);
+  SetUniform(program.contentColorUniform(), _color, _opacity);
+  SetUniform(program.sizeUniform(), _size);
+  SetUniform(program.modelViewProjectionUniform(),
+             frame.projectionMatrix() * _modelViewMatrix);
 
   /*
    *  Setup vertices and draw.
    */
-  bool drawn = frame.context().unitBoxVertices().draw();
+  bool drawn =
+      frame.context().unitBoxVertices().draw(program.positionAttribute());
 
   RL_GLAssert("No errors while rendering");
 
