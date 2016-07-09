@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "BoxProgram.h"
+#include "ColorProgram.h"
 
 #include <string>
 
 namespace rl {
 namespace compositor {
 
-static const char BoxVertexShader[] = R"--(
+static const char ColorVertexShader[] = R"--(
 
   attribute vec3 position;
 
@@ -24,7 +24,7 @@ static const char BoxVertexShader[] = R"--(
 
 )--";
 
-static const char BoxFragmentShader[] = R"--(
+static const char ColorFragmentShader[] = R"--(
 
 #ifdef GL_ES
   precision mediump float;
@@ -38,29 +38,29 @@ static const char BoxFragmentShader[] = R"--(
   
 )--";
 
-BoxProgram::BoxProgram()
+ColorProgram::ColorProgram()
     : Program::Program({"U_MVP", "U_Size", "U_ContentColor"},
-                       BoxVertexShader,
-                       BoxFragmentShader),
+                       ColorVertexShader,
+                       ColorFragmentShader),
       _modelViewProjectionUniform(-1),
       _contentColorUniform(-1),
       _sizeUniform(-1) {}
 
-void BoxProgram::onLinkSuccess() {
+void ColorProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
 }
 
-unsigned int BoxProgram::modelViewProjectionUniform() const {
+unsigned int ColorProgram::modelViewProjectionUniform() const {
   return _modelViewProjectionUniform;
 }
 
-unsigned int BoxProgram::contentColorUniform() const {
+unsigned int ColorProgram::contentColorUniform() const {
   return _contentColorUniform;
 }
 
-unsigned int BoxProgram::sizeUniform() const {
+unsigned int ColorProgram::sizeUniform() const {
   return _sizeUniform;
 }
 

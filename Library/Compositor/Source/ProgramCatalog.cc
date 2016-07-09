@@ -7,10 +7,10 @@
 namespace rl {
 namespace compositor {
 
-ProgramCatalog::ProgramCatalog() {}
+ProgramCatalog::ProgramCatalog() = default;
 
-BoxProgram& ProgramCatalog::boxProgram() {
-  return _boxProgram;
+ColorProgram& ProgramCatalog::colorProgram() {
+  return _colorProgram;
 }
 
 }  // namespace compositor

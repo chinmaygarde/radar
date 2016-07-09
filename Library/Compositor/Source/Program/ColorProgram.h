@@ -2,21 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_BOXPROGRAM_H_
-#define RADAR_COMPOSITOR_BOXPROGRAM_H_
+#ifndef RADAR_COMPOSITOR_PROGRAM_COLORPROGRAM_H_
+#define RADAR_COMPOSITOR_PROGRAM_COLORPROGRAM_H_
 
 #include <Core/Macros.h>
-#include "Program.h"
+#include "Program/Program.h"
 
 namespace rl {
 namespace compositor {
 
 /*
- *  The program to be used for drawing basic colored primitives
+ *  The program to be used for drawing simple colored primitives
  */
-class BoxProgram : public Program {
+class ColorProgram : public Program {
  public:
-  BoxProgram();
+  ColorProgram();
 
   unsigned int modelViewProjectionUniform() const;
 
@@ -32,10 +32,10 @@ class BoxProgram : public Program {
   unsigned int _contentColorUniform;
   unsigned int _sizeUniform;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(BoxProgram);
+  RL_DISALLOW_COPY_AND_ASSIGN(ColorProgram);
 };
 
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADAR_COMPOSITOR_BOXPROGRAM_H_
+#endif  // RADAR_COMPOSITOR_PROGRAM_COLORPROGRAM_H_

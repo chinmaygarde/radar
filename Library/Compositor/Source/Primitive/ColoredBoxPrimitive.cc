@@ -26,7 +26,7 @@ bool ColoredBoxPrimitive::render(Frame& frame) const {
   /*
    *  Select the program to use
    */
-  auto& program = frame.context().programCatalog().boxProgram();
+  auto& program = frame.context().programCatalog().colorProgram();
 
   if (!program.use()) {
     return false;

@@ -11,7 +11,7 @@
 #include <imgui/imgui.h>
 
 #include "OpenGL.h"
-#include "Program.h"
+#include "Program/Program.h"
 
 namespace rl {
 namespace compositor {

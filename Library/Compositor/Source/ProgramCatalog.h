@@ -5,13 +5,8 @@
 #ifndef RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 #define RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 
-#include "Program.h"
-
-#include <algorithm>
-#include <map>
-#include <memory>
-
-#include "BoxProgram.h"
+#include "Program/Program.h"
+#include "Program/ColorProgram.h"
 
 namespace rl {
 namespace compositor {
@@ -20,10 +15,10 @@ class ProgramCatalog {
  public:
   ProgramCatalog();
 
-  BoxProgram& boxProgram();
+  ColorProgram& colorProgram();
 
  private:
-  BoxProgram _boxProgram;
+  ColorProgram _colorProgram;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
 };
