@@ -11,41 +11,35 @@ TextureTransaction::TextureTransaction() {}
 
 TextureTransaction::~TextureTransaction() = default;
 
-bool TextureTransaction::addTexture(const Texture& texture) {
-  if (_resultsLatch != nullptr) {
-    return false;
+std::shared_ptr<Texture> TextureTransaction::registerTexture(
+    std::shared_ptr<Texture> texture) {
+  auto cachedTexture = _textureCache.registerTexture(texture);
+
+  RL_ASSERT(cachedTexture != nullptr);
+
+  switch (cachedTexture->state()) {
+    case Texture::State::Compressed:
+    case Texture::State::Uncompressed:
+    default:
+      _textures.emplace_back(texture);
+      break;
   }
 
-  auto texturesAccess = _textures.access();
-
-  return texturesAccess.get().emplace(std::move(texture)).second;
+  return cachedTexture;
 }
 
 bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
-  if (_resultsLatch != nullptr) {
+  if (_latch != nullptr) {
     return false;
   }
 
-  auto texturesAccess = _textures.access();
-  auto& textures = texturesAccess.get();
+  _latch = core::make_unique<rl::core::Latch>(_textures.size());
 
-  _resultsLatch = core::make_unique<rl::core::Latch>(textures.size());
-
-  for (auto& constTexture : textures) {
-    if (constTexture.state() != Texture::State::Compressed) {
-      continue;
-    }
-
-    /*
-     *  Decompressing a texture does not modify its hash or equality result.
-     *  Perform a const cast so we can proceed with the decompression.
-     */
-
-    auto& texture = const_cast<Texture&>(constTexture);
-
+  for (auto& texture : _textures) {
     workqueue.dispatch([&]() {
-      texture.uncompress();
-      _resultsLatch->countDown();
+      RL_ASSERT(texture);
+      texture->uncompress();
+      _latch->countDown();
     });
   }
 
@@ -53,30 +47,20 @@ bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
 }
 
 bool TextureTransaction::uploadImagesToVRAM() {
-  if (_resultsLatch == nullptr) {
+  if (_latch == nullptr) {
     return false;
   }
 
   /*
    *  Make sure all the workqueue work items are done processing.
    */
-  _resultsLatch->wait();
+  _latch->wait();
 
   /*
-   *  Upload to VRAM on the callers thread. Make sure the textures mutex is
-   *  acquired after results are done coming in.
+   *  Upload to VRAM on the callers thread.
    */
-
-  auto texturesAccess = _textures.access();
-  auto& textures = texturesAccess.get();
-
-  for (auto& constTexture : textures) {
-    /*
-     *  Uploading a texture does not modify its hash or equality result.
-     *  Perform a const cast so we can proceed with the upload.
-     */
-    auto& texture = const_cast<Texture&>(constTexture);
-    texture.uploadToVRAM();
+  for (auto& texture : _textures) {
+    texture->uploadToVRAM();
   }
 
   return true;

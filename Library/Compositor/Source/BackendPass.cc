@@ -43,8 +43,9 @@ bool BackEndPass::render(core::WorkQueue& preparationWQ, Frame& frame) {
   return true;
 }
 
-bool BackEndPass::prepareTexture(const Texture& texture) {
-  return _textureTransaction->addTexture(texture);
+std::shared_ptr<Texture> BackEndPass::prepareTexture(
+    std::shared_ptr<Texture> texture) {
+  return _textureTransaction->registerTexture(texture);
 }
 
 }  // namespace compositor

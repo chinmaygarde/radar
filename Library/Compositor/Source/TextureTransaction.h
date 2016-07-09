@@ -7,13 +7,10 @@
 
 #include <Core/Macros.h>
 #include <Core/WorkQueue.h>
-#include <Core/Mutexed.h>
 
 #include <Image/Image.h>
 
-#include "Texture.h"
-
-#include <unordered_map>
+#include "TextureCache.h"
 
 namespace rl {
 namespace compositor {
@@ -24,17 +21,15 @@ class TextureTransaction {
 
   ~TextureTransaction();
 
-  bool addTexture(const Texture& texture);
+  RL_WARN_UNUSED_RESULT
+  std::shared_ptr<Texture> registerTexture(std::shared_ptr<Texture> texture);
 
   bool commit(core::WorkQueue& workqueue);
 
  private:
-  using Textures =
-      core::Mutexed<std::unordered_set<Texture, Texture::Hash, Texture::Equal>>;
-
-  Textures _textures;
-
-  std::unique_ptr<core::Latch> _resultsLatch;
+  TextureCache _textureCache;
+  std::vector<std::shared_ptr<Texture>> _textures;
+  std::unique_ptr<core::Latch> _latch;
 
   bool uncompressImages(core::WorkQueue& workqueue);
   bool uploadImagesToVRAM();

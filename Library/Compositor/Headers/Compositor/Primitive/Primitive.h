@@ -33,7 +33,7 @@ class Primitive {
 
   void setOpacity(double opacity);
 
-  virtual void prepareToRender(BackEndPass& backEndPass) const = 0;
+  virtual void prepareToRender(BackEndPass& backEndPass) = 0;
 
   virtual bool render(Frame& frame) const = 0;
 

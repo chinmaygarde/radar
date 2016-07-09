@@ -27,8 +27,6 @@ class Texture {
 
   ~Texture();
 
-  Texture(const Texture&);
-
   Texture(Texture&&);
 
   bool uncompress();
@@ -36,8 +34,6 @@ class Texture {
   bool uploadToVRAM();
 
   State state() const;
-
-  void dispose();
 
   struct Hash {
     std::size_t operator()(const Texture& key) const;
@@ -52,9 +48,8 @@ class Texture {
   image::ImageResult _imageResult;
   State _state;
   GLuint _textureHandle;
-  bool _disposed;
 
-  RL_DISALLOW_ASSIGN(Texture);
+  RL_DISALLOW_COPY_AND_ASSIGN(Texture);
 };
 
 }  // namespace compositor

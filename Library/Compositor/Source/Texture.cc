@@ -8,42 +8,23 @@ namespace rl {
 namespace compositor {
 
 Texture::Texture(image::Image image)
-    : _image(image),
-      _state(State::Compressed),
-      _textureHandle(GL_NONE),
-      _disposed(false) {}
+    : _image(image), _state(State::Compressed), _textureHandle(GL_NONE) {}
 
 Texture::~Texture() {
-  RL_ASSERT_MSG(_disposed && _textureHandle == GL_NONE,
-                "The texture must be disposed on the correct thread before it "
-                "can be collected.");
-}
-
-Texture::Texture(const Texture& other) : Texture(other._image) {}
-
-Texture::Texture(Texture&& other)
-    : _image(std::move(other._image)),
-      _imageResult(std::move(other._imageResult)),
-      _state(other._state),
-      _textureHandle(other._textureHandle),
-      _disposed(other._disposed) {
-  other._state = State::Error;
-  other._textureHandle = GL_NONE;
-  other._disposed = true;
-}
-
-void Texture::dispose() {
-  if (_disposed) {
-    return;
-  }
-
-  _disposed = true;
-
   if (_textureHandle != GL_NONE) {
     glDeleteTextures(1, &_textureHandle);
     RL_GLAssert("There must be no errors post texture disposal");
     _textureHandle = GL_NONE;
   }
+}
+
+Texture::Texture(Texture&& other)
+    : _image(std::move(other._image)),
+      _imageResult(std::move(other._imageResult)),
+      _state(other._state),
+      _textureHandle(other._textureHandle) {
+  other._state = State::Error;
+  other._textureHandle = GL_NONE;
 }
 
 Texture::State Texture::state() const {

@@ -26,7 +26,8 @@ class BackEndPass {
 
   bool render(core::WorkQueue& preparationWQ, Frame& frame);
 
-  bool prepareTexture(const Texture& texture);
+  RL_WARN_UNUSED_RESULT
+  std::shared_ptr<Texture> prepareTexture(std::shared_ptr<Texture> texture);
 
  private:
   std::vector<FrontEndPass> _frontEndPasses;

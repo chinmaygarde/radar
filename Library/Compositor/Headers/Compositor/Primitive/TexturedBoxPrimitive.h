@@ -20,14 +20,14 @@ class TexturedBoxPrimitive : public Primitive {
 
   ~TexturedBoxPrimitive() override;
 
-  void prepareToRender(BackEndPass& backEndPass) const override;
+  void prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
 
   void setImage(image::Image image);
 
  private:
-  std::unique_ptr<Texture> _texture;
+  std::shared_ptr<Texture> _texture;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TexturedBoxPrimitive);
 };

@@ -15,15 +15,15 @@ TexturedBoxPrimitive::TexturedBoxPrimitive() = default;
 TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
 
 void TexturedBoxPrimitive::setImage(image::Image image) {
-  _texture = core::make_unique<Texture>(std::move(image));
+  _texture = std::make_shared<Texture>(std::move(image));
 }
 
-void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) const {
+void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
   if (_texture == nullptr) {
     return;
   }
 
-  backEndPass.prepareTexture(*_texture);
+  _texture = backEndPass.prepareTexture(_texture);
 }
 
 bool TexturedBoxPrimitive::render(Frame& frame) const {

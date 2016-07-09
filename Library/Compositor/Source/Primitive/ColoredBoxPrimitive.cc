@@ -20,7 +20,7 @@ void ColoredBoxPrimitive::setColor(entity::Color color) {
   _color = std::move(color);
 }
 
-void ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) const {}
+void ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {}
 
 bool ColoredBoxPrimitive::render(Frame& frame) const {
   /*
