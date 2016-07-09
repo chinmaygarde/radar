@@ -3,9 +3,10 @@
 // found in the LICENSE file.
 
 #include <Compositor/Primitive/TexturedBoxPrimitive.h>
+#include <Compositor/BackendPass.h>
 
 #include "Texture.h"
-#include <Compositor/BackendPass.h>
+#include "ProgramCatalog.h"
 
 namespace rl {
 namespace compositor {
@@ -27,6 +28,12 @@ void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
 }
 
 bool TexturedBoxPrimitive::render(Frame& frame) const {
+  auto& program = frame.context().programCatalog().textureProgram();
+
+  if (!program.use()) {
+    return false;
+  }
+
   return true;
 }
 
