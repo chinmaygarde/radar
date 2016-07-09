@@ -103,7 +103,7 @@ bool Texture::uploadToVRAM() {
       format = GL_RGB;
       break;
     case image::Components::RGBA:
-      format = GL_RGB;
+      format = GL_RGBA;
       break;
     default:
       _state = State::Error;
