@@ -27,15 +27,18 @@ namespace compositor {
 void GLAssertError(const char* file, int line, const char* fmt...);
 void GLDescribeFramebuffer(void);
 
-struct GLCoord {
+struct GLPoint {
   GLfloat x;
   GLfloat y;
-  GLfloat z;
+
+  GLPoint(double x1, double y1) : x(x1), y(y1) {}
+
+  GLPoint(const geom::Point& p) : x(p.x), y(p.y) {}
 };
 
 struct GLMatrix {
   GLfloat m[16];
-  // clang-format off
+
   GLMatrix(const geom::Matrix& o)
       : m{
             static_cast<GLfloat>(o.m[0]),  static_cast<GLfloat>(o.m[1]),
@@ -47,7 +50,6 @@ struct GLMatrix {
             static_cast<GLfloat>(o.m[12]), static_cast<GLfloat>(o.m[13]),
             static_cast<GLfloat>(o.m[14]), static_cast<GLfloat>(o.m[15]),
         } {};
-  // clang-format on
 };
 
 }  // namespace compositor

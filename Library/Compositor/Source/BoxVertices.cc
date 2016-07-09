@@ -19,14 +19,16 @@ bool BoxVertices::uploadVertexData() {
     return false;
   }
 
-  // clang-format off
+  const GLPoint topLeft = _boxRect.origin;
+  const GLPoint bottomRight = {_boxRect.origin.x + _boxRect.size.width,
+                               _boxRect.origin.y + _boxRect.size.height};
+
   GLfloat coords[] = {
-    0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0,
-    1.0, 1.0, 0.0,
-    1.0, 0.0, 0.0,
+      topLeft.x,     bottomRight.y,  // Vertex 0
+      topLeft.x,     topLeft.y,      // Vertex 1
+      bottomRight.x, bottomRight.y,  // Vertex 2
+      bottomRight.y, topLeft.y,      // Vertex 3
   };
-  // clang-format on
 
   glBufferData(GL_ARRAY_BUFFER, sizeof(coords), coords, GL_STATIC_DRAW);
   return true;
@@ -43,7 +45,7 @@ bool BoxVertices::draw(size_t index) {
 
   RL_GLAssert("There must be no errors before drawing box vertices");
 
-  glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
   glEnableVertexAttribArray(index);
 
