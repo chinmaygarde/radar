@@ -18,9 +18,7 @@ static const char TextureVertexShader[] = R"--(
 
   void main() {
     V_TextureCoordinates = A_Position;
-    gl_Position = U_MVP * vec4(A_Position.x * U_Size.x,
-                               A_Position.y * U_Size.y,
-                               0.0, 1.0);
+    gl_Position = U_MVP * vec4(A_Position * U_Size, 0.0, 1.0);
   }
 
   )--";
