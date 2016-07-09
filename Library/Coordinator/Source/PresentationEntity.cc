@@ -95,7 +95,7 @@ bool PresentationEntity::renderContents(
    */
   if (_contents.isValid()) {
     auto primitive = core::make_unique<compositor::TexturedBoxPrimitive>();
-    primitive->setImage(_contents);
+    primitive->setTextureImage(_contents);
     primitive->setSize(_bounds.size);
     primitive->setOpacity(_opacity);
     primitive->setModelViewMatrix(_renderedModelViewMatrix);

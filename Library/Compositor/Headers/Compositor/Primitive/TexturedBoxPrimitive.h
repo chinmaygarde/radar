@@ -20,11 +20,11 @@ class TexturedBoxPrimitive : public Primitive {
 
   ~TexturedBoxPrimitive() override;
 
+  void setTextureImage(image::Image image);
+
   void prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
-
-  void setImage(image::Image image);
 
  private:
   std::shared_ptr<Texture> _texture;

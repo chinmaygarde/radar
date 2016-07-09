@@ -14,7 +14,7 @@ TexturedBoxPrimitive::TexturedBoxPrimitive() = default;
 
 TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
 
-void TexturedBoxPrimitive::setImage(image::Image image) {
+void TexturedBoxPrimitive::setTextureImage(image::Image image) {
   _texture = std::make_shared<Texture>(std::move(image));
 }
 
