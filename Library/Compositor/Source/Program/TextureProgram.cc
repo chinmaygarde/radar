@@ -47,12 +47,14 @@ TextureProgram::TextureProgram()
       _modelViewProjectionUniform(-1),
       _sizeUniform(-1),
       _alphaUniform(-1),
+      _textureUniform(-1),
       _positionAttribute(-1) {}
 
 void TextureProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");
   _sizeUniform = indexForUniform("U_Size");
   _alphaUniform = indexForUniform("U_Alpha");
+  _textureUniform = indexForUniform("U_Texture");
   _positionAttribute = indexForAttribute("A_Position");
 }
 
@@ -66,6 +68,10 @@ GLint TextureProgram::sizeUniform() const {
 
 GLint TextureProgram::alphaUniform() const {
   return _alphaUniform;
+}
+
+GLint TextureProgram::textureUniform() const {
+  return _textureUniform;
 }
 
 GLint TextureProgram::positionAttribute() const {

@@ -35,7 +35,7 @@ class Texture {
 
   State state() const;
 
-  bool bind(size_t index = 0) const;
+  bool bind(GLint samplerUniform, size_t activeIndex = 0) const;
 
   struct Hash {
     std::size_t operator()(const Texture& key) const;

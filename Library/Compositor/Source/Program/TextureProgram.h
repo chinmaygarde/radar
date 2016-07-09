@@ -21,6 +21,8 @@ class TextureProgram : public Program {
 
   GLint alphaUniform() const;
 
+  GLint textureUniform() const;
+
   GLint positionAttribute() const;
 
  protected:
@@ -30,6 +32,7 @@ class TextureProgram : public Program {
   GLint _modelViewProjectionUniform;
   GLint _sizeUniform;
   GLint _alphaUniform;
+  GLint _textureUniform;
   GLint _positionAttribute;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextureProgram);

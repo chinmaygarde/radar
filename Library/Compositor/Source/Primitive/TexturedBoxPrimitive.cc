@@ -42,7 +42,7 @@ bool TexturedBoxPrimitive::render(Frame& frame) const {
   /*
    *  Bind texture.
    */
-  if (!_texture->bind()) {
+  if (!_texture->bind(program.textureUniform())) {
     return false;
   }
 

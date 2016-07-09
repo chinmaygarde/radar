@@ -147,13 +147,16 @@ bool Texture::uploadToVRAM() {
   return true;
 }
 
-bool Texture::bind(size_t index) const {
+bool Texture::bind(GLint samplerUniform, size_t activeIndex) const {
   if (_state != State::UploadedToVRAM || _textureHandle == GL_NONE) {
     return false;
   }
 
-  glActiveTexture(GL_TEXTURE0 + index);
+  glActiveTexture(GL_TEXTURE0 + activeIndex);
   glBindTexture(GL_TEXTURE_2D, _textureHandle);
+  glUniform1i(samplerUniform, activeIndex);
+
+  RL_GLAssert("There must be no errors when binding to a texture");
 
   return true;
 }
