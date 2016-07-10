@@ -7,18 +7,10 @@
 namespace rl {
 namespace compositor {
 
-BoxVertices::BoxVertices(geom::Rect boxRect) : _boxRect(boxRect) {}
-
-bool BoxVertices::use() {
-  glBindBuffer(GL_ARRAY_BUFFER, vbo());
-  return true;
-}
+BoxVertices::BoxVertices(geom::Rect boxRect)
+    : Vertices(Vertices::Type::Array), _boxRect(boxRect) {}
 
 bool BoxVertices::uploadVertexData() {
-  if (!use()) {
-    return false;
-  }
-
   const GLPoint topLeft = _boxRect.origin;
   const GLPoint bottomRight = {_boxRect.origin.x + _boxRect.size.width,
                                _boxRect.origin.y + _boxRect.size.height};
@@ -31,18 +23,11 @@ bool BoxVertices::uploadVertexData() {
   };
 
   glBufferData(GL_ARRAY_BUFFER, sizeof(coords), coords, GL_STATIC_DRAW);
+
   return true;
 }
 
-bool BoxVertices::draw(size_t index) {
-  if (!prepare()) {
-    return false;
-  }
-
-  if (!use()) {
-    return false;
-  }
-
+bool BoxVertices::doDraw(size_t index) {
   RL_GLAssert("There must be no errors before drawing box vertices");
 
   glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);

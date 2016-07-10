@@ -14,27 +14,27 @@ namespace compositor {
 
 class Vertices {
  public:
-  Vertices();
+  enum class Type {
+    Array,
+    ElementArray,
+  };
+
+  Vertices(Type type);
 
   virtual ~Vertices();
 
   bool prepare();
 
-  virtual bool draw(size_t index) = 0;
-
-  bool dispose();
-
- protected:
-  virtual bool uploadVertexData() = 0;
-  virtual bool use() = 0;
-
-  GLuint vbo() const;
+  bool draw(size_t index);
 
  private:
-  bool _prepared;
-  bool _disposed;
-
+  const Type _type;
+  ResourceState _state;
   GLuint _vbo;
+
+  bool use();
+  virtual bool doDraw(size_t index) = 0;
+  virtual bool uploadVertexData() = 0;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Vertices);
 };

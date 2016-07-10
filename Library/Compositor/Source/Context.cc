@@ -59,8 +59,6 @@ void Context::dispose() {
 
   _statsRenderer = nullptr;
   _programCatalog = nullptr;
-
-  _unitBoxVertices->dispose();
   _unitBoxVertices = nullptr;
 
   _disposed = true;

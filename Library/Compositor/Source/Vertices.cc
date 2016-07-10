@@ -7,53 +7,65 @@
 namespace rl {
 namespace compositor {
 
-Vertices::Vertices() : _prepared(false), _disposed(false), _vbo(0) {}
+Vertices::Vertices(Type type) : _type(type), _vbo(GL_NONE) {}
 
 Vertices::~Vertices() {
-  RL_ASSERT_MSG(_disposed,
-                "Vertices cannot be collected before being disposed");
+  if (_vbo != GL_NONE) {
+    glDeleteBuffers(1, &_vbo);
+    _vbo = GL_NONE;
+  }
 }
 
-GLuint Vertices::vbo() const {
-  return _vbo;
+static GLuint CreateVBO() {
+  GLuint buffer = GL_NONE;
+  glGenBuffers(1, &buffer);
+  return buffer;
 }
 
 bool Vertices::prepare() {
-  if (_prepared) {
-    return true;
+  switch (_state) {
+    case ResourceState::Ready:
+      return true;
+    case ResourceState::Failed:
+      return false;
+    case ResourceState::NotReady:
+      _vbo = CreateVBO();
+
+      if (_vbo == GL_NONE || !use()) {
+        _state = ResourceState::Failed;
+        return false;
+      }
+
+      bool uploaded = uploadVertexData();
+      _state = uploaded ? ResourceState::Ready : ResourceState::Failed;
+      return uploaded;
   }
 
-  if (_disposed) {
+  return false;
+}
+
+bool Vertices::use() {
+  switch (_type) {
+    case Type::Array:
+      glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+      return true;
+    case Type::ElementArray:
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vbo);
+      return true;
+  }
+  return false;
+}
+
+bool Vertices::draw(size_t index) {
+  if (!prepare()) {
     return false;
   }
 
-  if (_vbo == 0) {
-    glGenBuffers(1, &_vbo);
-    RL_ASSERT(_vbo != 0);
+  if (!use()) {
+    return false;
   }
 
-  _prepared = uploadVertexData();
-  return _prepared;
-}
-
-bool Vertices::dispose() {
-  if (_disposed) {
-    RL_ASSERT(_vbo == 0);
-    return true;
-  }
-
-  if (!_prepared) {
-    RL_ASSERT(_vbo == 0);
-
-    _disposed = true;
-    return true;
-  }
-
-  glDeleteBuffers(1, &_vbo);
-  _vbo = 0;
-
-  _disposed = true;
-  return true;
+  return doDraw(index);
 }
 
 }  // namespace compositor

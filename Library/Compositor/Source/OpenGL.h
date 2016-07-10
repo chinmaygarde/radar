@@ -52,6 +52,12 @@ struct GLMatrix {
         } {};
 };
 
+enum class ResourceState {
+  NotReady,
+  Failed,
+  Ready,
+};
+
 }  // namespace compositor
 }  // namespace rl
 
