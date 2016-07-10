@@ -64,16 +64,14 @@ static bool PopulateContoursWithPath(TESStesselator* tess,
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto interpolatedPoint =
-              quad.solve(static_cast<double>(i) / kVerticesPerContour);
-          contours.emplace_back(interpolatedPoint);
+          contours.emplace_back(
+              quad.solve(static_cast<double>(i) / kVerticesPerContour));
         }
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto interpolatedPoint =
-              cubic.solve(static_cast<double>(i) / kVerticesPerContour);
-          contours.emplace_back(interpolatedPoint);
+          contours.emplace_back(
+              cubic.solve(static_cast<double>(i) / kVerticesPerContour));
         }
       });
 
@@ -132,6 +130,11 @@ Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
    */
   _vertices.reserve(vertexCount);
   _elements.reserve(elementCount);
+
+  /*
+   *  TODO: These copies are unnecessary. Just keep a reference to the
+   *        tessellator and use the vertices and indices directly.
+   */
 
   /*
    *  Copy vertices out.
