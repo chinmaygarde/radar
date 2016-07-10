@@ -9,6 +9,8 @@
 namespace rl {
 namespace compositor {
 
+const int kTessellationVertexSize = 2;
+
 static int ToTessElementType(Mesh::ElementType type) {
   switch (type) {
     case Mesh::ElementType::Polygons:
@@ -37,6 +39,54 @@ static int ToTessWindingRule(Mesh::Winding winding) {
   return TESS_WINDING_ODD;
 }
 
+static bool PopulateContoursWithPath(TESStesselator* tess,
+                                     const geom::Path& path) {
+  if (tess == nullptr || path.componentCount() == 0) {
+    return false;
+  }
+
+  const size_t kVerticesPerContour = 12;
+
+  std::vector<GLPoint> contours;
+
+  /*
+   *  TODO: While enumerating path components like this, points at the end of
+   *        each component will be repeated in the countours vector. This can
+   *        be optimized by keeping track of the last contour point added and
+   *        only adding the next point if the interpolation leads to a
+   *        significant change.
+   */
+
+  path.enumerateComponents(
+      [&](size_t, const geom::LinearPathComponent& linear) {
+        contours.emplace_back(linear.p1);
+        contours.emplace_back(linear.p2);
+      },
+      [&](size_t, const geom::QuadraticPathComponent& quad) {
+        for (size_t i = 0; i < kVerticesPerContour; i++) {
+          auto interpolatedPoint = quad.solve((double)i / kVerticesPerContour);
+          contours.emplace_back(interpolatedPoint.x);
+          contours.emplace_back(interpolatedPoint.y);
+        }
+      },
+      [&](size_t, const geom::CubicPathComponent& cubic) {
+        for (size_t i = 0; i < kVerticesPerContour; i++) {
+          auto interpolatedPoint = cubic.solve((double)i / kVerticesPerContour);
+          contours.emplace_back(interpolatedPoint.x);
+          contours.emplace_back(interpolatedPoint.y);
+        }
+      });
+
+  if (contours.size() == 0) {
+    return false;
+  }
+
+  tessAddContour(tess, kTessellationVertexSize, contours.data(),
+                 sizeof(GLPoint), contours.size());
+
+  return true;
+}
+
 Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
   if (path.componentCount() == 0) {
     return;
@@ -48,8 +98,12 @@ Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
     return;
   }
 
+  if (!PopulateContoursWithPath(tessellator, path)) {
+    tessDeleteTess(tessellator);
+    return;
+  }
+
   const int kPolygonSize = 3;
-  const int kVertexSize = 2;
 
   /*
    *  Perform tessellation.
@@ -58,7 +112,7 @@ Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
                               ToTessWindingRule(winding),      // winding
                               ToTessElementType(elementType),  // element type
                               kPolygonSize,                    // polygon size
-                              kVertexSize,                     // vertex size
+                              kTessellationVertexSize,         // vertex size
                               nullptr                          // normal
                               );
 
@@ -84,8 +138,8 @@ Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
    */
   auto vertices = tessGetVertices(tessellator);
   for (int i = 0; i < vertexCount; i++) {
-    _vertices.emplace_back(vertices[i * kVertexSize],     // x
-                           vertices[i * kVertexSize + 1]  // y
+    _vertices.emplace_back(vertices[i * kTessellationVertexSize],     // x
+                           vertices[i * kTessellationVertexSize + 1]  // y
                            );
   }
 
