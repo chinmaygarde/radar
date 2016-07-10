@@ -64,16 +64,16 @@ static bool PopulateContoursWithPath(TESStesselator* tess,
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto interpolatedPoint = quad.solve((double)i / kVerticesPerContour);
-          contours.emplace_back(interpolatedPoint.x);
-          contours.emplace_back(interpolatedPoint.y);
+          auto interpolatedPoint =
+              quad.solve(static_cast<double>(i) / kVerticesPerContour);
+          contours.emplace_back(interpolatedPoint);
         }
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto interpolatedPoint = cubic.solve((double)i / kVerticesPerContour);
-          contours.emplace_back(interpolatedPoint.x);
-          contours.emplace_back(interpolatedPoint.y);
+          auto interpolatedPoint =
+              cubic.solve(static_cast<double>(i) / kVerticesPerContour);
+          contours.emplace_back(interpolatedPoint);
         }
       });
 
