@@ -34,7 +34,7 @@ StandardRadarLibrary(Compositor)
 
 target_link_libraries(Compositor
   PUBLIC  Core Geometry Entity Image
-  PRIVATE imgui
+  PRIVATE imgui libtess2
 )
 
 if (APPLE)
