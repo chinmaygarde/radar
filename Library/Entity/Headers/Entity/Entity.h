@@ -28,27 +28,27 @@ class Entity : public core::ArchiveSerializable {
     Transformation,
     BackgroundColor,
     Contents,
+    Path,
     Opacity,
     MakeRoot,
 
     Sentinel,
   };
 
-#define RL_MASK(x) 1 << static_cast<uint32_t>(Property::x)
-  // clang-format off
+#define RL_MASK(x) x##Mask = (1 << static_cast<uint32_t>(Property::x))
   enum PropertyMask {
-    AddedToMask         = RL_MASK(AddedTo),
-    RemovedFromMask     = RL_MASK(RemovedFrom),
-    BoundsMask          = RL_MASK(Bounds),
-    PositionMask        = RL_MASK(Position),
-    AnchorPointMask     = RL_MASK(AnchorPoint),
-    TransformationMask  = RL_MASK(Transformation),
-    BackgroundColorMask = RL_MASK(BackgroundColor),
-    ContentsMask        = RL_MASK(Contents),
-    OpacityMask         = RL_MASK(Opacity),
-    MakeRootMask        = RL_MASK(MakeRoot),
+    RL_MASK(AddedTo),
+    RL_MASK(RemovedFrom),
+    RL_MASK(Bounds),
+    RL_MASK(Position),
+    RL_MASK(AnchorPoint),
+    RL_MASK(Transformation),
+    RL_MASK(BackgroundColor),
+    RL_MASK(Contents),
+    RL_MASK(Path),
+    RL_MASK(Opacity),
+    RL_MASK(MakeRoot),
   };
-// clang-format on
 #undef RL_MASK
 
   using UpdateCallback = std::function<void(const Entity& /*entity*/,
@@ -177,6 +177,10 @@ class Entity : public core::ArchiveSerializable {
 
   void setContents(image::Image image);
 
+  const geom::Path& path() const;
+
+  void setPath(geom::Path path);
+
   void mergeProperties(const Entity& entity, PropertyMaskType only);
 
   static const core::ArchiveDef ArchiveDefinition;
@@ -195,6 +199,7 @@ class Entity : public core::ArchiveSerializable {
   geom::Matrix _transformation;
   Color _backgroundColor;
   image::Image _contents;
+  geom::Path _path;
   double _opacity;
 
   void notifyInterfaceIfNecessary(

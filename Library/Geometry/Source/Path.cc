@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Geometry/Path.h>
+#include <Core/Message.h>
 
 namespace rl {
 namespace geom {
@@ -13,6 +14,22 @@ Path::~Path() = default;
 
 size_t Path::componentCount() const {
   return _components.size();
+}
+
+bool Path::serialize(core::Message& message) const {
+  RL_RETURN_IF_FALSE(message.encode(_components));
+  RL_RETURN_IF_FALSE(message.encode(_linears));
+  RL_RETURN_IF_FALSE(message.encode(_quads));
+  RL_RETURN_IF_FALSE(message.encode(_cubics));
+  return true;
+}
+
+bool Path::deserialize(core::Message& message, core::Namespace* ns) {
+  RL_RETURN_IF_FALSE(message.decode(_components));
+  RL_RETURN_IF_FALSE(message.decode(_linears));
+  RL_RETURN_IF_FALSE(message.decode(_quads));
+  RL_RETURN_IF_FALSE(message.decode(_cubics));
+  return true;
 }
 
 Path& Path::addLinearComponent(Point p1, Point p2) {
@@ -38,20 +55,20 @@ void Path::enumerateComponents(Applier<LinearPathComponent> linearApplier,
                                Applier<CubicPathComponent> cubicApplier) const {
   size_t currentIndex = 0;
   for (const auto& component : _components) {
-    switch (component.first) {
+    switch (component.type) {
       case ComponentType::Linear:
         if (linearApplier) {
-          linearApplier(currentIndex, _linears[component.second]);
+          linearApplier(currentIndex, _linears[component.index]);
         }
         break;
       case ComponentType::Quadratic:
         if (quadApplier) {
-          quadApplier(currentIndex, _quads[component.second]);
+          quadApplier(currentIndex, _quads[component.index]);
         }
         break;
       case ComponentType::Cubic:
         if (cubicApplier) {
-          cubicApplier(currentIndex, _cubics[component.second]);
+          cubicApplier(currentIndex, _cubics[component.index]);
         }
         break;
     }

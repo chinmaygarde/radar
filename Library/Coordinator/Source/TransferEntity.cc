@@ -107,6 +107,8 @@ bool TransferEntity::serialize(core::Message& message) const {
         return message.encode(_transformation);
       case Property::BackgroundColor:
         return message.encode(_backgroundColor);
+      case Property::Path:
+        return message.encode(_path);
       case Property::Contents:
         return message.encode(_contents);
       case Property::Opacity:
@@ -144,6 +146,8 @@ bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
             return message.decode(_backgroundColor, ns);
           case Property::Contents:
             return message.decode(_contents, ns);
+          case Property::Path:
+            return message.decode(_path, ns);
           case Property::Opacity:
             return message.decode(_opacity, ns);
           case Property::MakeRoot:

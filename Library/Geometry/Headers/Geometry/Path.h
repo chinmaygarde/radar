@@ -6,6 +6,7 @@
 #define RADAR_GEOMETRY_PATH_H_
 
 #include <Core/Macros.h>
+#include <Core/MessageSerializable.h>
 #include <Geometry/PathComponent.h>
 
 #include <vector>
@@ -14,7 +15,7 @@
 namespace rl {
 namespace geom {
 
-class Path {
+class Path : public core::MessageSerializable {
  public:
   enum class ComponentType : uint8_t {
     Linear,
@@ -25,6 +26,10 @@ class Path {
   Path();
 
   ~Path();
+
+  bool serialize(core::Message& message) const override;
+
+  bool deserialize(core::Message& message, core::Namespace* ns) override;
 
   size_t componentCount() const;
 
@@ -41,14 +46,18 @@ class Path {
                            Applier<CubicPathComponent> cubicApplier) const;
 
  private:
-  using ComponentIndexPair = std::pair<ComponentType, size_t>;
+  struct ComponentIndexPair {
+    ComponentType type;
+    size_t index;
+
+    ComponentIndexPair(ComponentType aType, size_t aIndex)
+        : type(aType), index(aIndex) {}
+  };
 
   std::vector<ComponentIndexPair> _components;
   std::vector<LinearPathComponent> _linears;
   std::vector<QuadraticPathComponent> _quads;
   std::vector<CubicPathComponent> _cubics;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(Path);
 };
 
 }  // namespace geom

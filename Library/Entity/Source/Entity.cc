@@ -47,6 +47,10 @@ void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
   if (only & PropertyMask::ContentsMask) {
     _contents = entity._contents;
   }
+
+  if (only & PropertyMask::PathMask) {
+    _path = entity._path;
+  }
 }
 
 core::Name Entity::identifier() const {
@@ -156,6 +160,14 @@ const image::Image& Entity::contents() const {
 void Entity::setContents(image::Image image) {
   _contents = std::move(image);
   notifyInterfaceIfNecessary(Property::Contents);
+}
+
+const geom::Path& Entity::path() const {
+  return _path;
+}
+
+void Entity::setPath(geom::Path path) {
+  _path = std::move(path);
 }
 
 void Entity::notifyInterfaceIfNecessary(Property property,
