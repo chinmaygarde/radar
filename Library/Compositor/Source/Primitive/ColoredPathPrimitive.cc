@@ -3,23 +3,55 @@
 // found in the LICENSE file.
 
 #include <Compositor/Primitive/ColoredPathPrimitive.h>
+#include <Compositor/Frame.h>
 
-#include "Mesh.h"
+#include "Uniform.h"
+#include "ProgramCatalog.h"
+#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
 
 ColoredPathPrimitive::ColoredPathPrimitive(const geom::Path& path)
-    : _mesh(core::make_unique<Mesh>(path,
-                                    Mesh::Winding::Odd,
-                                    Mesh::ElementType::Polygons)) {}
+    : _pathVertices(core::make_unique<PathVertices>(
+          path,
+          PathVertices::Winding::Odd,
+          PathVertices::ElementType::Polygons)) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;
 
-void ColoredPathPrimitive::prepareToRender(BackEndPass& backEndPass) {}
+void ColoredPathPrimitive::setColor(entity::Color color) {
+  _color = std::move(color);
+}
+
+void ColoredPathPrimitive::prepareToRender(BackEndPass& backEndPass) {
+  /*
+   *  Nothing to do.
+   */
+}
 
 bool ColoredPathPrimitive::render(Frame& frame) const {
-  return true;
+  /*
+   *  Select the program to use
+   */
+  auto& program = frame.context().programCatalog().colorProgram();
+
+  if (!program.use()) {
+    return false;
+  }
+
+  /*
+   *  Set uniforms.
+   */
+  SetUniform(program.contentColorUniform(), _color, _opacity);
+  SetUniform(program.sizeUniform(), _size);
+  SetUniform(program.modelViewProjectionUniform(),
+             frame.projectionMatrix() * _modelViewMatrix);
+
+  /**
+   *  Draw vertices.
+   */
+  return _pathVertices->draw(program.positionAttribute());
 }
 
 }  // namespace compositor

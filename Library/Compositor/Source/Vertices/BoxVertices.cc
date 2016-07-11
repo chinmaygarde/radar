@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "BoxVertices.h"
+#include "Vertices/BoxVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -30,7 +30,7 @@ bool BoxVertices::uploadVertexData() {
 bool BoxVertices::doDraw(size_t index) {
   RL_GLAssert("There must be no errors before drawing box vertices");
 
-  glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   glEnableVertexAttribArray(index);
 

@@ -5,7 +5,7 @@
 #ifndef RADAR_COMPOSITOR_BOXVERTICES_H_
 #define RADAR_COMPOSITOR_BOXVERTICES_H_
 
-#include "Vertices.h"
+#include "Vertices/Vertices.h"
 
 #include <Geometry/Rect.h>
 

@@ -2,21 +2,26 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Vertices.h"
+#include "Vertices/Vertices.h"
 
 namespace rl {
 namespace compositor {
 
-Vertices::Vertices(Type type) : _type(type), _vbo(GL_NONE) {}
+Vertices::Vertices(Type type) : _type(type), _vbo(GL_NONE), _ibo(GL_NONE) {}
 
 Vertices::~Vertices() {
   if (_vbo != GL_NONE) {
     glDeleteBuffers(1, &_vbo);
     _vbo = GL_NONE;
   }
+
+  if (_ibo != GL_NONE) {
+    glDeleteBuffers(1, &_ibo);
+    _ibo = GL_NONE;
+  }
 }
 
-static GLuint CreateVBO() {
+static GLuint CreateBuffer() {
   GLuint buffer = GL_NONE;
   glGenBuffers(1, &buffer);
   return buffer;
@@ -29,19 +34,51 @@ bool Vertices::prepare() {
     case ResourceState::Failed:
       return false;
     case ResourceState::NotReady:
-      _vbo = CreateVBO();
-
-      if (_vbo == GL_NONE || !use()) {
+      if (prepareBuffers()) {
+        _state = ResourceState::Ready;
+        return true;
+      } else {
         _state = ResourceState::Failed;
         return false;
       }
-
-      bool uploaded = uploadVertexData();
-      _state = uploaded ? ResourceState::Ready : ResourceState::Failed;
-      return uploaded;
   }
 
+  RL_ASSERT(false);
   return false;
+}
+
+bool Vertices::prepareBuffers() {
+  RL_ASSERT(_vbo == GL_NONE);
+  RL_ASSERT(_ibo == GL_NONE);
+  /*
+   *  Always try to create a vertex buffer.
+   */
+  _vbo = CreateBuffer();
+  if (_vbo == GL_NONE) {
+    return false;
+  }
+
+  /*
+   *  Create an index buffer if necessary.
+   */
+  if (_type == Type::ElementArray) {
+    _ibo = CreateBuffer();
+    if (_ibo == GL_NONE) {
+      return false;
+    }
+  }
+
+  /*
+   *  Prepare buffer bindinds before attempting to upload vertices.
+   */
+  if (!use()) {
+    return false;
+  }
+
+  /*
+   *  Ask the implementation to upload vertex data.
+   */
+  return uploadVertexData();
 }
 
 bool Vertices::use() {
@@ -50,7 +87,8 @@ bool Vertices::use() {
       glBindBuffer(GL_ARRAY_BUFFER, _vbo);
       return true;
     case Type::ElementArray:
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vbo);
+      glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
       return true;
   }
   return false;

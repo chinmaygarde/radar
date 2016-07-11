@@ -8,7 +8,7 @@
 #include "Texture.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
-#include "BoxVertices.h"
+#include "Vertices/BoxVertices.h"
 
 namespace rl {
 namespace compositor {

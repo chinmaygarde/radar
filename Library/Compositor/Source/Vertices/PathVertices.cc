@@ -2,38 +2,41 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "Mesh.h"
+#include "Vertices/PathVertices.h"
 
 #include <libtess2/tesselator.h>
+
+#define _tessellator (reinterpret_cast<TESStesselator*>(_opaque))
 
 namespace rl {
 namespace compositor {
 
 const int kTessellationVertexSize = 2;
+const int kPolygonSize = 3;
 
-static int ToTessElementType(Mesh::ElementType type) {
+static int ToTessElementType(PathVertices::ElementType type) {
   switch (type) {
-    case Mesh::ElementType::Polygons:
+    case PathVertices::ElementType::Polygons:
       return TESS_POLYGONS;
-    case Mesh::ElementType::ConnectedPolygons:
+    case PathVertices::ElementType::ConnectedPolygons:
       return TESS_CONNECTED_POLYGONS;
-    case Mesh::ElementType::BoundaryContours:
+    case PathVertices::ElementType::BoundaryContours:
       return TESS_BOUNDARY_CONTOURS;
   }
   return TESS_POLYGONS;
 }
 
-static int ToTessWindingRule(Mesh::Winding winding) {
+static int ToTessWindingRule(PathVertices::Winding winding) {
   switch (winding) {
-    case Mesh::Winding::Odd:
+    case PathVertices::Winding::Odd:
       return TESS_WINDING_ODD;
-    case Mesh::Winding::NonZero:
+    case PathVertices::Winding::NonZero:
       return TESS_WINDING_NONZERO;
-    case Mesh::Winding::Positive:
+    case PathVertices::Winding::Positive:
       return TESS_WINDING_POSITIVE;
-    case Mesh::Winding::Negative:
+    case PathVertices::Winding::Negative:
       return TESS_WINDING_NEGATIVE;
-    case Mesh::Winding::AbsGeqTwo:
+    case PathVertices::Winding::AbsGeqTwo:
       return TESS_WINDING_ABS_GEQ_TWO;
   }
   return TESS_WINDING_ODD;
@@ -85,28 +88,29 @@ static bool PopulateContoursWithPath(TESStesselator* tess,
   return true;
 }
 
-Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
+PathVertices::PathVertices(const geom::Path& path,
+                           Winding winding,
+                           ElementType elementType)
+    : Vertices(Vertices::Type::ElementArray), _opaque(nullptr) {
   if (path.componentCount() == 0) {
     return;
   }
 
-  auto tessellator = tessNewTess(nullptr /* default allocators */);
+  _opaque = tessNewTess(nullptr /* default allocators */);
 
-  if (tessellator == nullptr) {
+  if (_tessellator == nullptr) {
     return;
   }
 
-  if (!PopulateContoursWithPath(tessellator, path)) {
-    tessDeleteTess(tessellator);
+  if (!PopulateContoursWithPath(_tessellator, path)) {
+    disposeTessellator();
     return;
   }
-
-  const int kPolygonSize = 3;
 
   /*
    *  Perform tessellation.
    */
-  auto result = tessTesselate(tessellator,                     // tessellator
+  auto result = tessTesselate(_tessellator,                    // tessellator
                               ToTessWindingRule(winding),      // winding
                               ToTessElementType(elementType),  // element type
                               kPolygonSize,                    // polygon size
@@ -115,49 +119,66 @@ Mesh::Mesh(const geom::Path& path, Winding winding, ElementType elementType) {
                               );
 
   if (result != 1) {
-    tessDeleteTess(tessellator);
-    return;
+    disposeTessellator();
   }
-
-  /*
-   *  Get vertex and element counts out of libtess2.
-   */
-  const int vertexCount = tessGetVertexCount(tessellator);
-  const int elementCount = tessGetElementCount(tessellator) * kPolygonSize;
-
-  /*
-   *  Reserve space in our vectors to prevent too many reallocations.
-   */
-  _vertices.reserve(vertexCount);
-  _elements.reserve(elementCount);
-
-  /*
-   *  TODO: These copies are unnecessary. Just keep a reference to the
-   *        tessellator and use the vertices and indices directly.
-   */
-
-  /*
-   *  Copy vertices out.
-   */
-  auto vertices = tessGetVertices(tessellator);
-  for (int i = 0; i < vertexCount; i++) {
-    _vertices.emplace_back(vertices[i * kTessellationVertexSize],     // x
-                           vertices[i * kTessellationVertexSize + 1]  // y
-                           );
-  }
-
-  /*
-   *  Copy elements out.
-   */
-  auto elements = tessGetElements(tessellator);
-  for (int i = 0; i < elementCount; i++) {
-    _elements.emplace_back(elements[i]);
-  }
-
-  tessDeleteTess(tessellator);
 }
 
-Mesh::~Mesh() = default;
+PathVertices::~PathVertices() {
+  disposeTessellator();
+}
+
+void PathVertices::disposeTessellator() {
+  if (_tessellator != nullptr) {
+    tessDeleteTess(_tessellator);
+    _opaque = nullptr;
+  }
+}
+
+bool PathVertices::hasVerticesAndElements() const {
+  if (_tessellator == nullptr) {
+    return false;
+  }
+
+  return tessGetVertexCount(_tessellator) > 0 &&
+         tessGetElementCount(_tessellator) > 0;
+}
+
+size_t PathVertices::elementCount() const {
+  return _tessellator == nullptr
+             ? 0
+             : tessGetElementCount(_tessellator) * kPolygonSize;
+}
+
+size_t PathVertices::vertexCount() const {
+  return _tessellator == nullptr ? 0 : tessGetVertexCount(_tessellator);
+}
+
+bool PathVertices::uploadVertexData() {
+  if (_tessellator == nullptr) {
+    return nullptr;
+  }
+
+  glBufferData(GL_ARRAY_BUFFER, vertexCount(), tessGetVertices(_tessellator),
+               GL_STATIC_DRAW);
+
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementCount(),
+               tessGetElements(_tessellator), GL_STATIC_DRAW);
+
+  return true;
+}
+
+bool PathVertices::doDraw(size_t index) {
+  glVertexAttribPointer(index, kTessellationVertexSize, GL_FLOAT, GL_FALSE, 0,
+                        nullptr);
+
+  glEnableVertexAttribArray(index);
+
+  glDrawElements(GL_TRIANGLES, elementCount(), GL_UNSIGNED_SHORT, nullptr);
+
+  glDisableVertexAttribArray(index);
+
+  return true;
+}
 
 }  // namespace compositor
 }  // namespace rl

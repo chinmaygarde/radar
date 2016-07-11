@@ -31,7 +31,9 @@ class Vertices {
   const Type _type;
   ResourceState _state;
   GLuint _vbo;
+  GLuint _ibo;
 
+  bool prepareBuffers();
   bool use();
   virtual bool doDraw(size_t index) = 0;
   virtual bool uploadVertexData() = 0;

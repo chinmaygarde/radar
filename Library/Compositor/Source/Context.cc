@@ -6,8 +6,8 @@
 #include <Geometry/Rect.h>
 
 #include "ProgramCatalog.h"
-#include "BoxVertices.h"
 #include "StatisticsRenderer.h"
+#include "Vertices/BoxVertices.h"
 
 namespace rl {
 namespace compositor {

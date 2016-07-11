@@ -12,7 +12,7 @@
 namespace rl {
 namespace compositor {
 
-class Mesh;
+class PathVertices;
 
 class ColoredPathPrimitive : public Primitive {
  public:
@@ -20,8 +20,11 @@ class ColoredPathPrimitive : public Primitive {
 
   ~ColoredPathPrimitive() override;
 
+  void setColor(entity::Color color);
+
  private:
-  std::unique_ptr<Mesh> _mesh;
+  std::unique_ptr<PathVertices> _pathVertices;
+  entity::Color _color;
 
   void prepareToRender(BackEndPass& backEndPass) override;
 

@@ -6,8 +6,8 @@
 #include <Compositor/Frame.h>
 
 #include "Uniform.h"
-#include "BoxVertices.h"
 #include "ProgramCatalog.h"
+#include "Vertices/BoxVertices.h"
 
 namespace rl {
 namespace compositor {

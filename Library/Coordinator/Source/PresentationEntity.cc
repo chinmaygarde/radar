@@ -97,6 +97,7 @@ PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
     case PrimitiveType::Path: {
       auto primitive =
           std::make_shared<compositor::ColoredPathPrimitive>(_path);
+      primitive->setColor(_backgroundColor);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
       primitive->setModelViewMatrix(_renderedModelViewMatrix);
