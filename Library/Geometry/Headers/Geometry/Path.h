@@ -50,6 +50,8 @@ class Path : public core::MessageSerializable {
     ComponentType type;
     size_t index;
 
+    ComponentIndexPair() : type(ComponentType::Linear), index(0) {}
+
     ComponentIndexPair(ComponentType aType, size_t aIndex)
         : type(aType), index(aIndex) {}
   };

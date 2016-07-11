@@ -17,18 +17,18 @@ size_t Path::componentCount() const {
 }
 
 bool Path::serialize(core::Message& message) const {
-  RL_RETURN_IF_FALSE(message.encode(_components));
-  RL_RETURN_IF_FALSE(message.encode(_linears));
-  RL_RETURN_IF_FALSE(message.encode(_quads));
-  RL_RETURN_IF_FALSE(message.encode(_cubics));
+  RL_RETURN_IF_FALSE(message.encode2(_components));
+  RL_RETURN_IF_FALSE(message.encode2(_linears));
+  RL_RETURN_IF_FALSE(message.encode2(_quads));
+  RL_RETURN_IF_FALSE(message.encode2(_cubics));
   return true;
 }
 
 bool Path::deserialize(core::Message& message, core::Namespace* ns) {
-  RL_RETURN_IF_FALSE(message.decode(_components));
-  RL_RETURN_IF_FALSE(message.decode(_linears));
-  RL_RETURN_IF_FALSE(message.decode(_quads));
-  RL_RETURN_IF_FALSE(message.decode(_cubics));
+  RL_RETURN_IF_FALSE(message.decode2(_components, ns));
+  RL_RETURN_IF_FALSE(message.decode2(_linears, ns));
+  RL_RETURN_IF_FALSE(message.decode2(_quads, ns));
+  RL_RETURN_IF_FALSE(message.decode2(_cubics, ns));
   return true;
 }
 

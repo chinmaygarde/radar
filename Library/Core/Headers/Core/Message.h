@@ -92,15 +92,25 @@ class Message {
   RL_WARN_UNUSED_RESULT
   bool encode(const std::string& value);
 
+  template <typename T, typename = only_if<rl_trivially_copyable(T)>>
+  RL_WARN_UNUSED_RESULT bool encode2(const std::vector<T>& vec) {
+    MessageSerializable::EncodedSize count = vec.size();
+    RL_RETURN_IF_FALSE(encode(count));
+    for (const auto& item : vec) {
+      RL_RETURN_IF_FALSE(encode(item));
+    }
+    return true;
+  }
+
   template <typename T,
             typename = only_if<std::is_base_of<MessageSerializable, T>::value>>
   RL_WARN_UNUSED_RESULT bool encode(const std::vector<T>& vec) {
     MessageSerializable::EncodedSize count = vec.size();
-    auto result = encode(count);
+    RL_RETURN_IF_FALSE(encode(count))
     for (const auto& item : vec) {
-      result &= item.serialize(*this);
+      RL_RETURN_IF_FALSE(item.serialize(*this))
     }
-    return result;
+    return true;
   }
 
   template <typename T>
@@ -138,16 +148,29 @@ class Message {
   bool decode(std::string& string);
 
   template <typename T,
-            typename = only_if<std::is_base_of<MessageSerializable, T>::value ||
+            typename = only_if<rl_trivially_copyable(T) &&
+                               std::is_default_constructible<T>::value>>
+  RL_WARN_UNUSED_RESULT bool decode2(std::vector<T>& vec, Namespace* ns) {
+    MessageSerializable::EncodedSize count = 0;
+    RL_RETURN_IF_FALSE(decode(count, ns));
+    for (MessageSerializable::EncodedSize i = 0; i < count; i++) {
+      vec.emplace_back();
+      RL_RETURN_IF_FALSE(decode(vec.back(), ns));
+    }
+    return true;
+  }
+
+  template <typename T,
+            typename = only_if<std::is_base_of<MessageSerializable, T>::value &&
                                std::is_default_constructible<T>::value>>
   RL_WARN_UNUSED_RESULT bool decode(std::vector<T>& vec, Namespace* ns) {
     MessageSerializable::EncodedSize count = 0;
-    auto result = decode(count, ns);
+    RL_RETURN_IF_FALSE(decode(count, ns));
     for (MessageSerializable::EncodedSize i = 0; i < count; i++) {
       vec.emplace_back();
-      result &= vec.back().deserialize(*this, ns);
+      RL_RETURN_IF_FALSE(vec.back().deserialize(*this, ns));
     }
-    return result;
+    return true;
   }
 
   template <typename T>
