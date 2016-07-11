@@ -51,21 +51,19 @@ void Frame::end() {
 
 void Frame::prepareFrame() {
   glViewport(0, 0, _size.width, _size.height);
+
   glScissor(0, 0, _size.width, _size.height);
+  glEnable(GL_SCISSOR_TEST);
 
   glDisable(GL_CULL_FACE);
+
   glDisable(GL_DEPTH_TEST);
-  /* glDisable(GL_BLEND); See TODO */
-  glEnable(GL_SCISSOR_TEST); /* only limited to the viewport */
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-  /*
-   *  TODO: The scope of this call is too wide
-   */
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Frame::renderStatistics() {
