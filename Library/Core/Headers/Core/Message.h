@@ -93,7 +93,7 @@ class Message {
   bool encode(const std::string& value);
 
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  RL_WARN_UNUSED_RESULT bool encode2(const std::vector<T>& vec) {
+  RL_WARN_UNUSED_RESULT bool encodeVectorCopyable(const std::vector<T>& vec) {
     MessageSerializable::EncodedSize count = vec.size();
     RL_RETURN_IF_FALSE(encode(count));
     for (const auto& item : vec) {
@@ -150,7 +150,8 @@ class Message {
   template <typename T,
             typename = only_if<rl_trivially_copyable(T) &&
                                std::is_default_constructible<T>::value>>
-  RL_WARN_UNUSED_RESULT bool decode2(std::vector<T>& vec, Namespace* ns) {
+  RL_WARN_UNUSED_RESULT bool decodeVectorCopyable(std::vector<T>& vec,
+                                                  Namespace* ns) {
     MessageSerializable::EncodedSize count = 0;
     RL_RETURN_IF_FALSE(decode(count, ns));
     for (MessageSerializable::EncodedSize i = 0; i < count; i++) {

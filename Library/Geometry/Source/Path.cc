@@ -17,18 +17,18 @@ size_t Path::componentCount() const {
 }
 
 bool Path::serialize(core::Message& message) const {
-  RL_RETURN_IF_FALSE(message.encode2(_components));
-  RL_RETURN_IF_FALSE(message.encode2(_linears));
-  RL_RETURN_IF_FALSE(message.encode2(_quads));
-  RL_RETURN_IF_FALSE(message.encode2(_cubics));
+  RL_RETURN_IF_FALSE(message.encodeVectorCopyable(_components));
+  RL_RETURN_IF_FALSE(message.encodeVectorCopyable(_linears));
+  RL_RETURN_IF_FALSE(message.encodeVectorCopyable(_quads));
+  RL_RETURN_IF_FALSE(message.encodeVectorCopyable(_cubics));
   return true;
 }
 
 bool Path::deserialize(core::Message& message, core::Namespace* ns) {
-  RL_RETURN_IF_FALSE(message.decode2(_components, ns));
-  RL_RETURN_IF_FALSE(message.decode2(_linears, ns));
-  RL_RETURN_IF_FALSE(message.decode2(_quads, ns));
-  RL_RETURN_IF_FALSE(message.decode2(_cubics, ns));
+  RL_RETURN_IF_FALSE(message.decodeVectorCopyable(_components, ns));
+  RL_RETURN_IF_FALSE(message.decodeVectorCopyable(_linears, ns));
+  RL_RETURN_IF_FALSE(message.decodeVectorCopyable(_quads, ns));
+  RL_RETURN_IF_FALSE(message.decodeVectorCopyable(_cubics, ns));
   return true;
 }
 
