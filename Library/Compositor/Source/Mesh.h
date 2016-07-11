@@ -24,7 +24,7 @@ class Mesh {
     AbsGeqTwo,
   };
 
-  enum ElementType {
+  enum class ElementType {
     Polygons,
     ConnectedPolygons,
     BoundaryContours,
