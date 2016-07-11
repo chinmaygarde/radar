@@ -17,10 +17,10 @@ size_t FrontEndPass::primitivesCount() const {
   return _primitives.size();
 }
 
-void FrontEndPass::addPrimitive(std::unique_ptr<Primitive> primitive) {
-  RL_ASSERT(primitive != nullptr);
-
-  _primitives.emplace_back(std::move(primitive));
+void FrontEndPass::addPrimitive(std::shared_ptr<Primitive> primitive) {
+  if (primitive != nullptr) {
+    _primitives.emplace_back(std::move(primitive));
+  }
 }
 
 bool FrontEndPass::prepareInBackendPass(BackEndPass& pass) {

@@ -131,6 +131,23 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
   }
 }
 
+static void AddEntityWithPath(rl::interface::Interface& interface) {
+  auto entity = interface.createEntity();
+
+  entity.setBackgroundColor(rl::entity::ColorBlue);
+
+  rl::geom::Path path;
+
+  path.addLinearComponent({100, 100}, {100, 200})
+      .addLinearComponent({100, 200}, {200, 200})
+      .addLinearComponent({200, 200}, {200, 100})
+      .addLinearComponent({200, 100}, {100, 100});
+
+  entity.setPath(std::move(path));
+
+  interface.rootEntity().addChild(entity);
+}
+
 void SampleApplication::AddEntityWithImage(
     rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
@@ -155,6 +172,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   AddRadialArrangement(interface);
 
   AddEntityWithImage(interface);
+
+  AddEntityWithPath(interface);
 }
 
 void SampleApplication::didEnterBackground(

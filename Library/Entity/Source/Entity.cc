@@ -168,6 +168,7 @@ const geom::Path& Entity::path() const {
 
 void Entity::setPath(geom::Path path) {
   _path = std::move(path);
+  notifyInterfaceIfNecessary(Property::Path);
 }
 
 void Entity::notifyInterfaceIfNecessary(Property property,

@@ -38,10 +38,28 @@ class PresentationEntity : public entity::Entity {
               const geom::Matrix& viewMatrix);
 
  private:
+  enum class ContentType {
+    None,
+    SolidColor,
+    Image,
+  };
+
+  enum class PrimitiveType {
+    None,
+    Box,
+    Path,
+  };
+
   std::vector<Borrowed> _children;
   geom::Matrix _renderedModelViewMatrix;
 
-  bool renderContents(compositor::FrontEndPass& frontEndPass) const;
+  ContentType contentType(double alpha) const;
+  PrimitiveType primitiveType() const;
+  std::shared_ptr<compositor::Primitive> solidColoredPrimitive(
+      PrimitiveType type) const;
+  std::shared_ptr<compositor::Primitive> imagePrimitive(
+      PrimitiveType type) const;
+  void renderContents(compositor::FrontEndPass& frontEndPass) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };

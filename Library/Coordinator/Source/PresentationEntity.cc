@@ -45,64 +45,100 @@ void PresentationEntity::render(compositor::FrontEndPass& frontEndPass,
 
   _renderedModelViewMatrix = viewMatrix * modelMatrix();
 
-  if (!renderContents(frontEndPass)) {
-    /*
-     *  The `renderContents` step explicitly told us not to bother with this
-     *  subtree. Give up.
-     */
-    return;
-  }
+  renderContents(frontEndPass);
 
   for (const auto& child : _children) {
     child->render(frontEndPass, _renderedModelViewMatrix);
   }
 }
 
-bool PresentationEntity::renderContents(
-    compositor::FrontEndPass& frontEndPass) const {
-  /*
-   *  If the size of the entity is less that zero along either dimension, there
-   *  is nothing more to say about this entity.
-   */
-  if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
-    return false;
+PresentationEntity::ContentType PresentationEntity::contentType(
+    double alpha) const {
+  if (alpha < compositor::Primitive::AlphaThreshold) {
+    return ContentType::None;
   }
 
-  /*
-   *  Opacity must be above the threshold.
-   */
-  if (_opacity < compositor::Primitive::AlphaThreshold) {
-    return false;
-  }
-
-  /*
-   *  Step 1:
-   *  Setup the primitive for the solid background color (if necessary).
-   */
-  if (_backgroundColor.alpha * _opacity >=
-      compositor::Primitive::AlphaThreshold) {
-    auto primitive = core::make_unique<compositor::ColoredBoxPrimitive>();
-    primitive->setColor(_backgroundColor);
-    primitive->setSize(_bounds.size);
-    primitive->setOpacity(_opacity);
-    primitive->setModelViewMatrix(_renderedModelViewMatrix);
-    frontEndPass.addPrimitive(std::move(primitive));
-  }
-
-  /*
-   *  Step 2:
-   *  Setup the primitive for the contents (if necessary).
-   */
   if (_contents.isValid()) {
-    auto primitive = core::make_unique<compositor::TexturedBoxPrimitive>();
-    primitive->setTextureImage(_contents);
-    primitive->setSize(_bounds.size);
-    primitive->setOpacity(_opacity);
-    primitive->setModelViewMatrix(_renderedModelViewMatrix);
-    frontEndPass.addPrimitive(std::move(primitive));
+    return ContentType::Image;
   }
 
-  return true;
+  return _backgroundColor.alpha * _opacity >=
+                 compositor::Primitive::AlphaThreshold
+             ? ContentType::SolidColor
+             : ContentType::None;
+}
+
+PresentationEntity::PrimitiveType PresentationEntity::primitiveType() const {
+  if (_path.componentCount() > 0) {
+    return PrimitiveType::Path;
+  }
+
+  if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
+    return PrimitiveType::None;
+  } else {
+    return PrimitiveType::Box;
+  }
+
+  return PrimitiveType::None;
+}
+
+std::shared_ptr<compositor::Primitive>
+PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
+  switch (type) {
+    case PrimitiveType::Box: {
+      auto primitive = std::make_shared<compositor::ColoredBoxPrimitive>();
+      primitive->setColor(_backgroundColor);
+      primitive->setSize(_bounds.size);
+      primitive->setOpacity(_opacity);
+      primitive->setModelViewMatrix(_renderedModelViewMatrix);
+      return primitive;
+    }
+    case PrimitiveType::Path:
+      break;
+    case PrimitiveType::None:
+      break;
+  }
+
+  return nullptr;
+}
+
+std::shared_ptr<compositor::Primitive> PresentationEntity::imagePrimitive(
+    PrimitiveType type) const {
+  switch (type) {
+    case PrimitiveType::Box: {
+      auto primitive = std::make_shared<compositor::TexturedBoxPrimitive>();
+      primitive->setTextureImage(_contents);
+      primitive->setSize(_bounds.size);
+      primitive->setOpacity(_opacity);
+      primitive->setModelViewMatrix(_renderedModelViewMatrix);
+      return primitive;
+    }
+    case PrimitiveType::Path:
+      break;
+    case PrimitiveType::None:
+      break;
+  }
+
+  return nullptr;
+}
+
+void PresentationEntity::renderContents(
+    compositor::FrontEndPass& frontEndPass) const {
+  auto primitive = primitiveType();
+  switch (contentType(_opacity)) {
+    case ContentType::None:
+      /*
+       *  If there is no content to display, there is no sense in looking for
+       *  primitives to render.
+       */
+      return;
+    case ContentType::SolidColor:
+      frontEndPass.addPrimitive(solidColoredPrimitive(primitive));
+      break;
+    case ContentType::Image:
+      frontEndPass.addPrimitive(imagePrimitive(primitive));
+      break;
+  }
 }
 
 }  // namespace coordinator
