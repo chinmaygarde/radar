@@ -34,6 +34,7 @@
 		9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931121CA4C2C500CDBF07 /* libGeometry.a */; };
 		9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FD1CB48D2D000DF505 /* libsqlite3.a */; };
 		9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FB1CB48D2D000DF505 /* libimgui.a */; };
+		EADACF1D1D332EDA00B30BED /* liblibtess2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EADACF141D332EDA00B30BED /* liblibtess2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,7 +175,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = F3CB63242FD54732BC4A17A0;
+			remoteGlobalIDString = 84F2468B9CC14A5F9FCAF368;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -240,6 +241,41 @@
 			remoteGlobalIDString = ADD950248ACA47598F02AEC0;
 			remoteInfo = sqlite3;
 		};
+		EADACF131D332EDA00B30BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F34A4AF367241C0BEF6DEA9;
+			remoteInfo = libtess2;
+		};
+		EADACF151D332EDA00B30BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7815D10A1348EFBBE81623;
+			remoteInfo = DevSupport;
+		};
+		EADACF171D332EDA00B30BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4E29F5085687470C84BF9DB0;
+			remoteInfo = GeometryTest;
+		};
+		EADACF191D332EDA00B30BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAE2588543324C809773AC47;
+			remoteInfo = InterfaceTest;
+		};
+		EADACF1B1D332EDA00B30BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F9FAB40BDD244B4FB5E5D4DC;
+			remoteInfo = ShellTest;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -267,6 +303,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EADACF1D1D332EDA00B30BED /* liblibtess2.a in Frameworks */,
 				9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */,
 				9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */,
 				9E309CFA1D00C3130059BD07 /* libImage.a in Frameworks */,
@@ -376,26 +413,31 @@
 				9EF068F71CB48D2D000DF505 /* libgtest.a */,
 				9EF068F91CB48D2D000DF505 /* libgtest_main.a */,
 				9EF068FB1CB48D2D000DF505 /* libimgui.a */,
+				EADACF141D332EDA00B30BED /* liblibtess2.a */,
 				9EF068FD1CB48D2D000DF505 /* libsqlite3.a */,
-				9ED38F4D1CF678AC00D40928 /* liburiparser.a */,
 				9ED38F4F1CF678AC00D40928 /* libstb.a */,
+				9ED38F4D1CF678AC00D40928 /* liburiparser.a */,
 				9EE931081CA4C2C500CDBF07 /* libAnimation.a */,
 				9EF068E81CB48CD8000DF505 /* libBenchmarkRunner.a */,
 				9E309CD11CFE4E290059BD07 /* libCompositor.a */,
 				9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */,
 				9EE9310C1CA4C2C500CDBF07 /* libCore.a */,
 				9EF068EA1CB48CD8000DF505 /* CoreTest */,
+				EADACF161D332EDA00B30BED /* libDevSupport.a */,
 				9EE9310E1CA4C2C500CDBF07 /* libEntity.a */,
 				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
 				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
+				EADACF181D332EDA00B30BED /* GeometryTest */,
 				9E309CF51D00C3130059BD07 /* libImage.a */,
 				9E309CF71D00C3130059BD07 /* ImageBenchmark */,
 				9E309CF91D00C3130059BD07 /* ImageTest */,
 				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
+				EADACF1A1D332EDA00B30BED /* InterfaceTest */,
 				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
 				9EF068EC1CB48CD8000DF505 /* LayoutBenchmark */,
 				9EF068EE1CB48CD8000DF505 /* LayoutTest */,
 				9EE931181CA4C2C500CDBF07 /* libShell.a */,
+				EADACF1C1D332EDA00B30BED /* ShellTest */,
 				9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */,
 				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
 				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
@@ -688,6 +730,41 @@
 			fileType = archive.ar;
 			path = libsqlite3.a;
 			remoteRef = 9EF068FC1CB48D2D000DF505 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EADACF141D332EDA00B30BED /* liblibtess2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblibtess2.a;
+			remoteRef = EADACF131D332EDA00B30BED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EADACF161D332EDA00B30BED /* libDevSupport.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDevSupport.a;
+			remoteRef = EADACF151D332EDA00B30BED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EADACF181D332EDA00B30BED /* GeometryTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = GeometryTest;
+			remoteRef = EADACF171D332EDA00B30BED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EADACF1A1D332EDA00B30BED /* InterfaceTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = InterfaceTest;
+			remoteRef = EADACF191D332EDA00B30BED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EADACF1C1D332EDA00B30BED /* ShellTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = ShellTest;
+			remoteRef = EADACF1B1D332EDA00B30BED /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

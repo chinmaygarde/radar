@@ -7,17 +7,26 @@
 
 #include <Core/Macros.h>
 #include <Compositor/Primitive/Primitive.h>
+#include <Geometry/Path.h>
 
 namespace rl {
 namespace compositor {
 
+class Mesh;
+
 class ColoredPathPrimitive : public Primitive {
  public:
-  ColoredPathPrimitive();
+  ColoredPathPrimitive(const geom::Path& path);
 
   ~ColoredPathPrimitive() override;
 
  private:
+  std::unique_ptr<Mesh> _mesh;
+
+  void prepareToRender(BackEndPass& backEndPass) override;
+
+  bool render(Frame& frame) const override;
+
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredPathPrimitive);
 };
 

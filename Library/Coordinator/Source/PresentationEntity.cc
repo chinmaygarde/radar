@@ -5,6 +5,7 @@
 #include <Coordinator/PresentationEntity.h>
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
 #include <Compositor/Primitive/TexturedBoxPrimitive.h>
+#include <Compositor/Primitive/ColoredPathPrimitive.h>
 
 namespace rl {
 namespace coordinator {
@@ -93,8 +94,15 @@ PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
       primitive->setModelViewMatrix(_renderedModelViewMatrix);
       return primitive;
     }
-    case PrimitiveType::Path:
-      break;
+    case PrimitiveType::Path: {
+      auto primitive =
+          std::make_shared<compositor::ColoredPathPrimitive>(_path);
+      primitive->setSize(_bounds.size);
+      primitive->setOpacity(_opacity);
+      primitive->setModelViewMatrix(_renderedModelViewMatrix);
+      return primitive;
+    }
+
     case PrimitiveType::None:
       break;
   }
