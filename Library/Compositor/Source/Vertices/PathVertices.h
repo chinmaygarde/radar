@@ -37,10 +37,13 @@ class PathVertices : public Vertices {
 
   ~PathVertices();
 
+  const geom::Size& size() const;
+
   bool hasVerticesAndElements() const;
 
  private:
   void* _opaque;
+  geom::Size _size;
 
   void disposeTessellator();
   size_t elementCount() const;

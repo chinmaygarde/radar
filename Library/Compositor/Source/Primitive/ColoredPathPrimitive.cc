@@ -44,7 +44,7 @@ bool ColoredPathPrimitive::render(Frame& frame) const {
    *  Set uniforms.
    */
   SetUniform(program.contentColorUniform(), _color, _opacity);
-  SetUniform(program.sizeUniform(), _size);
+  SetUniform(program.sizeUniform(), _pathVertices->size());
   SetUniform(program.modelViewProjectionUniform(),
              frame.projectionMatrix() * _modelViewMatrix);
 

@@ -4,6 +4,8 @@
 
 #include "Vertices/PathVertices.h"
 
+#include <algorithm>
+
 #include <libtess2/tesselator.h>
 
 #define _tessellator (reinterpret_cast<TESStesselator*>(_opaque))
@@ -42,50 +44,72 @@ static int ToTessWindingRule(PathVertices::Winding winding) {
   return TESS_WINDING_ODD;
 }
 
-static bool PopulateContoursWithPath(TESStesselator* tess,
-                                     const geom::Path& path) {
+static inline geom::Point MinPoint(const geom::Point& a, const geom::Point& b) {
+  return {std::min(a.x, b.x), std::min(a.y, b.y)};
+}
+
+static inline geom::Point MaxPoint(const geom::Point& a, const geom::Point& b) {
+  return {std::max(a.x, b.x), std::max(a.y, b.y)};
+}
+
+static std::pair<bool, geom::Size> PopulateContoursWithPath(
+    TESStesselator* tess,
+    const geom::Path& path) {
   if (tess == nullptr || path.componentCount() == 0) {
-    return false;
+    return {false, geom::SizeZero};
   }
 
   const size_t kVerticesPerContour = 12;
 
   std::vector<GLPoint> contours;
 
-  /*
-   *  TODO: While enumerating path components like this, points at the end of
-   *        each component will be repeated in the countours vector. This can
-   *        be optimized by keeping track of the last contour point added and
-   *        only adding the next point if the interpolation leads to a
-   *        significant change.
-   */
+  geom::Point min, max;
+
+#define __TRACK_MIN_MAX(x) \
+  min = MinPoint(min, x);  \
+  max = MaxPoint(max, x)
 
   path.enumerateComponents(
       [&](size_t, const geom::LinearPathComponent& linear) {
         contours.emplace_back(linear.p1);
         contours.emplace_back(linear.p2);
+        __TRACK_MIN_MAX(linear.p1);
+        __TRACK_MIN_MAX(linear.p2);
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          contours.emplace_back(
-              quad.solve(static_cast<double>(i) / kVerticesPerContour));
+          auto point = quad.solve(static_cast<double>(i) / kVerticesPerContour);
+          __TRACK_MIN_MAX(point);
+          contours.emplace_back(point);
         }
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          contours.emplace_back(
-              cubic.solve(static_cast<double>(i) / kVerticesPerContour));
+          auto point =
+              cubic.solve(static_cast<double>(i) / kVerticesPerContour);
+          __TRACK_MIN_MAX(point);
+          contours.emplace_back(point);
         }
       });
 
+#undef __TRACK_MIN_MAX
+
   if (contours.size() == 0) {
-    return false;
+    return {false, geom::SizeZero};
+  }
+
+  double divisorX = max.x - min.x;
+  double divisorY = max.y - min.y;
+
+  for (auto& contourPoint : contours) {
+    contourPoint.x = (contourPoint.x - min.x) / divisorX;
+    contourPoint.y = (contourPoint.y - min.y) / divisorY;
   }
 
   tessAddContour(tess, kTessellationVertexSize, contours.data(),
                  sizeof(GLPoint), contours.size());
 
-  return true;
+  return {true, {divisorX, divisorY}};
 }
 
 PathVertices::PathVertices(const geom::Path& path,
@@ -102,7 +126,10 @@ PathVertices::PathVertices(const geom::Path& path,
     return;
   }
 
-  if (!PopulateContoursWithPath(_tessellator, path)) {
+  bool success = false;
+  std::tie(success, _size) = PopulateContoursWithPath(_tessellator, path);
+
+  if (!success) {
     disposeTessellator();
     return;
   }
@@ -125,6 +152,10 @@ PathVertices::PathVertices(const geom::Path& path,
 
 PathVertices::~PathVertices() {
   disposeTessellator();
+}
+
+const geom::Size& PathVertices::size() const {
+  return _size;
 }
 
 void PathVertices::disposeTessellator() {
