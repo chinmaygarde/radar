@@ -42,12 +42,11 @@ class PathVertices : public Vertices {
   bool hasVerticesAndElements() const;
 
  private:
-  void* _opaque;
   geom::Size _size;
 
-  void disposeTessellator();
-  size_t elementCount() const;
-  size_t vertexCount() const;
+  std::vector<GLPoint> _vertices;
+  std::vector<GLshort> _elements;
+
   bool doDraw(size_t index) override;
   bool uploadVertexData() override;
 
