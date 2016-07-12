@@ -7,7 +7,11 @@
 namespace rl {
 namespace compositor {
 
-Vertices::Vertices(Type type) : _type(type), _vbo(GL_NONE), _ibo(GL_NONE) {}
+Vertices::Vertices(Type type)
+    : _type(type),
+      _state(ResourceState::NotReady),
+      _vbo(GL_NONE),
+      _ibo(GL_NONE) {}
 
 Vertices::~Vertices() {
   if (_vbo != GL_NONE) {
