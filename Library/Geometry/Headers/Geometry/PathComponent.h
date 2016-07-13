@@ -33,6 +33,8 @@ struct QuadraticPathComponent {
       : p1(ap1), cp(acp), p2(ap2) {}
 
   Point solve(double time) const;
+
+  Point solveDerivative(double time) const;
 };
 
 struct CubicPathComponent {
@@ -47,6 +49,8 @@ struct CubicPathComponent {
       : p1(ap1), cp1(acp1), cp2(acp2), p2(ap2) {}
 
   Point solve(double time) const;
+
+  Point solveDerivative(double time) const;
 };
 
 }  // namespace geom

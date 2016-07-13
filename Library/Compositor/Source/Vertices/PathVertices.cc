@@ -79,22 +79,18 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
 
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
-        for (size_t i = 0; i < kVerticesPerContour; i++) {
+        for (size_t i = 0; i < kVerticesPerContour + 1; i++) {
           AddPointAndTrackBounds(
               quad.solve(static_cast<double>(i) / kVerticesPerContour),
               contours, min, max);
         }
-
-        AddPointAndTrackBounds(quad.solve(1.0), contours, min, max);
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
-        for (size_t i = 0; i < kVerticesPerContour; i++) {
+        for (size_t i = 0; i < kVerticesPerContour + 1; i++) {
           AddPointAndTrackBounds(
               cubic.solve(static_cast<double>(i) / kVerticesPerContour),
               contours, min, max);
         }
-
-        AddPointAndTrackBounds(cubic.solve(1.0), contours, min, max);
       });
 
   if (contours.size() == 0) {
