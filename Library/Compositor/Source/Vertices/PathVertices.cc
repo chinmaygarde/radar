@@ -50,6 +50,15 @@ static inline geom::Point MaxPoint(const geom::Point& a, const geom::Point& b) {
   return {std::max(a.x, b.x), std::max(a.y, b.y)};
 }
 
+static void AddPointAndTrackBounds(const geom::Point& point,
+                                   std::vector<GLPoint>& contours,
+                                   geom::Point& min,
+                                   geom::Point& max) {
+  contours.emplace_back(point);
+  min = MinPoint(point, min);
+  max = MaxPoint(point, max);
+}
+
 static std::pair<bool, geom::Size> PopulateContoursWithPath(
     TESStesselator* tessellator,
     const geom::Path& path) {
@@ -63,34 +72,30 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
 
   geom::Point min, max;
 
-#define __TRACK_MIN_MAX(x) \
-  min = MinPoint(min, x);  \
-  max = MaxPoint(max, x)
-
   path.enumerateComponents(
       [&](size_t, const geom::LinearPathComponent& linear) {
-        contours.emplace_back(linear.p1);
-        contours.emplace_back(linear.p2);
-        __TRACK_MIN_MAX(linear.p1);
-        __TRACK_MIN_MAX(linear.p2);
+        AddPointAndTrackBounds(linear.p1, contours, min, max);
+        AddPointAndTrackBounds(linear.p2, contours, min, max);
+
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto point = quad.solve(static_cast<double>(i) / kVerticesPerContour);
-          __TRACK_MIN_MAX(point);
-          contours.emplace_back(point);
+          AddPointAndTrackBounds(
+              quad.solve(static_cast<double>(i) / kVerticesPerContour),
+              contours, min, max);
         }
+
+        AddPointAndTrackBounds(quad.solve(1.0), contours, min, max);
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
         for (size_t i = 0; i < kVerticesPerContour; i++) {
-          auto point =
-              cubic.solve(static_cast<double>(i) / kVerticesPerContour);
-          __TRACK_MIN_MAX(point);
-          contours.emplace_back(point);
+          AddPointAndTrackBounds(
+              cubic.solve(static_cast<double>(i) / kVerticesPerContour),
+              contours, min, max);
         }
-      });
 
-#undef __TRACK_MIN_MAX
+        AddPointAndTrackBounds(cubic.solve(1.0), contours, min, max);
+      });
 
   if (contours.size() == 0) {
     return {false, geom::SizeZero};
