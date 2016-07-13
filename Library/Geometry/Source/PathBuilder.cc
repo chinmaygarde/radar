@@ -110,64 +110,76 @@ PathBuilder& PathBuilder::addRoundedRect(Rect rect, RoundingRadii radii) {
   /*
    *  Top line.
    */
-  _prototype.addLinearComponent({radii.topLeft, 0.0},
-                                {rect.size.width - radii.topRight, 0.0});
+  _prototype.addLinearComponent(
+      {rect.origin.x + radii.topLeft, rect.origin.y},
+      {rect.origin.x + rect.size.width - radii.topRight, rect.origin.y});
 
   /*
    *  Top right arc.
    */
   _prototype.addCubicComponent(
-      {rect.size.width - radii.topRight, 0.0},
-      {rect.size.width - radii.topRight + magicTopRight, 0.0},
-      {rect.size.width, radii.topRight - magicTopRight},
-      {rect.size.width, radii.topRight});
+      {rect.origin.x + rect.size.width - radii.topRight, rect.origin.y},
+      {rect.origin.x + rect.size.width - radii.topRight + magicTopRight,
+       rect.origin.y},
+      {rect.origin.x + rect.size.width,
+       rect.origin.y + radii.topRight - magicTopRight},
+      {rect.origin.x + rect.size.width, rect.origin.y + radii.topRight});
 
   /*
    *  Right line.
    */
   _prototype.addLinearComponent(
-      {rect.size.width, radii.topRight},
-      {rect.size.width, rect.size.height - radii.bottomRight});
+      {rect.origin.x + rect.size.width, rect.origin.y + radii.topRight},
+      {rect.origin.x + rect.size.width,
+       rect.origin.y + rect.size.height - radii.bottomRight});
 
   /*
    *  Bottom right arc.
    */
   _prototype.addCubicComponent(
-      {rect.size.width, rect.size.height - radii.bottomRight},
-      {rect.size.width,
-       rect.size.height - radii.bottomRight + magicBottomRight},
-      {rect.size.width - radii.bottomRight + magicBottomRight,
-       rect.size.height},
-      {rect.size.width - radii.bottomRight, rect.size.height});
+      {rect.origin.x + rect.size.width,
+       rect.origin.y + rect.size.height - radii.bottomRight},
+      {rect.origin.x + rect.size.width,
+       rect.origin.y + rect.size.height - radii.bottomRight + magicBottomRight},
+      {rect.origin.x + rect.size.width - radii.bottomRight + magicBottomRight,
+       rect.origin.y + rect.size.height},
+      {rect.origin.x + rect.size.width - radii.bottomRight,
+       rect.origin.y + rect.size.height});
 
   /*
    *  Bottom line.
    */
   _prototype.addLinearComponent(
-      {rect.size.width - radii.bottomRight, rect.size.height},
-      {radii.bottomLeft, rect.size.height});
+      {rect.origin.x + rect.size.width - radii.bottomRight,
+       rect.origin.y + rect.size.height},
+      {rect.origin.x + radii.bottomLeft, rect.origin.y + rect.size.height});
 
   /*
    *  Bottom left arc.
    */
   _prototype.addCubicComponent(
-      {radii.bottomLeft, rect.size.height},
-      {radii.bottomLeft - magicBottomLeft, rect.size.height},
-      {0.0, rect.size.height - radii.bottomLeft + magicBottomLeft},
-      {0.0, rect.size.height - radii.bottomLeft});
+      {rect.origin.x + radii.bottomLeft, rect.origin.y + rect.size.height},
+      {rect.origin.x + radii.bottomLeft - magicBottomLeft,
+       rect.origin.y + rect.size.height},
+      {rect.origin.x,
+       rect.origin.y + rect.size.height - radii.bottomLeft + magicBottomLeft},
+      {rect.origin.x, rect.origin.y + rect.size.height - radii.bottomLeft});
 
   /*
    *  Left line.
    */
-  _prototype.addLinearComponent({0.0, rect.size.height - radii.bottomLeft},
-                                {0.0, radii.topLeft});
+  _prototype.addLinearComponent(
+      {rect.origin.x, rect.origin.y + rect.size.height - radii.bottomLeft},
+      {rect.origin.x, rect.origin.y + radii.topLeft});
 
   /*
    *  Top left arc.
    */
   _prototype.addCubicComponent(
-      {0.0, radii.topLeft}, {0.0, radii.topLeft - magicTopLeft},
-      {radii.topLeft - magicTopLeft, 0.0}, {radii.topLeft, 0.0});
+      {rect.origin.x, rect.origin.y + radii.topLeft},
+      {rect.origin.x, rect.origin.y + radii.topLeft - magicTopLeft},
+      {rect.origin.x + radii.topLeft - magicTopLeft, rect.origin.y},
+      {rect.origin.x + radii.topLeft, rect.origin.y});
 
   return *this;
 }
