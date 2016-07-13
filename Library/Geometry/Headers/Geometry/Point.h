@@ -53,8 +53,6 @@ struct Point {
   void fromString(const std::string& str);
 };
 
-static const Point PointZero(0.0, 0.0);
-
 }  // namespace geom
 }  // namespace rl
 

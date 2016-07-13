@@ -48,7 +48,7 @@ bool PresentationGraph::updateSize(const geom::Size& size) {
   _size = size;
 
   if (_root) {
-    _root->setFrame({geom::PointZero, _size});
+    _root->setFrame({{}, _size});
   }
 
   updateRootSizeSuggestions();
@@ -74,7 +74,7 @@ void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
     return;
   }
 
-  _root->setFrame({geom::PointZero, _size});
+  _root->setFrame({{}, _size});
 
   /**
    *  Add root edit variables.
@@ -446,7 +446,7 @@ void PresentationGraph::render(compositor::FrontEndPass& frontEndPass) {
     return;
   }
 
-  _root->render(frontEndPass, geom::MatrixIdentity);
+  _root->render(frontEndPass, geom::Matrix{});
 }
 
 bool PresentationGraph::stepInterpolations() {

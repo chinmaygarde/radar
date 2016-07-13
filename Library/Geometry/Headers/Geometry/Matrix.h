@@ -274,13 +274,6 @@ struct Matrix {
 static_assert(sizeof(struct Matrix) == sizeof(double) * 16,
               "The matrix must be of consistent size.");
 
-// clang-format off
-static const Matrix MatrixIdentity(1.0, 0.0, 0.0, 0.0,
-                                   0.0, 1.0, 0.0, 0.0,
-                                   0.0, 0.0, 1.0, 0.0,
-                                   0.0, 0.0, 0.0, 1.0);
-// clang-format on
-
 static inline Vector4 operator*(const Vector4& v, const Matrix& m) {
   return Vector4(v.x * m.m[0] + v.y * m.m[4] + v.z * m.m[8] + v.w * m.m[12],
                  v.x * m.m[1] + v.y * m.m[5] + v.z * m.m[9] + v.w * m.m[13],

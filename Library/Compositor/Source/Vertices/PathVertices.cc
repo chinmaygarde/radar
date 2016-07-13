@@ -63,7 +63,7 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
     TESStesselator* tessellator,
     const geom::Path& path) {
   if (tessellator == nullptr || path.componentCount() == 0) {
-    return {false, geom::SizeZero};
+    return {false, {}};
   }
 
   const size_t kVerticesPerContour = 24;
@@ -94,7 +94,7 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
       });
 
   if (contours.size() == 0) {
-    return {false, geom::SizeZero};
+    return {false, {}};
   }
 
   double divisorX = max.x - min.x;
@@ -154,7 +154,7 @@ PathVertices::PathVertices(const geom::Path& path,
                               );
 
   if (result != 1) {
-    _size = geom::SizeZero;
+    _size = {};
     return;
   }
 

@@ -46,8 +46,6 @@ struct Size {
   void fromString(const std::string& str);
 };
 
-static const Size SizeZero(0.0, 0.0);
-
 }  // namespace geom
 }  // namespace rl
 

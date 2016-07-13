@@ -57,8 +57,6 @@ struct Rect {
   void fromString(const std::string& str);
 };
 
-static const Rect RectZero(PointZero, SizeZero);
-
 }  // namespace geom
 }  // namespace rl
 

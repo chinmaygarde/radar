@@ -64,7 +64,7 @@ TEST(GeometryTest, InvertMultMatrix) {
 TEST(GeometryTest, MutliplicationMatrix) {
   auto rotation = rl::geom::Matrix::RotationZ(M_PI_4);
   auto invert = rotation.invert();
-  ASSERT_MATRIX_NEAR(rotation * invert, rl::geom::MatrixIdentity);
+  ASSERT_MATRIX_NEAR(rotation * invert, rl::geom::Matrix{});
 }
 
 TEST(GeometryTest, DeterminantTest) {

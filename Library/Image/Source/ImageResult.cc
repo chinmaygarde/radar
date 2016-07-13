@@ -24,7 +24,7 @@ ImageResult& ImageResult::operator=(ImageResult&& other) {
   other._success = false;
 
   _size = other._size;
-  other._size = geom::SizeZero;
+  other._size = geom::Size{};
 
   _components = other._components;
   other._components = Components::Invalid;
