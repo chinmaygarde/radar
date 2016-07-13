@@ -62,28 +62,31 @@ PathBuilder& PathBuilder::addCircle(const Point& center, double radius) {
   const double diameter = radius * 2.0;
   const double magic = 0.551915024494 * radius;
 
-  _prototype.addCubicComponent({radius, 0.0},               //
-                               {radius + magic, 0.0},       //
-                               {diameter, radius - magic},  //
-                               {diameter, radius}           //
-                               );
+  _prototype.addCubicComponent(
+      {center.x + radius, center.y},                     //
+      {center.x + radius + magic, center.y},             //
+      {center.x + diameter, center.y + radius - magic},  //
+      {center.x + diameter, center.y + radius}           //
+      );
 
-  _prototype.addCubicComponent({diameter, radius},          //
-                               {diameter, radius + magic},  //
-                               {radius + magic, diameter},  //
-                               {radius, diameter}           //
-                               );
+  _prototype.addCubicComponent(
+      {center.x + diameter, center.y + radius},          //
+      {center.x + diameter, center.y + radius + magic},  //
+      {center.x + radius + magic, center.y + diameter},  //
+      {center.x + radius, center.y + diameter}           //
+      );
 
-  _prototype.addCubicComponent({radius, diameter},          //
-                               {radius - magic, diameter},  //
-                               {0.0, radius + magic},       //
-                               {0.0, radius}                //
-                               );
+  _prototype.addCubicComponent(
+      {center.x + radius, center.y + diameter},          //
+      {center.x + radius - magic, center.y + diameter},  //
+      {center.x, center.y + radius + magic},             //
+      {center.x, center.y + radius}                      //
+      );
 
-  _prototype.addCubicComponent({0.0, radius},          //
-                               {0.0, radius - magic},  //
-                               {radius - magic, 0.0},  //
-                               {radius, 0.0}           //
+  _prototype.addCubicComponent({center.x, center.y + radius},          //
+                               {center.x, center.y + radius - magic},  //
+                               {center.x + radius - magic, center.y},  //
+                               {center.x + radius, center.y}           //
                                );
 
   return *this;
