@@ -70,14 +70,14 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
 
 Point CubicPathComponent::solve(double time) const {
   return {
-      CubicSolve(time, p1.x, cp1.x, cp2.y, p2.x),  // x
+      CubicSolve(time, p1.x, cp1.x, cp2.x, p2.x),  // x
       CubicSolve(time, p1.y, cp1.y, cp2.y, p2.y),  // y
   };
 }
 
 Point CubicPathComponent::solveDerivative(double time) const {
   return {
-      CubicSolveDerivative(time, p1.x, cp1.x, cp2.y, p2.x),  // x
+      CubicSolveDerivative(time, p1.x, cp1.x, cp2.x, p2.x),  // x
       CubicSolveDerivative(time, p1.y, cp1.y, cp2.y, p2.y),  // y
   };
 }

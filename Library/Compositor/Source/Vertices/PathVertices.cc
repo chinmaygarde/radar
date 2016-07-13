@@ -66,7 +66,7 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
     return {false, geom::SizeZero};
   }
 
-  const size_t kVerticesPerContour = 12;
+  const size_t kVerticesPerContour = 24;
 
   std::vector<GLPoint> contours;
 

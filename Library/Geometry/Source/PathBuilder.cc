@@ -56,5 +56,38 @@ PathBuilder& PathBuilder::addRect(Rect rect) {
   return *this;
 }
 
+PathBuilder& PathBuilder::addCircle(const Point& center, double radius) {
+  _current = center + Point{0.0, radius};
+
+  const double diameter = radius * 2.0;
+  const double magic = 0.551915024494 * radius;
+
+  _prototype.addCubicComponent({radius, 0.0},               //
+                               {radius + magic, 0.0},       //
+                               {diameter, radius - magic},  //
+                               {diameter, radius}           //
+                               );
+
+  _prototype.addCubicComponent({diameter, radius},          //
+                               {diameter, radius + magic},  //
+                               {radius + magic, diameter},  //
+                               {radius, diameter}           //
+                               );
+
+  _prototype.addCubicComponent({radius, diameter},          //
+                               {radius - magic, diameter},  //
+                               {0.0, radius + magic},       //
+                               {0.0, radius}                //
+                               );
+
+  _prototype.addCubicComponent({0.0, radius},          //
+                               {0.0, radius - magic},  //
+                               {radius - magic, 0.0},  //
+                               {radius, 0.0}           //
+                               );
+
+  return *this;
+}
+
 }  // namespace geom
 }  // namespace rl

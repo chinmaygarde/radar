@@ -32,6 +32,8 @@ class PathBuilder {
 
   PathBuilder& addRect(Rect rect);
 
+  PathBuilder& addCircle(const Point& center, double radius);
+
  private:
   Point _current;
   Path _prototype;
