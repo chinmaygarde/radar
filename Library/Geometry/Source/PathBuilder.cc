@@ -7,6 +7,8 @@
 namespace rl {
 namespace geom {
 
+static const double kArcApproximationMagic = 0.551915024494;
+
 PathBuilder::PathBuilder() = default;
 
 PathBuilder::~PathBuilder() = default;
@@ -60,7 +62,7 @@ PathBuilder& PathBuilder::addCircle(const Point& center, double radius) {
   _current = center + Point{0.0, radius};
 
   const double diameter = radius * 2.0;
-  const double magic = 0.551915024494 * radius;
+  const double magic = kArcApproximationMagic * radius;
 
   _prototype.addCubicComponent(
       {center.x + radius, center.y},                     //
@@ -88,6 +90,84 @@ PathBuilder& PathBuilder::addCircle(const Point& center, double radius) {
                                {center.x + radius - magic, center.y},  //
                                {center.x + radius, center.y}           //
                                );
+
+  return *this;
+}
+
+PathBuilder& PathBuilder::addRoundedRect(Rect rect, double radius) {
+  return radius == 0.0 ? addRect(rect)
+                       : addRoundedRect(rect, {radius, radius, radius, radius});
+}
+
+PathBuilder& PathBuilder::addRoundedRect(Rect rect, RoundingRadii radii) {
+  _current = rect.origin + Point{radii.topLeft, 0.0};
+
+  const double magicTopRight = kArcApproximationMagic * radii.topRight;
+  const double magicBottomRight = kArcApproximationMagic * radii.bottomRight;
+  const double magicBottomLeft = kArcApproximationMagic * radii.bottomLeft;
+  const double magicTopLeft = kArcApproximationMagic * radii.topLeft;
+
+  /*
+   *  Top line.
+   */
+  _prototype.addLinearComponent({radii.topLeft, 0.0},
+                                {rect.size.width - radii.topRight, 0.0});
+
+  /*
+   *  Top right arc.
+   */
+  _prototype.addCubicComponent(
+      {rect.size.width - radii.topRight, 0.0},
+      {rect.size.width - radii.topRight + magicTopRight, 0.0},
+      {rect.size.width, radii.topRight - magicTopRight},
+      {rect.size.width, radii.topRight});
+
+  /*
+   *  Right line.
+   */
+  _prototype.addLinearComponent(
+      {rect.size.width, radii.topRight},
+      {rect.size.width, rect.size.height - radii.bottomRight});
+
+  /*
+   *  Bottom right arc.
+   */
+  _prototype.addCubicComponent(
+      {rect.size.width, rect.size.height - radii.bottomRight},
+      {rect.size.width,
+       rect.size.height - radii.bottomRight + magicBottomRight},
+      {rect.size.width - radii.bottomRight + magicBottomRight,
+       rect.size.height},
+      {rect.size.width - radii.bottomRight, rect.size.height});
+
+  /*
+   *  Bottom line.
+   */
+  _prototype.addLinearComponent(
+      {rect.size.width - radii.bottomRight, rect.size.height},
+      {radii.bottomLeft, rect.size.height});
+
+  /*
+   *  Bottom left arc.
+   */
+  _prototype.addCubicComponent(
+      {radii.bottomLeft, rect.size.height},
+      {radii.bottomLeft - magicBottomLeft, rect.size.height},
+      {0.0, rect.size.height - radii.bottomLeft + magicBottomLeft},
+      {0.0, rect.size.height - radii.bottomLeft});
+
+  /*
+   *  Left line.
+   */
+  _prototype.addLinearComponent({0.0, rect.size.height - radii.bottomLeft},
+                                {0.0, radii.topLeft});
+
+  /*
+   *  Top left arc.
+   */
+  _prototype.addCubicComponent(
+      {0.0, radii.topLeft}, {0.0, radii.topLeft - magicTopLeft},
+      {radii.topLeft - magicTopLeft, 0.0}, {radii.topLeft, 0.0});
 
   return *this;
 }
