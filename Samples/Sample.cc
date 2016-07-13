@@ -7,6 +7,7 @@
 #include "Sample.h"
 
 #include <Layout/ConstraintCreation.h>
+#include <Geometry/PathBuilder.h>
 #include <stdlib.h>
 
 #define RND ((rand() % 100) / 100.0)
@@ -53,8 +54,8 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
 
   interface.pushTransaction(std::move(action));
 
-  const auto rows = 25;
-  const auto cols = 25;
+  const auto rows = 15;
+  const auto cols = 15;
 
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
@@ -134,16 +135,13 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
 static void AddEntityWithPath(rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
 
-  entity.setBackgroundColor(rl::entity::ColorBlue);
+  entity.setBackgroundColor(rl::entity::ColorWhite);
 
-  rl::geom::Path path;
+  rl::geom::PathBuilder builder;
 
-  path.addLinearComponent({100, 100}, {100, 200})
-      .addLinearComponent({100, 200}, {200, 200})
-      .addLinearComponent({200, 200}, {200, 100})
-      .addLinearComponent({200, 100}, {100, 100});
+  builder.addRoundedRect({{100, 250}, {200, 200}}, {80, 20, 50, 20});
 
-  entity.setPath(std::move(path));
+  entity.setPath(builder.path());
 
   interface.rootEntity().addChild(entity);
 }
