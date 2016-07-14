@@ -178,3 +178,14 @@ TEST(GeometryTest, TestRecomposition2) {
 
   ASSERT_MATRIX_NEAR(matrix, rl::geom::Matrix{result.second});
 }
+
+TEST(GeometryTest, QuaternionLerp) {
+  auto q1 = rl::geom::Quaternion{{0.0, 0.0, 1.0}, 0.0};
+  auto q2 = rl::geom::Quaternion{{0.0, 0.0, 1.0}, M_PI_4};
+
+  auto q3 = q1.slerp(q2, 0.5);
+
+  auto expected = rl::geom::Quaternion{{0.0, 0.0, 1.0}, M_PI_4 / 2.0};
+
+  ASSERT_QUATERNION_NEAR(q3, expected);
+}
