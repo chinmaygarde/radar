@@ -8,106 +8,148 @@
 namespace rl {
 namespace animation {
 
-template <typename Type>
-Interpolator<Type>::Interpolator(const Action& action,
-                                 const Type& from,
-                                 const Type& to,
-                                 Stepper stepper)
+template <class T>
+Interpolator<T>::Interpolator(const Action& action,
+                              const T& from,
+                              const T& to,
+                              Stepper stepper)
     : _action(action),
       _from(from),
       _to(to),
       _stepper(stepper),
       _start(core::ClockPoint::min()) {}
 
-template <typename Type>
-void Interpolator<Type>::start(const core::ClockPoint& time) {
+template <class T>
+void Interpolator<T>::start(const core::ClockPoint& time) {
   _start = time;
 }
 
-template <typename Type>
-void Interpolator<Type>::step(const core::ClockPoint& time) {
+template <class T>
+void Interpolator<T>::step(const core::ClockPoint& time) {
   auto timeSinceStart = time - _start;
   auto newValue = x(_action.unitInterpolation(timeSinceStart));
   _stepper(newValue);
 }
 
-template <typename Type>
-const Type& Interpolator<Type>::from() const {
+template <class T>
+const T& Interpolator<T>::from() const {
   return _from;
 }
 
-template <typename Type>
-const Type& Interpolator<Type>::to() const {
+template <class T>
+const T& Interpolator<T>::to() const {
   return _to;
 }
 
-static inline double _lerp(double from, double to, double t) {
-  return from + (to - from) * t;
-}
+template <class T>
+T Lerp(const T& from, const T& to, double time);
 
-template <>
-double Interpolator<double>::x(double t) const {
-  return _lerp(_from, _to, t);
-}
-
-template <>
-geom::Point Interpolator<geom::Point>::x(double t) const {
-  return geom::Point(_lerp(_from.x, _to.x, t), _lerp(_from.y, _to.y, t));
-}
-
-template <>
-geom::Size Interpolator<geom::Size>::x(double t) const {
-  return geom::Size(_lerp(_from.width, _to.width, t),
-                    _lerp(_from.height, _to.height, t));
-}
-
-template <>
-geom::Rect Interpolator<geom::Rect>::x(double t) const {
-  return geom::Rect(_lerp(_from.origin.x, _to.origin.x, t),
-                    _lerp(_from.origin.y, _to.origin.y, t),
-                    _lerp(_from.size.width, _to.size.width, t),
-                    _lerp(_from.size.height, _to.size.height, t));
-}
-
-template <>
-entity::Color Interpolator<entity::Color>::x(double t) const {
-  /*
-   *  TODO: Create a specialization that stores the from and to values in HSB
-   */
-  auto from = entity::ColorHSB::FromRGB(_from);
-  auto to = entity::ColorHSB::FromRGB(_to);
-  auto interpolated = entity::ColorHSB{
-      _lerp(from.hue, to.hue, t), _lerp(from.saturation, to.saturation, t),
-      _lerp(from.brightness, to.brightness, t), _lerp(from.alpha, to.alpha, t)};
-  return interpolated.ToRGBA();
-}
-
-template <>
-geom::Matrix Interpolator<geom::Matrix>::x(double t) const {
-  /*
-   *  TODO: Create a specialization that interpolates naturally. This one is BS.
-   *        Will cause skewing and volumetric distortions.
-   */
-  return geom::Matrix(
-      _lerp(_from.m[0], _to.m[0], t), _lerp(_from.m[1], _to.m[1], t),
-      _lerp(_from.m[2], _to.m[2], t), _lerp(_from.m[3], _to.m[3], t),
-      _lerp(_from.m[4], _to.m[4], t), _lerp(_from.m[5], _to.m[5], t),
-      _lerp(_from.m[6], _to.m[6], t), _lerp(_from.m[7], _to.m[7], t),
-      _lerp(_from.m[8], _to.m[8], t), _lerp(_from.m[9], _to.m[9], t),
-      _lerp(_from.m[10], _to.m[10], t), _lerp(_from.m[11], _to.m[11], t),
-      _lerp(_from.m[12], _to.m[12], t), _lerp(_from.m[13], _to.m[13], t),
-      _lerp(_from.m[14], _to.m[14], t), _lerp(_from.m[15], _to.m[15], t));
+template <class T>
+T Interpolator<T>::x(double time) const {
+  return Lerp(_from, _to, time);
 }
 
 /*
- * Explicit Template Specializations
+ *  ============================================================================
+ *  Interpolating individual typess.
+ *  ============================================================================
+ */
+
+template <>
+double Lerp(const double& from, const double& to, double time) {
+  return from + (to - from) * time;
+}
+
+template <>
+geom::Point Lerp(const geom::Point& from, const geom::Point& to, double time) {
+  return {
+      Lerp(from.x, to.x, time),  // x
+      Lerp(from.y, to.y, time)   // y
+  };
+}
+
+template <>
+geom::Size Lerp(const geom::Size& from, const geom::Size& to, double time) {
+  return {
+      Lerp(from.width, to.width, time),   // width
+      Lerp(from.height, to.height, time)  // height
+  };
+}
+
+template <>
+geom::Rect Lerp(const geom::Rect& from, const geom::Rect& to, double time) {
+  return {
+      Lerp(from.origin, to.origin, time),  // origin
+      Lerp(from.size, to.size, time)       // size
+  };
+}
+
+template <>
+geom::Vector3 Lerp(const geom::Vector3& from,
+                   const geom::Vector3& to,
+                   double time) {
+  return {
+      Lerp(from.x, to.x, time),  // x
+      Lerp(from.y, to.y, time),  // y
+      Lerp(from.z, to.z, time),  // z
+  };
+}
+
+template <>
+geom::Vector4 Lerp(const geom::Vector4& from,
+                   const geom::Vector4& to,
+                   double time) {
+  return {
+      Lerp(from.x, to.x, time),  // x
+      Lerp(from.y, to.y, time),  // y
+      Lerp(from.z, to.z, time),  // z
+      Lerp(from.w, to.w, time),  // w
+  };
+}
+
+template <>
+geom::Shear Lerp(const geom::Shear& from, const geom::Shear& to, double time) {
+  return {
+      Lerp(from.xy, to.xy, time),  // xy
+      Lerp(from.xz, to.xz, time),  // xz
+      Lerp(from.yz, to.yz, time),  // yz
+  };
+}
+
+template <>
+geom::Matrix::Decomposition Lerp(const geom::Matrix::Decomposition& from,
+                                 const geom::Matrix::Decomposition& to,
+                                 double time) {
+  return {
+      Lerp(from.translation, to.translation, time),  // translation
+      Lerp(from.scale, to.scale, time),              // scale
+      Lerp(from.shear, to.shear, time),              // shear
+      Lerp(from.perspective, to.perspective, time),  // perspective
+      from.rotation.slerp(to.rotation, time),        // rotation
+  };
+}
+
+template <>
+entity::ColorHSB Lerp(const entity::ColorHSB& from,
+                      const entity::ColorHSB& to,
+                      double time) {
+  return {
+      Lerp(from.hue, to.hue, time),                // hue
+      Lerp(from.saturation, to.saturation, time),  // saturation
+      Lerp(from.brightness, to.brightness, time),  // brightness
+      Lerp(from.alpha, to.alpha, time),            // alpha
+  };
+}
+
+/*
+ * Explicit Template Specializations.
  */
 template class Interpolator<double>;
 template class Interpolator<geom::Point>;
 template class Interpolator<geom::Size>;
 template class Interpolator<geom::Rect>;
-template class Interpolator<geom::Matrix>;
-template class Interpolator<entity::Color>;
+template class Interpolator<geom::Matrix::Decomposition>;
+template class Interpolator<entity::ColorHSB>;
 
 }  // namespace animation
 }  // namespace rl

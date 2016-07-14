@@ -69,12 +69,12 @@ Director::Interpolators<geom::Rect>& Director::collection() {
 }
 
 template <>
-Director::Interpolators<entity::Color>& Director::collection() {
+Director::Interpolators<entity::ColorHSB>& Director::collection() {
   return _colorInterpolators;
 }
 
 template <>
-Director::Interpolators<geom::Matrix>& Director::collection() {
+Director::Interpolators<geom::Matrix::Decomposition>& Director::collection() {
   return _matrixInterpolators;
 }
 

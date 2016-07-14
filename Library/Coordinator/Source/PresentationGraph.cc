@@ -287,8 +287,15 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 std::bind(&PresentationEntity::setAnchorPoint,
                           &presentationEntity, std::placeholders::_1));
             break;
-          case Property::Transformation:
-            _animationDirector.setInterpolator<geom::Matrix>(
+          case Property::Transformation: {
+            /*
+             *  Matrices cannot be interpolated directly. Instead, they need
+             *  to be decomposed.
+             */
+            auto from = presentationEntity.transformation().decompose().second;
+            auto to = transferEntity.transformation().decompose().second;
+
+            _animationDirector.setInterpolator<geom::Matrix::Decomposition>(
                 /* key */
                 key,
                 /* start time */
@@ -296,15 +303,24 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* action */
                 action,
                 /* from value */
-                presentationEntity.transformation(),
+                from,
                 /* to value */
-                transferEntity.transformation(),
+                to,
                 /* stepper */
                 std::bind(&PresentationEntity::setTransformation,
                           &presentationEntity, std::placeholders::_1));
-            break;
-          case Property::BackgroundColor:
-            _animationDirector.setInterpolator<entity::Color>(
+          } break;
+          case Property::BackgroundColor: {
+            /*
+             *  Colors cannot be interpolated directly. Instead, they need to
+             *  converted into HSB.
+             */
+            auto from =
+                entity::ColorHSB::FromRGB(presentationEntity.backgroundColor());
+            auto to =
+                entity::ColorHSB::FromRGB(transferEntity.backgroundColor());
+
+            _animationDirector.setInterpolator<entity::ColorHSB>(
                 /* key */
                 key,
                 /* start time */
@@ -312,13 +328,13 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* action */
                 action,
                 /* from value */
-                presentationEntity.backgroundColor(),
+                from,
                 /* to value */
-                transferEntity.backgroundColor(),
+                to,
                 /* stepper */
                 std::bind(&PresentationEntity::setBackgroundColor,
                           &presentationEntity, std::placeholders::_1));
-            break;
+          } break;
           case Property::Opacity:
             _animationDirector.setInterpolator<double>(
                 /* key */

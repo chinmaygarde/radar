@@ -81,26 +81,7 @@ Color ColorHSB::ToRGBA() const {
   return Color(0, 0, 0, alpha);
 }
 
-static inline double ColorClamp(double value, double min, double max) {
-  return std::max(min, std::min(value, max));
-}
-
-Color Color::operator+(const Color& o) const {
-  /*
-   *  FIXME: We need natural color mixing. This following implementation is
-   *  complete BS. But I just need to get past this templating stuff quickly. My
-   *  bad.
-   *
-   *  Similar to how we do interpolation on colors (by converting to HSB and
-   *  interpolating HSB components for a more "natural" interpolation), I
-   *  suspect, a conversion to Lab color space for mixing is in order. Till
-   *  then, this will have to do :/
-   */
-  return Color(ColorClamp(red + o.red, 0.0, 1.0),
-               ColorClamp(green + o.green, 0.0, 1.0),
-               ColorClamp(blue + o.blue, 0.0, 1.0),
-               ColorClamp(alpha + o.alpha, 0.0, 1.0));
-}
+Color::Color(const ColorHSB& hsbColor) : Color(hsbColor.ToRGBA()) {}
 
 std::string Color::toString() const {
   std::stringstream stream;

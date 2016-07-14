@@ -74,8 +74,8 @@ class Director {
   Interpolators<geom::Point> _pointInterpolators;
   Interpolators<geom::Size> _sizeInterpolators;
   Interpolators<geom::Rect> _rectInterpolators;
-  Interpolators<geom::Matrix> _matrixInterpolators;
-  Interpolators<entity::Color> _colorInterpolators;
+  Interpolators<geom::Matrix::Decomposition> _matrixInterpolators;
+  Interpolators<entity::ColorHSB> _colorInterpolators;
 
   template <typename T>
   Interpolators<T>& collection();

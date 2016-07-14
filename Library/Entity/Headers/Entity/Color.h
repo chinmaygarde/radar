@@ -11,6 +11,8 @@
 namespace rl {
 namespace entity {
 
+struct ColorHSB;
+
 /**
  *  Represents a RGBA color
  */
@@ -36,6 +38,8 @@ struct Color {
   double alpha;
 
   Color() : red(0.0), green(0.0), blue(0.0), alpha(0.0) {}
+
+  Color(const ColorHSB& hsbColor);
 
   Color(double r, double g, double b, double a)
       : red(r), green(g), blue(b), alpha(a) {}
