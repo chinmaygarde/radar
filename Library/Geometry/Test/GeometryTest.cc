@@ -144,3 +144,37 @@ TEST(GeometryTest, TestDecomposition2) {
   ASSERT_DOUBLE_EQ(res.scale.y, 3);
   ASSERT_DOUBLE_EQ(res.scale.z, 1);
 }
+
+TEST(GeometryTest, TestRecomposition) {
+  /*
+   *  Decomposition.
+   */
+  auto rotated = rl::geom::Matrix::RotationZ(M_PI_4);
+
+  auto result = rotated.decompose();
+
+  ASSERT_TRUE(result.first);
+
+  rl::geom::Matrix::Decomposition res = result.second;
+
+  auto quaternion = rl::geom::Quaternion{{0.0, 0.0, 1.0}, M_PI_4};
+
+  ASSERT_QUATERNION_NEAR(res.rotation, quaternion);
+
+  /*
+   *  Recomposition.
+   */
+  ASSERT_MATRIX_NEAR(rotated, rl::geom::Matrix{res});
+}
+
+TEST(GeometryTest, TestRecomposition2) {
+  auto matrix = rl::geom::Matrix::Translation({100, 100, 100}) *
+                rl::geom::Matrix::RotationZ(M_PI_4) *
+                rl::geom::Matrix::Scale({2.0, 2.0, 2.0});
+
+  auto result = matrix.decompose();
+
+  ASSERT_TRUE(result.first);
+
+  ASSERT_MATRIX_NEAR(matrix, rl::geom::Matrix{result.second});
+}

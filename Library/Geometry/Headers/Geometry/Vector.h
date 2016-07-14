@@ -14,9 +14,14 @@ namespace rl {
 namespace geom {
 
 struct Vector3 {
-  double x;
-  double y;
-  double z;
+  union {
+    struct {
+      double x;
+      double y;
+      double z;
+    };
+    double e[3];
+  };
 
   Vector3() : x(0.0), y(0.0), z(0.0) {}
 
@@ -78,10 +83,15 @@ struct Vector3 {
 };
 
 struct Vector4 {
-  double x;
-  double y;
-  double z;
-  double w;
+  union {
+    struct {
+      double x;
+      double y;
+      double z;
+      double w;
+    };
+    double e[4];
+  };
 
   Vector4() : x(0.0), y(0.0), z(0.0), w(1.0) {}
 

@@ -11,10 +11,15 @@ namespace rl {
 namespace geom {
 
 struct Quaternion {
-  double x;
-  double y;
-  double z;
-  double w;
+  union {
+    struct {
+      double x;
+      double y;
+      double z;
+      double w;
+    };
+    double e[4];
+  };
 
   Quaternion() : x(0.0), y(0.0), z(0.0), w(1.0) {}
 

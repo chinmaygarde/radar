@@ -24,6 +24,17 @@ struct Matrix {
     Vector4 vec[4];
   };
 
+  struct Decomposition {
+    Vector3 translation;
+    Vector3 scale;
+    Shear shear;
+    Vector4 perspective;
+    Quaternion rotation;
+  };
+
+  using DecompositionResult =
+      std::pair<bool /* success */, Decomposition /* result */>;
+
   Matrix()
       // clang-format off
       : vec{ Vector4(1.0,  0.0,  0.0,  0.0),
@@ -42,6 +53,8 @@ struct Matrix {
             Vector4(m8,  m9,  m10, m11),
             Vector4(m12, m13, m14, m15)} {}
   // clang-format on
+
+  Matrix(const Decomposition& decomposition);
 
   static Matrix Translation(const Vector3& t) {
     // clang-format off
@@ -197,17 +210,6 @@ struct Matrix {
         // clang-format on
         );
   }
-
-  struct Decomposition {
-    Vector3 translation;
-    Vector3 scale;
-    Shear shear;
-    Vector4 perspective;
-    Quaternion rotation;
-  };
-
-  using DecompositionResult =
-      std::pair<bool /* success */, Decomposition /* result */>;
 
   DecompositionResult decompose() const;
 

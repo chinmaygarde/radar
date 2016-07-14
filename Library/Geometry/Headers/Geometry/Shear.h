@@ -9,9 +9,14 @@ namespace rl {
 namespace geom {
 
 struct Shear {
-  double xy;
-  double xz;
-  double yz;
+  union {
+    struct {
+      double xy;
+      double xz;
+      double yz;
+    };
+    double e[3];
+  };
 
   Shear() : xy(0.0), xz(0.0), yz(0.0) {}
 

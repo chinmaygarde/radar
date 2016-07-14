@@ -10,6 +10,82 @@
 namespace rl {
 namespace geom {
 
+Matrix::Matrix(const Decomposition& d) : Matrix() {
+  /*
+   *  Apply perspective.
+   */
+  for (int i = 0; i < 4; i++) {
+    e[i][3] = d.perspective.e[i];
+  }
+
+  /*
+   *  Apply translation.
+   */
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      e[3][i] += d.translation.e[j] * e[j][i];
+    }
+  }
+
+  /*
+   *  Apply rotation.
+   */
+
+  Matrix rotation;
+
+  const auto x = -d.rotation.x;
+  const auto y = -d.rotation.y;
+  const auto z = -d.rotation.z;
+  const auto w = d.rotation.w;
+
+  /*
+   *  Construct a composite rotation matrix from the quaternion values.
+   */
+
+  rotation.e[0][0] = 1.0 - 2.0 * (y * y + z * z);
+  rotation.e[0][1] = 2.0 * (x * y - z * w);
+  rotation.e[0][2] = 2.0 * (x * z + y * w);
+  rotation.e[1][0] = 2.0 * (x * y + z * w);
+  rotation.e[1][1] = 1.0 - 2.0 * (x * x + z * z);
+  rotation.e[1][2] = 2.0 * (y * z - x * w);
+  rotation.e[2][0] = 2.0 * (x * z - y * w);
+  rotation.e[2][1] = 2.0 * (y * z + x * w);
+  rotation.e[2][2] = 1.0 - 2.0 * (x * x + y * y);
+
+  *this = *this * rotation;
+
+  /*
+   *  Apply shear.
+   */
+  Matrix shear;
+
+  if (d.shear.e[2] != 0) {
+    shear.e[2][1] = d.shear.e[2];
+    *this = *this * shear;
+  }
+
+  if (d.shear.e[1] != 0) {
+    shear.e[2][1] = 0.0;
+    shear.e[2][0] = d.shear.e[1];
+    *this = *this * shear;
+  }
+
+  if (d.shear.e[0] != 0) {
+    shear.e[2][0] = 0.0;
+    shear.e[1][0] = d.shear.e[0];
+    *this = *this * shear;
+  }
+
+  /*
+   *  Apply scale.
+   */
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      e[i][j] *= d.scale.e[i];
+    }
+  }
+}
+
 Matrix Matrix::Orthographic(double left,
                             double right,
                             double bottom,
