@@ -35,8 +35,6 @@ struct Vector3 {
    */
   double length() const;
 
-  Vector3 scale(double newLength) const;
-
   Vector3 normalize() const;
 
   double dot(const Vector3& other) const {

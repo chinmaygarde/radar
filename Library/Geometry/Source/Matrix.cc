@@ -204,61 +204,61 @@ Matrix::DecompositionResult Matrix::decompose() const {
   /*
    *  Normalize the matrix.
    */
-  Matrix locmat = *this;
+  Matrix self = *this;
 
-  if (locmat.e[3][3] == 0) {
+  if (self.e[3][3] == 0) {
     return {false, {}};
   }
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      locmat.e[i][j] /= locmat.e[3][3];
+      self.e[i][j] /= self.e[3][3];
     }
   }
 
   /*
-   *  pmat is used to solve for perspective, but it also provides
+   *  `perspectiveMatrix` is used to solve for perspective, but it also provides
    *  an easy way to test for singularity of the upper 3x3 component.
    */
-  Matrix pmat = locmat;
+  Matrix perpectiveMatrix = self;
   for (int i = 0; i < 3; i++) {
-    pmat.e[i][3] = 0;
+    perpectiveMatrix.e[i][3] = 0;
   }
 
-  pmat.e[3][3] = 1;
+  perpectiveMatrix.e[3][3] = 1;
 
-  if (pmat.determinant() == 0.0) {
+  if (perpectiveMatrix.determinant() == 0.0) {
     return {false, {}};
   }
 
-  Decomposition res;
+  Decomposition result;
 
   /*
    *  ==========================================================================
    *  First, isolate perspective.
    *  ==========================================================================
    */
-  if (locmat.e[0][3] != 0.0 || locmat.e[1][3] != 0.0 || locmat.e[2][3] != 0.0) {
+  if (self.e[0][3] != 0.0 || self.e[1][3] != 0.0 || self.e[2][3] != 0.0) {
     /*
      *  prhs is the right hand side of the equation.
      */
-    const Vector4 prhs(locmat.e[0][3],  //
-                       locmat.e[1][3],  //
-                       locmat.e[2][3],  //
-                       locmat.e[3][3]);
+    const Vector4 rightHandSide(self.e[0][3],  //
+                                self.e[1][3],  //
+                                self.e[2][3],  //
+                                self.e[3][3]);
 
     /*
-     *  Solve the equation by inverting pmat and multiplying
+     *  Solve the equation by inverting `perspectiveMatrix` and multiplying
      *  prhs by the inverse.
      */
 
-    res.perspective = prhs * pmat.invert().transpose();
+    result.perspective = rightHandSide * perpectiveMatrix.invert().transpose();
 
     /*
      *  Clear the perspective partition.
      */
-    locmat.e[0][3] = locmat.e[1][3] = locmat.e[2][3] = 0;
-    locmat.e[3][3] = 1;
+    self.e[0][3] = self.e[1][3] = self.e[2][3] = 0;
+    self.e[3][3] = 1;
   }
 
   /*
@@ -266,8 +266,8 @@ Matrix::DecompositionResult Matrix::decompose() const {
    *  Next, the translation.
    *  ==========================================================================
    */
-  res.translation = {locmat.e[3][0], locmat.e[3][1], locmat.e[3][2]};
-  locmat.e[3][0] = locmat.e[3][1] = locmat.e[3][2] = 0.0;
+  result.translation = {self.e[3][0], self.e[3][1], self.e[3][2]};
+  self.e[3][0] = self.e[3][1] = self.e[3][2] = 0.0;
 
   /*
    *  ==========================================================================
@@ -276,46 +276,46 @@ Matrix::DecompositionResult Matrix::decompose() const {
    */
   Vector3 row[3];
   for (int i = 0; i < 3; i++) {
-    row[i].x = locmat.e[i][0];
-    row[i].y = locmat.e[i][1];
-    row[i].z = locmat.e[i][2];
+    row[i].x = self.e[i][0];
+    row[i].y = self.e[i][1];
+    row[i].z = self.e[i][2];
   }
 
   /*
    *  Compute X scale factor and normalize first row.
    */
-  res.scale.x = row[0].length();
-  row[0] = row[0].scale(1.0);
+  result.scale.x = row[0].length();
+  row[0] = row[0].normalize();
 
   /*
    *  Compute XY shear factor and make 2nd row orthogonal to 1st.
    */
-  res.shear.xy = row[0].dot(row[1]);
-  row[1] = Vector3::Combine(row[1], 1.0, row[0], -res.shear.xy);
+  result.shear.xy = row[0].dot(row[1]);
+  row[1] = Vector3::Combine(row[1], 1.0, row[0], -result.shear.xy);
 
   /*
    *  Compute Y scale and normalize 2nd row.
    */
-  res.scale.y = row[1].length();
-  row[1] = row[1].scale(1.0);
-  res.shear.xy /= res.scale.y;
+  result.scale.y = row[1].length();
+  row[1] = row[1].normalize();
+  result.shear.xy /= result.scale.y;
 
   /*
    *  Compute XZ and YZ shears, orthogonalize 3rd row.
    */
-  res.shear.xz = row[0].dot(row[2]);
-  row[2] = Vector3::Combine(row[2], 1.0, row[0], -res.shear.xz);
-  res.shear.yz = row[1].dot(row[2]);
-  row[2] = Vector3::Combine(row[2], 1.0, row[1], -res.shear.yz);
+  result.shear.xz = row[0].dot(row[2]);
+  row[2] = Vector3::Combine(row[2], 1.0, row[0], -result.shear.xz);
+  result.shear.yz = row[1].dot(row[2]);
+  row[2] = Vector3::Combine(row[2], 1.0, row[1], -result.shear.yz);
 
   /*
    *  Next, get Z scale and normalize 3rd row.
    */
-  res.scale.z = row[2].length();
-  row[2] = row[2].scale(1.0);
+  result.scale.z = row[2].length();
+  row[2] = row[2].normalize();
 
-  res.shear.xz /= res.scale.z;
-  res.shear.yz /= res.scale.z;
+  result.shear.xz /= result.scale.z;
+  result.shear.yz /= result.scale.z;
 
   /*
    *  At this point, the matrix (in rows[]) is orthonormal.
@@ -323,9 +323,9 @@ Matrix::DecompositionResult Matrix::decompose() const {
    *  is -1, then negate the matrix and the scaling factors.
    */
   if (row[0].dot(row[1].cross(row[2])) < 0) {
-    res.scale.x *= -1;
-    res.scale.y *= -1;
-    res.scale.z *= -1;
+    result.scale.x *= -1;
+    result.scale.y *= -1;
+    result.scale.z *= -1;
 
     for (int i = 0; i < 3; i++) {
       row[i].x *= -1;
@@ -335,18 +335,30 @@ Matrix::DecompositionResult Matrix::decompose() const {
   }
 
   /*
-   *  Get the rotations out.
+   *  ==========================================================================
+   *  Finally, get the rotations out.
+   *  ==========================================================================
    */
-  res.rotation.y = asin(-row[0].z);
-  if (cos(res.rotation.y) != 0) {
-    res.rotation.x = atan2(row[1].z, row[2].z);
-    res.rotation.z = atan2(row[0].y, row[0].x);
-  } else {
-    res.rotation.x = atan2(-row[2].x, row[1].y);
-    res.rotation.z = 0.0;
+  result.rotation.x =
+      0.5 * sqrt(fmax(1.0 + row[0].x - row[1].y - row[2].z, 0.0));
+  result.rotation.y =
+      0.5 * sqrt(fmax(1.0 - row[0].x + row[1].y - row[2].z, 0.0));
+  result.rotation.z =
+      0.5 * sqrt(fmax(1.0 - row[0].x - row[1].y + row[2].z, 0.0));
+  result.rotation.w =
+      0.5 * sqrt(fmax(1.0 + row[0].x + row[1].y + row[2].z, 0.0));
+
+  if (row[2].y > row[1].z) {
+    result.rotation.x = -result.rotation.x;
+  }
+  if (row[0].z > row[2].x) {
+    result.rotation.y = -result.rotation.y;
+  }
+  if (row[1].x > row[0].y) {
+    result.rotation.z = -result.rotation.z;
   }
 
-  return DecompositionResult(true, res);
+  return DecompositionResult(true, result);
 }
 
 }  // namespace geom

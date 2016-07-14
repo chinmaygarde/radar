@@ -11,6 +11,12 @@ std::ostream& operator<<(std::ostream& out, const rl::geom::Matrix& m) {
   out << "(" << m.toString() << ")";
   return out;
 }
+
+std::ostream& operator<<(std::ostream& out, const rl::geom::Quaternion& q) {
+  out << "(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
+  return out;
+}
+
 }  // namespace std
 
 static bool Near(double a, double b) {
@@ -40,7 +46,20 @@ static bool Near(double a, double b) {
                : ::testing::AssertionFailure() << "Matrixes are not equal.";
 }
 
+::testing::AssertionResult QuaternionNear(rl::geom::Quaternion a,
+                                          rl::geom::Quaternion b) {
+  auto equal = Near(a.x, b.x)     //
+               && Near(a.y, b.y)  //
+               && Near(a.z, b.z)  //
+               && Near(a.w, b.w)  //
+      ;
+
+  return equal ? ::testing::AssertionSuccess()
+               : ::testing::AssertionFailure() << "Quaternions are not equal.";
+}
+
 #define ASSERT_MATRIX_NEAR(a, b) ASSERT_PRED2(&::MatrixNear, a, b)
+#define ASSERT_QUATERNION_NEAR(a, b) ASSERT_PRED2(&::QuaternionNear, a, b)
 
 TEST(GeometryTest, RotationMatrix) {
   auto rotation = rl::geom::Matrix::RotationZ(M_PI_4);
@@ -98,7 +117,8 @@ TEST(GeometryTest, TestDecomposition) {
 
   rl::geom::Matrix::Decomposition res = result.second;
 
-  ASSERT_DOUBLE_EQ(res.rotation.z, M_PI_4);
+  auto quaternion = rl::geom::Quaternion{{0.0, 0.0, 1.0}, M_PI_4};
+  ASSERT_QUATERNION_NEAR(res.rotation, quaternion);
 }
 
 TEST(GeometryTest, TestDecomposition2) {
@@ -112,9 +132,9 @@ TEST(GeometryTest, TestDecomposition2) {
 
   rl::geom::Matrix::Decomposition res = result.second;
 
-  ASSERT_DOUBLE_EQ(res.rotation.x, 0);
-  ASSERT_DOUBLE_EQ(res.rotation.y, 0);
-  ASSERT_DOUBLE_EQ(res.rotation.z, M_PI_4);
+  auto quaternion = rl::geom::Quaternion{{0.0, 0.0, 1.0}, M_PI_4};
+
+  ASSERT_QUATERNION_NEAR(res.rotation, quaternion);
 
   ASSERT_DOUBLE_EQ(res.translation.x, -200);
   ASSERT_DOUBLE_EQ(res.translation.y, 750);

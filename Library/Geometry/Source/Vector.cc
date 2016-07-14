@@ -11,11 +11,6 @@ double Vector3::length() const {
   return sqrt(x * x + y * y + z * z);
 }
 
-Vector3 Vector3::scale(double newLength) const {
-  const auto scale = newLength / length();
-  return {x * scale, y * scale, z * scale};
-}
-
 Vector3 Vector3::Combine(const Vector3& a,
                          double aScale,
                          const Vector3& b,

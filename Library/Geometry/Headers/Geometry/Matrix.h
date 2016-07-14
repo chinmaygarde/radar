@@ -9,6 +9,7 @@
 #include <Geometry/Size.h>
 #include <Geometry/Point.h>
 #include <Geometry/Shear.h>
+#include <Geometry/Quaternion.h>
 
 #include <cmath>
 #include <utility>
@@ -198,11 +199,11 @@ struct Matrix {
   }
 
   struct Decomposition {
+    Vector3 translation;
     Vector3 scale;
     Shear shear;
-    Vector3 rotation;
-    Vector3 translation;
     Vector4 perspective;
+    Quaternion rotation;
   };
 
   using DecompositionResult =
