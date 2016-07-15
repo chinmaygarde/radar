@@ -25,10 +25,14 @@ void Interpolator<T>::start(const core::ClockPoint& time) {
 }
 
 template <class T>
+T Lerp(const T& from, const T& to, double time);
+
+template <class T>
 void Interpolator<T>::step(const core::ClockPoint& time) {
   auto timeSinceStart = time - _start;
-  auto newValue = x(_action.unitInterpolation(timeSinceStart));
-  _stepper(newValue);
+  auto timeInUnitSlice = _action.unitInterpolation(timeSinceStart);
+  auto interpolatedValue = Lerp(_from, _to, timeInUnitSlice);
+  _stepper(interpolatedValue);
 }
 
 template <class T>
@@ -39,14 +43,6 @@ const T& Interpolator<T>::from() const {
 template <class T>
 const T& Interpolator<T>::to() const {
   return _to;
-}
-
-template <class T>
-T Lerp(const T& from, const T& to, double time);
-
-template <class T>
-T Interpolator<T>::x(double time) const {
-  return Lerp(_from, _to, time);
 }
 
 /*

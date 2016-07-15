@@ -35,8 +35,6 @@ class Interpolator {
   const Stepper _stepper;
   core::ClockPoint _start;
 
-  Type x(double unitTime) const;
-
   RL_DISALLOW_COPY_AND_ASSIGN(Interpolator);
 };
 
