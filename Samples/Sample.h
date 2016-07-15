@@ -23,6 +23,7 @@ class SampleApplication : public rl::interface::InterfaceDelegate {
   rl::core::Bundle _bundle;
 
   void AddEntityWithImage(rl::interface::Interface& interface);
+  void AddImageWithRoundedRect(rl::interface::Interface& interface);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SampleApplication);
 };

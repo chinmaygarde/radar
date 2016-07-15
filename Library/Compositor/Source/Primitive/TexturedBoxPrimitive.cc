@@ -13,13 +13,10 @@
 namespace rl {
 namespace compositor {
 
-TexturedBoxPrimitive::TexturedBoxPrimitive() = default;
+TexturedBoxPrimitive::TexturedBoxPrimitive(image::Image image)
+    : _texture(std::make_shared<Texture>(std::move(image))) {}
 
 TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
-
-void TexturedBoxPrimitive::setTextureImage(image::Image image) {
-  _texture = std::make_shared<Texture>(std::move(image));
-}
 
 void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
   if (_texture == nullptr) {
@@ -42,7 +39,7 @@ bool TexturedBoxPrimitive::render(Frame& frame) const {
   /*
    *  Bind texture.
    */
-  if (!_texture->bind(program.textureUniform())) {
+  if (!_texture || !_texture->bind(program.textureUniform())) {
     return false;
   }
 

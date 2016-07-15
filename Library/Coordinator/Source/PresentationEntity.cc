@@ -6,6 +6,7 @@
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
 #include <Compositor/Primitive/TexturedBoxPrimitive.h>
 #include <Compositor/Primitive/ColoredPathPrimitive.h>
+#include <Compositor/Primitive/TexturedPathPrimitive.h>
 
 namespace rl {
 namespace coordinator {
@@ -115,15 +116,21 @@ std::shared_ptr<compositor::Primitive> PresentationEntity::imagePrimitive(
     PrimitiveType type) const {
   switch (type) {
     case PrimitiveType::Box: {
-      auto primitive = std::make_shared<compositor::TexturedBoxPrimitive>();
-      primitive->setTextureImage(_contents);
+      auto primitive =
+          std::make_shared<compositor::TexturedBoxPrimitive>(_contents);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
       primitive->setModelViewMatrix(_renderedModelViewMatrix);
       return primitive;
     }
-    case PrimitiveType::Path:
-      break;
+    case PrimitiveType::Path: {
+      auto primitive =
+          std::make_shared<compositor::TexturedPathPrimitive>(_contents, _path);
+      primitive->setSize(_bounds.size);
+      primitive->setOpacity(_opacity);
+      primitive->setModelViewMatrix(_renderedModelViewMatrix);
+      return primitive;
+    } break;
     case PrimitiveType::None:
       break;
   }

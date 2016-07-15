@@ -16,11 +16,9 @@ class Texture;
 
 class TexturedBoxPrimitive : public Primitive {
  public:
-  TexturedBoxPrimitive();
+  TexturedBoxPrimitive(image::Image image);
 
   ~TexturedBoxPrimitive() override;
-
-  void setTextureImage(image::Image image);
 
   void prepareToRender(BackEndPass& backEndPass) override;
 

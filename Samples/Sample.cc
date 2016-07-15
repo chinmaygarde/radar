@@ -140,9 +140,29 @@ static void AddEntityWithPath(rl::interface::Interface& interface) {
 
   rl::geom::PathBuilder builder;
 
-  builder.addRoundedRect({{100, 250}, {200, 200}}, {80, 20, 50, 20});
+  builder.addRoundedRect({{250, 175}, {200, 200}}, {80, 20, 50, 20});
 
   entity.setPath(builder.path());
+
+  interface.rootEntity().addChild(entity);
+}
+
+void SampleApplication::AddImageWithRoundedRect(
+    rl::interface::Interface& interface) {
+  auto entity = interface.createEntity();
+
+  /*
+   *  Set the rounded rect.
+   */
+  rl::geom::PathBuilder builder;
+  builder.addRoundedRect({{10, 300}, {200, 200}}, {25, 25, 25, 25});
+  entity.setPath(builder.path());
+
+  /*
+   *  Set the image.
+   */
+  auto imageURI = _bundle.uriForResource(rl::core::URI{"MonaLisa.jpg"});
+  entity.setContents(rl::image::Image{std::move(imageURI)});
 
   interface.rootEntity().addChild(entity);
 }
@@ -185,6 +205,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   AddEntityWithImage(interface);
 
   AddEntityWithPath(interface);
+
+  AddImageWithRoundedRect(interface);
 }
 
 void SampleApplication::didEnterBackground(

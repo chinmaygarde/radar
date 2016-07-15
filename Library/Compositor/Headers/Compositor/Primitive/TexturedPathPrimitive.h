@@ -7,17 +7,29 @@
 
 #include <Core/Macros.h>
 #include <Compositor/Primitive/Primitive.h>
+#include <Image/Image.h>
+#include <Geometry/Path.h>
 
 namespace rl {
 namespace compositor {
 
+class PathVertices;
+class Texture;
+
 class TexturedPathPrimitive : public Primitive {
  public:
-  TexturedPathPrimitive();
+  TexturedPathPrimitive(image::Image image, const geom::Path& path);
 
   ~TexturedPathPrimitive() override;
 
  private:
+  std::shared_ptr<Texture> _texture;
+  std::unique_ptr<PathVertices> _pathVertices;
+
+  void prepareToRender(BackEndPass& backEndPass) override;
+
+  bool render(Frame& frame) const override;
+
   RL_DISALLOW_COPY_AND_ASSIGN(TexturedPathPrimitive);
 };
 
