@@ -20,6 +20,7 @@
 		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
 		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
 		9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9544201C333EF8002EEC68 /* Foundation.framework */; };
+		9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ED38F2B1CF678AB00D40928 /* Beachball.png */; };
 		9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931181CA4C2C500CDBF07 /* libShell.a */; };
@@ -175,7 +176,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 84F2468B9CC14A5F9FCAF368;
+			remoteGlobalIDString = 85C88CC946DA45E38DE2C5DD;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -292,6 +293,7 @@
 		9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceMain.cc; sourceTree = "<group>"; };
 		9E9543FF1C31C652002EEC68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9E9544201C333EF8002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MonaLisa.jpg; path = RadarLoveMac/MonaLisa.jpg; sourceTree = "<group>"; };
 		9EA6744B1B742C4900C8A8B4 /* RadarSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarSurface.h; sourceTree = "<group>"; };
 		9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarSurface.mm; sourceTree = "<group>"; };
 		9ED38F2B1CF678AB00D40928 /* Beachball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beachball.png; path = RadarLoveMac/Beachball.png; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 		9ED38F561CF678B200D40928 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */,
 				9ED38F2B1CF678AB00D40928 /* Beachball.png */,
 			);
 			name = Assets;
@@ -777,6 +780,7 @@
 				9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */,
 				9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */,
 				9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */,
+				9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

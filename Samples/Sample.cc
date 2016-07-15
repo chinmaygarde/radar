@@ -48,7 +48,7 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
   rl::animation::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
   action.setAutoReverses(true);
-  action.setDuration(rl::core::ClockDuration(0.5));
+  action.setDuration(rl::core::ClockDuration(1.5));
   action.setRepeatCount(rl::animation::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::entity::Entity::TransformationMask);
 
@@ -60,7 +60,8 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
   for (double i = 0; i < rows; i++) {
     for (double j = 0; j < cols; j++) {
       auto layer = interface.createEntity();
-      layer.setFrame({0.0, 0.0, 25, 25});
+      layer.setFrame(
+          {0.0, 0.0, fmax(RND * 100.0, 25.0), fmax(RND * 100.0, 25.0)});
       layer.setBackgroundColor({RND, RND, RND, 1.0});
 
       auto rotation = rl::geom::Matrix::RotationZ(RND * M_PI * 2.0);
@@ -148,6 +149,15 @@ static void AddEntityWithPath(rl::interface::Interface& interface) {
 
 void SampleApplication::AddEntityWithImage(
     rl::interface::Interface& interface) {
+  rl::animation::Action action;
+  action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
+  action.setDuration(rl::core::ClockDuration(0.5));
+  action.setAutoReverses(true);
+  action.setRepeatCount(rl::animation::Action::RepeatCountInfinity);
+  action.setPropertyMask(rl::entity::Entity::TransformationMask);
+
+  interface.pushTransaction(std::move(action));
+
   auto entity = interface.createEntity();
 
   entity.setFrame({100, 100, 100, 100});
@@ -155,8 +165,11 @@ void SampleApplication::AddEntityWithImage(
   auto imageURI = _bundle.uriForResource(rl::core::URI{"Beachball.png"});
 
   entity.setContents(rl::image::Image{std::move(imageURI)});
+  entity.setTransformation(rl::geom::Matrix::RotationZ(M_PI));
 
   interface.rootEntity().addChild(entity);
+
+  interface.popTransaction();
 }
 
 void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
