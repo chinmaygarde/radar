@@ -88,7 +88,7 @@ static void AddDraggableEntity(rl::interface::Interface& interface) {
   auto& root = interface.rootEntity();
 
   auto sub1 = interface.createEntity();
-  sub1.setFrame({10.0, 10.0, 100.0, 100.0});
+  sub1.setFrame({10.0, 325.0, 100.0, 100.0});
   sub1.setBackgroundColor({1.0, 0.0, 0.0, 1.0});
   root.addChild(sub1);
 
@@ -140,7 +140,7 @@ static void AddEntityWithPath(rl::interface::Interface& interface) {
 
   rl::geom::PathBuilder builder;
 
-  builder.addRoundedRect({{250, 175}, {200, 200}}, {80, 20, 50, 20});
+  builder.addRoundedRect({{325, 175}, {200, 200}}, {80, 20, 50, 20});
 
   entity.setPath(builder.path());
 
@@ -155,7 +155,7 @@ void SampleApplication::AddImageWithRoundedRect(
    *  Set the rounded rect.
    */
   rl::geom::PathBuilder builder;
-  builder.addRoundedRect({{10, 300}, {200, 200}}, {25, 25, 25, 25});
+  builder.addRoundedRect({{10, 10}, {300, 300}}, {50, 50, 50, 50});
   entity.setPath(builder.path());
 
   /*
