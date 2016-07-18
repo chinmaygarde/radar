@@ -26,29 +26,35 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+if(__warnings)
+  return()
+endif()
+set(__warnings INCLUDED)
+
+include(AddCXXWarningIfSupported)
+
 ################################################################################
-# Library
+# Sets recommended warning flags.
 ################################################################################
 
-file(GLOB URI_PARSER_SRC
-  Source/src/UriCommon.c
-  Source/src/UriCompare.c
-  Source/src/UriEscape.c
-  Source/src/UriFile.c
-  Source/src/UriIp4.c
-  Source/src/UriIp4Base.c
-  Source/src/UriNormalize.c
-  Source/src/UriNormalizeBase.c
-  Source/src/UriParse.c
-  Source/src/UriParseBase.c
-  Source/src/UriQuery.c
-  Source/src/UriRecompose.c
-  Source/src/UriResolve.c
-  Source/src/UriShorten.c
-)
+macro(AddRecommendedWarningFlags)
 
-add_library(uriparser ${URI_PARSER_SRC})
+if (WINDOWS)
+  return()
+endif()
 
-target_include_directories(uriparser PUBLIC Headers)
+AddCXXWarningIfSupported("-Werror"            HAVE_ERRORS)
+AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
+AddCXXWarningIfSupported("-Wredundant-move"   HAVE_REDUNDANT_MOVE)
+AddCXXWarningIfSupported("-Wloop-analysis"    HAVE_LOOP_ANALYSIS)
+AddCXXWarningIfSupported("-Wdocumentation"    HAVE_DOCUMENTATION_ANALYSIS)
 
-include_directories(Headers/uriparser Source)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  # Work around bug with -Werror on older GCC
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=36750
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-field-initializers")
+  endif()
+endif()
+
+endmacro()

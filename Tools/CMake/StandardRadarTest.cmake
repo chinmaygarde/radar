@@ -31,6 +31,8 @@ if(__standard_radar_test)
 endif()
 set(__standard_radar_test INCLUDED)
 
+include(AddRecommendedWarningFlags)
+
 ################################################################################
 # Declares that the current source directory contains a test in the
 # "standard" Radar library format. This generates a standalone test runner.
@@ -51,6 +53,8 @@ string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
 
 message(STATUS 
     "\tAdding test '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
+
+AddRecommendedWarningFlags()
 
 # Find all test files and mark ObjC files as C++ on Linux.
 

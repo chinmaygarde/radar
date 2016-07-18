@@ -31,9 +31,9 @@
 ################################################################################
 
 file(GLOB_RECURSE SQLITE3_SRC
-  "Headers/*.h"
-  "Source/*.h"
-  "Source/*.c"
+  Headers/*.h
+  Source/*.h
+  Source/*.c
 )
 
 set_property(
@@ -46,5 +46,7 @@ set_property(
 )
 
 add_library(sqlite3 ${SQLITE3_SRC})
+
 target_include_directories(sqlite3 PUBLIC Headers)
-include_directories("Headers" "Headers/sqlite3" "Source")
+
+include_directories(Headers Headers/sqlite3 Source)

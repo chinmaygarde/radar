@@ -33,7 +33,7 @@
 StandardRadarLibrary(Compositor)
 
 target_link_libraries(Compositor
-  PUBLIC  Core Geometry Entity Image
+  PUBLIC  Core Geometry Entity Image Typography
   PRIVATE imgui libtess2
 )
 

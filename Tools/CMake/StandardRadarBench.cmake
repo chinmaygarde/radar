@@ -31,6 +31,8 @@ if(__standard_radar_bench)
 endif()
 set(__standard_radar_bench INCLUDED)
 
+include(AddRecommendedWarningFlags)
+
 ################################################################################
 # Declares that the current source directory contains a benchmark in the
 # "standard" Radar library format. This generates a standalone benchmark runner.
@@ -51,6 +53,8 @@ string(CONCAT BENCH_TARGET_NAME ${BENCH_NAME_ARG} "Benchmark")
 
 message(STATUS 
     "\tAdding benchmark '${BENCH_TARGET_NAME}' for '${BENCH_NAME_ARG}'.")
+
+AddRecommendedWarningFlags()
 
 file(GLOB_RECURSE BENCH_SRC_CC
   "Bench/*.h"

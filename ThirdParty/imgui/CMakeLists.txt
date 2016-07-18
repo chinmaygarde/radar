@@ -31,10 +31,12 @@
 ################################################################################
 
 file(GLOB IMGUI_SRC
-  "Source/imgui_draw.cpp"
-  "Source/imgui.cpp"
+  Source/imgui_draw.cpp
+  Source/imgui.cpp
 )
 
 add_library(imgui ${IMGUI_SRC})
+
 target_include_directories(imgui PUBLIC Headers)
-include_directories("Headers" "Headers/imgui" "Source")
+
+include_directories(Headers Headers/imgui Source)

@@ -31,10 +31,12 @@
 ################################################################################
 
 file(GLOB STB_LIB_SRC
-  "Source/STBImplementation.c"
-  "stb/stb_image.h"
+  Source/STBImplementation.c
+  stb/stb_image.h
 )
 
 add_library(stb ${STB_LIB_SRC})
-target_include_directories(stb PUBLIC "stb")
-include_directories(stb "Source")
+
+target_include_directories(stb PUBLIC stb)
+
+include_directories(stb Source)

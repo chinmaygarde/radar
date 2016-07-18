@@ -26,29 +26,64 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+if(__check_platform)
+  return()
+endif()
+set(__check_platform INCLUDED)
+
+include(CheckIncludeFiles)
+
 ################################################################################
-# Library
+# Detects the current platform.
 ################################################################################
 
-file(GLOB URI_PARSER_SRC
-  Source/src/UriCommon.c
-  Source/src/UriCompare.c
-  Source/src/UriEscape.c
-  Source/src/UriFile.c
-  Source/src/UriIp4.c
-  Source/src/UriIp4Base.c
-  Source/src/UriNormalize.c
-  Source/src/UriNormalizeBase.c
-  Source/src/UriParse.c
-  Source/src/UriParseBase.c
-  Source/src/UriQuery.c
-  Source/src/UriRecompose.c
-  Source/src/UriResolve.c
-  Source/src/UriShorten.c
-)
+macro(CheckPlatform)
 
-add_library(uriparser ${URI_PARSER_SRC})
+# The RaspberryPi has the bcm_host.h file at a specific location.
+check_include_files("/opt/vc/include/bcm_host.h" RASPBERRY)
 
-target_include_directories(uriparser PUBLIC Headers)
+if(WIN32)
+  if(NOT WINDOWS)
+    set(WINDOWS TRUE)
+  endif()
+elseif(UNIX AND NOT APPLE)
+  if(CMAKE_SYSTEM_NAME MATCHES ".*Linux")
+    if(NOT RASPBERRY)
+      set(LINUX TRUE)
+    endif()
+  elseif(CMAKE_SYSTEM_NAME MATCHES "kFreeBSD.*")
+    set(FREEBSD TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "kNetBSD.*|NetBSD.*")
+    set(NETBSD TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "kOpenBSD.*|OpenBSD.*")
+    set(OPENBSD TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES ".*GNU.*")
+    set(GNU TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES ".*BSDI.*")
+    set(BSDI TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "DragonFly.*|FreeBSD")
+    set(FREEBSD TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "SYSV5.*")
+    set(SYSV5 TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "Solaris.*")
+    set(SOLARIS TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "HP-UX.*")
+    set(HPUX TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "AIX.*")
+    set(AIX TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES "Minix.*")
+    set(MINIX TRUE)
+  endif()
+elseif(APPLE)
+  if(CMAKE_SYSTEM_NAME MATCHES ".*Darwin.*")
+    set(DARWIN TRUE)
+  elseif(CMAKE_SYSTEM_NAME MATCHES ".*MacOS.*")
+    set(MACOSX TRUE)
+  endif()
+elseif(CMAKE_SYSTEM_NAME MATCHES "BeOS.*")
+  set(BEOS TRUE)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Haiku.*")
+  set(HAIKU TRUE)
+endif()
 
-include_directories(Headers/uriparser Source)
+endmacro()

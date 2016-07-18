@@ -31,6 +31,8 @@ if(__standard_radar_library)
 endif()
 set(__standard_radar_library INCLUDED)
 
+include(AddRecommendedWarningFlags)
+
 ################################################################################
 # Declares that the current source directory contains a library in the
 # "standard" Radar library format.
@@ -49,6 +51,8 @@ function(StandardRadarLibrary LIBRARY_NAME_ARG)
 
 message(STATUS 
     "Found library '${LIBRARY_NAME_ARG}' with standard layout.")
+
+AddRecommendedWarningFlags()
 
 file(GLOB_RECURSE LIBRARY_SRC_CC
   "Headers/*.h"
