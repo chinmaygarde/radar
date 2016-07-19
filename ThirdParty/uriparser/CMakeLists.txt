@@ -49,6 +49,10 @@ file(GLOB URI_PARSER_SRC
 
 add_library(uriparser ${URI_PARSER_SRC})
 
-target_include_directories(uriparser PUBLIC Headers)
-
-include_directories(Headers/uriparser Source)
+target_include_directories(uriparser
+  PUBLIC
+    Headers
+  PRIVATE
+    Source
+    Headers/uriparser
+)

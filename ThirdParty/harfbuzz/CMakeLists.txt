@@ -68,8 +68,16 @@ file(GLOB HARFBUZZ_SRC
 
 add_library(harfbuzz ${HARFBUZZ_SRC})
 
-target_include_directories(harfbuzz PUBLIC Source/src)
+target_include_directories(harfbuzz
+  PUBLIC
+    Source/src
+  PRIVATE
+    Generated
+    Source/src/hb-ucdn
+)
 
-add_definitions(-DHAVE_OT=1 -DHAVE_UCDN=1)
-
-include_directories(Generated Source/src/hb-ucdn)
+target_compile_definitions(harfbuzz
+  PRIVATE
+    -DHAVE_OT=1
+    -DHAVE_UCDN=1
+)

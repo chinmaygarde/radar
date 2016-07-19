@@ -37,6 +37,9 @@ file(GLOB STB_LIB_SRC
 
 add_library(stb ${STB_LIB_SRC})
 
-target_include_directories(stb PUBLIC stb)
-
-include_directories(stb Source)
+target_include_directories(stb
+  PUBLIC
+    stb
+  PRIVATE
+    Source
+)

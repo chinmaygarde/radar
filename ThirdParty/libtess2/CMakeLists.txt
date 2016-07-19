@@ -48,5 +48,10 @@ file(GLOB LIBTESS2_SRC
 )
 
 add_library(libtess2 ${LIBTESS2_SRC})
-target_include_directories(libtess2 PUBLIC Headers)
-include_directories(Headers/libtess2 Source/Source)
+
+target_include_directories(libtess2
+  PUBLIC
+    Headers
+  PRIVATE
+    Headers/libtess2 Source/Source
+)

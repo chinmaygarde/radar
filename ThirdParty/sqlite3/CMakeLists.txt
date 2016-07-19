@@ -47,6 +47,9 @@ set_property(
 
 add_library(sqlite3 ${SQLITE3_SRC})
 
-target_include_directories(sqlite3 PUBLIC Headers)
-
-include_directories(Headers Headers/sqlite3 Source)
+target_include_directories(sqlite3
+  PUBLIC
+    Headers
+  PRIVATE
+    Headers/sqlite3 Source
+)

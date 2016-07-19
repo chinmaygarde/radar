@@ -37,6 +37,10 @@ file(GLOB IMGUI_SRC
 
 add_library(imgui ${IMGUI_SRC})
 
-target_include_directories(imgui PUBLIC Headers)
-
-include_directories(Headers Headers/imgui Source)
+target_include_directories(imgui
+  PUBLIC
+    Headers
+  PRIVATE
+    Headers/imgui
+    Source
+)
