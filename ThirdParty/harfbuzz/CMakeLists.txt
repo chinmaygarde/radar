@@ -71,8 +71,8 @@ add_library(harfbuzz ${HARFBUZZ_SRC})
 target_include_directories(harfbuzz
   PUBLIC
     Source/src
-  PRIVATE
     Generated
+  PRIVATE
     Source/src/hb-ucdn
 )
 
