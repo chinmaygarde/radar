@@ -31,6 +31,8 @@ if(__add_cxx_warning_if_supported)
 endif()
 set(__add_cxx_warning_if_supported INCLUDED)
 
+include(CheckCXXCompilerFlag)
+
 ################################################################################
 # Declares that the current source directory contains a benchmark in the
 # "standard" Radar library format. This generates a standalone benchmark runner.
@@ -38,8 +40,6 @@ set(__add_cxx_warning_if_supported INCLUDED)
 # For a description of the "standard" library format, see
 # `StandardRadarLibrary.cmake`
 ################################################################################
-
-include(CheckCXXCompilerFlag)
 
 macro(AddCXXWarningIfSupported WARNING_FLAG WARNING_LABEL)
 
@@ -49,5 +49,4 @@ if(${WARNING_LABEL})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAG} ")
 endif()
 
-
-endmacro(AddCXXWarningIfSupported)
+endmacro()
