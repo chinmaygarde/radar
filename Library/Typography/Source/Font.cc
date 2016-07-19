@@ -2,12 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Typography/Frame.h>
+#include <Typography/Font.h>
+
+#include <hb-ft.h>
 
 namespace rl {
-namespace typography {
+namespace type {
 
-//
+Font::Font() {}
 
-}  // namespace typography
+Font::~Font() {}
+
+}  // namespace type
 }  // namespace rl

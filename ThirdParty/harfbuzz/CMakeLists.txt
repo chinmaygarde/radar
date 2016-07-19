@@ -64,9 +64,17 @@ file(GLOB HARFBUZZ_SRC
   Source/src/hb-warning.cc
   Source/src/hb-ucdn.cc
   Source/src/hb-ucdn/ucdn.c
+
+  # Freetype backend.
+  Source/src/hb-ft.cc
 )
 
 add_library(harfbuzz ${HARFBUZZ_SRC})
+
+target_link_libraries(harfbuzz
+  PUBLIC
+    freetype
+)
 
 target_include_directories(harfbuzz
   PUBLIC

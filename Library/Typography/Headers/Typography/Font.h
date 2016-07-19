@@ -2,25 +2,25 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_TYPOGRAPHY_FRAME_H_
-#define RADAR_TYPOGRAPHY_FRAME_H_
+#ifndef RADAR_TYPOGRAPHY_FONT_H_
+#define RADAR_TYPOGRAPHY_FONT_H_
 
 #include <Core/Macros.h>
 
 namespace rl {
-namespace typography {
+namespace type {
 
-class Frame {
+class Font {
  public:
-  Frame();
+  Font();
 
-  ~Frame();
+  ~Font();
 
  private:
-  RL_DISALLOW_COPY_AND_ASSIGN(Frame);
+  RL_DISALLOW_COPY_AND_ASSIGN(Font);
 };
 
-}  // namespace typography
+}  // namespace type
 }  // namespace rl
 
-#endif  // RADAR_TYPOGRAPHY_FRAME_H_
+#endif  // RADAR_TYPOGRAPHY_FONT_H_
