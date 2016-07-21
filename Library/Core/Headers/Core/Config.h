@@ -48,6 +48,10 @@
 
 #define RL_OS_BSD 1
 
+#elif __fuschia__
+
+#define RL_OS_FUCHSIA 1
+
 #else
 
 #error Unsupported Platform
@@ -102,6 +106,8 @@
 #define RL_CHANNELS RL_CHANNELS_INPROCESS
 #elif RL_OS_BSD
 #define RL_CHANNELS RL_CHANNELS_SOCKET
+#elif RL_OS_FUCHSIA
+#define RL_CHANNELS RL_CHANNELS_INPROCESS
 #else
 #error No Channel Implementation Found
 #endif
@@ -125,6 +131,8 @@
 #define RL_WAITSET RL_WAITSET_INPROCESS
 #elif RL_OS_BSD
 #define RL_WAITSET RL_WAITSET_KQUEUE
+#elif RL_OS_FUCHSIA
+#define RL_WAITSET RL_WAITSET_INPROCESS
 #else
 #error No WaitSet Implementation Found
 #endif
@@ -150,6 +158,8 @@
 #define RL_SHMEM RL_SHMEM_DISABLED
 #elif RL_OS_BSD
 #define RL_SHMEM RL_SHMEM_POSIX
+#elif RL_OS_FUCHSIA
+#define RL_SHMEM RL_SHMEM_DISABLED
 #else
 #error No Shared Memory Implementation Found
 #endif

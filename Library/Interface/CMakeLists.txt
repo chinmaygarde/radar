@@ -40,5 +40,9 @@ target_link_libraries(Interface Coordinator Image Toolbox)
 
 StandardRadarTest(Interface)
 
+if(InterfaceTest)
+
 # The test harness requires the shell as well.
 target_link_libraries(InterfaceTest Shell)
+  
+endif()
