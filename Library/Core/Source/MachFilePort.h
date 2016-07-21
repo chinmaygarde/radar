@@ -5,6 +5,10 @@
 #ifndef RADAR_CORE_MACHFILEPORT_H_
 #define RADAR_CORE_MACHFILEPORT_H_
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_MACH
+
 #include <Core/Macros.h>
 
 namespace rl {
@@ -31,5 +35,7 @@ class MachFilePort {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
 #endif  // RADAR_CORE_MACHFILEPORT_H_
