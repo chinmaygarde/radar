@@ -9,7 +9,7 @@
 #include <Core/Utilities.h>
 
 #include "InProcessChannel.h"
-#include "MachPortChannel.h"
+#include "MachChannel.h"
 #include "SocketChannel.h"
 
 namespace rl {
@@ -18,7 +18,7 @@ namespace core {
 template <typename... Args>
 static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
 #if RL_CHANNELS == RL_CHANNELS_MACH
-  return make_unique<MachPortChannel>(std::forward<Args>(args)...);
+  return make_unique<MachChannel>(std::forward<Args>(args)...);
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
   return make_unique<SocketChannel>(std::forward<Args>(args)...);
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS

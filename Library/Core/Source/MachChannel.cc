@@ -6,7 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include "MachPortChannel.h"
+#include "MachChannel.h"
 
 #include <Core/Message.h>
 #include <Core/Utilities.h>
@@ -16,14 +16,14 @@
 namespace rl {
 namespace core {
 
-MachPortChannel::MachPortChannel(Channel& channel)
+MachChannel::MachChannel(Channel& channel)
     : _channel(channel),
       _port(std::make_shared<MachPort>(MachPort::Type::SendReceive)) {
   auto success = setupPortSetMemberships();
   RL_ASSERT(success);
 }
 
-MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
+MachChannel::MachChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
       _port(std::make_shared<MachPort>(MachPort::Type::Send,
                                        attachment.takeAttachmentHandle())) {
@@ -31,7 +31,7 @@ MachPortChannel::MachPortChannel(Channel& channel, RawAttachment attachment)
   RL_ASSERT(success);
 }
 
-bool MachPortChannel::setupPortSetMemberships() {
+bool MachChannel::setupPortSetMemberships() {
   if (_port == nullptr || !_port->isValid()) {
     return false;
   }
@@ -51,7 +51,7 @@ bool MachPortChannel::setupPortSetMemberships() {
   return _set->insertMember(*_port);
 }
 
-bool MachPortChannel::teardownPortSetMemberships() {
+bool MachChannel::teardownPortSetMemberships() {
   if (_port == nullptr || !_port->isValid()) {
     return true;
   }
@@ -75,13 +75,13 @@ bool MachPortChannel::teardownPortSetMemberships() {
   return true;
 }
 
-MachPortChannel::~MachPortChannel() {
+MachChannel::~MachChannel() {
   /*
    *  `doTerminate()` should have already collected the port
    */
 }
 
-std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
+std::shared_ptr<EventLoopSource> MachChannel::createSource() const {
   if (_set == nullptr || !_set->isValid()) {
     return nullptr;
   }
@@ -125,20 +125,20 @@ std::shared_ptr<EventLoopSource> MachPortChannel::createSource() const {
   // clang-format on
 }
 
-IOResult MachPortChannel::writeMessages(Messages&& messages,
-                                        ClockDurationNano timeout) {
+IOResult MachChannel::writeMessages(Messages&& messages,
+                                    ClockDurationNano timeout) {
   return _port->sendMessages(std::move(messages), timeout);
 }
 
-IOReadResult MachPortChannel::readMessage(ClockDurationNano timeout) {
+IOReadResult MachChannel::readMessage(ClockDurationNano timeout) {
   return _port->receiveMessage(timeout);
 }
 
-AttachmentRef MachPortChannel::attachment() {
+AttachmentRef MachChannel::attachment() {
   return _port;
 }
 
-bool MachPortChannel::doTerminate() {
+bool MachChannel::doTerminate() {
   return teardownPortSetMemberships();
 }
 
