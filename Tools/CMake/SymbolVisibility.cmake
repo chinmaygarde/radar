@@ -41,9 +41,7 @@ if (WINDOWS)
   return()
 endif()
 
-set(SYMBOL_VISIBLITY_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
-
-set(CMAKE_C_FLAGS   " ${CMAKE_C_FLAGS} ${SYMBOL_VISIBLITY_FLAGS} ")
-set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${SYMBOL_VISIBLITY_FLAGS} ")
+set(CMAKE_C_FLAGS " ${CMAKE_C_FLAGS}     -fvisibility=hidden ")
+set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden ")
 
 endmacro()
