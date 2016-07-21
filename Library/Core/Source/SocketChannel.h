@@ -12,6 +12,7 @@
 #include <Core/Allocation.h>
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
+#include <Core/RawAttachment.h>
 
 #include <mutex>
 
@@ -24,7 +25,7 @@ class SocketChannel : public ChannelProvider {
 
   explicit SocketChannel(Channel& owner);
 
-  explicit SocketChannel(Channel& owner, const Message::Attachment& attachment);
+  explicit SocketChannel(Channel& owner, RawAttachment attachment);
 
   ~SocketChannel();
 
@@ -35,7 +36,7 @@ class SocketChannel : public ChannelProvider {
 
   IOReadResult readMessage(ClockDurationNano timeout) override;
 
-  Message::Attachment::Handle handle() override;
+  AttachmentRef attachment() override;
 
   bool doTerminate() override;
 
