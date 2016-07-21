@@ -38,7 +38,7 @@ set(__check_compiler INCLUDED)
 macro(CheckCompiler)
 
 if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -std=c++11 ")
 endif()
 
 # Basic version checks. GCC >= 4.9 and Clang >= 3.6 or AppleClang.
@@ -47,6 +47,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
     message(FATAL_ERROR "GCC version must be at least 4.9!")
   endif()
+
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fdiagnostics-color=always")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+  
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # Require at least Clang 3.6
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.6)
