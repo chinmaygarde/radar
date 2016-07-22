@@ -15,9 +15,10 @@
 namespace rl {
 namespace core {
 
-static const SocketPair::Handle kInvalidHandle = -1;
+const SocketPair::Handle SocketPair::kInvalidHandle = -1;
 
-static bool ConfigureHandle(SocketPair::Handle handle, size_t bufferSize) {
+bool SocketPair::ConfigureSocketHandle(SocketPair::Handle handle,
+                                       size_t bufferSize) {
   const int size = bufferSize;
   /*
    *  Update the send buffer size.
@@ -60,8 +61,8 @@ SocketPair::SocketPair(size_t bufferSize)
   _readHandle = handles[0];
   _writeHandle = handles[1];
 
-  _isValid = ConfigureHandle(_readHandle, bufferSize) &&
-             ConfigureHandle(_writeHandle, bufferSize);
+  _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
+             ConfigureSocketHandle(_writeHandle, bufferSize);
 }
 
 SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
@@ -75,17 +76,19 @@ SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
   _writeHandle = attachment.takeAttachmentHandle();
   _readHandle = RL_TEMP_FAILURE_RETRY(::dup(_writeHandle));
 
-  _isValid = ConfigureHandle(_readHandle, bufferSize) &&
-             ConfigureHandle(_writeHandle, bufferSize);
+  _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
+             ConfigureSocketHandle(_writeHandle, bufferSize);
 }
 
 SocketPair::~SocketPair() {
   if (_readHandle != kInvalidHandle) {
     RL_TEMP_FAILURE_RETRY(::close(_readHandle));
+    _readHandle = kInvalidHandle;
   }
 
   if (_writeHandle != kInvalidHandle) {
     RL_TEMP_FAILURE_RETRY(::close(_writeHandle));
+    _writeHandle = kInvalidHandle;
   }
 }
 

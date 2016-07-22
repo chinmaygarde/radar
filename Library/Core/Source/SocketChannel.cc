@@ -17,9 +17,7 @@
 #include <poll.h>
 #include <stdlib.h>
 #include <sys/socket.h>
-#include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/un.h>
 #include <unistd.h>
 
 #include <mutex>

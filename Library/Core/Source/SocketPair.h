@@ -20,6 +20,8 @@ class SocketPair : public Attachment {
  public:
   using Handle = int;
 
+  static const Handle kInvalidHandle;
+
   SocketPair(size_t bufferSize);
 
   SocketPair(RawAttachment attachment, size_t bufferSize);
@@ -36,6 +38,9 @@ class SocketPair : public Attachment {
 
   RL_WARN_UNUSED_RESULT
   Attachment::Handle takeAttachmentHandle() override;
+
+  static bool ConfigureSocketHandle(SocketPair::Handle handle,
+                                    size_t bufferSize);
 
  private:
   Handle _readHandle;
