@@ -27,8 +27,16 @@ class WaitSet;
  */
 class EventLoopSource {
  public:
-  using Handle = uintptr_t;
-  using Handles = std::pair<Handle, Handle>;
+  using Handle = intptr_t;
+
+  struct Handles {
+    Handle readHandle;
+    Handle writeHandle;
+
+    Handles(Handle aReadHandle, Handle aWriteHandle)
+        : readHandle(aReadHandle), writeHandle(aWriteHandle){};
+  };
+
   using RWHandlesProvider = std::function<Handles(void)>;
   using RWHandlesCollector = std::function<void(Handles)>;
   using IOHandler = std::function<IOResult(Handle)>;
@@ -74,16 +82,6 @@ class EventLoopSource {
    *  @return the raw IO handle
    */
   Handles handles();
-
-  /**
-   *  @return the raw read handle
-   */
-  Handle readHandle();
-
-  /**
-   *  @return the raw write handle
-   */
-  Handle writeHandle();
 
   void setHandlesProvider(RWHandlesProvider provider);
 

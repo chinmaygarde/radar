@@ -36,7 +36,7 @@ static inline void KEventInvoke(int queue,
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
                                                    bool shouldAdd) {
   KEventInvoke(HANDLE_CAST(waitset.handle()),  /* queue */
-               readHandle(),                   /* ident */
+               handles().readHandle,           /* ident */
                EVFILT_READ,                    /* filter */
                shouldAdd ? EV_ADD : EV_DELETE, /* flags */
                0,                              /* filter-flags */

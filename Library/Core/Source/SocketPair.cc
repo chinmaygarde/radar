@@ -16,6 +16,7 @@ namespace rl {
 namespace core {
 
 const SocketPair::Handle SocketPair::kInvalidHandle = -1;
+const size_t SocketPair::kDefaultSocketBufferSize = 4096;
 
 bool SocketPair::ConfigureSocketHandle(SocketPair::Handle handle,
                                        size_t bufferSize) {
@@ -78,6 +79,15 @@ SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
 
   _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
              ConfigureSocketHandle(_writeHandle, bufferSize);
+}
+
+SocketPair::SocketPair(SocketPair&& o)
+    : _readHandle(o._readHandle),
+      _writeHandle(o._writeHandle),
+      _isValid(o._isValid) {
+  o._readHandle = kInvalidHandle;
+  o._writeHandle = kInvalidHandle;
+  o._isValid = false;
 }
 
 SocketPair::~SocketPair() {

@@ -4,10 +4,39 @@
 
 #include <Core/BootstrapServer.h>
 
+#include "BootstrapClient.h"
+
+#include "SocketBootstrapServerProvider.h"
+#include "MachBootstrapServerProvider.h"
+
 namespace rl {
 namespace core {
 
-//
+using PlatformBootstrapServerProvider =
+#if RL_CHANNELS == RL_CHANNELS_MACH
+    MachBootstrapServerProvider
+#elif RL_CHANNELS == RL_CHANNELS_SOCKET
+    SocketBootstrapServerProvider
+#else
+#error Unknown Channels Implementation
+#endif
+    ;
+
+BootstrapServer::BootstrapServer()
+    : _provider(core::make_unique<PlatformBootstrapServerProvider>()) {}
+
+BootstrapServer::~BootstrapServer() = default;
+
+IOResult BootstrapServer::Advertise(const std::string& name,
+                                    std::shared_ptr<Channel> channel) {
+  BootstrapClient client;
+  return client.advertise(name, channel);
+}
+
+std::shared_ptr<Channel> BootstrapServer::Acquire(const std::string& name) {
+  BootstrapClient client;
+  return client.acquire(name);
+}
 
 }  // namespace core
 }  // namespace rl

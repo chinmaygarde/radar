@@ -137,7 +137,7 @@ void EventLoop::terminate() {
   }
 
   _shouldTerminate = true;
-  _trivialSource->writer()(_trivialSource->writeHandle());
+  _trivialSource->writer()(_trivialSource->handles().writeHandle);
 }
 
 void EventLoop::beforeSleep() {
@@ -180,7 +180,7 @@ void EventLoop::dispatchAsync(std::function<void()> block) {
 
   std::lock_guard<std::mutex> lock(_pendingDispatchesMutex);
   _pendingDispatches->push_back(block);
-  _trivialSource->writer()(_trivialSource->writeHandle());
+  _trivialSource->writer()(_trivialSource->handles().writeHandle);
 }
 
 bool EventLoop::addObserver(std::shared_ptr<EventLoopObserver> observer,

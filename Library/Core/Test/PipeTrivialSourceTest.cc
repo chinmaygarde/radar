@@ -30,7 +30,7 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
   });
 
   for (int i = 0; i < 10; i++) {
-    ASSERT_EQ(pipeSource->writer()(pipeSource->writeHandle()),
+    ASSERT_EQ(pipeSource->writer()(pipeSource->handles().writeHandle),
               rl::core::IOResult::Success);
   }
 

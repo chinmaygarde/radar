@@ -99,7 +99,7 @@ void Protocol::sendRequest(Response response) {
    *  Try to acquire the advertised channel for this protocol from the boostrap
    *  server
    */
-  auto remoteChannel = BootstrapServerAcquireAdvertised(advertisementName());
+  auto remoteChannel = BootstrapServer::Acquire(advertisementName());
 
   if (remoteChannel == nullptr) {
     /*
@@ -169,8 +169,8 @@ void Protocol::startAdvertisingWithBootstrapServerIfNecessary() {
   }
 
   if (!_isAdvertising) {
-    _isAdvertising = BootstrapServerAdvertise(advertisementName(), _channel) ==
-                     IOResult::Success;
+    _isAdvertising = BootstrapServer::Advertise(advertisementName(),
+                                                _channel) == IOResult::Success;
   }
 }
 

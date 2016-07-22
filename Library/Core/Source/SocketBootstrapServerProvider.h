@@ -11,24 +11,31 @@
 
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/URI.h>
+
+#include "SocketServer.h"
+#include "BootstrapServerProvider.h"
 
 #include <map>
 
 namespace rl {
 namespace core {
 
-class SocketBootstrapServer {
+class SocketBootstrapServerProvider : public BootstrapServerProvider {
  public:
-  SocketBootstrapServer();
+  SocketBootstrapServerProvider(const URI& socketURI);
 
-  ~SocketBootstrapServer();
+  ~SocketBootstrapServerProvider();
 
-  std::shared_ptr<EventLoopSource> source() const;
+  std::shared_ptr<EventLoopSource> source();
 
  private:
-  std::shared_ptr<EventLoopSource> _source;
-  std::map<std::string, std::shared_ptr<Channel>> _channels;
+  SocketServer _server;
+  std::map<std::string, std::shared_ptr<SocketPair>> _registrations;
 
+  void onAccept(SocketPair socket);
+
+#if 0
   IOResult onListenReadResult(EventLoopSource::Handle readHandle);
 
   bool attemptRegistration(const std::string& name,
@@ -45,6 +52,7 @@ class SocketBootstrapServer {
 
   IOResult processBootstrapMessageRequestAndReply(Channel& replyChannel,
                                                   Message&& requestMessage);
+#endif
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServer);
 };

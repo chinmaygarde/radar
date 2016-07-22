@@ -15,8 +15,10 @@
 namespace rl {
 namespace core {
 
-SocketServer::SocketServer(const std::string& name)
-    : _handle(SocketPair::kInvalidHandle), _isValid(false) {
+SocketServer::SocketServer(const std::string& name, AcceptCallback callback)
+    : _handle(SocketPair::kInvalidHandle),
+      _isValid(false),
+      _acceptCallback(callback) {
   /*
    *  Check that the name looks valid.
    */
@@ -53,6 +55,8 @@ SocketServer::SocketServer(const std::string& name)
   }
 
   _isValid = SocketPair::ConfigureSocketHandle(_handle, 1024);
+
+  setupAcceptSource();
 }
 
 SocketServer::~SocketServer() {
@@ -60,6 +64,10 @@ SocketServer::~SocketServer() {
     RL_TEMP_FAILURE_RETRY(::close(_handle));
     _handle = SocketPair::kInvalidHandle;
   }
+}
+
+bool SocketServer::isValid() const {
+  return _isValid;
 }
 
 bool SocketServer::listen(size_t backlog) const {
@@ -81,6 +89,43 @@ RawAttachment SocketServer::accept() const {
   }
 
   return RawAttachment{accepted};
+}
+
+std::shared_ptr<EventLoopSource> SocketServer::source() {
+  return _isValid ? _source : nullptr;
+}
+
+void SocketServer::setupAcceptSource() {
+  if (!_isValid) {
+    return;
+  }
+
+  auto handlesProvider = [&]() {
+    return EventLoopSource::Handles{
+        _handle,                     // read handle
+        SocketPair::kInvalidHandle,  // write handle (disallowed)
+    };
+  };
+
+  auto readHandler = [&](EventLoopSource::Handle readHandle) {
+    RL_ASSERT(readHandle == _handle);
+
+    auto attachment = SocketPair{accept()};
+
+    if (_acceptCallback) {
+      _acceptCallback(std::move(attachment));
+    }
+
+    return IOResult::Success;
+  };
+
+  _source =
+      std::make_shared<EventLoopSource>(handlesProvider,  // handles provider
+                                        nullptr,          // handles collector
+                                        readHandler,      // read handler
+                                        nullptr,          // write handler
+                                        nullptr           // update handler
+                                        );
 }
 
 }  // namespace core

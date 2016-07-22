@@ -21,10 +21,14 @@ class SocketPair : public Attachment {
   using Handle = int;
 
   static const Handle kInvalidHandle;
+  static const size_t kDefaultSocketBufferSize;
 
-  SocketPair(size_t bufferSize);
+  SocketPair(size_t bufferSize = kDefaultSocketBufferSize);
 
-  SocketPair(RawAttachment attachment, size_t bufferSize);
+  SocketPair(RawAttachment attachment,
+             size_t bufferSize = kDefaultSocketBufferSize);
+
+  SocketPair(SocketPair&&);
 
   ~SocketPair();
 

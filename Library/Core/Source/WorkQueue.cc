@@ -133,7 +133,7 @@ void WorkQueue::dispatch(WorkItem item) {
      *  Perform a trivial write on the work source. A waiting worker will wake
      *  to service this
      */
-    _workSource->writer()(_workSource->writeHandle());
+    _workSource->writer()(_workSource->handles().writeHandle);
   }
 }
 
@@ -163,7 +163,7 @@ void WorkQueue::shutdown() {
    */
   for (auto& worker : _workers) {
     auto source = worker.second;
-    source->writer()(source->writeHandle());
+    source->writer()(source->handles().writeHandle);
   }
 
   /*

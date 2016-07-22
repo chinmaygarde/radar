@@ -64,14 +64,6 @@ EventLoopSource::Handles EventLoopSource::handles() {
   return _handles;
 }
 
-EventLoopSource::Handle EventLoopSource::readHandle() {
-  return handles().first;
-}
-
-EventLoopSource::Handle EventLoopSource::writeHandle() {
-  return handles().second;
-}
-
 void EventLoopSource::setHandlesProvider(RWHandlesProvider provider) {
   _handlesProvider = provider;
 }
@@ -98,7 +90,8 @@ void EventLoopSource::setWriter(const IOHandler& writer) {
 
 void EventLoopSource::updateInWaitSet(WaitSet& waitset, bool shouldAdd) {
   if (_customWaitSetUpdateHandler) {
-    _customWaitSetUpdateHandler(*this, waitset, readHandle(), shouldAdd);
+    _customWaitSetUpdateHandler(*this, waitset, handles().readHandle,
+                                shouldAdd);
   } else {
     updateInWaitSetForSimpleRead(waitset, shouldAdd);
   }
@@ -135,7 +128,7 @@ void EventLoopSource::attemptRead() {
        *  Perform the actual read. Make sure to go through the accessor for the
        *  read handle as it initializes the handle.
        */
-      result = _readHandler(this->readHandle());
+      result = _readHandler(handles().readHandle);
     }
   }
 

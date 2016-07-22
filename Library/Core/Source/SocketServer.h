@@ -10,6 +10,7 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/Macros.h>
+#include <Core/EventLoopSource.h>
 
 #include "SocketPair.h"
 
@@ -20,17 +21,27 @@ namespace core {
 
 class SocketServer {
  public:
-  SocketServer(const std::string& name);
+  using AcceptCallback = std::function<void(SocketPair)>;
+
+  SocketServer(const std::string& name, AcceptCallback callback);
 
   ~SocketServer();
 
+  bool isValid() const;
+
   bool listen(size_t backlog) const;
 
-  RawAttachment accept() const;
+  std::shared_ptr<EventLoopSource> source();
 
  private:
   SocketPair::Handle _handle;
   bool _isValid;
+  std::shared_ptr<EventLoopSource> _source;
+  AcceptCallback _acceptCallback;
+
+  RawAttachment accept() const;
+
+  void setupAcceptSource();
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketServer);
 };

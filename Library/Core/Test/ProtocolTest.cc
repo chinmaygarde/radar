@@ -74,7 +74,7 @@ TEST(Protocol, SimpleEcho) {
           std::string response;
           ASSERT_TRUE(message.decode(response));
           ASSERT_EQ(response, "echo");
-          serverTermination->writer()(serverTermination->writeHandle());
+          serverTermination->writer()(serverTermination->handles().writeHandle);
           rl::core::EventLoop::Current()->terminate();
         });
 

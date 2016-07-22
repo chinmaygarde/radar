@@ -151,11 +151,11 @@ TEST_SLOW(EventLoopObserverTest, SingleWakeServicesAllReads) {
   /*
    *  All handles have data waiting on them
    */
-  trivial1->writer()(trivial1->writeHandle());
-  trivial2->writer()(trivial2->writeHandle());
-  trivial3->writer()(trivial3->writeHandle());
-  trivial4->writer()(trivial4->writeHandle());
-  trivial5->writer()(trivial5->writeHandle());
+  trivial1->writer()(trivial1->handles().writeHandle);
+  trivial2->writer()(trivial2->handles().writeHandle);
+  trivial3->writer()(trivial3->handles().writeHandle);
+  trivial4->writer()(trivial4->handles().writeHandle);
+  trivial5->writer()(trivial5->handles().writeHandle);
 
   std::this_thread::sleep_for(std::chrono::milliseconds(5));
 

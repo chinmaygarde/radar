@@ -16,17 +16,19 @@
 namespace rl {
 namespace core {
 
-WaitSet::WaitSet() {
+using PlatformWaitSetProvider =
 #if RL_WAITSET == RL_WAITSET_KQUEUE
-  _provider = core::make_unique<KQueueWaitSet>();
+    KQueueWaitSet
 #elif RL_WAITSET == RL_WAITSET_EPOLL
-  _provider = core::make_unique<EPollWaitSet>();
+    EPollWaitSet
 #elif RL_WAITSET == RL_WAITSET_INPROCESS
-  _provider = core::make_unique<InProcessWaitSet>();
+    InProcessWaitSet
 #else
 #error Unknown WaitSet Implementation
 #endif
-}
+    ;
+
+WaitSet::WaitSet() : _provider(core::make_unique<PlatformWaitSetProvider>()) {}
 
 bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
   if (source == nullptr) {

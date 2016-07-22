@@ -124,11 +124,11 @@ TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
      *  callback is only triggered once. Admittedly, this is a bit tricky to
      *  test in a non brittle manner.
      */
-    trivial->writer()(trivial->writeHandle());
-    trivial->writer()(trivial->writeHandle());
-    trivial->writer()(trivial->writeHandle());
-    trivial->writer()(trivial->writeHandle());
-    trivial->writer()(trivial->writeHandle());
+    trivial->writer()(trivial->handles().writeHandle);
+    trivial->writer()(trivial->handles().writeHandle);
+    trivial->writer()(trivial->handles().writeHandle);
+    trivial->writer()(trivial->handles().writeHandle);
+    trivial->writer()(trivial->handles().writeHandle);
 
     auto timer =
         rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));

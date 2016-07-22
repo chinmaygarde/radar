@@ -8,6 +8,7 @@
 
 #include <Core/BootstrapServer.h>
 #include <Core/Latch.h>
+#include <Core/Mutexed.h>
 
 #include "SocketChannel.h"
 #include "SocketBootstrapServer.h"
@@ -17,40 +18,25 @@
 namespace rl {
 namespace core {
 
-static const char* SocketBootstrapServerName = "/tmp/radar_bootstrap.sk";
-
 /*
  *  All bootstrap server-client communication operates on this timeout. (100ms)
  */
 static const ClockDurationNano SocketBootstrapServerTimeout(100000000);
 
-SocketBootstrapServer::SocketBootstrapServer() {
-  EventLoopSource::RWHandlesProvider provider = []() {
-    return EventLoopSource::Handles(
-        SocketChannel::CreateServerHandle(SocketBootstrapServerName), 0);
-  };
+SocketBootstrapServerProvider::SocketBootstrapServer(const URI& socketURI)
+    : _server(socketURI.filesystemRepresentation(),
+              std::bind(&SocketBootstrapServerProvider::onAccept,
+                        this,
+                        std::placeholders::_1)) {}
 
-  EventLoopSource::RWHandlesCollector collector =
-      [](EventLoopSource::Handles handles) {
-        auto closed = SocketChannel::DestroyHandle(
-            static_cast<SocketChannel::Handle>(handles.first));
-        RL_ASSERT(closed);
-        RL_ASSERT(handles.second == 0);
-      };
+SocketBootstrapServerProvider::~SocketBootstrapServer() = default;
 
-  EventLoopSource::IOHandler listenReadHandler = std::bind(
-      &SocketBootstrapServer::onListenReadResult, this, std::placeholders::_1);
-
-  _source = std::make_shared<EventLoopSource>(
-      provider, collector, listenReadHandler, nullptr, nullptr);
+std::shared_ptr<EventLoopSource> SocketBootstrapServerProvider::source() {
+  return _server.source();
 }
 
-SocketBootstrapServer::~SocketBootstrapServer() {
-  _source->setReader(nullptr);
-}
-
-std::shared_ptr<EventLoopSource> SocketBootstrapServer::source() const {
-  return _source;
+void SocketBootstrapServerProvider::onAccept(SocketPair socket) {
+  RL_WIP;
 }
 
 bool SocketBootstrapServer::attemptRegistration(

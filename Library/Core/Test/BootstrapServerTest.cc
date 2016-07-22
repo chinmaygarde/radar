@@ -7,80 +7,79 @@
 #include <Core/Core.h>
 #include <Core/BootstrapServer.h>
 
-#include "BootstrapServerTestUtil.h"
-
 #include <thread>
 
 TEST(BootstrapServerTest, NotFound) {
-  rl::test::AutoBootstrapServer daemon;
+  rl::core::BootstrapServer daemon;
 
-  auto found = rl::core::BootstrapServerAcquireAdvertised("sample");
+  auto found = rl::core::BootstrapServer::Acquire("sample");
   ASSERT_EQ(found, nullptr);
 
-  found = rl::core::BootstrapServerAcquireAdvertised("");
+  found = rl::core::BootstrapServer::Acquire("");
   ASSERT_EQ(found, nullptr);
 }
 
 TEST(BootstrapServerTest, Advertise) {
-  rl::test::AutoBootstrapServer daemon;
+  rl::core::BootstrapServer daemon;
 
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::core::BootstrapServerAdvertise("advertise", channel);
+  auto advertised = rl::core::BootstrapServer::Advertise("advertise", channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   auto anotherChannel = std::make_shared<rl::core::Channel>();
   auto anotherAdvertised =
-      rl::core::BootstrapServerAdvertise("", anotherChannel);
+      rl::core::BootstrapServer::Advertise("", anotherChannel);
   ASSERT_EQ(anotherAdvertised, rl::core::IOResult::Failure);
 
-  anotherAdvertised = rl::core::BootstrapServerAdvertise("advertise2", nullptr);
+  anotherAdvertised =
+      rl::core::BootstrapServer::Advertise("advertise2", nullptr);
   ASSERT_EQ(anotherAdvertised, rl::core::IOResult::Failure);
 }
 
 TEST(BootstrapServerTest, AcquiredIsNotAdvertised) {
-  rl::test::AutoBootstrapServer daemon;
+  rl::core::BootstrapServer daemon;
 
   /*
    *  The channel acquired after advertisement is not the channel being
    *  advertised. Instead, its an alias of the same.
    */
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::core::BootstrapServerAdvertise("advertise9", channel);
+  auto advertised = rl::core::BootstrapServer::Advertise("advertise9", channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
-  auto alias = rl::core::BootstrapServerAcquireAdvertised("advertise9");
+  auto alias = rl::core::BootstrapServer::Acquire("advertise9");
   ASSERT_NE(channel, alias);
 }
 
 TEST(BootstrapServerTest, AdvertiseAgain) {
-  rl::test::AutoBootstrapServer daemon;
+  rl::core::BootstrapServer daemon;
 
   auto name = "hello";
 
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
+  auto advertised = rl::core::BootstrapServer::Advertise(name, channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
-  advertised = rl::core::BootstrapServerAdvertise(name, channel);
+  advertised = rl::core::BootstrapServer::Advertise(name, channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Failure);
 
-  advertised = rl::core::BootstrapServerAdvertise(name, nullptr);
+  advertised = rl::core::BootstrapServer::Advertise(name, nullptr);
   ASSERT_EQ(advertised, rl::core::IOResult::Failure);
 }
 
 TEST(BootstrapServerTest, AcquireAndSendMessage) {
-  rl::test::AutoBootstrapServer daemon;
+  rl::core::BootstrapServer daemon;
 
   auto name = "helloworld";
   auto channel = std::make_shared<rl::core::Channel>();
-  auto advertised = rl::core::BootstrapServerAdvertise(name, channel);
+  auto advertised = rl::core::BootstrapServer::Advertise(name, channel);
   ASSERT_EQ(advertised, rl::core::IOResult::Success);
 
   rl::core::Latch ready(1);
 
   auto thread = std::thread([&]() {
     rl::core::thread::SetName("listener");
-    auto advertised = rl::core::BootstrapServerAcquireAdvertised(name);
+    auto advertised = rl::core::BootstrapServer::Acquire(name);
     ASSERT_NE(advertised, nullptr);
 
     advertised->setMessageCallback(

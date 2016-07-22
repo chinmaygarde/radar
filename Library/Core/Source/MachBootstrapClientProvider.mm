@@ -1,4 +1,4 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
+// Copyright 2016 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -6,42 +6,35 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include <Core/BootstrapServer.h>
+#include "MachBootstrapClientProvider.h"
 
 #include <Foundation/Foundation.h>
 #include <Core/RawAttachment.h>
 
-#include "MachPort.h"
-
 namespace rl {
 namespace core {
 
-IOResult BootstrapServerAdvertise(const std::string& name,
-                                  std::shared_ptr<core::Channel> channel) {
-  if (name.size() == 0) {
-    return IOResult::Failure;
-  }
+MachBootstrapClientProvider::MachBootstrapClientProvider() = default;
 
-  if (!channel) {
-    return IOResult::Failure;
-  }
+MachBootstrapClientProvider::~MachBootstrapClientProvider() = default;
 
-  const auto& attachment = channel->attachment();
-
-  if (!attachment->isValid()) {
-    return IOResult::Failure;
-  }
-
+IOResult MachBootstrapClientProvider::doAdvertise(
+    const std::string& name,
+    std::shared_ptr<Channel> channel) {
   @autoreleasepool {
-    auto port = [NSMachPort
-        portWithMachPort:static_cast<uint32_t>(attachment->attachmentHandle())];
+    auto portName =
+        static_cast<uint32_t>(channel->attachment()->attachmentHandle());
+
+    auto port = [NSMachPort portWithMachPort:portName];
 
     if (!port.isValid) {
       return IOResult::Failure;
     }
 
     NSMachBootstrapServer* server = [NSMachBootstrapServer sharedInstance];
+
     auto nameString = [NSString stringWithUTF8String:name.c_str()];
+
     bool advertised = [server registerPort:port name:nameString] == YES;
 
     return advertised ? IOResult::Success : IOResult::Failure;
@@ -50,12 +43,13 @@ IOResult BootstrapServerAdvertise(const std::string& name,
   return IOResult::Failure;
 }
 
-std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
+std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(
     const std::string& name) {
   @autoreleasepool {
-    NSMachPort* port =
-        reinterpret_cast<NSMachPort*>([[NSMachBootstrapServer sharedInstance]
-            portForName:[NSString stringWithUTF8String:name.c_str()]]);
+    auto portName = [NSString stringWithUTF8String:name.c_str()];
+
+    NSMachPort* port = reinterpret_cast<NSMachPort*>(
+        [[NSMachBootstrapServer sharedInstance] portForName:portName]);
 
     if (!port.isValid) {
       return nullptr;
@@ -65,14 +59,6 @@ std::shared_ptr<core::Channel> BootstrapServerAcquireAdvertised(
   }
 
   return nullptr;
-}
-
-bool BootstrapServerSetup() {
-  return true;
-}
-
-bool BootstrapServerTeardown() {
-  return true;
 }
 
 }  // namespace core

@@ -15,29 +15,29 @@
 namespace rl {
 namespace core {
 
-template <typename... Args>
-static std::unique_ptr<ChannelProvider> ChannelSelectProvider(Args&&... args) {
+using PlatformChannelProvider =
 #if RL_CHANNELS == RL_CHANNELS_MACH
-  return make_unique<MachChannel>(std::forward<Args>(args)...);
+    MachChannel
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
-  return make_unique<SocketChannel>(std::forward<Args>(args)...);
+    SocketChannel
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS
-  return make_unique<InProcessChannel>(std::forward<Args>(args)...);
+    InProcessChannel
 #else
 #error Unknown Channels Implementation
-  return nullptr;
 #endif
-}
+    ;
 
 Channel::Channel()
     : _localNS(nullptr),
       _terminated(false),
-      _provider(ChannelSelectProvider(*this)) {}
+      _provider(core::make_unique<PlatformChannelProvider>(*this)) {}
 
 Channel::Channel(RawAttachment attachment)
     : _localNS(nullptr),
       _terminated(false),
-      _provider(ChannelSelectProvider(*this, std::move(attachment))) {}
+      _provider(
+          core::make_unique<PlatformChannelProvider>(*this,
+                                                     std::move(attachment))) {}
 
 Channel::~Channel() {
   terminate();
