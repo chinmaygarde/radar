@@ -14,6 +14,8 @@
 #include <Core/ChannelProvider.h>
 #include <Core/RawAttachment.h>
 
+#include "SocketPair.h"
+
 #include <mutex>
 
 namespace rl {
@@ -21,8 +23,6 @@ namespace core {
 
 class SocketChannel : public ChannelProvider {
  public:
-  using Handle = int;
-
   explicit SocketChannel(Channel& owner);
 
   explicit SocketChannel(Channel& owner, RawAttachment attachment);
@@ -40,25 +40,15 @@ class SocketChannel : public ChannelProvider {
 
   bool doTerminate() override;
 
-  static Handle CreateServerHandle(const std::string& name);
-
-  static Handle CreateClientHandle(const std::string& name);
-
-  static std::unique_ptr<Channel> AcceptClientHandle(Handle handle);
-
-  static bool DestroyHandle(Handle handle);
-
  private:
+  Channel& _channel;
+  SocketPair _pair;
+
   std::mutex _readBufferMutex;
   Allocation _inlineMessageBuffer;
   Allocation _controlBuffer;
-  std::pair<Handle, Handle> _handles;
-  Channel& _channel;
 
-  void setupWithHandles(Handle readHandle, Handle writeHandle);
-
-  Handle readHandle() const;
-  Handle writeHandle() const;
+  void setup();
 
   IOResult writeMessageSingle(const Message& message,
                               ClockDurationNano timeout);

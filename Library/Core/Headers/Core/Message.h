@@ -21,6 +21,7 @@ namespace rl {
 namespace core {
 
 class MachPayload;
+class SocketChannel;
 
 class Message {
  public:
@@ -234,6 +235,7 @@ class Message {
                            bool encoding);
 
   friend class MachPayload;
+  friend class SocketChannel;
 
   size_t attachmentsSize() const;
   const std::vector<AttachmentRef>& attachments() const;

@@ -58,19 +58,20 @@ set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${STACK_SMASHING_FLAGS} ")
 # Position Independent Executables
 ################################################################################
 
-set(PIE_FLAGS "-fPIE")
+if(APPLE)
+  set(PIE_FLAGS "-fPIE")
+  set(CMAKE_C_FLAGS   " ${CMAKE_C_FLAGS} ${PIE_FLAGS} ")
+  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${PIE_FLAGS} ")
+  set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-pie ")
+endif()
 
-set(CMAKE_C_FLAGS   " ${CMAKE_C_FLAGS} ${PIE_FLAGS} ")
-set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${PIE_FLAGS} ")
-
-set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-pie ")
 
 ################################################################################
 # GOT/REL Protection
 ################################################################################
 
 if(NOT APPLE)
-set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro,-z,now ")
+  set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro,-z,now ")
 endif()
 
 ################################################################################
@@ -78,7 +79,7 @@ endif()
 ################################################################################
 
 if(NOT APPLE)
-set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,noexecstack ")
+  set(CMAKE_EXE_LINKER_FLAGS " ${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,noexecstack ")
 endif()
 
 ################################################################################

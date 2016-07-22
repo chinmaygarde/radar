@@ -27,6 +27,14 @@
 namespace rl {
 namespace core {
 
+/*
+ *  Common constants.
+ */
+static const size_t kMaxInlineBufferSize = 4096;
+static const size_t kMaxControlBufferItemCount = 24;
+static const size_t kMaxControlBufferSize =
+    CMSG_SPACE(sizeof(SocketPair::Handle) * kMaxControlBufferItemCount);
+
 /**
  *  This header is always the first item present in the scatter gather array
  *  used in all socket payloads.
@@ -52,213 +60,32 @@ class SocketPayloadHeader {
 static_assert(rl_trivially_copyable(SocketPayloadHeader),
               "The socket payload must be trivially copyable");
 
-static const size_t MaxInlineBufferSize = 4096;
-static const size_t MaxControlBufferItemCount = 24;
-static const size_t MaxControlBufferSize =
-    CMSG_SPACE(sizeof(SocketChannel::Handle) * MaxControlBufferItemCount);
-
-static bool IsValidSocketHandle(SocketChannel::Handle handle) {
-  struct stat statbuf = {};
-
-  if (fstat(handle, &statbuf) == -1) {
-    return false;
-  }
-
-  return S_ISSOCK(statbuf.st_mode);
+SocketChannel::SocketChannel(Channel& channel)
+    : _channel(channel), _pair(kMaxInlineBufferSize) {
+  setup();
 }
 
-static void SocketChannel_ConfigureHandle(SocketChannel::Handle handle) {
-  RL_ASSERT_MSG(IsValidSocketHandle(handle),
-                "Cannot create or initialize a socket channel without a valid "
-                "socket handle");
+SocketChannel::SocketChannel(Channel& channel, RawAttachment attachment)
+    : _channel(channel), _pair(std::move(attachment), kMaxInlineBufferSize) {
+  setup();
+}
 
+void SocketChannel::setup() {
   /*
-   *  Limit the socket send and receive buffer sizes since we dont need large
-   *  buffers for channels
+   *  Setup the channel message buffers.
    */
-  const int size = MaxInlineBufferSize;
-
-  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(size)));
-  RL_CHECK(::setsockopt(handle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)));
-
-  /*
-   *  Make sockets non blocking. We will explicitly poll if reads or writes with
-   *  timeouts need to be serviced.
-   */
-  RL_CHECK(::fcntl(handle, F_SETFL, O_NONBLOCK));
+  _inlineMessageBuffer.resize(kMaxInlineBufferSize);
+  _controlBuffer.resize(kMaxControlBufferSize);
 }
 
-SocketChannel::Handle SocketChannel::CreateServerHandle(
-    const std::string& name) {
-  auto nameLength = name.length();
-
-  if (nameLength == 0 || nameLength > 64) {
-    return -1;
-  }
-
-  /*
-   *  Step 1: Create a server socket
-   */
-  Handle handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
-
-  if (handle == -1) {
-    RL_LOG_ERRNO();
-    return -1;
-  }
-
-  /*
-   *  Step 2: Unlink an old binding if one exists
-   */
-  ::unlink(name.c_str());
-
-  /*
-   *  Step 3: Create a new socket binding to the specified path
-   */
-  struct sockaddr_un local = {};
-  local.sun_family = AF_UNIX;
-  strncpy(local.sun_path, name.data(), nameLength);
-
-  auto len = static_cast<socklen_t>(sizeof(local.sun_family) + nameLength);
-  auto localAddress = reinterpret_cast<struct sockaddr*>(&local);
-
-  RL_CHECK(::bind(handle, localAddress, len));
-
-  /*
-   *  Step 4: Listen for incoming connections
-   */
-  RL_CHECK(::listen(handle, 10));
-
-  return handle;
-}
-
-SocketChannel::Handle SocketChannel::CreateClientHandle(
-    const std::string& name) {
-  auto nameLength = name.length();
-
-  if (nameLength == 0 || nameLength > 64) {
-    return -1;
-  }
-
-  Handle handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
-
-  if (handle == -1) {
-    RL_LOG_ERRNO();
-    return -1;
-  }
-
-  struct sockaddr_un remote = {};
-  remote.sun_family = AF_UNIX;
-  strncpy(remote.sun_path, name.data(), nameLength);
-
-  auto len = static_cast<socklen_t>(sizeof(remote.sun_family) + nameLength);
-  auto remoteAddress = reinterpret_cast<struct sockaddr*>(&remote);
-
-  auto result = RL_TEMP_FAILURE_RETRY(::connect(handle, remoteAddress, len));
-
-  if (result == -1) {
-    RL_LOG_ERRNO();
-    RL_CHECK(::close(handle));
-    return -1;
-  }
-
-  return handle;
-}
-
-std::unique_ptr<Channel> SocketChannel::AcceptClientHandle(
-    SocketChannel::Handle handle) {
-  struct sockaddr_un client = {};
-
-  auto clientAddress = reinterpret_cast<struct sockaddr*>(&client);
-  auto length = static_cast<socklen_t>(sizeof(client));
-
-  int descriptor =
-      RL_TEMP_FAILURE_RETRY(::accept(handle, clientAddress, &length));
-
-  if (descriptor == -1) {
-    RL_LOG_ERRNO();
-    return nullptr;
-  }
-
-  Message::Attachment attachement(descriptor);
-
-  /*
-   *  Paranoid check since we have already check for the validity of the
-   *  descriptor.
-   */
-  RL_ASSERT(attachement.isValid());
-
-  return make_unique<Channel>(std::move(attachement));
-}
-
-bool SocketChannel_CloseHandle(SocketChannel::Handle handle) {
-  if (handle == -1) {
-    return false;
-  }
-
-  auto result = RL_TEMP_FAILURE_RETRY(::close(handle));
-
-  /*
-   *  In case the remote end of the channel is already closed, we don't want
-   *  to error out when closing our own reference. Everything else is a failure.
-   */
-  if (result == -1 && errno != EBADF) {
-    RL_LOG_ERRNO();
-    return false;
-  }
-
-  return true;
-}
-
-bool SocketChannel::DestroyHandle(Handle handle) {
-  return SocketChannel_CloseHandle(handle);
-}
-
-SocketChannel::SocketChannel(Channel& channel,
-                             const Message::Attachment& attachment)
-    : _channel(channel) {
-  RL_ASSERT_MSG(attachment.isValid(),
-                "Can only create channels from valid message attachments");
-
-  Handle writeHandle = static_cast<Handle>(attachment.handle());
-  Handle readHandle =
-      static_cast<Handle>(RL_TEMP_FAILURE_RETRY(::dup(writeHandle)));
-
-  setupWithHandles(readHandle, writeHandle);
-}
-
-SocketChannel::SocketChannel(Channel& channel) : _channel(channel) {
-  int socketHandles[2] = {0};
-
-  RL_CHECK(::socketpair(AF_UNIX, SOCK_SEQPACKET, 0, socketHandles));
-
-  setupWithHandles(socketHandles[0], socketHandles[1]);
-}
-
-void SocketChannel::setupWithHandles(Handle readHandle, Handle writeHandle) {
-  RL_ASSERT(readHandle != writeHandle);
-
-  SocketChannel_ConfigureHandle(readHandle);
-  SocketChannel_ConfigureHandle(writeHandle);
-
-  _handles = std::make_pair(readHandle, writeHandle);
-
-  /*
-   *  Setup the channel buffer
-   */
-  _inlineMessageBuffer.resize(MaxInlineBufferSize);
-  _controlBuffer.resize(MaxControlBufferSize);
-}
-
-SocketChannel::~SocketChannel() {}
+SocketChannel::~SocketChannel() = default;
 
 std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
-  using ELS = EventLoopSource;
-
-  ELS::RWHandlesProvider provider = [&]() {
-    return ELS::Handles(readHandle(), writeHandle()); /* bi-di connection */
+  EventLoopSource::RWHandlesProvider provider = [&]() {
+    return EventLoopSource::Handles(_pair.readHandle(), _pair.writeHandle());
   };
 
-  ELS::IOHandler readHandler = [this](ELS::Handle) {
+  EventLoopSource::IOHandler readHandler = [this](EventLoopSource::Handle) {
     return _channel.readPendingMessageNow();
   };
 
@@ -270,14 +97,12 @@ std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
    *  The channel owns the socket handle, so there is no deallocation
    *  callback either.
    */
-  return std::make_shared<ELS>(provider, nullptr, readHandler, nullptr,
-                               nullptr);
+  return std::make_shared<EventLoopSource>(provider, nullptr, readHandler,
+                                           nullptr, nullptr);
 }
 
 bool SocketChannel::doTerminate() {
-  auto readClosed = SocketChannel_CloseHandle(readHandle());
-  auto writeClosed = SocketChannel_CloseHandle(writeHandle());
-  return readClosed && writeClosed;
+  return true;
 }
 
 IOResult SocketChannel::writeMessages(Messages&& messages,
@@ -296,7 +121,7 @@ IOResult SocketChannel::writeMessages(Messages&& messages,
   return IOResult::Success;
 }
 
-static IOResult SocketSendMessage(SocketChannel::Handle writer,
+static IOResult SocketSendMessage(SocketPair::Handle writer,
                                   struct msghdr* messageHeader,
                                   size_t expectedSendSize,
                                   ClockDurationNano timeout) {
@@ -354,7 +179,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   /*
    *  Check if the message buffer is small enough to be sent inline
    */
-  const auto isDataInline = message.size() < MaxInlineBufferSize;
+  const auto isDataInline = message.size() < kMaxInlineBufferSize;
 
   const auto& attachments = message.attachments();
   auto oolDescriptors = attachments.size();
@@ -390,7 +215,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     oolDescriptors++;
   }
 
-  if (oolDescriptors > MaxControlBufferItemCount) {
+  if (oolDescriptors > kMaxControlBufferItemCount) {
     /*
      *  This is too many descriptors for this implementation
      */
@@ -443,7 +268,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
    */
   if (oolDescriptors > 0) {
     if (!controlBuffer.resize(
-            CMSG_SPACE((oolDescriptors * sizeof(SocketChannel::Handle))))) {
+            CMSG_SPACE((oolDescriptors * sizeof(SocketPair::Handle))))) {
       /*
        *  We could not allocate enough memory on the client for the control
        *  buffer. Memory pressure may subside later. So Timeout.
@@ -461,11 +286,11 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     }
 
     auto descCount = 0;
-    SocketChannel::Handle handles[oolDescriptors];
+    SocketPair::Handle handles[oolDescriptors];
 
     for (const auto& attachment : message.attachments()) {
       handles[descCount++] =
-          static_cast<SocketChannel::Handle>(attachment.handle());
+          static_cast<SocketPair::Handle>(attachment->attachmentHandle());
     }
 
     if (!isDataInline) {
@@ -479,14 +304,14 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     cmsg->cmsg_level = SOL_SOCKET;
     cmsg->cmsg_type = SCM_RIGHTS;
     cmsg->cmsg_len = static_cast<socklen_t>(
-        CMSG_LEN(oolDescriptors * sizeof(SocketChannel::Handle)));
+        CMSG_LEN(oolDescriptors * sizeof(SocketPair::Handle)));
     memcpy(CMSG_DATA(cmsg), handles, sizeof(handles));
   }
 
   const auto expectedSendSize =
       sizeof(SocketPayloadHeader) + (isDataInline ? message.size() : 0);
 
-  auto result = SocketSendMessage(writeHandle(), &messageHeader,
+  auto result = SocketSendMessage(_pair.writeHandle(), &messageHeader,
                                   expectedSendSize, timeout);
 
   return result;
@@ -606,7 +431,8 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
    *  ==========================================================================
    */
 
-  auto result = SocketChannelRecvMsg(readHandle(), &messageHeader, 0, timeout);
+  auto result =
+      SocketChannelRecvMsg(_pair.readHandle(), &messageHeader, 0, timeout);
 
   if (result.first != IOResult::Success) {
     return IOReadResult(result.first, Message{});
@@ -640,7 +466,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   auto totalDescriptors = header.oolDescriptors();
   auto inlineMessageSize = received - sizeof(SocketPayloadHeader);
 
-  if (totalDescriptors > MaxControlBufferItemCount) {
+  if (totalDescriptors > kMaxControlBufferItemCount) {
     /*
      *  We have reached the limits of our implementation. Bail.
      */
@@ -657,7 +483,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   }
 
   std::unique_ptr<SharedMemory> oolMemoryArena;
-  std::vector<Message::Attachment> attachments;
+  std::vector<AttachmentRef> attachments;
 
   if (totalDescriptors > 0) {
     struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
@@ -670,7 +496,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
       return IOReadResult(IOResult::Failure, Message{});
     }
 
-    auto handles = reinterpret_cast<SocketChannel::Handle*>(CMSG_DATA(cmsg));
+    auto handles = reinterpret_cast<SocketPair::Handle*>(CMSG_DATA(cmsg));
 
     /*
      *  If there is inline data, all descriptors are attachments. If not, the
@@ -699,7 +525,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
         /*
          *  This is a regular channel attachment
          */
-        attachments.push_back(handle);
+        attachments.emplace_back(std::make_shared<RawAttachment>(handle));
       }
     }
   }
@@ -732,20 +558,15 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   }
 
   Message message(buffer, bufferLength, vmDeallocate);
-  message.setAttachments(std::move(attachments));
+
+  for (auto& attachment : attachments) {
+    if (!message.encode(std::move(attachment))) {
+      RL_ASSERT_MSG(false, "Internal error: Will leak handles in message.");
+      return IOReadResult(IOResult::Failure, Message{});
+    }
+  }
+
   return IOReadResult(IOResult::Success, std::move(message));
-}
-
-Message::Attachment::Handle SocketChannel::handle() {
-  return writeHandle();
-}
-
-SocketChannel::Handle SocketChannel::readHandle() const {
-  return _handles.first;
-}
-
-SocketChannel::Handle SocketChannel::writeHandle() const {
-  return _handles.second;
 }
 
 }  // namespace core

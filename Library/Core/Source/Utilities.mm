@@ -7,6 +7,8 @@
 
 #if RL_OS_MAC
 #include <Foundation/Foundation.h>
+#elif RL_OS_LINUX
+#include <unistd.h>
 #endif
 
 #include <sstream>
@@ -31,6 +33,13 @@ URI GetExecutablePath() {
                    stringByAddingPercentEncodingWithAllowedCharacters:
                        [NSCharacterSet URLQueryAllowedCharacterSet]]
                    .UTF8String;
+#elif RL_OS_LINUX
+  const int pathSize = 256;
+  char path[pathSize] = {0};
+  auto readSize = ::readlink("/proc/self/exe", path, pathSize);
+  if (readSize != -1) {
+    uriString << std::string(path, readSize);
+  }
 #else
 #error Unknown Platform
 #endif
@@ -45,19 +54,16 @@ URI GetExecutablePath() {
 }
 
 URI GetResourcesPath() {
+#if RL_OS_MAC
   std::stringstream uriString;
 
   uriString << "file://";
 
-#if RL_OS_MAC
   uriString << [[[NSBundle mainBundle] resourcePath]
                    stringByAddingPercentEncodingWithAllowedCharacters:
                        [NSCharacterSet URLQueryAllowedCharacterSet]]
                    .UTF8String;
   uriString << "/Resources";
-#else
-#error Unknown Platform
-#endif
 
   URI uri(uriString.str());
 
@@ -66,6 +72,11 @@ URI GetResourcesPath() {
   }
 
   return uri;
+#elif RL_OS_LINUX
+  return GetExecutablePath().append(URI{".."});
+#else
+#error Unknown Platform
+#endif
 }
 
 }  // namespace core
