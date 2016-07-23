@@ -6,14 +6,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/BootstrapServer.h>
-#include <Core/Latch.h>
-#include <Core/Mutexed.h>
+#include "SocketBootstrapServerProvider.h"
 
-#include "SocketChannel.h"
-#include "SocketBootstrapServer.h"
-
-#include <thread>
+#include <Core/Thread.h>
 
 namespace rl {
 namespace core {
@@ -23,22 +18,47 @@ namespace core {
  */
 static const ClockDurationNano SocketBootstrapServerTimeout(100000000);
 
-SocketBootstrapServerProvider::SocketBootstrapServer(const URI& socketURI)
-    : _server(socketURI.filesystemRepresentation(),
+SocketBootstrapServerProvider::SocketBootstrapServerProvider()
+    : SocketBootstrapServerProvider(URI{"/tmp/radar.bootstrap.server.sk"}) {}
+
+SocketBootstrapServerProvider::SocketBootstrapServerProvider(
+    const URI& socketURI)
+    : _server(socketURI.filesystemRepresentation(),  // uri
+              true,  // clear previous entry at that uri if present
               std::bind(&SocketBootstrapServerProvider::onAccept,
                         this,
-                        std::placeholders::_1)) {}
+                        std::placeholders::_1)) {
+  auto loopAccess = _thread.loop();
 
-SocketBootstrapServerProvider::~SocketBootstrapServer() = default;
+  EventLoop* loop = loopAccess.get();
 
-std::shared_ptr<EventLoopSource> SocketBootstrapServerProvider::source() {
-  return _server.source();
+  auto added = loop->addSource(_server.source());
+
+  RL_ASSERT_MSG(added,
+                "Must be able to add the bootstrap server source to the event "
+                "loop setup to service connections.");
+
+  loop->dispatchAsync(
+      std::bind(&SocketBootstrapServerProvider::serverMain, this));
 }
+
+SocketBootstrapServerProvider::~SocketBootstrapServerProvider() = default;
 
 void SocketBootstrapServerProvider::onAccept(SocketPair socket) {
   RL_WIP;
 }
 
+void SocketBootstrapServerProvider::serverMain() {
+  thread::SetName("rl.bootstrap.server");
+
+  if (!_server.listen(10)) {
+    RL_LOG("Bootstrap server could not setup listening for IPC connections.");
+    RL_ASSERT(false);
+    return;
+  }
+}
+
+#if 0
 bool SocketBootstrapServer::attemptRegistration(
     const std::string& name,
     Message::Attachment channelAttachment) {
@@ -442,6 +462,7 @@ bool BootstrapServerTeardown() {
 
   return true;
 }
+#endif
 
 }  // namespace core
 }  // namespace rl

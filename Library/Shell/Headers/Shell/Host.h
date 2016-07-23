@@ -6,6 +6,7 @@
 #define RADARLOVE_SHELL_HOST_
 
 #include <Core/Core.h>
+#include <Core/BootstrapServer.h>
 #include <Event/TouchEventChannel.h>
 
 namespace rl {
@@ -32,6 +33,7 @@ class Host {
   event::TouchEventChannel& touchEventChannel();
 
  private:
+  core::BootstrapServer _bootstrapServer;
   event::TouchEventChannel _touchEventChannel;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Host);

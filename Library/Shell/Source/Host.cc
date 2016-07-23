@@ -10,16 +10,12 @@ namespace shell {
 Host::Host() {}
 
 void Host::run(std::function<void()> onReady) {
-  core::BootstrapServerSetup();
-
   if (onReady) {
     onReady();
   }
 }
 
 void Host::shutdown(std::function<void()> onShutdown) {
-  core::BootstrapServerTeardown();
-
   if (onShutdown) {
     onShutdown();
   }

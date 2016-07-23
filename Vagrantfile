@@ -18,6 +18,7 @@ Vagrant.configure(2) do |config|
       sudo apt-get install -y libgles2-mesa-dev
       sudo apt-get install -y libsdl2-dev
       sudo apt-get install -y ninja-build
+      sudo apt-get install -y gdb
     SHELL
     linux.vm.provider :virtualbox do |vb|
       vb.memory = GUEST_MEMORY

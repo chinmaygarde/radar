@@ -40,13 +40,12 @@ static inline void EPollInvoke(int eventsMask,
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
                                                    bool shouldAdd) {
-  // clang-format off
-  EPollInvoke(EPOLLIN,
-              this,
-              HANDLE_CAST(waitset.handle()),
-              shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,
-              readHandle());
-  // clang-format on
+  EPollInvoke(EPOLLIN,                                    // events mask
+              this,                                       // data
+              HANDLE_CAST(waitset.handle()),              // epoll descriptor
+              shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,  // operation
+              handles().readHandle                        // desc
+              );
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
@@ -72,7 +71,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
   };
 
   RWHandlesCollector collector = [](Handles handles) {
-    RL_CHECK(::close(handles.first));
+    RL_CHECK(::close(handles.readHandle));
   };
 
   IOHandler reader = [](Handle r) {
@@ -101,8 +100,8 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
   };
 
   RWHandlesCollector collector = [](Handles h) {
-    RL_ASSERT(h.first == h.second);
-    RL_CHECK(::close(HANDLE_CAST(h.first)));
+    RL_ASSERT(h.readHandle == h.writeHandle);
+    RL_CHECK(::close(HANDLE_CAST(h.readHandle)));
   };
 
   IOHandler reader = [](Handle r) {

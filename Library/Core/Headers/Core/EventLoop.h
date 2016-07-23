@@ -100,6 +100,7 @@ class EventLoop {
   EventLoopObserverCollection _afterSleepObservers;
 
   explicit EventLoop();
+
   void beforeSleep();
   void afterSleep();
   void flushPendingDispatches();

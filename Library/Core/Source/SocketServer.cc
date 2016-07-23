@@ -15,7 +15,9 @@
 namespace rl {
 namespace core {
 
-SocketServer::SocketServer(const std::string& name, AcceptCallback callback)
+SocketServer::SocketServer(const std::string& name,
+                           bool clearPrevious,
+                           AcceptCallback callback)
     : _handle(SocketPair::kInvalidHandle),
       _isValid(false),
       _acceptCallback(callback) {
@@ -26,6 +28,13 @@ SocketServer::SocketServer(const std::string& name, AcceptCallback callback)
 
   if (nameLength == 0 || nameLength > 64) {
     return;
+  }
+
+  /*
+   *  If a previous entry exists, clear it if requested.
+   */
+  if (clearPrevious) {
+    ::unlink(name.data());
   }
 
   /*

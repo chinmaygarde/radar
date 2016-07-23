@@ -10,8 +10,8 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/Macros.h>
-#include <Core/EventLoopSource.h>
 #include <Core/URI.h>
+#include <Core/EventLoopThread.h>
 
 #include "SocketServer.h"
 #include "BootstrapServerProvider.h"
@@ -23,17 +23,20 @@ namespace core {
 
 class SocketBootstrapServerProvider : public BootstrapServerProvider {
  public:
+  SocketBootstrapServerProvider();
+
   SocketBootstrapServerProvider(const URI& socketURI);
 
   ~SocketBootstrapServerProvider();
 
-  std::shared_ptr<EventLoopSource> source();
-
  private:
   SocketServer _server;
+  core::EventLoopThread _thread;
   std::map<std::string, std::shared_ptr<SocketPair>> _registrations;
 
   void onAccept(SocketPair socket);
+
+  void serverMain();
 
 #if 0
   IOResult onListenReadResult(EventLoopSource::Handle readHandle);
@@ -54,7 +57,7 @@ class SocketBootstrapServerProvider : public BootstrapServerProvider {
                                                   Message&& requestMessage);
 #endif
 
-  RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServer);
+  RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServerProvider);
 };
 
 }  // namespace core

@@ -42,7 +42,7 @@ class SocketChannel : public ChannelProvider {
 
  private:
   Channel& _channel;
-  SocketPair _pair;
+  std::shared_ptr<SocketPair> _pair;
 
   std::mutex _readBufferMutex;
   Allocation _inlineMessageBuffer;

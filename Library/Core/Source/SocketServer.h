@@ -23,7 +23,9 @@ class SocketServer {
  public:
   using AcceptCallback = std::function<void(SocketPair)>;
 
-  SocketServer(const std::string& name, AcceptCallback callback);
+  SocketServer(const std::string& name,
+               bool clearPrevious,
+               AcceptCallback callback);
 
   ~SocketServer();
 

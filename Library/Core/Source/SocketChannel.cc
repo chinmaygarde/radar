@@ -59,12 +59,15 @@ static_assert(rl_trivially_copyable(SocketPayloadHeader),
               "The socket payload must be trivially copyable");
 
 SocketChannel::SocketChannel(Channel& channel)
-    : _channel(channel), _pair(kMaxInlineBufferSize) {
+    : _channel(channel),
+      _pair(std::make_shared<SocketPair>(kMaxInlineBufferSize)) {
   setup();
 }
 
 SocketChannel::SocketChannel(Channel& channel, RawAttachment attachment)
-    : _channel(channel), _pair(std::move(attachment), kMaxInlineBufferSize) {
+    : _channel(channel),
+      _pair(std::make_shared<SocketPair>(std::move(attachment),
+                                         kMaxInlineBufferSize)) {
   setup();
 }
 
@@ -80,7 +83,7 @@ SocketChannel::~SocketChannel() = default;
 
 std::shared_ptr<EventLoopSource> SocketChannel::createSource() const {
   EventLoopSource::RWHandlesProvider provider = [&]() {
-    return EventLoopSource::Handles(_pair.readHandle(), _pair.writeHandle());
+    return EventLoopSource::Handles(_pair->readHandle(), _pair->writeHandle());
   };
 
   EventLoopSource::IOHandler readHandler = [this](EventLoopSource::Handle) {
@@ -309,7 +312,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
   const auto expectedSendSize =
       sizeof(SocketPayloadHeader) + (isDataInline ? message.size() : 0);
 
-  auto result = SocketSendMessage(_pair.writeHandle(), &messageHeader,
+  auto result = SocketSendMessage(_pair->writeHandle(), &messageHeader,
                                   expectedSendSize, timeout);
 
   return result;
@@ -385,6 +388,10 @@ static RecvResult SocketChannelRecvMsg(int handle,
   return RecvResult(IOResult::Success, received);
 }
 
+AttachmentRef SocketChannel::attachment() {
+  return _pair;
+}
+
 IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   std::lock_guard<std::mutex> lock(_readBufferMutex);
 
@@ -430,7 +437,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
    */
 
   auto result =
-      SocketChannelRecvMsg(_pair.readHandle(), &messageHeader, 0, timeout);
+      SocketChannelRecvMsg(_pair->readHandle(), &messageHeader, 0, timeout);
 
   if (result.first != IOResult::Success) {
     return IOReadResult(result.first, Message{});

@@ -8,6 +8,8 @@
 #include <Compositor/Primitive/ColoredPathPrimitive.h>
 #include <Compositor/Primitive/TexturedPathPrimitive.h>
 
+#include <algorithm>
+
 namespace rl {
 namespace coordinator {
 
