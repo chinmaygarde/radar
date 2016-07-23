@@ -12,11 +12,11 @@
 TEST(BootstrapServerTest, NotFound) {
   rl::core::BootstrapServer daemon;
 
-  auto found = rl::core::BootstrapServer::Acquire("sample");
-  ASSERT_EQ(found, nullptr);
+  auto foundSample = rl::core::BootstrapServer::Acquire("sample");
+  ASSERT_EQ(foundSample, nullptr);
 
-  found = rl::core::BootstrapServer::Acquire("");
-  ASSERT_EQ(found, nullptr);
+  auto foundNull = rl::core::BootstrapServer::Acquire("");
+  ASSERT_EQ(foundNull, nullptr);
 }
 
 TEST(BootstrapServerTest, Advertise) {

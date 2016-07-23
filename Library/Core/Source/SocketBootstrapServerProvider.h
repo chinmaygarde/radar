@@ -10,7 +10,6 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/Macros.h>
-#include <Core/URI.h>
 #include <Core/EventLoopThread.h>
 
 #include "SocketServer.h"
@@ -23,9 +22,9 @@ namespace core {
 
 class SocketBootstrapServerProvider : public BootstrapServerProvider {
  public:
-  SocketBootstrapServerProvider();
+  static const char* const kDefaultSocketPath;
 
-  SocketBootstrapServerProvider(const URI& socketURI);
+  SocketBootstrapServerProvider();
 
   ~SocketBootstrapServerProvider();
 

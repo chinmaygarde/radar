@@ -11,6 +11,7 @@
 
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/URI.h>
 
 #include "SocketPair.h"
 
@@ -22,16 +23,17 @@ namespace core {
 class SocketServer {
  public:
   using AcceptCallback = std::function<void(SocketPair)>;
-
-  SocketServer(const std::string& name,
-               bool clearPrevious,
-               AcceptCallback callback);
+  SocketServer(AcceptCallback callback = nullptr);
 
   ~SocketServer();
 
   bool isValid() const;
 
+  bool bind(URI uri, bool clearPrevious) const;
+
   bool listen(size_t backlog) const;
+
+  bool connect(URI uri) const;
 
   std::shared_ptr<EventLoopSource> source();
 

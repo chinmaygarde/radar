@@ -18,14 +18,11 @@ namespace core {
  */
 static const ClockDurationNano SocketBootstrapServerTimeout(100000000);
 
-SocketBootstrapServerProvider::SocketBootstrapServerProvider()
-    : SocketBootstrapServerProvider(URI{"/tmp/radar.bootstrap.server.sk"}) {}
+const char* const SocketBootstrapServerProvider::kDefaultSocketPath =
+    "/tmp/radar.bootstrap.server.sk";
 
-SocketBootstrapServerProvider::SocketBootstrapServerProvider(
-    const URI& socketURI)
-    : _server(socketURI.filesystemRepresentation(),  // uri
-              true,  // clear previous entry at that uri if present
-              std::bind(&SocketBootstrapServerProvider::onAccept,
+SocketBootstrapServerProvider::SocketBootstrapServerProvider()
+    : _server(std::bind(&SocketBootstrapServerProvider::onAccept,
                         this,
                         std::placeholders::_1)) {
   auto loopAccess = _thread.loop();
@@ -45,15 +42,25 @@ SocketBootstrapServerProvider::SocketBootstrapServerProvider(
 SocketBootstrapServerProvider::~SocketBootstrapServerProvider() = default;
 
 void SocketBootstrapServerProvider::onAccept(SocketPair socket) {
+  if (!socket.isValid()) {
+    return;
+  }
+
   RL_WIP;
 }
 
 void SocketBootstrapServerProvider::serverMain() {
   thread::SetName("rl.bootstrap.server");
 
+  if (!_server.bind(URI{kDefaultSocketPath}, true)) {
+    RL_LOG(
+        "Bootstrap server could not bind to '%s' to listen for IPC connections",
+        kDefaultSocketPath);
+    return;
+  }
+
   if (!_server.listen(10)) {
     RL_LOG("Bootstrap server could not setup listening for IPC connections.");
-    RL_ASSERT(false);
     return;
   }
 }

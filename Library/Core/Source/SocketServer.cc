@@ -15,50 +15,16 @@
 namespace rl {
 namespace core {
 
-SocketServer::SocketServer(const std::string& name,
-                           bool clearPrevious,
-                           AcceptCallback callback)
+SocketServer::SocketServer(AcceptCallback callback)
     : _handle(SocketPair::kInvalidHandle),
       _isValid(false),
       _acceptCallback(callback) {
-  /*
-   *  Check that the name looks valid.
-   */
-  auto nameLength = name.length();
-
-  if (nameLength == 0 || nameLength > 64) {
-    return;
-  }
-
-  /*
-   *  If a previous entry exists, clear it if requested.
-   */
-  if (clearPrevious) {
-    ::unlink(name.data());
-  }
-
   /*
    *  Create the server socket handle;
    */
   _handle = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
 
   if (_handle == SocketPair::kInvalidHandle) {
-    RL_LOG_ERRNO();
-    return;
-  }
-
-  /*
-   *  Create a new socket binding at the specified path.
-   */
-
-  struct sockaddr_un local = {};
-  local.sun_family = AF_UNIX;
-  strncpy(local.sun_path, name.data(), nameLength);
-
-  auto len = static_cast<socklen_t>(sizeof(local.sun_family) + nameLength);
-  auto localAddress = reinterpret_cast<struct sockaddr*>(&local);
-
-  if (::bind(_handle, localAddress, len) != 0) {
     RL_LOG_ERRNO();
     return;
   }
@@ -79,8 +45,72 @@ bool SocketServer::isValid() const {
   return _isValid;
 }
 
+bool SocketServer::bind(URI uri, bool clearPrevious) const {
+  auto fsName = uri.filesystemRepresentation();
+
+  /*
+   *  Check that the name looks valid.
+   */
+  auto nameLength = fsName.length();
+
+  if (nameLength == 0 || nameLength > 64) {
+    return false;
+  }
+
+  /*
+   *  If a previous entry exists, clear it if requested.
+   */
+  if (clearPrevious) {
+    ::unlink(fsName.data());
+  }
+
+  /*
+   *  Create a new socket binding at the specified path.
+   */
+
+  struct sockaddr_un local = {};
+  local.sun_family = AF_UNIX;
+  strncpy(local.sun_path, fsName.data(), nameLength);
+
+  auto len = static_cast<socklen_t>(sizeof(local.sun_family) + nameLength);
+  auto localAddress = reinterpret_cast<struct sockaddr*>(&local);
+
+  if (::bind(_handle, localAddress, len) != 0) {
+    RL_LOG_ERRNO();
+    return false;
+  }
+
+  return true;
+}
+
 bool SocketServer::listen(size_t backlog) const {
   return ::listen(_handle, backlog) == 0;
+}
+
+bool SocketServer::connect(URI uri) const {
+  auto fsName = uri.filesystemRepresentation();
+
+  auto nameLength = fsName.length();
+
+  if (nameLength == 0 || nameLength > 64) {
+    return false;
+  }
+
+  struct sockaddr_un remote = {};
+  remote.sun_family = AF_UNIX;
+  strncpy(remote.sun_path, fsName.data(), nameLength);
+
+  auto len = static_cast<socklen_t>(sizeof(remote.sun_family) + nameLength);
+  auto remoteAddress = reinterpret_cast<struct sockaddr*>(&remote);
+
+  auto result = RL_TEMP_FAILURE_RETRY(::connect(_handle, remoteAddress, len));
+
+  if (result == -1) {
+    RL_LOG_ERRNO();
+    return false;
+  }
+
+  return true;
 }
 
 RawAttachment SocketServer::accept() const {
@@ -117,6 +147,10 @@ void SocketServer::setupAcceptSource() {
   };
 
   auto readHandler = [&](EventLoopSource::Handle readHandle) {
+    if (readHandle == SocketPair::kInvalidHandle) {
+      return IOResult::Failure;
+    }
+
     RL_ASSERT(readHandle == _handle);
 
     auto attachment = SocketPair{accept()};
