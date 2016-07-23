@@ -51,7 +51,7 @@ set(CMAKE_SYSTEM_VERSION 1)
 
 set(FUCHSIA BOOL ON)
 
-add_definitions(-D__fuschia__=1)
+add_definitions(-D__fuchsia__=1)
 
 ################################################################################
 # Setup the toolchain on the host

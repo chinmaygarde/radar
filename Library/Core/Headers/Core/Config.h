@@ -48,7 +48,7 @@
 
 #define RL_OS_BSD 1
 
-#elif __fuschia__
+#elif __fuchsia__
 
 #define RL_OS_FUCHSIA 1
 
@@ -88,6 +88,8 @@
 #define RL_WAITSET RL_WAITSET_INPROCESS
 #define RL_SHMEM RL_SHMEM_DISABLED
 #endif
+
+//#define RL_CHANNELS RL_CHANNELS_SOCKET
 
 /*
  *  Detect Channels by Platform
