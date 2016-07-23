@@ -65,7 +65,7 @@ TEST_SLOW(ChannelTest, ReadTimeout) {
   ASSERT_GE(stopwatch.lastLap(), rl::core::ClockDurationMilli(ms));
 }
 
-#if RL_CHANNELS != RL_CHANNELS_MACH
+#if 0
 
 TEST(ChannelTest, ChannelDeathRemovesChannelAliasesFromWaitsets) {
   rl::core::Channel channel;
@@ -105,7 +105,7 @@ TEST(ChannelTest, ChannelDeathRemovesChannelAliasesFromWaitsets) {
   ASSERT_EQ(aliasTerminated, true);
 }
 
-#endif  // RL_CHANNELS != RL_CHANNELS_MACH
+#endif
 
 TEST(ChannelTest, TestSimpleReads) {
   rl::core::Channel channel;
