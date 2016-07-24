@@ -4,7 +4,7 @@
 
 #include <Core/Config.h>
 
-#if RL_CHANNELS == RL_CHANNELS_SOCKET
+#if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include "MachBootstrapServerProvider.h"
 
