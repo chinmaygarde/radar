@@ -89,8 +89,6 @@
 #define RL_SHMEM RL_SHMEM_DISABLED
 #endif
 
-//#define RL_CHANNELS RL_CHANNELS_SOCKET
-
 /*
  *  Detect Channels by Platform
  */

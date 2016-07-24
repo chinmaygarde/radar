@@ -16,9 +16,9 @@
 namespace rl {
 namespace core {
 
-InProcessChannelAttachment::InProcessChannelAttachment() {}
+InProcessChannelAttachment::InProcessChannelAttachment() = default;
 
-InProcessChannelAttachment::~InProcessChannelAttachment() {}
+InProcessChannelAttachment::~InProcessChannelAttachment() = default;
 
 IOResult InProcessChannelAttachment::writeMessages(Messages&& messages,
                                                    ClockDurationNano) {

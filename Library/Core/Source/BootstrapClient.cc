@@ -6,6 +6,7 @@
 
 #include "SocketBootstrapClientProvider.h"
 #include "MachBootstrapClientProvider.h"
+#include "InProcessBootstrapClientProvider.h"
 
 namespace rl {
 namespace core {
@@ -15,6 +16,8 @@ using PlatformBootstrapClientProvider =
     MachBootstrapClientProvider
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
     SocketBootstrapClientProvider
+#elif RL_CHANNELS == RL_CHANNELS_INPROCESS
+    InProcessBootstrapClientProvider
 #else
 #error Unknown Channels Implementation
 #endif

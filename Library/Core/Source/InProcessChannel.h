@@ -21,8 +21,7 @@ class InProcessChannel : public ChannelProvider {
  public:
   explicit InProcessChannel(Channel& owner);
 
-  explicit InProcessChannel(Channel& owner,
-                            const Message::Attachment& attachment);
+  explicit InProcessChannel(Channel& owner, RawAttachment attachment);
 
   ~InProcessChannel() override;
 
@@ -33,7 +32,7 @@ class InProcessChannel : public ChannelProvider {
 
   IOReadResult readMessage(ClockDurationNano timeout) override;
 
-  Message::Attachment::Handle handle() override;
+  AttachmentRef attachment() override;
 
   bool doTerminate() override;
 

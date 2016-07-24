@@ -5,6 +5,10 @@
 #ifndef RADAR_CORE_MACHBOOTSTRAPSERVERPROVIDER_H_
 #define RADAR_CORE_MACHBOOTSTRAPSERVERPROVIDER_H_
 
+#include <Core/Config.h>
+
+#if RL_CHANNELS == RL_CHANNELS_SOCKET
+
 #include <Core/Macros.h>
 
 #include "BootstrapServerProvider.h"
@@ -24,5 +28,7 @@ class MachBootstrapServerProvider : public BootstrapServerProvider {
 
 }  // namespace core
 }  // namespace rl
+
+#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #endif  // RADAR_CORE_MACHBOOTSTRAPSERVERPROVIDER_H_
