@@ -32,7 +32,12 @@
 
 StandardRadarLibrary(Interface)
 
-target_link_libraries(Interface Coordinator Image Toolbox)
+target_link_libraries(Interface
+  PUBLIC
+    Coordinator
+    Image
+    Toolbox
+)
 
 ################################################################################
 # Test
@@ -42,5 +47,8 @@ StandardRadarTest(Interface)
 
 if(RADAR_TESTING_ENABLED)
   # The test harness requires the shell as well.
-  target_link_libraries(InterfaceTest Shell)
+  target_link_libraries(InterfaceTest
+    PUBLIC
+      Shell
+  )
 endif()

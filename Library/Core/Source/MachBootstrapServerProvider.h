@@ -29,6 +29,6 @@ class MachBootstrapServerProvider : public BootstrapServerProvider {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
 #endif  // RADAR_CORE_MACHBOOTSTRAPSERVERPROVIDER_H_

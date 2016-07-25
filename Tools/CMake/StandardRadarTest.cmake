@@ -80,10 +80,17 @@ include_directories("Headers" "Source" "Test")
 
 # Link against the test runner containing the program entry point.
 
-target_link_libraries(${TEST_TARGET_NAME} TestRunner ${TEST_NAME_ARG})
+target_link_libraries(${TEST_TARGET_NAME}
+  PUBLIC
+    TestRunner
+    ${TEST_NAME_ARG}
+)
 
 if(LINUX)
-  target_link_libraries(${TEST_TARGET_NAME} rt)
+  target_link_libraries(${TEST_TARGET_NAME}
+    PRIVATE
+      rt
+  )
 endif()
 
 # Add the target to CTest

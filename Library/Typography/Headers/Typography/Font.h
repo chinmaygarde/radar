@@ -6,13 +6,14 @@
 #define RADAR_TYPOGRAPHY_FONT_H_
 
 #include <Core/Macros.h>
+#include <Core/URI.h>
 
 namespace rl {
 namespace type {
 
 class Font {
  public:
-  Font();
+  Font(core::URI uri);
 
   ~Font();
 

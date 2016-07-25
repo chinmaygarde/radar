@@ -23,4 +23,4 @@ MachBootstrapServerProvider::~MachBootstrapServerProvider() = default;
 }  // namespace core
 }  // namespace rl
 
-#endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
+#endif  // RL_CHANNELS == RL_CHANNELS_MACH

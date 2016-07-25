@@ -4,26 +4,12 @@
 
 #include <Typography/TypeFrame.h>
 
-//#include <hb.h>
+#include <hb.h>
 
 namespace rl {
 namespace type {
 
-TypeFrame::TypeFrame(const std::string& string) {
-  //  auto buffer = hb_buffer_create();
-  //
-  //
-  //  hb_buffer_add_utf8(buffer, string.data(), string.size(), 0, -1);
-  //
-  //  hb_buffer_guess_segment_properties(buffer);
-  //
-  //   hb_buffer_get_length(buffer);
-  //
-  //  hb_shape(<#hb_font_t *font#>, <#hb_buffer_t *buffer#>, <#const
-  //  hb_feature_t *features#>, <#unsigned int num_features#>)
-  //
-  //  hb_buffer_destroy(buffer);
-}
+TypeFrame::TypeFrame(const std::string& string) {}
 
 TypeFrame::~TypeFrame() {}
 

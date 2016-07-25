@@ -2,16 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Typography/Font.h>
-
-#include <hb-ft.h>
+#ifndef RADAR_TYPOGRAPHY_TYPES_H_
+#define RADAR_TYPOGRAPHY_TYPES_H_
 
 namespace rl {
 namespace type {
 
-Font::Font(core::URI uri) {}
-
-Font::~Font() {}
+using Point = double;
 
 }  // namespace type
 }  // namespace rl
+
+#endif // RADAR_TYPOGRAPHY_TYPES_H_
