@@ -4,6 +4,8 @@
 
 #include "HBBuffer.h"
 
+#include <algorithm>
+
 namespace rl {
 namespace type {
 
@@ -20,6 +22,41 @@ size_t HBBuffer::length() const {
 
 HBBuffer::~HBBuffer() {
   hb_buffer_destroy(_buffer);
+}
+
+size_t HBBuffer::iterateGlyphs(GlyphIterator iterator) {
+  if (iterator == nullptr || _buffer == nullptr) {
+    return 0;
+  }
+
+  auto length = hb_buffer_get_length(_buffer);
+
+  unsigned int count = 0;
+
+  auto info = hb_buffer_get_glyph_infos(_buffer, &count);
+  length = std::min(length, count);
+
+  count = 0;
+
+  auto position = hb_buffer_get_glyph_positions(_buffer, &count);
+  length = std::min(length, count);
+
+  size_t result = 0;
+
+  for (size_t i = 0; i < count; i++) {
+    result++;
+
+    Coordinate advance(position[i].x_advance, position[i].y_advance);
+    Coordinate offset(position[i].x_offset, position[i].y_offset);
+
+    GlyphInfo glyphInfo(info[i].codepoint, info[i].cluster, advance, offset);
+
+    if (!iterator(glyphInfo)) {
+      break;
+    }
+  }
+
+  return result;
 }
 
 }  // namespace type

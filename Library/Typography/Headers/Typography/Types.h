@@ -10,7 +10,18 @@ namespace type {
 
 using Point = double;
 
+using Codepoint = unsigned int;
+
+struct Coordinate {
+  Point x;
+  Point y;
+
+  Coordinate() : x(0.0), y(0.0) {}
+
+  Coordinate(Point aX, Point aY) : x(aX), y(aY) {}
+};
+
 }  // namespace type
 }  // namespace rl
 
-#endif // RADAR_TYPOGRAPHY_TYPES_H_
+#endif  // RADAR_TYPOGRAPHY_TYPES_H_

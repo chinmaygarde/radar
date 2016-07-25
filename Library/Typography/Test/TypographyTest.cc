@@ -27,6 +27,7 @@ TEST(TypographyTest, AcquireFont) {
 TEST(TypographyTest, SimpleBuffer) {
   rl::type::FTLibrary library;
   ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}));
+
   auto font = library.fontForTypeface("Roboto-Regular");
   ASSERT_TRUE(font.isValid());
 
@@ -34,4 +35,25 @@ TEST(TypographyTest, SimpleBuffer) {
   rl::type::HBBuffer buffer(font, string);
 
   ASSERT_EQ(buffer.length(), string.size());
+}
+
+TEST(TypographyTest, SimpleBufferIterator) {
+  rl::type::FTLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}));
+
+  auto font = library.fontForTypeface("Roboto-Regular");
+  ASSERT_TRUE(font.isValid());
+
+  std::string string("Oh Hai!");
+  rl::type::HBBuffer buffer(font, string);
+
+  ASSERT_EQ(buffer.length(), string.size());
+
+  auto result =
+      buffer.iterateGlyphs([](const rl::type::GlyphInfo&) { return false; });
+  ASSERT_EQ(result, 1);
+
+  auto result2 =
+      buffer.iterateGlyphs([](const rl::type::GlyphInfo&) { return true; });
+  ASSERT_EQ(result2, buffer.length());
 }

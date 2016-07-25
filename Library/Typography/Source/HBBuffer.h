@@ -6,6 +6,7 @@
 #define RADAR_TYPOGRAPHY_HBBUFFER_H_
 
 #include <Core/Macros.h>
+#include <Typography/Types.h>
 
 #include <hb.h>
 #include <string>
@@ -15,6 +16,22 @@
 namespace rl {
 namespace type {
 
+struct GlyphInfo {
+  Codepoint codepoint;
+  size_t clusterIndex;
+  Coordinate advance;
+  Coordinate offset;
+
+  GlyphInfo(Codepoint aCodepoint,
+            size_t aCluster,
+            Coordinate anAdvance,
+            Coordinate anOffset)
+      : codepoint(aCodepoint),
+        clusterIndex(aCluster),
+        advance(anAdvance),
+        offset(anOffset) {}
+};
+
 class HBBuffer {
  public:
   HBBuffer(const HBFont& font, const std::string& string);
@@ -22,6 +39,10 @@ class HBBuffer {
   ~HBBuffer();
 
   size_t length() const;
+
+  using GlyphIterator = std::function<bool(const GlyphInfo&)>;
+
+  size_t iterateGlyphs(GlyphIterator iterator);
 
  private:
   hb_buffer_t* _buffer;
