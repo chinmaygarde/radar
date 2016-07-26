@@ -27,5 +27,17 @@ bool HBFont::isValid() const {
   return _font != nullptr;
 }
 
+Point HBFont::pointSize() const {
+  int yScale = 0;
+  hb_font_get_scale(_font, nullptr, &yScale);
+
+  return yScale / 64.0;
+}
+
+void HBFont::setPointSize(Point size) {
+  const auto hbSize = size * 64.0;
+  hb_font_set_scale(_font, hbSize, hbSize);
+}
+
 }  // namespace type
 }  // namespace rl

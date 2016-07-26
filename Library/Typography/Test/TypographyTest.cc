@@ -108,3 +108,27 @@ TEST(TypographyTest, SimpleBufferIteratorCheck) {
       });
   ASSERT_EQ(result2, buffer.length());
 }
+
+TEST(TypographyTest, FontSize) {
+  rl::type::FTLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}));
+
+  auto font = library.fontForTypeface("Roboto-Regular");
+  ASSERT_TRUE(font.isValid());
+
+  EXPECT_NEAR(font.pointSize(), 14.0, 0.2);
+}
+
+TEST(TypographyTest, FontSizeSet) {
+  rl::type::FTLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}));
+
+  auto font = library.fontForTypeface("Roboto-Regular");
+  ASSERT_TRUE(font.isValid());
+
+  EXPECT_NEAR(font.pointSize(), 14.0, 0.2);
+
+  font.setPointSize(26.0);
+
+  EXPECT_NEAR(font.pointSize(), 26.0, 0.2);
+}

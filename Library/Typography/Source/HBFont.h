@@ -31,6 +31,10 @@ class HBFont {
 
   bool isValid() const;
 
+  Point pointSize() const;
+
+  void setPointSize(Point size);
+
  private:
   hb_font_t* _font;
 
