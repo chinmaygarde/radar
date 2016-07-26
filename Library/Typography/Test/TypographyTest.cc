@@ -74,6 +74,8 @@ TEST(TypographyTest, SimpleBufferIteratorCheck) {
       buffer.iterateGlyphs([](const rl::type::GlyphInfo& info) -> bool {
         switch (info.cluster) {
           case 0:
+            EXPECT_EQ(info.codepoint, 44);
+
             EXPECT_NEAR(info.advance.x, 9.98, 0.1);
             EXPECT_NEAR(info.advance.y, 0.0, 0.1);
 
@@ -81,6 +83,8 @@ TEST(TypographyTest, SimpleBufferIteratorCheck) {
             EXPECT_NEAR(info.offset.y, 0.0, 0.1);
             break;
           case 1:
+            EXPECT_EQ(info.codepoint, 69);
+
             EXPECT_NEAR(info.advance.x, 7.61, 0.1);
             EXPECT_NEAR(info.advance.y, 0.0, 0.1);
 
@@ -88,6 +92,8 @@ TEST(TypographyTest, SimpleBufferIteratorCheck) {
             EXPECT_NEAR(info.offset.y, 0.0, 0.1);
             break;
           case 2:
+            EXPECT_EQ(info.codepoint, 5);
+
             EXPECT_NEAR(info.advance.x, 3.61, 0.1);
             EXPECT_NEAR(info.advance.y, 0.0, 0.1);
 
