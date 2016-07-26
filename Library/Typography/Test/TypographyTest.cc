@@ -57,3 +57,48 @@ TEST(TypographyTest, SimpleBufferIterator) {
       buffer.iterateGlyphs([](const rl::type::GlyphInfo&) { return true; });
   ASSERT_EQ(result2, buffer.length());
 }
+
+TEST(TypographyTest, SimpleBufferIteratorCheck) {
+  rl::type::FTLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}));
+
+  auto font = library.fontForTypeface("Roboto-Regular");
+  ASSERT_TRUE(font.isValid());
+
+  std::string string("Ha!");
+  rl::type::HBBuffer buffer(font, string);
+
+  ASSERT_EQ(buffer.length(), string.size());
+
+  auto result2 =
+      buffer.iterateGlyphs([](const rl::type::GlyphInfo& info) -> bool {
+        switch (info.cluster) {
+          case 0:
+            EXPECT_NEAR(info.advance.x, 9.98, 0.1);
+            EXPECT_NEAR(info.advance.y, 0.0, 0.1);
+
+            EXPECT_NEAR(info.offset.x, 0.0, 0.1);
+            EXPECT_NEAR(info.offset.y, 0.0, 0.1);
+            break;
+          case 1:
+            EXPECT_NEAR(info.advance.x, 7.61, 0.1);
+            EXPECT_NEAR(info.advance.y, 0.0, 0.1);
+
+            EXPECT_NEAR(info.offset.x, 0.0, 0.1);
+            EXPECT_NEAR(info.offset.y, 0.0, 0.1);
+            break;
+          case 2:
+            EXPECT_NEAR(info.advance.x, 3.61, 0.1);
+            EXPECT_NEAR(info.advance.y, 0.0, 0.1);
+
+            EXPECT_NEAR(info.offset.x, 0.0, 0.1);
+            EXPECT_NEAR(info.offset.y, 0.0, 0.1);
+            break;
+          default:
+            EXPECT_TRUE(false);
+            break;
+        }
+        return true;
+      });
+  ASSERT_EQ(result2, buffer.length());
+}

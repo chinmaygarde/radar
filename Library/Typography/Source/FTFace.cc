@@ -11,6 +11,8 @@ namespace type {
 
 #define TO_FT(x) ((x)*64.0)
 
+static const double kDefaultCharacterSize = 14.0;
+
 FTFace::FTFace() : _handle(nullptr), _isValid(false) {}
 
 FTFace::FTFace(FT_Library library, const core::URI& uri)
@@ -31,6 +33,9 @@ FTFace::FTFace(FT_Library library, const core::URI& uri)
   if (auto postscriptName = FT_Get_Postscript_Name(_handle)) {
     _postscriptName = postscriptName;
   }
+
+  FT_Set_Char_Size(_handle, TO_FT(kDefaultCharacterSize),
+                   TO_FT(kDefaultCharacterSize), 0, 0);
 }
 
 FTFace::FTFace(FTFace&& o) : _handle(o._handle), _isValid(o._isValid) {

@@ -51,7 +51,8 @@ HBFont FTLibrary::fontForTypeface(const std::string& postscriptName) {
 
   auto& entry = found->second;
 
-  return HBFont{FTFaceAccess{entry->mutex, entry->face}};
+  FTFaceAccess face(entry->mutex, entry->face);
+  return HBFont{face};
 }
 
 }  // namespace type

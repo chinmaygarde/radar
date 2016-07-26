@@ -9,7 +9,7 @@ namespace type {
 
 HBFont::HBFont() : _font(nullptr) {}
 
-HBFont::HBFont(const FTFaceAccess& face) : _font(face.createHBFont()) {}
+HBFont::HBFont(FTFaceAccess& face) : _font(face.createHBFont()) {}
 
 HBFont::HBFont(HBFont&& o) : _font(o._font) {
   o._font = nullptr;

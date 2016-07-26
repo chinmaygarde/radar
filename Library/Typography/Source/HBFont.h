@@ -21,7 +21,7 @@ class HBFont {
  public:
   HBFont();
 
-  HBFont(const FTFaceAccess& face);
+  HBFont(FTFaceAccess& face);
 
   HBFont(HBFont&&);
 

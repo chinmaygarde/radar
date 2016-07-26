@@ -18,7 +18,7 @@ namespace type {
 
 struct GlyphInfo {
   Codepoint codepoint;
-  size_t clusterIndex;
+  size_t cluster;
   Coordinate advance;
   Coordinate offset;
 
@@ -27,7 +27,7 @@ struct GlyphInfo {
             Coordinate anAdvance,
             Coordinate anOffset)
       : codepoint(aCodepoint),
-        clusterIndex(aCluster),
+        cluster(aCluster),
         advance(anAdvance),
         offset(anOffset) {}
 };
@@ -40,7 +40,7 @@ class HBBuffer {
 
   size_t length() const;
 
-  using GlyphIterator = std::function<bool(const GlyphInfo&)>;
+  using GlyphIterator = std::function<bool(const GlyphInfo& info)>;
 
   size_t iterateGlyphs(GlyphIterator iterator);
 

@@ -46,8 +46,13 @@ size_t HBBuffer::iterateGlyphs(GlyphIterator iterator) {
   for (size_t i = 0; i < count; i++) {
     result++;
 
-    Coordinate advance(position[i].x_advance, position[i].y_advance);
-    Coordinate offset(position[i].x_offset, position[i].y_offset);
+    Coordinate advance(position[i].x_advance / 64.0,  //
+                       position[i].y_advance / 64.0   //
+                       );
+
+    Coordinate offset(position[i].x_offset / 64.0,  //
+                      position[i].y_offset / 64.0   //
+                      );
 
     GlyphInfo glyphInfo(info[i].codepoint, info[i].cluster, advance, offset);
 
