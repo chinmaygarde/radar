@@ -18,7 +18,7 @@ namespace compositor {
 
 class Program {
  public:
-  explicit Program(std::string vertexShader, std::string fragmentShader);
+  Program(std::string vertexShader, std::string fragmentShader);
 
   virtual ~Program();
 

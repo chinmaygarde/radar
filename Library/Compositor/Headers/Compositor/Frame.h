@@ -14,7 +14,7 @@ namespace compositor {
 
 class Frame {
  public:
-  explicit Frame(geom::Size size, Context& context);
+  Frame(geom::Size size, Context& context);
 
   virtual ~Frame();
 

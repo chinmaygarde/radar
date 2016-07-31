@@ -11,7 +11,7 @@
 
 #include <Core/Macros.h>
 #include <Core/IOResult.h>
-#include <Core/Attachment.h>
+#include <Core/RawAttachment.h>
 
 #include <mach/mach.h>
 
@@ -29,7 +29,7 @@ class MachPort : public Attachment {
 
   MachPort(Type type);
 
-  MachPort(Type type, mach_port_name_t name);
+  MachPort(RawAttachment attachment);
 
   ~MachPort();
 
@@ -54,12 +54,9 @@ class MachPort : public Attachment {
 
   IOReadResult receiveMessage(ClockDurationNano requestedTimeout) const;
 
-  bool isValid() const override;
+  bool isValid() const;
 
-  RL_WARN_UNUSED_RESULT
-  Handle takeAttachmentHandle() override;
-
-  Handle attachmentHandle() const override;
+  Handle handle() const override;
 
  private:
   mach_port_name_t _name;

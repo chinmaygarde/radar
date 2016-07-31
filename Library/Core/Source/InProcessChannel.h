@@ -19,9 +19,9 @@ class InProcessChannelAttachment;
 
 class InProcessChannel : public ChannelProvider {
  public:
-  explicit InProcessChannel(Channel& owner);
+  InProcessChannel(Channel& owner);
 
-  explicit InProcessChannel(Channel& owner, RawAttachment attachment);
+  InProcessChannel(Channel& owner, RawAttachment attachment);
 
   ~InProcessChannel() override;
 

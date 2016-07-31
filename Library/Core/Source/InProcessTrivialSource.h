@@ -21,7 +21,7 @@ namespace core {
 
 class InProcessTrivialSource : public EventLoopSource {
  public:
-  explicit InProcessTrivialSource();
+  InProcessTrivialSource();
 
   ~InProcessTrivialSource();
 

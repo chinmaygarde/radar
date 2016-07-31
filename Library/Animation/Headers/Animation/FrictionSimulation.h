@@ -13,7 +13,7 @@ namespace animation {
 
 class FrictionSimulation : public Simulation {
  public:
-  explicit FrictionSimulation(double drag, double position, double velocity);
+  FrictionSimulation(double drag, double position, double velocity);
 
   double x(const core::ClockDuration& time) override;
   double dx(const core::ClockDuration& time) override;

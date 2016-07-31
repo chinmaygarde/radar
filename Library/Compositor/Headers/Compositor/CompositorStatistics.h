@@ -13,7 +13,7 @@ namespace compositor {
 
 class CompositorStatistics {
  public:
-  explicit CompositorStatistics();
+  CompositorStatistics();
 
   instrumentation::Stopwatch& frameTimer();
 

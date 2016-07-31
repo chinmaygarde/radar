@@ -23,7 +23,7 @@ class CoordinatorAcquisitionProtocol : public core::Protocol {
   /**
    *  Create the client side of the coordinator acquisition protocol.
    */
-  explicit CoordinatorAcquisitionProtocol();
+  CoordinatorAcquisitionProtocol();
 
   /**
    *  Create the vendor side of the coordinator acquisition protocol. The
@@ -33,7 +33,7 @@ class CoordinatorAcquisitionProtocol : public core::Protocol {
    *                will be requested when the bootstrap server notices a
    *                pending advertisement resolution for this protocol.
    */
-  explicit CoordinatorAcquisitionProtocol(ChannelVendor vendor);
+  CoordinatorAcquisitionProtocol(ChannelVendor vendor);
 
  private:
   ChannelVendor _vendor;

@@ -14,7 +14,7 @@ namespace shell {
 
 class Host {
  public:
-  explicit Host();
+  Host();
 
   /**
    *  Run the host access subsystem

@@ -34,14 +34,14 @@ class Channel {
   /**
    *  Create a new channel
    */
-  explicit Channel();
+  Channel();
 
   /**
    *  Create a channel from a message attachment
    *
    *  @param attachment the attachment. Must be valid.
    */
-  explicit Channel(RawAttachment attachment);
+  Channel(RawAttachment attachment);
 
   /**
    *  The channel destructor

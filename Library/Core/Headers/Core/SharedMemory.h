@@ -20,8 +20,9 @@ class SharedMemory {
    *
    *  @param size the size of the shared memory
    */
-  explicit SharedMemory(size_t size);
-  explicit SharedMemory(Handle handle, bool assumeOwnership);
+  SharedMemory(size_t size);
+
+  SharedMemory(Handle handle, bool assumeOwnership);
 
   ~SharedMemory();
 

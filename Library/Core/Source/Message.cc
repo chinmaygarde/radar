@@ -143,7 +143,7 @@ bool Message::encode(const MessageSerializable& value) {
 }
 
 bool Message::encode(const AttachmentRef& attachment) {
-  if (attachment == nullptr || !attachment->isValid()) {
+  if (attachment == nullptr) {
     return false;
   }
 
@@ -192,23 +192,14 @@ bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
 }
 
-bool Message::decode(RawAttachment& attachment) {
+bool Message::decode(AttachmentRef& attachment) {
   if (_attachmentsRead >= _attachments.size()) {
     return false;
   }
 
-  if (attachment.isValid()) {
-    /*
-     *  The destination must be invalid for it to occupy the new handle.
-     */
-    return false;
-  }
-
-  auto handle = _attachments.at(_attachmentsRead)->takeAttachmentHandle();
+  attachment = _attachments.at(_attachmentsRead);
 
   _attachmentsRead++;
-
-  attachment.setHandle(handle);
 
   return true;
 }

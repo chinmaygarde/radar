@@ -43,10 +43,10 @@ class Interface {
     Background,
   };
 
-  explicit Interface(std::shared_ptr<InterfaceDelegate> delegate);
+  Interface(std::shared_ptr<InterfaceDelegate> delegate);
 
-  explicit Interface(std::shared_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive> spliceArchive);
+  Interface(std::shared_ptr<InterfaceDelegate> delegate,
+            std::unique_ptr<core::Archive> spliceArchive);
 
   /**
    *  Setup the interface context and invoke the callback when ready

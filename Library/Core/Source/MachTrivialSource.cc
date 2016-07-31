@@ -74,7 +74,6 @@ MachTrivialSource::MachTrivialSource()
    */
   setCustomWaitSetUpdateHandler([](EventLoopSource& source, WaitSet& kev,
                                    EventLoopSource::Handle ident, bool adding) {
-    // clang-format off
     struct kevent event = {};
 
     EV_SET(&event,                      /* &kev */
@@ -83,15 +82,17 @@ MachTrivialSource::MachTrivialSource()
            adding ? EV_ADD : EV_DELETE, /* flags */
            0,                           /* fflags */
            0,                           /* data */
-           &source                      /* udata */);
+           &source                      /* udata */
+           );
 
-    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(static_cast<int>(kev.handle()),
-                                             &event,
-                                             1,
-                                             nullptr,
-                                             0,
-                                             NULL));
-    // clang-format on
+    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(
+        static_cast<int>(kev.handle()), /* kq */
+        &event,                         /* changelist */
+        1,                              /* nchanges */
+        nullptr,                        /* eventlist */
+        0,                              /* nevents */
+        NULL                            /* timeout */
+        ));
   });
 }
 

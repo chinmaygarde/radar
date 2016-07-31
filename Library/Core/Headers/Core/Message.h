@@ -8,7 +8,6 @@
 #include <Core/Macros.h>
 #include <Core/Attachment.h>
 #include <Core/MessageSerializable.h>
-#include <Core/RawAttachment.h>
 
 #include <string.h>
 
@@ -27,7 +26,7 @@ class Message {
   /**
    *  Create an uninitialized message with the given reserved length.
    */
-  explicit Message();
+  Message();
 
   /**
    *  Create a message with pre-initialized message data
@@ -35,7 +34,7 @@ class Message {
    *  @param buffer       the message data
    *  @param bufferLength the message data length
    */
-  explicit Message(uint8_t* buffer, size_t bufferLength);
+  Message(uint8_t* buffer, size_t bufferLength);
 
   /**
    *  Create a message that is already allocated for you by the platform
@@ -44,7 +43,7 @@ class Message {
    *  @param bufferLength the message data length
    *  @param vmAllocated  the memory is pre-allocated by the platform allocator
    */
-  explicit Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
+  Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
 
   /**
    *  Moves a given message
@@ -142,7 +141,7 @@ class Message {
   bool decode(MessageSerializable& value, Namespace* ns);
 
   RL_WARN_UNUSED_RESULT
-  bool decode(RawAttachment& attachment);
+  bool decode(AttachmentRef& attachment);
 
   RL_WARN_UNUSED_RESULT
   bool decode(std::string& string);

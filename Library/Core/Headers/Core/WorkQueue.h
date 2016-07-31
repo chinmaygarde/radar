@@ -16,7 +16,7 @@ namespace core {
 
 class WorkQueue {
  public:
-  explicit WorkQueue(std::string name);
+  WorkQueue(std::string name);
 
   size_t workerCount() const;
 

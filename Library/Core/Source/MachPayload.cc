@@ -111,8 +111,7 @@ MachPayload::MachPayload(const Message& message, mach_port_t remote) {
     auto attachmentDesc =
         reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
-    attachmentDesc->name =
-        static_cast<mach_port_t>(attachment->attachmentHandle());
+    attachmentDesc->name = static_cast<mach_port_t>(attachment->handle());
     attachmentDesc->disposition = MACH_MSG_TYPE_COPY_SEND;
     attachmentDesc->type = MACH_MSG_PORT_DESCRIPTOR;
 

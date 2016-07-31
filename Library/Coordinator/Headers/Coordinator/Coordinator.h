@@ -31,8 +31,8 @@ class Coordinator {
    *  implementation. No operations on the surface are performed till the
    *  coordinator is run however.
    */
-  explicit Coordinator(std::shared_ptr<RenderSurface> surface,
-                       event::TouchEventChannel& touchEventChannel);
+  Coordinator(std::shared_ptr<RenderSurface> surface,
+              event::TouchEventChannel& touchEventChannel);
 
   ~Coordinator();
 

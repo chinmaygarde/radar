@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "Config.h"
+
 #if RL_CHANNELS == RL_CHANNELS_MACH
 #include "MachFilePort.h"
 #endif
@@ -15,20 +17,22 @@
 namespace rl {
 namespace core {
 
-static const FileHandle::Handle kInvalidFileHandle = -1;
+static const Attachment::Handle kInvalidFileHandle = -1;
 
 FileHandle::FileHandle() : _handle(kInvalidFileHandle) {}
 
-FileHandle::FileHandle(RawAttachment attachment)
-    :
+FileHandle::FileHandle(RawAttachment attachment) : _handle(kInvalidFileHandle) {
+  auto handle = attachment.takeHandle();
+
 #if RL_CHANNELS == RL_CHANNELS_MACH
-      _handle(
-          MachFilePort::DescriptorFromPort(attachment.takeAttachmentHandle(),
-                                           true))
-#else
-      _handle(attachment.takeAttachmentHandle())
+  /*
+   *  Mach channels send descriptors via port rights that need morphing to
+   *  descriptors.
+   */
+  handle = MachFilePort::DescriptorFromPort(handle, true);
 #endif
-{
+
+  _handle = handle;
 }
 
 FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
@@ -40,7 +44,7 @@ FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
 
   _handle = RL_TEMP_FAILURE_RETRY(::open(fileName.c_str(), O_RDONLY));
 
-  if (_handle == -1) {
+  if (_handle == kInvalidFileHandle) {
     RL_LOG("Could not open file: '%s'", fileName.c_str());
     RL_LOG_ERRNO();
   }
@@ -48,9 +52,6 @@ FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
 
 FileHandle::FileHandle(FileHandle&& other) : _handle(other._handle) {
   other._handle = kInvalidFileHandle;
-#if RL_CHANNELS == RL_CHANNELS_MACH
-  _port = std::move(other._port);
-#endif
 }
 
 FileHandle::~FileHandle() {
@@ -64,31 +65,8 @@ bool FileHandle::isValid() const {
   return _handle != kInvalidFileHandle;
 }
 
-FileHandle::Handle FileHandle::fileHandle() const {
+Attachment::Handle FileHandle::handle() const {
   return _handle;
-}
-
-Attachment::Handle FileHandle::attachmentHandle() const {
-#if RL_CHANNELS == RL_CHANNELS_MACH
-  /*
-   *  Does this need extra locking to initialize?
-   */
-  if (_port == nullptr) {
-    _port = make_unique<MachFilePort>(_handle);
-  }
-  return _port->name();
-#else
-  return _handle;
-#endif
-}
-
-Attachment::Handle FileHandle::takeAttachmentHandle() {
-  auto handle = _handle;
-  _handle = kInvalidFileHandle;
-#if RL_CHANNELS == RL_CHANNELS_MACH
-  _port = nullptr;
-#endif
-  return handle;
 }
 
 }  // namespace core

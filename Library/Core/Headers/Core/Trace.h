@@ -31,7 +31,8 @@ class ThreadTrace {
   friend class TraceEvent;
   friend class ProcessTrace;
 
-  explicit ThreadTrace();
+  ThreadTrace();
+
   void recordToStream(int pid, std::stringstream& stream);
 
   template <class... T>

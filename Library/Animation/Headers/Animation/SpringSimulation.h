@@ -24,10 +24,10 @@ class SpringSimulation : public Simulation {
    *  A spring description with the provided spring description, start distance,
    *  end distance and velocity.
    */
-  explicit SpringSimulation(SpringDescription desc,
-                            double start,
-                            double end,
-                            double velocity);
+  SpringSimulation(SpringDescription desc,
+                   double start,
+                   double end,
+                   double velocity);
 
   double x(const core::ClockDuration& time) override;
   double dx(const core::ClockDuration& time) override;

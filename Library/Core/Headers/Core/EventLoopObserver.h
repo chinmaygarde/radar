@@ -36,7 +36,7 @@ class EventLoopObserver {
   /**
    *  Create an event loop observer at the specified absolute priority
    */
-  explicit EventLoopObserver(Callback callback, int64_t priority = 0);
+  EventLoopObserver(Callback callback, int64_t priority = 0);
 
   /*
    *  Invoke the event loop observer callback
@@ -64,7 +64,7 @@ struct EventLoopObserverComparer {
 
 class EventLoopObserverCollection {
  public:
-  explicit EventLoopObserverCollection(EventLoopObserver::Activity activity);
+  EventLoopObserverCollection(EventLoopObserver::Activity activity);
 
   /**
    *  Adds an observer to the collection.

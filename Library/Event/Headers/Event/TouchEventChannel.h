@@ -13,7 +13,7 @@ namespace event {
 
 class TouchEventChannel : public core::Channel {
  public:
-  explicit TouchEventChannel();
+  TouchEventChannel();
 
   bool sendTouchEvents(const std::vector<TouchEvent>& touchEvents);
 

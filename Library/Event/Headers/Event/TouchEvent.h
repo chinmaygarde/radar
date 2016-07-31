@@ -28,14 +28,12 @@ class TouchEvent : public Event {
   /**
    *  Create a touch event with the given identifier and absolute location
    */
-  explicit TouchEvent(Identifier identifier,
-                      const geom::Point& location,
-                      Phase phase);
+  TouchEvent(Identifier identifier, const geom::Point& location, Phase phase);
 
   /**
    *  Create a touch event from a channel message
    */
-  explicit TouchEvent(core::Message& message);
+  TouchEvent(core::Message& message);
 
   /**
    *  Returns a touch identifier that is platform specific but is guaranteed to

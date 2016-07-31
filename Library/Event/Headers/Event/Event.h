@@ -17,7 +17,7 @@ class Event : public core::MessageSerializable {
    *
    *  @param timestamp the timestamp of the event
    */
-  explicit Event(core::ClockPoint timestamp);
+  Event(core::ClockPoint timestamp);
 
   /**
    *  Get the timestamp of the event

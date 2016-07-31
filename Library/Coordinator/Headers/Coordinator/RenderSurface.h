@@ -15,7 +15,7 @@ namespace coordinator {
 
 class RenderSurface {
  public:
-  explicit RenderSurface();
+  RenderSurface();
 
   virtual ~RenderSurface();
 
@@ -40,7 +40,7 @@ class RenderSurface {
 
 class ScopedRenderSurfaceAccess {
  public:
-  explicit ScopedRenderSurfaceAccess(RenderSurface& surface);
+  ScopedRenderSurfaceAccess(RenderSurface& surface);
 
   ~ScopedRenderSurfaceAccess();
 

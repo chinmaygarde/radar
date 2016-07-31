@@ -59,13 +59,10 @@ MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
        */
       break;
   }
-  //
 }
 
-MachPort::MachPort(Type type, mach_port_name_t name)
-    : _name(name), _type(type) {
-  //
-}
+MachPort::MachPort(RawAttachment attachment)
+    : _name(attachment.takeHandle()), _type(Type::Send) {}
 
 MachPort::~MachPort() {
   if (!MACH_PORT_VALID(_name)) {
@@ -287,15 +284,8 @@ bool MachPort::isValid() const {
   return MACH_PORT_VALID(_name);
 }
 
-Attachment::Handle MachPort::attachmentHandle() const {
+Attachment::Handle MachPort::handle() const {
   return _name;
-}
-
-Attachment::Handle MachPort::takeAttachmentHandle() {
-  auto taken = _name;
-  _name = MACH_PORT_NULL;
-  _type = Type::None;
-  return taken;
 }
 
 }  // namespace core

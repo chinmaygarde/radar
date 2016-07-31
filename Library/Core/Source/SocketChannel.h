@@ -23,9 +23,9 @@ namespace core {
 
 class SocketChannel : public ChannelProvider {
  public:
-  explicit SocketChannel(Channel& owner);
+  SocketChannel(Channel& owner);
 
-  explicit SocketChannel(Channel& owner, RawAttachment attachment);
+  SocketChannel(Channel& owner, RawAttachment attachment);
 
   ~SocketChannel();
 

@@ -19,9 +19,9 @@ namespace core {
 
 class MachChannel : public ChannelProvider {
  public:
-  explicit MachChannel(Channel& owner);
+  MachChannel(Channel& owner);
 
-  explicit MachChannel(Channel& owner, RawAttachment attachment);
+  MachChannel(Channel& owner, RawAttachment attachment);
 
   ~MachChannel();
 

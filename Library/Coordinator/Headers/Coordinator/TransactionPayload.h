@@ -29,20 +29,20 @@ class TransactionPayload : public core::ArchiveSerializable,
   using SuggestionsCallback =
       std::function<void(std::vector<layout::Suggestion>&&)>;
 
-  explicit TransactionPayload();
+  TransactionPayload();
 
   TransactionPayload(TransactionPayload&& payload);
 
-  explicit TransactionPayload(animation::Action&& action,
-                              EntityMap&& entities,
-                              std::vector<layout::Constraint>&& constraints,
-                              std::vector<layout::Suggestion>&& suggestions);
+  TransactionPayload(animation::Action&& action,
+                     EntityMap&& entities,
+                     std::vector<layout::Constraint>&& constraints,
+                     std::vector<layout::Suggestion>&& suggestions);
 
-  explicit TransactionPayload(const core::ClockPoint& commitTime,
-                              ActionCallback actionCallback,
-                              TransferRecordCallback transferRecordCallback,
-                              ConstraintsCallback constraintsCallback,
-                              SuggestionsCallback suggestionsCallback);
+  TransactionPayload(const core::ClockPoint& commitTime,
+                     ActionCallback actionCallback,
+                     TransferRecordCallback transferRecordCallback,
+                     ConstraintsCallback constraintsCallback,
+                     SuggestionsCallback suggestionsCallback);
 
   bool serialize(core::Message& message) const override;
 

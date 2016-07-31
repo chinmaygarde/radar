@@ -38,7 +38,7 @@ void FileMapping::setupMapping(const FileHandle& handle, size_t size) {
   }
 
   auto mapping =
-      ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, handle.fileHandle(), 0);
+      ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, handle.handle(), 0);
 
   if (mapping == MAP_FAILED) {
     return;

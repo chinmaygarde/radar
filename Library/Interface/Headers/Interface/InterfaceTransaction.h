@@ -19,7 +19,7 @@ namespace interface {
 
 class InterfaceTransaction {
  public:
-  explicit InterfaceTransaction(const animation::Action&& action);
+  InterfaceTransaction(const animation::Action&& action);
 
   void mark(const entity::Entity& entity,
             entity::Entity::Property property,

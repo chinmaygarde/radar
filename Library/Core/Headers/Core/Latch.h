@@ -20,7 +20,7 @@ class Latch {
   /**
    *  Create a latch with the specified count
    */
-  explicit Latch(size_t count);
+  Latch(size_t count);
 
   /**
    *  Blocks the current thread till the count reaches zero. If the count is

@@ -16,7 +16,7 @@ File::File(const FileHandle& handle) : _valid(false) {
     return;
   }
 
-  _valid = RL_TEMP_FAILURE_RETRY(::fstat(handle.fileHandle(), &_stat)) == 0;
+  _valid = RL_TEMP_FAILURE_RETRY(::fstat(handle.handle(), &_stat)) == 0;
 }
 
 File::File(const URI& uri) : _valid(false) {

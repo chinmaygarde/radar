@@ -12,7 +12,7 @@ namespace instrumentation {
 
 class Counter {
  public:
-  explicit Counter();
+  Counter();
 
   size_t count() const;
 

@@ -29,7 +29,7 @@ struct SpringDescription {
    */
   const double damping;
 
-  explicit SpringDescription(double mass, double springConstant, double damping)
+  SpringDescription(double mass, double springConstant, double damping)
       : mass(mass), springConstant(springConstant), damping(damping) {}
 
   /**

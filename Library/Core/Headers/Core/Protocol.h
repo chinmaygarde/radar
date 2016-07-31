@@ -21,7 +21,7 @@ class Protocol {
    *  @param isVendor if this instance of the protocol handle serves as the
    *                  vendor (else client)
    */
-  explicit Protocol(bool isVendor);
+  Protocol(bool isVendor);
 
   std::shared_ptr<EventLoopSource> source();
 

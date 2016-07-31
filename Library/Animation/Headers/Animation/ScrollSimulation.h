@@ -19,12 +19,12 @@ namespace animation {
  */
 class ScrollSimulation : public SimulationGroup {
  public:
-  explicit ScrollSimulation(double position,
-                            double velocity,
-                            double leading,
-                            double trailing,
-                            SpringDescription spring,
-                            double drag);
+  ScrollSimulation(double position,
+                   double velocity,
+                   double leading,
+                   double trailing,
+                   SpringDescription spring,
+                   double drag);
 
  protected:
   Simulation* currentSimulation() override;

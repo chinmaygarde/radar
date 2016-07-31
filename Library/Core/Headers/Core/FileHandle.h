@@ -12,12 +12,8 @@
 namespace rl {
 namespace core {
 
-class MachFilePort;
-
 class FileHandle : public Attachment {
  public:
-  using Handle = int;
-
   FileHandle();
 
   FileHandle(RawAttachment attachment);
@@ -28,21 +24,12 @@ class FileHandle : public Attachment {
 
   ~FileHandle();
 
-  bool isValid() const override;
+  bool isValid() const;
 
-  Handle fileHandle() const;
-
-  Attachment::Handle attachmentHandle() const override;
-
-  RL_WARN_UNUSED_RESULT
-  Attachment::Handle takeAttachmentHandle() override;
+  Handle handle() const override;
 
  private:
   Handle _handle;
-
-#if RL_CHANNELS == RL_CHANNELS_MACH
-  mutable std::unique_ptr<MachFilePort> _port;
-#endif
 
   RL_DISALLOW_COPY_AND_ASSIGN(FileHandle);
 };

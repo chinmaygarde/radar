@@ -18,7 +18,7 @@ class Symbol {
 
   Symbol();
 
-  explicit Symbol(Type type);
+  Symbol(Type type);
 
   Type type() const;
 

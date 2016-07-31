@@ -99,7 +99,7 @@ class EventLoop {
   EventLoopObserverCollection _beforeSleepObservers;
   EventLoopObserverCollection _afterSleepObservers;
 
-  explicit EventLoop();
+  EventLoop();
 
   void beforeSleep();
   void afterSleep();

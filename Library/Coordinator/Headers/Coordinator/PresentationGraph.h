@@ -25,9 +25,9 @@ namespace coordinator {
 
 class PresentationGraph {
  public:
-  explicit PresentationGraph(core::Namespace& localNS,
-                             const geom::Size& size,
-                             const std::string& debugTag);
+  PresentationGraph(core::Namespace& localNS,
+                    const geom::Size& size,
+                    const std::string& debugTag);
 
   ~PresentationGraph();
 

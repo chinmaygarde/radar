@@ -25,8 +25,7 @@ MachChannel::MachChannel(Channel& channel)
 
 MachChannel::MachChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
-      _port(std::make_shared<MachPort>(MachPort::Type::Send,
-                                       attachment.takeAttachmentHandle())) {
+      _port(std::make_shared<MachPort>(std::move(attachment))) {
   auto success = setupPortSetMemberships();
   RL_ASSERT(success);
 }
@@ -86,19 +85,16 @@ std::shared_ptr<EventLoopSource> MachChannel::createSource() const {
     return nullptr;
   }
 
-  using ELS = EventLoopSource;
-
   auto setHandle = _set->name();
-  auto allocator = [setHandle]() { return ELS::Handles(setHandle, setHandle); };
-  auto readHandler = [&](ELS::Handle) {
+  auto allocator = [setHandle]() {
+    return EventLoopSource::Handles(setHandle, setHandle);
+  };
+  auto readHandler = [&](EventLoopSource::Handle) {
     return _channel.readPendingMessageNow();
   };
 
-  // clang-format off
-  auto updateHandler = [](EventLoopSource& source,
-                          WaitSet& kev,
-                          ELS::Handle ident,
-                          bool adding) {
+  auto updateHandler = [](EventLoopSource& source, WaitSet& kev,
+                          EventLoopSource::Handle ident, bool adding) {
     struct kevent event = {};
 
     EV_SET(&event,                      /* &kev */
@@ -107,22 +103,19 @@ std::shared_ptr<EventLoopSource> MachChannel::createSource() const {
            adding ? EV_ADD : EV_DELETE, /* flags */
            0,                           /* fflags */
            0,                           /* data */
-           &source                      /* udata */);
+           &source /* udata */);
 
-    RL_TEMP_FAILURE_RETRY_AND_CHECK(::kevent(static_cast<int>(kev.handle()),
-                                             &event,
-                                             1,
-                                             nullptr,
-                                             0,
-                                             NULL));
+    RL_TEMP_FAILURE_RETRY_AND_CHECK(
+        ::kevent(static_cast<int>(kev.handle()), &event, 1, nullptr, 0, NULL));
   };
 
-  return std::make_shared<ELS>(allocator,
-                               nullptr,
-                               readHandler,
-                               nullptr,
-                               updateHandler);
-  // clang-format on
+  return std::make_shared<EventLoopSource>(
+      allocator,    /* handleProvider */
+      nullptr,      /* handleCollector */
+      readHandler,  /* readHandler */
+      nullptr,      /* writeHandler */
+      updateHandler /* waitsetUpdateHandler */
+      );
 }
 
 IOResult MachChannel::writeMessages(Messages&& messages,

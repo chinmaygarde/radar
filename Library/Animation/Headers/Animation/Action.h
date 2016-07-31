@@ -19,7 +19,7 @@ class Action : public core::ArchiveSerializable,
   /**
    *  Create a new action specification
    */
-  explicit Action(double duration = 0.125);
+  Action(double duration = 0.125);
 
   /**
    *  Get the total duration of a single iteration of the action. The default is

@@ -33,7 +33,7 @@ class TimingCurve {
   double _by;
   double _cy;
 
-  explicit TimingCurve(const geom::Point& c1, const geom::Point& c2);
+  TimingCurve(const geom::Point& c1, const geom::Point& c2);
 };
 
 }  // namespace animation

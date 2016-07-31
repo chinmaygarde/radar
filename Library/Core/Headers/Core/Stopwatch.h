@@ -12,12 +12,14 @@ namespace instrumentation {
 
 class Stopwatch {
  public:
-  explicit Stopwatch();
+  Stopwatch();
 
   core::ClockDuration lastLap() const;
+
   core::ClockDuration currentLap() const;
 
   void start();
+
   void stop();
 
  private:
@@ -29,7 +31,8 @@ class Stopwatch {
 
 class AutoStopwatchLap {
  public:
-  explicit AutoStopwatchLap(Stopwatch& stopwatch);
+  AutoStopwatchLap(Stopwatch& stopwatch);
+
   ~AutoStopwatchLap();
 
  private:

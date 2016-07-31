@@ -24,7 +24,7 @@ class Director {
         : entityIdentifier(ident), entityProperty(prop) {}
   };
 
-  explicit Director();
+  Director();
 
   template <typename T, typename... InterpolatorArgs>
   void setInterpolator(Key key,

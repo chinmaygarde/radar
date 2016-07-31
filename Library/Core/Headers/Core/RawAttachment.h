@@ -8,32 +8,31 @@
 #include <Core/Macros.h>
 #include <Core/Attachment.h>
 
+#include <functional>
+
 namespace rl {
 namespace core {
 
 class RawAttachment : public Attachment {
  public:
+  using Collector = std::function<void(Attachment::Handle handle)>;
+
   RawAttachment();
 
-  RawAttachment(Handle handle);
+  RawAttachment(Handle handle, Collector collector);
 
-  RawAttachment(RawAttachment&&);
+  RawAttachment(RawAttachment&& other);
 
   ~RawAttachment();
 
-  bool isValid() const override;
+  Handle handle() const override;
 
   RL_WARN_UNUSED_RESULT
-  Handle takeAttachmentHandle() override;
-
-  Handle attachmentHandle() const override;
+  Handle takeHandle();
 
  private:
   Attachment::Handle _handle;
-
-  friend class Message;
-
-  void setHandle(Handle _handle);
+  Collector _collector;
 
   RL_DISALLOW_COPY_AND_ASSIGN(RawAttachment);
 };

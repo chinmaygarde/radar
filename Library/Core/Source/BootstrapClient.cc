@@ -38,12 +38,6 @@ IOResult BootstrapClient::advertise(const std::string& name,
     return IOResult::Failure;
   }
 
-  const auto& attachment = channel->attachment();
-
-  if (!attachment->isValid()) {
-    return IOResult::Failure;
-  }
-
   return _provider->doAdvertise(name, std::move(channel));
 }
 
