@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_THREADLOCAL_H_
 #define RADARLOVE_CORE_THREADLOCAL_H_
 
-#include <Core/Config.h>
+#include <Core/Platform.h>
 
 #define RL_THREAD_LOCAL_PTHREADS \
   (RL_OS_NACL || RL_OS_MAC || RL_OS_ANDROID || RL_OS_BSD || RL_OS_RASPBERRYPI)
@@ -27,9 +27,6 @@ using ThreadLocalDestroyCallback = std::function<void(uintptr_t)>;
 #define RL_THREAD_LOCAL static
 
 class ThreadLocal {
- public:
-  //
-
  private:
   class Box {
    public:
@@ -152,7 +149,9 @@ class ThreadLocal {
 #endif  // RL_THREAD_LOCAL_PTHREADS
 
 #ifndef RL_THREAD_LOCAL
-#error Thread local storage specifier undefined by implementation
+
+#error Thread local storage unavailable on the platform.
+
 #endif
 
 }  // namespace core

@@ -5,7 +5,6 @@
 #ifndef RADARLOVE_CORE_MESSAGE_
 #define RADARLOVE_CORE_MESSAGE_
 
-#include <Core/Config.h>
 #include <Core/Macros.h>
 #include <Core/Attachment.h>
 #include <Core/MessageSerializable.h>

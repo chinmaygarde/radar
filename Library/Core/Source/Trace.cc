@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
-
 #include <Core/Trace.h>
 
 #include <Core/ThreadLocal.h>
 #include <Core/Thread.h>
+
+#include "Config.h"
 
 #if RL_OS_WINDOWS
 #include <process.h>

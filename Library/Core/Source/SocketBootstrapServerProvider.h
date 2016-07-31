@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_SOCKETBOOTSTRAPSERVER_H_
 #define RADARLOVE_CORE_SOCKETBOOTSTRAPSERVER_H_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 

@@ -4,9 +4,10 @@
 
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
-#include <Core/Config.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
+
+#include "Config.h"
 
 #include "InProcessChannel.h"
 #include "MachChannel.h"

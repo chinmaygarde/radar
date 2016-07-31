@@ -2,10 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
-
-#if !RL_OS_WINDOWS
-
 #include <Core/Utilities.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive/Primitive.h>
@@ -20,6 +16,8 @@ Frame::Frame(geom::Size size, Context& context)
     : _size(size),
       _projectionMatrix(geom::Matrix::Orthographic(size)),
       _context(context) {}
+
+Frame::~Frame() = default;
 
 bool Frame::isReady() const {
   if (_size.width <= 0.0 && _size.height <= 0.0) {
@@ -78,9 +76,5 @@ const geom::Matrix& Frame::projectionMatrix() const {
   return _projectionMatrix;
 }
 
-Frame::~Frame() {}
-
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // !RL_OS_WINDOWS

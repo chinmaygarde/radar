@@ -3,9 +3,12 @@
 // found in the LICENSE file.
 
 #include <Core/Message.h>
+
 #include <Core/Utilities.h>
 
 #include <stdlib.h>
+
+#include "Config.h"
 
 #if RL_OS_MAC
 #include <mach/mach.h>

@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_KQUEUEWAITSET_H_
 #define RADARLOVE_CORE_KQUEUEWAITSET_H_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 

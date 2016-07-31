@@ -2,10 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
-
-#if !RL_OS_WINDOWS
-
 #include "Program.h"
 
 #include "OpenGL.h"
@@ -131,5 +127,3 @@ GLint Program::indexForUniform(const std::string& uniform) {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // !RL_OS_WINDOWS

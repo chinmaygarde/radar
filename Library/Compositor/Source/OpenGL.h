@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_COMPOSITOR_OPENGL_
 #define RADARLOVE_COMPOSITOR_OPENGL_
 
-#include <Core/Config.h>
+#include <Core/Platform.h>
 
 #if RL_OS_MAC
 #include <OpenGL/gl.h>

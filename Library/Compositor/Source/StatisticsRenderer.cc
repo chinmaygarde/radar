@@ -2,16 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
-
-#if !RL_OS_WINDOWS
-
 #include "StatisticsRenderer.h"
-
-#include <imgui/imgui.h>
 
 #include "OpenGL.h"
 #include "Program/Program.h"
+
+#include <imgui/imgui.h>
 
 namespace rl {
 namespace compositor {
@@ -303,5 +299,3 @@ void StatisticsRenderer::render(Frame& frame,
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // !RL_OS_WINDOWS

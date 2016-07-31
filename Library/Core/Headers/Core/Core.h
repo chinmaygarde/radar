@@ -6,12 +6,6 @@
 #define RADARLOVE_CORE_
 
 /*
- *  The umbrella header for the Core library
- */
-
-#include <Core/Config.h>
-
-/*
  *  General Utilities
  */
 #include <Core/Allocation.h>

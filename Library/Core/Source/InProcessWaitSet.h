@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_INPROCESSWAITSET_H_
 #define RADARLOVE_CORE_INPROCESSWAITSET_H_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
@@ -23,6 +23,7 @@ namespace core {
 class InProcessWaitSet : public WaitSetProvider {
  public:
   InProcessWaitSet();
+
   ~InProcessWaitSet();
 
   static EventLoopSource::Handles TimerHandles(

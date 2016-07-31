@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL_
 #define RADARLOVE_CORE_CHANNEL_SOCKETCHANNEL_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 

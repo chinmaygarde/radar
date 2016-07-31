@@ -5,7 +5,7 @@
 #ifndef RADARLOVE_CORE_PIPETRIVIALSOURCE_H_
 #define RADARLOVE_CORE_PIPETRIVIALSOURCE_H_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if !RL_OS_WINDOWS
 

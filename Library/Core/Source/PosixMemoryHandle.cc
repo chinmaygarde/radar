@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_SHMEM == RL_SHMEM_POSIX
 
