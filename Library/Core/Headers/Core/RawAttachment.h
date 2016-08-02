@@ -23,6 +23,8 @@ class RawAttachment : public Attachment {
 
   RawAttachment(RawAttachment&& other);
 
+  RawAttachment& operator=(RawAttachment&& other);
+
   ~RawAttachment();
 
   Handle handle() const override;

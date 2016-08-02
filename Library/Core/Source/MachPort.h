@@ -58,6 +58,8 @@ class MachPort : public Attachment {
 
   Handle handle() const override;
 
+  static void Dereference(mach_port_name_t name, Type type);
+
  private:
   mach_port_name_t _name;
   Type _type;

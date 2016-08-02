@@ -7,6 +7,7 @@
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include "MachBootstrapClientProvider.h"
+#include "MachPort.h"
 
 #include <Foundation/Foundation.h>
 #include <Core/RawAttachment.h>
@@ -22,8 +23,7 @@ IOResult MachBootstrapClientProvider::doAdvertise(
     const std::string& name,
     std::shared_ptr<Channel> channel) {
   @autoreleasepool {
-    auto portName =
-        static_cast<uint32_t>(channel->attachment()->attachmentHandle());
+    auto portName = static_cast<uint32_t>(channel->attachment()->handle());
 
     auto port = [NSMachPort portWithMachPort:portName];
 
@@ -55,7 +55,11 @@ std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(
       return nullptr;
     }
 
-    return std::make_shared<core::Channel>(core::RawAttachment{port.machPort});
+    RawAttachment::Collector collector = [](Attachment::Handle handle) {
+      MachPort::Dereference(handle, MachPort::Type::Send);
+    };
+
+    return std::make_shared<Channel>(RawAttachment{port.machPort, collector});
   }
 
   return nullptr;

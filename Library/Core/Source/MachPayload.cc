@@ -50,7 +50,9 @@ MachPayload::MachPayload(const Message& message, mach_port_t remote) {
    */
   const bool hasMemoryArena = message.size() > 0;
 
-  const size_t ports = message.attachmentsSize();
+  const auto& messageAttachments = message.attachments();
+
+  const size_t ports = messageAttachments.size();
 
   const size_t messageSize = MachMessageSize(hasMemoryArena, ports, false);
 
@@ -107,7 +109,7 @@ MachPayload::MachPayload(const Message& message, mach_port_t remote) {
   /*
    *  Initialize port attachment descriptors
    */
-  for (const auto& attachment : message.attachments()) {
+  for (const auto& attachment : messageAttachments) {
     auto attachmentDesc =
         reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
@@ -169,6 +171,8 @@ IOResult MachPayload::send(mach_msg_option_t timeoutOption,
 
   return IOResult::Failure;
 }
+
+MachPayload::~MachPayload() = default;
 
 IOResult MachPayload::receive(mach_msg_option_t timeoutOption,
                               mach_msg_timeout_t timeout) {
@@ -253,7 +257,7 @@ Message MachPayload::asMessage() const {
 
   uint8_t* memoryArenaAddress = nullptr;
   size_t memoryArenaSize = 0;
-  std::vector<AttachmentRef> attachments;
+  std::vector<RawAttachment> attachments;
 
   size_t offset = sizeof(mach_msg_header_t) + sizeof(mach_msg_body_t);
 
@@ -293,8 +297,17 @@ Message MachPayload::asMessage() const {
         auto attachmentDesc =
             reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
-        attachments.emplace_back(std::make_shared<MachPort>(
-            MachPort::Type::SendReceive, attachmentDesc->name));
+        /*
+         *  We are going to create a raw attachment with the given port name
+         *  with fallback destructor to ensure we don't leak the
+         *  attachment if no one completes a read of the message containing the
+         *  attachment.
+         */
+        RawAttachment::Collector collector = [](RawAttachment::Handle handle) {
+          MachPort::Dereference(handle, MachPort::Type::Send);
+        };
+
+        attachments.emplace_back(attachmentDesc->name, collector);
 
         offset += sizeof(mach_msg_port_descriptor_t);
       } break;
@@ -306,16 +319,13 @@ Message MachPayload::asMessage() const {
   }
 
   Message message(memoryArenaAddress, memoryArenaSize);
-  for (auto attachment : attachments) {
-    if (!message.encode(std::move(attachment))) {
-      RL_ASSERT_MSG(false, "Internal error: Will leak handles in message.");
-      return Message{};
-    }
+
+  if (!message.encode(std::move(attachments))) {
+    return Message{};
   }
+
   return message;
 }
-
-MachPayload::~MachPayload() = default;
 
 }  // namespace core
 }  // namespace rl

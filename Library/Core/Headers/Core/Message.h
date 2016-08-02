@@ -6,7 +6,7 @@
 #define RADARLOVE_CORE_MESSAGE_
 
 #include <Core/Macros.h>
-#include <Core/Attachment.h>
+#include <Core/RawAttachment.h>
 #include <Core/MessageSerializable.h>
 
 #include <string.h>
@@ -18,9 +18,6 @@
 namespace rl {
 namespace core {
 
-class MachPayload;
-class SocketChannel;
-
 class Message {
  public:
   /**
@@ -29,21 +26,13 @@ class Message {
   Message();
 
   /**
-   *  Create a message with pre-initialized message data
-   *
-   *  @param buffer       the message data
-   *  @param bufferLength the message data length
-   */
-  Message(uint8_t* buffer, size_t bufferLength);
-
-  /**
    *  Create a message that is already allocated for you by the platform
    *
    *  @param buffer       the message data
    *  @param bufferLength the message data length
    *  @param vmAllocated  the memory is pre-allocated by the platform allocator
    */
-  Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
+  Message(uint8_t* buffer, size_t bufferLength);
 
   /**
    *  Moves a given message
@@ -87,6 +76,9 @@ class Message {
 
   RL_WARN_UNUSED_RESULT
   bool encode(const AttachmentRef& attachment);
+
+  RL_WARN_UNUSED_RESULT
+  bool encode(std::vector<RawAttachment> attachments);
 
   RL_WARN_UNUSED_RESULT
   bool encode(const std::string& value);
@@ -141,7 +133,7 @@ class Message {
   bool decode(MessageSerializable& value, Namespace* ns);
 
   RL_WARN_UNUSED_RESULT
-  bool decode(AttachmentRef& attachment);
+  bool decode(RawAttachment& attachment);
 
   RL_WARN_UNUSED_RESULT
   bool decode(std::string& string);
@@ -195,6 +187,8 @@ class Message {
    */
   size_t size() const;
 
+  const std::vector<AttachmentRef>& attachments() const;
+
   /**
    *  The size of the data already read during previous `decode` operations
    *
@@ -207,36 +201,27 @@ class Message {
    */
   bool readCompleted() const;
 
-  /**
-   *  Reset the read cursor used for reading. This makes it so that the same
-   *  message may be read again. Only messages that do not contain attachments
-   *  can be rewound for reads. This is because attachment lifecycle is managed
-   *  by the callers of the inital decode.
-   */
-  RL_WARN_UNUSED_RESULT
-  bool rewindRead();
-
  private:
   uint8_t* _buffer;
   std::vector<AttachmentRef> _attachments;
+  std::vector<RawAttachment> _rawAttachments;
   size_t _bufferLength;
   size_t _dataLength;
   size_t _sizeRead;
   size_t _attachmentsRead;
   bool _vmAllocated;
 
+  Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
+
   bool resizeBuffer(size_t size);
+
   uint8_t* encodeRawUnsafe(size_t size);
+
   uint8_t* decodeRawUnsafe(size_t size);
+
   uint8_t* alignAllocation(uint8_t* allocation,
                            size_t alignment,
                            bool encoding);
-
-  friend class MachPayload;
-  friend class SocketChannel;
-
-  size_t attachmentsSize() const;
-  const std::vector<AttachmentRef>& attachments() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Message);
 };

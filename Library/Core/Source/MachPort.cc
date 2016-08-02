@@ -57,6 +57,7 @@ MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
       /*
        *  Not needed by Radar. So unsupported.
        */
+      RL_ASSERT(false);
       break;
   }
 }
@@ -65,28 +66,32 @@ MachPort::MachPort(RawAttachment attachment)
     : _name(attachment.takeHandle()), _type(Type::Send) {}
 
 MachPort::~MachPort() {
-  if (!MACH_PORT_VALID(_name)) {
+  Dereference(_name, _type);
+}
+
+void MachPort::Dereference(mach_port_name_t name, Type type) {
+  if (!MACH_PORT_VALID(name)) {
     return;
   }
 
-  switch (_type) {
+  switch (type) {
     case Type::None:
       /*
        *  Nothing to do.
        */
       break;
     case Type::SendReceive:
-      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
-                                       MACH_PORT_RIGHT_SEND, -1));
-      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
+      RL_MACH_CHECK(
+          mach_port_mod_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND, -1));
+      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), name,
                                        MACH_PORT_RIGHT_RECEIVE, -1));
       break;
     case Type::Send:
-      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
-                                       MACH_PORT_RIGHT_SEND, -1));
+      RL_MACH_CHECK(
+          mach_port_mod_refs(mach_task_self(), name, MACH_PORT_RIGHT_SEND, -1));
       break;
     case Type::PortSet:
-      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), _name,
+      RL_MACH_CHECK(mach_port_mod_refs(mach_task_self(), name,
                                        MACH_PORT_RIGHT_PORT_SET, -1));
       break;
   }

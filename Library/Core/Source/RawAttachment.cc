@@ -14,8 +14,16 @@ RawAttachment::RawAttachment() : _handle(kInvalidAttachmentHandle) {}
 RawAttachment::RawAttachment(Handle handle, Collector collector)
     : _handle(handle), _collector(collector) {}
 
-RawAttachment::RawAttachment(RawAttachment&& other) : _handle(other._handle) {
+RawAttachment::RawAttachment(RawAttachment&& other)
+    : _handle(other._handle), _collector(other._collector) {
   other._handle = kInvalidAttachmentHandle;
+  other._collector = nullptr;
+}
+
+RawAttachment& RawAttachment::operator=(RawAttachment&& other) {
+  std::swap(_handle, other._handle);
+  std::swap(_collector, other._collector);
+  return *this;
 }
 
 RawAttachment::~RawAttachment() {

@@ -41,8 +41,8 @@ static inline uint8_t* MessageCreateBufferCopy(const uint8_t* src, size_t len) {
 
 Message::Message() : Message(nullptr, 0, false) {}
 
-Message::Message(uint8_t* buffer, size_t bufferSize)
-    : Message(buffer, bufferSize, false) {}
+Message::Message(uint8_t* buffer, size_t bufferLength)
+    : Message(buffer, bufferLength, true) {}
 
 Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
     : _buffer(vmAllocated ? buffer
@@ -56,6 +56,7 @@ Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
 Message::Message(Message&& message)
     : _buffer(message._buffer),
       _attachments(std::move(message._attachments)),
+      _rawAttachments(std::move(message._rawAttachments)),
       _bufferLength(message._bufferLength),
       _dataLength(message._dataLength),
       _sizeRead(message._sizeRead),
@@ -151,6 +152,11 @@ bool Message::encode(const AttachmentRef& attachment) {
   return true;
 }
 
+bool Message::encode(std::vector<RawAttachment> attachments) {
+  _rawAttachments = std::move(attachments);
+  return true;
+}
+
 bool Message::encode(const std::string& value) {
   auto stringLength = value.size();
   /*
@@ -192,12 +198,12 @@ bool Message::decode(MessageSerializable& value, Namespace* ns) {
   return value.deserialize(*this, ns);
 }
 
-bool Message::decode(AttachmentRef& attachment) {
-  if (_attachmentsRead >= _attachments.size()) {
+bool Message::decode(RawAttachment& attachment) {
+  if (_attachmentsRead >= _rawAttachments.size()) {
     return false;
   }
 
-  attachment = _attachments.at(_attachmentsRead);
+  attachment = std::move(_rawAttachments.at(_attachmentsRead));
 
   _attachmentsRead++;
 
@@ -281,21 +287,7 @@ size_t Message::sizeRead() const {
 }
 
 bool Message::readCompleted() const {
-  return _sizeRead == _dataLength && _attachments.size() == _attachmentsRead;
-}
-
-bool Message::rewindRead() {
-  if (_attachments.size() != 0) {
-    return false;
-  }
-
-  _sizeRead = 0;
-
-  return true;
-}
-
-size_t Message::attachmentsSize() const {
-  return _attachments.size();
+  return _sizeRead == _dataLength && _rawAttachments.size() == _attachmentsRead;
 }
 
 const std::vector<AttachmentRef>& Message::attachments() const {
