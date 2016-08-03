@@ -70,11 +70,7 @@ SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
     : _readHandle(kInvalidHandle),
       _writeHandle(kInvalidHandle),
       _isValid(false) {
-  if (!attachment.isValid()) {
-    return;
-  }
-
-  _writeHandle = attachment.takeAttachmentHandle();
+  _writeHandle = attachment.takeHandle();
   _readHandle = RL_TEMP_FAILURE_RETRY(::dup(_writeHandle));
 
   _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
@@ -114,12 +110,8 @@ bool SocketPair::isValid() const {
   return _isValid;
 }
 
-Attachment::Handle SocketPair::attachmentHandle() const {
+Attachment::Handle SocketPair::handle() const {
   return _writeHandle;
-}
-
-Attachment::Handle SocketPair::takeAttachmentHandle() {
-  return kInvalidHandle;
 }
 
 }  // namespace core

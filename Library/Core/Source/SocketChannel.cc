@@ -290,8 +290,12 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     SocketPair::Handle handles[oolDescriptors];
 
     for (const auto& attachment : message.attachments()) {
-      handles[descCount++] =
-          static_cast<SocketPair::Handle>(attachment->attachmentHandle());
+      if (attachment == nullptr) {
+        continue;
+      }
+
+      SocketPair::Handle handle = attachment->messageHandle().handle();
+      handles[descCount++] = handle;
     }
 
     if (!isDataInline) {
@@ -488,7 +492,7 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
   }
 
   std::unique_ptr<SharedMemory> oolMemoryArena;
-  std::vector<AttachmentRef> attachments;
+  std::vector<RawAttachment> attachments;
 
   if (totalDescriptors > 0) {
     struct cmsghdr* cmsg = CMSG_FIRSTHDR(&messageHeader);
@@ -530,7 +534,10 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
         /*
          *  This is a regular channel attachment
          */
-        attachments.emplace_back(std::make_shared<RawAttachment>(handle));
+
+        attachments.emplace_back(handle, [](RawAttachment::Handle handle) {
+          RL_TEMP_FAILURE_RETRY(::close(handle));
+        });
       }
     }
   }
@@ -564,11 +571,8 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
 
   Message message(buffer, bufferLength, vmDeallocate);
 
-  for (auto& attachment : attachments) {
-    if (!message.encode(std::move(attachment))) {
-      RL_ASSERT_MSG(false, "Internal error: Will leak handles in message.");
-      return IOReadResult(IOResult::Failure, Message{});
-    }
+  if (!message.encode(std::move(attachments))) {
+    return IOReadResult(IOResult::Failure, Message{});
   }
 
   return IOReadResult(IOResult::Success, std::move(message));

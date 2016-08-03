@@ -127,7 +127,11 @@ RawAttachment SocketServer::accept() const {
     return {};
   }
 
-  return RawAttachment{accepted};
+  RawAttachment::Collector collector = [](Attachment::Handle handle) {
+    RL_TEMP_FAILURE_RETRY(::close(handle));
+  };
+
+  return RawAttachment{accepted, collector};
 }
 
 std::shared_ptr<EventLoopSource> SocketServer::source() {

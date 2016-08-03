@@ -5,7 +5,7 @@
 #ifndef RADAR_CORE_SOCKETPAIR_H_
 #define RADAR_CORE_SOCKETPAIR_H_
 
-#include <Core/Config.h>
+#include "Config.h"
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
@@ -36,12 +36,9 @@ class SocketPair : public Attachment {
 
   Handle writeHandle() const;
 
-  bool isValid() const override;
+  bool isValid() const;
 
-  Attachment::Handle attachmentHandle() const override;
-
-  RL_WARN_UNUSED_RESULT
-  Attachment::Handle takeAttachmentHandle() override;
+  Attachment::Handle handle() const override;
 
   static bool ConfigureSocketHandle(SocketPair::Handle handle,
                                     size_t bufferSize);
