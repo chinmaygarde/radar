@@ -41,7 +41,8 @@ class SocketPair : public Attachment {
   Attachment::Handle handle() const override;
 
   static bool ConfigureSocketHandle(SocketPair::Handle handle,
-                                    size_t bufferSize);
+                                    size_t bufferSize,
+                                    bool blocking);
 
  private:
   Handle _readHandle;

@@ -19,7 +19,8 @@ const SocketPair::Handle SocketPair::kInvalidHandle = -1;
 const size_t SocketPair::kDefaultSocketBufferSize = 4096;
 
 bool SocketPair::ConfigureSocketHandle(SocketPair::Handle handle,
-                                       size_t bufferSize) {
+                                       size_t bufferSize,
+                                       bool blocking) {
   const int size = bufferSize;
   /*
    *  Update the send buffer size.
@@ -38,11 +39,13 @@ bool SocketPair::ConfigureSocketHandle(SocketPair::Handle handle,
   }
 
   /*
-   *  Make the socket non-blocking.
+   *  Make the socket non-blocking (if specified).
    */
-  if (RL_TEMP_FAILURE_RETRY(::fcntl(handle, F_SETFL, O_NONBLOCK)) == -1) {
-    RL_LOG_ERRNO();
-    return false;
+  if (!blocking) {
+    if (RL_TEMP_FAILURE_RETRY(::fcntl(handle, F_SETFL, O_NONBLOCK)) == -1) {
+      RL_LOG_ERRNO();
+      return false;
+    }
   }
 
   return true;
@@ -62,8 +65,8 @@ SocketPair::SocketPair(size_t bufferSize)
   _readHandle = handles[0];
   _writeHandle = handles[1];
 
-  _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
-             ConfigureSocketHandle(_writeHandle, bufferSize);
+  _isValid = ConfigureSocketHandle(_readHandle, bufferSize, false) &&
+             ConfigureSocketHandle(_writeHandle, bufferSize, false);
 }
 
 SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
@@ -73,8 +76,8 @@ SocketPair::SocketPair(RawAttachment attachment, size_t bufferSize)
   _writeHandle = attachment.takeHandle();
   _readHandle = RL_TEMP_FAILURE_RETRY(::dup(_writeHandle));
 
-  _isValid = ConfigureSocketHandle(_readHandle, bufferSize) &&
-             ConfigureSocketHandle(_writeHandle, bufferSize);
+  _isValid = ConfigureSocketHandle(_readHandle, bufferSize, false) &&
+             ConfigureSocketHandle(_writeHandle, bufferSize, false);
 }
 
 SocketPair::SocketPair(SocketPair&& o)

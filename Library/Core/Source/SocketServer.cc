@@ -29,7 +29,7 @@ SocketServer::SocketServer(AcceptCallback callback)
     return;
   }
 
-  _isValid = SocketPair::ConfigureSocketHandle(_handle, 1024);
+  _isValid = SocketPair::ConfigureSocketHandle(_handle, 1024, true);
 
   setupAcceptSource();
 }
