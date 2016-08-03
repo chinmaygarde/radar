@@ -28,6 +28,8 @@ class FileHandle : public Attachment {
 
   Handle handle() const override;
 
+  MessageHandle messageHandle() const override;
+
  private:
   Handle _handle;
 

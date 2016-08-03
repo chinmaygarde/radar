@@ -44,7 +44,7 @@ TEST(MessageTest, SimpleDecode) {
 
   val = 222;
 
-  rl::core::Message decoder(message.data(), message.size());
+  rl::core::Message decoder(message.data(), message.size(), false);
 
   ASSERT_TRUE(decoder.decode(val, nullptr));
   ASSERT_TRUE(val == 40);
@@ -71,7 +71,7 @@ TEST(MessageTest, MutltipleDecode) {
   b = 0.0;
   c = 'd';
 
-  rl::core::Message decoder(message.data(), message.size());
+  rl::core::Message decoder(message.data(), message.size(), false);
 
   ASSERT_TRUE(decoder.decode(val, nullptr));
   ASSERT_TRUE(decoder.decode(foo, nullptr));
@@ -88,15 +88,7 @@ TEST(MessageTest, MutltipleDecode) {
   ASSERT_TRUE(c == 'c');
 }
 
-TEST(MessageTest, EncodeInvalidAttachment) {
-  auto invalid = std::make_shared<rl::core::RawAttachment>();
-
-  rl::core::Message message;
-
-  ASSERT_EQ(message.encode(invalid), false);
-}
-
-TEST(MessageTest, EncodeValidAttachment) {
+TEST(MessageTest, EncodeAttachment) {
   rl::core::Channel channel;
 
   rl::core::Message message;
@@ -128,15 +120,26 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
     ASSERT_EQ(message.encode(channel->attachment()), true);
   }
 
-  auto invalid = std::make_shared<rl::core::RawAttachment>();
+  rl::core::Channel pipe;
 
-  ASSERT_EQ(message.encode(invalid), false);
+  rl::core::Messages messages;
+
+  messages.emplace_back(std::move(message));
+
+  ASSERT_EQ(pipe.sendMessages(std::move(messages)),
+            rl::core::IOResult::Success);
+
+  auto messagesRead = pipe.drainPendingMessages();
+
+  ASSERT_EQ(messagesRead.size(), 1);
+
+  auto& messageRead = messagesRead[0];
 
   size_t initialRead = 0;
 
   for (size_t i = 0; i < count / 2; i++) {
     rl::core::RawAttachment attachment;
-    ASSERT_EQ(message.decode(attachment), true);
+    ASSERT_EQ(messageRead.decode(attachment), true);
     rl::core::Channel consumer(std::move(attachment));
     initialRead++;
   }
@@ -144,7 +147,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   size_t secondaryRead = 0;
   while (true) {
     rl::core::RawAttachment attachment;
-    if (message.decode(attachment)) {
+    if (messageRead.decode(attachment)) {
       rl::core::Channel consumer(std::move(attachment));
       secondaryRead++;
       continue;

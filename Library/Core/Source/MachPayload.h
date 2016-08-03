@@ -53,6 +53,7 @@ class MachPayload {
 
  private:
   Allocation _payload;
+  std::vector<Attachment::MessageHandle> _messageHandles;
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPayload);
 };

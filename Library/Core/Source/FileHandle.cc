@@ -12,6 +12,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 #include "MachFilePort.h"
+#include "MachPort.h"
 #endif
 
 namespace rl {
@@ -26,10 +27,10 @@ FileHandle::FileHandle(RawAttachment attachment) : _handle(kInvalidFileHandle) {
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
   /*
-   *  Mach channels send descriptors via port rights that need morphing to
+   *  Mach channels send descriptors via port rights that need morphing back to
    *  descriptors.
    */
-  handle = MachFilePort::DescriptorFromPort(handle, true);
+  handle = MachFileDescriptorFromPort(handle, true);
 #endif
 
   _handle = handle;
@@ -67,6 +68,27 @@ bool FileHandle::isValid() const {
 
 Attachment::Handle FileHandle::handle() const {
   return _handle;
+}
+
+Attachment::MessageHandle FileHandle::messageHandle() const {
+#if RL_CHANNELS == RL_CHANNELS_MACH
+  /*
+   *  Mach channels send descriptors via port rights that need morphing back to
+   *  descriptors.
+   */
+  Attachment::MessageHandle::Collector collector =
+      [](Attachment::Handle handle) {  //
+        MachPort::Dereference(handle, MachPort::Type::Send);
+      };
+
+  return Attachment::MessageHandle{
+      MachPortFromFileDescriptor(_handle),  // descriptor
+      collector                             // collector
+  };
+
+#endif
+
+  return Attachment::MessageHandle{_handle};
 }
 
 }  // namespace core

@@ -41,9 +41,6 @@ static inline uint8_t* MessageCreateBufferCopy(const uint8_t* src, size_t len) {
 
 Message::Message() : Message(nullptr, 0, false) {}
 
-Message::Message(uint8_t* buffer, size_t bufferLength)
-    : Message(buffer, bufferLength, true) {}
-
 Message::Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated)
     : _buffer(vmAllocated ? buffer
                           : MessageCreateBufferCopy(buffer, bufferLength)),

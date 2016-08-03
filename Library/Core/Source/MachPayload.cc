@@ -110,10 +110,17 @@ MachPayload::MachPayload(const Message& message, mach_port_t remote) {
    *  Initialize port attachment descriptors
    */
   for (const auto& attachment : messageAttachments) {
+    RL_ASSERT(attachment != nullptr);
+
+    _messageHandles.emplace_back(attachment->messageHandle());
+
+    mach_port_t port =
+        static_cast<mach_port_t>(_messageHandles.back().handle());
+
     auto attachmentDesc =
         reinterpret_cast<mach_msg_port_descriptor_t*>(payload + offset);
 
-    attachmentDesc->name = static_cast<mach_port_t>(attachment->handle());
+    attachmentDesc->name = port;
     attachmentDesc->disposition = MACH_MSG_TYPE_COPY_SEND;
     attachmentDesc->type = MACH_MSG_PORT_DESCRIPTOR;
 
@@ -318,7 +325,7 @@ Message MachPayload::asMessage() const {
     }
   }
 
-  Message message(memoryArenaAddress, memoryArenaSize);
+  Message message(memoryArenaAddress, memoryArenaSize, true);
 
   if (!message.encode(std::move(attachments))) {
     return Message{};

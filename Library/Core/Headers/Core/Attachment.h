@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 
 #include <memory>
+#include <functional>
 
 namespace rl {
 namespace core {
@@ -16,7 +17,30 @@ class Attachment {
  public:
   using Handle = intptr_t;
 
+  class MessageHandle {
+   public:
+    using Collector = std::function<void(Handle handle)>;
+
+    MessageHandle(Handle handle);
+
+    MessageHandle(Handle handle, Collector collector);
+
+    MessageHandle(MessageHandle&& other);
+
+    ~MessageHandle();
+
+    Handle handle() const;
+
+   private:
+    Handle _handle;
+    Collector _collector;
+
+    RL_DISALLOW_COPY_AND_ASSIGN(MessageHandle);
+  };
+
   virtual Handle handle() const = 0;
+
+  virtual MessageHandle messageHandle() const;
 };
 
 using AttachmentRef = std::shared_ptr<Attachment>;

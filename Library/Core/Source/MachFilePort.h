@@ -11,27 +11,16 @@
 
 #include <Core/Macros.h>
 
+#include <mach/mach.h>
+
 namespace rl {
 namespace core {
 
-class MachFilePort {
- public:
-  using Name = intptr_t;
+RL_WARN_UNUSED_RESULT
+int MachFileDescriptorFromPort(mach_port_name_t name, bool consumePort);
 
-  RL_WARN_UNUSED_RESULT
-  static int DescriptorFromPort(Name name, bool consumePort);
-
-  MachFilePort(int descriptor);
-
-  ~MachFilePort();
-
-  Name name() const;
-
- private:
-  Name _name;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(MachFilePort);
-};
+RL_WARN_UNUSED_RESULT
+mach_port_name_t MachPortFromFileDescriptor(int descriptor);
 
 }  // namespace core
 }  // namespace rl

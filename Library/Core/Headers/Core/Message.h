@@ -32,7 +32,7 @@ class Message {
    *  @param bufferLength the message data length
    *  @param vmAllocated  the memory is pre-allocated by the platform allocator
    */
-  Message(uint8_t* buffer, size_t bufferLength);
+  Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
 
   /**
    *  Moves a given message
@@ -210,8 +210,6 @@ class Message {
   size_t _sizeRead;
   size_t _attachmentsRead;
   bool _vmAllocated;
-
-  Message(uint8_t* buffer, size_t bufferLength, bool vmAllocated);
 
   bool resizeBuffer(size_t size);
 
