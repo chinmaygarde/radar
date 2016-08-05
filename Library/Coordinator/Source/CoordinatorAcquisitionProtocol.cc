@@ -51,10 +51,6 @@ void CoordinatorAcquisitionProtocol::onRequest(
 
                        const auto& attachment = channel->attachment();
 
-                       if (!attachment->isValid()) {
-                         return false;
-                       }
-
                        return responseMessage.encode(attachment);
                      });
 
