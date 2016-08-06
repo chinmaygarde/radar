@@ -19,6 +19,8 @@ class EventLoopThread {
  public:
   EventLoopThread();
 
+  EventLoopThread(Latch& ready);
+
   ~EventLoopThread();
 
   using MutexedLoop = Mutexed<EventLoop*>;
@@ -30,8 +32,6 @@ class EventLoopThread {
   MutexedLoop _loop;
 
   void main(Latch& ready);
-
-  void terminate();
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopThread);
 };

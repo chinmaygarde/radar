@@ -16,7 +16,6 @@ Coordinator::Coordinator(std::shared_ptr<RenderSurface> surface,
     : _surface(surface),
       _loop(nullptr),
       _interfaceTagGenerator("rl.interface"),
-      _workQueue("coordinator"),
       _animationsSource(core::EventLoopSource::Timer(
           std::chrono::duration_cast<core::ClockDurationNano>(
               core::ClockDurationSeconds(1.0 / 60.0)))),

@@ -7,43 +7,31 @@
 
 #include <Core/EventLoop.h>
 #include <Core/Latch.h>
-
-#include <thread>
-#include <mutex>
+#include <Core/EventLoopThread.h>
 
 namespace rl {
 namespace core {
 
 class WorkQueue {
  public:
-  WorkQueue(std::string name);
-
-  size_t workerCount() const;
-
   using WorkItem = std::function<void(void)>;
-  void dispatch(WorkItem work);
+
+  WorkQueue();
 
   ~WorkQueue();
 
+  RL_WARN_UNUSED_RESULT
+  bool dispatch(WorkItem work);
+
+  size_t workerCount() const;
+
  private:
   std::shared_ptr<EventLoopSource> _workSource;
-  std::list<std::pair<std::thread, std::shared_ptr<EventLoopSource>>> _workers;
-  std::mutex _workItemsMutex;
-  std::list<WorkItem> _workItems;
-  bool _shuttingDown;
-  std::condition_variable _idleness;
+  std::vector<std::unique_ptr<EventLoopThread>> _workers;
+  Mutexed<std::list<WorkItem>> _workItems;
 
-  void workerMain(std::string name,
-                  Latch& latch,
-                  std::shared_ptr<EventLoopSource> terminationSource);
-  void workerTerminate();
   void work();
   WorkItem acquireWork();
-  void waitForAllPendingWorkFlushed();
-  bool areWorkItemsPending();
-  bool shouldReadWorkSourceHandle();
-
-  void shutdown();
 
   RL_DISALLOW_COPY_AND_ASSIGN(WorkQueue);
 };

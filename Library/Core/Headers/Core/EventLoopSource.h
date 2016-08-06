@@ -41,7 +41,6 @@ class EventLoopSource {
   using RWHandlesCollector = std::function<void(Handles)>;
   using IOHandler = std::function<IOResult(Handle)>;
   using WakeFunction = std::function<void(IOResult)>;
-  using ReadAttemptCallback = std::function<bool(void)>;
   using WaitSetUpdateHandler = std::function<void(EventLoopSource& source,
                                                   WaitSet& waitset,
                                                   Handle readHandle,
@@ -116,10 +115,6 @@ class EventLoopSource {
 
   void setCustomWaitSetUpdateHandler(WaitSetUpdateHandler updateHandler);
 
-  void setReadAttemptCallback(ReadAttemptCallback callback);
-
-  ReadAttemptCallback readAttemptCallback() const;
-
   void attemptRead();
 
   /**
@@ -150,7 +145,6 @@ class EventLoopSource {
   IOHandler _writeHandler;
   WaitSetUpdateHandler _customWaitSetUpdateHandler;
   WakeFunction _wakeFunction;
-  ReadAttemptCallback _readAttemptCallback;
   std::atomic_bool _handlesAllocated;
   std::mutex _handlesAllocationMutex;
 

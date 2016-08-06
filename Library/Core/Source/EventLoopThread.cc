@@ -14,10 +14,31 @@ EventLoopThread::EventLoopThread() : _loop(nullptr) {
   ready.wait();
 }
 
+EventLoopThread::EventLoopThread(Latch& ready) : _loop(nullptr) {
+  _thread = core::make_unique<std::thread>(
+      std::bind(&EventLoopThread::main, this, std::ref(ready)));
+}
+
 EventLoopThread::~EventLoopThread() {
-  if (_thread != nullptr) {
-    terminate();
+  if (_thread == nullptr) {
+    return;
   }
+
+  /*
+   *  Signal the termination source of the thread.
+   */
+  {
+    auto loopAccess = _loop.access();
+    if (EventLoop* loop = loopAccess.get()) {
+      loop->terminate();
+    }
+  }
+
+  /*
+   *  Wait for the thread to die naturally.
+   */
+  _thread->join();
+  _thread = nullptr;
 }
 
 void EventLoopThread::main(Latch& ready) {
@@ -39,20 +60,6 @@ void EventLoopThread::main(Latch& ready) {
      */
     auto loopAccess = _loop.access();
     loopAccess.get() = nullptr;
-  }
-}
-
-void EventLoopThread::terminate() {
-  {
-    auto loopAccess = _loop.access();
-    if (EventLoop* loop = loopAccess.get()) {
-      loop->terminate();
-    }
-  }
-
-  if (_thread != nullptr) {
-    _thread->join();
-    _thread = nullptr;
   }
 }
 

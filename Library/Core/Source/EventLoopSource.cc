@@ -102,34 +102,17 @@ void EventLoopSource::setCustomWaitSetUpdateHandler(
   _customWaitSetUpdateHandler = updateHandler;
 }
 
-void EventLoopSource::setReadAttemptCallback(ReadAttemptCallback callback) {
-  _readAttemptCallback = callback;
-}
-
-EventLoopSource::ReadAttemptCallback EventLoopSource::readAttemptCallback()
-    const {
-  return _readAttemptCallback;
-}
-
 void EventLoopSource::attemptRead() {
   RL_TRACE_AUTO("EventLoopSource::AttemptRead");
 
-  auto result = IOResult::Timeout;
+  auto result = IOResult::Failure;
 
   if (_readHandler) {
     /*
-     *  First, ask the instance if it wants to read on the handle at this time
+     *  Perform the read. Make sure to go through the accessor for the
+     *  read handle as it initializes the handle.
      */
-    bool shouldAttemptRead =
-        _readAttemptCallback ? _readAttemptCallback() : true;
-
-    if (shouldAttemptRead) {
-      /*
-       *  Perform the actual read. Make sure to go through the accessor for the
-       *  read handle as it initializes the handle.
-       */
-      result = _readHandler(handles().readHandle);
-    }
+    result = _readHandler(handles().readHandle);
   }
 
   /*

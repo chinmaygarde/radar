@@ -25,16 +25,17 @@ TEST_SLOW(MutexedTest, SillyCounter) {
   rl::core::Mutexed<size_t> actual(0);
 
   {
-    rl::core::WorkQueue wq(__func__);
+    rl::core::WorkQueue wq;
 
     for (size_t i = 0; i < limit; i++) {
-      wq.dispatch([&actual]() {
+      auto dispatched = wq.dispatch([&actual]() {
         auto access = actual.access();
         auto& value = access.get();
         auto oldValue = value;
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
         value = oldValue + 1;
       });
+      ASSERT_TRUE(dispatched);
     }
   }  // So the wq can gracefully collect its workers.
 

@@ -5,10 +5,11 @@
 #ifndef RADARLOVE_CORE_WAITSET_
 #define RADARLOVE_CORE_WAITSET_
 
-#include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
+#include <Core/EventLoopSource.h>
+#include <Core/Mutexed.h>
 
-#include <vector>
+#include <unordered_set>
 
 namespace rl {
 namespace core {
@@ -67,9 +68,10 @@ class WaitSet {
   WaitSetProvider& provider() const;
 
  private:
+  using EventLoopSourceRef = std::shared_ptr<EventLoopSource>;
+
   std::unique_ptr<WaitSetProvider> _provider;
-  std::mutex _sourcesMutex;
-  std::vector<std::shared_ptr<EventLoopSource>> _sources;
+  Mutexed<std::unordered_set<EventLoopSourceRef>> _sources;
 
   RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };
