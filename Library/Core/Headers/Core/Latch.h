@@ -53,6 +53,18 @@ class AutoLatch : public Latch {
   RL_DISALLOW_COPY_AND_ASSIGN(AutoLatch);
 };
 
+class AutoCountdown {
+ public:
+  AutoCountdown(Latch& latch);
+
+  ~AutoCountdown();
+
+ private:
+  Latch& _latch;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(AutoCountdown);
+};
+
 }  // namespace core
 }  // namespace rl
 

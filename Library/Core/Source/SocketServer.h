@@ -22,7 +22,8 @@ namespace core {
 
 class SocketServer {
  public:
-  using AcceptCallback = std::function<void(SocketPair)>;
+  using AcceptCallback = std::function<void(RawAttachment)>;
+
   SocketServer(AcceptCallback callback = nullptr);
 
   ~SocketServer();

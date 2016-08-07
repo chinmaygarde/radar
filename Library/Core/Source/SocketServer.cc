@@ -157,7 +157,7 @@ void SocketServer::setupAcceptSource() {
 
     RL_ASSERT(readHandle == _handle);
 
-    auto attachment = SocketPair{accept()};
+    auto attachment = accept();
 
     if (_acceptCallback) {
       _acceptCallback(std::move(attachment));

@@ -33,5 +33,11 @@ AutoLatch::~AutoLatch() {
   wait();
 }
 
+AutoCountdown::AutoCountdown(Latch& latch) : _latch(latch) {}
+
+AutoCountdown::~AutoCountdown() {
+  _latch.countDown();
+}
+
 }  // namespace core
 }  // namespace rl

@@ -33,28 +33,9 @@ class SocketBootstrapServerProvider : public BootstrapServerProvider {
   core::EventLoopThread _thread;
   std::map<std::string, std::shared_ptr<SocketPair>> _registrations;
 
-  void onAccept(SocketPair socket);
+  void serverMain(Latch& latch);
 
-  void serverMain();
-
-#if 0
-  IOResult onListenReadResult(EventLoopSource::Handle readHandle);
-
-  bool attemptRegistration(const std::string& name,
-                           Message::Attachment channelAttachment);
-
-  std::shared_ptr<Channel> acquireRegistration(const std::string& name);
-
-  using BootstrapResponse = std::pair<bool, std::shared_ptr<Channel>>;
-
-  static IOResult sendBoostrapResponse(Channel& replyChannel,
-                                       BootstrapResponse response);
-
-  BootstrapResponse processBootstrapMessageRequest(Message&& requestMessage);
-
-  IOResult processBootstrapMessageRequestAndReply(Channel& replyChannel,
-                                                  Message&& requestMessage);
-#endif
+  void onAccept(RawAttachment socket);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServerProvider);
 };

@@ -118,7 +118,8 @@ class Channel {
    *
    *  @return the messages on the channel that were drained
    */
-  Messages drainPendingMessages();
+  Messages drainPendingMessages(
+      ClockDurationNano timeout = ClockDurationNano(0));
 
   /**
    *  @return get the channel representation as a message attachment

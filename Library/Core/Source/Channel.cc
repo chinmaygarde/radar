@@ -104,11 +104,11 @@ IOResult Channel::readPendingMessageNow(ClockDurationNano timeout) {
   return IOResult::Failure;
 }
 
-Messages Channel::drainPendingMessages() {
+Messages Channel::drainPendingMessages(ClockDurationNano timeout) {
   Messages messages;
 
   while (true) {
-    auto result = _provider->readMessage(ClockDurationNano(0));
+    auto result = _provider->readMessage(timeout);
 
     switch (result.first) {
       case IOResult::Success:

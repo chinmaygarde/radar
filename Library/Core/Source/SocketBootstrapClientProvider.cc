@@ -32,11 +32,11 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
     return nullptr;
   }
 
-  SocketServer server;
+  URI serverURI(SocketBootstrapServerProvider::kDefaultSocketPath);
+  SocketServer externalServer;
 
-  if (!server.connect(URI{SocketBootstrapServerProvider::kDefaultSocketPath})) {
-    RL_LOG("Could not connect to the bootstrap server at '%s'",
-           SocketBootstrapServerProvider::kDefaultSocketPath);
+  if (!externalServer.connect(std::move(serverURI))) {
+    RL_LOG("Could not connect to the bootstrap server.");
     return nullptr;
   }
 
