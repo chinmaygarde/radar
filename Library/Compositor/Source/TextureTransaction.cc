@@ -36,11 +36,12 @@ bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
   _latch = core::make_unique<rl::core::Latch>(_textures.size());
 
   for (auto& texture : _textures) {
-    workqueue.dispatch([&]() {
+    auto dispatched = workqueue.dispatch([&]() {
       RL_ASSERT(texture);
       texture->uncompress();
       _latch->countDown();
     });
+    RL_UNUSED(dispatched);
   }
 
   return true;
