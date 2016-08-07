@@ -14,8 +14,6 @@ static bool AttemptCWDUpdate(std::string directoryPath) {
 
   if (directoryURI.normalize() &&
       core::File::SetAsWorkingDirectory(directoryURI)) {
-    RL_LOG("Current working directory updated to: '%s'",
-           directoryURI.filesystemRepresentation().c_str());
     return true;
   }
 
