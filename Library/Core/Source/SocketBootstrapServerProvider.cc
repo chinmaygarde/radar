@@ -80,7 +80,7 @@ void SocketBootstrapServerProvider::onAccept(RawAttachment socket) {
   Channel channel(std::move(socket));
 
   Messages messages =
-      channel.drainPendingMessages(SocketBootstrapServerTimeout);
+      channel.drainPendingMessages(SocketBootstrapServerTimeout, 1);
 
   if (messages.size() != 1) {
     RL_LOG("Received unexpected number of messages from the bootstrap client.");
