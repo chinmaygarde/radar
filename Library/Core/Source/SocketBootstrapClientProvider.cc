@@ -23,65 +23,17 @@ SocketBootstrapClientProvider::~SocketBootstrapClientProvider() = default;
 IOResult SocketBootstrapClientProvider::doAdvertise(
     const std::string& name,
     std::shared_ptr<Channel> channel) {
-  RL_WIP;
-  return IOResult::Failure;
+  return bootstrapServerConnect(name, channel->attachment()).isValid()
+             ? IOResult::Success
+             : IOResult::Failure;
 }
 
 std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
     const std::string& name) {
-  Message message;
-
-  if (!message.encode(name)) {
-    return nullptr;
-  }
-
-  Messages messages;
-  messages.emplace_back(std::move(message));
-
-  auto channel = SocketServer::ConnectedChannel(
-      URI{SocketBootstrapServerProvider::kDefaultSocketPath});
-
-  if (channel == nullptr) {
-    RL_LOG("Could not connect to the bootstrap server.");
-    return nullptr;
-  }
-
-  if (channel->sendMessages(std::move(messages),
-                            SocketBootstrapClientTimeout) !=
-      IOResult::Success) {
-    RL_LOG("Could not send messages to the connected bootstrap server.");
-    return nullptr;
-  }
-
-  auto replyMessages =
-      channel->drainPendingMessages(SocketBootstrapClientTimeout, 1);
-
-  if (replyMessages.size() != 1) {
-    RL_LOG(
-        "The socket bootstrap server returned an unexpected number of "
-        "replies (%zu).",
-        replyMessages.size());
-    return nullptr;
-  }
-
-  auto& reply = replyMessages[0];
-
-  bool querySuccessful = false;
-
-  if (!reply.decode(querySuccessful, nullptr)) {
-    RL_LOG("Could not determine if query was successful.");
-    return nullptr;
-  }
-
-  if (!querySuccessful) {
-    /*
-     *  The remote end did not find a valid channel registration for this
-     *  name in its registry.
-     */
-    return nullptr;
-  }
+  Message reply = bootstrapServerConnect(name);
 
   RawAttachment remoteChannelAttachment;
+
   if (!reply.decode(remoteChannelAttachment)) {
     RL_LOG(
         "Reply from remote socket bootstrap server did not contain the channel "
@@ -90,6 +42,101 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
   }
 
   return std::make_shared<Channel>(std::move(remoteChannelAttachment));
+}
+
+Message SocketBootstrapClientProvider::bootstrapServerConnect(
+    const std::string& name) {
+  return bootstrapServerConnect(name, nullptr);
+}
+
+Message SocketBootstrapClientProvider::bootstrapServerConnect(
+    const std::string& name,
+    AttachmentRef attachment) {
+  /*
+   *  =========================================================================
+   *  Construct the request message (with optional attachment).
+   *  ==========================================================================
+   */
+  Message requestMessage;
+
+  if (!requestMessage.encode(name)) {
+    return {};
+  }
+
+  if (attachment != nullptr) {
+    if (!requestMessage.encode(attachment)) {
+      return {};
+    }
+  }
+
+  Messages requestMessages;
+  requestMessages.emplace_back(std::move(requestMessage));
+
+  /*
+   *  =========================================================================
+   *  Acquire a connection to the remote bootstrap server.
+   *  ==========================================================================
+   */
+  auto channel = SocketServer::ConnectedChannel(
+      URI{SocketBootstrapServerProvider::kDefaultSocketPath});
+
+  if (channel == nullptr) {
+    RL_LOG("Could not connect to the bootstrap server.");
+    return {};
+  }
+
+  /*
+   *  =========================================================================
+   *  Send the request message to the remote bootstrap server.
+   *  ==========================================================================
+   */
+  if (channel->sendMessages(std::move(requestMessages),
+                            SocketBootstrapClientTimeout) !=
+      IOResult::Success) {
+    RL_LOG("Could not send messages to the connected bootstrap server.");
+    return {};
+  }
+
+  /*
+   *  =========================================================================
+   *  Await a response from the remote bootstrap server.
+   *  ==========================================================================
+   */
+  auto replyMessages =
+      channel->drainPendingMessages(SocketBootstrapClientTimeout, 1);
+
+  if (replyMessages.size() != 1) {
+    RL_LOG(
+        "The socket bootstrap server returned an unexpected number of "
+        "replies (%zu).",
+        replyMessages.size());
+    return {};
+  }
+
+  /*
+   *  =========================================================================
+   *  Check if the response was valid.
+   *  ==========================================================================
+   */
+
+  auto& reply = replyMessages[0];
+
+  bool querySuccessful = false;
+
+  if (!reply.decode(querySuccessful, nullptr)) {
+    RL_LOG("Could not determine if query was successful.");
+    return {};
+  }
+
+  if (!querySuccessful) {
+    /*
+     *  The remote end did not find a valid channel registration for this
+     *  name in its registry.
+     */
+    return {};
+  }
+
+  return std::move(reply);
 }
 
 }  // namespace core

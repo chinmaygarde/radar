@@ -287,6 +287,11 @@ bool Message::readCompleted() const {
   return _sizeRead == _dataLength && _rawAttachments.size() == _attachmentsRead;
 }
 
+bool Message::isValid() const {
+  return _dataLength != 0 || _attachments.size() != 0 ||
+         _rawAttachments.size() != 0;
+}
+
 const std::vector<AttachmentRef>& Message::attachments() const {
   return _attachments;
 }

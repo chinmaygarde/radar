@@ -28,6 +28,11 @@ class SocketBootstrapClientProvider : public BootstrapClientProvider {
 
   std::shared_ptr<Channel> doAcquire(const std::string& name) override;
 
+  Message bootstrapServerConnect(const std::string& name);
+
+  Message bootstrapServerConnect(const std::string& name,
+                                 AttachmentRef attachment);
+
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapClientProvider);
 };
 

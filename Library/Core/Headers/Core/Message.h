@@ -201,6 +201,8 @@ class Message {
    */
   bool readCompleted() const;
 
+  bool isValid() const;
+
  private:
   uint8_t* _buffer;
   std::vector<AttachmentRef> _attachments;
