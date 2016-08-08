@@ -119,7 +119,8 @@ class Channel {
    *  @return the messages on the channel that were drained
    */
   Messages drainPendingMessages(
-      ClockDurationNano timeout = ClockDurationNano(0));
+      ClockDurationNano timeout,
+      size_t limit = std::numeric_limits<size_t>::max());
 
   /**
    *  @return get the channel representation as a message attachment

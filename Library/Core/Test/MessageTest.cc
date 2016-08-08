@@ -129,7 +129,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   ASSERT_EQ(pipe.sendMessages(std::move(messages)),
             rl::core::IOResult::Success);
 
-  auto messagesRead = pipe.drainPendingMessages();
+  auto messagesRead = pipe.drainPendingMessages(rl::core::ClockDurationNano{0});
 
   ASSERT_EQ(messagesRead.size(), 1);
 

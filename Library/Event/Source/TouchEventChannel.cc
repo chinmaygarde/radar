@@ -28,7 +28,7 @@ bool TouchEventChannel::sendTouchEvents(
 }
 
 TouchEvent::PhaseMap TouchEventChannel::drainPendingTouches() {
-  auto messages = drainPendingMessages();
+  auto messages = drainPendingMessages(core::ClockDurationNano{0});
 
   TouchEvent::PhaseMap results;
 

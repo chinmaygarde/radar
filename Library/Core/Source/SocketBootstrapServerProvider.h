@@ -41,6 +41,7 @@ class SocketBootstrapServerProvider : public BootstrapServerProvider {
   void onAccept(RawAttachment socket);
   std::shared_ptr<SocketPair> acquireRegistration(const std::string& name);
   bool updateRegistration(const std::string& name, RawAttachment attachment);
+  Message replyForRequest(Message message);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServerProvider);
 };

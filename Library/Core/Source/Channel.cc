@@ -104,7 +104,8 @@ IOResult Channel::readPendingMessageNow(ClockDurationNano timeout) {
   return IOResult::Failure;
 }
 
-Messages Channel::drainPendingMessages(ClockDurationNano timeout) {
+Messages Channel::drainPendingMessages(ClockDurationNano timeout,
+                                       size_t limit) {
   Messages messages;
 
   while (true) {
@@ -113,7 +114,11 @@ Messages Channel::drainPendingMessages(ClockDurationNano timeout) {
     switch (result.first) {
       case IOResult::Success:
         messages.emplace_back(std::move(result.second));
-        continue;
+        if (messages.size() >= limit) {
+          return messages;
+        } else {
+          continue;
+        }
       case IOResult::Timeout:
         return messages;
       case IOResult::Failure:

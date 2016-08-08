@@ -238,7 +238,8 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
 TEST(ChannelTest, ZeroTimeoutReadsDontHang) {
   rl::core::Channel channel;
-  rl::core::Messages messages = channel.drainPendingMessages();
+  rl::core::Messages messages =
+      channel.drainPendingMessages(rl::core::ClockDurationNano{0});
   ASSERT_EQ(messages.size(), 0);
 }
 

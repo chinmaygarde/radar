@@ -54,7 +54,7 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
   }
 
   auto replyMessages =
-      channel->drainPendingMessages(SocketBootstrapClientTimeout);
+      channel->drainPendingMessages(SocketBootstrapClientTimeout, 1);
 
   if (replyMessages.size() != 1) {
     RL_LOG(
@@ -65,6 +65,21 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
   }
 
   auto& reply = replyMessages[0];
+
+  bool querySuccessful = false;
+
+  if (!reply.decode(querySuccessful, nullptr)) {
+    RL_LOG("Could not determine if query was successful.");
+    return nullptr;
+  }
+
+  if (!querySuccessful) {
+    /*
+     *  The remote end did not find a valid channel registration for this
+     *  name in its registry.
+     */
+    return nullptr;
+  }
 
   RawAttachment remoteChannelAttachment;
   if (!reply.decode(remoteChannelAttachment)) {

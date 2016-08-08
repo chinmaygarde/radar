@@ -89,11 +89,22 @@ void SocketBootstrapServerProvider::onAccept(RawAttachment socket) {
 
   auto& message = messages[0];
 
+  Messages replies;
+  replies.emplace_back(replyForRequest(std::move(message)));
+
+  if (channel.sendMessages(std::move(replies), SocketBootstrapServerTimeout) !=
+      IOResult::Success) {
+    RL_LOG("Could not send the reply message back to the bootstrap client.");
+    return;
+  }
+}
+
+Message SocketBootstrapServerProvider::replyForRequest(Message message) {
   std::string registrationName;
 
   if (!message.decode(registrationName)) {
     RL_LOG("Could not decode channel name.");
-    return;
+    return {};
   }
 
   Message reply;
@@ -106,7 +117,7 @@ void SocketBootstrapServerProvider::onAccept(RawAttachment socket) {
      */
     if (!reply.encode(updateRegistration(registrationName,
                                          std::move(optionalAttachment)))) {
-      return;
+      return {};
     }
   } else {
     /*
@@ -117,24 +128,17 @@ void SocketBootstrapServerProvider::onAccept(RawAttachment socket) {
     bool acquired = socketPair != nullptr;
 
     if (!reply.encode(acquired)) {
-      return;
+      return {};
     }
 
     if (acquired) {
       if (!reply.encode(std::move(socketPair))) {
-        return;
+        return {};
       }
     }
   }
 
-  Messages replies;
-  replies.emplace_back(std::move(reply));
-
-  if (channel.sendMessages(std::move(replies), SocketBootstrapServerTimeout) !=
-      IOResult::Success) {
-    RL_LOG("Could not send the reply message back to the bootstrap client.");
-    return;
-  }
+  return reply;
 }
 
 std::shared_ptr<SocketPair> SocketBootstrapServerProvider::acquireRegistration(
