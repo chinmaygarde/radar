@@ -28,14 +28,19 @@ class SocketBootstrapServerProvider : public BootstrapServerProvider {
 
   ~SocketBootstrapServerProvider();
 
+  bool isReady() const;
+
  private:
   SocketServer _server;
+  std::shared_ptr<EventLoopSource> _acceptSource;
   core::EventLoopThread _thread;
   std::map<std::string, std::shared_ptr<SocketPair>> _registrations;
+  bool _isReady;
 
   void serverMain(Latch& latch);
-
   void onAccept(RawAttachment socket);
+  std::shared_ptr<SocketPair> acquireRegistration(const std::string& name);
+  bool updateRegistration(const std::string& name, RawAttachment attachment);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketBootstrapServerProvider);
 };

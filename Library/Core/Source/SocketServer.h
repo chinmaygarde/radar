@@ -12,6 +12,7 @@
 #include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
 #include <Core/URI.h>
+#include <Core/Channel.h>
 
 #include "SocketPair.h"
 
@@ -24,29 +25,31 @@ class SocketServer {
  public:
   using AcceptCallback = std::function<void(RawAttachment)>;
 
-  SocketServer(AcceptCallback callback = nullptr);
+  SocketServer();
 
   ~SocketServer();
 
+  static std::unique_ptr<Channel> ConnectedChannel(URI uri);
+
   bool isValid() const;
 
-  bool bind(URI uri, bool clearPrevious) const;
+  bool bind(URI uri, bool unlinkExistingBinding) const;
 
   bool listen(size_t backlog) const;
 
-  bool connect(URI uri) const;
-
-  std::shared_ptr<EventLoopSource> source();
+  std::shared_ptr<EventLoopSource> acceptSource(AcceptCallback callback) const;
 
  private:
   SocketPair::Handle _handle;
   bool _isValid;
-  std::shared_ptr<EventLoopSource> _source;
-  AcceptCallback _acceptCallback;
+  std::shared_ptr<EventLoopSource> _acceptSource;
 
   RawAttachment accept() const;
 
-  void setupAcceptSource();
+  bool connect(URI uri) const;
+
+  RL_WARN_UNUSED_RESULT
+  RawAttachment takeHandle();
 
   RL_DISALLOW_COPY_AND_ASSIGN(SocketServer);
 };

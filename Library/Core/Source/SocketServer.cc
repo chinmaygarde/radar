@@ -15,10 +15,8 @@
 namespace rl {
 namespace core {
 
-SocketServer::SocketServer(AcceptCallback callback)
-    : _handle(SocketPair::kInvalidHandle),
-      _isValid(false),
-      _acceptCallback(callback) {
+SocketServer::SocketServer()
+    : _handle(SocketPair::kInvalidHandle), _isValid(false) {
   /*
    *  Create the server socket handle;
    */
@@ -30,22 +28,44 @@ SocketServer::SocketServer(AcceptCallback callback)
   }
 
   _isValid = SocketPair::ConfigureSocketHandle(_handle, 1024, true);
+}
 
-  setupAcceptSource();
+static void CollectServerSocket(Attachment::Handle handle) {
+  if (handle != SocketPair::kInvalidHandle) {
+    RL_TEMP_FAILURE_RETRY(::close(handle));
+  }
 }
 
 SocketServer::~SocketServer() {
-  if (_handle != SocketPair::kInvalidHandle) {
-    RL_TEMP_FAILURE_RETRY(::close(_handle));
-    _handle = SocketPair::kInvalidHandle;
+  CollectServerSocket(_handle);
+  _handle = SocketPair::kInvalidHandle;
+}
+
+std::unique_ptr<Channel> SocketServer::ConnectedChannel(URI uri) {
+  SocketServer remoteServer;
+
+  if (!remoteServer.isValid()) {
+    return nullptr;
   }
+
+  if (!remoteServer.connect(std::move(uri))) {
+    return nullptr;
+  }
+
+  return core::make_unique<Channel>(remoteServer.takeHandle());
+}
+
+RawAttachment SocketServer::takeHandle() {
+  auto result = _handle;
+  _handle = SocketPair::kInvalidHandle;
+  return {result, &CollectServerSocket};
 }
 
 bool SocketServer::isValid() const {
   return _isValid;
 }
 
-bool SocketServer::bind(URI uri, bool clearPrevious) const {
+bool SocketServer::bind(URI uri, bool unlinkExistingBinding) const {
   auto fsName = uri.filesystemRepresentation();
 
   /*
@@ -60,14 +80,13 @@ bool SocketServer::bind(URI uri, bool clearPrevious) const {
   /*
    *  If a previous entry exists, clear it if requested.
    */
-  if (clearPrevious) {
+  if (unlinkExistingBinding) {
     ::unlink(fsName.data());
   }
 
   /*
    *  Create a new socket binding at the specified path.
    */
-
   struct sockaddr_un local = {};
   local.sun_family = AF_UNIX;
   strncpy(local.sun_path, fsName.data(), nameLength);
@@ -113,7 +132,45 @@ bool SocketServer::connect(URI uri) const {
   return true;
 }
 
+std::shared_ptr<EventLoopSource> SocketServer::acceptSource(
+    AcceptCallback acceptCallback) const {
+  if (!_isValid || acceptCallback == nullptr) {
+    return nullptr;
+  }
+
+  auto handlesProvider = [&]() {
+    return EventLoopSource::Handles{
+        _handle,                    /* read handle */
+        SocketPair::kInvalidHandle, /* write handle (disallowed) */
+    };
+  };
+
+  auto readHandler = [&, acceptCallback](EventLoopSource::Handle readHandle) {
+    if (readHandle == SocketPair::kInvalidHandle) {
+      return IOResult::Failure;
+    }
+
+    RL_ASSERT(readHandle == _handle);
+
+    acceptCallback(accept());
+
+    return IOResult::Success;
+  };
+
+  return std::make_shared<EventLoopSource>(
+      handlesProvider, /* handles provider */
+      nullptr,         /* handles collector */
+      readHandler,     /* read handler */
+      nullptr,         /* write handler */
+      nullptr          /* update handler */
+      );
+}
+
 RawAttachment SocketServer::accept() const {
+  if (!_isValid) {
+    return {};
+  }
+
   struct sockaddr_un client = {};
 
   auto clientAddress = reinterpret_cast<struct sockaddr*>(&client);
@@ -132,47 +189,6 @@ RawAttachment SocketServer::accept() const {
   };
 
   return RawAttachment{accepted, collector};
-}
-
-std::shared_ptr<EventLoopSource> SocketServer::source() {
-  return _isValid ? _source : nullptr;
-}
-
-void SocketServer::setupAcceptSource() {
-  if (!_isValid) {
-    return;
-  }
-
-  auto handlesProvider = [&]() {
-    return EventLoopSource::Handles{
-        _handle,                     // read handle
-        SocketPair::kInvalidHandle,  // write handle (disallowed)
-    };
-  };
-
-  auto readHandler = [&](EventLoopSource::Handle readHandle) {
-    if (readHandle == SocketPair::kInvalidHandle) {
-      return IOResult::Failure;
-    }
-
-    RL_ASSERT(readHandle == _handle);
-
-    auto attachment = accept();
-
-    if (_acceptCallback) {
-      _acceptCallback(std::move(attachment));
-    }
-
-    return IOResult::Success;
-  };
-
-  _source =
-      std::make_shared<EventLoopSource>(handlesProvider,  // handles provider
-                                        nullptr,          // handles collector
-                                        readHandler,      // read handler
-                                        nullptr,          // write handler
-                                        nullptr           // update handler
-                                        );
 }
 
 }  // namespace core

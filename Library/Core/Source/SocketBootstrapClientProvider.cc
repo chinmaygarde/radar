@@ -6,12 +6,15 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include "SocketBootstrapClientProvider.h"
+#include <Core/Channel.h>
 
+#include "SocketBootstrapClientProvider.h"
 #include "SocketBootstrapServerProvider.h"
 
 namespace rl {
 namespace core {
+
+static const ClockDurationNano SocketBootstrapClientTimeout(100000000);
 
 SocketBootstrapClientProvider::SocketBootstrapClientProvider() = default;
 
@@ -32,15 +35,46 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
     return nullptr;
   }
 
-  URI serverURI(SocketBootstrapServerProvider::kDefaultSocketPath);
-  SocketServer externalServer;
+  Messages messages;
+  messages.emplace_back(std::move(message));
 
-  if (!externalServer.connect(std::move(serverURI))) {
+  auto channel = SocketServer::ConnectedChannel(
+      URI{SocketBootstrapServerProvider::kDefaultSocketPath});
+
+  if (channel == nullptr) {
     RL_LOG("Could not connect to the bootstrap server.");
     return nullptr;
   }
 
-  return nullptr;
+  if (channel->sendMessages(std::move(messages),
+                            SocketBootstrapClientTimeout) !=
+      IOResult::Success) {
+    RL_LOG("Could not send messages to the connected bootstrap server.");
+    return nullptr;
+  }
+
+  auto replyMessages =
+      channel->drainPendingMessages(SocketBootstrapClientTimeout);
+
+  if (replyMessages.size() != 1) {
+    RL_LOG(
+        "The socket bootstrap server returned an unexpected number of "
+        "replies (%zu).",
+        replyMessages.size());
+    return nullptr;
+  }
+
+  auto& reply = replyMessages[0];
+
+  RawAttachment remoteChannelAttachment;
+  if (!reply.decode(remoteChannelAttachment)) {
+    RL_LOG(
+        "Reply from remote socket bootstrap server did not contain the channel "
+        "attachment.");
+    return nullptr;
+  }
+
+  return std::make_shared<Channel>(std::move(remoteChannelAttachment));
 }
 
 }  // namespace core
