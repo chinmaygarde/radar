@@ -32,6 +32,10 @@ std::shared_ptr<Channel> SocketBootstrapClientProvider::doAcquire(
     const std::string& name) {
   Message reply = bootstrapServerConnect(name);
 
+  if (!reply.isValid()) {
+    return nullptr;
+  }
+
   RawAttachment remoteChannelAttachment;
 
   if (!reply.decode(remoteChannelAttachment)) {
