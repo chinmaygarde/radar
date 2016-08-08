@@ -115,15 +115,12 @@ Messages Channel::drainPendingMessages(ClockDurationNano timeout) {
         messages.emplace_back(std::move(result.second));
         continue;
       case IOResult::Timeout:
-        goto Done;
+        return messages;
       case IOResult::Failure:
         terminate();
-        goto Done;
+        return messages;
     }
   }
-
-Done:
-  return messages;
 }
 
 AttachmentRef Channel::attachment() const {
