@@ -8,3 +8,4 @@ RUN apt-get install -y libsdl2-dev
 RUN apt-get install -y ninja-build
 RUN apt-get install -y gdb
 RUN apt-get install -y git
+RUN apt-get install -y man
