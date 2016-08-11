@@ -189,7 +189,8 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
   ASSERT_EQ(channel.sendMessages(std::move(messages)),
             rl::core::IOResult::Success);
 
-  auto readMessages = channel.drainPendingMessages();
+  auto readMessages =
+      channel.drainPendingMessages(rl::core::ClockDurationNano{0});
 
   ASSERT_EQ(readMessages.size(), 1);
 
