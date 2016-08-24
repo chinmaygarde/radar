@@ -30,15 +30,27 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(TestRunner)
+StandardRadarLibrary(GraphicsTestRunner)
 
-target_link_libraries(TestRunner
+target_link_libraries(GraphicsTestRunner
+  PUBLIC
+    Core
   PRIVATE
     gtest
     DevSupport
+    libGLESv2
+    libEGL
 )
 
-target_include_directories(TestRunner
+target_include_directories(GraphicsTestRunner
   PUBLIC
     "../../ThirdParty/gtest/include"
+    "../../ThirdParty/SwiftShader/include"
 )
+
+################################################################################
+# Test
+################################################################################
+
+# The graphics test runner is tested using the standard test runner.
+StandardRadarTest(GraphicsTestRunner)

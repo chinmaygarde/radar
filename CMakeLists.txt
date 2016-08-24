@@ -141,6 +141,7 @@ add_subdirectory("Library/Interface")
 add_subdirectory("Library/Layout")
 add_subdirectory("Library/Shell")
 add_subdirectory("Library/TestRunner")
+add_subdirectory("Library/GraphicsTestRunner")
 add_subdirectory("Library/Toolbox")
 add_subdirectory("Library/Typography")
 
@@ -152,6 +153,9 @@ add_subdirectory("ThirdParty/libtess2")
 add_subdirectory("ThirdParty/sqlite3")
 add_subdirectory("ThirdParty/stb")
 add_subdirectory("ThirdParty/uriparser")
+
+set(BUILD_EXTRA_PROGRAMS OFF CACHE BOOL "Disable extra programs." FORCE)
+add_subdirectory("ThirdParty/SwiftShader")
 
 ################################################################################
 ################################################################################
