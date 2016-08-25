@@ -6,6 +6,7 @@
 #include <GLES2/gl2.h>
 
 #include <TestRunner/TestRunner.h>
+#include <Image/ImageEncoder.h>
 
 #include "GraphicsTest.h"
 #include "GraphicsConnection.h"
@@ -41,4 +42,15 @@ TEST_F(GraphicsTest, SimpleSetupClearColor) {
   glClear(GL_COLOR_BUFFER_BIT);
 
   ASSERT_TRUE(glGetError() == GL_NO_ERROR);
+}
+
+TEST_F(GraphicsTest, SimpleSnapshot) {
+  ASSERT_TRUE(glGetError() == GL_NO_ERROR);
+
+  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  ASSERT_TRUE(glGetError() == GL_NO_ERROR);
+
+  ASSERT_TRUE(snapshot({5, 5}).wasSuccessful());
 }

@@ -42,7 +42,7 @@ const geom::Size& ImageResult::size() const {
   return _size;
 }
 
-Components ImageResult::components() const {
+ImageResult::Components ImageResult::components() const {
   return _components;
 }
 

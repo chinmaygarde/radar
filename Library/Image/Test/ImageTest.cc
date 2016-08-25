@@ -13,7 +13,7 @@ TEST(ImageTest, SimgeDecoderJPG) {
   auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
-  ASSERT_EQ(res.components(), rl::image::Components::RGB);
+  ASSERT_EQ(res.components(), rl::image::ImageResult::Components::RGB);
   ASSERT_EQ(res.size().width, 177);
   ASSERT_EQ(res.size().height, 177);
   ASSERT_TRUE(res.allocation().isReady());
@@ -27,7 +27,7 @@ TEST(ImageTest, SimgeDecoderPNG) {
   auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
-  ASSERT_EQ(res.components(), rl::image::Components::RGBA);
+  ASSERT_EQ(res.components(), rl::image::ImageResult::Components::RGBA);
   ASSERT_EQ(res.size().width, 177);
   ASSERT_EQ(res.size().height, 177);
   ASSERT_TRUE(res.allocation().isReady());
@@ -46,7 +46,7 @@ TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
   auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
-  ASSERT_EQ(res.components(), rl::image::Components::RGB);
+  ASSERT_EQ(res.components(), rl::image::ImageResult::Components::RGB);
   ASSERT_EQ(res.size().width, 177);
   ASSERT_EQ(res.size().height, 177);
   ASSERT_TRUE(res.allocation().isReady());
@@ -65,7 +65,7 @@ TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
   auto res = image.decode();
 
   ASSERT_TRUE(res.wasSuccessful());
-  ASSERT_EQ(res.components(), rl::image::Components::RGBA);
+  ASSERT_EQ(res.components(), rl::image::ImageResult::Components::RGBA);
   ASSERT_EQ(res.size().width, 177);
   ASSERT_EQ(res.size().height, 177);
   ASSERT_TRUE(res.allocation().isReady());

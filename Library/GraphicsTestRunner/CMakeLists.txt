@@ -35,6 +35,7 @@ StandardRadarLibrary(GraphicsTestRunner)
 target_link_libraries(GraphicsTestRunner
   PUBLIC
     Core
+    Image
   PRIVATE
     gtest
     DevSupport

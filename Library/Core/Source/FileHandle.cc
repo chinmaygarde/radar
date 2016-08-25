@@ -36,14 +36,29 @@ FileHandle::FileHandle(RawAttachment attachment) : _handle(kInvalidFileHandle) {
   _handle = handle;
 }
 
-FileHandle::FileHandle(const URI& uri) : _handle(kInvalidFileHandle) {
+int AccessTypeToOpenType(FileHandle::AccessType type) {
+  switch (type) {
+    case FileHandle::AccessType::Read:
+      return O_RDONLY;
+    case FileHandle::AccessType::Write:
+      return O_WRONLY;
+    case FileHandle::AccessType::ReadWrite:
+      return O_RDWR;
+  }
+
+  return O_RDONLY;
+}
+
+FileHandle::FileHandle(const URI& uri, AccessType type)
+    : _handle(kInvalidFileHandle) {
   if (!uri.isValid()) {
     return;
   }
 
   auto fileName = uri.filesystemRepresentation();
 
-  _handle = RL_TEMP_FAILURE_RETRY(::open(fileName.c_str(), O_RDONLY));
+  _handle = RL_TEMP_FAILURE_RETRY(
+      ::open(fileName.c_str(), AccessTypeToOpenType(type)));
 
   if (_handle == kInvalidFileHandle) {
     RL_LOG("Could not open file: '%s'", fileName.c_str());
@@ -89,6 +104,11 @@ Attachment::MessageHandle FileHandle::messageHandle() const {
 #endif
 
   return Attachment::MessageHandle{_handle};
+}
+
+size_t FileHandle::write(const uint8_t* bytes, size_t length) {
+  int written = RL_TEMP_FAILURE_RETRY(::write(_handle, bytes, length));
+  return written == -1 ? 0 : written;
 }
 
 }  // namespace core

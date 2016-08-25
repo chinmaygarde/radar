@@ -99,27 +99,27 @@ ImageResult Image::decode() const {
   /*
    *  Make sure we got a valid component set.
    */
-  auto components = Components::Invalid;
+  auto components = ImageResult::Components::Invalid;
 
   switch (comps) {
     case STBI_grey:
-      components = Components::Grey;
+      components = ImageResult::Components::Grey;
       break;
     case STBI_grey_alpha:
-      components = Components::GreyAlpha;
+      components = ImageResult::Components::GreyAlpha;
       break;
     case STBI_rgb:
-      components = Components::RGB;
+      components = ImageResult::Components::RGB;
       break;
     case STBI_rgb_alpha:
-      components = Components::RGBA;
+      components = ImageResult::Components::RGBA;
       break;
     default:
-      components = Components::Invalid;
+      components = ImageResult::Components::Invalid;
       break;
   }
 
-  if (components == Components::Invalid) {
+  if (components == ImageResult::Components::Invalid) {
     return {};
   }
 

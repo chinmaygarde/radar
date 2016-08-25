@@ -6,6 +6,8 @@
 #define RADAR_GRAPHICSTESTRUNNER_GRAPHICSTEST_H_
 
 #include <Core/Macros.h>
+#include <Image/ImageResult.h>
+#include <Geometry/Rect.h>
 
 #include <gtest/gtest.h>
 
@@ -22,6 +24,10 @@ class GraphicsTest : public ::testing::Test {
   GraphicsTest();
 
   ~GraphicsTest();
+
+  rl::image::ImageResult snapshot(const rl::geom::Size& viewport) const;
+
+  rl::image::ImageResult snapshot(const rl::geom::Rect& viewport) const;
 
  protected:
   void SetUp() override;

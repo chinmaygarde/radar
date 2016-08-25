@@ -14,11 +14,17 @@ namespace core {
 
 class FileHandle : public Attachment {
  public:
+  enum class AccessType {
+    Read,
+    Write,
+    ReadWrite,
+  };
+
   FileHandle();
 
   FileHandle(RawAttachment attachment);
 
-  FileHandle(const URI& uri);
+  FileHandle(const URI& uri, AccessType type = AccessType::Read);
 
   FileHandle(FileHandle&& file);
 
@@ -29,6 +35,8 @@ class FileHandle : public Attachment {
   Handle handle() const override;
 
   MessageHandle messageHandle() const override;
+
+  size_t write(const uint8_t* bytes, size_t length);
 
  private:
   Handle _handle;

@@ -12,16 +12,16 @@
 namespace rl {
 namespace image {
 
-enum class Components {
-  Invalid,
-  Grey,
-  GreyAlpha,
-  RGB,
-  RGBA,
-};
-
 class ImageResult {
  public:
+  enum class Components {
+    Invalid,
+    Grey,
+    GreyAlpha,
+    RGB,
+    RGBA,
+  };
+
   ImageResult();
 
   ImageResult(geom::Size size,
