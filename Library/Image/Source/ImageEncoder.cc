@@ -9,11 +9,6 @@
 namespace rl {
 namespace image {
 
-ImageEncoder::ImageEncoder(Type type, core::URI uri)
-    : ImageEncoder(type,
-                   core::FileHandle{std::move(uri),
-                                    core::FileHandle::AccessType::Write}) {}
-
 ImageEncoder::ImageEncoder(Type type, core::FileHandle handle)
     : _isReady(false), _type(type), _adapter(std::move(handle)) {
   if (!_adapter.isValid()) {
@@ -84,7 +79,7 @@ bool ImageEncoder::encodePNG(ImageResult image) {
 }
 
 void ImageEncoder::write(const uint8_t* data, size_t size) {
-  _adapter.write(data, size);
+  RL_UNUSED(_adapter.write(data, size));
 }
 
 }  // namespace image

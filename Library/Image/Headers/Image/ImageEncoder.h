@@ -19,8 +19,6 @@ class ImageEncoder {
     PNG,
   };
 
-  ImageEncoder(Type type, core::URI uri);
-
   ImageEncoder(Type type, core::FileHandle handle);
 
   ~ImageEncoder();

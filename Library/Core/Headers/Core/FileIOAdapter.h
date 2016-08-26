@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/FileHandle.h>
+#include <Core/Allocation.h>
 
 namespace rl {
 namespace core {
@@ -32,6 +33,9 @@ class FileIOAdapter {
 
   RL_WARN_UNUSED_RESULT
   size_t write(const uint8_t* buffer, size_t size);
+
+  RL_WARN_UNUSED_RESULT
+  size_t write(const Allocation& allocation);
 
  private:
   FileHandle _handle;

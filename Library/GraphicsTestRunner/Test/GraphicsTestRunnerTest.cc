@@ -52,5 +52,5 @@ TEST_F(GraphicsTest, SimpleSnapshot) {
 
   ASSERT_TRUE(glGetError() == GL_NO_ERROR);
 
-  ASSERT_TRUE(snapshot({5, 5}).wasSuccessful());
+  ASSERT_TRUE(snapshot({0, 0, 5, 5}).wasSuccessful());
 }

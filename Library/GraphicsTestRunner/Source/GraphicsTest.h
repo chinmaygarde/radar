@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 #include <Image/ImageResult.h>
 #include <Geometry/Rect.h>
+#include <Core/URI.h>
 
 #include <gtest/gtest.h>
 
@@ -25,9 +26,10 @@ class GraphicsTest : public ::testing::Test {
 
   ~GraphicsTest();
 
-  rl::image::ImageResult snapshot(const rl::geom::Size& viewport) const;
-
   rl::image::ImageResult snapshot(const rl::geom::Rect& viewport) const;
+
+  bool snapshot(const rl::geom::Rect& viewport,
+                const rl::core::URI& destination);
 
  protected:
   void SetUp() override;

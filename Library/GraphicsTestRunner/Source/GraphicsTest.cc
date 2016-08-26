@@ -5,6 +5,8 @@
 #include "GraphicsTest.h"
 
 #include <Core/Utilities.h>
+#include <Core/FileIOAdapter.h>
+#include <Image/ImageEncoder.h>
 
 #include "GraphicsConnection.h"
 
@@ -25,11 +27,6 @@ void GraphicsTest::SetUp() {
 void GraphicsTest::TearDown() {
   auto setup = _connection->deactivate();
   RL_ASSERT_MSG(setup, "Must be able to tear down the graphics connection");
-}
-
-rl::image::ImageResult GraphicsTest::snapshot(
-    const rl::geom::Size& viewport) const {
-  return snapshot({{0.0, 0.0}, viewport});
 }
 
 rl::image::ImageResult GraphicsTest::snapshot(
@@ -58,4 +55,41 @@ rl::image::ImageResult GraphicsTest::snapshot(
       rl::image::ImageResult::Components::RGBA,     // components
       std::move(pixels)                             // allocation
   };
+}
+
+bool GraphicsTest::snapshot(const rl::geom::Rect& viewport,
+                            const rl::core::URI& destination) {
+  /*
+   *  Create the file to be written into.
+   */
+  rl::core::FileHandle writeHandle(
+      destination, rl::core::FileHandle::AccessType::Write, true);
+
+  if (!writeHandle.isValid()) {
+    return false;
+  }
+
+  /*
+   *  Snapshot the view.
+   */
+  auto imageResult = snapshot(viewport);
+
+  if (!imageResult.wasSuccessful()) {
+    return false;
+  }
+
+  /*
+   *  Compress the snapshot to a PNG.
+   */
+  rl::image::ImageEncoder encoder(rl::image::ImageEncoder::Type::PNG,
+                                  std::move(writeHandle));
+
+  if (!encoder.isReady()) {
+    return false;
+  }
+
+  /*
+   *  Write the encoded snapshot to the file.
+   */
+  return encoder.encode(std::move(imageResult));
 }

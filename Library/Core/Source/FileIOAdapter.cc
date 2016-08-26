@@ -39,5 +39,13 @@ size_t FileIOAdapter::write(const uint8_t* buffer, size_t size) {
   return written == -1 ? 0 : written;
 }
 
+size_t FileIOAdapter::write(const Allocation& allocation) {
+  if (!allocation.isReady()) {
+    return 0;
+  }
+
+  return write(allocation.data(), allocation.size());
+}
+
 }  // namespace core
 }  // namespace rl

@@ -26,7 +26,9 @@ class FileHandle : public Attachment {
 
   FileHandle(RawAttachment attachment);
 
-  FileHandle(const URI& uri, AccessType type = AccessType::Read);
+  FileHandle(const URI& uri);
+
+  FileHandle(const URI& uri, AccessType type, bool createIfNecessary);
 
   FileHandle(FileHandle&& file);
 

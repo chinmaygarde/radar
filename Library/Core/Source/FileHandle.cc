@@ -38,6 +38,9 @@ FileHandle::FileHandle(RawAttachment attachment) : _handle(kInvalidFileHandle) {
   _handle = handle;
 }
 
+FileHandle::FileHandle(const URI& uri)
+    : FileHandle(uri, AccessType::Read, false) {}
+
 int AccessTypeToOpenType(FileHandle::AccessType type) {
   switch (type) {
     case FileHandle::AccessType::Read:
@@ -51,7 +54,7 @@ int AccessTypeToOpenType(FileHandle::AccessType type) {
   return O_RDONLY;
 }
 
-FileHandle::FileHandle(const URI& uri, AccessType type)
+FileHandle::FileHandle(const URI& uri, AccessType type, bool createIfNecessary)
     : _handle(kInvalidFileHandle) {
   if (!uri.isValid()) {
     return;
@@ -59,8 +62,14 @@ FileHandle::FileHandle(const URI& uri, AccessType type)
 
   auto fileName = uri.filesystemRepresentation();
 
-  _handle = RL_TEMP_FAILURE_RETRY(
-      ::open(fileName.c_str(), AccessTypeToOpenType(type)));
+  auto openType = AccessTypeToOpenType(type);
+
+  if (createIfNecessary) {
+    _handle = RL_TEMP_FAILURE_RETRY(
+        ::open(fileName.c_str(), openType | O_CREAT, 0666));
+  } else {
+    _handle = RL_TEMP_FAILURE_RETRY(::open(fileName.c_str(), openType));
+  }
 
   if (_handle == kInvalidFileHandle) {
     RL_LOG("Could not open file: '%s'", fileName.c_str());
