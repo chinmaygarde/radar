@@ -22,6 +22,8 @@ class FileHandle : public Attachment {
 
   FileHandle();
 
+  FileHandle(Handle handle);
+
   FileHandle(RawAttachment attachment);
 
   FileHandle(const URI& uri, AccessType type = AccessType::Read);
@@ -35,8 +37,6 @@ class FileHandle : public Attachment {
   Handle handle() const override;
 
   MessageHandle messageHandle() const override;
-
-  size_t write(const uint8_t* bytes, size_t length);
 
  private:
   Handle _handle;

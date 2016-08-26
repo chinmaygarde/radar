@@ -7,7 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Image/ImageResult.h>
-#include <Core/FileHandle.h>
+#include <Core/FileIOAdapter.h>
 #include <Geometry/Size.h>
 
 namespace rl {
@@ -32,7 +32,7 @@ class ImageEncoder {
  private:
   bool _isReady;
   Type _type;
-  core::FileHandle _handle;
+  core::FileIOAdapter _adapter;
 
   bool encodePNG(ImageResult image);
 

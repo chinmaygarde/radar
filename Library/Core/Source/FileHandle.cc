@@ -22,6 +22,8 @@ static const Attachment::Handle kInvalidFileHandle = -1;
 
 FileHandle::FileHandle() : _handle(kInvalidFileHandle) {}
 
+FileHandle::FileHandle(Handle handle) : _handle(handle) {}
+
 FileHandle::FileHandle(RawAttachment attachment) : _handle(kInvalidFileHandle) {
   auto handle = attachment.takeHandle();
 
@@ -104,11 +106,6 @@ Attachment::MessageHandle FileHandle::messageHandle() const {
 #endif
 
   return Attachment::MessageHandle{_handle};
-}
-
-size_t FileHandle::write(const uint8_t* bytes, size_t length) {
-  int written = RL_TEMP_FAILURE_RETRY(::write(_handle, bytes, length));
-  return written == -1 ? 0 : written;
 }
 
 }  // namespace core

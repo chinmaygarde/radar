@@ -15,8 +15,8 @@ ImageEncoder::ImageEncoder(Type type, core::URI uri)
                                     core::FileHandle::AccessType::Write}) {}
 
 ImageEncoder::ImageEncoder(Type type, core::FileHandle handle)
-    : _isReady(false), _type(type), _handle(std::move(handle)) {
-  if (!_handle.isValid()) {
+    : _isReady(false), _type(type), _adapter(std::move(handle)) {
+  if (!_adapter.isValid()) {
     return;
   }
 
@@ -84,7 +84,7 @@ bool ImageEncoder::encodePNG(ImageResult image) {
 }
 
 void ImageEncoder::write(const uint8_t* data, size_t size) {
-  _handle.write(data, size);
+  _adapter.write(data, size);
 }
 
 }  // namespace image
