@@ -67,6 +67,7 @@ class Allocation : public MessageSerializable {
    *
    *  @return if the resized arena is ready for writing into.
    */
+  RL_WARN_UNUSED_RESULT
   bool resize(size_t size);
 
   /**
