@@ -37,6 +37,8 @@ void HashCombine(size_t& seed, T const& v) {
   seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
+uint32_t NextPowerOfTwoSize(uint32_t x);
+
 /**
  *  Converts the given clock duration to a duration in milliseconds that is
  *  suitable for passing to a unix call. Returns -1 for indefinite duration.

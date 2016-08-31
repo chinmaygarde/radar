@@ -24,6 +24,22 @@ int ToUnixTimeoutMS(ClockDurationNano nano) {
   return static_cast<int>(nano.count() / 1000000);
 }
 
+uint32_t NextPowerOfTwoSize(uint32_t x) {
+  if (x == 0) {
+    return 1;
+  }
+
+  --x;
+
+  x |= x >> 1;
+  x |= x >> 2;
+  x |= x >> 4;
+  x |= x >> 8;
+  x |= x >> 16;
+
+  return x + 1;
+}
+
 URI GetExecutablePath() {
   std::stringstream uriString;
 
