@@ -10,7 +10,7 @@
 #include <Animation/Director.h>
 #include <Compositor/FrontendPass.h>
 #include <Compositor/InterfaceStatistics.h>
-#include <Coordinator/PresentationEntity.h>
+#include <Compositor/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
@@ -55,23 +55,24 @@ class PresentationGraph {
 
  private:
   using IdentifierPresentationEntityMap =
-      std::map<core::Name, std::unique_ptr<PresentationEntity>>;
+      std::map<core::Name, std::unique_ptr<compositor::PresentationEntity>>;
 
   core::Namespace& _localNS;
   compositor::InterfaceStatistics _stats;
   IdentifierPresentationEntityMap _entities;
   geom::Size _size;
-  PresentationEntity* _root;
+  compositor::PresentationEntity* _root;
   animation::Director _animationDirector;
   layout::Solver _layoutSolver;
   bool _hasVisualUpdates;
   layout::ProxyResolver _proxyResolver;
 
-  void updateRootEntity(PresentationEntity* entity);
+  void updateRootEntity(compositor::PresentationEntity* entity);
 
   void updateRootSizeSuggestions();
 
-  PresentationEntity& presentationEntityForName(const core::Name& name);
+  compositor::PresentationEntity& presentationEntityForName(
+      const core::Name& name);
 
   bool applyTransactionSingle(core::Message& arena,
                               const core::ClockPoint& time);

@@ -2,10 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
-#define RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
+#ifndef RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
+#define RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
 
-#include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
 #include <Entity/Entity.h>
@@ -14,7 +13,7 @@
 #include <map>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 class PresentationEntity : public entity::Entity {
  public:
@@ -34,8 +33,7 @@ class PresentationEntity : public entity::Entity {
 
   geom::Point convertPointFromWindow(const geom::Point& point) const;
 
-  void render(compositor::FrontEndPass& frontEndPass,
-              const geom::Matrix& viewMatrix);
+  void render(FrontEndPass& frontEndPass, const geom::Matrix& viewMatrix);
 
  private:
   enum class ContentType {
@@ -55,16 +53,14 @@ class PresentationEntity : public entity::Entity {
 
   ContentType contentType(double alpha) const;
   PrimitiveType primitiveType() const;
-  std::shared_ptr<compositor::Primitive> solidColoredPrimitive(
-      PrimitiveType type) const;
-  std::shared_ptr<compositor::Primitive> imagePrimitive(
-      PrimitiveType type) const;
-  void renderContents(compositor::FrontEndPass& frontEndPass) const;
+  std::shared_ptr<Primitive> solidColoredPrimitive(PrimitiveType type) const;
+  std::shared_ptr<Primitive> imagePrimitive(PrimitiveType type) const;
+  void renderContents(FrontEndPass& frontEndPass) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_PRESENTATIONENTITY_
+#endif  // RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_

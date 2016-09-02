@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/PresentationEntity.h>
+#include <Compositor/PresentationEntity.h>
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
 #include <Compositor/Primitive/TexturedBoxPrimitive.h>
 #include <Compositor/Primitive/ColoredPathPrimitive.h>
@@ -11,7 +11,7 @@
 #include <algorithm>
 
 namespace rl {
-namespace coordinator {
+namespace compositor {
 
 PresentationEntity::PresentationEntity(core::Name identifier)
     : Entity(identifier, nullptr) {}
@@ -39,7 +39,7 @@ geom::Point PresentationEntity::convertPointFromWindow(
   return geom::Point{pointInWindowVector.x, pointInWindowVector.y};
 }
 
-void PresentationEntity::render(compositor::FrontEndPass& frontEndPass,
+void PresentationEntity::render(FrontEndPass& frontEndPass,
                                 const geom::Matrix& viewMatrix) {
   /*
    *  Update the model view matrix for the latest render pass. This allows
@@ -58,7 +58,7 @@ void PresentationEntity::render(compositor::FrontEndPass& frontEndPass,
 
 PresentationEntity::ContentType PresentationEntity::contentType(
     double alpha) const {
-  if (alpha < compositor::Primitive::AlphaThreshold) {
+  if (alpha < Primitive::AlphaThreshold) {
     return ContentType::None;
   }
 
@@ -66,8 +66,7 @@ PresentationEntity::ContentType PresentationEntity::contentType(
     return ContentType::Image;
   }
 
-  return _backgroundColor.alpha * _opacity >=
-                 compositor::Primitive::AlphaThreshold
+  return _backgroundColor.alpha * _opacity >= Primitive::AlphaThreshold
              ? ContentType::SolidColor
              : ContentType::None;
 }
@@ -86,11 +85,11 @@ PresentationEntity::PrimitiveType PresentationEntity::primitiveType() const {
   return PrimitiveType::None;
 }
 
-std::shared_ptr<compositor::Primitive>
-PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
+std::shared_ptr<Primitive> PresentationEntity::solidColoredPrimitive(
+    PrimitiveType type) const {
   switch (type) {
     case PrimitiveType::Box: {
-      auto primitive = std::make_shared<compositor::ColoredBoxPrimitive>();
+      auto primitive = std::make_shared<ColoredBoxPrimitive>();
       primitive->setColor(_backgroundColor);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
@@ -98,8 +97,7 @@ PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
       return primitive;
     }
     case PrimitiveType::Path: {
-      auto primitive =
-          std::make_shared<compositor::ColoredPathPrimitive>(_path);
+      auto primitive = std::make_shared<ColoredPathPrimitive>(_path);
       primitive->setColor(_backgroundColor);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
@@ -114,12 +112,11 @@ PresentationEntity::solidColoredPrimitive(PrimitiveType type) const {
   return nullptr;
 }
 
-std::shared_ptr<compositor::Primitive> PresentationEntity::imagePrimitive(
+std::shared_ptr<Primitive> PresentationEntity::imagePrimitive(
     PrimitiveType type) const {
   switch (type) {
     case PrimitiveType::Box: {
-      auto primitive =
-          std::make_shared<compositor::TexturedBoxPrimitive>(_contents);
+      auto primitive = std::make_shared<TexturedBoxPrimitive>(_contents);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
       primitive->setModelViewMatrix(_renderedModelViewMatrix);
@@ -127,7 +124,7 @@ std::shared_ptr<compositor::Primitive> PresentationEntity::imagePrimitive(
     }
     case PrimitiveType::Path: {
       auto primitive =
-          std::make_shared<compositor::TexturedPathPrimitive>(_contents, _path);
+          std::make_shared<TexturedPathPrimitive>(_contents, _path);
       primitive->setSize(_bounds.size);
       primitive->setOpacity(_opacity);
       primitive->setModelViewMatrix(_renderedModelViewMatrix);
@@ -140,8 +137,7 @@ std::shared_ptr<compositor::Primitive> PresentationEntity::imagePrimitive(
   return nullptr;
 }
 
-void PresentationEntity::renderContents(
-    compositor::FrontEndPass& frontEndPass) const {
+void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
   auto primitive = primitiveType();
   switch (contentType(_opacity)) {
     case ContentType::None:
@@ -159,5 +155,5 @@ void PresentationEntity::renderContents(
   }
 }
 
-}  // namespace coordinator
+}  // namespace compositor
 }  // namespace rl

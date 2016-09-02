@@ -199,7 +199,11 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
     return false;
   }
 
-  compositor::ScopedFrame frame(_surfaceSize, _context);
+  compositor::Frame frame(_surfaceSize, _context);
+
+  if (!frame.begin()) {
+    return false;
+  }
 
   if (!frame.isReady()) {
     return false;
@@ -211,7 +215,7 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
     surfaceAccess.finalizeForPresentation();
   }
 
-  return true;
+  return frame.end();
 }
 
 }  // namespace coordinator

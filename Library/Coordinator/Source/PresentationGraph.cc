@@ -55,7 +55,8 @@ bool PresentationGraph::updateSize(const geom::Size& size) {
   return true;
 }
 
-void PresentationGraph::updateRootEntity(PresentationEntity* entity) {
+void PresentationGraph::updateRootEntity(
+    compositor::PresentationEntity* entity) {
   /*
    *  Cleanup the old entity if there is one.
    */
@@ -119,7 +120,7 @@ void PresentationGraph::updateRootSizeSuggestions() {
   _layoutSolver.suggestValueForVariable(positionY, position.y);
 }
 
-PresentationEntity& PresentationGraph::presentationEntityForName(
+compositor::PresentationEntity& PresentationGraph::presentationEntityForName(
     const core::Name& name) {
   RL_ASSERT(!name.isDead());
 
@@ -130,7 +131,7 @@ PresentationEntity& PresentationGraph::presentationEntityForName(
    *        a transaction update.
    */
   if (!entity) {
-    entity = core::make_unique<PresentationEntity>(name);
+    entity = core::make_unique<compositor::PresentationEntity>(name);
   }
 
   return *entity;
@@ -251,8 +252,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 transferEntity.bounds(),
                 /* stepper */
-                std::bind(&PresentationEntity::setBounds, &presentationEntity,
-                          std::placeholders::_1));
+                std::bind(&compositor::PresentationEntity::setBounds,
+                          &presentationEntity, std::placeholders::_1));
 
             break;
           case Property::Position:
@@ -268,8 +269,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 transferEntity.position(),
                 /* stepper */
-                std::bind(&PresentationEntity::setPosition, &presentationEntity,
-                          std::placeholders::_1));
+                std::bind(&compositor::PresentationEntity::setPosition,
+                          &presentationEntity, std::placeholders::_1));
             break;
           case Property::AnchorPoint:
             _animationDirector.setInterpolator<geom::Point>(
@@ -284,7 +285,7 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 transferEntity.anchorPoint(),
                 /* stepper */
-                std::bind(&PresentationEntity::setAnchorPoint,
+                std::bind(&compositor::PresentationEntity::setAnchorPoint,
                           &presentationEntity, std::placeholders::_1));
             break;
           case Property::Transformation: {
@@ -307,7 +308,7 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 to,
                 /* stepper */
-                std::bind(&PresentationEntity::setTransformation,
+                std::bind(&compositor::PresentationEntity::setTransformation,
                           &presentationEntity, std::placeholders::_1));
           } break;
           case Property::BackgroundColor: {
@@ -332,7 +333,7 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 to,
                 /* stepper */
-                std::bind(&PresentationEntity::setBackgroundColor,
+                std::bind(&compositor::PresentationEntity::setBackgroundColor,
                           &presentationEntity, std::placeholders::_1));
           } break;
           case Property::Opacity:
@@ -348,8 +349,8 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* to value */
                 transferEntity.opacity(),
                 /* stepper */
-                std::bind(&PresentationEntity::setOpacity, &presentationEntity,
-                          std::placeholders::_1));
+                std::bind(&compositor::PresentationEntity::setOpacity,
+                          &presentationEntity, std::placeholders::_1));
             break;
           default:
             RL_ASSERT("Non animatable property encountered.");
