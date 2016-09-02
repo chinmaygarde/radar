@@ -5,10 +5,8 @@
 #define GL_GLEXT_PROTOTYPES
 #include <GLES2/gl2.h>
 
-#include <TestRunner/TestRunner.h>
-#include <Image/ImageEncoder.h>
+#include <GraphicsTestRunner/GraphicsTestRunner.h>
 
-#include "GraphicsTest.h"
 #include "GraphicsConnection.h"
 
 TEST(GraphicsTestRunnerTest, SimpleConnectionIsValid) {
@@ -52,5 +50,8 @@ TEST_F(GraphicsTest, SimpleSnapshot) {
 
   ASSERT_TRUE(glGetError() == GL_NO_ERROR);
 
-  ASSERT_TRUE(snapshot({0, 0, 5, 5}).wasSuccessful());
+  auto captured = snapshot({0, 0, 5, 5});
+  ASSERT_TRUE(captured.wasSuccessful());
+  ASSERT_EQ(captured.size().width, 5);
+  ASSERT_EQ(captured.size().height, 5);
 }

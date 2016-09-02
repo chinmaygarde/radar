@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RL_TEST_RUNNER_H_
-#define RL_TEST_RUNNER_H_
+#ifndef RL_TEST_GRAPHICSTESTRUNNER_H_
+#define RL_TEST_GRAPHICSTESTRUNNER_H_
 
-#include <gtest/gtest.h>
+#include <TestRunner/TestRunner.h>
+#include <GraphicsTestRunner/GraphicsTest.h>
 
-#define TEST_SLOW(className, testName) TEST(className, RLSlowTest##testName)
-
-#endif  // RL_TEST_RUNNER_H_
+#endif  // RL_TEST_GRAPHICSTESTRUNNER_H_
