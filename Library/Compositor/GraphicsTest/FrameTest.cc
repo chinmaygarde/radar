@@ -3,20 +3,16 @@
 // found in the LICENSE file.
 
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
-#include <Compositor/Frame.h>
-#include <Compositor/Primitive/ColoredBoxPrimitive.h>
 
-TEST_F(GraphicsTest, SimpleBoxPrimitive) {
+#include <Compositor/Frame.h>
+
+TEST_F(GraphicsTest, SimpleFrame) {
   rl::compositor::Context context;
-  rl::compositor::Frame frame({320, 480}, context);
+  rl::compositor::Frame frame({100, 100}, context);
+
+  ASSERT_TRUE(frame.isReady());
 
   ASSERT_TRUE(frame.begin());
-
-  rl::compositor::ColoredBoxPrimitive primitive;
-
-  primitive.setColor(rl::entity::ColorBlue);
-
-  ASSERT_TRUE(primitive.render(frame));
 
   ASSERT_TRUE(frame.end());
 

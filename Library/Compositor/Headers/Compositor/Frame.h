@@ -48,14 +48,20 @@ class Frame {
   /**
    *  Indicate that the frame has begun rendering. This allows the frame
    *  to perform initial setup operations
+   *
+   *  @return if the frame setup operations succeeded.
    */
-  void begin();
+  RL_WARN_UNUSED_RESULT
+  bool begin();
 
   /**
    *  Indicate that the frame has finished rendering. This allows the frame to
    *  finalize resources.
+   *
+   *  @return if the frame finalization operations succeeded.
    */
-  void end();
+  RL_WARN_UNUSED_RESULT
+  bool end();
 
   Context& context();
 
@@ -68,19 +74,6 @@ class Frame {
   void renderStatistics();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Frame);
-};
-
-class ScopedFrame : public Frame {
- public:
-  template <class... T>
-  ScopedFrame(T&&... args) : Frame(std::forward<T>(args)...) {
-    begin();
-  }
-
-  ~ScopedFrame() { end(); }
-
- private:
-  RL_DISALLOW_COPY_AND_ASSIGN(ScopedFrame);
 };
 
 }  // namespace compositor

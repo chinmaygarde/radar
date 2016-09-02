@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Compositor/CompositorStatistics.h>
+#include <Compositor/ThreadBinding.h>
 
 namespace rl {
 namespace compositor {
@@ -28,17 +29,20 @@ class Context {
 
   BoxVertices& unitBoxVertices();
 
-  void beginUsing();
+  RL_WARN_UNUSED_RESULT
+  bool beginUsing();
 
-  void endUsing();
+  RL_WARN_UNUSED_RESULT
+  bool endUsing();
+
+  RL_WARN_UNUSED_RESULT
+  bool dispose();
 
   void renderStatistics(Frame& frame);
 
-  void dispose();
-
  private:
   bool _beingUsed;
-  bool _disposed;
+  ThreadBinding _threadBinding;
   CompositorStatistics _compositorStats;
   std::unique_ptr<StatisticsRenderer> _statsRenderer;
   std::unique_ptr<ProgramCatalog> _programCatalog;

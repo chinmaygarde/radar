@@ -14,11 +14,12 @@ namespace compositor {
 
 Context::Context()
     : _beingUsed(false),
-      _disposed(false),
       _statsRenderer(core::make_unique<StatisticsRenderer>()),
       _programCatalog(core::make_unique<ProgramCatalog>()),
       _unitBoxVertices(
           core::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {}
+
+Context::~Context() = default;
 
 CompositorStatistics& Context::statistics() {
   RL_ASSERT(_beingUsed);
@@ -26,46 +27,56 @@ CompositorStatistics& Context::statistics() {
 }
 
 ProgramCatalog& Context::programCatalog() {
-  RL_ASSERT(_beingUsed && !_disposed);
+  RL_ASSERT(_beingUsed);
   return *_programCatalog;
 }
 
 BoxVertices& Context::unitBoxVertices() {
-  RL_ASSERT(_beingUsed && !_disposed);
+  RL_ASSERT(_beingUsed);
   return *_unitBoxVertices;
 }
 
-void Context::beginUsing() {
-  RL_ASSERT(!_beingUsed && !_disposed);
+bool Context::beginUsing() {
+  if (_beingUsed || !_threadBinding.isBound()) {
+    return false;
+  }
+
   _beingUsed = true;
 
   _compositorStats.start();
+
+  return true;
 }
 
-void Context::endUsing() {
-  RL_ASSERT(_beingUsed && !_disposed);
+bool Context::endUsing() {
+  if (!_beingUsed || !_threadBinding.isBound()) {
+    return false;
+  }
+
   _beingUsed = false;
 
   _compositorStats.stop();
+
+  return true;
 }
 
 void Context::renderStatistics(Frame& frame) {
-  RL_ASSERT(_beingUsed && !_disposed);
+  RL_ASSERT(_beingUsed);
   _statsRenderer->render(frame, _compositorStats);
 }
 
-void Context::dispose() {
-  RL_ASSERT(!_disposed && !_beingUsed);
+bool Context::dispose() {
+  if (_beingUsed) {
+    return false;
+  }
 
   _statsRenderer = nullptr;
   _programCatalog = nullptr;
   _unitBoxVertices = nullptr;
 
-  _disposed = true;
-}
+  _threadBinding.unbind();
 
-Context::~Context() {
-  RL_ASSERT(!_beingUsed && _disposed);
+  return true;
 }
 
 }  // namespace compositor

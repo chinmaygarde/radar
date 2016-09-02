@@ -35,16 +35,20 @@ const geom::Size& Frame::size() const {
   return _size;
 }
 
-void Frame::begin() {
-  _context.beginUsing();
+bool Frame::begin() {
+  if (!_context.beginUsing()) {
+    return false;
+  }
 
   prepareFrame();
+
+  return true;
 }
 
-void Frame::end() {
+bool Frame::end() {
   renderStatistics();
 
-  _context.endUsing();
+  return _context.endUsing();
 }
 
 void Frame::prepareFrame() {
