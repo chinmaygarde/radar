@@ -6,7 +6,6 @@
 #define RADAR_COMPOSITOR_FRONTENDPASS_H_
 
 #include <Core/Macros.h>
-#include <Compositor/Primitive/Primitive.h>
 
 #include <vector>
 
@@ -15,6 +14,7 @@ namespace compositor {
 
 class BackEndPass;
 class Frame;
+class Primitive;
 
 class FrontEndPass {
  public:

@@ -4,6 +4,8 @@
 
 #include <Compositor/FrontendPass.h>
 
+#include "Primitive/Primitive.h"
+
 namespace rl {
 namespace compositor {
 

@@ -4,7 +4,7 @@
 
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include <Compositor/Frame.h>
-#include <Compositor/Primitive/ColoredBoxPrimitive.h>
+#include "Primitive/ColoredBoxPrimitive.h"
 #include "GraphicsTestFrame.h"
 
 TEST_F(GraphicsTest, SimpleBoxPrimitive) {

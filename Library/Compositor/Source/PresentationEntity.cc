@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationEntity.h>
-#include <Compositor/Primitive/ColoredBoxPrimitive.h>
-#include <Compositor/Primitive/TexturedBoxPrimitive.h>
-#include <Compositor/Primitive/ColoredPathPrimitive.h>
-#include <Compositor/Primitive/TexturedPathPrimitive.h>
+
+#include "Primitive/ColoredBoxPrimitive.h"
+#include "Primitive/TexturedBoxPrimitive.h"
+#include "Primitive/ColoredPathPrimitive.h"
+#include "Primitive/TexturedPathPrimitive.h"
 
 #include <algorithm>
 

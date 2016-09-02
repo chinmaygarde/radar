@@ -4,9 +4,9 @@
 
 #include <Core/Utilities.h>
 #include <Compositor/Frame.h>
-#include <Compositor/Primitive/Primitive.h>
 #include <Compositor/Context.h>
 
+#include "Primitive/Primitive.h"
 #include "OpenGL.h"
 
 namespace rl {

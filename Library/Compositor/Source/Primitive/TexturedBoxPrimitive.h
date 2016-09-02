@@ -6,8 +6,10 @@
 #define RADAR_COMPOSITOR_TEXTUREDBOXPRIMITIVE_H_
 
 #include <Core/Macros.h>
-#include <Compositor/Primitive/Primitive.h>
+
 #include <Image/Image.h>
+
+#include "Primitive.h"
 
 namespace rl {
 namespace compositor {

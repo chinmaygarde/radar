@@ -6,7 +6,8 @@
 #define RADAR_COMPOSITOR_COLOREDBOXPRIMITIVE_H_
 
 #include <Core/Macros.h>
-#include <Compositor/Primitive/Primitive.h>
+
+#include "Primitive.h"
 
 namespace rl {
 namespace compositor {
