@@ -34,6 +34,7 @@ StandardRadarLibrary(GraphicsTestRunner)
 
 target_link_libraries(GraphicsTestRunner
   PUBLIC
+    TestRunner
     Core
     Image
   PRIVATE

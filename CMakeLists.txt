@@ -46,14 +46,15 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Tools/CMake")
 
 include(AddCXXWarningIfSupported)
 include(AddRecommendedWarningFlags)
+include(CheckCompiler)
+include(CheckPlatform)
 include(HardenToolchain)
 include(StandardRadarBench)
+include(StandardRadarGraphicsTest)
 include(StandardRadarLibrary)
 include(StandardRadarTest)
 include(SymbolVisibility)
 include(TreatAsCXX)
-include(CheckPlatform)
-include(CheckCompiler)
 
 CheckPlatform()
 
@@ -93,6 +94,20 @@ endif()
 option(RADAR_TESTING_ENABLED "Enable testing." ON)
 
 if(RADAR_TESTING_ENABLED)
+  enable_testing()
+endif()
+
+################################################################################
+# Graphics Testing
+################################################################################
+
+if(NOT (APPLE OR LINUX OR WINDOWS))
+  set(RADAR_GRAPHICS_TESTING_ENABLED OFF CACHE BOOL "Disable graphics testing")
+endif()
+
+option(RADAR_GRAPHICS_TESTING_ENABLED "Enable graphics testing." ON)
+
+if(RADAR_GRAPHICS_TESTING_ENABLED)
   enable_testing()
 endif()
 

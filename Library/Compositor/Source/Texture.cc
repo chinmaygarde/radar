@@ -93,16 +93,16 @@ bool Texture::uploadToVRAM() {
   GLint format = GL_NONE;
 
   switch (_imageResult.components()) {
-    case image::Components::Grey:
+    case image::ImageResult::Components::Grey:
       format = GL_LUMINANCE;
       break;
-    case image::Components::GreyAlpha:
+    case image::ImageResult::Components::GreyAlpha:
       format = GL_LUMINANCE_ALPHA;
       break;
-    case image::Components::RGB:
+    case image::ImageResult::Components::RGB:
       format = GL_RGB;
       break;
-    case image::Components::RGBA:
+    case image::ImageResult::Components::RGBA:
       format = GL_RGBA;
       break;
     default:

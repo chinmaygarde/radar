@@ -50,3 +50,9 @@ endif()
 if (NACL)
   target_link_libraries(Compositor PRIVATE ppapi_gles2)
 endif()
+
+################################################################################
+# Graphics Test
+################################################################################
+
+StandardRadarGraphicsTest(Compositor)
