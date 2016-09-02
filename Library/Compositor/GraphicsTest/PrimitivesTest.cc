@@ -5,6 +5,7 @@
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include <Compositor/Frame.h>
 #include <Compositor/Primitive/ColoredBoxPrimitive.h>
+#include "GraphicsTestFrame.h"
 
 TEST_F(GraphicsTest, SimpleBoxPrimitive) {
   rl::compositor::Context context;
@@ -21,4 +22,10 @@ TEST_F(GraphicsTest, SimpleBoxPrimitive) {
   ASSERT_TRUE(frame.end());
 
   ASSERT_TRUE(context.dispose());
+}
+
+TEST_F(GraphicsTestFrame, SimpleBoxPrimitiveWithFixture) {
+  rl::compositor::ColoredBoxPrimitive primitive;
+  primitive.setColor(rl::entity::ColorBlue);
+  ASSERT_TRUE(primitive.render(frame()));
 }
