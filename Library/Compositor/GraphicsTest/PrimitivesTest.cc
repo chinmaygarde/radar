@@ -26,6 +26,8 @@ TEST_F(GraphicsTest, SimpleBoxPrimitive) {
 
 TEST_F(GraphicsTestFrame, SimpleBoxPrimitiveWithFixture) {
   rl::compositor::ColoredBoxPrimitive primitive;
+
   primitive.setColor(rl::entity::ColorBlue);
+
   ASSERT_TRUE(primitive.render(frame()));
 }

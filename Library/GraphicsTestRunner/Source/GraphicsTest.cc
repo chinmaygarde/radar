@@ -21,12 +21,12 @@ GraphicsTest::~GraphicsTest() = default;
 
 void GraphicsTest::SetUp() {
   auto setup = _connection->activate();
-  RL_ASSERT_MSG(setup, "Must be able to setup the graphics connection");
+  ASSERT_TRUE(setup);
 }
 
 void GraphicsTest::TearDown() {
-  auto setup = _connection->deactivate();
-  RL_ASSERT_MSG(setup, "Must be able to tear down the graphics connection");
+  auto teardown = _connection->deactivate();
+  ASSERT_TRUE(teardown);
 }
 
 rl::image::ImageResult GraphicsTest::snapshot(
