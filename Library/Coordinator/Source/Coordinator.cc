@@ -174,23 +174,27 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
 
   if (_surfaceSize.width <= 0.0 || _surfaceSize.height <= 0.0) {
     /*
-     *  Don't bother the platform if the surface size is zero. Just say we have
-     *  rendered and go on with it.
+     *  Don't bother the platform if the surface size is zero.
      */
     return true;
   }
 
   /*
-   *  Run the front-end passes before surface acquisition and back-end pass
-   *  initialization.
-   *
-   *  TODO: Figure out how to be lazy in generating these passes.
+   *  A single backend pass is created for all registered interface controller.
+   *  The result of rendering of each interface controller is a discrete
+   *  front-end pass.
    */
-
-  std::vector<compositor::FrontEndPass> frontEndPasses;
+  compositor::BackEndPass backEndPass;
 
   for (auto& interface : controllers.get()) {
-    frontEndPasses.emplace_back(interface.render());
+    backEndPass.addFrontEndPass(interface.render());
+  }
+
+  if (!backEndPass.hasRenderables()) {
+    /*
+     *  Don't bother acquiring the surface is there are no renderables.
+     */
+    return true;
   }
 
   ScopedRenderSurfaceAccess surfaceAccess(*_surface);
@@ -201,17 +205,15 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
 
   compositor::Frame frame(_surfaceSize, _context);
 
-  if (!frame.begin()) {
-    return false;
-  }
-
   if (!frame.isReady()) {
     return false;
   }
 
-  compositor::BackEndPass backEndPass(std::move(frontEndPasses));
+  if (!frame.begin()) {
+    return false;
+  }
 
-  if (backEndPass.render(_workQueue, frame)) {
+  if (backEndPass.render(frame, &_workQueue)) {
     surfaceAccess.finalizeForPresentation();
   }
 

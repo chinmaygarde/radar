@@ -24,14 +24,14 @@ class TextureTransaction {
   RL_WARN_UNUSED_RESULT
   std::shared_ptr<Texture> registerTexture(std::shared_ptr<Texture> texture);
 
-  bool commit(core::WorkQueue& workqueue);
+  bool commit(core::WorkQueue* workqueue);
 
  private:
   TextureCache _textureCache;
   std::vector<std::shared_ptr<Texture>> _textures;
   std::unique_ptr<core::Latch> _latch;
 
-  bool uncompressImages(core::WorkQueue& workqueue);
+  bool uncompressImages(core::WorkQueue* workqueue);
   bool uploadImagesToVRAM();
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextureTransaction);

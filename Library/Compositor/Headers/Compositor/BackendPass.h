@@ -20,11 +20,15 @@ class Texture;
 
 class BackEndPass {
  public:
-  BackEndPass(std::vector<FrontEndPass> frontEndPasses);
+  BackEndPass();
 
   ~BackEndPass();
 
-  bool render(core::WorkQueue& preparationWQ, Frame& frame);
+  bool hasRenderables() const;
+
+  void addFrontEndPass(FrontEndPass frontEndPass);
+
+  bool render(Frame& frame, core::WorkQueue* preparationWQ);
 
   RL_WARN_UNUSED_RESULT
   std::shared_ptr<Texture> prepareTexture(std::shared_ptr<Texture> texture);

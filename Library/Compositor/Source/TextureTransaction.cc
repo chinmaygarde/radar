@@ -28,7 +28,7 @@ std::shared_ptr<Texture> TextureTransaction::registerTexture(
   return cachedTexture;
 }
 
-bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
+bool TextureTransaction::uncompressImages(core::WorkQueue* workqueue) {
   if (_latch != nullptr) {
     return false;
   }
@@ -36,12 +36,16 @@ bool TextureTransaction::uncompressImages(core::WorkQueue& workqueue) {
   _latch = core::make_unique<rl::core::Latch>(_textures.size());
 
   for (auto& texture : _textures) {
-    auto dispatched = workqueue.dispatch([&]() {
-      RL_ASSERT(texture);
+    if (workqueue) {
+      auto dispatched = workqueue->dispatch([&]() {
+        texture->uncompress();
+        _latch->countDown();
+      });
+      RL_UNUSED(dispatched);
+    } else {
       texture->uncompress();
       _latch->countDown();
-    });
-    RL_UNUSED(dispatched);
+    }
   }
 
   return true;
@@ -67,7 +71,7 @@ bool TextureTransaction::uploadImagesToVRAM() {
   return true;
 }
 
-bool TextureTransaction::commit(core::WorkQueue& workqueue) {
+bool TextureTransaction::commit(core::WorkQueue* workqueue) {
   RL_RETURN_IF_FALSE(uncompressImages(workqueue));
   RL_RETURN_IF_FALSE(uploadImagesToVRAM());
   return true;

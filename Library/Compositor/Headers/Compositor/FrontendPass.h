@@ -24,16 +24,21 @@ class FrontEndPass {
 
   FrontEndPass(FrontEndPass&&);
 
+  bool hasRenderables() const;
+
   size_t primitivesCount() const;
 
   void addPrimitive(std::shared_ptr<Primitive> primitive);
 
-  bool prepareInBackendPass(BackEndPass& pass);
-
-  bool render(const BackEndPass& pass, Frame& frame) const;
-
  private:
   std::vector<std::shared_ptr<Primitive>> _primitives;
+
+  /*
+   *  This will be removed once the pass IR is formalized.
+   */
+  friend class BackEndPass;
+  bool prepareInBackendPass(BackEndPass& pass);
+  bool renderInBackEndPass(const BackEndPass& pass, Frame& frame) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(FrontEndPass);
 };

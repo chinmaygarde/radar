@@ -8,14 +8,25 @@
 namespace rl {
 namespace compositor {
 
-BackEndPass::BackEndPass(std::vector<FrontEndPass> frontEndPasses)
-    : _frontEndPasses(std::move(frontEndPasses)),
-      _textureTransaction(core::make_unique<TextureTransaction>()) {}
+BackEndPass::BackEndPass()
+    : _textureTransaction(core::make_unique<TextureTransaction>()) {}
 
 BackEndPass::~BackEndPass() = default;
 
-bool BackEndPass::render(core::WorkQueue& preparationWQ, Frame& frame) {
-  if (_frontEndPasses.size() == 0) {
+bool BackEndPass::hasRenderables() const {
+  return _frontEndPasses.size() > 0;
+}
+
+void BackEndPass::addFrontEndPass(FrontEndPass frontEndPass) {
+  if (!frontEndPass.hasRenderables()) {
+    return;
+  }
+
+  _frontEndPasses.emplace_back(std::move(frontEndPass));
+}
+
+bool BackEndPass::render(Frame& frame, core::WorkQueue* preparationWQ) {
+  if (!hasRenderables()) {
     return false;
   }
 
@@ -36,7 +47,7 @@ bool BackEndPass::render(core::WorkQueue& preparationWQ, Frame& frame) {
   auto& primitivesStatistics = frame.context().statistics().primitiveCount();
 
   for (const auto& frontEndPass : _frontEndPasses) {
-    RL_RETURN_IF_FALSE(frontEndPass.render(*this, frame));
+    RL_RETURN_IF_FALSE(frontEndPass.renderInBackEndPass(*this, frame));
     primitivesStatistics.increment(frontEndPass.primitivesCount());
   }
 

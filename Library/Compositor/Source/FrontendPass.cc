@@ -15,6 +15,10 @@ FrontEndPass::~FrontEndPass() = default;
 
 FrontEndPass::FrontEndPass(FrontEndPass&&) = default;
 
+bool FrontEndPass::hasRenderables() const {
+  return _primitives.size() > 0;
+}
+
 size_t FrontEndPass::primitivesCount() const {
   return _primitives.size();
 }
@@ -33,7 +37,8 @@ bool FrontEndPass::prepareInBackendPass(BackEndPass& pass) {
   return true;
 }
 
-bool FrontEndPass::render(const BackEndPass& pass, Frame& frame) const {
+bool FrontEndPass::renderInBackEndPass(const BackEndPass& pass,
+                                       Frame& frame) const {
   for (const auto& primitive : _primitives) {
     RL_RETURN_IF_FALSE(primitive->render(frame));
   }
