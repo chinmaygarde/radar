@@ -16,7 +16,7 @@ class Frame {
  public:
   Frame(geom::Size size, Context& context);
 
-  virtual ~Frame();
+  ~Frame();
 
   /**
    *  Returns if the frame setup was successful

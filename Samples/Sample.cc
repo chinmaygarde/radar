@@ -48,7 +48,7 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
   rl::animation::Action action;
   action.setTimingCurveType(rl::animation::TimingCurve::Type::EaseInEaseOut);
   action.setAutoReverses(true);
-  action.setDuration(rl::core::ClockDuration(1.5));
+  action.setDuration(rl::core::ClockDuration(0.5));
   action.setRepeatCount(rl::animation::Action::RepeatCountInfinity);
   action.setPropertyMask(rl::entity::Entity::TransformationMask);
 
