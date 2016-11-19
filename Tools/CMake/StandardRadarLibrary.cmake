@@ -43,16 +43,11 @@ include(AddRecommendedWarningFlags)
 #     - Source/           : Source files (includes private headers)
 #     - Test/             : Test files (see `StandardRadarTest.cmake`)
 #     - Bench/            : Benchmark files (see `StandardRadarBench.cmake`)
-#     - CMakeLists.txt    : The file that calls this function
+#     - CMakeLists.txt    : The file that calls this macro
 #
 ################################################################################
 
-function(StandardRadarLibrary LIBRARY_NAME_ARG)
-
-message(STATUS 
-    "Found library '${LIBRARY_NAME_ARG}' with standard layout.")
-
-AddRecommendedWarningFlags()
+macro(StandardRadarLibrary LIBRARY_NAME_ARG)
 
 file(GLOB_RECURSE LIBRARY_SRC_CC
   "Headers/*.h"
@@ -69,8 +64,10 @@ TreatAsCXX("${LIBRARY_SRC_MM}")
 
 add_library(${LIBRARY_NAME_ARG} ${LIBRARY_SRC_CC} ${LIBRARY_SRC_MM})
 
+AddRecommendedWarningFlags()
+
 target_include_directories(${LIBRARY_NAME_ARG} PUBLIC "Headers")
 
 include_directories("Headers" "Source")
 
-endfunction()
+endmacro()

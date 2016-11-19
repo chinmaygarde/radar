@@ -41,7 +41,7 @@ include(AddRecommendedWarningFlags)
 # `StandardRadarLibrary.cmake`
 ################################################################################
 
-function(StandardRadarTest TEST_NAME_ARG)
+macro(StandardRadarTest TEST_NAME_ARG)
 
 if (NOT RADAR_TESTING_ENABLED)
   message(STATUS 
@@ -50,11 +50,6 @@ if (NOT RADAR_TESTING_ENABLED)
 endif()
 
 string(CONCAT TEST_TARGET_NAME ${TEST_NAME_ARG} "Test")
-
-message(STATUS 
-    "\tAdding test '${TEST_TARGET_NAME}' for '${TEST_NAME_ARG}'.")
-
-AddRecommendedWarningFlags()
 
 # Find all test files and mark ObjC files as C++ on Linux.
 
@@ -73,6 +68,8 @@ TreatAsCXX("${TEST_SRC_MM}")
 # Add the test executable target.
 
 add_executable(${TEST_TARGET_NAME} ${TEST_SRC_CC} ${TEST_SRC_MM})
+
+AddRecommendedWarningFlags()
 
 # Tests can include private headers directly.
 
@@ -108,4 +105,4 @@ file(COPY ${TEST_FIXTURES}
   USE_SOURCE_PERMISSIONS
 )
 
-endfunction()
+endmacro()

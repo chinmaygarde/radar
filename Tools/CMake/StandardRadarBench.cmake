@@ -41,7 +41,7 @@ include(AddRecommendedWarningFlags)
 # `StandardRadarLibrary.cmake`
 ################################################################################
 
-function(StandardRadarBench BENCH_NAME_ARG)
+macro(StandardRadarBench BENCH_NAME_ARG)
 
 if (NOT RADAR_BENCHMARKING_ENABLED)
   message(STATUS 
@@ -50,11 +50,6 @@ if (NOT RADAR_BENCHMARKING_ENABLED)
 endif()
 
 string(CONCAT BENCH_TARGET_NAME ${BENCH_NAME_ARG} "Benchmark")
-
-message(STATUS 
-    "\tAdding benchmark '${BENCH_TARGET_NAME}' for '${BENCH_NAME_ARG}'.")
-
-AddRecommendedWarningFlags()
 
 file(GLOB_RECURSE BENCH_SRC_CC
   "Bench/*.h"
@@ -70,6 +65,8 @@ TreatAsCXX("${BENCH_SRC_MM}")
 
 add_executable(${BENCH_TARGET_NAME} ${BENCH_SRC_CC} ${BENCH_SRC_MM})
 
+AddRecommendedWarningFlags()
+
 include_directories("Headers" "Source" "Bench")
 
 target_link_libraries(${BENCH_TARGET_NAME} BenchmarkRunner ${BENCH_NAME_ARG})
@@ -80,4 +77,4 @@ endif()
 
 add_dependencies(bench ${BENCH_TARGET_NAME})
 
-endfunction()
+endmacro()
