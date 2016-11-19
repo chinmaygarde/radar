@@ -32,4 +32,7 @@
 
 StandardRadarLibrary(Toolbox)
 
-target_link_libraries(Toolbox Core)
+target_link_libraries(Toolbox
+  PUBLIC
+    Core
+)

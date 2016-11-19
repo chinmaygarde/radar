@@ -32,7 +32,11 @@
 
 StandardRadarLibrary(Shell)
 
-target_link_libraries(Shell Interface Coordinator)
+target_link_libraries(Shell
+  PUBLIC
+    Interface
+    Coordinator
+)
 
 ################################################################################
 # Test

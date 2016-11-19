@@ -32,4 +32,7 @@
 
 StandardRadarLibrary(DevSupport)
 
-target_link_libraries(DevSupport Core)
+target_link_libraries(DevSupport
+  PUBLIC
+    Core
+)

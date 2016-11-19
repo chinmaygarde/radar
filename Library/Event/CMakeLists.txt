@@ -32,4 +32,8 @@
 
 StandardRadarLibrary(Event)
 
-target_link_libraries(Event Core Geometry)
+target_link_libraries(Event
+  PUBLIC
+    Core
+    Geometry
+)

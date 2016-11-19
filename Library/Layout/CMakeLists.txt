@@ -32,7 +32,12 @@
 
 StandardRadarLibrary(Layout)
 
-target_link_libraries(Layout Core Event Entity)
+target_link_libraries(Layout
+  PUBLIC
+    Core
+    Event
+    Entity
+)
 
 ################################################################################
 # Test

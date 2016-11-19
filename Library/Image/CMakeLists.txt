@@ -33,8 +33,11 @@
 StandardRadarLibrary(Image)
 
 target_link_libraries(Image
-  PUBLIC  Core Geometry
-  PRIVATE stb
+  PUBLIC
+    Core
+    Geometry
+  PRIVATE
+    stb
 )
 
 ################################################################################

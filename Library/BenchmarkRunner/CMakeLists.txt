@@ -36,4 +36,8 @@ endif()
 
 StandardRadarLibrary(BenchmarkRunner)
 
-target_link_libraries(BenchmarkRunner DevSupport benchmark)
+target_link_libraries(BenchmarkRunner
+  PUBLIC
+    DevSupport
+    benchmark
+)

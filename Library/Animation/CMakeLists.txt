@@ -32,4 +32,9 @@
 
 StandardRadarLibrary(Animation)
 
-target_link_libraries(Animation Core Geometry Entity)
+target_link_libraries(Animation
+  PUBLIC
+    Core
+    Geometry
+    Entity
+)

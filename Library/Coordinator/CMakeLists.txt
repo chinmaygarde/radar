@@ -33,5 +33,10 @@
 StandardRadarLibrary(Coordinator)
 
 target_link_libraries(Coordinator
-  PUBLIC Core Geometry Animation Layout Compositor
+  PUBLIC
+    Core
+    Geometry
+    Animation
+    Layout
+    Compositor
 )

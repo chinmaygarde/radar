@@ -33,7 +33,8 @@
 StandardRadarLibrary(Geometry)
 
 target_link_libraries(Geometry
-  PUBLIC  Core
+  PUBLIC
+    Core
 )
 
 ################################################################################
