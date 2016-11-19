@@ -33,7 +33,7 @@ static void BenchDecodeJPGFromAllocation(benchmark::State& state) {
   rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
-  allocation.resize(map.size());
+  RL_ASSERT(allocation.resize(map.size()));
   memmove(allocation.data(), map.mapping(), map.size());
 
   rl::image::Image image(std::move(allocation));
@@ -50,7 +50,7 @@ static void BenchDecodePNGFromAllocation(benchmark::State& state) {
   rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
-  allocation.resize(map.size());
+  RL_ASSERT(allocation.resize(map.size()));
   memmove(allocation.data(), map.mapping(), map.size());
 
   rl::image::Image image(std::move(allocation));

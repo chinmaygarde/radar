@@ -47,7 +47,6 @@ AddCXXWarningIfSupported("-Werror"            HAVE_ERRORS)
 AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
 AddCXXWarningIfSupported("-Wredundant-move"   HAVE_REDUNDANT_MOVE)
 AddCXXWarningIfSupported("-Wloop-analysis"    HAVE_LOOP_ANALYSIS)
-AddCXXWarningIfSupported("-Wdocumentation"    HAVE_DOCUMENTATION_ANALYSIS)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Work around bug with -Werror on older GCC

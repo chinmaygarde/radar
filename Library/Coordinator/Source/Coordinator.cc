@@ -56,7 +56,8 @@ void Coordinator::shutdown(std::function<void()> onShutdown) {
 
   _loop->dispatchAsync([&] {
     setupOrTeardownChannels(false);
-    _context.dispose();
+    auto disposed = _context.dispose();
+    RL_ASSERT_MSG(disposed, "Must be able to dispose the compositor context.");
     _loop->terminate();
     if (onShutdown) {
       onShutdown();
