@@ -26,6 +26,13 @@ Prerequisites
 * CMake version 3.4 or newer.
 
 
+Before You Begin
+----------------
+
+#### Update your submodules.
+* From the source root, run `git submodule update --init --recursive`
+
+
 Build Instructions
 ------------------
 
