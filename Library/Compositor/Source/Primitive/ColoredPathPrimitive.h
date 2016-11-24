@@ -17,11 +17,9 @@ class PathVertices;
 
 class ColoredPathPrimitive : public Primitive {
  public:
-  ColoredPathPrimitive(const geom::Path& path);
+  ColoredPathPrimitive(entity::Color color, const geom::Path& path);
 
   ~ColoredPathPrimitive() override;
-
-  void setColor(entity::Color color);
 
  private:
   std::unique_ptr<PathVertices> _pathVertices;

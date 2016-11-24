@@ -6,9 +6,8 @@
 #define RADARLOVE_COMPOSITOR_PRIMITIVE_
 
 #include <Core/Core.h>
-
+#include <Core/ThreadGuard.h>
 #include <Geometry/Geometry.h>
-
 #include <Entity/Color.h>
 
 namespace rl {
@@ -38,6 +37,7 @@ class Primitive {
   virtual bool render(Frame& frame) const = 0;
 
  protected:
+  RL_DEBUG_THREAD_GUARD(_guard);
   geom::Size _size;
   geom::Matrix _modelViewMatrix;
   double _opacity;

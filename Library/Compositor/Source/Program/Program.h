@@ -6,11 +6,10 @@
 #define RADARLOVE_COMPOSITOR_PROGRAM_PROGRAM_
 
 #include <Core/Core.h>
-
+#include <Core/ThreadGuard.h>
 #include <memory>
 #include <vector>
 #include <string>
-
 #include "OpenGL.h"
 
 namespace rl {
@@ -61,6 +60,7 @@ class Program {
   GLint indexForUniform(const std::string& uniform);
 
  private:
+  RL_DEBUG_THREAD_GUARD(_guard);
   std::string _vertexShader;
   std::string _fragmentShader;
   bool _linkingComplete;

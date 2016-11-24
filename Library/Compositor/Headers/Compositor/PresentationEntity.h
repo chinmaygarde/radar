@@ -53,8 +53,8 @@ class PresentationEntity : public entity::Entity {
 
   ContentType contentType(double alpha) const;
   PrimitiveType primitiveType() const;
-  std::shared_ptr<Primitive> solidColoredPrimitive(PrimitiveType type) const;
-  std::shared_ptr<Primitive> imagePrimitive(PrimitiveType type) const;
+  std::shared_ptr<Primitive> coloredPrimitive(PrimitiveType type) const;
+  std::shared_ptr<Primitive> texturedPrimitive(PrimitiveType type) const;
   void renderContents(FrontEndPass& frontEndPass) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);

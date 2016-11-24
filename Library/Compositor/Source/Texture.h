@@ -6,9 +6,8 @@
 #define RADAR_COMPOSITOR_TEXTURE_H_
 
 #include <Core/Macros.h>
-
+#include <Core/ThreadGuard.h>
 #include <Image/Image.h>
-
 #include "OpenGL.h"
 
 namespace rl {
@@ -46,6 +45,7 @@ class Texture {
   };
 
  private:
+  RL_DEBUG_THREAD_GUARD(_guard);
   image::Image _image;
   image::ImageResult _imageResult;
   State _state;

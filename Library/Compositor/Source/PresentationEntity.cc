@@ -86,56 +86,61 @@ PresentationEntity::PrimitiveType PresentationEntity::primitiveType() const {
   return PrimitiveType::None;
 }
 
-std::shared_ptr<Primitive> PresentationEntity::solidColoredPrimitive(
+std::shared_ptr<Primitive> PresentationEntity::coloredPrimitive(
     PrimitiveType type) const {
-  switch (type) {
-    case PrimitiveType::Box: {
-      auto primitive = std::make_shared<ColoredBoxPrimitive>();
-      primitive->setColor(_backgroundColor);
-      primitive->setSize(_bounds.size);
-      primitive->setOpacity(_opacity);
-      primitive->setModelViewMatrix(_renderedModelViewMatrix);
-      return primitive;
-    }
-    case PrimitiveType::Path: {
-      auto primitive = std::make_shared<ColoredPathPrimitive>(_path);
-      primitive->setColor(_backgroundColor);
-      primitive->setSize(_bounds.size);
-      primitive->setOpacity(_opacity);
-      primitive->setModelViewMatrix(_renderedModelViewMatrix);
-      return primitive;
-    }
+  std::shared_ptr<Primitive> primitive;
 
+  switch (type) {
     case PrimitiveType::None:
+      break;
+
+    case PrimitiveType::Box:
+      primitive = std::make_shared<ColoredBoxPrimitive>(_backgroundColor);
+      break;
+
+    case PrimitiveType::Path:
+      primitive =
+          std::make_shared<ColoredPathPrimitive>(_backgroundColor, _path);
       break;
   }
 
-  return nullptr;
+  if (primitive == nullptr) {
+    return nullptr;
+  }
+
+  primitive->setSize(_bounds.size);
+  primitive->setOpacity(_opacity);
+  primitive->setModelViewMatrix(_renderedModelViewMatrix);
+
+  return primitive;
 }
 
-std::shared_ptr<Primitive> PresentationEntity::imagePrimitive(
+std::shared_ptr<Primitive> PresentationEntity::texturedPrimitive(
     PrimitiveType type) const {
+  std::shared_ptr<Primitive> primitive;
+
   switch (type) {
-    case PrimitiveType::Box: {
-      auto primitive = std::make_shared<TexturedBoxPrimitive>(_contents);
-      primitive->setSize(_bounds.size);
-      primitive->setOpacity(_opacity);
-      primitive->setModelViewMatrix(_renderedModelViewMatrix);
-      return primitive;
-    }
-    case PrimitiveType::Path: {
-      auto primitive =
-          std::make_shared<TexturedPathPrimitive>(_contents, _path);
-      primitive->setSize(_bounds.size);
-      primitive->setOpacity(_opacity);
-      primitive->setModelViewMatrix(_renderedModelViewMatrix);
-      return primitive;
-    } break;
+    case PrimitiveType::Box:
+      primitive = std::make_shared<TexturedBoxPrimitive>(_contents);
+      break;
+
+    case PrimitiveType::Path:
+      primitive = std::make_shared<TexturedPathPrimitive>(_contents, _path);
+      break;
+
     case PrimitiveType::None:
       break;
   }
 
-  return nullptr;
+  if (primitive == nullptr) {
+    return nullptr;
+  }
+
+  primitive->setSize(_bounds.size);
+  primitive->setOpacity(_opacity);
+  primitive->setModelViewMatrix(_renderedModelViewMatrix);
+
+  return primitive;
 }
 
 void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
@@ -148,10 +153,10 @@ void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
        */
       return;
     case ContentType::SolidColor:
-      frontEndPass.addPrimitive(solidColoredPrimitive(primitive));
+      frontEndPass.addPrimitive(coloredPrimitive(primitive));
       break;
     case ContentType::Image:
-      frontEndPass.addPrimitive(imagePrimitive(primitive));
+      frontEndPass.addPrimitive(texturedPrimitive(primitive));
       break;
   }
 }

@@ -13,13 +13,9 @@
 namespace rl {
 namespace compositor {
 
-ColoredBoxPrimitive::ColoredBoxPrimitive() = default;
+ColoredBoxPrimitive::ColoredBoxPrimitive(entity::Color color) : _color(color) {}
 
 ColoredBoxPrimitive::~ColoredBoxPrimitive() = default;
-
-void ColoredBoxPrimitive::setColor(entity::Color color) {
-  _color = std::move(color);
-}
 
 void ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {}
 

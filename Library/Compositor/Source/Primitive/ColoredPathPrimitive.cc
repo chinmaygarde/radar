@@ -13,17 +13,15 @@
 namespace rl {
 namespace compositor {
 
-ColoredPathPrimitive::ColoredPathPrimitive(const geom::Path& path)
-    : _pathVertices(core::make_unique<PathVertices>(
-          path,
-          PathVertices::Winding::Odd,
-          PathVertices::ElementType::Polygons)) {}
+ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
+                                           const geom::Path& path)
+    : _pathVertices(
+          core::make_unique<PathVertices>(path,
+                                          PathVertices::Winding::Odd,
+                                          PathVertices::ElementType::Polygons)),
+      _color(color) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;
-
-void ColoredPathPrimitive::setColor(entity::Color color) {
-  _color = std::move(color);
-}
 
 void ColoredPathPrimitive::prepareToRender(BackEndPass& backEndPass) {
   /*

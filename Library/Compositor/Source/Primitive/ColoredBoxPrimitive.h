@@ -14,11 +14,9 @@ namespace compositor {
 
 class ColoredBoxPrimitive : public Primitive {
  public:
-  ColoredBoxPrimitive();
+  ColoredBoxPrimitive(entity::Color color);
 
   ~ColoredBoxPrimitive() override;
-
-  void setColor(entity::Color color);
 
   void prepareToRender(BackEndPass& backEndPass) override;
 
