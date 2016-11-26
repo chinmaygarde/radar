@@ -15,6 +15,8 @@
 namespace rl {
 namespace compositor {
 
+class PrimitivesCache;
+
 class PresentationEntity : public entity::Entity {
  public:
   using Borrowed = PresentationEntity*;
@@ -36,25 +38,10 @@ class PresentationEntity : public entity::Entity {
   void render(FrontEndPass& frontEndPass, const geom::Matrix& viewMatrix);
 
  private:
-  enum class ContentType {
-    None,
-    SolidColor,
-    Image,
-  };
-
-  enum class PrimitiveType {
-    None,
-    Box,
-    Path,
-  };
-
-  std::vector<Borrowed> _children;
   geom::Matrix _renderedModelViewMatrix;
+  std::vector<Borrowed> _children;
+  std::unique_ptr<PrimitivesCache> _primitivesCache;
 
-  ContentType contentType(double alpha) const;
-  PrimitiveType primitiveType() const;
-  std::shared_ptr<Primitive> coloredPrimitive(PrimitiveType type) const;
-  std::shared_ptr<Primitive> texturedPrimitive(PrimitiveType type) const;
   void renderContents(FrontEndPass& frontEndPass) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);

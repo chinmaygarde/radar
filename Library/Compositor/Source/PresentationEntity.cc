@@ -3,21 +3,17 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationEntity.h>
-
-#include "Primitive/ColoredBoxPrimitive.h"
-#include "Primitive/TexturedBoxPrimitive.h"
-#include "Primitive/ColoredPathPrimitive.h"
-#include "Primitive/TexturedPathPrimitive.h"
-
+#include "PrimitivesCache.h"
 #include <algorithm>
 
 namespace rl {
 namespace compositor {
 
 PresentationEntity::PresentationEntity(core::Name identifier)
-    : Entity(identifier, nullptr) {}
+    : Entity(identifier, nullptr),
+      _primitivesCache(core::make_unique<PrimitivesCache>()) {}
 
-PresentationEntity::~PresentationEntity() {}
+PresentationEntity::~PresentationEntity() = default;
 
 void PresentationEntity::addChild(Borrowed entity) {
   _children.push_back(entity);
@@ -57,107 +53,36 @@ void PresentationEntity::render(FrontEndPass& frontEndPass,
   }
 }
 
-PresentationEntity::ContentType PresentationEntity::contentType(
-    double alpha) const {
-  if (alpha < Primitive::AlphaThreshold) {
-    return ContentType::None;
-  }
-
-  if (_contents.isValid()) {
-    return ContentType::Image;
-  }
-
-  return _backgroundColor.alpha * _opacity >= Primitive::AlphaThreshold
-             ? ContentType::SolidColor
-             : ContentType::None;
-}
-
-PresentationEntity::PrimitiveType PresentationEntity::primitiveType() const {
-  if (_path.componentCount() > 0) {
-    return PrimitiveType::Path;
-  }
-
-  if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
-    return PrimitiveType::None;
-  } else {
-    return PrimitiveType::Box;
-  }
-
-  return PrimitiveType::None;
-}
-
-std::shared_ptr<Primitive> PresentationEntity::coloredPrimitive(
-    PrimitiveType type) const {
-  std::shared_ptr<Primitive> primitive;
-
-  switch (type) {
-    case PrimitiveType::None:
-      break;
-
-    case PrimitiveType::Box:
-      primitive = std::make_shared<ColoredBoxPrimitive>(_backgroundColor);
-      break;
-
-    case PrimitiveType::Path:
-      primitive =
-          std::make_shared<ColoredPathPrimitive>(_backgroundColor, _path);
-      break;
-  }
-
-  if (primitive == nullptr) {
-    return nullptr;
-  }
-
-  primitive->setSize(_bounds.size);
-  primitive->setOpacity(_opacity);
-  primitive->setModelViewMatrix(_renderedModelViewMatrix);
-
-  return primitive;
-}
-
-std::shared_ptr<Primitive> PresentationEntity::texturedPrimitive(
-    PrimitiveType type) const {
-  std::shared_ptr<Primitive> primitive;
-
-  switch (type) {
-    case PrimitiveType::Box:
-      primitive = std::make_shared<TexturedBoxPrimitive>(_contents);
-      break;
-
-    case PrimitiveType::Path:
-      primitive = std::make_shared<TexturedPathPrimitive>(_contents, _path);
-      break;
-
-    case PrimitiveType::None:
-      break;
-  }
-
-  if (primitive == nullptr) {
-    return nullptr;
-  }
-
-  primitive->setSize(_bounds.size);
-  primitive->setOpacity(_opacity);
-  primitive->setModelViewMatrix(_renderedModelViewMatrix);
-
-  return primitive;
-}
-
 void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
-  auto primitive = primitiveType();
-  switch (contentType(_opacity)) {
-    case ContentType::None:
-      /*
-       *  If there is no content to display, there is no sense in looking for
-       *  primitives to render.
-       */
-      return;
-    case ContentType::SolidColor:
-      frontEndPass.addPrimitive(coloredPrimitive(primitive));
-      break;
-    case ContentType::Image:
-      frontEndPass.addPrimitive(texturedPrimitive(primitive));
-      break;
+  // Decide the content type.
+  PrimitivesCache::ContentType contentType = PrimitivesCache::ContentType::None;
+  if (_opacity < Primitive::AlphaThreshold) {
+    contentType = PrimitivesCache::ContentType::None;
+  } else if (_contents.isValid()) {
+    contentType = PrimitivesCache::ContentType::Image;
+  } else {
+    contentType = _backgroundColor.alpha * _opacity >= Primitive::AlphaThreshold
+                      ? PrimitivesCache::ContentType::SolidColor
+                      : PrimitivesCache::ContentType::None;
+  }
+
+  // Decide the primitive type.
+  PrimitivesCache::PrimitiveType primitiveType =
+      PrimitivesCache::PrimitiveType::None;
+  if (_path.componentCount() > 0) {
+    primitiveType = PrimitivesCache::PrimitiveType::Path;
+  } else if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
+    primitiveType = PrimitivesCache::PrimitiveType::None;
+  } else {
+    primitiveType = PrimitivesCache::PrimitiveType::Box;
+  }
+
+  if (auto primitive =
+          _primitivesCache->acquire(*this, contentType, primitiveType)) {
+    primitive->setSize(_bounds.size);
+    primitive->setOpacity(_opacity);
+    primitive->setModelViewMatrix(_renderedModelViewMatrix);
+    frontEndPass.addPrimitive(std::move(primitive));
   }
 }
 

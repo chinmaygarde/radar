@@ -32,7 +32,7 @@ using only_if = typename std::enable_if<B, T>::type;
 
 #define rl_trivially_copyable(x) __has_trivial_copy(x)
 
-template <typename T>
+template <class T>
 void HashCombine(size_t& seed, T const& v) {
   seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
