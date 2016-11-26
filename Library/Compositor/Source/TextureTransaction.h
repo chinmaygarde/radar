@@ -28,11 +28,8 @@ class TextureTransaction {
 
  private:
   TextureCache _textureCache;
-  std::vector<std::shared_ptr<Texture>> _textures;
-  std::unique_ptr<core::Latch> _latch;
-
-  bool uncompressImages(core::WorkQueue* workqueue);
-  bool uploadImagesToVRAM();
+  std::vector<std::shared_ptr<Texture>> _compressedTextures;
+  std::vector<std::shared_ptr<Texture>> _uncompressedTextures;
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextureTransaction);
 };

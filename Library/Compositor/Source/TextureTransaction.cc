@@ -19,62 +19,63 @@ std::shared_ptr<Texture> TextureTransaction::registerTexture(
 
   switch (cachedTexture->state()) {
     case Texture::State::Compressed:
+      _compressedTextures.emplace_back(texture);
+      break;
     case Texture::State::Uncompressed:
+      _uncompressedTextures.emplace_back(texture);
+      break;
     default:
-      _textures.emplace_back(texture);
       break;
   }
 
   return cachedTexture;
 }
 
-bool TextureTransaction::uncompressImages(core::WorkQueue* workqueue) {
-  if (_latch != nullptr) {
-    return false;
+bool TextureTransaction::commit(core::WorkQueue* workqueue) {
+  if (_compressedTextures.size() == 0 && _uncompressedTextures.size() == 0) {
+    return true;
   }
 
-  _latch = core::make_unique<rl::core::Latch>(_textures.size());
+  bool result = true;
 
-  for (auto& texture : _textures) {
-    if (workqueue) {
-      auto dispatched = workqueue->dispatch([&]() {
-        texture->uncompress();
-        _latch->countDown();
-      });
-      RL_UNUSED(dispatched);
-    } else {
+  core::Latch latch(_compressedTextures.size());
+
+  /*
+   *  Enqueue all the compressed textures onto the workqueue.
+   */
+
+  for (auto& texture : _compressedTextures) {
+    core::WorkQueue::WorkItem workItem = [texture, &latch]() {
       texture->uncompress();
-      _latch->countDown();
+      latch.countDown();
+    };
+
+    if (workqueue != nullptr) {
+      RL_UNUSED(workqueue->dispatch(workItem));
+    } else {
+      workItem();
     }
   }
 
-  return true;
-}
-
-bool TextureTransaction::uploadImagesToVRAM() {
-  if (_latch == nullptr) {
-    return false;
+  /*
+   *  While the textures are being decompressed on the workqueue, upload the
+   *  uncompressed textures.
+   */
+  for (auto& texture : _uncompressedTextures) {
+    result &= texture->uploadToVRAM();
   }
 
   /*
-   *  Make sure all the workqueue work items are done processing.
+   *  This thread has nothing more to do that to wait for the textures to be
+   *  decompressed. Wait for that and upload the when ready.
    */
-  _latch->wait();
+  latch.wait();
 
-  /*
-   *  Upload to VRAM on the callers thread.
-   */
-  for (auto& texture : _textures) {
-    texture->uploadToVRAM();
+  for (auto& texture : _compressedTextures /* that are now uncompressed */) {
+    result &= texture->uploadToVRAM();
   }
 
-  return true;
-}
-
-bool TextureTransaction::commit(core::WorkQueue* workqueue) {
-  RL_RETURN_IF_FALSE(uncompressImages(workqueue));
-  RL_RETURN_IF_FALSE(uploadImagesToVRAM());
-  return true;
+  return result;
 }
 
 }  // namespace compositor
