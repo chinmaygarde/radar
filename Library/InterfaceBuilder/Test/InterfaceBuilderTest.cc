@@ -14,3 +14,10 @@ TEST(InterfaceBuilderTest, InvalidSVG) {
   auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
   ASSERT_FALSE(archive);
 }
+
+TEST(InterfaceBuilderTest, ValidSVG) {
+  rl::core::URI fileURI("file://rect01.svg");
+  auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+  ASSERT_TRUE(archive);
+  ASSERT_TRUE(archive->isValid());
+}
