@@ -18,6 +18,9 @@ struct Rect {
   Rect() : origin({0.0, 0.0}), size({0.0, 0.0}) {}
   Rect(Size size) : origin({0.0, 0.0}), size(size) {}
   Rect(Point origin, Size size) : origin(origin), size(size) {}
+  Rect(const double components[4])
+      : origin(components[0], components[1]),
+        size(components[2], components[3]) {}
   Rect(double x, double y, double width, double height)
       : origin(x, y), size(width, height) {}
 

@@ -33,3 +33,15 @@ TEST_F(InterfaceTest, ValidSVGInflate) {
     ASSERT_TRUE(archive->inflate(interface, interface.rootEntity()));
   });
 }
+
+TEST_F(InterfaceTest, SVGCheckViewbox) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://rect02.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    rl::geom::Rect expectedBounds(0, 0, 1200, 400);
+    ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
+  });
+}

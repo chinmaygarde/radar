@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include "SVGArchive.h"
-#include "SVGColor.h"
+#include "SVGDecoder.h"
 
 namespace rl {
 namespace ib {
@@ -44,6 +44,8 @@ bool SVGArchive::inflate(interface::Interface& interface,
     return false;
   }
 
+  container.setFrame(Decode<geom::Rect>(svg, "viewBox"));
+
   for (const auto& child : svg.children()) {
     if (::strncmp(child.name(), "rect", sizeof("rect")) == 0) {
       visitRect(child, interface, container);
@@ -52,54 +54,6 @@ bool SVGArchive::inflate(interface::Interface& interface,
   }
 
   return true;
-}
-
-/*
- *  Declarations for keyed and unkeyed value accessors.
- */
-
-template <class T>
-T Decode(const pugi::xml_node& node);
-
-template <class T>
-T Decode(const pugi::xml_node& node, const char* name);
-
-/**
- *  Explicit specialization for unkeyed value accessors.
- */
-
-template <>
-double Decode<>(const pugi::xml_node& node, const char* name) {
-  /*
-   *  TODO: This needs to handle units.
-   */
-
-  return atof(node.attribute(name).value());
-}
-
-/**
- *  Explicit specialization for keyed value accessors.
- */
-
-template <>
-geom::Rect Decode<>(const pugi::xml_node& node) {
-  return {
-      Decode<double>(node, "x"),       //
-      Decode<double>(node, "y"),       //
-      Decode<double>(node, "width"),   //
-      Decode<double>(node, "height"),  //
-  };
-}
-
-template <>
-entity::Color Decode<>(const pugi::xml_node& node, const char* name) {
-  auto attribute = node.attribute(name);
-
-  if (attribute.empty()) {
-    return entity::ColorBlackTransparent;
-  }
-
-  return ColorFromString(attribute.value());
 }
 
 void SVGArchive::visitRect(const pugi::xml_node& node,
