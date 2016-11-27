@@ -34,9 +34,7 @@ StandardRadarLibrary(InterfaceBuilder)
 
 target_link_libraries(InterfaceBuilder
   PUBLIC
-    Coordinator
-    Image
-    Toolbox
+    Entity
   PRIVATE
     pugixml
 )

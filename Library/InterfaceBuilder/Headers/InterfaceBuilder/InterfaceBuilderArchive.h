@@ -6,17 +6,33 @@
 #define RADAR_INTERFACEBUILDER_INTERFACEBUILDERARCHIVE_H_
 
 #include <Core/Macros.h>
+#include <Core/FileHandle.h>
+#include <Entity/Entity.h>
+#include <memory>
 
 namespace rl {
 namespace ib {
 
 class InterfaceBuilderArchive {
  public:
+  static std::unique_ptr<InterfaceBuilderArchive> Make(core::FileHandle handle);
+
+  virtual ~InterfaceBuilderArchive();
+
+  bool isValid() const;
+
+  std::unique_ptr<entity::Entity> inflate() const;
+
+ protected:
   InterfaceBuilderArchive();
 
-  ~InterfaceBuilderArchive();
+  virtual bool isArchiveReadable() const = 0;
+
+  virtual std::unique_ptr<entity::Entity> onInflate() const = 0;
 
  private:
+  std::unique_ptr<InterfaceBuilderArchive> _impl;
+
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceBuilderArchive);
 };
 
