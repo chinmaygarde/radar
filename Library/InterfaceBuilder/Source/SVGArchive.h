@@ -30,6 +30,14 @@ class SVGArchive : public InterfaceBuilderArchive {
                  interface::Interface& interface,
                  interface::ModelEntity& parent) const;
 
+  void visitEllipse(const pugi::xml_node& node,
+                    interface::Interface& interface,
+                    interface::ModelEntity& parent) const;
+
+  void visitG(const pugi::xml_node& node,
+              interface::Interface& interface,
+              interface::ModelEntity& parent) const;
+
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };
 

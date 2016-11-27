@@ -25,16 +25,6 @@ double Decode<>(const pugi::xml_node& node, const char* name) {
 }
 
 template <>
-geom::Rect Decode<>(const pugi::xml_node& node) {
-  return {
-      Decode<double>(node, "x"),       //
-      Decode<double>(node, "y"),       //
-      Decode<double>(node, "width"),   //
-      Decode<double>(node, "height"),  //
-  };
-}
-
-template <>
 geom::Rect Decode<>(const pugi::xml_node& node, const char* name) {
   auto attribute = node.attribute(name);
   if (attribute.empty()) {
@@ -68,6 +58,20 @@ entity::Color Decode<>(const pugi::xml_node& node, const char* name) {
   }
 
   return ColorFromString(attribute.value());
+}
+
+template <>
+geom::Matrix Decode<>(const pugi::xml_node& node, const char* name) {
+  auto attribute = node.attribute(name);
+
+  if (attribute.empty()) {
+    return {};
+  }
+
+  /*
+   *  TODO: Fill this in.
+   */
+  return {};
 }
 
 }  // namespace ib

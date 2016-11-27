@@ -11,13 +11,6 @@
 namespace rl {
 namespace ib {
 
-/*
- *  Declarations for keyed and unkeyed value accessors.
- */
-
-template <class T>
-T Decode(const pugi::xml_node& node);
-
 template <class T>
 T Decode(const pugi::xml_node& node, const char* name);
 
