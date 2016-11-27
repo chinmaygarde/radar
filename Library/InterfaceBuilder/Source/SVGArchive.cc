@@ -39,42 +39,53 @@ bool SVGArchive::inflate(interface::Interface& interface,
     return false;
   }
 
-  pugi::xml_node svg = _document->child("svg");
+  pugi::xml_node node = _document->child("svg");
 
-  if (svg.empty()) {
+  if (node.empty()) {
     return false;
   }
 
-  container.setFrame(Decode<geom::Rect>(svg, "viewBox"));
+  container.setFrame(Decode<geom::Rect>(node, "viewBox"));
 
-  for (const auto& child : svg.children()) {
+  visitChildren(node, interface, container);
+
+  return true;
+}
+
+void SVGArchive::visitChildren(const pugi::xml_node& node,
+                               interface::Interface& interface,
+                               interface::ModelEntity& parent) const {
+  for (const auto& child : node.children()) {
     if (::strncmp(child.name(), "rect", sizeof("rect")) == 0) {
-      visitRect(child, interface, container);
+      visitRect(child, interface, parent);
       continue;
     }
 
     if (::strncmp(child.name(), "ellipse", sizeof("ellipse")) == 0) {
-      visitEllipse(child, interface, container);
+      visitEllipse(child, interface, parent);
       continue;
     }
 
     if (::strncmp(child.name(), "g", sizeof("g")) == 0) {
-      visitG(child, interface, container);
+      visitG(child, interface, parent);
       continue;
     }
 
     if (::strncmp(child.name(), "circle", sizeof("circle")) == 0) {
-      visitCircle(child, interface, container);
+      visitCircle(child, interface, parent);
       continue;
     }
 
     if (::strncmp(child.name(), "polygon", sizeof("polygon")) == 0) {
-      visitPolygon(child, interface, container);
+      visitPolygon(child, interface, parent);
+      continue;
+    }
+
+    if (::strncmp(child.name(), "line", sizeof("line")) == 0) {
+      visitLine(child, interface, parent);
       continue;
     }
   }
-
-  return true;
 }
 
 static void ReadCommonEntityProperties(const pugi::xml_node& node,
@@ -171,6 +182,8 @@ void SVGArchive::visitG(const pugi::xml_node& node,
    */
 
   parent.addChild(entity);
+
+  visitChildren(node, interface, *entity);
 }
 
 /*
@@ -229,6 +242,33 @@ void SVGArchive::visitPolygon(const pugi::xml_node& node,
   for (const auto& point : points) {
     builder.lineTo(point);
   }
+
+  entity->setPath(builder.path());
+
+  parent.addChild(entity);
+}
+
+/*
+ *  https://www.w3.org/TR/SVG11/shapes.html#LineElement
+ */
+void SVGArchive::visitLine(const pugi::xml_node& node,
+                           interface::Interface& interface,
+                           interface::ModelEntity& parent) const {
+  auto entity = interface.createEntity();
+
+  ReadCommonEntityProperties(node, *entity);
+
+  geom::PathBuilder builder;
+
+  builder.moveTo({
+      Decode<double>(node, "x1"),  //
+      Decode<double>(node, "y1"),  //
+  });
+
+  builder.lineTo({
+      Decode<double>(node, "x2"),  //
+      Decode<double>(node, "y2"),  //
+  });
 
   entity->setPath(builder.path());
 

@@ -26,6 +26,10 @@ class SVGArchive : public InterfaceBuilderArchive {
  private:
   std::unique_ptr<pugi::xml_document> _document;
 
+  void visitChildren(const pugi::xml_node& node,
+                     interface::Interface& interface,
+                     interface::ModelEntity& parent) const;
+
   void visitRect(const pugi::xml_node& node,
                  interface::Interface& interface,
                  interface::ModelEntity& parent) const;
@@ -41,10 +45,14 @@ class SVGArchive : public InterfaceBuilderArchive {
   void visitCircle(const pugi::xml_node& node,
                    interface::Interface& interface,
                    interface::ModelEntity& parent) const;
-  
+
   void visitPolygon(const pugi::xml_node& node,
-                   interface::Interface& interface,
-                   interface::ModelEntity& parent) const;
+                    interface::Interface& interface,
+                    interface::ModelEntity& parent) const;
+
+  void visitLine(const pugi::xml_node& node,
+                 interface::Interface& interface,
+                 interface::ModelEntity& parent) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };

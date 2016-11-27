@@ -84,3 +84,18 @@ TEST_F(InterfaceTest, Polygon01) {
     ASSERT_EQ(interface.rootEntity().children().size(), 3);
   });
 }
+
+TEST_F(InterfaceTest, Line01) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://line01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    rl::geom::Rect expectedBounds(0, 0, 1200, 400);
+    ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
+    ASSERT_EQ(interface.rootEntity().children().size(), 2);
+    auto gElement = interface.rootEntity().children()[1];
+    ASSERT_EQ(gElement->children().size(), 5);
+  });
+}
