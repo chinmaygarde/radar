@@ -62,6 +62,11 @@ bool SVGArchive::inflate(interface::Interface& interface,
       visitG(child, interface, container);
       continue;
     }
+
+    if (::strncmp(child.name(), "circle", sizeof("circle")) == 0) {
+      visitCircle(child, interface, container);
+      continue;
+    }
   }
 
   return true;
@@ -153,6 +158,39 @@ void SVGArchive::visitG(const pugi::xml_node& node,
   /*
    *  TODO: Implement the rest of this element.
    */
+
+  parent.addChild(entity);
+}
+
+/*
+ *  https://www.w3.org/TR/SVG11/shapes.html#CircleElement
+ */
+void SVGArchive::visitCircle(const pugi::xml_node& node,
+                             interface::Interface& interface,
+                             interface::ModelEntity& parent) const {
+  auto entity = interface.createEntity();
+
+  ReadCommonEntityProperties(node, *entity);
+
+  double radius = Decode<double>(node, "r");
+
+  if (radius <= 0.0) {
+    /*
+     *  A value of zero disables rendering of the element.
+     */
+    return;
+  }
+
+  const geom::Point center = {
+      Decode<double>(node, "cx"),  //
+      Decode<double>(node, "cy"),  //
+  };
+
+  geom::PathBuilder builder;
+
+  builder.addCircle(center, radius);
+
+  entity->setPath(builder.path());
 
   parent.addChild(entity);
 }

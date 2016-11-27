@@ -38,6 +38,10 @@ class SVGArchive : public InterfaceBuilderArchive {
               interface::Interface& interface,
               interface::ModelEntity& parent) const;
 
+  void visitCircle(const pugi::xml_node& node,
+                   interface::Interface& interface,
+                   interface::ModelEntity& parent) const;
+
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };
 

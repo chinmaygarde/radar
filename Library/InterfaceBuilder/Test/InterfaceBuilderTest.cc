@@ -58,3 +58,16 @@ TEST_F(InterfaceTest, Ellipse01) {
     ASSERT_EQ(interface.rootEntity().children().size(), 3);
   });
 }
+
+TEST_F(InterfaceTest, Circle01) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://circle01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    rl::geom::Rect expectedBounds(0, 0, 1200, 400);
+    ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
+    ASSERT_EQ(interface.rootEntity().children().size(), 2);
+  });
+}
