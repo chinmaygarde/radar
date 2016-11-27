@@ -184,5 +184,43 @@ PathBuilder& PathBuilder::addRoundedRect(Rect rect, RoundingRadii radii) {
   return *this;
 }
 
+PathBuilder& PathBuilder::addEllipse(const Point& center, const Size& radius) {
+  _current = center + Point{0.0, radius.height};
+
+  const Size diameter = {radius.width * 2.0, radius.height * 2.0};
+  const Size magic = {kArcApproximationMagic * radius.width,
+                      kArcApproximationMagic * radius.height};
+
+  _prototype.addCubicComponent(
+      {center.x + radius.width, center.y},                                   //
+      {center.x + radius.width + magic.width, center.y},                     //
+      {center.x + diameter.width, center.y + radius.height - magic.height},  //
+      {center.x + diameter.width, center.y + radius.height}                  //
+      );
+
+  _prototype.addCubicComponent(
+      {center.x + diameter.width, center.y + radius.height},                 //
+      {center.x + diameter.width, center.y + radius.height + magic.height},  //
+      {center.x + radius.width + magic.width, center.y + diameter.height},   //
+      {center.x + radius.width, center.y + diameter.height}                  //
+      );
+
+  _prototype.addCubicComponent(
+      {center.x + radius.width, center.y + diameter.height},                //
+      {center.x + radius.width - magic.width, center.y + diameter.height},  //
+      {center.x, center.y + radius.height + magic.height},                  //
+      {center.x, center.y + radius.height}                                  //
+      );
+
+  _prototype.addCubicComponent(
+      {center.x, center.y + radius.height},                 //
+      {center.x, center.y + radius.height - magic.height},  //
+      {center.x + radius.width - magic.width, center.y},    //
+      {center.x + radius.width, center.y}                   //
+      );
+
+  return *this;
+}
+
 }  // namespace geom
 }  // namespace rl

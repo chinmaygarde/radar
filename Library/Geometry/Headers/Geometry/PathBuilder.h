@@ -32,6 +32,12 @@ class PathBuilder {
 
   PathBuilder& addRect(Rect rect);
 
+  PathBuilder& addRoundedRect(Rect rect, double radius);
+
+  PathBuilder& addCircle(const Point& center, double radius);
+
+  PathBuilder& addEllipse(const Point& center, const Size& size);
+
   struct RoundingRadii {
     double topLeft;
     double bottomLeft;
@@ -52,10 +58,6 @@ class PathBuilder {
   };
 
   PathBuilder& addRoundedRect(Rect rect, RoundingRadii radii);
-
-  PathBuilder& addRoundedRect(Rect rect, double radius);
-
-  PathBuilder& addCircle(const Point& center, double radius);
 
  private:
   Point _current;
