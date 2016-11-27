@@ -60,7 +60,7 @@ class Interface {
    */
   bool isRunning() const;
 
-  ModelEntity createEntity();
+  ModelEntity::Ref createEntity();
 
   /**
    *  Gracefully shutdown the interface

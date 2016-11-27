@@ -87,15 +87,15 @@ core::Namespace& Interface::ns() {
   return _localNS;
 }
 
-ModelEntity Interface::createEntity() {
+ModelEntity::Ref Interface::createEntity() {
   ModelEntity::UpdateCallback callback =
       std::bind(&Interface::entityDidRecordUpdateUpdate, this,  //
                 std::placeholders::_1,                          //
                 std::placeholders::_2,                          //
                 std::placeholders::_3                           //
                 );
-
-  return ModelEntity{core::Name{_localNS}, callback};
+  ModelEntity::Ref entity(new ModelEntity(core::Name{_localNS}, callback));
+  return entity;
 }
 
 void Interface::shutdown(std::function<void()> onShutdown) {

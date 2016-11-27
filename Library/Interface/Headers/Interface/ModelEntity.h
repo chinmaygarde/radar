@@ -12,14 +12,18 @@ namespace interface {
 
 class ModelEntity : public entity::Entity {
  public:
-  ModelEntity(ModelEntity&&);
+  using Ref = std::shared_ptr<ModelEntity>;
 
-  void addChild(const ModelEntity& child);
+  void addChild(ModelEntity::Ref child);
 
-  void removeChild(const ModelEntity& child);
+  void removeChild(ModelEntity::Ref child);
+
+  const std::vector<ModelEntity::Ref>& children() const;
 
  private:
   friend class Interface;
+
+  std::vector<ModelEntity::Ref> _children;
 
   ModelEntity(core::Name identifier, UpdateCallback updateCallback);
 

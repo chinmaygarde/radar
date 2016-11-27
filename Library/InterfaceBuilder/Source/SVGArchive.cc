@@ -62,8 +62,8 @@ void SVGArchive::visitRect(const pugi::xml_node& node,
   auto entity = interface.createEntity();
   parent.addChild(entity);
 
-  entity.setBounds(Decode<geom::Rect>(node));
-  entity.setBackgroundColor(Decode<entity::Color>(node, "fill"));
+  entity->setBounds(Decode<geom::Rect>(node));
+  entity->setBackgroundColor(Decode<entity::Color>(node, "fill"));
 }
 
 }  // namespace ib
