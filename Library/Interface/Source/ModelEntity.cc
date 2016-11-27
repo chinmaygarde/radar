@@ -38,5 +38,19 @@ const std::vector<ModelEntity::Ref>& ModelEntity::children() const {
   return _children;
 }
 
+void ModelEntity::visitHierarchy(std::function<bool(ModelEntity&)> visitor) {
+  if (visitor == nullptr) {
+    return;
+  }
+
+  if (!visitor(*this)) {
+    return;
+  }
+
+  for (const auto& entity : _children) {
+    entity->visitHierarchy(visitor);
+  }
+}
+
 }  // namespace interface
 }  // namespace rl

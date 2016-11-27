@@ -19,6 +19,8 @@ class ModelEntity : public entity::Entity {
   void removeChild(ModelEntity::Ref child);
 
   const std::vector<ModelEntity::Ref>& children() const;
+  
+  void visitHierarchy(std::function<bool(ModelEntity&)> visitor);
 
  private:
   friend class Interface;

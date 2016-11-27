@@ -99,3 +99,24 @@ TEST_F(InterfaceTest, Line01) {
     ASSERT_EQ(gElement->children().size(), 5);
   });
 }
+
+TEST_F(InterfaceTest, CountAllChildren) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://line01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    rl::geom::Rect expectedBounds(0, 0, 1200, 400);
+    ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
+
+    size_t count = 0;
+    interface.rootEntity().visitHierarchy(
+        [&count](rl::interface::ModelEntity&) -> bool {
+          count++;
+          return true;
+        });
+
+    ASSERT_EQ(count, 8);
+  });
+}
