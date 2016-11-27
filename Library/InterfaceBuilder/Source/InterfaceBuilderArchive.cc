@@ -30,6 +30,10 @@ std::unique_ptr<InterfaceBuilderArchive> InterfaceBuilderArchive::Make(
   return nullptr;
 }
 
+bool InterfaceBuilderArchive::inflate(interface::Interface& interface) const {
+  return inflate(interface, interface.rootEntity());
+}
+
 InterfaceBuilderArchive::InterfaceBuilderArchive() = default;
 
 InterfaceBuilderArchive::~InterfaceBuilderArchive() = default;

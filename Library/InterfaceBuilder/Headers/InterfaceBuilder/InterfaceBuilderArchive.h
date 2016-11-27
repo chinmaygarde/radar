@@ -22,6 +22,8 @@ class InterfaceBuilderArchive {
 
   virtual bool isValid() const = 0;
 
+  bool inflate(interface::Interface& interface) const;
+
   virtual bool inflate(interface::Interface& interface,
                        interface::ModelEntity& container) const = 0;
 

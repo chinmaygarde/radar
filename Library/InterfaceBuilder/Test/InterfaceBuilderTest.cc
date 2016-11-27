@@ -29,6 +29,7 @@ TEST_F(InterfaceTest, ValidSVGInflate) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
     ASSERT_TRUE(archive->inflate(interface, interface.rootEntity()));
   });
 }
