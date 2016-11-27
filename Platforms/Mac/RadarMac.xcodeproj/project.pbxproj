@@ -35,6 +35,9 @@
 		9EE931371CA4C41700CDBF07 /* libGeometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931121CA4C2C500CDBF07 /* libGeometry.a */; };
 		9EF068FE1CB48D2D000DF505 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FD1CB48D2D000DF505 /* libsqlite3.a */; };
 		9EF068FF1CB48D31000DF505 /* libimgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF068FB1CB48D2D000DF505 /* libimgui.a */; };
+		EA93DB1C1DEAF2FF00FEA8C3 /* Simple.svg in Resources */ = {isa = PBXBuildFile; fileRef = EA93DB1B1DEAF2FF00FEA8C3 /* Simple.svg */; };
+		EA93DB751DEAF39E00FEA8C3 /* libInterfaceBuilder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA93DB5A1DEAF2FF00FEA8C3 /* libInterfaceBuilder.a */; };
+		EA93DB761DEAF47800FEA8C3 /* libpugixml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA93DB661DEAF2FF00FEA8C3 /* libpugixml.a */; };
 		EADACF1D1D332EDA00B30BED /* liblibtess2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EADACF141D332EDA00B30BED /* liblibtess2.a */; };
 /* End PBXBuildFile section */
 
@@ -176,7 +179,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 85C88CC946DA45E38DE2C5DD;
+			remoteGlobalIDString = 0FA5879D95B643A88497B061;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -242,6 +245,125 @@
 			remoteGlobalIDString = ADD950248ACA47598F02AEC0;
 			remoteInfo = sqlite3;
 		};
+		EA93DB531DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A4DF982BA7446A58C39BC28;
+			remoteInfo = CompositorGraphicsTest;
+		};
+		EA93DB551DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82A6C6A5070B4DA8A59A99EB;
+			remoteInfo = GraphicsTestRunner;
+		};
+		EA93DB571DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 216677A5182A4B6282B92945;
+			remoteInfo = GraphicsTestRunnerTest;
+		};
+		EA93DB591DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FEC8641F4727401D85D47BA6;
+			remoteInfo = InterfaceBuilder;
+		};
+		EA93DB5B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 991974A437DF4B8099308EA0;
+			remoteInfo = InterfaceBuilderTest;
+		};
+		EA93DB5D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 77CC691CC3AA4005AFF760DF;
+			remoteInfo = Typography;
+		};
+		EA93DB5F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C521E86840BC42C7A182A801;
+			remoteInfo = TypographyTest;
+		};
+		EA93DB611DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 392FB84F997042B1AC09A503;
+			remoteInfo = freetype;
+		};
+		EA93DB631DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 79B7E80B2B7649B3A2527662;
+			remoteInfo = harfbuzz;
+		};
+		EA93DB651DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A90FF8EE4BA040E4821515E5;
+			remoteInfo = pugixml;
+		};
+		EA93DB671DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9B08D78006EE42E2BDBD4299;
+			remoteInfo = GLCompiler;
+		};
+		EA93DB691DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F9EC57F9D6E248D49221D2C6;
+			remoteInfo = Reactor;
+		};
+		EA93DB6B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9AD850F789C748959B6C53E7;
+			remoteInfo = SwiftShader;
+		};
+		EA93DB6D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15304C8CF85D431DAAE48DD8;
+			remoteInfo = libEGL;
+		};
+		EA93DB6F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9787BB31959749758F948ADC;
+			remoteInfo = libGLES_CM;
+		};
+		EA93DB711DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FB274BC6B3F2493EA23D6EBE;
+			remoteInfo = libGLESv2;
+		};
+		EA93DB731DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C89C9B09E9D84BA6B52FD823;
+			remoteInfo = llvm;
+		};
 		EADACF131D332EDA00B30BED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -298,6 +420,7 @@
 		9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarSurface.mm; sourceTree = "<group>"; };
 		9ED38F2B1CF678AB00D40928 /* Beachball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beachball.png; path = RadarLoveMac/Beachball.png; sourceTree = "<group>"; };
 		9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Radar.xcodeproj; path = ../../build/Radar.xcodeproj; sourceTree = "<group>"; };
+		EA93DB1B1DEAF2FF00FEA8C3 /* Simple.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Simple.svg; path = RadarLoveMac/Simple.svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +428,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA93DB761DEAF47800FEA8C3 /* libpugixml.a in Frameworks */,
+				EA93DB751DEAF39E00FEA8C3 /* libInterfaceBuilder.a in Frameworks */,
 				EADACF1D1D332EDA00B30BED /* liblibtess2.a in Frameworks */,
 				9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */,
 				9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */,
@@ -403,6 +528,7 @@
 		9ED38F561CF678B200D40928 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				EA93DB1B1DEAF2FF00FEA8C3 /* Simple.svg */,
 				9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */,
 				9ED38F2B1CF678AB00D40928 /* Beachball.png */,
 			);
@@ -413,16 +539,10 @@
 			isa = PBXGroup;
 			children = (
 				9EF068F51CB48D2D000DF505 /* libbenchmark.a */,
-				9EF068F71CB48D2D000DF505 /* libgtest.a */,
-				9EF068F91CB48D2D000DF505 /* libgtest_main.a */,
-				9EF068FB1CB48D2D000DF505 /* libimgui.a */,
-				EADACF141D332EDA00B30BED /* liblibtess2.a */,
-				9EF068FD1CB48D2D000DF505 /* libsqlite3.a */,
-				9ED38F4F1CF678AC00D40928 /* libstb.a */,
-				9ED38F4D1CF678AC00D40928 /* liburiparser.a */,
 				9EE931081CA4C2C500CDBF07 /* libAnimation.a */,
 				9EF068E81CB48CD8000DF505 /* libBenchmarkRunner.a */,
 				9E309CD11CFE4E290059BD07 /* libCompositor.a */,
+				EA93DB541DEAF2FF00FEA8C3 /* CompositorGraphicsTest */,
 				9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */,
 				9EE9310C1CA4C2C500CDBF07 /* libCore.a */,
 				9EF068EA1CB48CD8000DF505 /* CoreTest */,
@@ -431,11 +551,15 @@
 				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
 				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
 				EADACF181D332EDA00B30BED /* GeometryTest */,
+				EA93DB561DEAF2FF00FEA8C3 /* libGraphicsTestRunner.a */,
+				EA93DB581DEAF2FF00FEA8C3 /* GraphicsTestRunnerTest */,
 				9E309CF51D00C3130059BD07 /* libImage.a */,
 				9E309CF71D00C3130059BD07 /* ImageBenchmark */,
 				9E309CF91D00C3130059BD07 /* ImageTest */,
 				9EE931141CA4C2C500CDBF07 /* libInterface.a */,
 				EADACF1A1D332EDA00B30BED /* InterfaceTest */,
+				EA93DB5A1DEAF2FF00FEA8C3 /* libInterfaceBuilder.a */,
+				EA93DB5C1DEAF2FF00FEA8C3 /* InterfaceBuilderTest */,
 				9EE931161CA4C2C500CDBF07 /* libLayout.a */,
 				9EF068EC1CB48CD8000DF505 /* LayoutBenchmark */,
 				9EF068EE1CB48CD8000DF505 /* LayoutTest */,
@@ -443,6 +567,25 @@
 				EADACF1C1D332EDA00B30BED /* ShellTest */,
 				9EE9311C1CA4C2C500CDBF07 /* libTestRunner.a */,
 				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
+				EA93DB5E1DEAF2FF00FEA8C3 /* libTypography.a */,
+				EA93DB601DEAF2FF00FEA8C3 /* TypographyTest */,
+				EA93DB621DEAF2FF00FEA8C3 /* libfreetype.a */,
+				9EF068F71CB48D2D000DF505 /* libgtest.a */,
+				9EF068F91CB48D2D000DF505 /* libgtest_main.a */,
+				EA93DB641DEAF2FF00FEA8C3 /* libharfbuzz.a */,
+				9EF068FB1CB48D2D000DF505 /* libimgui.a */,
+				EADACF141D332EDA00B30BED /* liblibtess2.a */,
+				EA93DB661DEAF2FF00FEA8C3 /* libpugixml.a */,
+				9EF068FD1CB48D2D000DF505 /* libsqlite3.a */,
+				9ED38F4F1CF678AC00D40928 /* libstb.a */,
+				9ED38F4D1CF678AC00D40928 /* liburiparser.a */,
+				EA93DB681DEAF2FF00FEA8C3 /* libGLCompiler.a */,
+				EA93DB6A1DEAF2FF00FEA8C3 /* libReactor.a */,
+				EA93DB6C1DEAF2FF00FEA8C3 /* libSwiftShader.a */,
+				EA93DB6E1DEAF2FF00FEA8C3 /* libEGL.dylib */,
+				EA93DB701DEAF2FF00FEA8C3 /* libGLES_CM.dylib */,
+				EA93DB721DEAF2FF00FEA8C3 /* libGLESv2.dylib */,
+				EA93DB741DEAF2FF00FEA8C3 /* libllvm.a */,
 				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
 				9EE931281CA4C2C500CDBF07 /* RIDLTest */,
 			);
@@ -735,6 +878,125 @@
 			remoteRef = 9EF068FC1CB48D2D000DF505 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		EA93DB541DEAF2FF00FEA8C3 /* CompositorGraphicsTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CompositorGraphicsTest;
+			remoteRef = EA93DB531DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB561DEAF2FF00FEA8C3 /* libGraphicsTestRunner.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGraphicsTestRunner.a;
+			remoteRef = EA93DB551DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB581DEAF2FF00FEA8C3 /* GraphicsTestRunnerTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = GraphicsTestRunnerTest;
+			remoteRef = EA93DB571DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB5A1DEAF2FF00FEA8C3 /* libInterfaceBuilder.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libInterfaceBuilder.a;
+			remoteRef = EA93DB591DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB5C1DEAF2FF00FEA8C3 /* InterfaceBuilderTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = InterfaceBuilderTest;
+			remoteRef = EA93DB5B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB5E1DEAF2FF00FEA8C3 /* libTypography.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTypography.a;
+			remoteRef = EA93DB5D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB601DEAF2FF00FEA8C3 /* TypographyTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = TypographyTest;
+			remoteRef = EA93DB5F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB621DEAF2FF00FEA8C3 /* libfreetype.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfreetype.a;
+			remoteRef = EA93DB611DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB641DEAF2FF00FEA8C3 /* libharfbuzz.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libharfbuzz.a;
+			remoteRef = EA93DB631DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB661DEAF2FF00FEA8C3 /* libpugixml.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libpugixml.a;
+			remoteRef = EA93DB651DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB681DEAF2FF00FEA8C3 /* libGLCompiler.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGLCompiler.a;
+			remoteRef = EA93DB671DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB6A1DEAF2FF00FEA8C3 /* libReactor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactor.a;
+			remoteRef = EA93DB691DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB6C1DEAF2FF00FEA8C3 /* libSwiftShader.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSwiftShader.a;
+			remoteRef = EA93DB6B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB6E1DEAF2FF00FEA8C3 /* libEGL.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libEGL.dylib;
+			remoteRef = EA93DB6D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB701DEAF2FF00FEA8C3 /* libGLES_CM.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libGLES_CM.dylib;
+			remoteRef = EA93DB6F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB721DEAF2FF00FEA8C3 /* libGLESv2.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libGLESv2.dylib;
+			remoteRef = EA93DB711DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA93DB741DEAF2FF00FEA8C3 /* libllvm.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libllvm.a;
+			remoteRef = EA93DB731DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		EADACF141D332EDA00B30BED /* liblibtess2.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -779,6 +1041,7 @@
 			files = (
 				9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */,
 				9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */,
+				EA93DB1C1DEAF2FF00FEA8C3 /* Simple.svg in Resources */,
 				9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */,
 				9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */,
 			);
@@ -880,6 +1143,7 @@
 					../../Library/Entity/Headers,
 					../../Library/Shell/Headers,
 					../../Library/Event/Headers,
+					../../Library/InterfaceBuilder/Headers,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -933,6 +1197,7 @@
 					../../Library/Entity/Headers,
 					../../Library/Shell/Headers,
 					../../Library/Event/Headers,
+					../../Library/InterfaceBuilder/Headers,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;

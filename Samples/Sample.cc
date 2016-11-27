@@ -7,6 +7,7 @@
 #include "Sample.h"
 
 #include <Layout/ConstraintCreation.h>
+#include <InterfaceBuilder/InterfaceBuilderArchive.h>
 #include <Geometry/PathBuilder.h>
 #include <stdlib.h>
 
@@ -147,6 +148,23 @@ static void AddEntityWithPath(rl::interface::Interface& interface) {
   interface.rootEntity().addChild(entity);
 }
 
+static void AddSVG(rl::interface::Interface& interface,
+                   const rl::core::Bundle& bundle) {
+  rl::core::FileHandle archiveHandle(
+      bundle.uriForResource(rl::core::URI{"Simple.svg"}));
+
+  auto archive = rl::ib::InterfaceBuilderArchive::Make(archiveHandle);
+
+  if (archive == nullptr || !archive->isValid()) {
+    return;
+  }
+
+  auto entity = interface.createEntity();
+  interface.rootEntity().addChild(entity);
+
+  archive->inflate(interface, *entity);
+}
+
 void SampleApplication::AddImageWithRoundedRect(
     rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
@@ -207,6 +225,8 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   AddEntityWithPath(interface);
 
   AddImageWithRoundedRect(interface);
+
+  AddSVG(interface, _bundle);
 }
 
 void SampleApplication::didEnterBackground(

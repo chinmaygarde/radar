@@ -35,6 +35,7 @@ StandardRadarLibrary(Shell)
 target_link_libraries(Shell
   PUBLIC
     Interface
+    InterfaceBuilder
     Coordinator
 )
 
