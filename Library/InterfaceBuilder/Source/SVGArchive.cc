@@ -32,7 +32,8 @@ bool SVGArchive::isValid() const {
   return _document != nullptr;
 }
 
-bool SVGArchive::inflate(interface::Interface& interface) const {
+bool SVGArchive::inflate(interface::Interface& interface,
+                         interface::ModelEntity& container) const {
   if (!isValid()) {
     return false;
   }
@@ -43,11 +44,9 @@ bool SVGArchive::inflate(interface::Interface& interface) const {
     return false;
   }
 
-  auto parent = interface.createEntity();
-
   for (const auto& child : svg.children()) {
     if (::strncmp(child.name(), "rect", sizeof("rect")) == 0) {
-      visitRect(child, interface, parent);
+      visitRect(child, interface, container);
       continue;
     }
   }

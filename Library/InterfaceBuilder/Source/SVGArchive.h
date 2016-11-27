@@ -20,7 +20,8 @@ class SVGArchive : public InterfaceBuilderArchive {
 
   bool isValid() const override;
 
-  bool inflate(interface::Interface& interface) const override;
+  bool inflate(interface::Interface& interface,
+               interface::ModelEntity& container) const override;
 
  private:
   std::unique_ptr<pugi::xml_document> _document;
