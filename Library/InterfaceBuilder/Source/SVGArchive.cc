@@ -3,15 +3,25 @@
 // found in the LICENSE file.
 
 #include "SVGArchive.h"
+#include <pugixml.hpp>
 
 namespace rl {
 namespace ib {
 
-SVGArchive::SVGArchive(core::FileHandle handle)
-    : _handle(std::move(handle)), _isValid(false) {
-  if (!_handle.isValid()) {
+SVGArchive::SVGArchive(const core::FileHandle& handle)
+    : _mapping(handle), _isValid(false) {
+  if (_mapping.size() == 0) {
     return;
   }
+
+  pugi::xml_document document;
+  auto result = document.load_buffer(_mapping.mapping(), _mapping.size());
+
+  if (result.status != pugi::xml_parse_status::status_ok) {
+    return;
+  }
+
+  _isValid = true;
 }
 
 SVGArchive::~SVGArchive() = default;

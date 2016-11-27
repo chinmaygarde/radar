@@ -15,7 +15,8 @@ namespace ib {
 
 class InterfaceBuilderArchive {
  public:
-  static std::unique_ptr<InterfaceBuilderArchive> Make(core::FileHandle handle);
+  static std::unique_ptr<InterfaceBuilderArchive> Make(
+      const core::FileHandle& handle);
 
   virtual ~InterfaceBuilderArchive();
 

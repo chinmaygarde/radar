@@ -13,12 +13,12 @@ namespace ib {
 
 class SVGArchive : public InterfaceBuilderArchive {
  public:
-  SVGArchive(core::FileHandle handle);
+  SVGArchive(const core::FileHandle& handle);
 
   ~SVGArchive() override;
 
  private:
-  core::FileHandle _handle;
+  core::FileMapping _mapping;
   bool _isValid;
 
   bool isArchiveReadable() const override;

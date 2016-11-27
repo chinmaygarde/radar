@@ -39,6 +39,11 @@ target_link_libraries(InterfaceBuilder
     pugixml
 )
 
+target_include_directories(InterfaceBuilder
+  PRIVATE
+    ../../ThirdParty/pugixml/src
+)
+
 ################################################################################
 # Test
 ################################################################################

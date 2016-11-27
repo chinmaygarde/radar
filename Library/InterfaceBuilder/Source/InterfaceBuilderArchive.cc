@@ -10,7 +10,7 @@ namespace rl {
 namespace ib {
 
 std::unique_ptr<InterfaceBuilderArchive> InterfaceBuilderArchive::Make(
-    core::FileHandle handle) {
+    const core::FileHandle& handle) {
   if (!handle.isValid()) {
     return nullptr;
   }
@@ -18,7 +18,7 @@ std::unique_ptr<InterfaceBuilderArchive> InterfaceBuilderArchive::Make(
   /*
    *  In fallback order, check for recognized archive formats.
    */
-  auto svgArchive = core::make_unique<SVGArchive>(std::move(handle));
+  auto svgArchive = core::make_unique<SVGArchive>(handle);
 
   if (svgArchive->isValid()) {
     return std::move(svgArchive);
