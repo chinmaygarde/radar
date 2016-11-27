@@ -34,5 +34,9 @@ void ModelEntity::removeChild(ModelEntity::Ref child) {
   }
 }
 
+const std::vector<ModelEntity::Ref>& ModelEntity::children() const {
+  return _children;
+}
+
 }  // namespace interface
 }  // namespace rl
