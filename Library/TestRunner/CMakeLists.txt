@@ -36,6 +36,7 @@ target_link_libraries(TestRunner
   PRIVATE
     gtest
     DevSupport
+    Shell
 )
 
 target_include_directories(TestRunner
