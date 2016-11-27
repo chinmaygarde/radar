@@ -67,6 +67,11 @@ bool SVGArchive::inflate(interface::Interface& interface,
       visitCircle(child, interface, container);
       continue;
     }
+
+    if (::strncmp(child.name(), "polygon", sizeof("polygon")) == 0) {
+      visitPolygon(child, interface, container);
+      continue;
+    }
   }
 
   return true;
@@ -76,6 +81,12 @@ static void ReadCommonEntityProperties(const pugi::xml_node& node,
                                        interface::ModelEntity& entity) {
   entity.setBackgroundColor(Decode<entity::Color>(node, "fill"));
   entity.setTransformation(Decode<geom::Matrix>(node, "transform"));
+
+  /*
+   *  TODO:
+   *  - stroke
+   *  - stroke-width
+   */
 }
 
 /*
@@ -189,6 +200,35 @@ void SVGArchive::visitCircle(const pugi::xml_node& node,
   geom::PathBuilder builder;
 
   builder.addCircle(center, radius);
+
+  entity->setPath(builder.path());
+
+  parent.addChild(entity);
+}
+
+/*
+ *  https://www.w3.org/TR/SVG11/shapes.html#PolygonElement
+ */
+void SVGArchive::visitPolygon(const pugi::xml_node& node,
+                              interface::Interface& interface,
+                              interface::ModelEntity& parent) const {
+  auto points = Decode<std::vector<geom::Point>>(node, "points");
+
+  if (points.size() == 0) {
+    return;
+  }
+
+  auto entity = interface.createEntity();
+
+  ReadCommonEntityProperties(node, *entity);
+
+  geom::PathBuilder builder;
+
+  builder.moveTo(*points.begin());
+
+  for (const auto& point : points) {
+    builder.lineTo(point);
+  }
 
   entity->setPath(builder.path());
 
