@@ -28,3 +28,23 @@ rl::shell::Shell& InterfaceTest::currentShell() {
   RL_ASSERT(_shell != nullptr);
   return *_shell;
 }
+
+void InterfaceTest::testOnActive(
+    rl::interface::DefaultInterfaceDelegate::InterfaceCallback callback) {
+  /*
+   *  Create the default interface delegate with our callback.
+   */
+  auto delegate = std::make_shared<rl::interface::DefaultInterfaceDelegate>();
+
+  delegate->setInterfaceDidBecomeActive(callback);
+
+  /*
+   *  Create the interface with our custom delegate.
+   */
+  auto interface = rl::core::make_unique<rl::interface::Interface>(delegate);
+
+  /*
+   *  Register the interface.
+   */
+  ASSERT_TRUE(currentShell().registerManagedInterface(std::move(interface)));
+}

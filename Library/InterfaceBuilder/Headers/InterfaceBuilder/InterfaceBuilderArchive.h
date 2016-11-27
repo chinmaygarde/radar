@@ -7,7 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/FileHandle.h>
-#include <Entity/Entity.h>
+#include <Interface/Interface.h>
 #include <memory>
 
 namespace rl {
@@ -20,20 +20,14 @@ class InterfaceBuilderArchive {
 
   virtual ~InterfaceBuilderArchive();
 
-  bool isValid() const;
+  virtual bool isValid() const = 0;
 
-  std::unique_ptr<entity::Entity> inflate() const;
+  virtual bool inflate(interface::Interface& interface) const = 0;
 
  protected:
   InterfaceBuilderArchive();
 
-  virtual bool isArchiveReadable() const = 0;
-
-  virtual std::unique_ptr<entity::Entity> onInflate() const = 0;
-
  private:
-  std::unique_ptr<InterfaceBuilderArchive> _impl;
-
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceBuilderArchive);
 };
 

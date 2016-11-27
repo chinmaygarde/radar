@@ -14,8 +14,6 @@ namespace compositor {
 
 Context::Context()
     : _beingUsed(false),
-      _statsRenderer(core::make_unique<StatisticsRenderer>()),
-      _programCatalog(core::make_unique<ProgramCatalog>()),
       _unitBoxVertices(
           core::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {}
 
@@ -41,9 +39,17 @@ bool Context::beginUsing() {
     return false;
   }
 
-  _beingUsed = true;
+  if (!_statsRenderer) {
+    _statsRenderer = core::make_unique<StatisticsRenderer>();
+  }
+
+  if (!_programCatalog) {
+    _programCatalog = core::make_unique<ProgramCatalog>();
+  }
 
   _compositorStats.start();
+
+  _beingUsed = true;
 
   return true;
 }

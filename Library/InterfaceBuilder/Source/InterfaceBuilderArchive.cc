@@ -34,13 +34,5 @@ InterfaceBuilderArchive::InterfaceBuilderArchive() = default;
 
 InterfaceBuilderArchive::~InterfaceBuilderArchive() = default;
 
-bool InterfaceBuilderArchive::isValid() const {
-  return _impl ? _impl->isArchiveReadable() : false;
-}
-
-std::unique_ptr<entity::Entity> InterfaceBuilderArchive::inflate() const {
-  return isValid() ? _impl->onInflate() : nullptr;
-}
-
 }  // namespace ib
 }  // namespace rl

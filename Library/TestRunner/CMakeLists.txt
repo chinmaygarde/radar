@@ -33,10 +33,11 @@
 StandardRadarLibrary(TestRunner)
 
 target_link_libraries(TestRunner
+  PUBLIC
+    Shell
   PRIVATE
     gtest
     DevSupport
-    Shell
 )
 
 target_include_directories(TestRunner

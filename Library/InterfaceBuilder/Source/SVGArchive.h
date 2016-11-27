@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
+#include <pugixml.hpp>
 
 namespace rl {
 namespace ib {
@@ -17,13 +18,16 @@ class SVGArchive : public InterfaceBuilderArchive {
 
   ~SVGArchive() override;
 
+  bool isValid() const override;
+
+  bool inflate(interface::Interface& interface) const override;
+
  private:
-  core::FileMapping _mapping;
-  bool _isValid;
+  std::unique_ptr<pugi::xml_document> _document;
 
-  bool isArchiveReadable() const override;
-
-  std::unique_ptr<entity::Entity> onInflate() const override;
+  void visitRect(const pugi::xml_node& node,
+                 interface::Interface& interface,
+                 interface::ModelEntity& parent) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };

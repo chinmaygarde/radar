@@ -34,7 +34,7 @@ StandardRadarLibrary(InterfaceBuilder)
 
 target_link_libraries(InterfaceBuilder
   PUBLIC
-    Entity
+    Interface
   PRIVATE
     pugixml
 )

@@ -21,6 +21,9 @@ class InterfaceTest : public ::testing::Test {
 
   rl::shell::Shell& currentShell();
 
+  void testOnActive(
+      rl::interface::DefaultInterfaceDelegate::InterfaceCallback callback);
+
  private:
   std::shared_ptr<NullRenderSurface> _renderSurface;
   std::shared_ptr<rl::shell::Shell> _shell;

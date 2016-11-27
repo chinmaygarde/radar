@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
+#include <TestRunner/InterfaceTest.h>
 
 TEST(InterfaceBuilderTest, Init) {
   ASSERT_TRUE(true);
@@ -20,4 +21,14 @@ TEST(InterfaceBuilderTest, ValidSVG) {
   auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
   ASSERT_TRUE(archive);
   ASSERT_TRUE(archive->isValid());
+}
+
+TEST_F(InterfaceTest, ValidSVGInflate) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://rect01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+  });
 }

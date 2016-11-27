@@ -3,35 +3,63 @@
 // found in the LICENSE file.
 
 #include "SVGArchive.h"
-#include <pugixml.hpp>
 
 namespace rl {
 namespace ib {
 
-SVGArchive::SVGArchive(const core::FileHandle& handle)
-    : _mapping(handle), _isValid(false) {
-  if (_mapping.size() == 0) {
+SVGArchive::SVGArchive(const core::FileHandle& handle) {
+  core::FileMapping mapping(handle);
+
+  if (mapping.size() == 0) {
     return;
   }
 
-  pugi::xml_document document;
-  auto result = document.load_buffer(_mapping.mapping(), _mapping.size());
+  auto document = core::make_unique<pugi::xml_document>();
+
+  auto result = document->load_buffer(mapping.mapping(), mapping.size());
 
   if (result.status != pugi::xml_parse_status::status_ok) {
     return;
   }
 
-  _isValid = true;
+  _document = std::move(document);
 }
 
 SVGArchive::~SVGArchive() = default;
 
-bool SVGArchive::isArchiveReadable() const {
-  return _isValid;
+bool SVGArchive::isValid() const {
+  return _document != nullptr;
 }
 
-std::unique_ptr<entity::Entity> SVGArchive::onInflate() const {
-  return nullptr;
+bool SVGArchive::inflate(interface::Interface& interface) const {
+  if (!isValid()) {
+    return false;
+  }
+
+  pugi::xml_node svg = _document->child("svg");
+
+  if (svg.empty()) {
+    return false;
+  }
+
+  auto parent = interface.createEntity();
+
+  for (const auto& child : svg.children()) {
+    if (::strncmp(child.name(), "rect", sizeof("rect")) == 0) {
+      visitRect(child, interface, parent);
+      continue;
+    }
+  }
+
+  return true;
+}
+
+void SVGArchive::visitRect(const pugi::xml_node& node,
+                           interface::Interface& interface,
+                           interface::ModelEntity& parent) const {
+  /*
+   *  WIP
+   */
 }
 
 }  // namespace ib
