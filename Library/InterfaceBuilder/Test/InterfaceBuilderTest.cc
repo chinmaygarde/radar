@@ -16,14 +16,14 @@ TEST(InterfaceBuilderTest, InvalidSVG) {
   ASSERT_FALSE(archive);
 }
 
-TEST(InterfaceBuilderTest, ValidSVG) {
+TEST(InterfaceBuilderTest, Rect01) {
   rl::core::URI fileURI("file://rect01.svg");
   auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
   ASSERT_TRUE(archive);
   ASSERT_TRUE(archive->isValid());
 }
 
-TEST_F(InterfaceTest, ValidSVGInflate) {
+TEST_F(InterfaceTest, Rect02) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://rect01.svg");
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
@@ -34,7 +34,7 @@ TEST_F(InterfaceTest, ValidSVGInflate) {
   });
 }
 
-TEST_F(InterfaceTest, SVGCheckViewbox) {
+TEST_F(InterfaceTest, Rect02Viewbox) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://rect02.svg");
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
@@ -100,7 +100,7 @@ TEST_F(InterfaceTest, Line01) {
   });
 }
 
-TEST_F(InterfaceTest, CountAllChildren) {
+TEST_F(InterfaceTest, Line01CountAllChildren) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://line01.svg");
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
@@ -118,5 +118,26 @@ TEST_F(InterfaceTest, CountAllChildren) {
         });
 
     ASSERT_EQ(count, 8);
+  });
+}
+
+TEST_F(InterfaceTest, Use01) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://use01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    rl::geom::Rect expectedBounds(0, 0, 100, 30);
+    ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
+    ASSERT_EQ(interface.rootEntity().children().size(), 2);
+
+    /*
+     *  The frame is constructed from the values of multiple nodes. So it is
+     *  important to check and get right.
+     */
+    rl::geom::Rect expectedFrameOfUse(20, 10, 60, 10);
+    ASSERT_EQ(interface.rootEntity().children()[1]->frame(),
+              expectedFrameOfUse);
   });
 }

@@ -20,13 +20,26 @@ double DecodeUnit(const char* string) {
 }
 
 template <>
-double Decode<>(const pugi::xml_node& node, const char* name) {
-  return DecodeUnit(node.attribute(name).value());
+double Decode<>(const pugi::xml_node& node, const char* name, bool* present) {
+  auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
+
+  return DecodeUnit(attribute.value());
 }
 
 template <>
-geom::Rect Decode<>(const pugi::xml_node& node, const char* name) {
+geom::Rect Decode<>(const pugi::xml_node& node,
+                    const char* name,
+                    bool* present) {
   auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
+
   if (attribute.empty()) {
     return {};
   }
@@ -50,8 +63,14 @@ geom::Rect Decode<>(const pugi::xml_node& node, const char* name) {
 }
 
 template <>
-entity::Color Decode<>(const pugi::xml_node& node, const char* name) {
+entity::Color Decode<>(const pugi::xml_node& node,
+                       const char* name,
+                       bool* present) {
   auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
 
   if (attribute.empty()) {
     return entity::ColorBlackTransparent;
@@ -61,8 +80,14 @@ entity::Color Decode<>(const pugi::xml_node& node, const char* name) {
 }
 
 template <>
-geom::Matrix Decode<>(const pugi::xml_node& node, const char* name) {
+geom::Matrix Decode<>(const pugi::xml_node& node,
+                      const char* name,
+                      bool* present) {
   auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
 
   if (attribute.empty()) {
     return {};
@@ -77,12 +102,17 @@ geom::Matrix Decode<>(const pugi::xml_node& node, const char* name) {
 
 template <>
 std::vector<geom::Point> Decode<>(const pugi::xml_node& node,
-                                  const char* name) {
+                                  const char* name,
+                                  bool* present) {
   /*
    *  TODO: This is a quick and dirty version. The spec is here. Implement it!
    *  https://www.w3.org/TR/SVG11/shapes.html#PointsBNF
    */
   auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
 
   if (attribute.empty()) {
     return {};
@@ -111,6 +141,23 @@ std::vector<geom::Point> Decode<>(const pugi::xml_node& node,
   }
 
   return points;
+}
+
+template <>
+core::URI Decode<>(const pugi::xml_node& node,
+                   const char* name,
+                   bool* present) {
+  auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
+
+  if (attribute.empty()) {
+    return {};
+  }
+
+  return {std::string{attribute.value()}};
 }
 
 }  // namespace ib

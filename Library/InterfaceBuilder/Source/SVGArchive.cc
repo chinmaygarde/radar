@@ -25,12 +25,30 @@ SVGArchive::SVGArchive(const core::FileHandle& handle) {
   }
 
   _document = std::move(document);
+
+  findDefinitions(_document->child("svg"));
 }
 
 SVGArchive::~SVGArchive() = default;
 
 bool SVGArchive::isValid() const {
   return _document != nullptr;
+}
+
+void SVGArchive::findDefinitions(const pugi::xml_node& node) {
+  if (node.empty()) {
+    return;
+  }
+
+  auto attribute = node.attribute("id");
+
+  if (!attribute.empty()) {
+    _definitions[attribute.value()] = node;
+  }
+
+  for (const auto& child : node.children()) {
+    findDefinitions(child);
+  }
 }
 
 bool SVGArchive::inflate(interface::Interface& interface,
@@ -47,45 +65,53 @@ bool SVGArchive::inflate(interface::Interface& interface,
 
   container.setFrame(Decode<geom::Rect>(node, "viewBox"));
 
-  visitChildren(node, interface, container);
+  visitNodeChildren(node, interface, container);
 
   return true;
 }
 
-void SVGArchive::visitChildren(const pugi::xml_node& node,
-                               interface::Interface& interface,
-                               interface::ModelEntity& parent) const {
+void SVGArchive::visitNodeChildren(const pugi::xml_node& node,
+                                   interface::Interface& interface,
+                                   interface::ModelEntity& parent) const {
   for (const auto& child : node.children()) {
-    if (::strncmp(child.name(), "rect", sizeof("rect")) == 0) {
-      visitRect(child, interface, parent);
-      continue;
-    }
-
-    if (::strncmp(child.name(), "ellipse", sizeof("ellipse")) == 0) {
-      visitEllipse(child, interface, parent);
-      continue;
-    }
-
-    if (::strncmp(child.name(), "g", sizeof("g")) == 0) {
-      visitG(child, interface, parent);
-      continue;
-    }
-
-    if (::strncmp(child.name(), "circle", sizeof("circle")) == 0) {
-      visitCircle(child, interface, parent);
-      continue;
-    }
-
-    if (::strncmp(child.name(), "polygon", sizeof("polygon")) == 0) {
-      visitPolygon(child, interface, parent);
-      continue;
-    }
-
-    if (::strncmp(child.name(), "line", sizeof("line")) == 0) {
-      visitLine(child, interface, parent);
-      continue;
-    }
+    visitNode(child, interface, parent);
   }
+}
+
+interface::ModelEntity::Ref SVGArchive::visitNode(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  if (::strncmp(node.name(), "rect", sizeof("rect")) == 0) {
+    return visitRect(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "ellipse", sizeof("ellipse")) == 0) {
+    return visitEllipse(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "g", sizeof("g")) == 0) {
+    return visitG(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "circle", sizeof("circle")) == 0) {
+    return visitCircle(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "polygon", sizeof("polygon")) == 0) {
+    return visitPolygon(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "line", sizeof("line")) == 0) {
+    return visitLine(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "use", sizeof("use")) == 0) {
+    return visitUse(node, interface, parent);
+  }
+
+  RL_LOG("Unknown: %s", node.name());
+  return nullptr;
 }
 
 static void ReadCommonEntityProperties(const pugi::xml_node& node,
@@ -103,9 +129,10 @@ static void ReadCommonEntityProperties(const pugi::xml_node& node,
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#RectElement
  */
-void SVGArchive::visitRect(const pugi::xml_node& node,
-                           interface::Interface& interface,
-                           interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitRect(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   auto entity = interface.createEntity();
 
   ReadCommonEntityProperties(node, *entity);
@@ -121,7 +148,7 @@ void SVGArchive::visitRect(const pugi::xml_node& node,
     /*
      *  A value of zero disables rendering of the element.
      */
-    return;
+    return nullptr;
   }
 
   entity->setFrame(frame);
@@ -131,14 +158,17 @@ void SVGArchive::visitRect(const pugi::xml_node& node,
    */
 
   parent.addChild(entity);
+
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#EllipseElement
  */
-void SVGArchive::visitEllipse(const pugi::xml_node& node,
-                              interface::Interface& interface,
-                              interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitEllipse(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   const geom::Size size = {
       Decode<double>(node, "rx") * 2.0,  //
       Decode<double>(node, "ry") * 2.0,  //
@@ -148,7 +178,7 @@ void SVGArchive::visitEllipse(const pugi::xml_node& node,
     /*
      *  A value of zero disables rendering of the element.
      */
-    return;
+    return nullptr;
   }
 
   const geom::Point center = {
@@ -167,14 +197,17 @@ void SVGArchive::visitEllipse(const pugi::xml_node& node,
   entity->setPath(builder.path());
 
   parent.addChild(entity);
+
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/struct.html#GElement
  */
-void SVGArchive::visitG(const pugi::xml_node& node,
-                        interface::Interface& interface,
-                        interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitG(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   auto entity = interface.createEntity();
 
   /*
@@ -183,15 +216,18 @@ void SVGArchive::visitG(const pugi::xml_node& node,
 
   parent.addChild(entity);
 
-  visitChildren(node, interface, *entity);
+  visitNodeChildren(node, interface, *entity);
+
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#CircleElement
  */
-void SVGArchive::visitCircle(const pugi::xml_node& node,
-                             interface::Interface& interface,
-                             interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitCircle(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   auto entity = interface.createEntity();
 
   ReadCommonEntityProperties(node, *entity);
@@ -202,7 +238,7 @@ void SVGArchive::visitCircle(const pugi::xml_node& node,
     /*
      *  A value of zero disables rendering of the element.
      */
-    return;
+    return nullptr;
   }
 
   const geom::Point center = {
@@ -217,18 +253,21 @@ void SVGArchive::visitCircle(const pugi::xml_node& node,
   entity->setPath(builder.path());
 
   parent.addChild(entity);
+
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#PolygonElement
  */
-void SVGArchive::visitPolygon(const pugi::xml_node& node,
-                              interface::Interface& interface,
-                              interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitPolygon(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   auto points = Decode<std::vector<geom::Point>>(node, "points");
 
   if (points.size() == 0) {
-    return;
+    return nullptr;
   }
 
   auto entity = interface.createEntity();
@@ -246,14 +285,17 @@ void SVGArchive::visitPolygon(const pugi::xml_node& node,
   entity->setPath(builder.path());
 
   parent.addChild(entity);
+
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#LineElement
  */
-void SVGArchive::visitLine(const pugi::xml_node& node,
-                           interface::Interface& interface,
-                           interface::ModelEntity& parent) const {
+interface::ModelEntity::Ref SVGArchive::visitLine(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
   auto entity = interface.createEntity();
 
   ReadCommonEntityProperties(node, *entity);
@@ -273,6 +315,74 @@ void SVGArchive::visitLine(const pugi::xml_node& node,
   entity->setPath(builder.path());
 
   parent.addChild(entity);
+
+  return entity;
+}
+
+/*
+ *  https://www.w3.org/TR/SVG11/struct.html#UseElement
+ */
+interface::ModelEntity::Ref SVGArchive::visitUse(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  auto link = Decode<core::URI>(node, "xlink:href");
+
+  if (!link.isValid()) {
+    return nullptr;
+  }
+
+  auto fragment = link.fragment();
+
+  if (fragment.size() == 0) {
+    return nullptr;
+  }
+
+  auto found = _definitions.find(fragment);
+
+  if (found == _definitions.end()) {
+    return nullptr;
+  }
+
+  auto entity = visitNode(found->second, interface, parent);
+
+  if (entity == nullptr) {
+    return nullptr;
+  }
+
+  /*
+   *  The ‘use’ element has optional attributes ‘x’, ‘y’, ‘width’ and ‘height’.
+   *  If on visiting this node, we inflated a model entity, attach these
+   *  attributes *if present* on the same.
+   */
+
+  geom::Rect frame = entity->frame();
+
+  bool present = false;
+
+  auto x = Decode<double>(node, "x", &present);
+  if (present) {
+    frame.origin.x = x;
+  }
+
+  auto y = Decode<double>(node, "y", &present);
+  if (present) {
+    frame.origin.y = y;
+  }
+
+  auto width = Decode<double>(node, "width", &present);
+  if (present) {
+    frame.size.width = width;
+  }
+
+  auto height = Decode<double>(node, "height", &present);
+  if (present) {
+    frame.size.height = height;
+  }
+
+  entity->setFrame(frame);
+
+  return entity;
 }
 
 }  // namespace ib

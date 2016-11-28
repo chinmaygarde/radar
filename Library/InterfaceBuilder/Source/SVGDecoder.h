@@ -7,12 +7,13 @@
 
 #include <Core/Macros.h>
 #include <pugixml.hpp>
+#include <string>
 
 namespace rl {
 namespace ib {
 
 template <class T>
-T Decode(const pugi::xml_node& node, const char* name);
+T Decode(const pugi::xml_node& node, const char* name, bool* present = nullptr);
 
 }  // namespace ib
 }  // namespace rl
