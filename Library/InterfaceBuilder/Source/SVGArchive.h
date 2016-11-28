@@ -68,6 +68,14 @@ class SVGArchive : public InterfaceBuilderArchive {
                                        interface::Interface& interface,
                                        interface::ModelEntity& parent) const;
 
+  interface::ModelEntity::Ref visitText(const pugi::xml_node& node,
+                                        interface::Interface& interface,
+                                        interface::ModelEntity& parent) const;
+  
+  interface::ModelEntity::Ref visitPath(const pugi::xml_node& node,
+                                        interface::Interface& interface,
+                                        interface::ModelEntity& parent) const;
+
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };
 

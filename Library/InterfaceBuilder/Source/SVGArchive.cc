@@ -110,6 +110,14 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
     return visitUse(node, interface, parent);
   }
 
+  if (::strncmp(node.name(), "text", sizeof("text")) == 0) {
+    return visitText(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "path", sizeof("path")) == 0) {
+    return visitPath(node, interface, parent);
+  }
+
   RL_LOG("Unknown: %s", node.name());
   return nullptr;
 }
@@ -383,6 +391,32 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
   entity->setFrame(frame);
 
   return entity;
+}
+
+/*
+ *  https://www.w3.org/TR/SVG/text.html#TextElement
+ */
+interface::ModelEntity::Ref SVGArchive::visitText(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  /*
+   *  TODO: Wire up text elements when libTypography work items are completed.
+   */
+  return nullptr;
+}
+
+/**
+ *  https://www.w3.org/TR/SVG/paths.html#PathElement
+ */
+interface::ModelEntity::Ref SVGArchive::visitPath(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  /*
+   *  TODO: Wire up path elements when path data parsing is done.
+   */
+  return nullptr;
 }
 
 }  // namespace ib
