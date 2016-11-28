@@ -118,6 +118,10 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
     return visitPath(node, interface, parent);
   }
 
+  if (::strncmp(node.name(), "mask", sizeof("mask")) == 0) {
+    return visitMask(node, interface, parent);
+  }
+
   RL_LOG("Unknown: %s", node.name());
   return nullptr;
 }
@@ -415,6 +419,19 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
     interface::ModelEntity& parent) const {
   /*
    *  TODO: Wire up path elements when path data parsing is done.
+   */
+  return nullptr;
+}
+
+/*
+ *  https://www.w3.org/TR/SVG/masking.html#MaskElement
+ */
+interface::ModelEntity::Ref SVGArchive::visitMask(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  /*
+   *  TODO: Wire up mask elements when the clip stack work is done.
    */
   return nullptr;
 }
