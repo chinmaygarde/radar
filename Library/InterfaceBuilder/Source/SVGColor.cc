@@ -1,9 +1,37 @@
 // Copyright 2016 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+//
+// (c) Dean McNamee <dean@gmail.com>, 2012.
+// (c) C++ port by Konstantin Käfer <mail@kkaefer.com>, 2014.
+// (c) Adapted for Radar by Chinmay Garde <chinmaygarde@gmail.com>, 2016.
+//
+// https://github.com/deanm/css-color-parser-js
+// https://github.com/kkaefer/css-color-parser-cpp
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
 
 #include "SVGColor.h"
 #include <map>
+#include <cmath>
+#include <vector>
+#include <sstream>
 
 namespace rl {
 namespace ib {
@@ -160,15 +188,209 @@ static const std::map<std::string, entity::Color> kNamedSVGColors = {
     {"yellowgreen", {154.0 / 255.0, 205.0 / 255.0, 50.0 / 255.0, 1.0}},
 };
 
-entity::Color ColorFromString(const char* color) {
-  auto found = kNamedSVGColors.find(color);
+template <typename T>
+uint8_t ClampSVGByte(T i) {
+  /*
+   *  Clamp to integer 0 .. 255.
+   */
+  i = std::round(i);
+  return i < 0 ? 0 : i > 255 ? 255 : i;
+}
 
-  if (found == kNamedSVGColors.end()) {
-    RL_ASSERT_MSG(false, "Could not determine color.");
-    return entity::ColorBlackTransparent;
+template <typename T>
+double ClampSVGDouble(T f) {
+  /*
+   *  Clamp to double 0.0 .. 1.0.
+   */
+  return f < 0 ? 0 : f > 1 ? 1 : f;
+}
+
+double ParseDouble(const std::string& str) {
+  return strtod(str.c_str(), nullptr);
+}
+
+int64_t ParseInteger(const std::string& str, uint8_t base = 10) {
+  return strtoll(str.c_str(), nullptr, base);
+}
+
+uint8_t ParseSVGInteger(const std::string& str) {
+  /*
+   *  integer or percentage.
+   */
+  if (str.length() && str.back() == '%') {
+    return ClampSVGByte(ParseDouble(str) / 100.0 * 255.0);
+  } else {
+    return ClampSVGByte(ParseInteger(str));
+  }
+}
+
+double ParseSVGDouble(const std::string& str) {
+  /*
+   *  Double or percentage.
+   */
+  if (str.length() && str.back() == '%') {
+    return ClampSVGDouble(ParseDouble(str) / 100.0);
+  } else {
+    return ClampSVGDouble(ParseDouble(str));
+  }
+}
+
+double SVGHueToRGB(double m1, double m2, double h) {
+  if (h < 0.0) {
+    h += 1.0;
+  } else if (h > 1.0) {
+    h -= 1.0;
   }
 
-  return found->second;
+  if (h * 6.0 < 1.0) {
+    return m1 + (m2 - m1) * h * 6.0;
+  }
+  if (h * 2.0 < 1.0) {
+    return m2;
+  }
+  if (h * 3.0 < 2.0) {
+    return m1 + (m2 - m1) * (2.0 / 3.0 - h) * 6.0;
+  }
+  return m1;
+}
+
+std::vector<std::string> SplitString(const std::string& s, char delim) {
+  std::vector<std::string> elems;
+  std::stringstream ss(s);
+  std::string item;
+  while (std::getline(ss, item, delim)) {
+    elems.push_back(item);
+  }
+  return elems;
+}
+
+entity::Color SVGColorMake(uint8_t red,
+                           uint8_t green,
+                           uint8_t blue,
+                           double alpha) {
+  return {
+      static_cast<double>(red) / 255.0,    //
+      static_cast<double>(green) / 255.0,  //
+      static_cast<double>(blue) / 255.0,   //
+      static_cast<double>(alpha),          //
+  };
+}
+
+entity::Color ColorFromString(const char* svg_str) {
+  std::string str = svg_str;
+
+  /*
+   *  Remove all whitespace, not compliant, but should just be more accepting.
+   */
+  str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+
+  /*
+   *  Convert to lowercase.
+   */
+  std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+
+  auto found = kNamedSVGColors.find(str);
+  if (found != kNamedSVGColors.end()) {
+    return found->second;
+  }
+
+  /*
+   *  #abc and #abc123 syntax.
+   */
+  if (str.length() && str.front() == '#') {
+    if (str.length() == 4) {
+      int64_t iv = ParseInteger(str.substr(1), 16);  // TODO: Stricter parsing.
+      if (!(iv >= 0 && iv <= 0xfff)) {
+        return {};
+      } else {
+        return SVGColorMake(
+            static_cast<uint8_t>(((iv & 0xf00) >> 4) | ((iv & 0xf00) >> 8)),
+            static_cast<uint8_t>((iv & 0xf0) | ((iv & 0xf0) >> 4)),
+            static_cast<uint8_t>((iv & 0xf) | ((iv & 0xf) << 4)), 1.0);
+      }
+    } else if (str.length() == 7) {
+      int64_t iv = ParseInteger(str.substr(1), 16);  // TODO: Stricter parsing.
+      if (!(iv >= 0 && iv <= 0xffffff)) {
+        /*
+         *  Covers NaN.
+         */
+        return {};
+      } else {
+        return SVGColorMake(static_cast<uint8_t>((iv & 0xff0000) >> 16),
+                            static_cast<uint8_t>((iv & 0xff00) >> 8),
+                            static_cast<uint8_t>(iv & 0xff), 1.0);
+      }
+    }
+
+    return {};
+  }
+
+  size_t op = str.find_first_of('('), ep = str.find_first_of(')');
+  if (op != std::string::npos && ep + 1 == str.length()) {
+    const std::string fname = str.substr(0, op);
+    const std::vector<std::string> params =
+        SplitString(str.substr(op + 1, ep - (op + 1)), ',');
+
+    double alpha = 1.0;
+
+    if (fname == "rgba" || fname == "rgb") {
+      if (fname == "rgba") {
+        if (params.size() != 4) {
+          return {};
+        }
+        alpha = ParseSVGDouble(params.back());
+      } else {
+        if (params.size() != 3) {
+          return {};
+        }
+      }
+
+      return SVGColorMake(ParseSVGInteger(params[0]),  //
+                          ParseSVGInteger(params[1]),  //
+                          ParseSVGInteger(params[2]),  //
+                          alpha);
+
+    } else if (fname == "hsla" || fname == "hsl") {
+      if (fname == "hsla") {
+        if (params.size() != 4) {
+          return {};
+        }
+        alpha = ParseSVGDouble(params.back());
+      } else {
+        if (params.size() != 3) {
+          return {};
+        }
+      }
+
+      double h = ParseDouble(params[0]) / 360.0;
+
+      while (h < 0.0) {
+        h++;
+      }
+
+      while (h > 1.0) {
+        h--;
+      }
+
+      /*
+       *  Note: According to the CSS spec s/l should only be percentages, but we
+       *  don't bother and let double or percentage.
+       */
+      double s = ParseSVGDouble(params[1]);
+      double l = ParseSVGDouble(params[2]);
+
+      double m2 = l <= 0.5 ? l * (s + 1.0) : l + s - l * s;
+      double m1 = l * 2.0 - m2;
+
+      return SVGColorMake(
+          ClampSVGByte(SVGHueToRGB(m1, m2, h + 1.0 / 3.0) * 255.0),  //
+          ClampSVGByte(SVGHueToRGB(m1, m2, h) * 255.0),              //
+          ClampSVGByte(SVGHueToRGB(m1, m2, h - 1.0 / 3.0) * 255.0),  //
+          alpha);
+    }
+  }
+
+  return {};
 }
 
 }  // namespace ib
