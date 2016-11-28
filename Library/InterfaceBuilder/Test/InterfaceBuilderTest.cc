@@ -141,3 +141,13 @@ TEST_F(InterfaceTest, Use01) {
               expectedFrameOfUse);
   });
 }
+
+TEST_F(InterfaceTest, SketchAndroidExport) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://SketchAndroid.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+  });
+}
