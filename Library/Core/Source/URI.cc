@@ -108,6 +108,22 @@ std::string URI::toString() const {
   return reinterpret_cast<char*>(allocation.data());
 }
 
+std::string URI::fragment() const {
+  if (!_valid) {
+    return "";
+  }
+
+  auto fragmentRange = _uri->fragment;
+
+  if (fragmentRange.first == nullptr || fragmentRange.afterLast == nullptr) {
+    return "";
+  }
+
+  size_t byteLength = fragmentRange.afterLast - fragmentRange.first;
+
+  return {fragmentRange.first, byteLength};
+}
+
 std::string URI::filesystemRepresentation() const {
   if (!_valid) {
     return "";

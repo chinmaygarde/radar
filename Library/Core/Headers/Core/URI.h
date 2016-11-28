@@ -28,6 +28,8 @@ class URI {
 
   bool isValid() const;
 
+  std::string fragment() const;
+
   std::string filesystemRepresentation() const;
 
   std::string toString() const;
