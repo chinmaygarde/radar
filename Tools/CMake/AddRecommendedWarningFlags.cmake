@@ -48,6 +48,10 @@ AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
 AddCXXWarningIfSupported("-Wredundant-move"   HAVE_REDUNDANT_MOVE)
 AddCXXWarningIfSupported("-Wloop-analysis"    HAVE_LOOP_ANALYSIS)
 
+# Temporarily disable to work around newly deprecated stuff in Mac OSX 10.12.
+AddCXXWarningIfSupported("-Wno-deprecated-declarations"
+    HAVE_NO_DEPRECATED_DECLARATIONS)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Work around bug with -Werror on older GCC
   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=36750
