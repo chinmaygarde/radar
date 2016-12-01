@@ -33,6 +33,9 @@
 StandardRadarLibrary(GraphicsTestRunner)
 
 target_link_libraries(GraphicsTestRunner
+  PRIVATE
+    libGLESv2
+    libEGL
   PUBLIC
     TestRunner
     Core
@@ -40,8 +43,6 @@ target_link_libraries(GraphicsTestRunner
   PRIVATE
     gtest
     DevSupport
-    libGLESv2
-    libEGL
 )
 
 target_include_directories(GraphicsTestRunner
