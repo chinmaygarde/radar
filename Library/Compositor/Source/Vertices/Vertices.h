@@ -6,7 +6,7 @@
 #define RADAR_COMPOSITOR_VERTICES_H_
 
 #include <Core/Macros.h>
-
+#include <Core/ThreadGuard.h>
 #include "OpenGL.h"
 
 namespace rl {
@@ -28,6 +28,7 @@ class Vertices {
   bool draw(size_t index);
 
  private:
+  RL_DEBUG_THREAD_GUARD(_guard);
   const Type _type;
   ResourceState _state;
   GLuint _vbo;
