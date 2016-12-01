@@ -11,6 +11,18 @@ GraphicsTestFrame::~GraphicsTestFrame() {
   RL_ASSERT(success);
 }
 
+bool GraphicsTestFrame::snapshot(size_t number) {
+  const auto& testInfo =
+      ::testing::UnitTest::GetInstance()->current_test_info();
+
+  std::stringstream stream;
+
+  stream << testInfo->test_case_name() << "_" << testInfo->name();
+  stream << "_" << number << ".png";
+
+  return GraphicsTest::snapshot({_frame.size()}, rl::core::URI{stream.str()});
+}
+
 void GraphicsTestFrame::SetUp() {
   GraphicsTest::SetUp();
 

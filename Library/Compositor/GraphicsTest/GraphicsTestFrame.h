@@ -17,6 +17,8 @@ class GraphicsTestFrame : public GraphicsTest {
 
   rl::compositor::Frame& frame();
 
+  bool snapshot(size_t number = 1);
+
  protected:
   void SetUp() override;
 

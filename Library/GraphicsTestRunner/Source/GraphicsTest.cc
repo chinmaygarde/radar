@@ -44,6 +44,8 @@ rl::image::ImageResult GraphicsTest::snapshot(
     return {};
   }
 
+  glFinish();
+
   glReadPixels(viewport.origin.x, viewport.origin.y, viewport.size.width,
                viewport.size.height, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
 
@@ -56,18 +58,6 @@ rl::image::ImageResult GraphicsTest::snapshot(
       rl::image::ImageResult::Components::RGBA,     // components
       std::move(pixels)                             // allocation
   };
-}
-
-bool GraphicsTest::snapshot(size_t number, const rl::geom::Rect& viewport) {
-  const auto& testInfo =
-      ::testing::UnitTest::GetInstance()->current_test_info();
-
-  std::stringstream stream;
-
-  stream << testInfo->test_case_name() << "_" << testInfo->name();
-  stream << "_" << number << ".png";
-
-  return snapshot(viewport, rl::core::URI{stream.str()});
 }
 
 bool GraphicsTest::snapshot(const rl::geom::Rect& viewport,
