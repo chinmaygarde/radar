@@ -7,6 +7,7 @@
 #include <Core/Utilities.h>
 #include <Core/FileIOAdapter.h>
 #include <Image/ImageEncoder.h>
+#include <sstream>
 
 #include "GraphicsConnection.h"
 
@@ -55,6 +56,18 @@ rl::image::ImageResult GraphicsTest::snapshot(
       rl::image::ImageResult::Components::RGBA,     // components
       std::move(pixels)                             // allocation
   };
+}
+
+bool GraphicsTest::snapshot(size_t number, const rl::geom::Rect& viewport) {
+  const auto& testName =
+      ::testing::UnitTest::GetInstance()->current_test_info()->test_case_name();
+
+  std::stringstream stream;
+
+  stream << testName;
+  stream << "_" << number << ".png";
+
+  return snapshot(viewport, rl::core::URI{stream.str()});
 }
 
 bool GraphicsTest::snapshot(const rl::geom::Rect& viewport,

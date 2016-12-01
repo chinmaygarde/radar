@@ -30,4 +30,6 @@ TEST_F(GraphicsTestFrame, ColoredBoxPrimitive) {
   backEndPass.addFrontEndPass(std::move(frontEndPass));
 
   ASSERT_TRUE(backEndPass.render(frame(), nullptr));
+
+  ASSERT_TRUE(snapshot());
 }

@@ -28,6 +28,9 @@ class GraphicsTest : public ::testing::Test {
 
   rl::image::ImageResult snapshot(const rl::geom::Rect& viewport) const;
 
+  bool snapshot(size_t number = 1,
+                const rl::geom::Rect& viewport = {0.0, 0.0, 480.0, 320.0});
+
   bool snapshot(const rl::geom::Rect& viewport,
                 const rl::core::URI& destination);
 
