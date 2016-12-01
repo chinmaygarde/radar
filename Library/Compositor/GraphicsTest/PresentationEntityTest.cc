@@ -30,6 +30,4 @@ TEST_F(GraphicsTestFrame, ColoredBoxPrimitive) {
   backEndPass.addFrontEndPass(std::move(frontEndPass));
 
   ASSERT_TRUE(backEndPass.render(frame(), nullptr));
-
-  snapshot(frame().size(), rl::core::URI{"/Users/buzzy/Desktop/Hello.png"});
 }
