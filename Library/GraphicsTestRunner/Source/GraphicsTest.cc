@@ -59,12 +59,12 @@ rl::image::ImageResult GraphicsTest::snapshot(
 }
 
 bool GraphicsTest::snapshot(size_t number, const rl::geom::Rect& viewport) {
-  const auto& testName =
-      ::testing::UnitTest::GetInstance()->current_test_info()->test_case_name();
+  const auto& testInfo =
+      ::testing::UnitTest::GetInstance()->current_test_info();
 
   std::stringstream stream;
 
-  stream << testName;
+  stream << testInfo->test_case_name() << "_" << testInfo->name();
   stream << "_" << number << ".png";
 
   return snapshot(viewport, rl::core::URI{stream.str()});
