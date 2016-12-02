@@ -73,6 +73,16 @@ static StatisticsRenderer* _StatisticsRenderer = nullptr;
 void StatisticsRenderer::drawLists(void* data) {
   RL_ASSERT(_StatisticsRenderer != nullptr);
   StatisticsRenderer& renderer = *_StatisticsRenderer;
+
+  /*
+   *  Setup program and update uniforms and vertices
+   */
+  auto& program = *renderer._program;
+
+  if (!program.use()) {
+    return;
+  }
+
   auto drawData = static_cast<ImDrawData*>(data);
 
   /*
@@ -103,13 +113,6 @@ void StatisticsRenderer::drawLists(void* data) {
       { -1.0f,        1.0f,            0.0f, 1.0f },
     };
   // clang-format on
-
-  /*
-   *  Setup program and update uniforms and vertices
-   */
-  auto& program = *renderer._program;
-
-  program.use();
 
   glUniform1i(program.textureUniform, 0);
   glUniformMatrix4fv(program.projMtxUniform, 1, GL_FALSE,
