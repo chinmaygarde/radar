@@ -14,6 +14,10 @@ class NullRenderSurface : public rl::coordinator::RenderSurface {
 
   bool present() override { return false; }
 
+  void accessWillBegin() override {}
+
+  void accessDidEnd() override {}
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(NullRenderSurface);
 };
