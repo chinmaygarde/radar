@@ -33,9 +33,9 @@ class RenderSurface {
    */
   virtual bool present() = 0;
 
-  virtual void accessWillBegin();
+  virtual void accessWillBegin() = 0;
 
-  virtual void accessDidEnd();
+  virtual void accessDidEnd() = 0;
 };
 
 class ScopedRenderSurfaceAccess {

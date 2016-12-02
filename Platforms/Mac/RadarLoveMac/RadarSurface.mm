@@ -32,7 +32,7 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
     return true;
   }
 
-  void contextAccessWillBegin() {
+  virtual void accessWillBegin() override {
     /*
      *  OpenGL commands are about to begin. Lock the context so that window
      *  resizes don't interfere this frame.
@@ -41,7 +41,7 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
     RL_ASSERT(error == kCGLNoError);
   }
 
-  void contextAccessDidEnd() {
+  virtual void accessDidEnd() override {
     /*
      *  Frame access ended. Window resizes can now be serviced.
      */

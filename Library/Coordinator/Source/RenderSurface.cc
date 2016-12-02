@@ -12,18 +12,6 @@ RenderSurface::RenderSurface() = default;
 
 RenderSurface::~RenderSurface() = default;
 
-void RenderSurface::accessWillBegin() {
-  /*
-   *  Base class does nothing.
-   */
-}
-
-void RenderSurface::accessDidEnd() {
-  /*
-   *  Base class does nothing.
-   */
-}
-
 ScopedRenderSurfaceAccess::ScopedRenderSurfaceAccess(RenderSurface& surface)
     : _surface(surface), _finalized(false) {
   RL_TRACE_AUTO("SurfaceMakeCurrent");
