@@ -162,6 +162,10 @@ void StatisticsRenderer::drawLists(void* data) {
     }
   }
 
+  glDisableVertexAttribArray(program.positionAttribute);
+  glDisableVertexAttribArray(program.uvAttribute);
+  glDisableVertexAttribArray(program.colorAttribute);
+
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
