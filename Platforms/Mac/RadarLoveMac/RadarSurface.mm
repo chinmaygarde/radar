@@ -18,12 +18,12 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   RenderSurfaceMac(NSOpenGLContext* context)
       : RenderSurface(), _context(context) {}
 
-  bool makeCurrent() {
+  virtual bool makeCurrent() override {
     [_context makeCurrentContext];
     return true;
   }
 
-  bool present() {
+  virtual bool present() override {
     if (_rejectNonMainThreadPresents && ![NSThread isMainThread]) {
       return true;
     }
