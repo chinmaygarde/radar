@@ -35,7 +35,7 @@ class Vertices {
   GLuint _ibo;
 
   bool prepareBuffers();
-  bool use();
+  bool bindOrUnbind(bool bind);
   virtual bool doDraw(size_t index) = 0;
   virtual bool uploadVertexData() = 0;
 

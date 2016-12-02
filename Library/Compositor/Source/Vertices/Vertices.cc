@@ -75,7 +75,7 @@ bool Vertices::prepareBuffers() {
   /*
    *  Prepare buffer bindinds before attempting to upload vertices.
    */
-  if (!use()) {
+  if (!bindOrUnbind(true)) {
     return false;
   }
 
@@ -85,16 +85,25 @@ bool Vertices::prepareBuffers() {
   return uploadVertexData();
 }
 
-bool Vertices::use() {
+bool Vertices::bindOrUnbind(bool bind) {
+  auto vbo = _vbo;
+  auto ibo = _ibo;
+
+  if (!bind) {
+    vbo = GL_NONE;
+    ibo = GL_NONE;
+  }
+
   switch (_type) {
     case Type::Array:
-      glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+      glBindBuffer(GL_ARRAY_BUFFER, vbo);
       return true;
     case Type::ElementArray:
-      glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
+      glBindBuffer(GL_ARRAY_BUFFER, vbo);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
       return true;
   }
+
   return false;
 }
 
@@ -103,11 +112,15 @@ bool Vertices::draw(size_t index) {
     return false;
   }
 
-  if (!use()) {
+  if (!bindOrUnbind(true)) {
     return false;
   }
 
-  return doDraw(index);
+  bool drawn = doDraw(index);
+
+  bindOrUnbind(false);
+
+  return drawn;
 }
 
 }  // namespace compositor
