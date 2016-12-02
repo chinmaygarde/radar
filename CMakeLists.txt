@@ -43,14 +43,9 @@ cmake_minimum_required(VERSION 3.4)
 project(Radar)
 
 ################################################################################
-# CCache
+# Import CMake Utilities
 ################################################################################
 
-find_program(CCACHE_PROGRAM NAMES ccache)
-if(CCACHE_PROGRAM)
-  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
-  set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CCACHE_PROGRAM}")
-endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Tools/CMake")
 
@@ -75,6 +70,31 @@ HardenToolchain()
 SetRecommendedSymbolVisibility()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+################################################################################
+# CCache
+################################################################################
+
+find_program(CCACHE_PROGRAM NAMES ccache)
+if(CCACHE_PROGRAM)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CCACHE_PROGRAM}")
+endif()
+
+################################################################################
+# Ranlib Symbol Notifications on Mac
+################################################################################
+
+if(APPLE)
+  SET(CMAKE_C_ARCHIVE_CREATE
+      "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+  SET(CMAKE_CXX_ARCHIVE_CREATE
+      "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+  SET(CMAKE_C_ARCHIVE_FINISH
+      "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+  SET(CMAKE_CXX_ARCHIVE_FINISH
+      "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+endif()
 
 ################################################################################
 # Benchmarking

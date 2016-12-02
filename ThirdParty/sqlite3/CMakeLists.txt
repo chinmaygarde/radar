@@ -47,6 +47,12 @@ set_property(
 
 add_library(sqlite3 ${SQLITE3_SRC})
 
+if(APPLE)
+  # For OSAtomicCompareAndSwapPtrBarrier
+  set(CMAKE_C_FLAGS
+      "${CMAKE_C_FLAGS} -Wno-deprecated-declarations ")
+endif()
+
 target_include_directories(sqlite3
   PUBLIC
     Headers
