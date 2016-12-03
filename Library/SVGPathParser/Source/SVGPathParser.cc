@@ -50,7 +50,6 @@
 // Unqualified %code blocks.
 
 #include "RLDecls.h"
-// #include "Module.h"
 
 #ifndef YY_
 #if defined YYENABLE_NLS && YYENABLE_NLS
@@ -723,7 +722,7 @@ const char* const SVGPathParser::yytname_[] = {"\"<end of contents>\"",
                                                YY_NULLPTR};
 
 #if YYDEBUG
-const unsigned char SVGPathParser::yyrline_[] = {0, 62, 62};
+const unsigned char SVGPathParser::yyrline_[] = {0, 60, 60};
 
 // Print the state stack on the debug stream.
 void SVGPathParser::yystack_print_() {

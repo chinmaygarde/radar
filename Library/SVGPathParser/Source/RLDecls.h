@@ -7,14 +7,10 @@
 
 #include "SVGPathParser.h"
 #include "SVGPathDriver.h"
-#include "SVGPathLexer.h"
 
-#define YY_DO_BEFORE_ACTION
-#define YY_NEW_FILE
-
-#define YY_DECL                                                    \
-  rl::SVGPathParser::symbol_type RL_lex(rl::SVGPathDriver& driver, \
-                                        void* yyscanner)
+#define YY_DECL                                                           \
+  rl::SVGPathParser::symbol_type RLSVGPath_lex(rl::SVGPathDriver& driver, \
+                                               void* yyscanner)
 
 YY_DECL;
 

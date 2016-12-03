@@ -23,12 +23,10 @@
 
 %code requires {
 #include "SVGPathDriver.h"
-// #include "Module.h"
 }
 
 %code {
 #include "RLDecls.h"
-// #include "Module.h"
 }
 
 %define parse.trace

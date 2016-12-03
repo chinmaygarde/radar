@@ -42,7 +42,6 @@
 // //                    "%code requires" blocks.
 
 #include "SVGPathDriver.h"
-// #include "Module.h"
 
 #include <cassert>
 #include <cstdlib>  // std::abort
