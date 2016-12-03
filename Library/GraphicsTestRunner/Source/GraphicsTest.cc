@@ -44,8 +44,7 @@ rl::image::ImageResult GraphicsTest::snapshot(
     return {};
   }
 
-  glFinish();
-
+  glPixelStorei(GL_PACK_ALIGNMENT, 4);
   glReadPixels(viewport.origin.x, viewport.origin.y, viewport.size.width,
                viewport.size.height, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
 
