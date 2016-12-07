@@ -421,62 +421,61 @@ static void yynoreturn yy_fatal_error(const char* msg, yyscan_t yyscanner);
   yyg->yy_c_buf_p = yy_cp;
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here
  */
-#define YY_NUM_RULES 16
-#define YY_END_OF_BUFFER 17
+#define YY_NUM_RULES 24
+#define YY_END_OF_BUFFER 25
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info {
   flex_int32_t yy_verify;
   flex_int32_t yy_nxt;
 };
-static const flex_int16_t yy_accept[35] = {
-    0, 0, 0,  17, 15, 14, 14, 10, 11, 6, 5, 15, 7, 4, 12, 13, 4, 4,
-    8, 9, 14, 1,  4,  4,  4,  1,  4,  4, 4, 3,  4, 4, 4,  2,  0};
+static const flex_int16_t yy_accept[31] = {
+    0,  1, 1,  25, 23, 22, 22, 1,  20, 12, 8,  6, 2,  16, 14, 18,
+    10, 5, 21, 13, 9,  7,  3,  17, 15, 19, 11, 4, 22, 1,  0};
 
 static const YY_CHAR yy_ec[256] = {
-    0,  1,  1,  1,  1,  1,  1,  1,  1,  2,  3,  2,  2,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  1,  1,  1,  1,  1,
-    1,  1,  4,  5,  1,  1,  6,  1,  7,  8,  9,  9,  9,  9,  9,  9,  9,  9,  9,
-    9,  1,  10, 1,  1,  1,  1,  1,  11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-    11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 12, 1,  13, 1,
-    11, 1,  11, 11, 14, 15,
+    0,  1, 1,  1,  1, 1, 1,  1,  1,  2, 3, 2, 2,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 2, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  4, 2,  4,  4, 1, 4,  4,  4,  4, 4, 4, 4,  4,  4,  4,  1, 1,  1,  1, 1,
+    1,  1, 5,  1,  6, 1, 4,  1,  1,  7, 1, 1, 1,  8,  9,  1,  1, 1,  10, 1, 11,
+    12, 1, 13, 1,  1, 1, 14, 1,  1,  1, 1, 1, 1,  15, 1,  16, 1,
 
-    11, 11, 11, 11, 16, 11, 11, 17, 11, 11, 18, 19, 11, 20, 11, 21, 11, 22, 11,
-    11, 11, 11, 23, 1,  24, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,
+    4,  1, 1,  17, 1, 1, 1,  18, 19, 1, 1, 1, 20, 1,  21, 22, 1, 23, 1,  1, 1,
+    24, 1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,
 
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1};
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1,  1,  1,  1,  1, 1,  1,  1, 1,
+    1,  1, 1,  1,  1, 1, 1,  1,  1,  1, 1, 1, 1};
 
-static const YY_CHAR yy_meta[25] = {0, 1, 1, 2, 1, 1, 1, 1, 1, 3, 1, 3, 1,
-                                    1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1};
+static const YY_CHAR yy_meta[25] = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-static const flex_int16_t yy_base[37] = {
-    0,  0,  0, 45, 46, 23, 25, 46, 46, 46, 46, 36, 46, 0,  46, 46, 23, 24, 46,
-    46, 27, 0, 0,  23, 24, 0,  18, 23, 19, 0,  22, 17, 17, 0,  46, 29, 30};
+static const flex_int16_t yy_base[31] = {
+    0,  0,  0,  33, 34, 23, 25, 28, 34, 34, 34, 34, 34, 34, 34, 34,
+    34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 27, 27, 34};
 
-static const flex_int16_t yy_def[37] = {
-    0,  34, 1,  34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 35, 34, 34, 35, 35, 34,
-    34, 34, 36, 35, 35, 35, 36, 35, 35, 35, 35, 35, 35, 35, 35, 0,  34, 34};
+static const flex_int16_t yy_def[31] = {
+    0,  30, 1,  30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+    30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0};
 
-static const flex_int16_t yy_nxt[71] = {
-    0,  4,  5,  6,  7,  8,  9,  10, 11, 4,  12, 13, 14, 15, 13, 13, 13, 13,
-    13, 16, 13, 13, 17, 18, 19, 20, 20, 20, 20, 20, 20, 25, 22, 25, 33, 32,
-    31, 30, 29, 28, 27, 26, 24, 23, 21, 34, 3,  34, 34, 34, 34, 34, 34, 34,
-    34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34};
+static const flex_int16_t yy_nxt[59] = {
+    0,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17,
+    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 28, 28, 28,
+    28, 29, 29, 30, 3,  30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+    30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30};
 
-static const flex_int16_t yy_chk[71] = {
-    0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  5,  5,  6,  6,  20, 20, 36, 35, 36, 32, 31,
-    30, 28, 27, 26, 24, 23, 17, 16, 11, 3,  34, 34, 34, 34, 34, 34, 34, 34,
-    34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34};
+static const flex_int16_t yy_chk[59] = {
+    0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  5,  5,  6,  6,  28,
+    28, 29, 7,  3,  30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+    30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30};
 
-static const flex_int16_t yy_rule_linenum[16] = {
-    0, 35, 38, 39, 42, 45, 46, 47, 48, 49, 50, 51, 52, 53, 56, 57};
+static const flex_int16_t yy_rule_linenum[24] = {
+    0,  34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+    45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56};
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -494,6 +493,9 @@ static const flex_int16_t yy_rule_linenum[16] = {
 #include "RLDecls.h"
 
 #define CURRENT_LOC driver.location
+#define FOUND(token) return rl::SVGPathParser::make_##token(CURRENT_LOC);
+#define FOUND_ARG(token, arg) \
+  return rl::SVGPathParser::make_##token(arg, CURRENT_LOC);
 
 #define YY_NO_INPUT 1
 
@@ -843,12 +845,12 @@ YY_DECL {
         }
         while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
           yy_current_state = (int)yy_def[yy_current_state];
-          if (yy_current_state >= 35)
+          if (yy_current_state >= 31)
             yy_c = yy_meta[yy_c];
         }
         yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
         ++yy_cp;
-      } while (yy_current_state != 34);
+      } while (yy_current_state != 30);
       yy_cp = yyg->yy_last_accepting_cpos;
       yy_current_state = yyg->yy_last_accepting_state;
 
@@ -866,12 +868,12 @@ YY_DECL {
       if (yy_flex_debug) {
         if (yy_act == 0)
           fprintf(stderr, "--scanner backing up\n");
-        else if (yy_act < 16)
+        else if (yy_act < 24)
           fprintf(stderr, "--accepting rule at line %ld (\"%s\")\n",
                   (long)yy_rule_linenum[yy_act], yytext);
-        else if (yy_act == 16)
+        else if (yy_act == 24)
           fprintf(stderr, "--accepting default rule (\"%s\")\n", yytext);
-        else if (yy_act == 17)
+        else if (yy_act == 25)
           fprintf(stderr, "--(end of buffer or a NUL)\n");
         else
           fprintf(stderr, "--EOF (start condition %d)\n", YY_START);
@@ -887,70 +889,102 @@ YY_DECL {
           goto yy_find_action;
 
         case YY_STATE_EOF(INITIAL):
-          return rl::SVGPathParser::make_END(CURRENT_LOC);
+          FOUND(END)
           YY_BREAK
         case 1:
-          YY_RULE_SETUP { /* Comment Consumed */
-          }
+          YY_RULE_SETUP
+          FOUND_ARG(NUMBER, yytext)
           YY_BREAK
         case 2:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_PROTOCOL(CURRENT_LOC);
+          FOUND(MOVE_ABS)
           YY_BREAK
         case 3:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_VOID(CURRENT_LOC);
+          FOUND(MOVE_REL)
           YY_BREAK
         case 4:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_IDENTIFIER(yytext, CURRENT_LOC);
+          FOUND(CLOSE)
           YY_BREAK
         case 5:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_DOT(CURRENT_LOC);
+          FOUND(CLOSE)
           YY_BREAK
         case 6:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_COMMA(CURRENT_LOC);
+          FOUND(LINE_ABS)
           YY_BREAK
         case 7:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_SEMI_COLON(CURRENT_LOC);
+          FOUND(LINE_REL)
           YY_BREAK
         case 8:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_CURLY_LEFT(CURRENT_LOC);
+          FOUND(LINE_HORIZONTAL_ABS)
           YY_BREAK
         case 9:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_CURLY_RIGHT(CURRENT_LOC);
+          FOUND(LINE_HORIZONTAL_REL)
           YY_BREAK
         case 10:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_PAREN_LEFT(CURRENT_LOC);
+          FOUND(LINE_VERTICAL_ABS)
           YY_BREAK
         case 11:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_PAREN_RIGHT(CURRENT_LOC);
+          FOUND(LINE_VERTICAL_REL)
           YY_BREAK
         case 12:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_SQUARE_LEFT(CURRENT_LOC);
+          FOUND(CURVE_ABS)
           YY_BREAK
         case 13:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_SQUARE_RIGHT(CURRENT_LOC);
+          FOUND(CURVE_REL)
           YY_BREAK
         case 14:
-          /* rule 14 can match eol */
-          YY_RULE_SETUP { /* Whitespace Consumed */
-          }
+          YY_RULE_SETUP
+          FOUND(SHORTHAND_CURVE_ABS)
           YY_BREAK
         case 15:
           YY_RULE_SETUP
-          return rl::SVGPathParser::make_INVALID_TOKEN(CURRENT_LOC);
+          FOUND(SHORTHAND_CURVE_REL)
           YY_BREAK
         case 16:
+          YY_RULE_SETUP
+          FOUND(QUAD_CURVE_ABS)
+          YY_BREAK
+        case 17:
+          YY_RULE_SETUP
+          FOUND(QUAD_CURVE_REL)
+          YY_BREAK
+        case 18:
+          YY_RULE_SETUP
+          FOUND(SHORTHAND_QUAD_CURVE_ABS)
+          YY_BREAK
+        case 19:
+          YY_RULE_SETUP
+          FOUND(SHORTHAND_QUAD_CURVE_REL)
+          YY_BREAK
+        case 20:
+          YY_RULE_SETUP
+          FOUND(ELLIPTIC_ARC_ABS)
+          YY_BREAK
+        case 21:
+          YY_RULE_SETUP
+          FOUND(ELLIPTIC_ARC_REL)
+          YY_BREAK
+        case 22:
+          /* rule 22 can match eol */
+          YY_RULE_SETUP { /* Separators Consumed */
+          }
+          YY_BREAK
+        case 23:
+          YY_RULE_SETUP
+          FOUND(INVALID)
+          YY_BREAK
+        case 24:
           YY_RULE_SETUP
           ECHO;
           YY_BREAK
@@ -1252,7 +1286,7 @@ static yy_state_type yy_get_previous_state(yyscan_t yyscanner)
     }
     while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
       yy_current_state = (int)yy_def[yy_current_state];
-      if (yy_current_state >= 35)
+      if (yy_current_state >= 31)
         yy_c = yy_meta[yy_c];
     }
     yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1287,11 +1321,11 @@ static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state,
   }
   while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
     yy_current_state = (int)yy_def[yy_current_state];
-    if (yy_current_state >= 35)
+    if (yy_current_state >= 31)
       yy_c = yy_meta[yy_c];
   }
   yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-  yy_is_jam = (yy_current_state == 34);
+  yy_is_jam = (yy_current_state == 30);
 
   (void)yyg;
   return yy_is_jam ? 0 : yy_current_state;

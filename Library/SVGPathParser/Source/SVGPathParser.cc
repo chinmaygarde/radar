@@ -215,7 +215,7 @@ inline SVGPathParser::stack_symbol_type::stack_symbol_type(state_type s,
                                                            symbol_type& that)
     : super_type(s, that.location) {
   switch (that.type_get()) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.move<std::string>(that.value);
       break;
 
@@ -231,7 +231,7 @@ inline SVGPathParser::stack_symbol_type& SVGPathParser::stack_symbol_type::
 operator=(const stack_symbol_type& that) {
   state = that.state;
   switch (that.type_get()) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.copy<std::string>(that.value);
       break;
 
@@ -431,7 +431,7 @@ int SVGPathParser::parse() {
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
       switch (yyr1_[yyn]) {
-        case 15:  // "<identifier>"
+        case 23:  // "<number>"
           yylhs.value.build<std::string>();
           break;
 
@@ -677,52 +677,109 @@ std::string SVGPathParser::yysyntax_error_(state_type yystate,
   return yyres;
 }
 
-const signed char SVGPathParser::yypact_ninf_ = -1;
+const signed char SVGPathParser::yypact_ninf_ = -7;
 
 const signed char SVGPathParser::yytable_ninf_ = -1;
 
-const signed char SVGPathParser::yypact_[] = {-1, 0, -1};
+const signed char SVGPathParser::yypact_[] = {
+    19, 20, 20, -7, 20, 20, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20,
+    20, 27, 27, 0,  -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, 28, 20,
+    -7, 20, 20, 20, -7, 38, 38, 38, 38, 20, 20, 20, 20, 20, 20, 20, 20,
+    41, 27, -7, 27, -7, -7, -7, -7, -7, 42, -7, 43, 44, 53, 54, -7};
 
-const unsigned char SVGPathParser::yydefact_[] = {2, 0, 1};
+const unsigned char SVGPathParser::yydefact_[] = {
+    0,  0,  0,  16, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  2,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 0,  14,
+    33, 15, 17, 18, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0,  31, 38, 32, 1,  3,  35, 34, 37, 0,  39, 0,  0,  0,  0,  40};
 
-const signed char SVGPathParser::yypgoto_[] = {-1, -1};
+const signed char SVGPathParser::yypgoto_[] = {
+    -7, -7, 59, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, 58, 9, -6, 61, -5};
 
-const signed char SVGPathParser::yydefgoto_[] = {-1, 1};
+const signed char SVGPathParser::yydefgoto_[] = {
+    -1, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 39, 52, 53};
 
-const unsigned char SVGPathParser::yytable_[] = {2};
+const unsigned char SVGPathParser::yytable_[] = {
+    55, 40, 41, 42, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13,
+    14, 15, 16, 17, 18, 19, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 58, 32, 58, 58, 58, 61, 38, 61, 51,
+    57, 58, 58, 58, 58, 58, 58, 58, 58, 35, 59, 36, 37, 60, 62, 63, 64,
+    43, 44, 45, 46, 47, 48, 49, 50, 65, 66, 0,  56, 54};
 
-const unsigned char SVGPathParser::yycheck_[] = {0};
+const signed char SVGPathParser::yycheck_[] = {
+    0,  7,  8,  9,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16,
+    17, 18, 19, 20, 21, 22, 4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19, 20, 21, 22, 33, 23, 35, 36, 37, 52, 23, 54, 23,
+    23, 43, 44, 45, 46, 47, 48, 49, 50, 2,  23, 4,  5,  23, 23, 23, 23,
+    10, 11, 12, 13, 14, 15, 16, 17, 23, 23, -1, 20, 19};
 
-const unsigned char SVGPathParser::yystos_[] = {0, 17, 0};
+const unsigned char SVGPathParser::yystos_[] = {
+    0,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 23, 37,
+    38, 37, 37, 37, 23, 39, 39, 39, 39, 37, 37, 37, 37, 37, 37, 37, 37,
+    23, 40, 41, 40, 0,  26, 23, 38, 23, 23, 41, 23, 23, 23, 23, 23};
 
-const unsigned char SVGPathParser::yyr1_[] = {0, 16, 17};
+const unsigned char SVGPathParser::yyr1_[] = {
+    0,  24, 25, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
+    27, 27, 28, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34,
+    34, 35, 35, 36, 36, 37, 37, 38, 39, 39, 40, 40, 41};
 
-const unsigned char SVGPathParser::yyr2_[] = {0, 2, 0};
+const unsigned char SVGPathParser::yyr2_[] = {
+    0, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2, 7};
 
 // YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
 // First, the terminals, then, starting at \a yyntokens_, nonterminals.
-const char* const SVGPathParser::yytname_[] = {"\"<end of contents>\"",
-                                               "error",
-                                               "$undefined",
-                                               "\"<invalid token>\"",
-                                               "\"protocol\"",
-                                               "\"void\"",
-                                               "\".\"",
-                                               "\",\"",
-                                               "\";\"",
-                                               "\"{\"",
-                                               "\"}\"",
-                                               "\"(\"",
-                                               "\")\"",
-                                               "\"[\"",
-                                               "\"]\"",
-                                               "\"<identifier>\"",
-                                               "$accept",
-                                               "SourceFile",
-                                               YY_NULLPTR};
+const char* const SVGPathParser::yytname_[] = {
+    "\"<end of contents>\"",
+    "error",
+    "$undefined",
+    "\"<invalid token>\"",
+    "\"MoveTo (Absolute)\"",
+    "\"MoveTo (Relative)\"",
+    "\"Close\"",
+    "\"Line (Absolute)\"",
+    "\"Line (Relative)\"",
+    "\"Line Horizontal (Absolute)\"",
+    "\"Line Horizontal (Relative)\"",
+    "\"Line Vertical (Absolute)\"",
+    "\"Line Vertical (Relative)\"",
+    "\"Curve (Absolute)\"",
+    "\"Curve (Relative)\"",
+    "\"Shorthand Curve (Absolute)\"",
+    "\"Shorthand Curve (Relative)\"",
+    "\"Quad Curve (Absolute)\"",
+    "\"Quad Curve (Relative)\"",
+    "\"Shorthand Quad Curve (Absolute)\"",
+    "\"Shorthand Quad Curve (Relative)\"",
+    "\"Elliptic Arc (Absolute)\"",
+    "\"Elliptic Arc (Relative)\"",
+    "\"<number>\"",
+    "$accept",
+    "PathElements",
+    "PathElement",
+    "Move",
+    "Close",
+    "Line",
+    "LineHorizontal",
+    "LineVertical",
+    "Curve",
+    "ShorthandCurve",
+    "QuadCurve",
+    "ShorthandQuadCurve",
+    "EllipticArc",
+    "XYCoordinates",
+    "XYCoordinate",
+    "Numbers",
+    "ArcParams",
+    "ArcParam",
+    YY_NULLPTR};
 
 #if YYDEBUG
-const unsigned char SVGPathParser::yyrline_[] = {0, 60, 60};
+const unsigned char SVGPathParser::yyrline_[] = {
+    0,   68,  68,  69,  73,  74,  75,  76,  77,  78,  79,  80,  81,  82,
+    86,  87,  91,  95,  96,  100, 101, 105, 106, 110, 111, 115, 116, 120,
+    121, 125, 126, 130, 131, 135, 136, 140, 144, 145, 149, 150, 154};
 
 // Print the state stack on the debug stream.
 void SVGPathParser::yystack_print_() {

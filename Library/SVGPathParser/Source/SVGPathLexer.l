@@ -9,6 +9,8 @@
 #include "RLDecls.h"
 
 #define CURRENT_LOC driver.location
+#define FOUND(token) return rl::SVGPathParser::make_##token(CURRENT_LOC);
+#define FOUND_ARG(token, arg) return rl::SVGPathParser::make_##token(arg, CURRENT_LOC);
 
 %}
 
@@ -18,10 +20,8 @@
 %option header-file="SVGPathLexer.h"
 %option prefix="RLSVGPath_"
 
-D                       [0-9]
-L                       [a-zA-Z_]
-A                       [a-zA-Z_0-9]
-WS                      [ \t\v\n\f]
+NUMBER_COMPS                  [0-9\+\-\.eE]
+SEPARATORS                    [, \t\v\n\f]
 
 %%
 
@@ -29,30 +29,29 @@ WS                      [ \t\v\n\f]
   CURRENT_LOC.step();
 %}
 
-<<EOF>>                return rl::SVGPathParser::make_END(CURRENT_LOC);
-
-"//".*                 {  /* Comment Consumed */  }
-
-
-"protocol"             return rl::SVGPathParser::make_PROTOCOL(CURRENT_LOC);
-"void"                 return rl::SVGPathParser::make_VOID(CURRENT_LOC);
-
-
-{L}{A}*                return rl::SVGPathParser::make_IDENTIFIER(yytext, CURRENT_LOC);
-
-
-"."                    return rl::SVGPathParser::make_DOT(CURRENT_LOC);
-","                    return rl::SVGPathParser::make_COMMA(CURRENT_LOC);
-";"                    return rl::SVGPathParser::make_SEMI_COLON(CURRENT_LOC);
-"{"                    return rl::SVGPathParser::make_CURLY_LEFT(CURRENT_LOC);
-"}"                    return rl::SVGPathParser::make_CURLY_RIGHT(CURRENT_LOC);
-"("                    return rl::SVGPathParser::make_PAREN_LEFT(CURRENT_LOC);
-")"                    return rl::SVGPathParser::make_PAREN_RIGHT(CURRENT_LOC);
-"["                    return rl::SVGPathParser::make_SQUARE_LEFT(CURRENT_LOC);
-"]"                    return rl::SVGPathParser::make_SQUARE_RIGHT(CURRENT_LOC);
-
-
-{WS}+                  {  /* Whitespace Consumed */  }
-.                      return rl::SVGPathParser::make_INVALID_TOKEN(CURRENT_LOC);
+<<EOF>>                FOUND(END)
+{NUMBER_COMPS}*        FOUND_ARG(NUMBER, yytext)
+"M"                    FOUND(MOVE_ABS)
+"m"                    FOUND(MOVE_REL)
+"z"                    FOUND(CLOSE)
+"Z"                    FOUND(CLOSE)
+"L"                    FOUND(LINE_ABS)
+"l"                    FOUND(LINE_REL)
+"H"                    FOUND(LINE_HORIZONTAL_ABS)
+"h"                    FOUND(LINE_HORIZONTAL_REL)
+"V"                    FOUND(LINE_VERTICAL_ABS)
+"v"                    FOUND(LINE_VERTICAL_REL)
+"C"                    FOUND(CURVE_ABS)
+"c"                    FOUND(CURVE_REL)
+"S"                    FOUND(SHORTHAND_CURVE_ABS)
+"s"                    FOUND(SHORTHAND_CURVE_REL)
+"Q"                    FOUND(QUAD_CURVE_ABS)
+"q"                    FOUND(QUAD_CURVE_REL)
+"T"                    FOUND(SHORTHAND_QUAD_CURVE_ABS)
+"t"                    FOUND(SHORTHAND_QUAD_CURVE_REL)
+"A"                    FOUND(ELLIPTIC_ARC_ABS)
+"a"                    FOUND(ELLIPTIC_ARC_REL)
+{SEPARATORS}+          {  /* Separators Consumed */  }
+.                      FOUND(INVALID)
 
 %%

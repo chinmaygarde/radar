@@ -247,7 +247,7 @@ class SVGPathParser {
 #ifndef YYSTYPE
   /// An auxiliary type to compute the largest semantic type.
   union union_type {
-    // "<identifier>"
+    // "<number>"
     char dummy1[sizeof(std::string)];
   };
 
@@ -269,19 +269,27 @@ class SVGPathParser {
   struct token {
     enum yytokentype {
       RL_TOK_END = 0,
-      RL_TOK_INVALID_TOKEN = 258,
-      RL_TOK_PROTOCOL = 259,
-      RL_TOK_VOID = 260,
-      RL_TOK_DOT = 261,
-      RL_TOK_COMMA = 262,
-      RL_TOK_SEMI_COLON = 263,
-      RL_TOK_CURLY_LEFT = 264,
-      RL_TOK_CURLY_RIGHT = 265,
-      RL_TOK_PAREN_LEFT = 266,
-      RL_TOK_PAREN_RIGHT = 267,
-      RL_TOK_SQUARE_LEFT = 268,
-      RL_TOK_SQUARE_RIGHT = 269,
-      RL_TOK_IDENTIFIER = 270
+      RL_TOK_INVALID = 258,
+      RL_TOK_MOVE_ABS = 259,
+      RL_TOK_MOVE_REL = 260,
+      RL_TOK_CLOSE = 261,
+      RL_TOK_LINE_ABS = 262,
+      RL_TOK_LINE_REL = 263,
+      RL_TOK_LINE_HORIZONTAL_ABS = 264,
+      RL_TOK_LINE_HORIZONTAL_REL = 265,
+      RL_TOK_LINE_VERTICAL_ABS = 266,
+      RL_TOK_LINE_VERTICAL_REL = 267,
+      RL_TOK_CURVE_ABS = 268,
+      RL_TOK_CURVE_REL = 269,
+      RL_TOK_SHORTHAND_CURVE_ABS = 270,
+      RL_TOK_SHORTHAND_CURVE_REL = 271,
+      RL_TOK_QUAD_CURVE_ABS = 272,
+      RL_TOK_QUAD_CURVE_REL = 273,
+      RL_TOK_SHORTHAND_QUAD_CURVE_ABS = 274,
+      RL_TOK_SHORTHAND_QUAD_CURVE_REL = 275,
+      RL_TOK_ELLIPTIC_ARC_ABS = 276,
+      RL_TOK_ELLIPTIC_ARC_REL = 277,
+      RL_TOK_NUMBER = 278
     };
   };
 
@@ -389,32 +397,50 @@ class SVGPathParser {
   // Symbol constructors declarations.
   static inline symbol_type make_END(const location_type& l);
 
-  static inline symbol_type make_INVALID_TOKEN(const location_type& l);
+  static inline symbol_type make_INVALID(const location_type& l);
 
-  static inline symbol_type make_PROTOCOL(const location_type& l);
+  static inline symbol_type make_MOVE_ABS(const location_type& l);
 
-  static inline symbol_type make_VOID(const location_type& l);
+  static inline symbol_type make_MOVE_REL(const location_type& l);
 
-  static inline symbol_type make_DOT(const location_type& l);
+  static inline symbol_type make_CLOSE(const location_type& l);
 
-  static inline symbol_type make_COMMA(const location_type& l);
+  static inline symbol_type make_LINE_ABS(const location_type& l);
 
-  static inline symbol_type make_SEMI_COLON(const location_type& l);
+  static inline symbol_type make_LINE_REL(const location_type& l);
 
-  static inline symbol_type make_CURLY_LEFT(const location_type& l);
+  static inline symbol_type make_LINE_HORIZONTAL_ABS(const location_type& l);
 
-  static inline symbol_type make_CURLY_RIGHT(const location_type& l);
+  static inline symbol_type make_LINE_HORIZONTAL_REL(const location_type& l);
 
-  static inline symbol_type make_PAREN_LEFT(const location_type& l);
+  static inline symbol_type make_LINE_VERTICAL_ABS(const location_type& l);
 
-  static inline symbol_type make_PAREN_RIGHT(const location_type& l);
+  static inline symbol_type make_LINE_VERTICAL_REL(const location_type& l);
 
-  static inline symbol_type make_SQUARE_LEFT(const location_type& l);
+  static inline symbol_type make_CURVE_ABS(const location_type& l);
 
-  static inline symbol_type make_SQUARE_RIGHT(const location_type& l);
+  static inline symbol_type make_CURVE_REL(const location_type& l);
 
-  static inline symbol_type make_IDENTIFIER(const std::string& v,
-                                            const location_type& l);
+  static inline symbol_type make_SHORTHAND_CURVE_ABS(const location_type& l);
+
+  static inline symbol_type make_SHORTHAND_CURVE_REL(const location_type& l);
+
+  static inline symbol_type make_QUAD_CURVE_ABS(const location_type& l);
+
+  static inline symbol_type make_QUAD_CURVE_REL(const location_type& l);
+
+  static inline symbol_type make_SHORTHAND_QUAD_CURVE_ABS(
+      const location_type& l);
+
+  static inline symbol_type make_SHORTHAND_QUAD_CURVE_REL(
+      const location_type& l);
+
+  static inline symbol_type make_ELLIPTIC_ARC_ABS(const location_type& l);
+
+  static inline symbol_type make_ELLIPTIC_ARC_REL(const location_type& l);
+
+  static inline symbol_type make_NUMBER(const std::string& v,
+                                        const location_type& l);
 
   /// Build a parser object.
   SVGPathParser(rl::SVGPathDriver& driver_yyarg, void* scanner_yyarg);
@@ -500,7 +526,7 @@ class SVGPathParser {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const signed char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -615,12 +641,12 @@ class SVGPathParser {
   /// Constants.
   enum {
     yyeof_ = 0,
-    yylast_ = 0,   ///< Last index in yytable_.
-    yynnts_ = 2,   ///< Number of nonterminal symbols.
-    yyfinal_ = 2,  ///< Termination state number.
+    yylast_ = 80,   ///< Last index in yytable_.
+    yynnts_ = 18,   ///< Number of nonterminal symbols.
+    yyfinal_ = 55,  ///< Termination state number.
     yyterror_ = 1,
     yyerrcode_ = 256,
-    yyntokens_ = 16  ///< Number of tokens.
+    yyntokens_ = 24  ///< Number of tokens.
   };
 
   // User arguments.
@@ -632,19 +658,21 @@ class SVGPathParser {
 inline SVGPathParser::token_number_type SVGPathParser::yytranslate_(
     token_type t) {
   static const token_number_type translate_table[] = {
-      0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2, 2, 2, 2, 2, 2,
-      2, 2, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-  const unsigned int user_token_number_max_ = 270;
+      0, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 2,
+      2, 2, 2, 2, 2, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  1,  2,  3, 4,
+      5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+  const unsigned int user_token_number_max_ = 278;
   const token_number_type undef_token_ = 2;
 
   if (static_cast<int>(t) <= yyeof_)
@@ -668,7 +696,7 @@ inline SVGPathParser::basic_symbol<Base>::basic_symbol(
     const basic_symbol& other)
     : Base(other), value(), location(other.location) {
   switch (other.type_get()) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.copy<std::string>(other.value);
       break;
 
@@ -685,7 +713,7 @@ inline SVGPathParser::basic_symbol<Base>::basic_symbol(
     : Base(t), value(), location(l) {
   (void)v;
   switch (this->type_get()) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.copy<std::string>(v);
       break;
 
@@ -725,7 +753,7 @@ inline void SVGPathParser::basic_symbol<Base>::clear() {
 
   // Type destructor.
   switch (yytype) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.template destroy<std::string>();
       break;
 
@@ -745,7 +773,7 @@ template <typename Base>
 inline void SVGPathParser::basic_symbol<Base>::move(basic_symbol& s) {
   super_type::move(s);
   switch (this->type_get()) {
-    case 15:  // "<identifier>"
+    case 23:  // "<number>"
       value.move<std::string>(s.value);
       break;
 
@@ -781,8 +809,8 @@ inline SVGPathParser::token_type SVGPathParser::by_type::token() const {
   // YYTOKNUM[NUM] -- (External) token number corresponding to the
   // (internal) symbol number NUM (which must be that of a token).  */
   static const unsigned short int yytoken_number_[] = {
-      0,   256, 257, 258, 259, 260, 261, 262,
-      263, 264, 265, 266, 267, 268, 269, 270};
+      0,   256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266,
+      267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278};
   return static_cast<token_type>(yytoken_number_[type]);
 }
 // Implementation of make_symbol for each symbol type.
@@ -790,67 +818,107 @@ SVGPathParser::symbol_type SVGPathParser::make_END(const location_type& l) {
   return symbol_type(token::RL_TOK_END, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_INVALID_TOKEN(
+SVGPathParser::symbol_type SVGPathParser::make_INVALID(const location_type& l) {
+  return symbol_type(token::RL_TOK_INVALID, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_MOVE_ABS(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_INVALID_TOKEN, l);
+  return symbol_type(token::RL_TOK_MOVE_ABS, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_PROTOCOL(
+SVGPathParser::symbol_type SVGPathParser::make_MOVE_REL(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_PROTOCOL, l);
+  return symbol_type(token::RL_TOK_MOVE_REL, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_VOID(const location_type& l) {
-  return symbol_type(token::RL_TOK_VOID, l);
+SVGPathParser::symbol_type SVGPathParser::make_CLOSE(const location_type& l) {
+  return symbol_type(token::RL_TOK_CLOSE, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_DOT(const location_type& l) {
-  return symbol_type(token::RL_TOK_DOT, l);
-}
-
-SVGPathParser::symbol_type SVGPathParser::make_COMMA(const location_type& l) {
-  return symbol_type(token::RL_TOK_COMMA, l);
-}
-
-SVGPathParser::symbol_type SVGPathParser::make_SEMI_COLON(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_ABS(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_SEMI_COLON, l);
+  return symbol_type(token::RL_TOK_LINE_ABS, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_CURLY_LEFT(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_REL(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_CURLY_LEFT, l);
+  return symbol_type(token::RL_TOK_LINE_REL, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_CURLY_RIGHT(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_HORIZONTAL_ABS(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_CURLY_RIGHT, l);
+  return symbol_type(token::RL_TOK_LINE_HORIZONTAL_ABS, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_PAREN_LEFT(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_HORIZONTAL_REL(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_PAREN_LEFT, l);
+  return symbol_type(token::RL_TOK_LINE_HORIZONTAL_REL, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_PAREN_RIGHT(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_VERTICAL_ABS(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_PAREN_RIGHT, l);
+  return symbol_type(token::RL_TOK_LINE_VERTICAL_ABS, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_SQUARE_LEFT(
+SVGPathParser::symbol_type SVGPathParser::make_LINE_VERTICAL_REL(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_SQUARE_LEFT, l);
+  return symbol_type(token::RL_TOK_LINE_VERTICAL_REL, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_SQUARE_RIGHT(
+SVGPathParser::symbol_type SVGPathParser::make_CURVE_ABS(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_SQUARE_RIGHT, l);
+  return symbol_type(token::RL_TOK_CURVE_ABS, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_IDENTIFIER(
-    const std::string& v,
+SVGPathParser::symbol_type SVGPathParser::make_CURVE_REL(
     const location_type& l) {
-  return symbol_type(token::RL_TOK_IDENTIFIER, v, l);
+  return symbol_type(token::RL_TOK_CURVE_REL, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_SHORTHAND_CURVE_ABS(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_SHORTHAND_CURVE_ABS, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_SHORTHAND_CURVE_REL(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_SHORTHAND_CURVE_REL, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_QUAD_CURVE_ABS(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_QUAD_CURVE_ABS, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_QUAD_CURVE_REL(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_QUAD_CURVE_REL, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_SHORTHAND_QUAD_CURVE_ABS(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_SHORTHAND_QUAD_CURVE_ABS, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_SHORTHAND_QUAD_CURVE_REL(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_SHORTHAND_QUAD_CURVE_REL, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_ELLIPTIC_ARC_ABS(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_ELLIPTIC_ARC_ABS, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_ELLIPTIC_ARC_REL(
+    const location_type& l) {
+  return symbol_type(token::RL_TOK_ELLIPTIC_ARC_REL, l);
+}
+
+SVGPathParser::symbol_type SVGPathParser::make_NUMBER(const std::string& v,
+                                                      const location_type& l) {
+  return symbol_type(token::RL_TOK_NUMBER, v, l);
 }
 
 }  // rl
