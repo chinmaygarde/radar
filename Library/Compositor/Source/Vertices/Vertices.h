@@ -28,7 +28,6 @@ class Vertices {
   bool draw(size_t index);
 
  private:
-  RL_DEBUG_THREAD_GUARD(_guard);
   const Type _type;
   ResourceState _state;
   GLuint _vbo;
