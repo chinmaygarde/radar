@@ -474,8 +474,8 @@ static const flex_int16_t yy_chk[59] = {
     30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30};
 
 static const flex_int16_t yy_rule_linenum[24] = {
-    0,  34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
-    45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56};
+    0,  35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+    46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -491,6 +491,7 @@ static const flex_int16_t yy_rule_linenum[24] = {
 #include <string>
 
 #include "RLDecls.h"
+#include "SVGElement.h"
 
 #define CURRENT_LOC driver.location
 #define FOUND(token) return rl::SVGPathParser::make_##token(CURRENT_LOC);
@@ -893,7 +894,7 @@ YY_DECL {
           YY_BREAK
         case 1:
           YY_RULE_SETUP
-          FOUND_ARG(NUMBER, yytext)
+          FOUND_ARG(NUMBER, rl::SVGNumberParse(yytext))
           YY_BREAK
         case 2:
           YY_RULE_SETUP

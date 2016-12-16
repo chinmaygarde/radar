@@ -32,7 +32,11 @@
 
 StandardRadarLibrary(SVGPathParser)
 
-target_link_libraries(SVGPathParser Core)
+target_link_libraries(SVGPathParser
+  PUBLIC
+    Core
+    Geometry
+)
 
 ################################################################################
 # Tests

@@ -7,6 +7,7 @@
 #include <string>
 
 #include "RLDecls.h"
+#include "SVGElement.h"
 
 #define CURRENT_LOC driver.location
 #define FOUND(token) return rl::SVGPathParser::make_##token(CURRENT_LOC);
@@ -30,7 +31,7 @@ SEPARATORS                    [, \t\v\n\f]
 %}
 
 <<EOF>>                FOUND(END)
-{NUMBER_COMPS}*        FOUND_ARG(NUMBER, yytext)
+{NUMBER_COMPS}*        FOUND_ARG(NUMBER, rl::SVGNumberParse(yytext))
 "M"                    FOUND(MOVE_ABS)
 "m"                    FOUND(MOVE_REL)
 "z"                    FOUND(CLOSE)

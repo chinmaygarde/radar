@@ -247,8 +247,56 @@ class SVGPathParser {
 #ifndef YYSTYPE
   /// An auxiliary type to compute the largest semantic type.
   union union_type {
+    // ArcParam
+    char dummy1[sizeof(rl::SVGArcParam)];
+
+    // Close
+    char dummy2[sizeof(rl::SVGCloseElement)];
+
+    // Curve
+    char dummy3[sizeof(rl::SVGCurveElement)];
+
+    // PathElement
+    char dummy4[sizeof(rl::SVGElement)];
+
+    // EllipticArc
+    char dummy5[sizeof(rl::SVGEllipticArcElement)];
+
+    // Line
+    char dummy6[sizeof(rl::SVGLineElement)];
+
+    // LineHorizontal
+    char dummy7[sizeof(rl::SVGLineHorizontalElement)];
+
+    // LineVertical
+    char dummy8[sizeof(rl::SVGLineVerticalElement)];
+
+    // Move
+    char dummy9[sizeof(rl::SVGMoveElement)];
+
     // "<number>"
-    char dummy1[sizeof(std::string)];
+    char dummy10[sizeof(rl::SVGNumber)];
+
+    // QuadCurve
+    char dummy11[sizeof(rl::SVGQuadCurveElement)];
+
+    // ShorthandCurve
+    char dummy12[sizeof(rl::SVGShorthandCurveElement)];
+
+    // ShorthandQuadCurve
+    char dummy13[sizeof(rl::SVGShorthandQuadCurveElement)];
+
+    // XYCoordinate
+    char dummy14[sizeof(rl::geom::Point)];
+
+    // ArcParams
+    char dummy15[sizeof(std::vector<rl::SVGArcParam>)];
+
+    // Numbers
+    char dummy16[sizeof(std::vector<rl::SVGNumber>)];
+
+    // XYCoordinates
+    char dummy17[sizeof(std::vector<rl::geom::Point>)];
   };
 
   /// Symbol semantic values.
@@ -327,7 +375,71 @@ class SVGPathParser {
     basic_symbol(typename Base::kind_type t, const location_type& l);
 
     basic_symbol(typename Base::kind_type t,
-                 const std::string v,
+                 const rl::SVGArcParam v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGCloseElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGCurveElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGEllipticArcElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGLineElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGLineHorizontalElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGLineVerticalElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGMoveElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGNumber v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGQuadCurveElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGShorthandCurveElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::SVGShorthandQuadCurveElement v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const rl::geom::Point v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const std::vector<rl::SVGArcParam> v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const std::vector<rl::SVGNumber> v,
+                 const location_type& l);
+
+    basic_symbol(typename Base::kind_type t,
+                 const std::vector<rl::geom::Point> v,
                  const location_type& l);
 
     /// Constructor for symbols with semantic value.
@@ -439,7 +551,7 @@ class SVGPathParser {
 
   static inline symbol_type make_ELLIPTIC_ARC_REL(const location_type& l);
 
-  static inline symbol_type make_NUMBER(const std::string& v,
+  static inline symbol_type make_NUMBER(const rl::SVGNumber& v,
                                         const location_type& l);
 
   /// Build a parser object.
@@ -696,8 +808,72 @@ inline SVGPathParser::basic_symbol<Base>::basic_symbol(
     const basic_symbol& other)
     : Base(other), value(), location(other.location) {
   switch (other.type_get()) {
+    case 41:  // ArcParam
+      value.copy<rl::SVGArcParam>(other.value);
+      break;
+
+    case 28:  // Close
+      value.copy<rl::SVGCloseElement>(other.value);
+      break;
+
+    case 32:  // Curve
+      value.copy<rl::SVGCurveElement>(other.value);
+      break;
+
+    case 26:  // PathElement
+      value.copy<rl::SVGElement>(other.value);
+      break;
+
+    case 36:  // EllipticArc
+      value.copy<rl::SVGEllipticArcElement>(other.value);
+      break;
+
+    case 29:  // Line
+      value.copy<rl::SVGLineElement>(other.value);
+      break;
+
+    case 30:  // LineHorizontal
+      value.copy<rl::SVGLineHorizontalElement>(other.value);
+      break;
+
+    case 31:  // LineVertical
+      value.copy<rl::SVGLineVerticalElement>(other.value);
+      break;
+
+    case 27:  // Move
+      value.copy<rl::SVGMoveElement>(other.value);
+      break;
+
     case 23:  // "<number>"
-      value.copy<std::string>(other.value);
+      value.copy<rl::SVGNumber>(other.value);
+      break;
+
+    case 34:  // QuadCurve
+      value.copy<rl::SVGQuadCurveElement>(other.value);
+      break;
+
+    case 33:  // ShorthandCurve
+      value.copy<rl::SVGShorthandCurveElement>(other.value);
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.copy<rl::SVGShorthandQuadCurveElement>(other.value);
+      break;
+
+    case 38:  // XYCoordinate
+      value.copy<rl::geom::Point>(other.value);
+      break;
+
+    case 40:  // ArcParams
+      value.copy<std::vector<rl::SVGArcParam>>(other.value);
+      break;
+
+    case 39:  // Numbers
+      value.copy<std::vector<rl::SVGNumber>>(other.value);
+      break;
+
+    case 37:  // XYCoordinates
+      value.copy<std::vector<rl::geom::Point>>(other.value);
       break;
 
     default:
@@ -713,8 +889,72 @@ inline SVGPathParser::basic_symbol<Base>::basic_symbol(
     : Base(t), value(), location(l) {
   (void)v;
   switch (this->type_get()) {
+    case 41:  // ArcParam
+      value.copy<rl::SVGArcParam>(v);
+      break;
+
+    case 28:  // Close
+      value.copy<rl::SVGCloseElement>(v);
+      break;
+
+    case 32:  // Curve
+      value.copy<rl::SVGCurveElement>(v);
+      break;
+
+    case 26:  // PathElement
+      value.copy<rl::SVGElement>(v);
+      break;
+
+    case 36:  // EllipticArc
+      value.copy<rl::SVGEllipticArcElement>(v);
+      break;
+
+    case 29:  // Line
+      value.copy<rl::SVGLineElement>(v);
+      break;
+
+    case 30:  // LineHorizontal
+      value.copy<rl::SVGLineHorizontalElement>(v);
+      break;
+
+    case 31:  // LineVertical
+      value.copy<rl::SVGLineVerticalElement>(v);
+      break;
+
+    case 27:  // Move
+      value.copy<rl::SVGMoveElement>(v);
+      break;
+
     case 23:  // "<number>"
-      value.copy<std::string>(v);
+      value.copy<rl::SVGNumber>(v);
+      break;
+
+    case 34:  // QuadCurve
+      value.copy<rl::SVGQuadCurveElement>(v);
+      break;
+
+    case 33:  // ShorthandCurve
+      value.copy<rl::SVGShorthandCurveElement>(v);
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.copy<rl::SVGShorthandQuadCurveElement>(v);
+      break;
+
+    case 38:  // XYCoordinate
+      value.copy<rl::geom::Point>(v);
+      break;
+
+    case 40:  // ArcParams
+      value.copy<std::vector<rl::SVGArcParam>>(v);
+      break;
+
+    case 39:  // Numbers
+      value.copy<std::vector<rl::SVGNumber>>(v);
+      break;
+
+    case 37:  // XYCoordinates
+      value.copy<std::vector<rl::geom::Point>>(v);
       break;
 
     default:
@@ -731,8 +971,112 @@ SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
 
 template <typename Base>
 SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
-                                                const std::string v,
+                                                const rl::SVGArcParam v,
                                                 const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGCloseElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGCurveElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const rl::SVGEllipticArcElement v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGLineElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const rl::SVGLineHorizontalElement v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const rl::SVGLineVerticalElement v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGMoveElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGNumber v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::SVGQuadCurveElement v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const rl::SVGShorthandCurveElement v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const rl::SVGShorthandQuadCurveElement v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(typename Base::kind_type t,
+                                                const rl::geom::Point v,
+                                                const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const std::vector<rl::SVGArcParam> v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const std::vector<rl::SVGNumber> v,
+    const location_type& l)
+    : Base(t), value(v), location(l) {}
+
+template <typename Base>
+SVGPathParser::basic_symbol<Base>::basic_symbol(
+    typename Base::kind_type t,
+    const std::vector<rl::geom::Point> v,
+    const location_type& l)
     : Base(t), value(v), location(l) {}
 
 template <typename Base>
@@ -753,8 +1097,72 @@ inline void SVGPathParser::basic_symbol<Base>::clear() {
 
   // Type destructor.
   switch (yytype) {
+    case 41:  // ArcParam
+      value.template destroy<rl::SVGArcParam>();
+      break;
+
+    case 28:  // Close
+      value.template destroy<rl::SVGCloseElement>();
+      break;
+
+    case 32:  // Curve
+      value.template destroy<rl::SVGCurveElement>();
+      break;
+
+    case 26:  // PathElement
+      value.template destroy<rl::SVGElement>();
+      break;
+
+    case 36:  // EllipticArc
+      value.template destroy<rl::SVGEllipticArcElement>();
+      break;
+
+    case 29:  // Line
+      value.template destroy<rl::SVGLineElement>();
+      break;
+
+    case 30:  // LineHorizontal
+      value.template destroy<rl::SVGLineHorizontalElement>();
+      break;
+
+    case 31:  // LineVertical
+      value.template destroy<rl::SVGLineVerticalElement>();
+      break;
+
+    case 27:  // Move
+      value.template destroy<rl::SVGMoveElement>();
+      break;
+
     case 23:  // "<number>"
-      value.template destroy<std::string>();
+      value.template destroy<rl::SVGNumber>();
+      break;
+
+    case 34:  // QuadCurve
+      value.template destroy<rl::SVGQuadCurveElement>();
+      break;
+
+    case 33:  // ShorthandCurve
+      value.template destroy<rl::SVGShorthandCurveElement>();
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.template destroy<rl::SVGShorthandQuadCurveElement>();
+      break;
+
+    case 38:  // XYCoordinate
+      value.template destroy<rl::geom::Point>();
+      break;
+
+    case 40:  // ArcParams
+      value.template destroy<std::vector<rl::SVGArcParam>>();
+      break;
+
+    case 39:  // Numbers
+      value.template destroy<std::vector<rl::SVGNumber>>();
+      break;
+
+    case 37:  // XYCoordinates
+      value.template destroy<std::vector<rl::geom::Point>>();
       break;
 
     default:
@@ -773,8 +1181,72 @@ template <typename Base>
 inline void SVGPathParser::basic_symbol<Base>::move(basic_symbol& s) {
   super_type::move(s);
   switch (this->type_get()) {
+    case 41:  // ArcParam
+      value.move<rl::SVGArcParam>(s.value);
+      break;
+
+    case 28:  // Close
+      value.move<rl::SVGCloseElement>(s.value);
+      break;
+
+    case 32:  // Curve
+      value.move<rl::SVGCurveElement>(s.value);
+      break;
+
+    case 26:  // PathElement
+      value.move<rl::SVGElement>(s.value);
+      break;
+
+    case 36:  // EllipticArc
+      value.move<rl::SVGEllipticArcElement>(s.value);
+      break;
+
+    case 29:  // Line
+      value.move<rl::SVGLineElement>(s.value);
+      break;
+
+    case 30:  // LineHorizontal
+      value.move<rl::SVGLineHorizontalElement>(s.value);
+      break;
+
+    case 31:  // LineVertical
+      value.move<rl::SVGLineVerticalElement>(s.value);
+      break;
+
+    case 27:  // Move
+      value.move<rl::SVGMoveElement>(s.value);
+      break;
+
     case 23:  // "<number>"
-      value.move<std::string>(s.value);
+      value.move<rl::SVGNumber>(s.value);
+      break;
+
+    case 34:  // QuadCurve
+      value.move<rl::SVGQuadCurveElement>(s.value);
+      break;
+
+    case 33:  // ShorthandCurve
+      value.move<rl::SVGShorthandCurveElement>(s.value);
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.move<rl::SVGShorthandQuadCurveElement>(s.value);
+      break;
+
+    case 38:  // XYCoordinate
+      value.move<rl::geom::Point>(s.value);
+      break;
+
+    case 40:  // ArcParams
+      value.move<std::vector<rl::SVGArcParam>>(s.value);
+      break;
+
+    case 39:  // Numbers
+      value.move<std::vector<rl::SVGNumber>>(s.value);
+      break;
+
+    case 37:  // XYCoordinates
+      value.move<std::vector<rl::geom::Point>>(s.value);
       break;
 
     default:
@@ -916,7 +1388,7 @@ SVGPathParser::symbol_type SVGPathParser::make_ELLIPTIC_ARC_REL(
   return symbol_type(token::RL_TOK_ELLIPTIC_ARC_REL, l);
 }
 
-SVGPathParser::symbol_type SVGPathParser::make_NUMBER(const std::string& v,
+SVGPathParser::symbol_type SVGPathParser::make_NUMBER(const rl::SVGNumber& v,
                                                       const location_type& l) {
   return symbol_type(token::RL_TOK_NUMBER, v, l);
 }

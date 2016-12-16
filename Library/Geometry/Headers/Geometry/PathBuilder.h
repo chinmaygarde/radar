@@ -20,9 +20,15 @@ class PathBuilder {
 
   Path path() const;
 
-  PathBuilder& moveTo(Point point);
+  PathBuilder& moveTo(Point point, bool relative = false);
 
-  PathBuilder& lineTo(Point point);
+  PathBuilder& close();
+
+  PathBuilder& lineTo(Point point, bool relative = false);
+
+  PathBuilder& horizontalLineTo(double x, bool relative = false);
+
+  PathBuilder& verticalLineTo(double y, bool relative = false);
 
   PathBuilder& quadraticCurveTo(Point point, Point controlPoint);
 

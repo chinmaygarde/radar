@@ -215,8 +215,72 @@ inline SVGPathParser::stack_symbol_type::stack_symbol_type(state_type s,
                                                            symbol_type& that)
     : super_type(s, that.location) {
   switch (that.type_get()) {
+    case 41:  // ArcParam
+      value.move<rl::SVGArcParam>(that.value);
+      break;
+
+    case 28:  // Close
+      value.move<rl::SVGCloseElement>(that.value);
+      break;
+
+    case 32:  // Curve
+      value.move<rl::SVGCurveElement>(that.value);
+      break;
+
+    case 26:  // PathElement
+      value.move<rl::SVGElement>(that.value);
+      break;
+
+    case 36:  // EllipticArc
+      value.move<rl::SVGEllipticArcElement>(that.value);
+      break;
+
+    case 29:  // Line
+      value.move<rl::SVGLineElement>(that.value);
+      break;
+
+    case 30:  // LineHorizontal
+      value.move<rl::SVGLineHorizontalElement>(that.value);
+      break;
+
+    case 31:  // LineVertical
+      value.move<rl::SVGLineVerticalElement>(that.value);
+      break;
+
+    case 27:  // Move
+      value.move<rl::SVGMoveElement>(that.value);
+      break;
+
     case 23:  // "<number>"
-      value.move<std::string>(that.value);
+      value.move<rl::SVGNumber>(that.value);
+      break;
+
+    case 34:  // QuadCurve
+      value.move<rl::SVGQuadCurveElement>(that.value);
+      break;
+
+    case 33:  // ShorthandCurve
+      value.move<rl::SVGShorthandCurveElement>(that.value);
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.move<rl::SVGShorthandQuadCurveElement>(that.value);
+      break;
+
+    case 38:  // XYCoordinate
+      value.move<rl::geom::Point>(that.value);
+      break;
+
+    case 40:  // ArcParams
+      value.move<std::vector<rl::SVGArcParam>>(that.value);
+      break;
+
+    case 39:  // Numbers
+      value.move<std::vector<rl::SVGNumber>>(that.value);
+      break;
+
+    case 37:  // XYCoordinates
+      value.move<std::vector<rl::geom::Point>>(that.value);
       break;
 
     default:
@@ -231,8 +295,72 @@ inline SVGPathParser::stack_symbol_type& SVGPathParser::stack_symbol_type::
 operator=(const stack_symbol_type& that) {
   state = that.state;
   switch (that.type_get()) {
+    case 41:  // ArcParam
+      value.copy<rl::SVGArcParam>(that.value);
+      break;
+
+    case 28:  // Close
+      value.copy<rl::SVGCloseElement>(that.value);
+      break;
+
+    case 32:  // Curve
+      value.copy<rl::SVGCurveElement>(that.value);
+      break;
+
+    case 26:  // PathElement
+      value.copy<rl::SVGElement>(that.value);
+      break;
+
+    case 36:  // EllipticArc
+      value.copy<rl::SVGEllipticArcElement>(that.value);
+      break;
+
+    case 29:  // Line
+      value.copy<rl::SVGLineElement>(that.value);
+      break;
+
+    case 30:  // LineHorizontal
+      value.copy<rl::SVGLineHorizontalElement>(that.value);
+      break;
+
+    case 31:  // LineVertical
+      value.copy<rl::SVGLineVerticalElement>(that.value);
+      break;
+
+    case 27:  // Move
+      value.copy<rl::SVGMoveElement>(that.value);
+      break;
+
     case 23:  // "<number>"
-      value.copy<std::string>(that.value);
+      value.copy<rl::SVGNumber>(that.value);
+      break;
+
+    case 34:  // QuadCurve
+      value.copy<rl::SVGQuadCurveElement>(that.value);
+      break;
+
+    case 33:  // ShorthandCurve
+      value.copy<rl::SVGShorthandCurveElement>(that.value);
+      break;
+
+    case 35:  // ShorthandQuadCurve
+      value.copy<rl::SVGShorthandQuadCurveElement>(that.value);
+      break;
+
+    case 38:  // XYCoordinate
+      value.copy<rl::geom::Point>(that.value);
+      break;
+
+    case 40:  // ArcParams
+      value.copy<std::vector<rl::SVGArcParam>>(that.value);
+      break;
+
+    case 39:  // Numbers
+      value.copy<std::vector<rl::SVGNumber>>(that.value);
+      break;
+
+    case 37:  // XYCoordinates
+      value.copy<std::vector<rl::geom::Point>>(that.value);
       break;
 
     default:
@@ -431,8 +559,72 @@ int SVGPathParser::parse() {
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
       switch (yyr1_[yyn]) {
+        case 41:  // ArcParam
+          yylhs.value.build<rl::SVGArcParam>();
+          break;
+
+        case 28:  // Close
+          yylhs.value.build<rl::SVGCloseElement>();
+          break;
+
+        case 32:  // Curve
+          yylhs.value.build<rl::SVGCurveElement>();
+          break;
+
+        case 26:  // PathElement
+          yylhs.value.build<rl::SVGElement>();
+          break;
+
+        case 36:  // EllipticArc
+          yylhs.value.build<rl::SVGEllipticArcElement>();
+          break;
+
+        case 29:  // Line
+          yylhs.value.build<rl::SVGLineElement>();
+          break;
+
+        case 30:  // LineHorizontal
+          yylhs.value.build<rl::SVGLineHorizontalElement>();
+          break;
+
+        case 31:  // LineVertical
+          yylhs.value.build<rl::SVGLineVerticalElement>();
+          break;
+
+        case 27:  // Move
+          yylhs.value.build<rl::SVGMoveElement>();
+          break;
+
         case 23:  // "<number>"
-          yylhs.value.build<std::string>();
+          yylhs.value.build<rl::SVGNumber>();
+          break;
+
+        case 34:  // QuadCurve
+          yylhs.value.build<rl::SVGQuadCurveElement>();
+          break;
+
+        case 33:  // ShorthandCurve
+          yylhs.value.build<rl::SVGShorthandCurveElement>();
+          break;
+
+        case 35:  // ShorthandQuadCurve
+          yylhs.value.build<rl::SVGShorthandQuadCurveElement>();
+          break;
+
+        case 38:  // XYCoordinate
+          yylhs.value.build<rl::geom::Point>();
+          break;
+
+        case 40:  // ArcParams
+          yylhs.value.build<std::vector<rl::SVGArcParam>>();
+          break;
+
+        case 39:  // Numbers
+          yylhs.value.build<std::vector<rl::SVGNumber>>();
+          break;
+
+        case 37:  // XYCoordinates
+          yylhs.value.build<std::vector<rl::geom::Point>>();
           break;
 
         default:
@@ -449,6 +641,354 @@ int SVGPathParser::parse() {
       YY_REDUCE_PRINT(yyn);
       try {
         switch (yyn) {
+          case 4:
+
+          {
+            driver.visitElement(yystack_[0].value.as<rl::SVGMoveElement>());
+          }
+
+          break;
+
+          case 5:
+
+          {
+            driver.visitElement(yystack_[0].value.as<rl::SVGCloseElement>());
+          }
+
+          break;
+
+          case 6:
+
+          {
+            driver.visitElement(yystack_[0].value.as<rl::SVGLineElement>());
+          }
+
+          break;
+
+          case 7:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGLineHorizontalElement>());
+          }
+
+          break;
+
+          case 8:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGLineVerticalElement>());
+          }
+
+          break;
+
+          case 9:
+
+          {
+            driver.visitElement(yystack_[0].value.as<rl::SVGCurveElement>());
+          }
+
+          break;
+
+          case 10:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGShorthandCurveElement>());
+          }
+
+          break;
+
+          case 11:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGQuadCurveElement>());
+          }
+
+          break;
+
+          case 12:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGShorthandQuadCurveElement>());
+          }
+
+          break;
+
+          case 13:
+
+          {
+            driver.visitElement(
+                yystack_[0].value.as<rl::SVGEllipticArcElement>());
+          }
+
+          break;
+
+          case 14:
+
+          {
+            yylhs.value.as<rl::SVGMoveElement>() = rl::SVGMoveElement{
+                true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 15:
+
+          {
+            yylhs.value.as<rl::SVGMoveElement>() = rl::SVGMoveElement{
+                false, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 16:
+
+          {
+            yylhs.value.as<rl::SVGCloseElement>() = rl::SVGCloseElement{};
+          }
+
+          break;
+
+          case 17:
+
+          {
+            yylhs.value.as<rl::SVGLineElement>() = rl::SVGLineElement{
+                true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 18:
+
+          {
+            yylhs.value.as<rl::SVGLineElement>() = rl::SVGLineElement{
+                false, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 19:
+
+          {
+            yylhs.value.as<rl::SVGLineHorizontalElement>() =
+                rl::SVGLineHorizontalElement{
+                    true, yystack_[0].value.as<std::vector<rl::SVGNumber>>()};
+          }
+
+          break;
+
+          case 20:
+
+          {
+            yylhs.value.as<rl::SVGLineHorizontalElement>() =
+                rl::SVGLineHorizontalElement{
+                    false, yystack_[0].value.as<std::vector<rl::SVGNumber>>()};
+          }
+
+          break;
+
+          case 21:
+
+          {
+            yylhs.value.as<rl::SVGLineVerticalElement>() =
+                rl::SVGLineVerticalElement{
+                    true, yystack_[0].value.as<std::vector<rl::SVGNumber>>()};
+          }
+
+          break;
+
+          case 22:
+
+          {
+            yylhs.value.as<rl::SVGLineVerticalElement>() =
+                rl::SVGLineVerticalElement{
+                    false, yystack_[0].value.as<std::vector<rl::SVGNumber>>()};
+          }
+
+          break;
+
+          case 23:
+
+          {
+            yylhs.value.as<rl::SVGCurveElement>() = rl::SVGCurveElement{
+                true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 24:
+
+          {
+            yylhs.value.as<rl::SVGCurveElement>() = rl::SVGCurveElement{
+                false, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 25:
+
+          {
+            yylhs.value.as<rl::SVGShorthandCurveElement>() =
+                rl::SVGShorthandCurveElement{
+                    true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 26:
+
+          {
+            yylhs.value.as<rl::SVGShorthandCurveElement>() =
+                rl::SVGShorthandCurveElement{
+                    false,
+                    yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 27:
+
+          {
+            yylhs.value.as<rl::SVGQuadCurveElement>() = rl::SVGQuadCurveElement{
+                true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 28:
+
+          {
+            yylhs.value.as<rl::SVGQuadCurveElement>() = rl::SVGQuadCurveElement{
+                false, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 29:
+
+          {
+            yylhs.value.as<rl::SVGShorthandQuadCurveElement>() =
+                rl::SVGShorthandQuadCurveElement{
+                    true, yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 30:
+
+          {
+            yylhs.value.as<rl::SVGShorthandQuadCurveElement>() =
+                rl::SVGShorthandQuadCurveElement{
+                    false,
+                    yystack_[0].value.as<std::vector<rl::geom::Point>>()};
+          }
+
+          break;
+
+          case 31:
+
+          {
+            yylhs.value.as<rl::SVGEllipticArcElement>() =
+                rl::SVGEllipticArcElement{
+                    true, yystack_[0].value.as<std::vector<rl::SVGArcParam>>()};
+          }
+
+          break;
+
+          case 32:
+
+          {
+            yylhs.value.as<rl::SVGEllipticArcElement>() =
+                rl::SVGEllipticArcElement{
+                    false,
+                    yystack_[0].value.as<std::vector<rl::SVGArcParam>>()};
+          }
+
+          break;
+
+          case 33:
+
+          {
+            yylhs.value.as<std::vector<rl::geom::Point>>() = {
+                yystack_[0].value.as<rl::geom::Point>()};
+          }
+
+          break;
+
+          case 34:
+
+          {
+            yystack_[1].value.as<std::vector<rl::geom::Point>>().emplace_back(
+                yystack_[0].value.as<rl::geom::Point>());
+          }
+
+          break;
+
+          case 35:
+
+          {
+            yylhs.value.as<rl::geom::Point>() =
+                rl::geom::Point(yystack_[1].value.as<rl::SVGNumber>(),
+                                yystack_[0].value.as<rl::SVGNumber>());
+          }
+
+          break;
+
+          case 36:
+
+          {
+            yylhs.value.as<std::vector<rl::SVGNumber>>() = {
+                yystack_[0].value.as<rl::SVGNumber>()};
+          }
+
+          break;
+
+          case 37:
+
+          {
+            yystack_[1].value.as<std::vector<rl::SVGNumber>>().emplace_back(
+                yystack_[0].value.as<rl::SVGNumber>());
+          }
+
+          break;
+
+          case 38:
+
+          {
+            yylhs.value.as<std::vector<rl::SVGArcParam>>() = {
+                yystack_[0].value.as<rl::SVGArcParam>()};
+          }
+
+          break;
+
+          case 39:
+
+          {
+            yystack_[1].value.as<std::vector<rl::SVGArcParam>>().emplace_back(
+                yystack_[0].value.as<rl::SVGArcParam>());
+          }
+
+          break;
+
+          case 40:
+
+          {
+            yylhs.value.as<rl::SVGArcParam>() =
+                rl::SVGArcParam{yystack_[6].value.as<rl::SVGNumber>(),
+                                yystack_[5].value.as<rl::SVGNumber>(),
+                                yystack_[4].value.as<rl::SVGNumber>(),
+                                yystack_[3].value.as<rl::SVGNumber>(),
+                                yystack_[2].value.as<rl::SVGNumber>(),
+                                yystack_[1].value.as<rl::SVGNumber>(),
+                                yystack_[0].value.as<rl::SVGNumber>()};
+          }
+
+          break;
+
           default:
             break;
         }
@@ -777,9 +1317,9 @@ const char* const SVGPathParser::yytname_[] = {
 
 #if YYDEBUG
 const unsigned char SVGPathParser::yyrline_[] = {
-    0,   68,  68,  69,  73,  74,  75,  76,  77,  78,  79,  80,  81,  82,
-    86,  87,  91,  95,  96,  100, 101, 105, 106, 110, 111, 115, 116, 120,
-    121, 125, 126, 130, 131, 135, 136, 140, 144, 145, 149, 150, 154};
+    0,   85,  85,  86,  90,  91,  92,  93,  94,  95,  96,  97,  98,  99,
+    103, 104, 108, 112, 113, 117, 118, 122, 123, 127, 128, 132, 133, 137,
+    138, 142, 143, 147, 148, 152, 153, 157, 161, 162, 166, 167, 171};
 
 // Print the state stack on the debug stream.
 void SVGPathParser::yystack_print_() {

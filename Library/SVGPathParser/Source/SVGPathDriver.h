@@ -6,9 +6,10 @@
 #define RL_SVGPATHPARSER_SVGPATHDRIVER_H_
 
 #include <Core/Core.h>
-
+#include <Geometry/Point.h>
+#include <Geometry/PathBuilder.h>
+#include "SVGElement.h"
 #include <string>
-
 #include "location.hh"
 
 namespace rl {
@@ -33,7 +34,19 @@ class SVGPathDriver {
  private:
   friend class SVGPathParser;
 
+  geom::PathBuilder _pathBuilder;
+
   void error(rl::location loc, const std::string& message);
+
+  template <class T>
+  void visitElement(const T& element) {
+    if (element.isValid()) {
+      processElement(element);
+    }
+  }
+
+  template <class T>
+  void processElement(const T& element);
 
   RL_DISALLOW_COPY_AND_ASSIGN(SVGPathDriver);
 };
