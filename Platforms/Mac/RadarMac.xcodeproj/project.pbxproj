@@ -17,6 +17,9 @@
 		9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4F1CF678AC00D40928 /* libstb.a */; };
 		9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4D1CF678AC00D40928 /* liburiparser.a */; };
 		9E5E9CDD1E037A4A00A12541 /* libSVGPathParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5E9CDA1E037A4A00A12541 /* libSVGPathParser.a */; };
+		9E5E9D1B1E0477F300A12541 /* RadarArchiveDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E5E9D191E0477F300A12541 /* RadarArchiveDocument.mm */; };
+		9E5E9D1E1E04792000A12541 /* RadarWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E5E9D1D1E04792000A12541 /* RadarWindow.xib */; };
+		9E5E9D211E048D0C00A12541 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E5E9D201E048D0C00A12541 /* RadarWindow.mm */; };
 		9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ED38F2B1CF678AB00D40928 /* Beachball.png */; };
@@ -415,13 +418,18 @@
 /* Begin PBXFileReference section */
 		9E02AF481BA3A24500BA1AEA /* Sample.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sample.cc; sourceTree = "<group>"; };
 		9E02AF491BA3A24500BA1AEA /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
-		9E26F1B31B59CBB50016A899 /* Radar Love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Radar Love.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E26F1B31B59CBB50016A899 /* Radar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Radar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E26F1B61B59CBB50016A899 /* RadarAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarAppDelegate.h; sourceTree = "<group>"; };
 		9E26F1B71B59CBB50016A899 /* RadarAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarAppDelegate.mm; sourceTree = "<group>"; };
 		9E26F1BA1B59CBB50016A899 /* MacMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacMain.m; sourceTree = "<group>"; };
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E5E9D181E0477F300A12541 /* RadarArchiveDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarArchiveDocument.h; sourceTree = "<group>"; };
+		9E5E9D191E0477F300A12541 /* RadarArchiveDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarArchiveDocument.mm; sourceTree = "<group>"; };
+		9E5E9D1D1E04792000A12541 /* RadarWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RadarWindow.xib; sourceTree = "<group>"; };
+		9E5E9D1F1E048D0C00A12541 /* RadarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarWindow.h; sourceTree = "<group>"; };
+		9E5E9D201E048D0C00A12541 /* RadarWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarWindow.mm; sourceTree = "<group>"; };
 		9E9543FF1C31C652002EEC68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9E9544201C333EF8002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MonaLisa.jpg; path = Source/MonaLisa.jpg; sourceTree = "<group>"; };
@@ -477,7 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				9ED38F561CF678B200D40928 /* Assets */,
-				9E26F1B51B59CBB50016A899 /* Sources */,
+				9E26F1B51B59CBB50016A899 /* Source */,
 				9E02AF471BA3A24500BA1AEA /* Samples */,
 				EA69B8401B5C061D00323F1D /* Frameworks */,
 				9E26F1B41B59CBB50016A899 /* Products */,
@@ -487,14 +495,19 @@
 		9E26F1B41B59CBB50016A899 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9E26F1B31B59CBB50016A899 /* Radar Love.app */,
+				9E26F1B31B59CBB50016A899 /* Radar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9E26F1B51B59CBB50016A899 /* Sources */ = {
+		9E26F1B51B59CBB50016A899 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				9E5E9D1D1E04792000A12541 /* RadarWindow.xib */,
+				9E5E9D181E0477F300A12541 /* RadarArchiveDocument.h */,
+				9E5E9D191E0477F300A12541 /* RadarArchiveDocument.mm */,
+				9E5E9D1F1E048D0C00A12541 /* RadarWindow.h */,
+				9E5E9D201E048D0C00A12541 /* RadarWindow.mm */,
 				9EA6744B1B742C4900C8A8B4 /* RadarSurface.h */,
 				9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */,
 				9E26F1B61B59CBB50016A899 /* RadarAppDelegate.h */,
@@ -504,7 +517,6 @@
 				9E26F1C11B59CBB50016A899 /* Info.plist */,
 				9E26F1B91B59CBB50016A899 /* Supporting Files */,
 			);
-			name = Sources;
 			path = Source;
 			sourceTree = "<group>";
 		};
@@ -613,7 +625,7 @@
 			);
 			name = RadarMac;
 			productName = Source;
-			productReference = 9E26F1B31B59CBB50016A899 /* Radar Love.app */;
+			productReference = 9E26F1B31B59CBB50016A899 /* Radar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1028,6 +1040,7 @@
 			files = (
 				9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */,
 				9E26F1BD1B59CBB50016A899 /* Assets.xcassets in Resources */,
+				9E5E9D1E1E04792000A12541 /* RadarWindow.xib in Resources */,
 				EA93DB1C1DEAF2FF00FEA8C3 /* Simple.svg in Resources */,
 				9E26F1C01B59CBB50016A899 /* MainMenu.xib in Resources */,
 				9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */,
@@ -1044,6 +1057,8 @@
 				9E26F1BB1B59CBB50016A899 /* MacMain.m in Sources */,
 				9E02AF4A1BA3A24500BA1AEA /* Sample.cc in Sources */,
 				9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */,
+				9E5E9D1B1E0477F300A12541 /* RadarArchiveDocument.mm in Sources */,
+				9E5E9D211E048D0C00A12541 /* RadarWindow.mm in Sources */,
 				9E26F1B81B59CBB50016A899 /* RadarAppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1190,8 +1205,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
-				PRODUCT_NAME = "Radar Love";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radar;
+				PRODUCT_NAME = Radar;
 			};
 			name = Debug;
 		};
@@ -1202,8 +1217,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
-				PRODUCT_NAME = "Radar Love";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radar;
+				PRODUCT_NAME = Radar;
 			};
 			name = Release;
 		};

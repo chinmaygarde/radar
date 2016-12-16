@@ -17,8 +17,23 @@ namespace core {
 
 Allocation::Allocation() : _allocation(nullptr), _size(0) {}
 
-Allocation::Allocation(uint8_t* bytes, size_t size)
-    : _allocation(bytes), _size(size) {
+static uint8_t* AllocationCopy(const uint8_t* bytes, size_t size) {
+  if (bytes == nullptr || size == 0) {
+    return nullptr;
+  }
+
+  auto allocation = static_cast<uint8_t*>(::malloc(size));
+
+  if (allocation == nullptr) {
+    return nullptr;
+  }
+
+  ::memcpy(allocation, bytes, size);
+  return allocation;
+}
+
+Allocation::Allocation(uint8_t* bytes, size_t size, bool copy)
+    : _allocation(copy ? AllocationCopy(bytes, size) : bytes), _size(size) {
   if (_size == 0) {
     free(_allocation);
     _allocation = nullptr;
@@ -28,6 +43,9 @@ Allocation::Allocation(uint8_t* bytes, size_t size)
     _size = 0;
   }
 }
+
+Allocation::Allocation(const uint8_t* bytes, size_t size)
+    : Allocation(const_cast<uint8_t*>(bytes), size, true) {}
 
 Allocation::Allocation(Allocation&& other)
     : _allocation(other._allocation), _size(other._size) {

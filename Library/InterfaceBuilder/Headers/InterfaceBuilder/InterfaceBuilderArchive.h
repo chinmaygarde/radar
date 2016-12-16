@@ -18,6 +18,12 @@ class InterfaceBuilderArchive {
   static std::unique_ptr<InterfaceBuilderArchive> Make(
       const core::FileHandle& handle);
 
+  static std::unique_ptr<InterfaceBuilderArchive> Make(
+      const core::Allocation& allocation);
+
+  static std::unique_ptr<InterfaceBuilderArchive> Make(const uint8_t* data,
+                                                       size_t size);
+
   virtual ~InterfaceBuilderArchive();
 
   virtual bool isValid() const = 0;

@@ -10,16 +10,14 @@
 namespace rl {
 namespace ib {
 
-SVGArchive::SVGArchive(const core::FileHandle& handle) {
-  core::FileMapping mapping(handle);
-
-  if (mapping.size() == 0) {
+SVGArchive::SVGArchive(const uint8_t* data, size_t size) {
+  if (data == nullptr || size == 0) {
     return;
   }
 
   auto document = core::make_unique<pugi::xml_document>();
 
-  auto result = document->load_buffer(mapping.mapping(), mapping.size());
+  auto result = document->load_buffer(data, size);
 
   if (result.status != pugi::xml_parse_status::status_ok) {
     return;

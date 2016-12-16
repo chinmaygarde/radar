@@ -15,7 +15,7 @@ namespace ib {
 
 class SVGArchive : public InterfaceBuilderArchive {
  public:
-  SVGArchive(const core::FileHandle& handle);
+  SVGArchive(const uint8_t* data, size_t size);
 
   ~SVGArchive() override;
 
@@ -71,11 +71,11 @@ class SVGArchive : public InterfaceBuilderArchive {
   interface::ModelEntity::Ref visitText(const pugi::xml_node& node,
                                         interface::Interface& interface,
                                         interface::ModelEntity& parent) const;
-  
+
   interface::ModelEntity::Ref visitPath(const pugi::xml_node& node,
                                         interface::Interface& interface,
                                         interface::ModelEntity& parent) const;
-  
+
   interface::ModelEntity::Ref visitMask(const pugi::xml_node& node,
                                         interface::Interface& interface,
                                         interface::ModelEntity& parent) const;

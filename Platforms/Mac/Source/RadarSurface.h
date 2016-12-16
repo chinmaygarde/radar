@@ -3,7 +3,12 @@
 // found in the LICENSE file.
 
 #import <Cocoa/Cocoa.h>
+#include <Interface/InterfaceDelegate.h>
+#include <memory>
 
 @interface RadarSurface : NSOpenGLView
+
+- (void)launchInterfaceDelegate:
+    (std::shared_ptr<rl::interface::InterfaceDelegate>)delegate;
 
 @end

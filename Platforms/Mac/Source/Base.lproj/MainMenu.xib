@@ -11,11 +11,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="RadarAppDelegate">
-            <connections>
-                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
-            </connections>
-        </customObject>
+        <customObject id="Voe-Tx-rLC" customClass="RadarAppDelegate"/>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
@@ -309,27 +305,5 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Radar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="Radar" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <openGLView autoresizesSubviews="NO" focusRingType="none" rendererType="accelerated" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MoN-5I-k2W" customClass="RadarSurface">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
-                    </openGLView>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="MoN-5I-k2W" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="dj7-TI-1gc"/>
-                    <constraint firstItem="MoN-5I-k2W" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="gHr-iD-kpV"/>
-                    <constraint firstAttribute="bottom" secondItem="MoN-5I-k2W" secondAttribute="bottom" id="lfu-FJ-rlv"/>
-                    <constraint firstAttribute="trailing" secondItem="MoN-5I-k2W" secondAttribute="trailing" id="wc8-Gb-91T"/>
-                </constraints>
-            </view>
-            <point key="canvasLocation" x="695" y="472"/>
-        </window>
     </objects>
 </document>

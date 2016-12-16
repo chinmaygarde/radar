@@ -3,19 +3,32 @@
 // found in the LICENSE file.
 
 #import "RadarAppDelegate.h"
+#include "RadarWindow.h"
 #include <Core/Trace.h>
-
+#include <Shell/DefaultInterface.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-@interface RadarAppDelegate ()<NSWindowDelegate>
+@interface RadarAppDelegate ()
 
-@property(weak) IBOutlet NSWindow* window;
+@property(strong) NSWindowController* windowController;
 
 @end
 
 @implementation RadarAppDelegate
+
+- (void)applicationDidFinishLaunching:(NSNotification*)notification {
+  _windowController =
+      [[NSWindowController alloc] initWithWindowNibName:@"RadarWindow"];
+
+  if ([_windowController.window isKindOfClass:[RadarWindow class]]) {
+    RadarWindow* window =
+        reinterpret_cast<RadarWindow*>(_windowController.window);
+    [window.surface
+        launchInterfaceDelegate:rl::shell::CreateDefaultInterface()];
+  }
+}
 
 - (IBAction)onCaptureTraceSelected:(id)sender {
   NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory,

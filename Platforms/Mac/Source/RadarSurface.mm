@@ -3,12 +3,9 @@
 // found in the LICENSE file.
 
 #import "RadarSurface.h"
-
 #include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include "Sample.h"
-
 #include <atomic>
 
 namespace rl {
@@ -65,7 +62,7 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 @implementation RadarSurface {
   std::shared_ptr<rl::RenderSurfaceMac> _renderSurface;
   std::unique_ptr<rl::shell::Shell> _shell;
-  std::shared_ptr<sample::SampleApplication> _application;
+  std::shared_ptr<rl::interface::InterfaceDelegate> _pendingApplicationLaunch;
 }
 
 - (void)awakeFromNib {
@@ -83,17 +80,34 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   /*
    *  Create the render surface and initialize the shell.
    */
-
   _shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(_renderSurface);
   _shell->renderSurfaceWasSetup();
 
   /*
-   *  Create a managed interface and register it with the shell.
+   *  Create a managed interface and register it with the shell if we have a
+   *  pending launch.
    */
-  _application = std::make_shared<sample::SampleApplication>();
-  auto interface =
-      rl::core::make_unique<rl::interface::Interface>(_application);
+  [self launchInterfaceDelegate:_pendingApplicationLaunch];
+}
+
+- (void)launchInterfaceDelegate:
+    (std::shared_ptr<rl::interface::InterfaceDelegate>)delegate {
+  if (delegate == nullptr) {
+    _pendingApplicationLaunch = nullptr;
+    return;
+  }
+
+  if (_shell == nullptr) {
+    /*
+     *  The shell is not yet ready. Store the delegate as pending launch.
+     */
+    _pendingApplicationLaunch = delegate;
+    return;
+  }
+
+  auto interface = rl::core::make_unique<rl::interface::Interface>(delegate);
   _shell->registerManagedInterface(std::move(interface));
+  _pendingApplicationLaunch = nullptr;
 }
 
 - (void)reshape {

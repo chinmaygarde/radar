@@ -17,6 +17,8 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>RadarArchiveDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

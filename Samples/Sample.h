@@ -9,6 +9,7 @@
 #include <Core/Bundle.h>
 
 namespace sample {
+
 class SampleApplication : public rl::interface::InterfaceDelegate {
  public:
   SampleApplication();

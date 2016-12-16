@@ -37,7 +37,9 @@ class Allocation : public MessageSerializable {
    */
   Allocation();
 
-  Allocation(uint8_t* bytes, size_t size);
+  Allocation(uint8_t* bytes, size_t size, bool copy = false);
+
+  Allocation(const uint8_t* bytes, size_t size);
 
   Allocation(Allocation&& allocation);
 
