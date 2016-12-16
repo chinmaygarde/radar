@@ -29,6 +29,8 @@ class SVGPathDriver {
 
   ParserResult parse(const std::string& text);
 
+  const geom::PathBuilder& pathBuilder() const;
+
   rl::location location;
 
  private:

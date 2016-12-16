@@ -5,6 +5,7 @@
 #include "SVGArchive.h"
 #include "SVGDecoder.h"
 #include <Geometry/PathBuilder.h>
+#include <SVGPathParser/SVGPathString.h>
 
 namespace rl {
 namespace ib {
@@ -417,10 +418,27 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
     const pugi::xml_node& node,
     interface::Interface& interface,
     interface::ModelEntity& parent) const {
-  /*
-   *  TODO: Wire up path elements when path data parsing is done.
-   */
-  return nullptr;
+  auto pathString = Decode<std::string>(node, "d");
+
+  if (pathString.size() == 0) {
+    return nullptr;
+  }
+
+  geom::Path path = svg::SVGPathStringParse(pathString);
+
+  if (path.componentCount() == 0) {
+    return nullptr;
+  }
+
+  auto entity = interface.createEntity();
+
+  ReadCommonEntityProperties(node, *entity);
+
+  entity->setPath(std::move(path));
+
+  parent.addChild(entity);
+
+  return entity;
 }
 
 /*

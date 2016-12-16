@@ -32,6 +32,10 @@ SVGPathDriver::ParserResult SVGPathDriver::parse(const std::string& text) {
   return ParserResult::ParserError;
 }
 
+const geom::PathBuilder& SVGPathDriver::pathBuilder() const {
+  return _pathBuilder;
+}
+
 void SVGPathDriver::error(rl::location loc, const std::string& message) {
   printf("Error: %s\n", message.c_str());
 }
@@ -72,22 +76,34 @@ void SVGPathDriver::processElement(const SVGLineVerticalElement& element) {
 }
 
 template <>
-void SVGPathDriver::processElement(const SVGCurveElement& element) {}
+void SVGPathDriver::processElement(const SVGCurveElement& element) {
+  RL_WIP;
+}
 
 template <>
-void SVGPathDriver::processElement(const SVGShorthandCurveElement& element) {}
+void SVGPathDriver::processElement(const SVGShorthandCurveElement& element) {
+  RL_WIP;
+}
 
 template <>
-void SVGPathDriver::processElement(const SVGQuadCurveElement& element) {}
+void SVGPathDriver::processElement(const SVGQuadCurveElement& element) {
+  RL_WIP;
+}
 
 template <>
 void SVGPathDriver::processElement(
-    const SVGShorthandQuadCurveElement& element) {}
+    const SVGShorthandQuadCurveElement& element) {
+  RL_WIP;
+}
 
 template <>
-void SVGPathDriver::processElement(const SVGEllipticArcElement& element) {}
+void SVGPathDriver::processElement(const SVGEllipticArcElement& element) {
+  RL_WIP;
+}
 
 template <>
-void SVGPathDriver::processElement(const SVGArcParam& element) {}
+void SVGPathDriver::processElement(const SVGArcParam& element) {
+  RL_WIP;
+}
 
 }  // namespace rl

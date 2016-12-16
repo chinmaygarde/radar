@@ -36,6 +36,7 @@ target_link_libraries(InterfaceBuilder
   PUBLIC
     Interface
   PRIVATE
+    SVGPathParser
     pugixml
 )
 

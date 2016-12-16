@@ -31,6 +31,19 @@ double Decode<>(const pugi::xml_node& node, const char* name, bool* present) {
 }
 
 template <>
+std::string Decode<>(const pugi::xml_node& node,
+                     const char* name,
+                     bool* present) {
+  auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
+
+  return attribute.value();
+}
+
+template <>
 geom::Rect Decode<>(const pugi::xml_node& node,
                     const char* name,
                     bool* present) {
