@@ -17,10 +17,6 @@
 		9E5D625D1D00E52F007A34B7 /* libstb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4F1CF678AC00D40928 /* libstb.a */; };
 		9E5D625E1D00E52F007A34B7 /* liburiparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED38F4D1CF678AC00D40928 /* liburiparser.a */; };
 		9E5E9CDD1E037A4A00A12541 /* libSVGPathParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5E9CDA1E037A4A00A12541 /* libSVGPathParser.a */; };
-		9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */; };
-		9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9E02AF481BA3A24500BA1AEA /* Sample.cc */; };
-		9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9543FF1C31C652002EEC68 /* OpenGL.framework */; };
-		9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9544201C333EF8002EEC68 /* Foundation.framework */; };
 		9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ED38F2B1CF678AB00D40928 /* Beachball.png */; };
@@ -426,16 +422,14 @@
 		9E26F1BC1B59CBB50016A899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E26F1BF1B59CBB50016A899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E26F1C11B59CBB50016A899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9E9543E91C31C494002EEC68 /* Interface */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Interface; sourceTree = BUILT_PRODUCTS_DIR; };
-		9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterfaceMain.cc; sourceTree = "<group>"; };
 		9E9543FF1C31C652002EEC68 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		9E9544201C333EF8002EEC68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MonaLisa.jpg; path = RadarLoveMac/MonaLisa.jpg; sourceTree = "<group>"; };
+		9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MonaLisa.jpg; path = Source/MonaLisa.jpg; sourceTree = "<group>"; };
 		9EA6744B1B742C4900C8A8B4 /* RadarSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadarSurface.h; sourceTree = "<group>"; };
 		9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RadarSurface.mm; sourceTree = "<group>"; };
-		9ED38F2B1CF678AB00D40928 /* Beachball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beachball.png; path = RadarLoveMac/Beachball.png; sourceTree = "<group>"; };
+		9ED38F2B1CF678AB00D40928 /* Beachball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beachball.png; path = Source/Beachball.png; sourceTree = "<group>"; };
 		9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Radar.xcodeproj; path = ../../build/Radar.xcodeproj; sourceTree = "<group>"; };
-		EA93DB1B1DEAF2FF00FEA8C3 /* Simple.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Simple.svg; path = RadarLoveMac/Simple.svg; sourceTree = "<group>"; };
+		EA93DB1B1DEAF2FF00FEA8C3 /* Simple.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Simple.svg; path = Source/Simple.svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,15 +460,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9E9543E61C31C494002EEC68 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9E9544211C333EF8002EEC68 /* Foundation.framework in Frameworks */,
-				9E9544001C31C652002EEC68 /* OpenGL.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -494,7 +479,6 @@
 				9ED38F561CF678B200D40928 /* Assets */,
 				9E26F1B51B59CBB50016A899 /* Sources */,
 				9E02AF471BA3A24500BA1AEA /* Samples */,
-				9E9543EA1C31C494002EEC68 /* Interface */,
 				EA69B8401B5C061D00323F1D /* Frameworks */,
 				9E26F1B41B59CBB50016A899 /* Products */,
 			);
@@ -504,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				9E26F1B31B59CBB50016A899 /* Radar Love.app */,
-				9E9543E91C31C494002EEC68 /* Interface */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -522,7 +505,7 @@
 				9E26F1B91B59CBB50016A899 /* Supporting Files */,
 			);
 			name = Sources;
-			path = RadarLoveMac;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		9E26F1B91B59CBB50016A899 /* Supporting Files */ = {
@@ -531,14 +514,6 @@
 				9E26F1BA1B59CBB50016A899 /* MacMain.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		9E9543EA1C31C494002EEC68 /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				9E9543EB1C31C494002EEC68 /* InterfaceMain.cc */,
-			);
-			path = Interface;
 			sourceTree = "<group>";
 		};
 		9ED38F561CF678B200D40928 /* Assets */ = {
@@ -637,25 +612,9 @@
 				9EE9312A1CA4C30E00CDBF07 /* PBXTargetDependency */,
 			);
 			name = RadarMac;
-			productName = RadarLoveMac;
+			productName = Source;
 			productReference = 9E26F1B31B59CBB50016A899 /* Radar Love.app */;
 			productType = "com.apple.product-type.application";
-		};
-		9E9543E81C31C494002EEC68 /* Interface */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9E9543F01C31C494002EEC68 /* Build configuration list for PBXNativeTarget "Interface" */;
-			buildPhases = (
-				9E9543E51C31C494002EEC68 /* Sources */,
-				9E9543E61C31C494002EEC68 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Interface;
-			productName = Interface;
-			productReference = 9E9543E91C31C494002EEC68 /* Interface */;
-			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -668,9 +627,6 @@
 				TargetAttributes = {
 					9E26F1B21B59CBB50016A899 = {
 						CreatedOnToolsVersion = 7.0;
-					};
-					9E9543E81C31C494002EEC68 = {
-						CreatedOnToolsVersion = 7.2;
 					};
 				};
 			};
@@ -694,7 +650,6 @@
 			projectRoot = "";
 			targets = (
 				9E26F1B21B59CBB50016A899 /* RadarMac */,
-				9E9543E81C31C494002EEC68 /* Interface */,
 			);
 		};
 /* End PBXProject section */
@@ -1093,15 +1048,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9E9543E51C31C494002EEC68 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9E9543EC1C31C494002EEC68 /* InterfaceMain.cc in Sources */,
-				9E9543F41C31C5FB002EEC68 /* Sample.cc in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1242,7 +1188,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = RadarLoveMac/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
 				PRODUCT_NAME = "Radar Love";
@@ -1254,28 +1200,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = RadarLoveMac/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinmaygarde.radarlove;
 				PRODUCT_NAME = "Radar Love";
-			};
-			name = Release;
-		};
-		9E9543ED1C31C494002EEC68 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		9E9543EE1C31C494002EEC68 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1296,15 +1224,6 @@
 			buildConfigurations = (
 				9E26F1C51B59CBB50016A899 /* Debug */,
 				9E26F1C61B59CBB50016A899 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9E9543F01C31C494002EEC68 /* Build configuration list for PBXNativeTarget "Interface" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9E9543ED1C31C494002EEC68 /* Debug */,
-				9E9543EE1C31C494002EEC68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
