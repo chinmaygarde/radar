@@ -20,6 +20,10 @@ struct LinearPathComponent {
   LinearPathComponent(Point ap1, Point ap2) : p1(ap1), p2(ap2) {}
 
   Point solve(double time) const;
+
+  bool operator==(const LinearPathComponent& other) const {
+    return p1 == other.p1 && p2 == other.p2;
+  };
 };
 
 struct QuadraticPathComponent {

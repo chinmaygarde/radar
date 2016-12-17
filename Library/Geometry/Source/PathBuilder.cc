@@ -23,10 +23,12 @@ PathBuilder& PathBuilder::moveTo(Point point, bool relative) {
   } else {
     _current = point;
   }
+  _subpathStart = _current;
   return *this;
 }
 
 PathBuilder& PathBuilder::close() {
+  lineTo(_subpathStart);
   return *this;
 }
 

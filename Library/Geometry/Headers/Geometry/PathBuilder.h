@@ -66,6 +66,7 @@ class PathBuilder {
   PathBuilder& addRoundedRect(Rect rect, RoundingRadii radii);
 
  private:
+  Point _subpathStart;
   Point _current;
   Path _prototype;
 
