@@ -913,8 +913,8 @@ int SVGPathParser::parse() {
           case 33:
 
           {
-            yylhs.value.as<std::vector<rl::geom::Point>>() = {
-                yystack_[0].value.as<rl::geom::Point>()};
+            yylhs.value.as<std::vector<rl::geom::Point>>().emplace_back(
+                yystack_[0].value.as<rl::geom::Point>());
           }
 
           break;
@@ -924,6 +924,8 @@ int SVGPathParser::parse() {
           {
             yystack_[1].value.as<std::vector<rl::geom::Point>>().emplace_back(
                 yystack_[0].value.as<rl::geom::Point>());
+            yylhs.value.as<std::vector<rl::geom::Point>>() =
+                std::move(yystack_[1].value.as<std::vector<rl::geom::Point>>());
           }
 
           break;
@@ -941,8 +943,8 @@ int SVGPathParser::parse() {
           case 36:
 
           {
-            yylhs.value.as<std::vector<rl::SVGNumber>>() = {
-                yystack_[0].value.as<rl::SVGNumber>()};
+            yylhs.value.as<std::vector<rl::SVGNumber>>().emplace_back(
+                yystack_[0].value.as<rl::SVGNumber>());
           }
 
           break;
@@ -952,6 +954,8 @@ int SVGPathParser::parse() {
           {
             yystack_[1].value.as<std::vector<rl::SVGNumber>>().emplace_back(
                 yystack_[0].value.as<rl::SVGNumber>());
+            yylhs.value.as<std::vector<rl::SVGNumber>>() =
+                std::move(yystack_[1].value.as<std::vector<rl::SVGNumber>>());
           }
 
           break;
@@ -959,8 +963,8 @@ int SVGPathParser::parse() {
           case 38:
 
           {
-            yylhs.value.as<std::vector<rl::SVGArcParam>>() = {
-                yystack_[0].value.as<rl::SVGArcParam>()};
+            yylhs.value.as<std::vector<rl::SVGArcParam>>().emplace_back(
+                yystack_[0].value.as<rl::SVGArcParam>());
           }
 
           break;
@@ -970,6 +974,8 @@ int SVGPathParser::parse() {
           {
             yystack_[1].value.as<std::vector<rl::SVGArcParam>>().emplace_back(
                 yystack_[0].value.as<rl::SVGArcParam>());
+            yylhs.value.as<std::vector<rl::SVGArcParam>>() =
+                std::move(yystack_[1].value.as<std::vector<rl::SVGArcParam>>());
           }
 
           break;

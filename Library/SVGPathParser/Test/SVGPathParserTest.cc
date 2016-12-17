@@ -49,12 +49,114 @@ TEST(SVGPathParserTest, Triangle01) {
       });
 }
 
+TEST(SVGPathParserTest, MoreLines) {
+  auto path = "M 100 100 L 200 300 L 450 790 l 25 25 z";
+  rl::SVGPathDriver driver;
+  auto result = driver.parse(path);
+  ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
+  auto finalPath = driver.pathBuilder().path();
+  ASSERT_EQ(finalPath.componentCount(), 4);
+  finalPath.enumerateComponents(
+      [](size_t index, const rl::geom::LinearPathComponent& linear) {
+        switch (index) {
+          case 0: {
+            rl::geom::LinearPathComponent check({100, 100}, {200, 300});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 1: {
+            rl::geom::LinearPathComponent check({200, 300}, {450, 790});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 2: {
+            rl::geom::LinearPathComponent check({450, 790}, {475, 815});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 3: {
+            rl::geom::LinearPathComponent check({475, 815}, {100, 100});
+            ASSERT_EQ(check, linear);
+          } break;
+          default:
+            ASSERT_TRUE(false);
+            break;
+        }
+      },
+      [](size_t index, const rl::geom::QuadraticPathComponent& quad) {
+        ASSERT_TRUE(false);
+      },
+      [](size_t index, const rl::geom::CubicPathComponent& cubic) {
+        ASSERT_TRUE(false);
+      });
+}
+
+TEST(SVGPathParserTest, MoreLinesWithNoCommandRepetition) {
+  auto path = "M 100 100 L 200 300 450 790 25 25 z";
+  rl::SVGPathDriver driver;
+  auto result = driver.parse(path);
+  ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
+  auto finalPath = driver.pathBuilder().path();
+  ASSERT_EQ(finalPath.componentCount(), 4);
+  finalPath.enumerateComponents(
+      [](size_t index, const rl::geom::LinearPathComponent& linear) {
+        switch (index) {
+          case 0: {
+            rl::geom::LinearPathComponent check({100, 100}, {200, 300});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 1: {
+            rl::geom::LinearPathComponent check({200, 300}, {450, 790});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 2: {
+            rl::geom::LinearPathComponent check({450, 790}, {25, 25});
+            ASSERT_EQ(check, linear);
+          } break;
+          case 3: {
+            rl::geom::LinearPathComponent check({25, 25}, {100, 100});
+            ASSERT_EQ(check, linear);
+          } break;
+          default:
+            ASSERT_TRUE(false);
+            break;
+        }
+      },
+      [](size_t index, const rl::geom::QuadraticPathComponent& quad) {
+        ASSERT_TRUE(false);
+      },
+      [](size_t index, const rl::geom::CubicPathComponent& cubic) {
+        ASSERT_TRUE(false);
+      });
+}
+
 TEST(SVGPathParserTest, Cubic01) {
   auto path = R"(M100,200 C100,100 250,100 250,200
   S400,300 400,200)";
   rl::SVGPathDriver driver;
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
+  auto finalPath = driver.pathBuilder().path();
+  ASSERT_EQ(finalPath.componentCount(), 2);
+  finalPath.enumerateComponents(
+      [](size_t index, const rl::geom::LinearPathComponent& linear) {
+        switch (index) {
+          default:
+            ASSERT_TRUE(false);
+            break;
+        }
+      },
+      [](size_t index, const rl::geom::QuadraticPathComponent& quad) {
+        switch (index) {
+          default:
+            ASSERT_TRUE(false);
+            break;
+        }
+      },
+      [](size_t index, const rl::geom::CubicPathComponent& cubic) {
+        switch (index) {
+          default:
+            ASSERT_TRUE(false);
+            break;
+        }
+      });
 }
 
 TEST(SVGPathParserTest, Quad01) {

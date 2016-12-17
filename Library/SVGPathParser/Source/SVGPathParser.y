@@ -149,8 +149,8 @@ EllipticArc
   ;
 
 XYCoordinates
-  : XYCoordinate                { $$ = {$1}; }
-  | XYCoordinates XYCoordinate  { $1.emplace_back($2); }
+  : XYCoordinate                { $$.emplace_back($1); }
+  | XYCoordinates XYCoordinate  { $1.emplace_back($2); $$ = std::move($1); }
   ;
 
 XYCoordinate
@@ -158,13 +158,13 @@ XYCoordinate
   ;
 
 Numbers
-  : NUMBER              { $$ = { $1 }; }
-  | Numbers NUMBER      { $1.emplace_back($2); }
+  : NUMBER              { $$.emplace_back($1); }
+  | Numbers NUMBER      { $1.emplace_back($2); $$ = std::move($1); }
   ;
 
 ArcParams
-  : ArcParam              { $$ = {$1}; }
-  | ArcParams ArcParam    { $1.emplace_back($2); }
+  : ArcParam              { $$.emplace_back($1); }
+  | ArcParams ArcParam    { $1.emplace_back($2); $$ = std::move($1); }
   ;
 
 ArcParam
