@@ -63,7 +63,11 @@ PathBuilder& PathBuilder::quadraticCurveTo(Point point, Point controlPoint) {
 
 PathBuilder& PathBuilder::cubicCurveTo(Point point,
                                        Point controlPoint1,
-                                       Point controlPoint2) {
+                                       Point controlPoint2,
+                                       bool relative) {
+  controlPoint1 = relative ? _current + controlPoint1 : controlPoint1;
+  controlPoint2 = relative ? _current + controlPoint2 : controlPoint2;
+  point = relative ? _current + point : point;
   _prototype.addCubicComponent(_current, controlPoint1, controlPoint2, point);
   _current = point;
   return *this;

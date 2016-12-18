@@ -34,7 +34,8 @@ class PathBuilder {
 
   PathBuilder& cubicCurveTo(Point point,
                             Point controlPoint1,
-                            Point controlPoint2);
+                            Point controlPoint2,
+                            bool relative = false);
 
   PathBuilder& addRect(Rect rect);
 
