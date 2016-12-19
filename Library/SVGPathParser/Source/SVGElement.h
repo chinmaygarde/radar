@@ -165,24 +165,48 @@ class SVGArcParam : public SVGElement {
  public:
   SVGArcParam() {}
 
-  SVGArcParam(SVGNumber p1,
-              SVGNumber p2,
-              SVGNumber p3,
-              SVGNumber p4,
-              SVGNumber p5,
-              SVGNumber p6,
-              SVGNumber p7) {}
+  SVGArcParam(SVGNumber rx,
+              SVGNumber ry,
+              SVGNumber xRotation,
+              SVGNumber largeArc,
+              SVGNumber sweep,
+              SVGNumber endX,
+              SVGNumber endY)
+      : _radii(rx, ry),
+        _endPoint(endX, endY),
+        _xRotation(xRotation),
+        _largeArc(largeArc != 0),
+        _sweep(sweep != 0) {}
+
+  const geom::Point& radii() const { return _radii; }
+
+  const geom::Point& endPoint() const { return _endPoint; }
+
+  SVGNumber xRotation() const { return _xRotation; }
+
+  bool largeArc() const { return _largeArc; }
+
+  bool sweep() const { return _sweep; }
 
  private:
+  geom::Point _radii;
+  geom::Point _endPoint;
+  SVGNumber _xRotation;
+  bool _largeArc;
+  bool _sweep;
 };
 
 class SVGEllipticArcElement : public SVGElement {
  public:
   SVGEllipticArcElement() {}
 
-  SVGEllipticArcElement(bool abs, const std::vector<SVGArcParam>& params) {}
+  SVGEllipticArcElement(bool abs, std::vector<SVGArcParam> params)
+      : _params(std::move(params)) {
+    _valid = _params.size() > 0;
+  }
 
  private:
+  std::vector<SVGArcParam> _params;
 };
 
 }  // namespace rl
