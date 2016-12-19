@@ -76,5 +76,47 @@ void Path::enumerateComponents(Applier<LinearPathComponent> linearApplier,
   }
 }
 
+bool Path::linearComponentAtIndex(size_t index,
+                                  LinearPathComponent& linear) const {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Linear) {
+    return false;
+  }
+
+  linear = _linears[_components[index].index];
+  return true;
+}
+
+bool Path::quadraticComponentAtIndex(size_t index,
+                                     QuadraticPathComponent& quadratic) const {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Quadratic) {
+    return false;
+  }
+
+  quadratic = _quads[_components[index].index];
+  return true;
+}
+
+bool Path::cubicComponentAtIndex(size_t index,
+                                 CubicPathComponent& cubic) const {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Cubic) {
+    return false;
+  }
+
+  cubic = _cubics[_components[index].index];
+  return true;
+}
+
 }  // namespace geom
 }  // namespace rl

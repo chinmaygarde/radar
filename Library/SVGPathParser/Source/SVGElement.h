@@ -105,7 +105,7 @@ class SVGCurveElement : public SVGElement {
 
   SVGCurveElement(bool abs, SVGPoints points) : _points(std::move(points)) {
     _hasAbsoluteCoordinates = abs;
-    _valid = _points.size() > 0;
+    _valid = _points.size() > 0 && _points.size() % 3 == 0;
   }
 
   const SVGPoints& points() const { return _points; }
@@ -121,7 +121,7 @@ class SVGShorthandCurveElement : public SVGElement {
   SVGShorthandCurveElement(bool abs, SVGPoints points)
       : _points(std::move(points)) {
     _hasAbsoluteCoordinates = abs;
-    _valid = _points.size() > 0;
+    _valid = _points.size() > 0 && _points.size() % 2 == 0;
   }
 
   const SVGPoints& points() const { return _points; }

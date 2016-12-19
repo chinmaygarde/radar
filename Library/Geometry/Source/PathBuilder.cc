@@ -17,12 +17,16 @@ Path PathBuilder::path() const {
   return _prototype;
 }
 
+const Path& PathBuilder::prototype() const {
+  return _prototype;
+}
+
+const Point& PathBuilder::currentPoint() const {
+  return _current;
+}
+
 PathBuilder& PathBuilder::moveTo(Point point, bool relative) {
-  if (relative) {
-    _current = _current + point;
-  } else {
-    _current = point;
-  }
+  _current = relative ? _current + point : point;
   _subpathStart = _current;
   return *this;
 }
@@ -33,9 +37,9 @@ PathBuilder& PathBuilder::close() {
 }
 
 PathBuilder& PathBuilder::lineTo(Point point, bool relative) {
-  auto endpoint = relative ? _current + point : point;
-  _prototype.addLinearComponent(_current, endpoint);
-  _current = endpoint;
+  point = relative ? _current + point : point;
+  _prototype.addLinearComponent(_current, point);
+  _current = point;
   return *this;
 }
 

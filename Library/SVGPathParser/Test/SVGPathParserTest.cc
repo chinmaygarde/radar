@@ -152,6 +152,17 @@ TEST(SVGPathParserTest, Cubic01) {
       },
       [](size_t index, const rl::geom::CubicPathComponent& cubic) {
         switch (index) {
+          case 0: {
+            rl::geom::CubicPathComponent expected({100, 200}, {100, 100},
+                                                  {250, 100}, {250, 200});
+            ASSERT_EQ(cubic, expected);
+
+          } break;
+          case 1: {
+            rl::geom::CubicPathComponent expected({250, 200}, {250, 300},
+                                                  {400, 300}, {400, 200});
+            ASSERT_EQ(cubic, expected);
+          } break;
           default:
             ASSERT_TRUE(false);
             break;

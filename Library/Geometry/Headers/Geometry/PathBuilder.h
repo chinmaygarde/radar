@@ -20,6 +20,10 @@ class PathBuilder {
 
   Path path() const;
 
+  const Path& prototype() const;
+
+  const Point& currentPoint() const;
+
   PathBuilder& moveTo(Point point, bool relative = false);
 
   PathBuilder& close();

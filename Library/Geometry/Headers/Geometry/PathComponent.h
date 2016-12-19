@@ -39,6 +39,10 @@ struct QuadraticPathComponent {
   Point solve(double time) const;
 
   Point solveDerivative(double time) const;
+
+  bool operator==(const QuadraticPathComponent& other) const {
+    return p1 == other.p1 && cp == other.cp && p2 == other.p2;
+  }
 };
 
 struct CubicPathComponent {
@@ -55,6 +59,11 @@ struct CubicPathComponent {
   Point solve(double time) const;
 
   Point solveDerivative(double time) const;
+
+  bool operator==(const CubicPathComponent& other) const {
+    return p1 == other.p1 && cp1 == other.cp1 && cp2 == other.cp2 &&
+           p2 == other.p2;
+  }
 };
 
 }  // namespace geom

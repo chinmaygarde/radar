@@ -45,6 +45,13 @@ class Path : public core::MessageSerializable {
                            Applier<QuadraticPathComponent> quadApplier,
                            Applier<CubicPathComponent> cubicApplier) const;
 
+  bool linearComponentAtIndex(size_t index, LinearPathComponent& linear) const;
+
+  bool quadraticComponentAtIndex(size_t index,
+                                 QuadraticPathComponent& quadratic) const;
+
+  bool cubicComponentAtIndex(size_t index, CubicPathComponent& cubic) const;
+
  private:
   struct ComponentIndexPair {
     ComponentType type;
