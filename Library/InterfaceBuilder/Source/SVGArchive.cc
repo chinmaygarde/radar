@@ -101,6 +101,13 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
     return visitPolygon(node, interface, parent);
   }
 
+  if (::strncmp(node.name(), "polyline", sizeof("polyline")) == 0) {
+    /*
+     *  A polyline is just a polygon without a fill.
+     */
+    return visitPolygon(node, interface, parent);
+  }
+
   if (::strncmp(node.name(), "line", sizeof("line")) == 0) {
     return visitLine(node, interface, parent);
   }
@@ -119,6 +126,17 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
 
   if (::strncmp(node.name(), "mask", sizeof("mask")) == 0) {
     return visitMask(node, interface, parent);
+  }
+
+  if (::strncmp(node.name(), "desc", sizeof("desc")) == 0) {
+    return nullptr;
+  }
+
+  if (::strncmp(node.name(), "defs", sizeof("defs")) == 0) {
+    /*
+     *  Definitions have been parsed ahead of time.
+     */
+    return nullptr;
   }
 
   RL_LOG("Unknown: %s", node.name());
