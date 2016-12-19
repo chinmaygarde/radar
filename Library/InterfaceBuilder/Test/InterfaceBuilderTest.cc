@@ -151,3 +151,21 @@ TEST_F(InterfaceTest, SketchAndroidExport) {
     ASSERT_TRUE(archive->inflate(interface));
   });
 }
+
+TEST_F(InterfaceTest, Polyline01) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://polyline01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    ASSERT_EQ(interface.rootEntity().children().size(), 2);
+    auto polylineEntity = interface.rootEntity().children()[1];
+    ASSERT_NE(polylineEntity->path().componentCount(), 0);
+    ASSERT_EQ(polylineEntity->path().componentCount(), 22);
+    rl::geom::LinearPathComponent linear;
+    ASSERT_TRUE(polylineEntity->path().linearComponentAtIndex(20, linear));
+    rl::geom::Point expected(1050, 375);
+    ASSERT_EQ(linear.p2, expected);
+  });
+}
