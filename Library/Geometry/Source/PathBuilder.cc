@@ -17,14 +17,6 @@ Path PathBuilder::path() const {
   return _prototype;
 }
 
-const Path& PathBuilder::prototype() const {
-  return _prototype;
-}
-
-const Point& PathBuilder::currentPoint() const {
-  return _current;
-}
-
 PathBuilder& PathBuilder::moveTo(Point point, bool relative) {
   _current = relative ? _current + point : point;
   _subpathStart = _current;
@@ -59,9 +51,45 @@ PathBuilder& PathBuilder::verticalLineTo(double y, bool relative) {
   return *this;
 }
 
-PathBuilder& PathBuilder::quadraticCurveTo(Point point, Point controlPoint) {
+PathBuilder& PathBuilder::quadraticCurveTo(Point point,
+                                           Point controlPoint,
+                                           bool relative) {
+  point = relative ? _current + point : point;
+  controlPoint = relative ? _current + controlPoint : controlPoint;
   _prototype.addQuadraticComponent(_current, controlPoint, point);
   _current = point;
+  return *this;
+}
+
+Point PathBuilder::reflectedQuadraticControlPoint1() const {
+  /*
+   *  If there is no previous command or if the previous command was not a
+   *  quadratic, assume the control point is coincident with the current point.
+   */
+  if (_prototype.componentCount() == 0) {
+    return _current;
+  }
+
+  QuadraticPathComponent quad;
+  if (!_prototype.quadraticComponentAtIndex(_prototype.componentCount() - 1,
+                                            quad)) {
+    return _current;
+  }
+
+  /*
+   *  The control point is assumed to be the reflection of the control point on
+   *  the previous command relative to the current point.
+   */
+  return (_current * 2.0) - quad.cp;
+}
+
+PathBuilder& PathBuilder::smoothQuadraticCurveTo(Point point, bool relative) {
+  point = relative ? _current + point : point;
+  /*
+   *  The reflected control point is absolute and we made the endpoint absolute
+   *  too. So there the last argument is always false (i.e, not relative).
+   */
+  quadraticCurveTo(point, reflectedQuadraticControlPoint1(), false);
   return *this;
 }
 
@@ -74,6 +102,44 @@ PathBuilder& PathBuilder::cubicCurveTo(Point point,
   point = relative ? _current + point : point;
   _prototype.addCubicComponent(_current, controlPoint1, controlPoint2, point);
   _current = point;
+  return *this;
+}
+
+Point PathBuilder::reflectedCubicControlPoint1() const {
+  /*
+   *  If there is no previous command or if the previous command was not a
+   *  cubic, assume the first control point is coincident with the current
+   *  point.
+   */
+  if (_prototype.componentCount() == 0) {
+    return _current;
+  }
+
+  CubicPathComponent cubic;
+  if (!_prototype.cubicComponentAtIndex(_prototype.componentCount() - 1,
+                                        cubic)) {
+    return _current;
+  }
+
+  /*
+   *  The first control point is assumed to be the reflection of the second
+   *  control point on the previous command relative to the current point.
+   */
+  return (_current * 2.0) - cubic.cp2;
+}
+
+PathBuilder& PathBuilder::smoothCubicCurveTo(Point point,
+                                             Point controlPoint2,
+                                             bool relative) {
+  auto controlPoint1 = reflectedCubicControlPoint1();
+  controlPoint2 = relative ? _current + controlPoint2 : controlPoint2;
+  auto endpoint = relative ? _current + point : point;
+
+  cubicCurveTo(endpoint,       // endpoint
+               controlPoint1,  // control point 1
+               controlPoint2,  // control point 2
+               false           // relative since all points are already absolute
+               );
   return *this;
 }
 

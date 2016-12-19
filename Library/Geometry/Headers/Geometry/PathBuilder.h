@@ -20,10 +20,6 @@ class PathBuilder {
 
   Path path() const;
 
-  const Path& prototype() const;
-
-  const Point& currentPoint() const;
-
   PathBuilder& moveTo(Point point, bool relative = false);
 
   PathBuilder& close();
@@ -34,12 +30,20 @@ class PathBuilder {
 
   PathBuilder& verticalLineTo(double y, bool relative = false);
 
-  PathBuilder& quadraticCurveTo(Point point, Point controlPoint);
+  PathBuilder& quadraticCurveTo(Point point,
+                                Point controlPoint,
+                                bool relative = false);
+
+  PathBuilder& smoothQuadraticCurveTo(Point point, bool relative = false);
 
   PathBuilder& cubicCurveTo(Point point,
                             Point controlPoint1,
                             Point controlPoint2,
                             bool relative = false);
+
+  PathBuilder& smoothCubicCurveTo(Point point,
+                                  Point controlPoint2,
+                                  bool relative = false);
 
   PathBuilder& addRect(Rect rect);
 
@@ -74,6 +78,10 @@ class PathBuilder {
   Point _subpathStart;
   Point _current;
   Path _prototype;
+
+  Point reflectedQuadraticControlPoint1() const;
+
+  Point reflectedCubicControlPoint1() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PathBuilder);
 };

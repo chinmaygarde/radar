@@ -107,32 +107,6 @@ void SVGPathDriver::processElement(const SVGCurveElement& element) {
   }
 }
 
-static geom::Point AbsoluteReflectedControlPoint1(
-    const geom::PathBuilder& builder) {
-  /*
-   *  If there is no previous command or if the previous command was not an C,
-   *  c, S or s, assume the first control point is coincident with the current
-   *  point.)
-   */
-  const geom::Path& prototype = builder.prototype();
-  const geom::Point& currentPoint = builder.currentPoint();
-
-  if (prototype.componentCount() == 0) {
-    return currentPoint;
-  }
-
-  geom::CubicPathComponent cubic;
-  if (!prototype.cubicComponentAtIndex(prototype.componentCount() - 1, cubic)) {
-    return currentPoint;
-  }
-
-  /*
-   *  The first control point is assumed to be the reflection of the second
-   *  control point on the previous command relative to the current point.
-   */
-  return (currentPoint * 2.0) - cubic.cp2;
-}
-
 /*
  *  https://www.w3.org/TR/SVG/paths.html#PathDataCubicBezierCommands
  */
@@ -142,32 +116,40 @@ void SVGPathDriver::processElement(const SVGShorthandCurveElement& element) {
   size_t pointsCount = element.points().size();
   const auto& points = element.points();
   for (size_t i = 0; i < pointsCount; i += 2) {
-    /*
-     *  We always deal with absolutes on the path builder since our reflected
-     *  control point is absolute.
-     */
-    const auto& currentPoint = _pathBuilder.currentPoint();
-    auto controlPoint1 = AbsoluteReflectedControlPoint1(_pathBuilder);
-    auto controlPoint2 = relative ? currentPoint + points[i] : points[i];
-    auto endpoint = relative ? currentPoint + points[i + 1] : points[i + 1];
-
-    _pathBuilder.cubicCurveTo(endpoint,       // endpoint
-                              controlPoint1,  // control point 1
-                              controlPoint2,  // control point 2
-                              false           // relative
-                              );
+    _pathBuilder.smoothCubicCurveTo(points[i + 1], points[i], relative);
   }
 }
 
+/*
+ *  https://www.w3.org/TR/SVG/paths.html#PathDataQuadraticBezierCommands
+ */
 template <>
 void SVGPathDriver::processElement(const SVGQuadCurveElement& element) {
-  RL_WIP;
+  auto relative = element.areCoordinatesRelative();
+  size_t pointsCount = element.points().size();
+  const auto& points = element.points();
+  for (size_t i = 0; i < pointsCount; i += 2) {
+    _pathBuilder.quadraticCurveTo(points[i + 1],  // endpoint
+                                  points[i + 0],  // control point
+                                  relative        // relative
+                                  );
+  }
 }
 
+/*
+ *  https://www.w3.org/TR/SVG/paths.html#PathDataQuadraticBezierCommands
+ */
 template <>
 void SVGPathDriver::processElement(
     const SVGShorthandQuadCurveElement& element) {
-  RL_WIP;
+  auto relative = element.areCoordinatesRelative();
+  size_t pointsCount = element.points().size();
+  const auto& points = element.points();
+  for (size_t i = 0; i < pointsCount; i++) {
+    _pathBuilder.smoothQuadraticCurveTo(points[i],  // endpoint
+                                        relative    // relative
+                                        );
+  }
 }
 
 template <>
