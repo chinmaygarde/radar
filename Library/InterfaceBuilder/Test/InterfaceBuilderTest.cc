@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
+#include <TestRunner/TestRunner.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
 #include <TestRunner/InterfaceTest.h>
 
@@ -207,6 +207,11 @@ TEST_F(InterfaceTest, TestTransformation) {
     ASSERT_TRUE(archive->isValid());
     ASSERT_TRUE(archive->inflate(interface));
     ASSERT_EQ(interface.rootEntity().children().size(), 1);
-
+    rl::geom::Matrix expected =
+        rl::geom::Matrix::Translation({140.5, 102, 0.0}) *
+        rl::geom::Matrix::RotationZ(36.0 * M_PI / 180.0) *
+        rl::geom::Matrix::Translation({-140.5, -102.0, 0.0});
+    ASSERT_MATRIX_NEAR(expected,
+                       interface.rootEntity().children()[0]->transformation());
   });
 }
