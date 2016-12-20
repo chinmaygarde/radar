@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "DataImageSource.h"
+#include <Core/Message.h>
 
 namespace rl {
 namespace image {
@@ -34,13 +35,11 @@ void DataImageSource::onDoneUsing() {
 }
 
 bool DataImageSource::serialize(core::Message& message) const {
-  RL_WIP;
-  return false;
+  return message.encode(_allocation);
 }
 
 bool DataImageSource::deserialize(core::Message& message, core::Namespace* ns) {
-  RL_WIP;
-  return false;
+  return message.decode(_allocation, ns);
 }
 
 ImageSource::Type DataImageSource::type() const {
