@@ -183,7 +183,7 @@ TEST_F(InterfaceTest, StarPolygon) {
     ASSERT_EQ(polylineEntity->path().componentCount(), 76);
     rl::geom::LinearPathComponent linear;
     ASSERT_TRUE(polylineEntity->path().linearComponentAtIndex(75, linear));
-    rl::geom::Point expected(1050, 375);
+    rl::geom::Point expected(156, 225);
     ASSERT_EQ(linear.p2, expected);
   });
 }

@@ -6,6 +6,7 @@
 #include "SVGDecoder.h"
 #include <Geometry/PathBuilder.h>
 #include <SVGPathParser/SVGPathString.h>
+#include <sstream>
 
 namespace rl {
 namespace ib {
@@ -293,9 +294,23 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
     const pugi::xml_node& node,
     interface::Interface& interface,
     interface::ModelEntity& parent) const {
-  auto points = Decode<std::vector<geom::Point>>(node, "points");
+  /*
+   *  Treat the path value as an SVG path without the preceding absolute line
+   *  declaration "L".
+   *  https://www.w3.org/TR/SVG11/paths.html#PathDataLinetoCommands
+   */
 
-  if (points.size() == 0) {
+  const auto& attribute = node.attribute("points");
+
+  if (attribute.empty()) {
+    return nullptr;
+  }
+
+  std::stringstream stream;
+  stream << "L" << attribute.as_string();
+  auto path = svg::SVGPathStringParse(stream.str());
+
+  if (path.componentCount() == 0) {
     return nullptr;
   }
 
@@ -303,15 +318,7 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
 
   ReadCommonEntityProperties(node, *entity);
 
-  geom::PathBuilder builder;
-
-  builder.moveTo(*points.begin());
-
-  for (const auto& point : points) {
-    builder.lineTo(point);
-  }
-
-  entity->setPath(builder.path());
+  entity->setPath(std::move(path));
 
   parent.addChild(entity);
 

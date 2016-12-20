@@ -114,49 +114,6 @@ geom::Matrix Decode<>(const pugi::xml_node& node,
 }
 
 template <>
-std::vector<geom::Point> Decode<>(const pugi::xml_node& node,
-                                  const char* name,
-                                  bool* present) {
-  /*
-   *  TODO: This is a quick and dirty version. The spec is here. Implement it!
-   *  https://www.w3.org/TR/SVG11/shapes.html#PointsBNF
-   */
-  auto attribute = node.attribute(name);
-
-  if (present != nullptr) {
-    *present = !attribute.empty();
-  }
-
-  if (attribute.empty()) {
-    return {};
-  }
-
-  std::vector<geom::Point> points;
-
-  std::istringstream stream;
-  stream.str(attribute.value());
-
-  std::string pointString;
-
-  while (stream >> pointString) {
-    const char* stringData = pointString.c_str();
-
-    auto comma = strchr(stringData, ',');
-
-    if (comma == nullptr) {
-      /*
-       *  Unrecoverable error. Should have followed spec!
-       */
-      return {};
-    }
-
-    points.emplace_back(DecodeUnit(stringData), DecodeUnit(comma + 1));
-  }
-
-  return points;
-}
-
-template <>
 core::URI Decode<>(const pugi::xml_node& node,
                    const char* name,
                    bool* present) {
