@@ -35,6 +35,7 @@ StandardRadarLibrary(TestRunner)
 target_link_libraries(TestRunner
   PUBLIC
     Shell
+    Geometry
   PRIVATE
     gtest
     DevSupport
