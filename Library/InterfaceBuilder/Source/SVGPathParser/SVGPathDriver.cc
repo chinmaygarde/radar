@@ -7,9 +7,9 @@
 
 namespace rl {
 
-SVGPathDriver::SVGPathDriver() {}
+SVGPathDriver::SVGPathDriver() = default;
 
-SVGPathDriver::~SVGPathDriver() {}
+SVGPathDriver::~SVGPathDriver() = default;
 
 SVGPathDriver::ParserResult SVGPathDriver::parse(const std::string& text) {
   SVGPathScanner scanner(text);
@@ -37,7 +37,7 @@ const geom::PathBuilder& SVGPathDriver::pathBuilder() const {
 }
 
 void SVGPathDriver::error(rl::location loc, const std::string& message) {
-  printf("Error: %s\n", message.c_str());
+  RL_LOG("Error while parsing SVG Path: %s\n", message.c_str());
 }
 
 /*

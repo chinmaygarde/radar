@@ -8,8 +8,8 @@
 #include <Core/Core.h>
 #include <Geometry/Point.h>
 #include <Geometry/PathBuilder.h>
-#include "SVGElement.h"
 #include <string>
+#include "SVGElement.h"
 #include "location.hh"
 
 namespace rl {

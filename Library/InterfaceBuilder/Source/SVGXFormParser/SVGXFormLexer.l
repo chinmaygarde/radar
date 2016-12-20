@@ -7,7 +7,7 @@
 #include <string>
 
 #include "RLDecls.h"
-#include "SVGElement.h"
+#include "SVGXFormElement.h"
 
 #define CURRENT_LOC driver.location
 #define FOUND(token) return rl::SVGXFormParser::make_##token(CURRENT_LOC);
@@ -31,27 +31,15 @@ SEPARATORS                    [, \t\v\n\f]
 %}
 
 <<EOF>>                FOUND(END)
-{NUMBER_COMPS}*        FOUND_ARG(NUMBER, rl::SVGNumberParse(yytext))
-"M"                    FOUND(MOVE_ABS)
-"m"                    FOUND(MOVE_REL)
-"z"                    FOUND(CLOSE)
-"Z"                    FOUND(CLOSE)
-"L"                    FOUND(LINE_ABS)
-"l"                    FOUND(LINE_REL)
-"H"                    FOUND(LINE_HORIZONTAL_ABS)
-"h"                    FOUND(LINE_HORIZONTAL_REL)
-"V"                    FOUND(LINE_VERTICAL_ABS)
-"v"                    FOUND(LINE_VERTICAL_REL)
-"C"                    FOUND(CURVE_ABS)
-"c"                    FOUND(CURVE_REL)
-"S"                    FOUND(SHORTHAND_CURVE_ABS)
-"s"                    FOUND(SHORTHAND_CURVE_REL)
-"Q"                    FOUND(QUAD_CURVE_ABS)
-"q"                    FOUND(QUAD_CURVE_REL)
-"T"                    FOUND(SHORTHAND_QUAD_CURVE_ABS)
-"t"                    FOUND(SHORTHAND_QUAD_CURVE_REL)
-"A"                    FOUND(ELLIPTIC_ARC_ABS)
-"a"                    FOUND(ELLIPTIC_ARC_REL)
+{NUMBER_COMPS}*        FOUND_ARG(NUMBER, rl::SVGXFormNumberParse(yytext))
+"matrix"               FOUND(MATRIX)
+"translate"            FOUND(TRANSLATE)
+"scale"                FOUND(SCALE)
+"rotate"               FOUND(ROTATE)
+"skewX"                FOUND(SKEW_X)
+"skewY"                FOUND(SKEW_Y)
+"("                    FOUND(LEFT_BRACE)
+")"                    FOUND(RIGHT_BRACE)
 {SEPARATORS}+          {  /* Separators Consumed */  }
 .                      FOUND(INVALID)
 

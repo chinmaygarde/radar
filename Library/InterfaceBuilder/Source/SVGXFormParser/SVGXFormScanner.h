@@ -2,21 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RL_SVGPATHPARSER_SVGPATHSCANNER_H_
-#define RL_SVGPATHPARSER_SVGPATHSCANNER_H_
+#ifndef RL_SVGXFORMPARSER_SVGXFORMSCANNER_H_
+#define RL_SVGXFORMPARSER_SVGXFORMSCANNER_H_
 
 #include <Core/Core.h>
-
 #include "RLDecls.h"
-#include "SVGPathLexer.h"
+#include "SVGXFormLexer.h"
 
 namespace rl {
 
-class SVGPathScanner {
+class SVGXFormScanner {
  public:
-  SVGPathScanner(const std::string& text);
+  SVGXFormScanner(const std::string& text);
 
-  ~SVGPathScanner();
+  ~SVGXFormScanner();
 
   bool isReady() const;
 
@@ -27,9 +26,9 @@ class SVGPathScanner {
   YY_BUFFER_STATE _buffer;
   bool _isReady;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(SVGPathScanner);
+  RL_DISALLOW_COPY_AND_ASSIGN(SVGXFormScanner);
 };
 
 }  // namespace rl
 
-#endif  // RL_SVGPATHPARSER_SVGPATHSCANNER_H_
+#endif  // RL_SVGXFORMPARSER_SVGXFORMSCANNER_H_
