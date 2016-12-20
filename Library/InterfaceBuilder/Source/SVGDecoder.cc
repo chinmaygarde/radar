@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include "SVGDecoder.h"
-#include "SVGColor.h"
+#include "SVGColorParser/SVGColor.h"
 #include <Core/Base64.h>
 #include <Entity/Entity.h>
 #include <sstream>
