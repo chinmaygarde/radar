@@ -427,6 +427,11 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
     entity->setTransformation(transform * entity->transformation());
   }
 
+  auto fill = Decode<entity::Color>(node, "fill", &present);
+  if (present) {
+    entity->setBackgroundColor(fill);
+  }
+
   return entity;
 }
 
