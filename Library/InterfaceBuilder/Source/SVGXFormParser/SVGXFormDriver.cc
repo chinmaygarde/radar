@@ -36,4 +36,8 @@ void SVGXFormDriver::error(rl::location loc, const std::string& message) {
   RL_LOG("Error while parsing SVG XForm: %s\n", message.c_str());
 }
 
+const geom::Matrix& SVGXFormDriver::transformation() const {
+  return _transformation;
+}
+
 }  // namespace rl

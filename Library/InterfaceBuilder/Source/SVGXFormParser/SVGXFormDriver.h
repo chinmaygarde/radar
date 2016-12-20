@@ -29,6 +29,8 @@ class SVGXFormDriver {
 
   rl::location location;
 
+  const geom::Matrix& transformation() const;
+
  private:
   friend class SVGXFormParser;
 
