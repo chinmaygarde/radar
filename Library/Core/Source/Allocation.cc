@@ -154,23 +154,24 @@ bool Allocation::deserialize(Message& message, Namespace* ns) {
   /*
    *  Decode the size of the allocation
    */
-  bool success = message.decode(_size, ns);
+  size_t encodedSize = 0;
+  bool success = message.decode(encodedSize, ns);
 
   if (!success) {
     return false;
   }
 
-  if (!resize(_size)) {
+  if (!resize(encodedSize)) {
     return false;
   }
 
-  auto allocation = message.decodeRaw<uint8_t>(_size);
+  auto encodedAllocation = message.decodeRaw<uint8_t>(encodedSize);
 
-  if (allocation == nullptr) {
+  if (encodedAllocation == nullptr) {
     return false;
   }
 
-  memmove(_allocation, allocation, _size);
+  memmove(_allocation, encodedAllocation, encodedSize);
   return true;
 }
 
