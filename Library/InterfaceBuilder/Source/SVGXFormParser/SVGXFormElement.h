@@ -9,6 +9,8 @@
 #include <Geometry/Matrix.h>
 #include <Geometry/Rect.h>
 
+#define TO_RADIANS(x) ((M_PI * (x)) / 180.0)
+
 namespace rl {
 
 using SVGNumber = double;
@@ -19,14 +21,25 @@ class SVGXFormMatrix {
  public:
   SVGXFormMatrix() {}
 
-  SVGXFormMatrix(SVGNumber m1,
-                 SVGNumber m2,
-                 SVGNumber m3,
-                 SVGNumber m4,
-                 SVGNumber m5,
-                 SVGNumber m6) {}
+  /*
+   *  https://www.w3.org/TR/SVG/coords.html#TransformMatrixDefined
+   */
+  SVGXFormMatrix(SVGNumber a,
+                 SVGNumber b,
+                 SVGNumber c,
+                 SVGNumber d,
+                 SVGNumber e,
+                 SVGNumber f)
+      : _matrix(
+            // clang-format off
+            a,   b,   c,   0.0,
+            d,   e,   f,   0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+            // clang-format on
+            ) {}
 
-  const geom::Matrix& matrix() { return _matrix; }
+  geom::Matrix effectiveTransformation() const { return _matrix; }
 
  private:
   geom::Matrix _matrix;
@@ -38,7 +51,9 @@ class SVGXFormTranslate {
 
   SVGXFormTranslate(SVGNumber x, SVGNumber y) : _translation(x, y) {}
 
-  const geom::Point& translation() { return _translation; }
+  geom::Matrix effectiveTransformation() const {
+    return geom::Matrix::Translation({_translation.x, _translation.y, 0.0});
+  }
 
  private:
   geom::Point _translation;
@@ -50,7 +65,9 @@ class SVGXFormScale {
 
   SVGXFormScale(SVGNumber x, SVGNumber y) : _scale(x, y) {}
 
-  const geom::Size& scale() { return _scale; }
+  geom::Matrix effectiveTransformation() const {
+    return geom::Matrix::Scale({_scale.width, _scale.height, 1.0});
+  }
 
  private:
   geom::Size _scale;
@@ -58,25 +75,46 @@ class SVGXFormScale {
 
 class SVGXFormRotate {
  public:
-  SVGXFormRotate() {}
+  SVGXFormRotate() : _rotation(0.0) {}
 
-  SVGXFormRotate(SVGNumber radians) {}
+  SVGXFormRotate(SVGNumber degrees) : _rotation(TO_RADIANS(degrees)) {}
 
-  SVGXFormRotate(SVGNumber radians, geom::Point anchor) {}
+  SVGXFormRotate(SVGNumber degrees, geom::Point anchor)
+      : _rotation(TO_RADIANS(degrees)), _anchor(anchor) {}
 
-  const SVGNumber& rotation() { return _rotation; }
+  geom::Matrix effectiveTransformation() const {
+    if (_anchor.x == 0.0 && _anchor.y == 0.0) {
+      return geom::Matrix::RotationZ(_rotation);
+    }
+
+    return geom::Matrix::Translation(_anchor) *
+           geom::Matrix::RotationZ(_rotation) *
+           geom::Matrix::Translation(-_anchor);
+  }
 
  private:
   SVGNumber _rotation;
+  geom::Point _anchor;
 };
 
 class SVGXFormSkewX {
  public:
-  SVGXFormSkewX() {}
+  SVGXFormSkewX() : _skew(0.0) {}
 
-  SVGXFormSkewX(SVGNumber x) {}
+  SVGXFormSkewX(SVGNumber x) : _skew(TO_RADIANS(x)) {}
 
-  const SVGNumber& skew() { return _skew; }
+  geom::Matrix effectiveTransformation() const {
+    /*
+     *  https://www.w3.org/TR/SVG/coords.html#SkewXDefined
+     */
+    return geom::Matrix{
+        1.0,          0.0, 0.0, 0.0,  //
+        ::tan(_skew), 1.0, 0.0, 0.0,  //
+        0.0,          0.0, 1.0, 0.0,  //
+        0.0,          0.0, 0.0, 1.0,  //
+
+    };
+  }
 
  private:
   SVGNumber _skew;
@@ -84,11 +122,21 @@ class SVGXFormSkewX {
 
 class SVGXFormSkewY {
  public:
-  SVGXFormSkewY() {}
+  SVGXFormSkewY() : _skew(0.0) {}
 
-  SVGXFormSkewY(SVGNumber y) {}
+  SVGXFormSkewY(SVGNumber y) : _skew(TO_RADIANS(y)) {}
 
-  const SVGNumber& skew() { return _skew; }
+  geom::Matrix effectiveTransformation() const {
+    /*
+     *  https://www.w3.org/TR/SVG/coords.html#SkewYDefined
+     */
+    return geom::Matrix{
+        1.0, ::tan(_skew), 0.0, 0.0,  //
+        0.0, 1.0,          0.0, 0.0,  //
+        0.0, 0.0,          1.0, 0.0,  //
+        0.0, 0.0,          0.0, 1.0,  //
+    };
+  }
 
  private:
   SVGNumber _skew;

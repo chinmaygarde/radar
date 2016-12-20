@@ -161,7 +161,7 @@ class SVGShorthandQuadCurveElement : public SVGElement {
   SVGPoints _points;
 };
 
-class SVGArcParam : public SVGElement {
+class SVGArcParam {
  public:
   SVGArcParam() {}
 
@@ -202,8 +202,11 @@ class SVGEllipticArcElement : public SVGElement {
 
   SVGEllipticArcElement(bool abs, std::vector<SVGArcParam> params)
       : _params(std::move(params)) {
+    _hasAbsoluteCoordinates = abs;
     _valid = _params.size() > 0;
   }
+
+  const std::vector<SVGArcParam>& arcParams() const { return _params; }
 
  private:
   std::vector<SVGArcParam> _params;

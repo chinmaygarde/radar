@@ -32,10 +32,14 @@ class SVGXFormDriver {
  private:
   friend class SVGXFormParser;
 
+  geom::Matrix _transformation;
+
   void error(rl::location loc, const std::string& message);
 
   template <class T>
-  void visitElement(const T& element);
+  void visitElement(const T& element) {
+    _transformation = _transformation * element.effectiveTransformation();
+  }
 
   RL_DISALLOW_COPY_AND_ASSIGN(SVGXFormDriver);
 };

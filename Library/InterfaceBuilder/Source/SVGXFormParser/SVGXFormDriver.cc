@@ -36,34 +36,4 @@ void SVGXFormDriver::error(rl::location loc, const std::string& message) {
   RL_LOG("Error while parsing SVG XForm: %s\n", message.c_str());
 }
 
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormMatrix& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormTranslate& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormScale& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormRotate& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormSkewX& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGXFormDriver::visitElement(const SVGXFormSkewY& element) {
-  RL_WIP;
-}
-
 }  // namespace rl

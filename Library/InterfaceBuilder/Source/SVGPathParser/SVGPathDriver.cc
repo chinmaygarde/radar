@@ -154,12 +154,9 @@ void SVGPathDriver::processElement(
 
 template <>
 void SVGPathDriver::processElement(const SVGEllipticArcElement& element) {
-  RL_WIP;
-}
-
-template <>
-void SVGPathDriver::processElement(const SVGArcParam& element) {
-  RL_WIP;
+  /*
+   *  TODO: WIP
+   */
 }
 
 }  // namespace rl
