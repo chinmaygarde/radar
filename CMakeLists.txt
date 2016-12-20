@@ -192,6 +192,7 @@ add_subdirectory("Library/TestRunner")
 add_subdirectory("Library/Toolbox")
 add_subdirectory("Library/Typography")
 
+add_subdirectory("ThirdParty/base64")
 add_subdirectory("ThirdParty/freetype")
 add_subdirectory("ThirdParty/gtest")
 add_subdirectory("ThirdParty/harfbuzz")

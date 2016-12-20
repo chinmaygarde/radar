@@ -76,6 +76,10 @@ class SVGArchive : public InterfaceBuilderArchive {
                                         interface::Interface& interface,
                                         interface::ModelEntity& parent) const;
 
+  interface::ModelEntity::Ref visitImage(const pugi::xml_node& node,
+                                         interface::Interface& interface,
+                                         interface::ModelEntity& parent) const;
+
   interface::ModelEntity::Ref visitMask(const pugi::xml_node& node,
                                         interface::Interface& interface,
                                         interface::ModelEntity& parent) const;

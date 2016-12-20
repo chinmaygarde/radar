@@ -187,3 +187,14 @@ TEST_F(InterfaceTest, StarPolygon) {
     ASSERT_EQ(linear.p2, expected);
   });
 }
+
+TEST_F(InterfaceTest, Nighthawks) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://nighthawks.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    ASSERT_TRUE(archive->inflate(interface));
+    ASSERT_EQ(interface.rootEntity().children().size(), 1);
+  });
+}

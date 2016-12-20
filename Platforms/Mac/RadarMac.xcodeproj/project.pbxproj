@@ -20,6 +20,7 @@
 		9E5E9D1B1E0477F300A12541 /* RadarArchiveDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E5E9D191E0477F300A12541 /* RadarArchiveDocument.mm */; };
 		9E5E9D1E1E04792000A12541 /* RadarWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E5E9D1D1E04792000A12541 /* RadarWindow.xib */; };
 		9E5E9D211E048D0C00A12541 /* RadarWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E5E9D201E048D0C00A12541 /* RadarWindow.mm */; };
+		9E5E9D601E08C84600A12541 /* libbase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5E9D5F1E08C84600A12541 /* libbase64.a */; };
 		9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
 		9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ED38F2B1CF678AB00D40928 /* Beachball.png */; };
@@ -83,6 +84,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9ACDDC94F8E941C0A0196B84;
 			remoteInfo = SVGPathParserTest;
+		};
+		9E5E9D5E1E08C84600A12541 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69EE25E39EF64E64A73D418E;
+			remoteInfo = base64;
 		};
 		9ED38F4C1CF678AC00D40928 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -193,7 +201,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 037E000DD004446097096B4C;
+			remoteGlobalIDString = 3BC860C363CF4C4A898A898C;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -445,6 +453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5E9D601E08C84600A12541 /* libbase64.a in Frameworks */,
 				9E5E9CDD1E037A4A00A12541 /* libSVGPathParser.a in Frameworks */,
 				EA93DB761DEAF47800FEA8C3 /* libpugixml.a in Frameworks */,
 				EA93DB751DEAF39E00FEA8C3 /* libInterfaceBuilder.a in Frameworks */,
@@ -574,6 +583,7 @@
 				9EE9311A1CA4C2C500CDBF07 /* libToolbox.a */,
 				EA93DB5E1DEAF2FF00FEA8C3 /* libTypography.a */,
 				EA93DB601DEAF2FF00FEA8C3 /* TypographyTest */,
+				9E5E9D5F1E08C84600A12541 /* libbase64.a */,
 				EA93DB621DEAF2FF00FEA8C3 /* libfreetype.a */,
 				9EF068F71CB48D2D000DF505 /* libgtest.a */,
 				9EF068F91CB48D2D000DF505 /* libgtest_main.a */,
@@ -707,6 +717,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = SVGPathParserTest;
 			remoteRef = 9E5E9CDB1E037A4A00A12541 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9E5E9D5F1E08C84600A12541 /* libbase64.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libbase64.a;
+			remoteRef = 9E5E9D5E1E08C84600A12541 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9ED38F4D1CF678AC00D40928 /* liburiparser.a */ = {

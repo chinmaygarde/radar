@@ -125,6 +125,10 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
     return visitPath(node, interface, parent);
   }
 
+  if (::strncmp(node.name(), "image", sizeof("image")) == 0) {
+    return visitImage(node, interface, parent);
+  }
+
   if (::strncmp(node.name(), "mask", sizeof("mask")) == 0) {
     return visitMask(node, interface, parent);
   }
@@ -458,6 +462,44 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
   ReadCommonEntityProperties(node, *entity);
 
   entity->setPath(std::move(path));
+
+  parent.addChild(entity);
+
+  return entity;
+}
+
+/*
+ *  https://www.w3.org/TR/SVG/struct.html#ImageElement
+ */
+interface::ModelEntity::Ref SVGArchive::visitImage(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent) const {
+  auto width = Decode<double>(node, "width");
+
+  if (width <= 0) {
+    return nullptr;
+  }
+
+  auto height = Decode<double>(node, "height");
+
+  if (height <= 0) {
+    return nullptr;
+  }
+
+  auto image = Decode<image::Image>(node, "xlink:href");
+
+  if (!image.isValid()) {
+    return nullptr;
+  }
+
+  auto entity = interface.createEntity();
+
+  ReadCommonEntityProperties(node, *entity);
+
+  entity->setFrame(
+      {Decode<double>(node, "x"), Decode<double>(node, "y"), width, height});
+  entity->setContents(std::move(image));
 
   parent.addChild(entity);
 

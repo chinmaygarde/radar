@@ -4,6 +4,7 @@
 
 #include "SVGDecoder.h"
 #include "SVGColor.h"
+#include <Core/Base64.h>
 #include <Entity/Entity.h>
 #include <sstream>
 
@@ -128,6 +129,42 @@ core::URI Decode<>(const pugi::xml_node& node,
   }
 
   return {std::string{attribute.value()}};
+}
+
+template <>
+image::Image Decode<>(const pugi::xml_node& node,
+                      const char* name,
+                      bool* present) {
+  auto attribute = node.attribute(name);
+
+  if (present != nullptr) {
+    *present = !attribute.empty();
+  }
+
+  if (attribute.empty()) {
+    return {};
+  }
+
+  /*
+   *  For now, we only handle base64 encoded data URIs. This is not perfect.
+   *  For instance, newlines and whitespaces in the data are not handled.
+   */
+  const char* base64Marker = ";base64,";
+
+  auto found = ::strstr(attribute.value(), base64Marker);
+
+  if (found == nullptr) {
+    return {};
+  }
+
+  auto allocation = core::Base64Decode(
+      reinterpret_cast<const uint8_t*>(found + strlen(base64Marker)));
+
+  if (allocation.size() == 0) {
+    return {};
+  }
+
+  return {std::move(allocation)};
 }
 
 }  // namespace ib

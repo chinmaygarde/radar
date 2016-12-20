@@ -30,34 +30,6 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(Core)
+StandardRadarLibrary(base64)
 
-target_link_libraries(Core
-  PRIVATE
-    base64
-    sqlite3
-    uriparser
-)
-
-if(NOT ANDROID)
-  # pthread is implicit on Android.
-  target_link_libraries(Core
-    PRIVATE
-      pthread
-  )
-endif()
-
-if(APPLE)
-  find_library(FOUNDATION Foundation)
-  target_link_libraries(Core PRIVATE ${FOUNDATION})
-endif()
-
-if(LINUX)
-  target_link_libraries(Core PRIVATE dl rt)
-endif()
-
-################################################################################
-# Test
-################################################################################
-
-StandardRadarTest(Core)
+include_directories("Headers/base64")
