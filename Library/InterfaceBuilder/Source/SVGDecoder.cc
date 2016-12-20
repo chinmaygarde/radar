@@ -4,6 +4,7 @@
 
 #include "SVGDecoder.h"
 #include "SVGColorParser/SVGColor.h"
+#include "SVGXFormParser/SVGXFormString.h"
 #include <Core/Base64.h>
 #include <Entity/Entity.h>
 #include <sstream>
@@ -107,11 +108,7 @@ geom::Matrix Decode<>(const pugi::xml_node& node,
     return {};
   }
 
-  /*
-   *  TODO: Implement the spec!
-   *  https://www.w3.org/TR/SVG11/coords.html#TransformAttribute
-   */
-  return {};
+  return svg::SVGXFormStringParse(attribute.value());
 }
 
 template <>

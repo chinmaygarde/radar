@@ -422,6 +422,11 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
 
   entity->setFrame(frame);
 
+  auto transform = Decode<geom::Matrix>(node, "transform", &present);
+  if (present) {
+    entity->setTransformation(transform * entity->transformation());
+  }
+
   return entity;
 }
 
