@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 #include "SVGArchive.h"
+#include "SVGPathParser/SVGPathString.h"
 #include "SVGDecoder.h"
 #include <Geometry/PathBuilder.h>
-#include <SVGPathParser/SVGPathString.h>
 #include <sstream>
 
 namespace rl {

@@ -5,7 +5,7 @@
 #include <TestRunner/TestRunner.h>
 #include <Core/Core.h>
 #include <thread>
-#include "SVGPathDriver.h"
+#include "SVGPathParser/SVGPathDriver.h"
 
 TEST(SVGPathParserTest, Invalid) {
   auto invalid = "This is invalid!";
