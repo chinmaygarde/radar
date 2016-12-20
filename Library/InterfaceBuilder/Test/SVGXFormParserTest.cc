@@ -123,3 +123,17 @@ TEST(SVGXFormParserTest, SkewY) {
   auto result = driver.parse(text);
   ASSERT_EQ(result, rl::SVGXFormDriver::ParserResult::Success);
 }
+
+TEST(SVGXFormParserTest, MultipleChained) {
+  auto text =
+      "translate(140.500000, 102.000000) rotate(36.000000) "
+      "translate(-140.500000, -102.000000)";
+  rl::SVGXFormDriver driver;
+  auto result = driver.parse(text);
+  ASSERT_EQ(result, rl::SVGXFormDriver::ParserResult::Success);
+  rl::geom::Matrix expected =
+      rl::geom::Matrix::Translation({140.5, 102, 0.0}) *
+      rl::geom::Matrix::RotationZ(36.0 * M_PI / 180.0) *
+      rl::geom::Matrix::Translation({-140.5, -102, 0.0});
+  ASSERT_MATRIX_NEAR(driver.transformation(), expected);
+}
