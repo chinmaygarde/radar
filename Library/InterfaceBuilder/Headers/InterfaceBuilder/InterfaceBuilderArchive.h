@@ -31,9 +31,8 @@ class InterfaceBuilderArchive {
   using EntityMap =
       std::unordered_map<std::string, interface::ModelEntity::Ref>;
 
-  virtual bool inflate(interface::Interface& interface,
-                       interface::ModelEntity& container,
-                       EntityMap& map) const = 0;
+  virtual interface::ModelEntity::Ref inflate(interface::Interface& interface,
+                                              EntityMap& map) const = 0;
 
  protected:
   InterfaceBuilderArchive();

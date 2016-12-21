@@ -35,9 +35,10 @@ bool SVGArchive::isValid() const {
   return _document != nullptr;
 }
 
-static interface::ModelEntity::Ref CreateEntity(interface::Interface& interface,
-                                                SVGArchive::EntityMap& map,
-                                                const pugi::xml_node& node) {
+static interface::ModelEntity::Ref CreateRegisteredEntity(
+    interface::Interface& interface,
+    SVGArchive::EntityMap& map,
+    const pugi::xml_node& node) {
   auto entity = interface.createEntity();
 
   auto attribute = node.attribute("id");
@@ -66,90 +67,117 @@ void SVGArchive::findDefinitions(const pugi::xml_node& node) {
   }
 }
 
-bool SVGArchive::inflate(interface::Interface& interface,
-                         interface::ModelEntity& container,
-                         EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::inflate(interface::Interface& interface,
+                                                EntityMap& map) const {
   if (!isValid()) {
-    return false;
+    return nullptr;
   }
-
-  pugi::xml_node node = _document->child("svg");
-
-  if (node.empty()) {
-    return false;
-  }
-
-  container.setFrame(Decode<geom::Rect>(node, "viewBox"));
-
-  visitNodeChildren(node, interface, container, map);
-
-  return true;
+  return visitNodeChildren(_document->child("svg"), interface, map);
 }
 
-void SVGArchive::visitNodeChildren(
+interface::ModelEntity::Ref SVGArchive::visitNodeChildren(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent,
     InterfaceBuilderArchive::EntityMap& map) const {
-  for (const auto& child : node.children()) {
-    visitNode(child, interface, parent, map);
+  if (node.empty()) {
+    return nullptr;
   }
+
+  auto entity =
+      configureNode(CreateRegisteredEntity(interface, map, node), node);
+
+  if (entity == nullptr) {
+    return nullptr;
+  }
+
+  bool present = false;
+
+  /*
+   *  Fill
+   */
+  auto fill = Decode<entity::Color>(node, "fill", &present);
+  if (present) {
+    entity->setBackgroundColor(fill);
+  }
+
+  /*
+   *  Transform
+   */
+  auto transfrom = Decode<geom::Matrix>(node, "transform", &present);
+  if (present) {
+    entity->setTransformation(transfrom);
+  }
+
+  /*
+   *  Children
+   */
+  for (const auto& childNode : node.children()) {
+    entity->addChild(visitNodeChildren(childNode, interface, map));
+  }
+
+  return entity;
 }
 
-interface::ModelEntity::Ref SVGArchive::visitNode(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configureNode(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
+  if (entity == nullptr) {
+    return nullptr;
+  }
+
   if (::strncmp(node.name(), "rect", sizeof("rect")) == 0) {
-    return visitRect(node, interface, parent, map);
+    return configureRect(entity, node);
   }
 
   if (::strncmp(node.name(), "ellipse", sizeof("ellipse")) == 0) {
-    return visitEllipse(node, interface, parent, map);
+    return configureEllipse(entity, node);
   }
 
   if (::strncmp(node.name(), "g", sizeof("g")) == 0) {
-    return visitG(node, interface, parent, map);
+    return configureG(entity, node);
   }
 
   if (::strncmp(node.name(), "circle", sizeof("circle")) == 0) {
-    return visitCircle(node, interface, parent, map);
+    return configureCircle(entity, node);
   }
 
   if (::strncmp(node.name(), "polygon", sizeof("polygon")) == 0) {
-    return visitPolygon(node, interface, parent, map);
+    return configurePolygon(entity, node);
   }
 
   if (::strncmp(node.name(), "polyline", sizeof("polyline")) == 0) {
     /*
      *  A polyline is just a polygon without a fill.
      */
-    return visitPolygon(node, interface, parent, map);
+    return configurePolygon(entity, node);
   }
 
   if (::strncmp(node.name(), "line", sizeof("line")) == 0) {
-    return visitLine(node, interface, parent, map);
+    return configureLine(entity, node);
   }
 
   if (::strncmp(node.name(), "use", sizeof("use")) == 0) {
-    return visitUse(node, interface, parent, map);
+    return configureUse(entity, node);
   }
 
   if (::strncmp(node.name(), "text", sizeof("text")) == 0) {
-    return visitText(node, interface, parent, map);
+    return configureText(entity, node);
   }
 
   if (::strncmp(node.name(), "path", sizeof("path")) == 0) {
-    return visitPath(node, interface, parent, map);
+    return configurePath(entity, node);
   }
 
   if (::strncmp(node.name(), "image", sizeof("image")) == 0) {
-    return visitImage(node, interface, parent, map);
+    return configureImage(entity, node);
   }
 
   if (::strncmp(node.name(), "mask", sizeof("mask")) == 0) {
-    return visitMask(node, interface, parent, map);
+    return configureMask(entity, node);
+  }
+
+  if (::strncmp(node.name(), "svg", sizeof("svg")) == 0) {
+    return configureSVG(entity, node);
   }
 
   if (::strncmp(node.name(), "desc", sizeof("desc")) == 0) {
@@ -167,30 +195,19 @@ interface::ModelEntity::Ref SVGArchive::visitNode(
   return nullptr;
 }
 
-static void ReadCommonEntityProperties(const pugi::xml_node& node,
-                                       interface::ModelEntity& entity) {
-  entity.setBackgroundColor(Decode<entity::Color>(node, "fill"));
-  entity.setTransformation(Decode<geom::Matrix>(node, "transform"));
-
-  /*
-   *  TODO:
-   *  - stroke
-   *  - stroke-width
-   */
+interface::ModelEntity::Ref SVGArchive::configureSVG(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
+  entity->setFrame(Decode<geom::Rect>(node, "viewBox"));
+  return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#RectElement
  */
-interface::ModelEntity::Ref SVGArchive::visitRect(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
+interface::ModelEntity::Ref SVGArchive::configureRect(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   const geom::Rect frame = {
       Decode<double>(node, "x"),       //
       Decode<double>(node, "y"),       //
@@ -211,19 +228,15 @@ interface::ModelEntity::Ref SVGArchive::visitRect(
    *  TODO: Radii are not handled here.
    */
 
-  parent.addChild(entity);
-
   return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#EllipseElement
  */
-interface::ModelEntity::Ref SVGArchive::visitEllipse(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configureEllipse(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   const geom::Size size = {
       Decode<double>(node, "rx") * 2.0,  //
       Decode<double>(node, "ry") * 2.0,  //
@@ -245,13 +258,7 @@ interface::ModelEntity::Ref SVGArchive::visitEllipse(
 
   builder.addEllipse(center, size);
 
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
   entity->setPath(builder.path());
-
-  parent.addChild(entity);
 
   return entity;
 }
@@ -259,35 +266,18 @@ interface::ModelEntity::Ref SVGArchive::visitEllipse(
 /*
  *  https://www.w3.org/TR/SVG11/struct.html#GElement
  */
-interface::ModelEntity::Ref SVGArchive::visitG(const pugi::xml_node& node,
-                                               interface::Interface& interface,
-                                               interface::ModelEntity& parent,
-                                               EntityMap& map) const {
-  auto entity = CreateEntity(interface, map, node);
-
-  /*
-   *  TODO: Implement the rest of this element.
-   */
-
-  parent.addChild(entity);
-
-  visitNodeChildren(node, interface, *entity, map);
-
+interface::ModelEntity::Ref SVGArchive::configureG(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#CircleElement
  */
-interface::ModelEntity::Ref SVGArchive::visitCircle(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
+interface::ModelEntity::Ref SVGArchive::configureCircle(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   double radius = Decode<double>(node, "r");
 
   if (radius <= 0.0) {
@@ -308,19 +298,15 @@ interface::ModelEntity::Ref SVGArchive::visitCircle(
 
   entity->setPath(builder.path());
 
-  parent.addChild(entity);
-
   return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#PolygonElement
  */
-interface::ModelEntity::Ref SVGArchive::visitPolygon(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configurePolygon(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   /*
    *  Treat the path value as an SVG path without the preceding absolute line
    *  declaration "L".
@@ -341,13 +327,7 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
     return nullptr;
   }
 
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
   entity->setPath(std::move(path));
-
-  parent.addChild(entity);
 
   return entity;
 }
@@ -355,15 +335,9 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
 /*
  *  https://www.w3.org/TR/SVG11/shapes.html#LineElement
  */
-interface::ModelEntity::Ref SVGArchive::visitLine(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
+interface::ModelEntity::Ref SVGArchive::configureLine(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   geom::PathBuilder builder;
 
   builder.moveTo({
@@ -378,19 +352,15 @@ interface::ModelEntity::Ref SVGArchive::visitLine(
 
   entity->setPath(builder.path());
 
-  parent.addChild(entity);
-
   return entity;
 }
 
 /*
  *  https://www.w3.org/TR/SVG11/struct.html#UseElement
  */
-interface::ModelEntity::Ref SVGArchive::visitUse(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configureUse(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   auto link = Decode<core::URI>(node, "xlink:href");
 
   if (!link.isValid()) {
@@ -409,7 +379,7 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
     return nullptr;
   }
 
-  auto entity = visitNode(found->second, interface, parent, map);
+  entity = configureNode(entity, found->second);
 
   if (entity == nullptr) {
     return nullptr;
@@ -417,7 +387,7 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
 
   /*
    *  The ‘use’ element has optional attributes ‘x’, ‘y’, ‘width’ and ‘height’.
-   *  If on visiting this node, we inflated a model entity, attach these
+   *  If on configureing this node, we inflated a model entity, attach these
    *  attributes *if present* on the same.
    */
 
@@ -447,41 +417,15 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
 
   entity->setFrame(frame);
 
-  auto transform = Decode<geom::Matrix>(node, "transform", &present);
-  if (present) {
-    entity->setTransformation(transform * entity->transformation());
-  }
-
-  auto fill = Decode<entity::Color>(node, "fill", &present);
-  if (present) {
-    entity->setBackgroundColor(fill);
-  }
-
   return entity;
-}
-
-/*
- *  https://www.w3.org/TR/SVG/text.html#TextElement
- */
-interface::ModelEntity::Ref SVGArchive::visitText(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
-  /*
-   *  TODO: Wire up text elements when libTypography work items are completed.
-   */
-  return nullptr;
 }
 
 /**
  *  https://www.w3.org/TR/SVG/paths.html#PathElement
  */
-interface::ModelEntity::Ref SVGArchive::visitPath(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configurePath(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   auto pathString = Decode<std::string>(node, "d");
 
   if (pathString.size() == 0) {
@@ -494,13 +438,7 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
     return nullptr;
   }
 
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
   entity->setPath(std::move(path));
-
-  parent.addChild(entity);
 
   return entity;
 }
@@ -508,11 +446,9 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
 /*
  *  https://www.w3.org/TR/SVG/struct.html#ImageElement
  */
-interface::ModelEntity::Ref SVGArchive::visitImage(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configureImage(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   auto width = Decode<double>(node, "width");
 
   if (width <= 0) {
@@ -531,15 +467,9 @@ interface::ModelEntity::Ref SVGArchive::visitImage(
     return nullptr;
   }
 
-  auto entity = CreateEntity(interface, map, node);
-
-  ReadCommonEntityProperties(node, *entity);
-
   entity->setFrame(
       {Decode<double>(node, "x"), Decode<double>(node, "y"), width, height});
   entity->setContents(std::move(image));
-
-  parent.addChild(entity);
 
   return entity;
 }
@@ -547,13 +477,23 @@ interface::ModelEntity::Ref SVGArchive::visitImage(
 /*
  *  https://www.w3.org/TR/SVG/masking.html#MaskElement
  */
-interface::ModelEntity::Ref SVGArchive::visitMask(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent,
-    EntityMap& map) const {
+interface::ModelEntity::Ref SVGArchive::configureMask(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
   /*
    *  TODO: Wire up mask elements when the clip stack work is done.
+   */
+  return nullptr;
+}
+
+/*
+ *  https://www.w3.org/TR/SVG/text.html#TextElement
+ */
+interface::ModelEntity::Ref SVGArchive::configureText(
+    interface::ModelEntity::Ref entity,
+    const pugi::xml_node& node) const {
+  /*
+   *  TODO: Wire up text elements when libTypography work items are completed.
    */
   return nullptr;
 }

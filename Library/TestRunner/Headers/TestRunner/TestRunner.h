@@ -71,22 +71,18 @@ inline ::testing::AssertionResult MatrixNear(rl::geom::Matrix a,
 
 inline ::testing::AssertionResult QuaternionNear(rl::geom::Quaternion a,
                                                  rl::geom::Quaternion b) {
-  auto equal = NumberNear(a.x, b.x)     //
-               && NumberNear(a.y, b.y)  //
-               && NumberNear(a.z, b.z)  //
-               && NumberNear(a.w, b.w)  //
-      ;
+  auto equal = NumberNear(a.x, b.x) && NumberNear(a.y, b.y) &&
+               NumberNear(a.z, b.z) && NumberNear(a.w, b.w);
 
   return equal ? ::testing::AssertionSuccess()
                : ::testing::AssertionFailure() << "Quaternions are not equal.";
 }
 
 inline ::testing::AssertionResult RectNear(rl::geom::Rect a, rl::geom::Rect b) {
-  auto equal = NumberNear(a.origin.x, b.origin.x)           //
-               && NumberNear(a.origin.y, b.origin.y)        //
-               && NumberNear(a.size.width, b.size.width)    //
-               && NumberNear(a.size.height, b.size.height)  //
-      ;
+  auto equal = NumberNear(a.origin.x, b.origin.x) &&
+               NumberNear(a.origin.y, b.origin.y) &&
+               NumberNear(a.size.width, b.size.width) &&
+               NumberNear(a.size.height, b.size.height);
 
   return equal ? ::testing::AssertionSuccess()
                : ::testing::AssertionFailure() << "Rects are not equal.";
@@ -94,18 +90,14 @@ inline ::testing::AssertionResult RectNear(rl::geom::Rect a, rl::geom::Rect b) {
 
 inline ::testing::AssertionResult PointNear(rl::geom::Point a,
                                             rl::geom::Point b) {
-  auto equal = NumberNear(a.x, b.x)     //
-               && NumberNear(a.y, b.y)  //
-      ;
+  auto equal = NumberNear(a.x, b.x) && NumberNear(a.y, b.y);
 
   return equal ? ::testing::AssertionSuccess()
                : ::testing::AssertionFailure() << "Points are not equal.";
 }
 
 inline ::testing::AssertionResult SizeNear(rl::geom::Size a, rl::geom::Size b) {
-  auto equal = NumberNear(a.width, b.width)       //
-               && NumberNear(a.height, b.height)  //
-      ;
+  auto equal = NumberNear(a.width, b.width) && NumberNear(a.height, b.height);
 
   return equal ? ::testing::AssertionSuccess()
                : ::testing::AssertionFailure() << "Sizes are not equal.";

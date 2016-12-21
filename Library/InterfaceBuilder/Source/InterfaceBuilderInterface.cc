@@ -23,10 +23,8 @@ void InterfaceBuilderInterface::didFinishLaunching(
   if (!isValid()) {
     return;
   }
-  auto entity = interface.createEntity();
-  interface.rootEntity().addChild(entity);
   ib::InterfaceBuilderArchive::EntityMap map;
-  _archive->inflate(interface, *entity, map);
+  interface.rootEntity().addChild(_archive->inflate(interface, map));
 }
 
 void InterfaceBuilderInterface::didBecomeActive(

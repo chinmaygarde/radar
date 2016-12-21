@@ -36,9 +36,7 @@ const geom::PathBuilder& SVGPathDriver::pathBuilder() const {
   return _pathBuilder;
 }
 
-void SVGPathDriver::error(rl::location loc, const std::string& message) {
-  RL_LOG("Error while parsing SVG Path: %s\n", message.c_str());
-}
+void SVGPathDriver::error(rl::location loc, const std::string& message) {}
 
 /*
  *  https://www.w3.org/TR/SVG/paths.html#PathDataMovetoCommands
