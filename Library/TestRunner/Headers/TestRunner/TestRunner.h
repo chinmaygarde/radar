@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <Geometry/Matrix.h>
+#include <Geometry/Rect.h>
 
 #define TEST_SLOW(className, testName) TEST(className, RLSlowTest##testName)
 
@@ -20,6 +21,21 @@ inline std::ostream& operator<<(std::ostream& out, const rl::geom::Matrix& m) {
 inline std::ostream& operator<<(std::ostream& out,
                                 const rl::geom::Quaternion& q) {
   out << "(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
+  return out;
+}
+
+inline std::ostream& operator<<(std::ostream& out, const rl::geom::Rect& r) {
+  out << "(" << r.toString() << ")";
+  return out;
+}
+
+inline std::ostream& operator<<(std::ostream& out, const rl::geom::Size& s) {
+  out << "(" << s.toString() << ")";
+  return out;
+}
+
+inline std::ostream& operator<<(std::ostream& out, const rl::geom::Point& p) {
+  out << "(" << p.toString() << ")";
   return out;
 }
 
@@ -65,7 +81,40 @@ inline ::testing::AssertionResult QuaternionNear(rl::geom::Quaternion a,
                : ::testing::AssertionFailure() << "Quaternions are not equal.";
 }
 
+inline ::testing::AssertionResult RectNear(rl::geom::Rect a, rl::geom::Rect b) {
+  auto equal = NumberNear(a.origin.x, b.origin.x)           //
+               && NumberNear(a.origin.y, b.origin.y)        //
+               && NumberNear(a.size.width, b.size.width)    //
+               && NumberNear(a.size.height, b.size.height)  //
+      ;
+
+  return equal ? ::testing::AssertionSuccess()
+               : ::testing::AssertionFailure() << "Rects are not equal.";
+}
+
+inline ::testing::AssertionResult PointNear(rl::geom::Point a,
+                                            rl::geom::Point b) {
+  auto equal = NumberNear(a.x, b.x)     //
+               && NumberNear(a.y, b.y)  //
+      ;
+
+  return equal ? ::testing::AssertionSuccess()
+               : ::testing::AssertionFailure() << "Points are not equal.";
+}
+
+inline ::testing::AssertionResult SizeNear(rl::geom::Size a, rl::geom::Size b) {
+  auto equal = NumberNear(a.width, b.width)       //
+               && NumberNear(a.height, b.height)  //
+      ;
+
+  return equal ? ::testing::AssertionSuccess()
+               : ::testing::AssertionFailure() << "Sizes are not equal.";
+}
+
 #define ASSERT_MATRIX_NEAR(a, b) ASSERT_PRED2(&::MatrixNear, a, b)
 #define ASSERT_QUATERNION_NEAR(a, b) ASSERT_PRED2(&::QuaternionNear, a, b)
+#define ASSERT_RECT_NEAR(a, b) ASSERT_PRED2(&::RectNear, a, b)
+#define ASSERT_POINT_NEAR(a, b) ASSERT_PRED2(&::PointNear, a, b)
+#define ASSERT_SIZE_NEAR(a, b) ASSERT_PRED2(&::SizeNear, a, b)
 
 #endif  // RL_TEST_RUNNER_H_
