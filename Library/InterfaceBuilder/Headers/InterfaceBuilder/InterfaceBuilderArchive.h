@@ -28,10 +28,12 @@ class InterfaceBuilderArchive {
 
   virtual bool isValid() const = 0;
 
-  bool inflate(interface::Interface& interface) const;
+  using EntityMap =
+      std::unordered_map<std::string, interface::ModelEntity::Ref>;
 
   virtual bool inflate(interface::Interface& interface,
-                       interface::ModelEntity& container) const = 0;
+                       interface::ModelEntity& container,
+                       EntityMap& map) const = 0;
 
  protected:
   InterfaceBuilderArchive();

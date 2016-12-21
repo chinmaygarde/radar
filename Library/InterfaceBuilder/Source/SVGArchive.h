@@ -22,7 +22,8 @@ class SVGArchive : public InterfaceBuilderArchive {
   bool isValid() const override;
 
   bool inflate(interface::Interface& interface,
-               interface::ModelEntity& container) const override;
+               interface::ModelEntity& container,
+               EntityMap& map) const override;
 
  private:
   std::unique_ptr<pugi::xml_document> _document;
@@ -32,57 +33,68 @@ class SVGArchive : public InterfaceBuilderArchive {
 
   void visitNodeChildren(const pugi::xml_node& node,
                          interface::Interface& interface,
-                         interface::ModelEntity& parent) const;
+                         interface::ModelEntity& parent,
+                         EntityMap& map) const;
 
   interface::ModelEntity::Ref visitNode(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
   interface::ModelEntity::Ref visitRect(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
-  interface::ModelEntity::Ref visitEllipse(
-      const pugi::xml_node& node,
-      interface::Interface& interface,
-      interface::ModelEntity& parent) const;
+  interface::ModelEntity::Ref visitEllipse(const pugi::xml_node& node,
+                                           interface::Interface& interface,
+                                           interface::ModelEntity& parent,
+                                           EntityMap& map) const;
 
   interface::ModelEntity::Ref visitG(const pugi::xml_node& node,
                                      interface::Interface& interface,
-                                     interface::ModelEntity& parent) const;
+                                     interface::ModelEntity& parent,
+                                     EntityMap& map) const;
 
   interface::ModelEntity::Ref visitCircle(const pugi::xml_node& node,
                                           interface::Interface& interface,
-                                          interface::ModelEntity& parent) const;
+                                          interface::ModelEntity& parent,
+                                          EntityMap& map) const;
 
-  interface::ModelEntity::Ref visitPolygon(
-      const pugi::xml_node& node,
-      interface::Interface& interface,
-      interface::ModelEntity& parent) const;
+  interface::ModelEntity::Ref visitPolygon(const pugi::xml_node& node,
+                                           interface::Interface& interface,
+                                           interface::ModelEntity& parent,
+                                           EntityMap& map) const;
 
   interface::ModelEntity::Ref visitLine(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
   interface::ModelEntity::Ref visitUse(const pugi::xml_node& node,
                                        interface::Interface& interface,
-                                       interface::ModelEntity& parent) const;
+                                       interface::ModelEntity& parent,
+                                       EntityMap& map) const;
 
   interface::ModelEntity::Ref visitText(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
   interface::ModelEntity::Ref visitPath(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
   interface::ModelEntity::Ref visitImage(const pugi::xml_node& node,
                                          interface::Interface& interface,
-                                         interface::ModelEntity& parent) const;
+                                         interface::ModelEntity& parent,
+                                         EntityMap& map) const;
 
   interface::ModelEntity::Ref visitMask(const pugi::xml_node& node,
                                         interface::Interface& interface,
-                                        interface::ModelEntity& parent) const;
+                                        interface::ModelEntity& parent,
+                                        EntityMap& map) const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(SVGArchive);
 };

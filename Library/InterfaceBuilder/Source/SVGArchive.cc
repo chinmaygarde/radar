@@ -35,6 +35,21 @@ bool SVGArchive::isValid() const {
   return _document != nullptr;
 }
 
+static interface::ModelEntity::Ref CreateEntity(interface::Interface& interface,
+                                                SVGArchive::EntityMap& map,
+                                                const pugi::xml_node& node) {
+  auto entity = interface.createEntity();
+
+  auto attribute = node.attribute("id");
+
+  if (attribute.empty()) {
+    return entity;
+  }
+
+  map[attribute.value()] = entity;
+  return entity;
+}
+
 void SVGArchive::findDefinitions(const pugi::xml_node& node) {
   if (node.empty()) {
     return;
@@ -52,7 +67,8 @@ void SVGArchive::findDefinitions(const pugi::xml_node& node) {
 }
 
 bool SVGArchive::inflate(interface::Interface& interface,
-                         interface::ModelEntity& container) const {
+                         interface::ModelEntity& container,
+                         EntityMap& map) const {
   if (!isValid()) {
     return false;
   }
@@ -65,72 +81,75 @@ bool SVGArchive::inflate(interface::Interface& interface,
 
   container.setFrame(Decode<geom::Rect>(node, "viewBox"));
 
-  visitNodeChildren(node, interface, container);
+  visitNodeChildren(node, interface, container, map);
 
   return true;
 }
 
-void SVGArchive::visitNodeChildren(const pugi::xml_node& node,
-                                   interface::Interface& interface,
-                                   interface::ModelEntity& parent) const {
+void SVGArchive::visitNodeChildren(
+    const pugi::xml_node& node,
+    interface::Interface& interface,
+    interface::ModelEntity& parent,
+    InterfaceBuilderArchive::EntityMap& map) const {
   for (const auto& child : node.children()) {
-    visitNode(child, interface, parent);
+    visitNode(child, interface, parent, map);
   }
 }
 
 interface::ModelEntity::Ref SVGArchive::visitNode(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   if (::strncmp(node.name(), "rect", sizeof("rect")) == 0) {
-    return visitRect(node, interface, parent);
+    return visitRect(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "ellipse", sizeof("ellipse")) == 0) {
-    return visitEllipse(node, interface, parent);
+    return visitEllipse(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "g", sizeof("g")) == 0) {
-    return visitG(node, interface, parent);
+    return visitG(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "circle", sizeof("circle")) == 0) {
-    return visitCircle(node, interface, parent);
+    return visitCircle(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "polygon", sizeof("polygon")) == 0) {
-    return visitPolygon(node, interface, parent);
+    return visitPolygon(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "polyline", sizeof("polyline")) == 0) {
     /*
      *  A polyline is just a polygon without a fill.
      */
-    return visitPolygon(node, interface, parent);
+    return visitPolygon(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "line", sizeof("line")) == 0) {
-    return visitLine(node, interface, parent);
+    return visitLine(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "use", sizeof("use")) == 0) {
-    return visitUse(node, interface, parent);
+    return visitUse(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "text", sizeof("text")) == 0) {
-    return visitText(node, interface, parent);
+    return visitText(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "path", sizeof("path")) == 0) {
-    return visitPath(node, interface, parent);
+    return visitPath(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "image", sizeof("image")) == 0) {
-    return visitImage(node, interface, parent);
+    return visitImage(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "mask", sizeof("mask")) == 0) {
-    return visitMask(node, interface, parent);
+    return visitMask(node, interface, parent, map);
   }
 
   if (::strncmp(node.name(), "desc", sizeof("desc")) == 0) {
@@ -166,8 +185,9 @@ static void ReadCommonEntityProperties(const pugi::xml_node& node,
 interface::ModelEntity::Ref SVGArchive::visitRect(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
-  auto entity = interface.createEntity();
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -202,7 +222,8 @@ interface::ModelEntity::Ref SVGArchive::visitRect(
 interface::ModelEntity::Ref SVGArchive::visitEllipse(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   const geom::Size size = {
       Decode<double>(node, "rx") * 2.0,  //
       Decode<double>(node, "ry") * 2.0,  //
@@ -224,7 +245,7 @@ interface::ModelEntity::Ref SVGArchive::visitEllipse(
 
   builder.addEllipse(center, size);
 
-  auto entity = interface.createEntity();
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -238,11 +259,11 @@ interface::ModelEntity::Ref SVGArchive::visitEllipse(
 /*
  *  https://www.w3.org/TR/SVG11/struct.html#GElement
  */
-interface::ModelEntity::Ref SVGArchive::visitG(
-    const pugi::xml_node& node,
-    interface::Interface& interface,
-    interface::ModelEntity& parent) const {
-  auto entity = interface.createEntity();
+interface::ModelEntity::Ref SVGArchive::visitG(const pugi::xml_node& node,
+                                               interface::Interface& interface,
+                                               interface::ModelEntity& parent,
+                                               EntityMap& map) const {
+  auto entity = CreateEntity(interface, map, node);
 
   /*
    *  TODO: Implement the rest of this element.
@@ -250,7 +271,7 @@ interface::ModelEntity::Ref SVGArchive::visitG(
 
   parent.addChild(entity);
 
-  visitNodeChildren(node, interface, *entity);
+  visitNodeChildren(node, interface, *entity, map);
 
   return entity;
 }
@@ -261,8 +282,9 @@ interface::ModelEntity::Ref SVGArchive::visitG(
 interface::ModelEntity::Ref SVGArchive::visitCircle(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
-  auto entity = interface.createEntity();
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -297,7 +319,8 @@ interface::ModelEntity::Ref SVGArchive::visitCircle(
 interface::ModelEntity::Ref SVGArchive::visitPolygon(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   /*
    *  Treat the path value as an SVG path without the preceding absolute line
    *  declaration "L".
@@ -318,7 +341,7 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
     return nullptr;
   }
 
-  auto entity = interface.createEntity();
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -335,8 +358,9 @@ interface::ModelEntity::Ref SVGArchive::visitPolygon(
 interface::ModelEntity::Ref SVGArchive::visitLine(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
-  auto entity = interface.createEntity();
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -365,7 +389,8 @@ interface::ModelEntity::Ref SVGArchive::visitLine(
 interface::ModelEntity::Ref SVGArchive::visitUse(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   auto link = Decode<core::URI>(node, "xlink:href");
 
   if (!link.isValid()) {
@@ -384,7 +409,7 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
     return nullptr;
   }
 
-  auto entity = visitNode(found->second, interface, parent);
+  auto entity = visitNode(found->second, interface, parent, map);
 
   if (entity == nullptr) {
     return nullptr;
@@ -441,7 +466,8 @@ interface::ModelEntity::Ref SVGArchive::visitUse(
 interface::ModelEntity::Ref SVGArchive::visitText(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   /*
    *  TODO: Wire up text elements when libTypography work items are completed.
    */
@@ -454,7 +480,8 @@ interface::ModelEntity::Ref SVGArchive::visitText(
 interface::ModelEntity::Ref SVGArchive::visitPath(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   auto pathString = Decode<std::string>(node, "d");
 
   if (pathString.size() == 0) {
@@ -467,7 +494,7 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
     return nullptr;
   }
 
-  auto entity = interface.createEntity();
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -484,7 +511,8 @@ interface::ModelEntity::Ref SVGArchive::visitPath(
 interface::ModelEntity::Ref SVGArchive::visitImage(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   auto width = Decode<double>(node, "width");
 
   if (width <= 0) {
@@ -503,7 +531,7 @@ interface::ModelEntity::Ref SVGArchive::visitImage(
     return nullptr;
   }
 
-  auto entity = interface.createEntity();
+  auto entity = CreateEntity(interface, map, node);
 
   ReadCommonEntityProperties(node, *entity);
 
@@ -522,7 +550,8 @@ interface::ModelEntity::Ref SVGArchive::visitImage(
 interface::ModelEntity::Ref SVGArchive::visitMask(
     const pugi::xml_node& node,
     interface::Interface& interface,
-    interface::ModelEntity& parent) const {
+    interface::ModelEntity& parent,
+    EntityMap& map) const {
   /*
    *  TODO: Wire up mask elements when the clip stack work is done.
    */

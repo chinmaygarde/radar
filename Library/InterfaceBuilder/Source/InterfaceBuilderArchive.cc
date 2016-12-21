@@ -55,10 +55,6 @@ std::unique_ptr<InterfaceBuilderArchive> InterfaceBuilderArchive::Make(
   return Make(allocation.data(), allocation.size());
 }
 
-bool InterfaceBuilderArchive::inflate(interface::Interface& interface) const {
-  return inflate(interface, interface.rootEntity());
-}
-
 InterfaceBuilderArchive::InterfaceBuilderArchive() = default;
 
 InterfaceBuilderArchive::~InterfaceBuilderArchive() = default;

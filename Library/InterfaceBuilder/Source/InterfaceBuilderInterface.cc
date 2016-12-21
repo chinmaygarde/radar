@@ -25,7 +25,8 @@ void InterfaceBuilderInterface::didFinishLaunching(
   }
   auto entity = interface.createEntity();
   interface.rootEntity().addChild(entity);
-  _archive->inflate(interface, *entity);
+  ib::InterfaceBuilderArchive::EntityMap map;
+  _archive->inflate(interface, *entity, map);
 }
 
 void InterfaceBuilderInterface::didBecomeActive(

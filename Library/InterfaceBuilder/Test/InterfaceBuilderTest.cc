@@ -29,8 +29,8 @@ TEST_F(InterfaceTest, Rect02) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
-    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity()));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
   });
 }
 
@@ -40,7 +40,8 @@ TEST_F(InterfaceTest, Rect02Viewbox) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
   });
@@ -52,7 +53,8 @@ TEST_F(InterfaceTest, Ellipse01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
     ASSERT_EQ(interface.rootEntity().children().size(), 3);
@@ -65,7 +67,8 @@ TEST_F(InterfaceTest, Circle01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
     ASSERT_EQ(interface.rootEntity().children().size(), 2);
@@ -78,7 +81,8 @@ TEST_F(InterfaceTest, Polygon01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
     ASSERT_EQ(interface.rootEntity().children().size(), 3);
@@ -91,7 +95,8 @@ TEST_F(InterfaceTest, Line01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
     ASSERT_EQ(interface.rootEntity().children().size(), 2);
@@ -106,7 +111,8 @@ TEST_F(InterfaceTest, Line01CountAllChildren) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
 
@@ -127,7 +133,8 @@ TEST_F(InterfaceTest, Use01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     rl::geom::Rect expectedBounds(0, 0, 100, 30);
     ASSERT_EQ(interface.rootEntity().frame(), expectedBounds);
     ASSERT_EQ(interface.rootEntity().children().size(), 2);
@@ -148,7 +155,8 @@ TEST_F(InterfaceTest, SketchAndroidExport) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
   });
 }
 
@@ -158,7 +166,8 @@ TEST_F(InterfaceTest, Polyline01) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     ASSERT_EQ(interface.rootEntity().children().size(), 2);
     auto polylineEntity = interface.rootEntity().children()[1];
     ASSERT_NE(polylineEntity->path().componentCount(), 0);
@@ -176,7 +185,8 @@ TEST_F(InterfaceTest, StarPolygon) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     ASSERT_EQ(interface.rootEntity().children().size(), 1);
     auto polylineEntity = interface.rootEntity().children()[0];
     ASSERT_NE(polylineEntity->path().componentCount(), 0);
@@ -194,7 +204,8 @@ TEST_F(InterfaceTest, Nighthawks) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     ASSERT_EQ(interface.rootEntity().children().size(), 1);
   });
 }
@@ -205,7 +216,8 @@ TEST_F(InterfaceTest, TestTransformation) {
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
     ASSERT_TRUE(archive);
     ASSERT_TRUE(archive->isValid());
-    ASSERT_TRUE(archive->inflate(interface));
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     ASSERT_EQ(interface.rootEntity().children().size(), 1);
     rl::geom::Matrix expected =
         rl::geom::Matrix::Translation({140.5, 102, 0.0}) *
@@ -213,5 +225,17 @@ TEST_F(InterfaceTest, TestTransformation) {
         rl::geom::Matrix::Translation({-140.5, -102.0, 0.0});
     ASSERT_MATRIX_NEAR(expected,
                        interface.rootEntity().children()[0]->transformation());
+  });
+}
+
+TEST_F(InterfaceTest, SharedDialog) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://shareddialog.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
+    ASSERT_NE(map.size(), 0);
   });
 }
