@@ -237,5 +237,47 @@ TEST_F(InterfaceTest, SharedDialog) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     ASSERT_TRUE(archive->inflate(interface, interface.rootEntity(), map));
     ASSERT_NE(map.size(), 0);
+
+    auto expected = rl::geom::Rect{0, 220, 375, 126};
+    ASSERT_RECT_NEAR(map.at("Header")->frame(), expected);
+
+    expected = rl::geom::Rect{0, 346, 375, 130};
+    ASSERT_RECT_NEAR(map.at("Apps")->frame(), expected);
+
+    expected = rl::geom::Rect{0, 476, 375, 116};
+    ASSERT_RECT_NEAR(map.at("Actions")->frame(), expected);
+
+    expected = rl::geom::Rect{25, 496, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Copy")->frame(), expected);
+
+    expected = rl::geom::Rect{108, 496, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Safari")->frame(), expected);
+
+    expected = rl::geom::Rect{191, 496, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Print")->frame(), expected);
+
+    expected = rl::geom::Rect{0, 0, 375, 667};
+    ASSERT_RECT_NEAR(map.at("Modal-Overlay")->frame(), expected);
+
+    expected = rl::geom::Rect{10, 600, 355, 57};
+    ASSERT_RECT_NEAR(map.at("Cancel-Background")->frame(), expected);
+
+    expected = rl::geom::Rect{154, 616.5, 66, 24};
+    ASSERT_RECT_NEAR(map.at("Cancel")->frame(), expected);
+
+    expected = rl::geom::Rect{10, 220, 355, 372};
+    ASSERT_RECT_NEAR(map.at("Sheet-Background")->frame(), expected);
+
+    expected = rl::geom::Rect{25, 336, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Message")->frame(), expected);
+
+    expected = rl::geom::Rect{108, 366, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Mail")->frame(), expected);
+
+    expected = rl::geom::Rect{191, 366, 60, 80};
+    ASSERT_RECT_NEAR(map.at("Twitter")->frame(), expected);
+
+    expected = rl::geom::Rect{29, 246, 326, 52};
+    ASSERT_RECT_NEAR(map.at("Icon-+-Description")->frame(), expected);
   });
 }
