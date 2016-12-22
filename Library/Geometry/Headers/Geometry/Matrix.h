@@ -30,6 +30,16 @@ struct Matrix {
     Shear shear;
     Vector4 perspective;
     Quaternion rotation;
+
+    enum class Component  {
+      Translation = 1 << 0,
+      Scale = 1 << 1,
+      Shear = 1 << 2,
+      Perspective = 1 << 3,
+      Rotation = 1 << 4,
+    };
+
+    uint64_t componentsMask() const;
   };
 
   using DecompositionResult =

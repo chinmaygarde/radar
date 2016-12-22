@@ -437,5 +437,36 @@ Matrix::DecompositionResult Matrix::decompose() const {
   return DecompositionResult(true, result);
 }
 
+uint64_t Matrix::Decomposition::componentsMask() const {
+  uint64_t mask = 0;
+
+  Quaternion noRotation(0.0, 0.0, 0.0, 1.0);
+  if (rotation != noRotation) {
+    mask = mask | static_cast<uint64_t>(Component::Rotation);
+  }
+
+  Vector4 defaultPerspective(0.0, 0.0, 0.0, 1.0);
+  if (perspective != defaultPerspective) {
+    mask = mask | static_cast<uint64_t>(Component::Perspective);
+  }
+
+  Shear noShear(0.0, 0.0, 0.0);
+  if (shear != noShear) {
+    mask = mask | static_cast<uint64_t>(Component::Shear);
+  }
+
+  Vector3 defaultScale(1.0, 1.0, 1.0);
+  if (scale != defaultScale) {
+    mask = mask | static_cast<uint64_t>(Component::Scale);
+  }
+
+  Vector3 defaultTranslation(0.0, 0.0, 0.0);
+  if (translation != defaultTranslation) {
+    mask = mask | static_cast<uint64_t>(Component::Translation);
+  }
+
+  return mask;
+}
+
 }  // namespace geom
 }  // namespace rl

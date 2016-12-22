@@ -75,6 +75,53 @@ interface::ModelEntity::Ref SVGArchive::inflate(interface::Interface& interface,
   return visitNodeChildren(_document->child("svg"), interface, map);
 }
 
+static void FixupTransformation(interface::ModelEntity& entity) {
+  geom::Matrix identity;
+  if (entity.transformation() == identity) {
+    return;
+  }
+
+  bool result = false;
+  geom::Matrix::Decomposition decomposition;
+  std::tie(result, decomposition) = entity.transformation().decompose();
+
+  if (!result) {
+    return;
+  }
+
+  uint64_t decompositionComponents = decomposition.componentsMask();
+
+  /*
+   *  Check if the only active component of the transformation is a translation.
+   */
+  if (decompositionComponents !=
+      static_cast<uint64_t>(
+          geom::Matrix::Decomposition::Component::Translation)) {
+    return;
+  }
+
+  auto frame = entity.frame();
+  frame.origin.x += decomposition.translation.x;
+  frame.origin.y += decomposition.translation.y;
+  entity.setFrame(frame);
+  entity.setTransformation(identity);
+}
+
+static void FixupBounds(interface::ModelEntity& entity) {}
+
+static void FixupHierarchy(interface::ModelEntity& entity) {
+  /*
+   *  If the node has a transform that can be expressed as a frame offset, apply
+   *  it to the frame and modify the transform accordingly.
+   */
+  FixupTransformation(entity);
+
+  /*
+   *  Make the bounds large enough for this node to encapsulate its children.
+   */
+  FixupBounds(entity);
+}
+
 interface::ModelEntity::Ref SVGArchive::visitNodeChildren(
     const pugi::xml_node& node,
     interface::Interface& interface,
@@ -114,6 +161,11 @@ interface::ModelEntity::Ref SVGArchive::visitNodeChildren(
   for (const auto& childNode : node.children()) {
     entity->addChild(visitNodeChildren(childNode, interface, map));
   }
+
+  /*
+   *  We are done inflating this sub-hierarchy. Make the hierarchy consistent.
+   */
+  FixupHierarchy(*entity);
 
   return entity;
 }
