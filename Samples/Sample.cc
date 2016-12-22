@@ -160,9 +160,8 @@ static void AddSVG(rl::interface::Interface& interface,
   }
 
   auto entity = interface.createEntity();
-  interface.rootEntity().addChild(entity);
   rl::ib::InterfaceBuilderArchive::EntityMap map;
-  archive->inflate(interface, *entity, map);
+  interface.rootEntity().addChild(archive->inflate(interface, map));
 }
 
 void SampleApplication::AddImageWithRoundedRect(
