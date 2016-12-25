@@ -12,15 +12,6 @@ static const size_t kRecursionLimit = 32;
 static const double kCurveCollinearityEpsilon = 1e-30;
 static const double kCurveAngleToleranceEpsilon = 0.01;
 
-/*
- *  TODO: Convert these to arguments.
- */
-static const double kApproximationScale = 1.0;
-static const double kDistanceToleranceSquare =
-    (0.5 * kApproximationScale) * (0.5 * kApproximationScale);
-static const double kAngleTolerance = 0.0;
-static const double KCuspLimit = 0.0;
-
 static inline double LinearSolve(double t, double p0, double p1) {
   return p0 + t * (p1 - p0);
 }
@@ -82,11 +73,13 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
   };
 }
 
-static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
-                                             Point p1,
-                                             Point p2,
-                                             Point p3,
-                                             size_t level) {
+static void QuadraticPathTessellateRecursive(
+    const TessellationApproximation& approx,
+    std::vector<Point>& points,
+    Point p1,
+    Point p2,
+    Point p3,
+    size_t level) {
   if (level >= kRecursionLimit) {
     return;
   }
@@ -106,12 +99,12 @@ static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
     /*
      *  Regular case
      */
-    if (d * d <= kDistanceToleranceSquare * (dp.x * dp.x + dp.y * dp.y)) {
+    if (d * d <= approx.distanceToleranceSquare * (dp.x * dp.x + dp.y * dp.y)) {
       /*
        *  If the curvature doesn't exceed the distance_tolerance value we tend
        *  to finish subdivisions.
        */
-      if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+      if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
         points.emplace_back(p123);
         return;
       }
@@ -126,7 +119,7 @@ static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
         da = 2 * M_PI - da;
       }
 
-      if (da < kAngleTolerance) {
+      if (da < approx.angleTolerance) {
         /*
          *  Finally we can stop the recursion
          */
@@ -160,7 +153,7 @@ static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
       }
     }
 
-    if (d < kDistanceToleranceSquare) {
+    if (d < approx.distanceToleranceSquare) {
       points.emplace_back(p2);
       return;
     }
@@ -169,18 +162,19 @@ static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
   /*
    *  Continue subdivision
    */
-  QuadraticPathTessellateRecursive(points, p1, p12, p123, level + 1);
-  QuadraticPathTessellateRecursive(points, p123, p23, p3, level + 1);
+  QuadraticPathTessellateRecursive(approx, points, p1, p12, p123, level + 1);
+  QuadraticPathTessellateRecursive(approx, points, p123, p23, p3, level + 1);
 }
 
-std::vector<Point> QuadraticPathComponent::tessellate() const {
+std::vector<Point> QuadraticPathComponent::tessellate(
+    const TessellationApproximation& approximation) const {
   /*
    *  As described in
    *  http://www.antigrain.com/research/adaptive_bezier/index.html
    */
   std::vector<Point> points;
   points.emplace_back(p1);
-  QuadraticPathTessellateRecursive(points, p1, cp, p2, 0);
+  QuadraticPathTessellateRecursive(approximation, points, p1, cp, p2, 0);
   points.emplace_back(p2);
   return points;
 }
@@ -199,12 +193,14 @@ Point CubicPathComponent::solveDerivative(double time) const {
   };
 }
 
-static void CubicPathTessellateRecursive(std::vector<Point>& points,
-                                         Point p1,
-                                         Point p2,
-                                         Point p3,
-                                         Point p4,
-                                         size_t level) {
+static void CubicPathTessellateRecursive(
+    const TessellationApproximation& approx,
+    std::vector<Point>& points,
+    Point p1,
+    Point p2,
+    Point p3,
+    Point p4,
+    size_t level) {
   if (level >= kRecursionLimit) {
     return;
   }
@@ -276,12 +272,12 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
       }
 
       if (d2 > d3) {
-        if (d2 < kDistanceToleranceSquare) {
+        if (d2 < approx.distanceToleranceSquare) {
           points.emplace_back(p2);
           return;
         }
       } else {
-        if (d3 < kDistanceToleranceSquare) {
+        if (d3 < approx.distanceToleranceSquare) {
           points.emplace_back(p3);
           return;
         }
@@ -291,8 +287,8 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
       /*
        *  p1, p2, p4 are collinear, p3 is significant
        */
-      if (d3 * d3 <= kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
-        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+      if (d3 * d3 <= approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+        if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
           points.emplace_back(p23);
           return;
         }
@@ -307,14 +303,14 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
           da1 = 2.0 * M_PI - da1;
         }
 
-        if (da1 < kAngleTolerance) {
+        if (da1 < approx.angleTolerance) {
           points.emplace_back(p2);
           points.emplace_back(p3);
           return;
         }
 
-        if (KCuspLimit != 0.0) {
-          if (da1 > KCuspLimit) {
+        if (approx.cuspLimit != 0.0) {
+          if (da1 > approx.cuspLimit) {
             points.emplace_back(p3);
             return;
           }
@@ -326,8 +322,8 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
       /*
        *  p1,p3,p4 are collinear, p2 is significant
        */
-      if (d2 * d2 <= kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
-        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+      if (d2 * d2 <= approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+        if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
           points.emplace_back(p23);
           return;
         }
@@ -342,14 +338,14 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
           da1 = 2.0 * M_PI - da1;
         }
 
-        if (da1 < kAngleTolerance) {
+        if (da1 < approx.angleTolerance) {
           points.emplace_back(p2);
           points.emplace_back(p3);
           return;
         }
 
-        if (KCuspLimit != 0.0) {
-          if (da1 > KCuspLimit) {
+        if (approx.cuspLimit != 0.0) {
+          if (da1 > approx.cuspLimit) {
             points.emplace_back(p2);
             return;
           }
@@ -362,12 +358,12 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
        *  Regular case
        */
       if ((d2 + d3) * (d2 + d3) <=
-          kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+          approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
         /*
          *  If the curvature doesn't exceed the distance_tolerance value
          *  we tend to finish subdivisions.
          */
-        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+        if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
           points.emplace_back(p23);
           return;
         }
@@ -387,7 +383,7 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
           da2 = 2.0 * M_PI - da2;
         }
 
-        if (da1 + da2 < kAngleTolerance) {
+        if (da1 + da2 < approx.angleTolerance) {
           /*
            *  Finally we can stop the recursion
            */
@@ -395,13 +391,13 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
           return;
         }
 
-        if (KCuspLimit != 0.0) {
-          if (da1 > KCuspLimit) {
+        if (approx.cuspLimit != 0.0) {
+          if (da1 > approx.cuspLimit) {
             points.emplace_back(p2);
             return;
           }
 
-          if (da2 > KCuspLimit) {
+          if (da2 > approx.cuspLimit) {
             points.emplace_back(p3);
             return;
           }
@@ -413,18 +409,19 @@ static void CubicPathTessellateRecursive(std::vector<Point>& points,
   /*
    *  Continue subdivision
    */
-  CubicPathTessellateRecursive(points, p1, p12, p123, p1234, level + 1);
-  CubicPathTessellateRecursive(points, p1234, p234, p34, p4, level + 1);
+  CubicPathTessellateRecursive(approx, points, p1, p12, p123, p1234, level + 1);
+  CubicPathTessellateRecursive(approx, points, p1234, p234, p34, p4, level + 1);
 }
 
-std::vector<Point> CubicPathComponent::tessellate() const {
+std::vector<Point> CubicPathComponent::tessellate(
+    const TessellationApproximation& approximation) const {
   /*
    *  As described in
    *  http://www.antigrain.com/research/adaptive_bezier/index.html
    */
   std::vector<Point> points;
   points.emplace_back(p1);
-  CubicPathTessellateRecursive(points, p1, cp1, cp2, p2, 0);
+  CubicPathTessellateRecursive(approximation, points, p1, cp1, cp2, p2, 0);
   points.emplace_back(p2);
   return points;
 }

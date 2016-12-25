@@ -27,6 +27,26 @@ struct LinearPathComponent {
   };
 };
 
+struct TessellationApproximation {
+  double scale;
+  double angleTolerance;
+  double cuspLimit;
+  double distanceToleranceSquare;
+
+  TessellationApproximation(/* default */)
+      : TessellationApproximation(1.0 /* scale */,
+                                  0.0 /* angle tolerance */,
+                                  0.0 /* cusp limit */) {}
+
+  TessellationApproximation(double pScale,
+                            double pAngleTolerance,
+                            double pCuspLimit)
+      : scale(pScale),
+        angleTolerance(pAngleTolerance),
+        cuspLimit(pCuspLimit),
+        distanceToleranceSquare(0.5 * pScale * 0.5 * pScale) {}
+};
+
 struct QuadraticPathComponent {
   Point p1;
   Point cp;
@@ -41,7 +61,8 @@ struct QuadraticPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> tessellate() const;
+  std::vector<Point> tessellate(
+      const TessellationApproximation& approximation) const;
 
   bool operator==(const QuadraticPathComponent& other) const {
     return p1 == other.p1 && cp == other.cp && p2 == other.p2;
@@ -63,7 +84,8 @@ struct CubicPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> tessellate() const;
+  std::vector<Point> tessellate(
+      const TessellationApproximation& approximation) const;
 
   bool operator==(const CubicPathComponent& other) const {
     return p1 == other.p1 && cp1 == other.cp1 && cp2 == other.cp2 &&

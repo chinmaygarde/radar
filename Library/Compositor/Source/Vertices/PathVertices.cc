@@ -69,6 +69,7 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
   std::vector<GLPoint> contours;
 
   geom::Point min, max;
+  geom::TessellationApproximation defaultApproximation;
 
   path.enumerateComponents(
       [&](size_t, const geom::LinearPathComponent& linear) {
@@ -76,12 +77,12 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
         AddPointAndTrackBounds(linear.p2, contours, min, max);
       },
       [&](size_t, const geom::QuadraticPathComponent& quad) {
-        for (const auto& point : quad.tessellate()) {
+        for (const auto& point : quad.tessellate(defaultApproximation)) {
           AddPointAndTrackBounds(point, contours, min, max);
         }
       },
       [&](size_t, const geom::CubicPathComponent& cubic) {
-        for (const auto& point : cubic.tessellate()) {
+        for (const auto& point : cubic.tessellate(defaultApproximation)) {
           AddPointAndTrackBounds(point, contours, min, max);
         }
       });
