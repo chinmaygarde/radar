@@ -3,9 +3,23 @@
 // found in the LICENSE file.
 
 #include <Geometry/PathComponent.h>
+#include <cmath>
 
 namespace rl {
 namespace geom {
+
+static const size_t kRecursionLimit = 32;
+static const double kCurveCollinearityEpsilon = 1e-30;
+static const double kCurveAngleToleranceEpsilon = 0.01;
+
+/*
+ *  TODO: Convert these to arguments.
+ */
+static const double kApproximationScale = 1.0;
+static const double kDistanceToleranceSquare =
+    (0.5 * kApproximationScale) * (0.5 * kApproximationScale);
+static const double kAngleTolerance = 0.0;
+static const double KCuspLimit = 0.0;
 
 static inline double LinearSolve(double t, double p0, double p1) {
   return p0 + t * (p1 - p0);
@@ -68,6 +82,109 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
   };
 }
 
+static void QuadraticPathTessellateRecursive(std::vector<Point>& points,
+                                             Point p1,
+                                             Point p2,
+                                             Point p3,
+                                             size_t level) {
+  if (level >= kRecursionLimit) {
+    return;
+  }
+
+  /*
+   *  Calculate all the mid-points of the line segments
+   */
+  auto p12 = (p1 + p2) / 2.0;
+  auto p23 = (p2 + p3) / 2.0;
+  auto p123 = (p12 + p23) / 2.0;
+
+  auto dp = p3 - p1;
+  double d = ::fabs(((p2.x - p3.x) * dp.y - (p2.y - p3.y) * dp.x));
+  double da = 0.0;
+
+  if (d > kCurveCollinearityEpsilon) {
+    /*
+     *  Regular case
+     */
+    if (d * d <= kDistanceToleranceSquare * (dp.x * dp.x + dp.y * dp.y)) {
+      /*
+       *  If the curvature doesn't exceed the distance_tolerance value we tend
+       *  to finish subdivisions.
+       */
+      if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+        points.emplace_back(p123);
+        return;
+      }
+
+      /*
+       *  Angle & Cusp Condition
+       */
+      da = ::fabs(::atan2(p3.y - p2.y, p3.x - p2.x) -
+                  ::atan2(p2.y - p1.y, p2.x - p1.x));
+
+      if (da >= M_PI) {
+        da = 2 * M_PI - da;
+      }
+
+      if (da < kAngleTolerance) {
+        /*
+         *  Finally we can stop the recursion
+         */
+        points.emplace_back(p123);
+        return;
+      }
+    }
+  } else {
+    /*
+     *  Collinear case
+     */
+    da = dp.x * dp.x + dp.y * dp.y;
+    if (da == 0) {
+      d = p1.distanceSquared(p2);
+    } else {
+      d = ((p2.x - p1.x) * dp.x + (p2.y - p1.y) * dp.y) / da;
+
+      if (d > 0 && d < 1) {
+        /*
+         *  Simple collinear case, 1---2---3. We can leave just two endpoints
+         */
+        return;
+      }
+
+      if (d <= 0) {
+        d = p2.distanceSquared(p1);
+      } else if (d >= 1) {
+        d = p2.distanceSquared(p3);
+      } else {
+        d = p2.distanceSquared({p1.x + d * dp.x, p1.y + d * dp.y});
+      }
+    }
+
+    if (d < kDistanceToleranceSquare) {
+      points.emplace_back(p2);
+      return;
+    }
+  }
+
+  /*
+   *  Continue subdivision
+   */
+  QuadraticPathTessellateRecursive(points, p1, p12, p123, level + 1);
+  QuadraticPathTessellateRecursive(points, p123, p23, p3, level + 1);
+}
+
+std::vector<Point> QuadraticPathComponent::tessellate() const {
+  /*
+   *  As described in
+   *  http://www.antigrain.com/research/adaptive_bezier/index.html
+   */
+  std::vector<Point> points;
+  points.emplace_back(p1);
+  QuadraticPathTessellateRecursive(points, p1, cp, p2, 0);
+  points.emplace_back(p2);
+  return points;
+}
+
 Point CubicPathComponent::solve(double time) const {
   return {
       CubicSolve(time, p1.x, cp1.x, cp2.x, p2.x),  // x
@@ -80,6 +197,236 @@ Point CubicPathComponent::solveDerivative(double time) const {
       CubicSolveDerivative(time, p1.x, cp1.x, cp2.x, p2.x),  // x
       CubicSolveDerivative(time, p1.y, cp1.y, cp2.y, p2.y),  // y
   };
+}
+
+static void CubicPathTessellateRecursive(std::vector<Point>& points,
+                                         Point p1,
+                                         Point p2,
+                                         Point p3,
+                                         Point p4,
+                                         size_t level) {
+  if (level >= kRecursionLimit) {
+    return;
+  }
+
+  /*
+   *  Find all midpoints.
+   */
+  auto p12 = (p1 + p2) / 2.0;
+  auto p23 = (p2 + p3) / 2.0;
+  auto p34 = (p3 + p4) / 2.0;
+
+  auto p123 = (p12 + p23) / 2.0;
+  auto p234 = (p23 + p34) / 2.0;
+
+  auto p1234 = (p123 + p234) / 2.0;
+
+  /*
+   *  Attempt approximation using single straight line.
+   */
+  auto d = p4 - p1;
+  double d2 = fabs(((p2.x - p4.x) * d.y - (p2.y - p4.y) * d.x));
+  double d3 = fabs(((p3.x - p4.x) * d.y - (p3.y - p4.y) * d.x));
+
+  double da1 = 0;
+  double da2 = 0;
+  double k = 0;
+
+  switch ((static_cast<int>(d2 > kCurveCollinearityEpsilon) << 1) +
+          static_cast<int>(d3 > kCurveCollinearityEpsilon)) {
+    case 0:
+      /*
+       *  All collinear OR p1 == p4
+       */
+      k = d.x * d.x + d.y * d.y;
+      if (k == 0) {
+        d2 = p1.distanceSquared(p2);
+        d3 = p4.distanceSquared(p3);
+      } else {
+        k = 1.0 / k;
+        da1 = p2.x - p1.x;
+        da2 = p2.y - p1.y;
+        d2 = k * (da1 * d.x + da2 * d.y);
+        da1 = p3.x - p1.x;
+        da2 = p3.y - p1.y;
+        d3 = k * (da1 * d.x + da2 * d.y);
+
+        if (d2 > 0 && d2 < 1 && d3 > 0 && d3 < 1) {
+          /*
+           *  Simple collinear case, 1---2---3---4. Leave just two endpoints
+           */
+          return;
+        }
+
+        if (d2 <= 0) {
+          d2 = p2.distanceSquared(p1);
+        } else if (d2 >= 1) {
+          d2 = p2.distanceSquared(p4);
+        } else {
+          d2 = p2.distanceSquared({p1.x + d2 * d.x, p1.y + d2 * d.y});
+        }
+
+        if (d3 <= 0) {
+          d3 = p3.distanceSquared(p1);
+        } else if (d3 >= 1) {
+          d3 = p3.distanceSquared(p4);
+        } else {
+          d3 = p3.distanceSquared({p1.x + d3 * d.x, p1.y + d3 * d.y});
+        }
+      }
+
+      if (d2 > d3) {
+        if (d2 < kDistanceToleranceSquare) {
+          points.emplace_back(p2);
+          return;
+        }
+      } else {
+        if (d3 < kDistanceToleranceSquare) {
+          points.emplace_back(p3);
+          return;
+        }
+      }
+      break;
+    case 1:
+      /*
+       *  p1, p2, p4 are collinear, p3 is significant
+       */
+      if (d3 * d3 <= kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+          points.emplace_back(p23);
+          return;
+        }
+
+        /*
+         *  Angle Condition
+         */
+        da1 = ::fabs(::atan2(p4.y - p3.y, p4.x - p3.x) -
+                     ::atan2(p3.y - p2.y, p3.x - p2.x));
+
+        if (da1 >= M_PI) {
+          da1 = 2.0 * M_PI - da1;
+        }
+
+        if (da1 < kAngleTolerance) {
+          points.emplace_back(p2);
+          points.emplace_back(p3);
+          return;
+        }
+
+        if (KCuspLimit != 0.0) {
+          if (da1 > KCuspLimit) {
+            points.emplace_back(p3);
+            return;
+          }
+        }
+      }
+      break;
+
+    case 2:
+      /*
+       *  p1,p3,p4 are collinear, p2 is significant
+       */
+      if (d2 * d2 <= kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+          points.emplace_back(p23);
+          return;
+        }
+
+        /*
+         *  Angle Condition
+         */
+        da1 = ::fabs(::atan2(p3.y - p2.y, p3.x - p2.x) -
+                     ::atan2(p2.y - p1.y, p2.x - p1.x));
+
+        if (da1 >= M_PI) {
+          da1 = 2.0 * M_PI - da1;
+        }
+
+        if (da1 < kAngleTolerance) {
+          points.emplace_back(p2);
+          points.emplace_back(p3);
+          return;
+        }
+
+        if (KCuspLimit != 0.0) {
+          if (da1 > KCuspLimit) {
+            points.emplace_back(p2);
+            return;
+          }
+        }
+      }
+      break;
+
+    case 3:
+      /*
+       *  Regular case
+       */
+      if ((d2 + d3) * (d2 + d3) <=
+          kDistanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
+        /*
+         *  If the curvature doesn't exceed the distance_tolerance value
+         *  we tend to finish subdivisions.
+         */
+        if (kAngleTolerance < kCurveAngleToleranceEpsilon) {
+          points.emplace_back(p23);
+          return;
+        }
+
+        /*
+         *  Angle & Cusp Condition
+         */
+        k = ::atan2(p3.y - p2.y, p3.x - p2.x);
+        da1 = ::fabs(k - ::atan2(p2.y - p1.y, p2.x - p1.x));
+        da2 = ::fabs(::atan2(p4.y - p3.y, p4.x - p3.x) - k);
+
+        if (da1 >= M_PI) {
+          da1 = 2.0 * M_PI - da1;
+        }
+
+        if (da2 >= M_PI) {
+          da2 = 2.0 * M_PI - da2;
+        }
+
+        if (da1 + da2 < kAngleTolerance) {
+          /*
+           *  Finally we can stop the recursion
+           */
+          points.emplace_back(p23);
+          return;
+        }
+
+        if (KCuspLimit != 0.0) {
+          if (da1 > KCuspLimit) {
+            points.emplace_back(p2);
+            return;
+          }
+
+          if (da2 > KCuspLimit) {
+            points.emplace_back(p3);
+            return;
+          }
+        }
+      }
+      break;
+  }
+
+  /*
+   *  Continue subdivision
+   */
+  CubicPathTessellateRecursive(points, p1, p12, p123, p1234, level + 1);
+  CubicPathTessellateRecursive(points, p1234, p234, p34, p4, level + 1);
+}
+
+std::vector<Point> CubicPathComponent::tessellate() const {
+  /*
+   *  As described in
+   *  http://www.antigrain.com/research/adaptive_bezier/index.html
+   */
+  std::vector<Point> points;
+  points.emplace_back(p1);
+  CubicPathTessellateRecursive(points, p1, cp1, cp2, p2, 0);
+  points.emplace_back(p2);
+  return points;
 }
 
 }  // namespace geom

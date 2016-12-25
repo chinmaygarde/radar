@@ -25,27 +25,26 @@ struct Point {
   bool operator==(const Point& p) const { return p.x == x && p.y == y; }
   bool operator!=(const Point& p) const { return p.x != x || p.y != y; }
 
-  Point operator-() const { return Point(-x, -y); }
+  Point operator-() const { return {-x, -y}; }
 
-  Point operator+(const Point& p) const { return Point(x + p.x, y + p.y); }
-  Point operator+(const Size& s) const {
-    return Point(x + s.width, y + s.height);
-  }
+  Point operator+(const Point& p) const { return {x + p.x, y + p.y}; }
+  Point operator+(const Size& s) const { return {x + s.width, y + s.height}; }
 
-  Point operator-(const Point& p) const { return Point(x - p.x, y - p.y); }
-  Point operator-(const Size& s) const {
-    return Point(x - s.width, y - s.height);
-  }
+  Point operator-(const Point& p) const { return {x - p.x, y - p.y}; }
+  Point operator-(const Size& s) const { return {x - s.width, y - s.height}; }
 
-  Point operator*(double scale) const { return Point(x * scale, y * scale); }
-  Point operator*(const Point& p) const { return Point(x * p.x, y * p.y); }
-  Point operator*(const Size& s) const {
-    return Point(x * s.width, y * s.height);
-  }
+  Point operator*(double scale) const { return {x * scale, y * scale}; }
+  Point operator*(const Point& p) const { return {x * p.x, y * p.y}; }
+  Point operator*(const Size& s) const { return {x * s.width, y * s.height}; }
 
-  Point operator/(const Point& p) const { return Point(x / p.x, y / p.y); }
-  Point operator/(const Size& s) const {
-    return Point(x / s.width, y / s.height);
+  Point operator/(double d) const { return {x / d, y / d}; }
+  Point operator/(const Point& p) const { return {x / p.x, y / p.y}; }
+  Point operator/(const Size& s) const { return {x / s.width, y / s.height}; }
+
+  double distanceSquared(const Point& p) const {
+    double dx = p.x - x;
+    double dy = p.y - y;
+    return dx * dx + dy * dy;
   }
 
   std::string toString() const;

@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Geometry/Point.h>
+#include <vector>
 
 namespace rl {
 namespace geom {
@@ -40,6 +41,8 @@ struct QuadraticPathComponent {
 
   Point solveDerivative(double time) const;
 
+  std::vector<Point> tessellate() const;
+
   bool operator==(const QuadraticPathComponent& other) const {
     return p1 == other.p1 && cp == other.cp && p2 == other.p2;
   }
@@ -59,6 +62,8 @@ struct CubicPathComponent {
   Point solve(double time) const;
 
   Point solveDerivative(double time) const;
+
+  std::vector<Point> tessellate() const;
 
   bool operator==(const CubicPathComponent& other) const {
     return p1 == other.p1 && cp1 == other.cp1 && cp2 == other.cp2 &&
