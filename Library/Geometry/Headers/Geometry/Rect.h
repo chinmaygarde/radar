@@ -56,6 +56,8 @@ struct Rect {
            p.y <= size.height;
   }
 
+  Rect withPoint(const Point& p) const;
+
   std::string toString() const;
 
   void fromString(const std::string& str);

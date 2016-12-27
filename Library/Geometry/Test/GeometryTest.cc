@@ -134,3 +134,35 @@ TEST(GeometryTest, QuaternionLerp) {
 
   ASSERT_QUATERNION_NEAR(q3, expected);
 }
+
+TEST(GeometryTest, RectWithPoint) {
+  auto rect = rl::geom::Rect{};
+
+  auto expected = rl::geom::Rect{};
+
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({100, 100});
+  expected = rl::geom::Rect{0, 0, 100, 100};
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({-11, -12});
+  expected = rl::geom::Rect{-11, -12, 111, 112};
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({55, 65});
+  expected = rl::geom::Rect{-11, -12, 111, 112};
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({-25, 0});
+  expected = rl::geom::Rect{-25, -12, 125, 112};
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({0, -25});
+  expected = rl::geom::Rect{-25, -25, 125, 125};
+  ASSERT_RECT_NEAR(rect, expected);
+
+  rect = rect.withPoint({125, 135});
+  expected = rl::geom::Rect{-25, -25, 150, 160};
+  ASSERT_RECT_NEAR(rect, expected);
+}
