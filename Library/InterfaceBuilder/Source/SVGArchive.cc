@@ -236,6 +236,10 @@ interface::ModelEntity::Ref SVGArchive::configureNode(
     return nullptr;
   }
 
+  if (::strncmp(node.name(), "title", sizeof("title")) == 0) {
+    return nullptr;
+  }
+
   if (::strncmp(node.name(), "defs", sizeof("defs")) == 0) {
     /*
      *  Definitions have been parsed ahead of time.

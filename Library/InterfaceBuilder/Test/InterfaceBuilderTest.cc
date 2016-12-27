@@ -236,6 +236,19 @@ TEST_F(InterfaceTest, TestTransformation) {
   });
 }
 
+TEST_F(InterfaceTest, Quad01) {
+  testOnActive([](rl::interface::Interface& interface) {
+    rl::core::URI fileURI("file://quad01.svg");
+    auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
+    ASSERT_TRUE(archive);
+    ASSERT_TRUE(archive->isValid());
+    rl::ib::InterfaceBuilderArchive::EntityMap map;
+    auto inflated = archive->inflate(interface, map);
+    ASSERT_TRUE(inflated != nullptr);
+    ASSERT_EQ(inflated->children().size(), 4);
+  });
+}
+
 TEST_F(InterfaceTest, SharedDialog) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://shareddialog.svg");
