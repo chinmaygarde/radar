@@ -7,6 +7,7 @@
 
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
+#include <vector>
 
 namespace rl {
 namespace geom {
@@ -57,6 +58,8 @@ struct Rect {
   }
 
   Rect withPoint(const Point& p) const;
+
+  Rect withPoints(const std::vector<Point>& points) const;
 
   std::string toString() const;
 

@@ -6,7 +6,7 @@
 #define RADAR_GEOMETRY_PATHCOMPONENT_H_
 
 #include <Core/Macros.h>
-#include <Geometry/Point.h>
+#include <Geometry/Rect.h>
 #include <vector>
 
 namespace rl {
@@ -22,16 +22,20 @@ struct LinearPathComponent {
 
   Point solve(double time) const;
 
+  std::vector<Point> tessellate() const;
+
+  std::vector<Point> extrema() const;
+
   bool operator==(const LinearPathComponent& other) const {
     return p1 == other.p1 && p2 == other.p2;
   };
 };
 
 struct TessellationApproximation {
-  double scale;
-  double angleTolerance;
-  double cuspLimit;
-  double distanceToleranceSquare;
+  const double scale;
+  const double angleTolerance;
+  const double cuspLimit;
+  const double distanceToleranceSquare;
 
   TessellationApproximation(/* default */)
       : TessellationApproximation(1.0 /* scale */,
@@ -64,6 +68,8 @@ struct QuadraticPathComponent {
   std::vector<Point> tessellate(
       const TessellationApproximation& approximation) const;
 
+  std::vector<Point> extrema() const;
+
   bool operator==(const QuadraticPathComponent& other) const {
     return p1 == other.p1 && cp == other.cp && p2 == other.p2;
   }
@@ -86,6 +92,8 @@ struct CubicPathComponent {
 
   std::vector<Point> tessellate(
       const TessellationApproximation& approximation) const;
+
+  std::vector<Point> extrema() const;
 
   bool operator==(const CubicPathComponent& other) const {
     return p1 == other.p1 && cp1 == other.cp1 && cp2 == other.cp2 &&

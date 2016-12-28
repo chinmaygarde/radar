@@ -118,5 +118,45 @@ bool Path::cubicComponentAtIndex(size_t index,
   return true;
 }
 
+std::vector<Point> Path::tessellate(
+    const TessellationApproximation& approximation) const {
+  std::vector<Point> points;
+  for (const auto& component : _components) {
+    switch (component.type) {
+      case ComponentType::Linear: {
+        auto tess = _linears[component.index].tessellate();
+        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+      } break;
+      case ComponentType::Quadratic: {
+        auto tess = _quads[component.index].tessellate(approximation);
+        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+      } break;
+      case ComponentType::Cubic: {
+        auto tess = _cubics[component.index].tessellate(approximation);
+        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+      } break;
+    }
+  }
+  return points;
+}
+
+Rect Path::boundingBox() const {
+  Rect box;
+
+  for (const auto& linear : _linears) {
+    box = box.withPoints(linear.extrema());
+  }
+
+  for (const auto& quad : _quads) {
+    box = box.withPoints(quad.extrema());
+  }
+
+  for (const auto& cubic : _cubics) {
+    box = box.withPoints(cubic.extrema());
+  }
+
+  return box;
+}
+
 }  // namespace geom
 }  // namespace rl

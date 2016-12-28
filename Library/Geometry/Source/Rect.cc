@@ -32,6 +32,14 @@ Rect Rect::withPoint(const Point& p) const {
   return copy;
 }
 
+Rect Rect::withPoints(const std::vector<Point>& points) const {
+  Rect box;
+  for (const auto& point : points) {
+    box = box.withPoint(point);
+  }
+  return box;
+}
+
 std::string Rect::toString() const {
   std::stringstream stream;
   stream << origin.x << "," << origin.y << "," << size.width << ","

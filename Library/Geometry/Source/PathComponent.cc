@@ -12,6 +12,10 @@ static const size_t kRecursionLimit = 32;
 static const double kCurveCollinearityEpsilon = 1e-30;
 static const double kCurveAngleToleranceEpsilon = 0.01;
 
+/*
+ *  Based on: https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Specific_cases
+ */
+
 static inline double LinearSolve(double t, double p0, double p1) {
   return p0 + t * (p1 - p0);
 }
@@ -57,6 +61,14 @@ Point LinearPathComponent::solve(double time) const {
       LinearSolve(time, p1.x, p2.x),  // x
       LinearSolve(time, p1.y, p2.y),  // y
   };
+}
+
+std::vector<Point> LinearPathComponent::tessellate() const {
+  return {p1, p2};
+}
+
+std::vector<Point> LinearPathComponent::extrema() const {
+  return {p1, p2};
 }
 
 Point QuadraticPathComponent::solve(double time) const {
@@ -177,6 +189,13 @@ std::vector<Point> QuadraticPathComponent::tessellate(
   QuadraticPathTessellateRecursive(approximation, points, p1, cp, p2, 0);
   points.emplace_back(p2);
   return points;
+}
+
+std::vector<Point> QuadraticPathComponent::extrema() const {
+  /*
+   *  As described in: https://pomax.github.io/bezierinfo/#extremities
+   */
+  return {};
 }
 
 Point CubicPathComponent::solve(double time) const {
@@ -423,6 +442,79 @@ std::vector<Point> CubicPathComponent::tessellate(
   points.emplace_back(p1);
   CubicPathTessellateRecursive(approximation, points, p1, cp1, cp2, p2, 0);
   points.emplace_back(p2);
+  return points;
+}
+
+static inline bool NearEqual(double a, double b, double epsilon) {
+  return (a > (b - epsilon)) && (a < (b + epsilon));
+}
+
+static inline bool NearZero(double a) {
+  return NearEqual(a, 0.0, 1e-12);
+}
+
+static void CubicPathBoundingPopulateT(std::vector<double>& values,
+                                       double p1,
+                                       double p2,
+                                       double p3,
+                                       double p4) {
+  const double a = 3.0 * (-p1 + 3.0 * p2 - 3.0 * p3 + p4);
+  const double b = 6.0 * (p1 - 2.0 * p2 + p3);
+  const double c = 3.0 * (p2 - p1);
+
+  /*
+   *  Boundary conditions.
+   */
+  if (NearZero(a)) {
+    if (NearZero(b)) {
+      return;
+    }
+
+    double t = -c / b;
+    if (t >= 0.0 && t <= 1.0) {
+      values.emplace_back(t);
+    }
+    return;
+  }
+
+  double b2Minus4AC = (b * b) - (4.0 * a * c);
+
+  if (b2Minus4AC < 0.0) {
+    return;
+  }
+
+  double rootB2Minus4AC = ::sqrt(b2Minus4AC);
+
+  {
+    double t = (-b + rootB2Minus4AC) / (2.0 * a);
+    if (t >= 0.0 && t <= 1.0) {
+      values.emplace_back(t);
+    }
+  }
+
+  {
+    double t = (-b - rootB2Minus4AC) / (2.0 * a);
+    if (t >= 0.0 && t <= 1.0) {
+      values.emplace_back(t);
+    }
+  }
+}
+
+std::vector<Point> CubicPathComponent::extrema() const {
+  /*
+   *  As described in: https://pomax.github.io/bezierinfo/#extremities
+   */
+  std::vector<double> values;
+
+  CubicPathBoundingPopulateT(values, p1.x, cp1.x, cp2.x, p2.x);
+  CubicPathBoundingPopulateT(values, p1.y, cp1.y, cp2.y, p2.y);
+
+  std::vector<Point> points;
+
+  for (const auto& value : values) {
+    points.emplace_back(solve(value));
+  }
+
   return points;
 }
 

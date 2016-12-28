@@ -42,67 +42,46 @@ static int ToTessWindingRule(PathVertices::Winding winding) {
   return TESS_WINDING_ODD;
 }
 
-static inline geom::Point MinPoint(const geom::Point& a, const geom::Point& b) {
-  return {std::min(a.x, b.x), std::min(a.y, b.y)};
-}
-
-static inline geom::Point MaxPoint(const geom::Point& a, const geom::Point& b) {
-  return {std::max(a.x, b.x), std::max(a.y, b.y)};
-}
-
-static void AddPointAndTrackBounds(const geom::Point& point,
-                                   std::vector<GLPoint>& contours,
-                                   geom::Point& min,
-                                   geom::Point& max) {
-  contours.emplace_back(point);
-  min = MinPoint(point, min);
-  max = MaxPoint(point, max);
-}
-
 static std::pair<bool, geom::Size> PopulateContoursWithPath(
     TESStesselator* tessellator,
     const geom::Path& path) {
+  /*
+   *  Make sure the path has valid components.
+   */
   if (tessellator == nullptr || path.componentCount() == 0) {
     return {false, {}};
   }
 
-  std::vector<GLPoint> contours;
-
-  geom::Point min, max;
-  geom::TessellationApproximation defaultApproximation;
-
-  path.enumerateComponents(
-      [&](size_t, const geom::LinearPathComponent& linear) {
-        AddPointAndTrackBounds(linear.p1, contours, min, max);
-        AddPointAndTrackBounds(linear.p2, contours, min, max);
-      },
-      [&](size_t, const geom::QuadraticPathComponent& quad) {
-        for (const auto& point : quad.tessellate(defaultApproximation)) {
-          AddPointAndTrackBounds(point, contours, min, max);
-        }
-      },
-      [&](size_t, const geom::CubicPathComponent& cubic) {
-        for (const auto& point : cubic.tessellate(defaultApproximation)) {
-          AddPointAndTrackBounds(point, contours, min, max);
-        }
-      });
-
-  if (contours.size() == 0) {
+  /*
+   *  Ensure the bounding box of the path can be calculated so that vertex
+   *  calculations and texture mapping is correctly setup at scale.
+   */
+  auto boundingBox = path.boundingBox();
+  if (boundingBox.size.width <= 0.0 || boundingBox.size.height <= 0.0) {
     return {false, {}};
   }
 
-  double divisorX = max.x - min.x;
-  double divisorY = max.y - min.y;
+  /*
+   *  Tessellate path.
+   */
+  geom::TessellationApproximation defaultApproximation;
+  auto tessellatedPoints = path.tessellate(defaultApproximation);
 
-  for (auto& contourPoint : contours) {
-    contourPoint.x = (contourPoint.x - min.x) / divisorX;
-    contourPoint.y = (contourPoint.y - min.y) / divisorY;
+  if (tessellatedPoints.size() == 0) {
+    return {false, {}};
+  }
+
+  std::vector<GLPoint> contours;
+  contours.reserve(tessellatedPoints.size());
+  for (const auto& point : tessellatedPoints) {
+    contours.emplace_back(point.x / boundingBox.size.width,
+                          point.y / boundingBox.size.height);
   }
 
   tessAddContour(tessellator, kVertexSize, contours.data(), sizeof(GLPoint),
                  contours.size());
 
-  return {true, {divisorX, divisorY}};
+  return {true, boundingBox.size};
 }
 
 static void DestroyTessellator(TESStesselator* tessellator) {

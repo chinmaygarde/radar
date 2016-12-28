@@ -52,6 +52,10 @@ class Path : public core::MessageSerializable {
 
   bool cubicComponentAtIndex(size_t index, CubicPathComponent& cubic) const;
 
+  std::vector<Point> tessellate(const TessellationApproximation& approximation) const;
+
+  Rect boundingBox() const;
+
  private:
   struct ComponentIndexPair {
     ComponentType type;
