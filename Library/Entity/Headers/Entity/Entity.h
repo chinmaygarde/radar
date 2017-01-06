@@ -30,6 +30,8 @@ class Entity : public core::ArchiveSerializable {
     Contents,
     Path,
     Opacity,
+    BorderSize,
+    BorderColor,
     MakeRoot,
 
     Sentinel,
@@ -47,6 +49,8 @@ class Entity : public core::ArchiveSerializable {
     RL_MASK(Contents),
     RL_MASK(Path),
     RL_MASK(Opacity),
+    RL_MASK(BorderSize),
+    RL_MASK(BorderColor),
     RL_MASK(MakeRoot),
   };
 #undef RL_MASK
@@ -173,6 +177,14 @@ class Entity : public core::ArchiveSerializable {
    */
   void setOpacity(double opacity);
 
+  const Color& borderColor() const;
+
+  void setBorderColor(const Color& borderColor);
+
+  double borderSize() const;
+
+  void setBorderSize(double borderSize);
+
   const image::Image& contents() const;
 
   void setContents(image::Image image);
@@ -201,6 +213,8 @@ class Entity : public core::ArchiveSerializable {
   image::Image _contents;
   geom::Path _path;
   double _opacity;
+  Color _borderColor;
+  double _borderSize;
 
   void notifyInterfaceIfNecessary(
       Property property,

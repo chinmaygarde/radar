@@ -44,6 +44,14 @@ void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
     _opacity = entity._opacity;
   }
 
+  if (only & PropertyMask::BorderSizeMask) {
+    _borderSize = entity._borderSize;
+  }
+
+  if (only & PropertyMask::BorderColorMask) {
+    _borderColor = entity._borderColor;
+  }
+
   if (only & PropertyMask::ContentsMask) {
     _contents = entity._contents;
   }
@@ -153,6 +161,24 @@ void Entity::setOpacity(double opacity) {
   notifyInterfaceIfNecessary(Property::Opacity);
 }
 
+const Color& Entity::borderColor() const {
+  return _borderColor;
+}
+
+void Entity::setBorderColor(const Color& borderColor) {
+  _borderColor = borderColor;
+  notifyInterfaceIfNecessary(Property::BorderColor);
+}
+
+double Entity::borderSize() const {
+  return _borderSize;
+}
+
+void Entity::setBorderSize(double borderSize) {
+  _borderSize = borderSize;
+  notifyInterfaceIfNecessary(Property::BorderSize);
+}
+
 const image::Image& Entity::contents() const {
   return _contents;
 }
@@ -186,6 +212,8 @@ enum ArchiveKey {
   Transformation,
   BackgroundColor,
   Opacity,
+  BorderColor,
+  BorderSize,
 };
 
 const core::ArchiveDef Entity::ArchiveDefinition = {
@@ -201,6 +229,8 @@ const core::ArchiveDef Entity::ArchiveDefinition = {
         ArchiveKey::Transformation,   //
         ArchiveKey::BackgroundColor,  //
         ArchiveKey::Opacity,          //
+        ArchiveKey::BorderColor,      //
+        ArchiveKey::BorderSize,       //
     },
 };
 
@@ -210,15 +240,27 @@ Entity::ArchiveName Entity::archiveName() const {
 
 bool Entity::serialize(core::ArchiveItem& item) const {
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Identifier, _identifier));
+
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Bounds, _bounds.toString()));
+
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Position, _position.toString()));
+
   RL_RETURN_IF_FALSE(
       item.encode(ArchiveKey::AnchorPoint, _anchorPoint.toString()));
+
   RL_RETURN_IF_FALSE(
       item.encode(ArchiveKey::Transformation, _transformation.toString()));
+
   RL_RETURN_IF_FALSE(
       item.encode(ArchiveKey::BackgroundColor, _backgroundColor.toString()));
+
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Opacity, _opacity));
+
+  RL_RETURN_IF_FALSE(
+      item.encode(ArchiveKey::BorderColor, _borderColor.toString()));
+
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::BorderSize, _borderSize));
+
   return true;
 }
 
@@ -243,6 +285,11 @@ bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   _backgroundColor.fromString(decoded);
 
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Opacity, _opacity));
+
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::BorderColor, decoded));
+  _borderColor.fromString(decoded);
+
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::BorderSize, _borderSize));
 
   return true;
 }
