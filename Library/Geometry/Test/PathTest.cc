@@ -4,6 +4,7 @@
 
 #include <TestRunner/TestRunner.h>
 #include <Geometry/Path.h>
+#include <Geometry/PathBuilder.h>
 #include <Core/Message.h>
 
 TEST(PathTest, SimplePath) {
@@ -92,4 +93,12 @@ TEST(PathTest, PathEncodeDecode) {
         ASSERT_EQ(cubic.cp2, cp2);
         ASSERT_EQ(cubic.p2, p2);
       });
+}
+
+TEST(GeometryTest, BoundingBoxCubic) {
+  rl::geom::Path path;
+  path.addCubicComponent({120, 160}, {25, 200}, {220, 260}, {220, 40});
+  auto box = path.boundingBox();
+  rl::geom::Rect expected(0, 0, 220, 198.862);
+  ASSERT_RECT_NEAR(box, expected);
 }

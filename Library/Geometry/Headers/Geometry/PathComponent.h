@@ -83,6 +83,12 @@ struct CubicPathComponent {
 
   CubicPathComponent() {}
 
+  CubicPathComponent(const QuadraticPathComponent& q)
+      : p1(q.p1),
+        cp1(q.p1 + (q.cp - q.p1) * (2.0 / 3.0)),
+        cp2(q.p2 + (q.cp - q.p2) * (2.0 / 3.0)),
+        p2(q.p2) {}
+
   CubicPathComponent(Point ap1, Point acp1, Point acp2, Point ap2)
       : p1(ap1), cp1(acp1), cp2(acp2), p2(ap2) {}
 

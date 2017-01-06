@@ -85,117 +85,15 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
   };
 }
 
-static void QuadraticPathTessellateRecursive(
-    const TessellationApproximation& approx,
-    std::vector<Point>& points,
-    Point p1,
-    Point p2,
-    Point p3,
-    size_t level) {
-  if (level >= kRecursionLimit) {
-    return;
-  }
-
-  /*
-   *  Calculate all the mid-points of the line segments
-   */
-  auto p12 = (p1 + p2) / 2.0;
-  auto p23 = (p2 + p3) / 2.0;
-  auto p123 = (p12 + p23) / 2.0;
-
-  auto dp = p3 - p1;
-  double d = ::fabs(((p2.x - p3.x) * dp.y - (p2.y - p3.y) * dp.x));
-  double da = 0.0;
-
-  if (d > kCurveCollinearityEpsilon) {
-    /*
-     *  Regular case
-     */
-    if (d * d <= approx.distanceToleranceSquare * (dp.x * dp.x + dp.y * dp.y)) {
-      /*
-       *  If the curvature doesn't exceed the distance_tolerance value we tend
-       *  to finish subdivisions.
-       */
-      if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
-        points.emplace_back(p123);
-        return;
-      }
-
-      /*
-       *  Angle & Cusp Condition
-       */
-      da = ::fabs(::atan2(p3.y - p2.y, p3.x - p2.x) -
-                  ::atan2(p2.y - p1.y, p2.x - p1.x));
-
-      if (da >= M_PI) {
-        da = 2 * M_PI - da;
-      }
-
-      if (da < approx.angleTolerance) {
-        /*
-         *  Finally we can stop the recursion
-         */
-        points.emplace_back(p123);
-        return;
-      }
-    }
-  } else {
-    /*
-     *  Collinear case
-     */
-    da = dp.x * dp.x + dp.y * dp.y;
-    if (da == 0) {
-      d = p1.distanceSquared(p2);
-    } else {
-      d = ((p2.x - p1.x) * dp.x + (p2.y - p1.y) * dp.y) / da;
-
-      if (d > 0 && d < 1) {
-        /*
-         *  Simple collinear case, 1---2---3. We can leave just two endpoints
-         */
-        return;
-      }
-
-      if (d <= 0) {
-        d = p2.distanceSquared(p1);
-      } else if (d >= 1) {
-        d = p2.distanceSquared(p3);
-      } else {
-        d = p2.distanceSquared({p1.x + d * dp.x, p1.y + d * dp.y});
-      }
-    }
-
-    if (d < approx.distanceToleranceSquare) {
-      points.emplace_back(p2);
-      return;
-    }
-  }
-
-  /*
-   *  Continue subdivision
-   */
-  QuadraticPathTessellateRecursive(approx, points, p1, p12, p123, level + 1);
-  QuadraticPathTessellateRecursive(approx, points, p123, p23, p3, level + 1);
-}
-
 std::vector<Point> QuadraticPathComponent::tessellate(
     const TessellationApproximation& approximation) const {
-  /*
-   *  As described in
-   *  http://www.antigrain.com/research/adaptive_bezier/index.html
-   */
-  std::vector<Point> points;
-  points.emplace_back(p1);
-  QuadraticPathTessellateRecursive(approximation, points, p1, cp, p2, 0);
-  points.emplace_back(p2);
-  return points;
+  CubicPathComponent elevated(*this);
+  return elevated.tessellate(approximation);
 }
 
 std::vector<Point> QuadraticPathComponent::extrema() const {
-  /*
-   *  As described in: https://pomax.github.io/bezierinfo/#extremities
-   */
-  return {};
+  CubicPathComponent elevated(*this);
+  return elevated.extrema();
 }
 
 Point CubicPathComponent::solve(double time) const {
