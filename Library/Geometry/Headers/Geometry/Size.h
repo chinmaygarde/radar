@@ -21,9 +21,7 @@ struct Size {
   /*
    *  Operator overloads
    */
-  Size operator*(double scale) const {
-    return Size(width * scale, height * scale);
-  }
+  Size operator*(double scale) const { return {width * scale, height * scale}; }
 
   bool operator==(const Size& s) const {
     return s.width == width && s.height == height;
@@ -34,11 +32,18 @@ struct Size {
   }
 
   Size operator+(const Size& s) const {
-    return Size(width + s.width, height + s.height);
+    return {width + s.width, height + s.height};
   }
 
   Size operator-(const Size& s) const {
-    return Size(width - s.width, height - s.height);
+    return {width - s.width, height - s.height};
+  }
+
+  Size unionWith(const Size& o) const {
+    return {
+        std::max(width, o.width),  //
+        std::max(height, o.height),
+    };
   }
 
   std::string toString() const;
