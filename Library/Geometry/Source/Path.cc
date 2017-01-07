@@ -118,6 +118,49 @@ bool Path::cubicComponentAtIndex(size_t index,
   return true;
 }
 
+bool Path::updateLinearComponentAtIndex(size_t index,
+                                        const LinearPathComponent& linear) {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Linear) {
+    return false;
+  }
+
+  _linears[_components[index].index] = linear;
+  return true;
+}
+
+bool Path::updateQuadraticComponentAtIndex(
+    size_t index,
+    const QuadraticPathComponent& quadratic) {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Quadratic) {
+    return false;
+  }
+
+  _quads[_components[index].index] = quadratic;
+  return true;
+}
+
+bool Path::updateCubicComponentAtIndex(size_t index,
+                                       CubicPathComponent& cubic) {
+  if (index >= _components.size()) {
+    return false;
+  }
+
+  if (_components[index].type != ComponentType::Cubic) {
+    return false;
+  }
+
+  _cubics[_components[index].index] = cubic;
+  return true;
+}
+
 std::vector<Point> Path::tessellate(
     const TessellationApproximation& approximation) const {
   std::vector<Point> points;
