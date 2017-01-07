@@ -148,6 +148,14 @@ interface::ModelEntity::Ref SVGArchive::visitNodeChildren(
   }
 
   /*
+   *  Fill Opacity
+   */
+  auto fillOpacity = Decode<double>(node, "fill-opacity", &present);
+  if (present) {
+    entity->setOpacity(fillOpacity);
+  }
+
+  /*
    *  Transform
    */
   auto transfrom = Decode<geom::Matrix>(node, "transform", &present);
