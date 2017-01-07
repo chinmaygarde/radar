@@ -113,10 +113,10 @@ bool TransferEntity::serialize(core::Message& message) const {
         return message.encode(_contents);
       case Property::Opacity:
         return message.encode(_opacity);
-      case Property::BorderColor:
-        return message.encode(_borderColor);
-      case Property::BorderSize:
-        return message.encode(_borderSize);
+      case Property::StrokeColor:
+        return message.encode(_strokeColor);
+      case Property::StrokeSize:
+        return message.encode(_strokeSize);
       case Property::MakeRoot:
         return message.encode(_identifier);
       case Property::None:
@@ -154,10 +154,10 @@ bool TransferEntity::deserialize(core::Message& message, core::Namespace* ns) {
             return message.decode(_path, ns);
           case Property::Opacity:
             return message.decode(_opacity, ns);
-          case Property::BorderColor:
-            return message.decode(_borderColor, ns);
-          case Property::BorderSize:
-            return message.decode(_borderSize, ns);
+          case Property::StrokeColor:
+            return message.decode(_strokeColor, ns);
+          case Property::StrokeSize:
+            return message.decode(_strokeSize, ns);
           case Property::MakeRoot:
             return message.decode(_makeRoot, ns);
           case Property::None:

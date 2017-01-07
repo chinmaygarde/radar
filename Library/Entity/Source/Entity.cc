@@ -44,12 +44,12 @@ void Entity::mergeProperties(const Entity& entity, PropertyMaskType only) {
     _opacity = entity._opacity;
   }
 
-  if (only & PropertyMask::BorderSizeMask) {
-    _borderSize = entity._borderSize;
+  if (only & PropertyMask::StrokeSizeMask) {
+    _strokeSize = entity._strokeSize;
   }
 
-  if (only & PropertyMask::BorderColorMask) {
-    _borderColor = entity._borderColor;
+  if (only & PropertyMask::StrokeColorMask) {
+    _strokeColor = entity._strokeColor;
   }
 
   if (only & PropertyMask::ContentsMask) {
@@ -161,22 +161,22 @@ void Entity::setOpacity(double opacity) {
   notifyInterfaceIfNecessary(Property::Opacity);
 }
 
-const Color& Entity::borderColor() const {
-  return _borderColor;
+const Color& Entity::strokeColor() const {
+  return _strokeColor;
 }
 
-void Entity::setBorderColor(const Color& borderColor) {
-  _borderColor = borderColor;
-  notifyInterfaceIfNecessary(Property::BorderColor);
+void Entity::setStrokeColor(const Color& strokeColor) {
+  _strokeColor = strokeColor;
+  notifyInterfaceIfNecessary(Property::StrokeColor);
 }
 
-double Entity::borderSize() const {
-  return _borderSize;
+double Entity::strokeSize() const {
+  return _strokeSize;
 }
 
-void Entity::setBorderSize(double borderSize) {
-  _borderSize = borderSize;
-  notifyInterfaceIfNecessary(Property::BorderSize);
+void Entity::setStrokeSize(double strokeSize) {
+  _strokeSize = strokeSize;
+  notifyInterfaceIfNecessary(Property::StrokeSize);
 }
 
 const image::Image& Entity::contents() const {
@@ -212,8 +212,8 @@ enum ArchiveKey {
   Transformation,
   BackgroundColor,
   Opacity,
-  BorderColor,
-  BorderSize,
+  StrokeColor,
+  StrokeSize,
 };
 
 const core::ArchiveDef Entity::ArchiveDefinition = {
@@ -229,8 +229,8 @@ const core::ArchiveDef Entity::ArchiveDefinition = {
         ArchiveKey::Transformation,   //
         ArchiveKey::BackgroundColor,  //
         ArchiveKey::Opacity,          //
-        ArchiveKey::BorderColor,      //
-        ArchiveKey::BorderSize,       //
+        ArchiveKey::StrokeColor,      //
+        ArchiveKey::StrokeSize,       //
     },
 };
 
@@ -257,9 +257,9 @@ bool Entity::serialize(core::ArchiveItem& item) const {
   RL_RETURN_IF_FALSE(item.encode(ArchiveKey::Opacity, _opacity));
 
   RL_RETURN_IF_FALSE(
-      item.encode(ArchiveKey::BorderColor, _borderColor.toString()));
+      item.encode(ArchiveKey::StrokeColor, _strokeColor.toString()));
 
-  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::BorderSize, _borderSize));
+  RL_RETURN_IF_FALSE(item.encode(ArchiveKey::StrokeSize, _strokeSize));
 
   return true;
 }
@@ -286,10 +286,10 @@ bool Entity::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
 
   RL_RETURN_IF_FALSE(item.decode(ArchiveKey::Opacity, _opacity));
 
-  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::BorderColor, decoded));
-  _borderColor.fromString(decoded);
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::StrokeColor, decoded));
+  _strokeColor.fromString(decoded);
 
-  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::BorderSize, _borderSize));
+  RL_RETURN_IF_FALSE(item.decode(ArchiveKey::StrokeSize, _strokeSize));
 
   return true;
 }
