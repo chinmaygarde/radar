@@ -391,6 +391,16 @@ interface::ModelEntity::Ref SVGArchive::configurePolygon(
     return nullptr;
   }
 
+  /*
+   *  Since there is no implicit moveTo, convert the first line component to a
+   *  move.
+   */
+  geom::LinearPathComponent linear;
+  if (path.linearComponentAtIndex(0, linear)) {
+    linear.p1 = linear.p2;
+    path.updateLinearComponentAtIndex(0, linear);
+  }
+
   entity->setPath(std::move(path));
 
   return entity;
