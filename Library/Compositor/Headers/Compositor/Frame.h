@@ -7,7 +7,8 @@
 
 #include <Compositor/Context.h>
 #include <Core/Macros.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Matrix.h>
+#include <Geometry/Size.h>
 
 namespace rl {
 namespace compositor {

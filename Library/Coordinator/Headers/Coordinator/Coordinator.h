@@ -13,7 +13,7 @@
 #include <Core/Mutexed.h>
 #include <Core/WorkQueue.h>
 #include <Event/TouchEventChannel.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Size.h>
 #include <list>
 
 namespace rl {

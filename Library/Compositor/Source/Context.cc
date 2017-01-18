@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Compositor/Context.h>
+#include <Core/Utilities.h>
 #include <Geometry/Rect.h>
 #include "ProgramCatalog.h"
 #include "StatisticsRenderer.h"

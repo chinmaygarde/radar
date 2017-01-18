@@ -6,7 +6,6 @@
 #define RADAR_COORDINATOR_RENDERSURFACE_
 
 #include <Core/Macros.h>
-#include <Geometry/Geometry.h>
 #include <memory>
 
 namespace rl {

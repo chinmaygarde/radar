@@ -8,7 +8,9 @@
 #include <Core/Archive.h>
 #include <Core/Macros.h>
 #include <Entity/Color.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Matrix.h>
+#include <Geometry/Path.h>
+#include <Geometry/Rect.h>
 #include <Image/Image.h>
 
 namespace rl {

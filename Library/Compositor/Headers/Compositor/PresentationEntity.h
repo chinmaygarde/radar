@@ -8,7 +8,7 @@
 #include <Compositor/FrontendPass.h>
 #include <Core/Macros.h>
 #include <Entity/Entity.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Matrix.h>
 #include <map>
 
 namespace rl {

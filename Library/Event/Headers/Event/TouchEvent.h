@@ -6,7 +6,7 @@
 #define RADAR_EVENT_TOUCHEVENT_
 
 #include <Event/Event.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Point.h>
 #include <map>
 
 namespace rl {

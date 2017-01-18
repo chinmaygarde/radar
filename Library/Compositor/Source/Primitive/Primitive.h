@@ -8,7 +8,8 @@
 #include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
 #include <Entity/Color.h>
-#include <Geometry/Geometry.h>
+#include <Geometry/Matrix.h>
+#include <Geometry/Size.h>
 
 namespace rl {
 namespace compositor {
