@@ -11,7 +11,6 @@
 #include <Core/Mutexed.h>
 #include <Interface/Interface.h>
 #include <Shell/Host.h>
-
 #include <thread>
 #include <unordered_map>
 
