@@ -3,10 +3,8 @@
 // found in the LICENSE file.
 
 #include <Layout/Suggestion.h>
-
-#include "LayoutUtilities.h"
-
 #include <iterator>
+#include "LayoutUtilities.h"
 
 namespace rl {
 namespace layout {

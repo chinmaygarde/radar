@@ -6,9 +6,7 @@
 #define RADARLOVE_LAYOUT_ROW_H_
 
 #include <Core/Core.h>
-
 #include <Layout/Symbol.h>
-
 #include <map>
 
 namespace rl {

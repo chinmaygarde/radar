@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Utilities.h>
-
 #include "Config.h"
 
 #if RL_OS_MAC
@@ -12,6 +10,7 @@
 #include <unistd.h>
 #endif
 
+#include <Core/Utilities.h>
 #include <sstream>
 
 namespace rl {

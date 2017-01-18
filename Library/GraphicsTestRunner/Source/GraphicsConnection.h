@@ -6,7 +6,6 @@
 #define RADAR_GRAPHICSTESTRUNNER_GRAPHICSCONNECTION_H_
 
 #include <Core/Macros.h>
-
 #include "EGLConnection.h"
 
 namespace rl {

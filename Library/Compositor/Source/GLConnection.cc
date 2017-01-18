@@ -3,11 +3,10 @@
 // found in the LICENSE file.
 
 #include "GLConnection.h"
-
-#include <sstream>
-#include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <sstream>
+#include <vector>
 
 namespace rl {
 namespace compositor {

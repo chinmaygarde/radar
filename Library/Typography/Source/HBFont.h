@@ -7,11 +7,8 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
-
 #include <Typography/Types.h>
-
 #include <hb.h>
-
 #include "FTFace.h"
 
 namespace rl {

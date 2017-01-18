@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Animation/TimingCurve.h>
-
 #include <cmath>
 
 namespace rl {

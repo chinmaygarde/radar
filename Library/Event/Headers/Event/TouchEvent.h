@@ -7,7 +7,6 @@
 
 #include <Event/Event.h>
 #include <Geometry/Geometry.h>
-
 #include <map>
 
 namespace rl {

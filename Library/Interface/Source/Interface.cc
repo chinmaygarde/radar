@@ -6,7 +6,6 @@
 #include <Core/ThreadLocal.h>
 #include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
-
 #include <limits>
 
 namespace rl {

@@ -6,9 +6,7 @@
 #define RADAR_COMPOSITOR_TEXTURECACHE_H_
 
 #include <Core/Macros.h>
-
 #include <unordered_set>
-
 #include "Texture.h"
 
 namespace rl {

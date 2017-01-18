@@ -5,11 +5,9 @@
 #ifndef RADARLOVE_ANIMATION_DIRECTOR_H_
 #define RADARLOVE_ANIMATION_DIRECTOR_H_
 
-#include <Core/Core.h>
-
 #include <Animation/Interpolator.h>
+#include <Core/Core.h>
 #include <Core/Stopwatch.h>
-
 #include <unordered_map>
 
 namespace rl {

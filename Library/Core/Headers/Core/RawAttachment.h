@@ -5,9 +5,8 @@
 #ifndef RADAR_CORE_RAWATTACHMENT_H_
 #define RADAR_CORE_RAWATTACHMENT_H_
 
-#include <Core/Macros.h>
 #include <Core/Attachment.h>
-
+#include <Core/Macros.h>
 #include <functional>
 
 namespace rl {

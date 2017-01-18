@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include <Compositor/Frame.h>
-#include "Primitive/ColoredBoxPrimitive.h"
+#include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include "GraphicsTestFrame.h"
+#include "Primitive/ColoredBoxPrimitive.h"
 
 TEST_F(GraphicsTest, SimpleBoxPrimitive) {
   rl::compositor::Context context;

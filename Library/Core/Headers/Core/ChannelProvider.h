@@ -8,7 +8,6 @@
 #include <Core/EventLoopSource.h>
 #include <Core/IOResult.h>
 #include <Core/Message.h>
-
 #include <memory>
 #include <vector>
 

@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Compositor/BackendPass.h>
+#include <Compositor/PresentationEntity.h>
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include "GraphicsTestFrame.h"
-
-#include <Compositor/PresentationEntity.h>
-#include <Compositor/BackendPass.h>
 
 TEST_F(GraphicsTestFrame, ColoredBoxPrimitive) {
   /*

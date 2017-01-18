@@ -6,11 +6,10 @@
 #define RADARLOVE_STATE_MACHINE_
 
 #include <Core/Core.h>
-
 #include <functional>
-#include <vector>
 #include <map>
 #include <set>
+#include <vector>
 
 namespace rl {
 namespace toolbox {

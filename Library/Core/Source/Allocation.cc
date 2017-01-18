@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 #include <Core/Allocation.h>
-
 #include <Core/Message.h>
-
 #include "Config.h"
 
 #if RL_OS_WINDOWS

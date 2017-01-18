@@ -5,10 +5,10 @@
 #ifndef RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
 #define RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
 
-#include <Core/Core.h>
-#include <Compositor/Frame.h>
 #include <Compositor/CompositorStatistics.h>
+#include <Compositor/Frame.h>
 #include <Compositor/InterfaceStatistics.h>
+#include <Core/Core.h>
 
 namespace rl {
 namespace compositor {

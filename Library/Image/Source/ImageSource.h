@@ -5,9 +5,9 @@
 #ifndef RADAR_IMAGE_IMAGESOURCE_H_
 #define RADAR_IMAGE_IMAGESOURCE_H_
 
-#include <Core/Macros.h>
 #include <Core/Allocation.h>
 #include <Core/File.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace image {

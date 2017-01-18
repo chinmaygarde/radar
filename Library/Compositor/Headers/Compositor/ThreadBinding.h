@@ -6,7 +6,6 @@
 #define RADAR_COMPOSITOR_THREADBINDING_H_
 
 #include <Core/Macros.h>
-
 #include <thread>
 
 namespace rl {

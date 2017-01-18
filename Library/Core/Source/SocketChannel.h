@@ -13,10 +13,8 @@
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
 #include <Core/RawAttachment.h>
-
-#include "SocketPair.h"
-
 #include <mutex>
+#include "SocketPair.h"
 
 namespace rl {
 namespace core {

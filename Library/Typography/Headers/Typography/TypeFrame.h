@@ -6,7 +6,6 @@
 #define RADAR_TYPOGRAPHY_TYPEFRAME_H_
 
 #include <Core/Macros.h>
-
 #include <string>
 
 namespace rl {

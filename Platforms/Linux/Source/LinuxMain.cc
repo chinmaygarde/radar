@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <stdlib.h>
 #include <Core/Core.h>
 #include <SDL.h>
+#include <stdlib.h>
 
+#include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Coordinator/RenderSurface.h>
 #include "Sample.h"
 
 using SDLWindowAndRenderer = std::pair<SDL_Window*, SDL_Renderer*>;

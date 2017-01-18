@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "EGLSurface.h"
-
 #include "EGLUtils.h"
 
 namespace rl {

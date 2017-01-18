@@ -6,10 +6,9 @@
 #define RADAR_CORE_URL_H_
 
 #include <Core/Macros.h>
-
+#include <memory>
 #include <string>
 #include <unordered_set>
-#include <memory>
 
 namespace rl {
 namespace core {

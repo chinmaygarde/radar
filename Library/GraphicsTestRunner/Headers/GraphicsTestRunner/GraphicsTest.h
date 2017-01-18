@@ -6,12 +6,10 @@
 #define RADAR_GRAPHICSTESTRUNNER_GRAPHICSTEST_H_
 
 #include <Core/Macros.h>
-#include <Image/ImageResult.h>
-#include <Geometry/Rect.h>
 #include <Core/URI.h>
-
+#include <Geometry/Rect.h>
+#include <Image/ImageResult.h>
 #include <gtest/gtest.h>
-
 #include <memory>
 
 namespace rl {

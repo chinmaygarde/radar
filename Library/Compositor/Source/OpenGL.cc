@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "OpenGL.h"
-
 #include <cassert>
 #include <cstdarg>
 #include <cstring>

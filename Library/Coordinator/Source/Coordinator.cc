@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Coordinator/Coordinator.h>
-#include <Compositor/Frame.h>
-#include <Core/TraceEvent.h>
-#include <Coordinator/RenderSurface.h>
 #include <Compositor/BackendPass.h>
+#include <Compositor/Frame.h>
+#include <Coordinator/Coordinator.h>
+#include <Coordinator/RenderSurface.h>
+#include <Core/TraceEvent.h>
 
 namespace rl {
 namespace coordinator {

@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <DevSupport/DevSupport.h>
-
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv) {

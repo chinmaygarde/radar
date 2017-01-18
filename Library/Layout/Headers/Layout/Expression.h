@@ -7,7 +7,6 @@
 
 #include <Core/Core.h>
 #include <Layout/Term.h>
-
 #include <vector>
 
 namespace rl {

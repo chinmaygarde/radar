@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Shell/DefaultInterface.h>
-#include <Interface/InterfaceDelegate.h>
 #include <Core/Utilities.h>
 #include <Interface/Interface.h>
+#include <Interface/InterfaceDelegate.h>
+#include <Shell/DefaultInterface.h>
 
 namespace rl {
 namespace shell {

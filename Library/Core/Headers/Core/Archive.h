@@ -7,9 +7,8 @@
 
 #include <Core/Allocation.h>
 #include <Core/Macros.h>
-#include <Core/Utilities.h>
 #include <Core/Namespace.h>
-
+#include <Core/Utilities.h>
 #include <string>
 #include <vector>
 

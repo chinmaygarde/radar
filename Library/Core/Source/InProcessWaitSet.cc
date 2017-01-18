@@ -6,9 +6,8 @@
 
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
-#include "InProcessWaitSet.h"
-
 #include <algorithm>
+#include "InProcessWaitSet.h"
 
 namespace rl {
 namespace core {

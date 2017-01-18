@@ -5,9 +5,9 @@
 #ifndef RADAR_INTERFACEBUILDER_INTERFACEBUILDERINTERFACE_H_
 #define RADAR_INTERFACEBUILDER_INTERFACEBUILDERINTERFACE_H_
 
+#include <Core/FileHandle.h>
 #include <Core/Macros.h>
 #include <Interface/InterfaceDelegate.h>
-#include <Core/FileHandle.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
 
 namespace rl {

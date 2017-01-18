@@ -6,15 +6,13 @@
 
 #if RL_SHMEM == RL_SHMEM_POSIX
 
-#include "SharedMemoryHandle.h"
-
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
+#include <unistd.h>
 #include <sstream>
+#include "SharedMemoryHandle.h"
 
 namespace rl {
 namespace core {

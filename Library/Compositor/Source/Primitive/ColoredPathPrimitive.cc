@@ -3,11 +3,9 @@
 // found in the LICENSE file.
 
 #include "ColoredPathPrimitive.h"
-
 #include <Compositor/Frame.h>
-
-#include "Uniform.h"
 #include "ProgramCatalog.h"
+#include "Uniform.h"
 #include "Vertices/PathVertices.h"
 
 namespace rl {

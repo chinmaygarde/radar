@@ -6,8 +6,8 @@
 #define RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
 
 #include <Animation/Action.h>
-#include <Animation/Interpolator.h>
 #include <Animation/Director.h>
+#include <Animation/Interpolator.h>
 #include <Compositor/FrontendPass.h>
 #include <Compositor/InterfaceStatistics.h>
 #include <Compositor/PresentationEntity.h>
@@ -17,7 +17,6 @@
 #include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>
-
 #include <map>
 
 namespace rl {

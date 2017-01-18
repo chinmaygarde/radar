@@ -16,10 +16,9 @@
 #endif
 
 #include <Geometry/Geometry.h>
-
 #include <stdio.h>
-#include <string>
 #include <sstream>
+#include <string>
 
 namespace rl {
 namespace compositor {

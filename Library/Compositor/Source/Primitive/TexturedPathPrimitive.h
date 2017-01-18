@@ -6,9 +6,8 @@
 #define RADAR_COMPOSITOR_TEXTUREDPATHPRIMITIVE_H_
 
 #include <Core/Macros.h>
-#include <Image/Image.h>
 #include <Geometry/Path.h>
-
+#include <Image/Image.h>
 #include "Primitive.h"
 
 namespace rl {

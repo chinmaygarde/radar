@@ -9,13 +9,11 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
+#include <Core/Channel.h>
 #include <Core/Macros.h>
 #include <Core/Mutexed.h>
-#include <Core/Channel.h>
-
-#include "BootstrapClientProvider.h"
-
 #include <map>
+#include "BootstrapClientProvider.h"
 
 namespace rl {
 namespace core {

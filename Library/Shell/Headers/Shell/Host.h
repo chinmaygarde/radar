@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_SHELL_HOST_
 #define RADARLOVE_SHELL_HOST_
 
-#include <Core/Core.h>
 #include <Core/BootstrapServer.h>
+#include <Core/Core.h>
 #include <Event/TouchEventChannel.h>
 
 namespace rl {

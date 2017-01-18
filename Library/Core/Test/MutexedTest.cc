@@ -2,11 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/Mutexed.h>
 #include <Core/WorkQueue.h>
-
+#include <TestRunner/TestRunner.h>
 #include <string>
 
 TEST(MutexedTest, Compiles) {

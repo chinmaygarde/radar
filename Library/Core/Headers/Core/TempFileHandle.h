@@ -5,8 +5,8 @@
 #ifndef RADAR_CORE_TEMPFILEHANDLE_H_
 #define RADAR_CORE_TEMPFILEHANDLE_H_
 
-#include <Core/Macros.h>
 #include <Core/FileHandle.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace core {

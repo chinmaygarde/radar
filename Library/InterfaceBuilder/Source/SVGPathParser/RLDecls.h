@@ -5,8 +5,8 @@
 #ifndef RL_SVGPATHPARSER_RLDECLS_H_
 #define RL_SVGPATHPARSER_RLDECLS_H_
 
-#include "SVGPathParser.h"
 #include "SVGPathDriver.h"
+#include "SVGPathParser.h"
 
 #define YY_DECL                                                           \
   rl::SVGPathParser::symbol_type RLSVGPath_lex(rl::SVGPathDriver& driver, \

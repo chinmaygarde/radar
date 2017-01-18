@@ -13,7 +13,6 @@
 #include <Layout/Symbol.h>
 #include <Layout/Tag.h>
 #include <Layout/Variable.h>
-
 #include <functional>
 #include <map>
 #include <unordered_map>

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Interface/ArchiveInterface.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Interface/ArchiveInterface.h>
 
 namespace rl {
 namespace interface {

@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Geometry/Matrix.h>
-
 #include <climits>
 #include <sstream>
 

@@ -5,18 +5,15 @@
 #ifndef RADARLOVE_COORDINATOR_COORDINATOR_
 #define RADARLOVE_COORDINATOR_COORDINATOR_
 
-#include <Core/Core.h>
-
-#include <Geometry/Geometry.h>
-
-#include <Core/Mutexed.h>
-#include <Core/DebugTagGenerator.h>
+#include <Compositor/Context.h>
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Compositor/Context.h>
+#include <Core/Core.h>
+#include <Core/DebugTagGenerator.h>
+#include <Core/Mutexed.h>
 #include <Event/TouchEventChannel.h>
-
+#include <Geometry/Geometry.h>
 #include <list>
 
 namespace rl {

@@ -5,11 +5,10 @@
 #ifndef RADAR_CORE_FILE_H_
 #define RADAR_CORE_FILE_H_
 
-#include <Core/Macros.h>
-#include <Core/URI.h>
 #include <Core/FileHandle.h>
 #include <Core/FileMapping.h>
-
+#include <Core/Macros.h>
+#include <Core/URI.h>
 #include <sys/stat.h>
 
 namespace rl {

@@ -7,7 +7,6 @@
 
 #include <Core/Macros.h>
 #include <Geometry/Geometry.h>
-
 #include <memory>
 
 namespace rl {

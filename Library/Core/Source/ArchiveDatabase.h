@@ -6,9 +6,8 @@
 #define RADARLOVE_CORE_ARCHIVEDATABASE_H_
 
 #include <Core/Macros.h>
-#include "ArchiveTransaction.h"
-
 #include <map>
+#include "ArchiveTransaction.h"
 
 namespace rl {
 namespace core {

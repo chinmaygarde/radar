@@ -2,11 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/Core.h>
 #include <Core/Stopwatch.h>
-
+#include <TestRunner/TestRunner.h>
 #include <thread>
 
 static bool MemorySetOrCheckPattern(uint8_t* buffer,

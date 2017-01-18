@@ -7,11 +7,9 @@
 #if RL_WAITSET == RL_WAITSET_EPOLL
 
 #include <Core/Utilities.h>
-
-#include "EPollWaitSet.h"
-
 #include <sys/epoll.h>
 #include <unistd.h>
+#include "EPollWaitSet.h"
 
 namespace rl {
 namespace core {

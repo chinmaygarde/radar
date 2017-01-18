@@ -7,7 +7,6 @@
 
 #include <Core/Core.h>
 #include <Layout/Constraint.h>
-
 #include "Tag.h"
 
 namespace rl {

@@ -4,20 +4,14 @@
 
 #include <Core/Platform.h>
 #include <Core/TempFileHandle.h>
-
 #include <stdlib.h>
-
 #include <sstream>
 
 #if RL_OS_MAC
-
 #import <Foundation/Foundation.h>
-
-#else
-
+#else  // RL_OS_MAC
 #error Unsupported Platform.
-
-#endif
+#endif  // RL_OS_MAC
 
 namespace rl {
 namespace core {
@@ -26,9 +20,7 @@ core::URI TemporaryFileDirectory() {
 #if RL_OS_MAC
   return {NSTemporaryDirectory().UTF8String};
 #else
-
 #error Unsupported Platform.
-
 #endif
 }
 

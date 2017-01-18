@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_CORE_ARCHIVESTATEMENT_H_
 #define RADARLOVE_CORE_ARCHIVESTATEMENT_H_
 
-#include <Core/Macros.h>
 #include <Core/Allocation.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace core {

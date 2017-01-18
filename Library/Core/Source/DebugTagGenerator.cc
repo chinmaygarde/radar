@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Core/DebugTagGenerator.h>
-
 #include <sstream>
 
 namespace rl {

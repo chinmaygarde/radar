@@ -10,7 +10,6 @@
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include <Core/Macros.h>
-
 #include "BootstrapServerProvider.h"
 
 namespace rl {

@@ -6,10 +6,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include "SocketBootstrapServerProvider.h"
-
-#include <Core/Thread.h>
 #include <Core/Channel.h>
+#include <Core/Thread.h>
+#include "SocketBootstrapServerProvider.h"
 
 namespace rl {
 namespace core {

@@ -2,15 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <GraphicsTestRunner/GraphicsTest.h>
-
-#include <Core/Utilities.h>
 #include <Core/FileIOAdapter.h>
+#include <Core/Utilities.h>
+#include <GraphicsTestRunner/GraphicsTest.h>
 #include <Image/ImageEncoder.h>
 #include <sstream>
-
 #include "GraphicsConnection.h"
-
 #define GL_GLEXT_PROTOTYPES
 #include <GLES2/gl2.h>
 

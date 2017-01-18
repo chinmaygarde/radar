@@ -3,11 +3,9 @@
 // found in the LICENSE file.
 
 #include "TexturedBoxPrimitive.h"
-
 #include <Compositor/BackendPass.h>
-
-#include "Texture.h"
 #include "ProgramCatalog.h"
+#include "Texture.h"
 #include "Uniform.h"
 #include "Vertices/BoxVertices.h"
 

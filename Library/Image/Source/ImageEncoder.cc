@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Image/ImageEncoder.h>
-
 #include <stb_image_write.h>
 
 namespace rl {

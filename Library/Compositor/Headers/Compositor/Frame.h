@@ -5,9 +5,9 @@
 #ifndef RADARLOVE_COMPOSITOR_FRAME_
 #define RADARLOVE_COMPOSITOR_FRAME_
 
+#include <Compositor/Context.h>
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
-#include <Compositor/Context.h>
 
 namespace rl {
 namespace compositor {

@@ -33,10 +33,10 @@
 
 /* begin standard C headers. */
 /* %if-c-only */
-#include <stdio.h>
-#include <string.h>
 #include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 /* %endif */
 
 /* %if-tables-serialization */

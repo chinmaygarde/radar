@@ -5,10 +5,9 @@
 #ifndef RADARLOVE_CORE_WAITSET_
 #define RADARLOVE_CORE_WAITSET_
 
-#include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
 #include <Core/Mutexed.h>
-
 #include <unordered_set>
 
 namespace rl {

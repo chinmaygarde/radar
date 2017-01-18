@@ -6,11 +6,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
+#include <Core/RawAttachment.h>
+#include <Foundation/Foundation.h>
 #include "MachBootstrapClientProvider.h"
 #include "MachPort.h"
-
-#include <Foundation/Foundation.h>
-#include <Core/RawAttachment.h>
 
 namespace rl {
 namespace core {

@@ -6,10 +6,10 @@
 #define RADARLOVE_GEOMETRY_GEOMETRY_
 
 #include <Geometry/Matrix.h>
+#include <Geometry/Path.h>
 #include <Geometry/Point.h>
 #include <Geometry/Rect.h>
 #include <Geometry/Size.h>
 #include <Geometry/Vector.h>
-#include <Geometry/Path.h>
 
 #endif  // RADARLOVE_GEOMETRY_GEOMETRY_

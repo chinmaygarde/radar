@@ -6,12 +6,11 @@
 #define RADARLOVE_CORE_MACROS_
 
 #include <Core/Timing.h>
-
 #include <cerrno>
+#include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cstdarg>
 
 /*
  *  Logging.

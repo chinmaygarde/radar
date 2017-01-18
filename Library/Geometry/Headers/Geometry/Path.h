@@ -8,9 +8,8 @@
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
 #include <Geometry/PathComponent.h>
-
-#include <vector>
 #include <functional>
+#include <vector>
 
 namespace rl {
 namespace geom {

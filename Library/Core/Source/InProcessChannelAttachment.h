@@ -12,13 +12,11 @@
 #include <Core/Macros.h>
 #include <Core/Message.h>
 #include <Core/WaitSet.h>
-
-#include "InProcessAttachment.h"
-
-#include <mutex>
-#include <vector>
 #include <list>
+#include <mutex>
 #include <unordered_set>
+#include <vector>
+#include "InProcessAttachment.h"
 
 namespace rl {
 namespace core {

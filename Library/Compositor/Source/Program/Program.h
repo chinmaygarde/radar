@@ -8,8 +8,8 @@
 #include <Core/Core.h>
 #include <Core/ThreadGuard.h>
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 #include "OpenGL.h"
 
 namespace rl {

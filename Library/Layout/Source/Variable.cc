@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Layout/Variable.h>
-
 #include "LayoutUtilities.h"
 
 namespace rl {

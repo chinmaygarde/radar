@@ -5,9 +5,9 @@
 #ifndef RADAR_COMPOSITOR_PRIMITIVESCACHE_H_
 #define RADAR_COMPOSITOR_PRIMITIVESCACHE_H_
 
+#include <Compositor/PresentationEntity.h>
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
-#include <Compositor/PresentationEntity.h>
 #include <unordered_map>
 #include "Primitive/Primitive.h"
 

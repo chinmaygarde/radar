@@ -4,7 +4,6 @@
 
 #include <Compositor/Context.h>
 #include <Geometry/Rect.h>
-
 #include "ProgramCatalog.h"
 #include "StatisticsRenderer.h"
 #include "Vertices/BoxVertices.h"

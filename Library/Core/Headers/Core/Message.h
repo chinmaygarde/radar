@@ -6,11 +6,9 @@
 #define RADARLOVE_CORE_MESSAGE_
 
 #include <Core/Macros.h>
-#include <Core/RawAttachment.h>
 #include <Core/MessageSerializable.h>
-
+#include <Core/RawAttachment.h>
 #include <string.h>
-
 #include <memory>
 #include <utility>
 #include <vector>

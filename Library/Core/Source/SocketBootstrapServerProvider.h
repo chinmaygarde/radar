@@ -9,11 +9,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/Macros.h>
 #include <Core/EventLoopThread.h>
-
-#include "SocketServer.h"
+#include <Core/Macros.h>
 #include "BootstrapServerProvider.h"
+#include "SocketServer.h"
 
 #include <map>
 

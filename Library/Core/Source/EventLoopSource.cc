@@ -4,9 +4,8 @@
 
 #include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
-#include <Core/Utilities.h>
-
 #include <Core/TraceEvent.h>
+#include <Core/Utilities.h>
 
 #define HANDLE_CAST(x) static_cast<int>((x))
 

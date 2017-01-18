@@ -6,7 +6,6 @@
 #define RADAR_COMPOSITOR_FRONTENDPASS_H_
 
 #include <Core/Macros.h>
-
 #include <vector>
 
 namespace rl {

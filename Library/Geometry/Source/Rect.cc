@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Geometry/Rect.h>
-
 #include <sstream>
 
 namespace rl {

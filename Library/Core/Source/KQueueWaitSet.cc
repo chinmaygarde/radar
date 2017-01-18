@@ -6,10 +6,9 @@
 
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 
-#include "KQueueWaitSet.h"
-
 #include <sys/event.h>
 #include <unistd.h>
+#include "KQueueWaitSet.h"
 
 #ifndef NSEC_PER_SEC
 #define NSEC_PER_SEC 1000000000

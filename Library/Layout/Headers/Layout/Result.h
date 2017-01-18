@@ -6,7 +6,6 @@
 #define RADARLOVE_LAYOUT_RESULT_H_
 
 #include <Core/Core.h>
-
 #include <string>
 
 namespace rl {

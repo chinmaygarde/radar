@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
 #include <Image/Image.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(ImageTest, SimgeDecoderJPG) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});

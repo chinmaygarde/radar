@@ -6,9 +6,7 @@
 #define RADAR_GRAPHICSTESTRUNNER_EGLCONNECTION_H_
 
 #include <Core/Macros.h>
-
 #include <EGL/egl.h>
-
 #include "EGLConfig.h"
 #include "EGLContext.h"
 

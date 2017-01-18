@@ -7,7 +7,6 @@
 
 #include <Core/Macros.h>
 #include <Geometry/Path.h>
-
 #include "Primitive.h"
 
 namespace rl {

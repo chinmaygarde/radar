@@ -5,11 +5,10 @@
 #ifndef RADAR_COMPOSITOR_BACKENDPASS_H_
 #define RADAR_COMPOSITOR_BACKENDPASS_H_
 
-#include <Core/Macros.h>
-#include <Compositor/FrontendPass.h>
 #include <Compositor/Frame.h>
+#include <Compositor/FrontendPass.h>
+#include <Core/Macros.h>
 #include <Image/Image.h>
-
 #include <vector>
 
 namespace rl {

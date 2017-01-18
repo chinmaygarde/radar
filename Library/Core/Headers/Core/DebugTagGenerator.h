@@ -6,7 +6,6 @@
 #define RadarLove_Core_DebugTagGenerator_h_
 
 #include <Core/Macros.h>
-
 #include <atomic>
 #include <string>
 

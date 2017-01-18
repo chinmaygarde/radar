@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 #include <Compositor/PresentationEntity.h>
-#include "PrimitivesCache.h"
 #include <algorithm>
+#include "PrimitivesCache.h"
 
 namespace rl {
 namespace compositor {

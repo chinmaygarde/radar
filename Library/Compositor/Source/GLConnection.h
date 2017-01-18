@@ -6,11 +6,9 @@
 #define RADAR_COMPOSITOR_GLCONNECTION_H_
 
 #include <Core/Macros.h>
-
-#include "OpenGL.h"
-
-#include <string>
 #include <set>
+#include <string>
+#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

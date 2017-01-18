@@ -6,9 +6,7 @@
 #define RADAR_COMPOSITOR_PATHVERTICES_H_
 
 #include <Core/Macros.h>
-
 #include <Geometry/Path.h>
-
 #include "OpenGL.h"
 #include "Vertices/Vertices.h"
 

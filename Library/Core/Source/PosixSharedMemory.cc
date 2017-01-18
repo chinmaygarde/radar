@@ -13,12 +13,10 @@
 
 #include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
-
-#include "SharedMemoryHandle.h"
-
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "SharedMemoryHandle.h"
 
 namespace rl {
 namespace core {

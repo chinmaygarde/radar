@@ -6,6 +6,7 @@
 #include <ppapi/cpp/input_event.h>
 #include <ppapi/cpp/instance.h>
 #include <ppapi/cpp/instance.h>
+#include <ppapi/cpp/message_loop.h>
 #include <ppapi/cpp/module.h>
 #include <ppapi/cpp/module.h>
 #include <ppapi/cpp/var.h>
@@ -13,12 +14,11 @@
 #include <ppapi/cpp/var_array.h>
 #include <ppapi/lib/gl/gles2/gl2ext_ppapi.h>
 #include <ppapi/utility/completion_callback_factory.h>
-#include <ppapi/cpp/message_loop.h>
 
-#include <nacl_io/nacl_io.h>
+#include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
 #include <Shell/Shell.h>
-#include <Coordinator/RenderSurface.h>
+#include <nacl_io/nacl_io.h>
 
 #include "Sample.h"
 

@@ -15,17 +15,17 @@
  *
  */
 
-#include <jni.h>
 #include <errno.h>
+#include <jni.h>
 
-#include <EGL/egl.h>
-#include <android/sensor.h>
-#include <android/log.h>
-#include <android_native_app_glue.h>
-#include <Core/Core.h>
-#include <Shell/Shell.h>
 #include <Coordinator/RenderSurface.h>
+#include <Core/Core.h>
+#include <EGL/egl.h>
 #include <Sample.h>
+#include <Shell/Shell.h>
+#include <android/log.h>
+#include <android/sensor.h>
+#include <android_native_app_glue.h>
 
 #define LOGI(...) \
   ((void)__android_log_print(ANDROID_LOG_INFO, "Radar", __VA_ARGS__))

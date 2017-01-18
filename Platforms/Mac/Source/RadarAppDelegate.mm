@@ -3,12 +3,12 @@
 // found in the LICENSE file.
 
 #import "RadarAppDelegate.h"
-#include "RadarWindow.h"
 #include <Core/Trace.h>
 #include <Shell/DefaultInterface.h>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
+#include "RadarWindow.h"
 
 @interface RadarAppDelegate ()
 

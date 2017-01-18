@@ -9,10 +9,9 @@
 #include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
 #include <Core/WaitSet.h>
-
+#include <atomic>
 #include <functional>
 #include <list>
-#include <atomic>
 #include <mutex>
 
 namespace rl {

@@ -6,11 +6,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
+#include <Core/Channel.h>
 #include "InProcessChannel.h"
 #include "InProcessChannelAttachment.h"
 #include "InProcessWaitSet.h"
-
-#include <Core/Channel.h>
 
 namespace rl {
 namespace core {

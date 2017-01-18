@@ -7,7 +7,6 @@
 
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
-
 #include <atomic>
 #include <mutex>
 #include <string>

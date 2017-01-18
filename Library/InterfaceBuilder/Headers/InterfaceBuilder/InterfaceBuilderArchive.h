@@ -5,8 +5,8 @@
 #ifndef RADAR_INTERFACEBUILDER_INTERFACEBUILDERARCHIVE_H_
 #define RADAR_INTERFACEBUILDER_INTERFACEBUILDERARCHIVE_H_
 
-#include <Core/Macros.h>
 #include <Core/FileHandle.h>
+#include <Core/Macros.h>
 #include <Interface/Interface.h>
 #include <memory>
 

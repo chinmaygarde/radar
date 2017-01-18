@@ -9,9 +9,6 @@
 #include <Core/Message.h>
 #include <Core/SharedMemory.h>
 #include <Core/Utilities.h>
-
-#include "SocketChannel.h"
-
 #include <errno.h>
 #include <fcntl.h>
 #include <poll.h>
@@ -19,8 +16,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-
 #include <mutex>
+#include "SocketChannel.h"
 
 namespace rl {
 namespace core {

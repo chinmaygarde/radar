@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Typography/Font.h>
-
 #include <hb-ft.h>
 
 namespace rl {

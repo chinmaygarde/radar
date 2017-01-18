@@ -2,9 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <GraphicsTestRunner/GraphicsTestRunner.h>
-
 #include <Compositor/Context.h>
+#include <GraphicsTestRunner/GraphicsTestRunner.h>
 
 TEST_F(GraphicsTest, SimpleUnusedContext) {
   rl::compositor::Context context;

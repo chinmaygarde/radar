@@ -5,7 +5,7 @@
 #ifndef RL_TEST_GRAPHICSTESTRUNNER_H_
 #define RL_TEST_GRAPHICSTESTRUNNER_H_
 
-#include <TestRunner/TestRunner.h>
 #include <GraphicsTestRunner/GraphicsTest.h>
+#include <TestRunner/TestRunner.h>
 
 #endif  // RL_TEST_GRAPHICSTESTRUNNER_H_

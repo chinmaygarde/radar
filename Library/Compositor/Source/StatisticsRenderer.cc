@@ -3,11 +3,9 @@
 // found in the LICENSE file.
 
 #include "StatisticsRenderer.h"
-
+#include <imgui/imgui.h>
 #include "OpenGL.h"
 #include "Program/Program.h"
-
-#include <imgui/imgui.h>
 
 namespace rl {
 namespace compositor {

@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "FileImageSource.h"
-
 #include <Core/Message.h>
 #include <Core/RawAttachment.h>
 

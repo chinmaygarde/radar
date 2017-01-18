@@ -10,7 +10,6 @@
 #if RL_CHANNELS == RL_CHANNELS_INPROCESS
 
 #include <Core/Macros.h>
-
 #include "BootstrapServerProvider.h"
 
 namespace rl {

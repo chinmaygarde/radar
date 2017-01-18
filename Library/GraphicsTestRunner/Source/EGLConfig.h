@@ -6,7 +6,6 @@
 #define RADAR_GRAPHICSTESTRUNNER_EGLCONFIG_H_
 
 #include <Core/Macros.h>
-
 #include "EGLSurface.h"
 
 namespace rl {

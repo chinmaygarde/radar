@@ -5,12 +5,11 @@
 #ifndef RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_
 #define RADARLOVE_COORDINATOR_TRANSACTIONPAYLOAD_H_
 
+#include <Animation/Action.h>
 #include <Coordinator/TransferEntity.h>
 #include <Core/Core.h>
-#include <Animation/Action.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
-
 #include <map>
 
 namespace rl {

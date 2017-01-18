@@ -5,11 +5,10 @@
 #ifndef RADAR_CORE_EVENTLOOPTHREAD_H_
 #define RADAR_CORE_EVENTLOOPTHREAD_H_
 
-#include <Core/Macros.h>
 #include <Core/EventLoop.h>
-#include <Core/Mutexed.h>
 #include <Core/Latch.h>
-
+#include <Core/Macros.h>
+#include <Core/Mutexed.h>
 #include <thread>
 
 namespace rl {

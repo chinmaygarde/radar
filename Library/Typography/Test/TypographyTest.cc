@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-#include <HBBuffer.h>
 #include <FTLibrary.h>
+#include <HBBuffer.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(TypographyTest, SimpleFontRegistration) {
   rl::type::FTLibrary library;

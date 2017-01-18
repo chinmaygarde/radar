@@ -7,7 +7,6 @@
 
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
-
 #include <cmath>
 
 namespace rl {

@@ -4,8 +4,8 @@
 
 #include "PrimitivesCache.h"
 #include "Primitive/ColoredBoxPrimitive.h"
-#include "Primitive/TexturedBoxPrimitive.h"
 #include "Primitive/ColoredPathPrimitive.h"
+#include "Primitive/TexturedBoxPrimitive.h"
 #include "Primitive/TexturedPathPrimitive.h"
 
 namespace rl {

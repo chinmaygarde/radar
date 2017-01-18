@@ -5,9 +5,9 @@
 #ifndef RADAR_COMPOSITOR_GRAPHICSTESTFRAME_H_
 #define RADAR_COMPOSITOR_GRAPHICSTESTFRAME_H_
 
+#include <Compositor/Frame.h>
 #include <Core/Macros.h>
 #include <GraphicsTestRunner/GraphicsTest.h>
-#include <Compositor/Frame.h>
 
 class GraphicsTestFrame : public GraphicsTest {
  public:

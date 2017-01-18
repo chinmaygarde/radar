@@ -5,8 +5,8 @@
 #ifndef RL_SVGXFORMPARSER_RLDECLS_H_
 #define RL_SVGXFORMPARSER_RLDECLS_H_
 
-#include "SVGXFormParser.h"
 #include "SVGXFormDriver.h"
+#include "SVGXFormParser.h"
 
 #define YY_DECL                                                              \
   rl::SVGXFormParser::symbol_type RLSVGXForm_lex(rl::SVGXFormDriver& driver, \

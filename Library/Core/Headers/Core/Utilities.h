@@ -7,7 +7,6 @@
 
 #include <Core/Timing.h>
 #include <Core/URI.h>
-
 #include <functional>
 #include <memory>
 #include <type_traits>

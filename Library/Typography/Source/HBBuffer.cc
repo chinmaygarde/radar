@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "HBBuffer.h"
-
 #include <algorithm>
 
 namespace rl {

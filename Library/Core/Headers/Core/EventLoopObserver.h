@@ -6,10 +6,9 @@
 #define RADARLOVER_CORE_EVENT_LOOP_OBSERVER_
 
 #include <Core/Macros.h>
-
 #include <functional>
-#include <mutex>
 #include <memory>
+#include <mutex>
 #include <set>
 
 namespace rl {

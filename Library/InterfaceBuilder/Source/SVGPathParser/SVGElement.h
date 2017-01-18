@@ -6,8 +6,8 @@
 #define RADAR_SVGPARSER_SVGELEMENT_H_
 
 #include <Core/Macros.h>
-#include <vector>
 #include <Geometry/Point.h>
+#include <vector>
 
 namespace rl {
 

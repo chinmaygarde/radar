@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 #include "ArchiveStatement.h"
-
 #include <sqlite3/sqlite3.h>
-
 #include <string>
 
 namespace rl {

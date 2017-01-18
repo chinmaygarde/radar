@@ -6,8 +6,8 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include "MachPort.h"
 #include "MachPayload.h"
+#include "MachPort.h"
 
 namespace rl {
 namespace core {

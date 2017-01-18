@@ -14,9 +14,9 @@
 #include <Core/Latch.h>
 #include <Core/Macros.h>
 #include <Core/Namespace.h>
+#include <Core/Thread.h>
 #include <Core/Timing.h>
 #include <Core/Utilities.h>
-#include <Core/Thread.h>
 
 /*
  *  Bootstrap Server

@@ -6,8 +6,8 @@
 #define RADAR_CORE_FILEHANDLE_H_
 
 #include <Core/Macros.h>
-#include <Core/URI.h>
 #include <Core/RawAttachment.h>
+#include <Core/URI.h>
 
 namespace rl {
 namespace core {

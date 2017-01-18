@@ -10,11 +10,9 @@
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
 #include <Core/EventLoopSource.h>
-
-#include "InProcessWaitSet.h"
-
-#include <unordered_set>
 #include <mutex>
+#include <unordered_set>
+#include "InProcessWaitSet.h"
 
 namespace rl {
 namespace core {

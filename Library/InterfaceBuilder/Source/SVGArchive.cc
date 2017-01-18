@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 #include "SVGArchive.h"
-#include "SVGPathParser/SVGPathString.h"
-#include "SVGDecoder.h"
 #include <Geometry/PathBuilder.h>
 #include <sstream>
+#include "SVGDecoder.h"
+#include "SVGPathParser/SVGPathString.h"
 
 namespace rl {
 namespace ib {

@@ -10,7 +10,6 @@
 #include <Core/Macros.h>
 #include <Core/Message.h>
 #include <Core/RawAttachment.h>
-
 #include <memory>
 #include <string>
 #include <vector>

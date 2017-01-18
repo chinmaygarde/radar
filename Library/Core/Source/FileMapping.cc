@@ -2,9 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/FileMapping.h>
 #include <Core/File.h>
-
+#include <Core/FileMapping.h>
 #include <sys/mman.h>
 
 namespace rl {

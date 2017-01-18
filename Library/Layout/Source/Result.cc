@@ -5,5 +5,9 @@
 #include <Layout/Result.h>
 
 namespace rl {
-namespace layout {}  // namespace layout
+namespace layout {
+
+//
+
+}  // namespace layout
 }  // namespace rl

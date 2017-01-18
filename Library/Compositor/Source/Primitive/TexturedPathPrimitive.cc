@@ -3,13 +3,11 @@
 // found in the LICENSE file.
 
 #include "TexturedPathPrimitive.h"
-
 #include <Compositor/BackendPass.h>
-
-#include "Uniform.h"
-#include "Texture.h"
-#include "Vertices/PathVertices.h"
 #include "ProgramCatalog.h"
+#include "Texture.h"
+#include "Uniform.h"
+#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {

@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Shell/Shell.h>
-
 #include <Coordinator/Coordinator.h>
-#include <Shell/Host.h>
 #include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
+#include <Shell/Host.h>
+#include <Shell/Shell.h>
 
 namespace rl {
 namespace shell {

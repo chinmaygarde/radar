@@ -2,19 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <stdio.h>
+#include <Coordinator/RenderSurface.h>
+#include <Core/Core.h>
+#include <EGL/egl.h>
+#include <GLES2/gl2.h>
+#include <Shell/Shell.h>
+#include <assert.h>
+#include <bcm_host.h>
 #include <fcntl.h>
+#include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <assert.h>
 #include <unistd.h>
-#include <bcm_host.h>
-#include <GLES2/gl2.h>
-#include <EGL/egl.h>
-#include <Core/Core.h>
-#include <Shell/Shell.h>
-#include <Coordinator/RenderSurface.h>
 
 #include <memory>
 

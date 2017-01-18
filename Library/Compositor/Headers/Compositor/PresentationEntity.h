@@ -5,11 +5,10 @@
 #ifndef RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
 #define RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
 
-#include <Core/Core.h>
-#include <Geometry/Geometry.h>
-#include <Entity/Entity.h>
 #include <Compositor/FrontendPass.h>
-
+#include <Core/Core.h>
+#include <Entity/Entity.h>
+#include <Geometry/Geometry.h>
 #include <map>
 
 namespace rl {

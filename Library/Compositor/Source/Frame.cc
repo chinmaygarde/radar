@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Utilities.h>
-#include <Compositor/Frame.h>
 #include <Compositor/Context.h>
-
-#include "Primitive/Primitive.h"
+#include <Compositor/Frame.h>
+#include <Core/Utilities.h>
 #include "OpenGL.h"
+#include "Primitive/Primitive.h"
 
 namespace rl {
 namespace compositor {

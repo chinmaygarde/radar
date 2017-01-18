@@ -5,17 +5,15 @@
 #ifndef RADARLOVE_INTERFACE_INTERFACE_
 #define RADARLOVE_INTERFACE_INTERFACE_
 
-#include <Core/Core.h>
-
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
+#include <Core/Core.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/ModelEntity.h>
 #include <Layout/Constraint.h>
 #include <Toolbox/StateMachine.h>
-
-#include <vector>
 #include <mutex>
+#include <vector>
 
 namespace rl {
 namespace interface {

@@ -5,5 +5,9 @@
 #include <Layout/Priority.h>
 
 namespace rl {
-namespace layout {}  // namespace layout
+namespace layout {
+
+//
+
+}  // namespace layout
 }  // namespace rl

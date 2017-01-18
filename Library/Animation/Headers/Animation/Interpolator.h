@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_ANIMATION_INTERPOLATOR_
 #define RADARLOVE_ANIMATION_INTERPOLATOR_
 
-#include <Core/Core.h>
 #include <Animation/Action.h>
+#include <Core/Core.h>
 
 namespace rl {
 namespace animation {

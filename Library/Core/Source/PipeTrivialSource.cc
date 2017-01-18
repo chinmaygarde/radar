@@ -6,10 +6,9 @@
 
 #if !RL_OS_WINDOWS
 
-#include "PipeTrivialSource.h"
-
 #include <fcntl.h>
 #include <unistd.h>
+#include "PipeTrivialSource.h"
 
 namespace rl {
 namespace core {

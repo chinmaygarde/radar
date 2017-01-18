@@ -6,9 +6,8 @@
 #define RADAR_CORE_ATTACHMENT_H_
 
 #include <Core/Macros.h>
-
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace rl {
 namespace core {

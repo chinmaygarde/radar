@@ -6,7 +6,6 @@
 #define RADARLOVE_INSTRUMENTATION_TRACEEVENT_H_
 
 #include <Core/Core.h>
-
 #include <map>
 #include <thread>
 

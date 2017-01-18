@@ -5,13 +5,13 @@
 #include "SimpleRenderer.h"
 
 // These are used by the shader compilation methods.
-#include <vector>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
+#include <vector>
 
-#include "pch.h"
 #include "MathHelper.h"
+#include "pch.h"
 
 GLuint CompileShader(GLenum type, const std::string& source) {
   GLuint shader = glCreateShader(type);

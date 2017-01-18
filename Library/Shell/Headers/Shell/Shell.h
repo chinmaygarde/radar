@@ -9,8 +9,8 @@
 #include <Coordinator/RenderSurface.h>
 #include <Core/Core.h>
 #include <Core/Mutexed.h>
-#include <Shell/Host.h>
 #include <Interface/Interface.h>
+#include <Shell/Host.h>
 
 #include <thread>
 #include <unordered_map>

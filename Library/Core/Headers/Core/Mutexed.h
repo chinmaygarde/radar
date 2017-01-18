@@ -6,7 +6,6 @@
 #define RADAR_CORE_MUTEXED_H_
 
 #include <Core/Macros.h>
-
 #include <mutex>
 
 namespace rl {

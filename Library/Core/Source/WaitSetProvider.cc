@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "WaitSetProvider.h"
-
 #include <Core/EventLoopSource.h>
 
 namespace rl {

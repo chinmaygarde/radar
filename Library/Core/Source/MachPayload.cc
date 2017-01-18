@@ -7,7 +7,6 @@
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
 #include "MachPayload.h"
-
 #include "MachPort.h"
 
 namespace rl {

@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-#include <TestRunner/InterfaceTest.h>
-#include <Shell/Shell.h>
 #include <Coordinator/RenderSurface.h>
 #include <Interface/Interface.h>
+#include <Shell/Shell.h>
+#include <TestRunner/InterfaceTest.h>
+#include <TestRunner/TestRunner.h>
 
 TEST_F(InterfaceTest, SimpleFixtureInitialization) {
   /*

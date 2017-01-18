@@ -6,7 +6,6 @@
 #define RADAR_GRAPHICSTESTRUNNER_EGLUTILS_H_
 
 #include <Core/Macros.h>
-
 #include <string>
 
 #define RL_LOG_EGL_ERROR() \

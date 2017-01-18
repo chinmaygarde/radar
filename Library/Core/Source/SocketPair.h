@@ -9,8 +9,8 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/Macros.h>
 #include <Core/Attachment.h>
+#include <Core/Macros.h>
 #include <Core/RawAttachment.h>
 
 namespace rl {

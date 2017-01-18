@@ -7,9 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/WorkQueue.h>
-
 #include <Image/Image.h>
-
 #include "TextureCache.h"
 
 namespace rl {

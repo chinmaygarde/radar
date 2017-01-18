@@ -5,9 +5,9 @@
 #ifndef RADAR_COMPOSITOR_UNIFORM_H_
 #define RADAR_COMPOSITOR_UNIFORM_H_
 
-#include "OpenGL.h"
-#include <Geometry/Matrix.h>
 #include <Entity/Color.h>
+#include <Geometry/Matrix.h>
+#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

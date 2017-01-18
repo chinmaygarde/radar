@@ -7,7 +7,6 @@
 
 #include <Core/IOResult.h>
 #include <Core/Macros.h>
-
 #include <atomic>
 #include <chrono>
 #include <functional>

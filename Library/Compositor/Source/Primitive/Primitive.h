@@ -7,8 +7,8 @@
 
 #include <Core/Core.h>
 #include <Core/ThreadGuard.h>
-#include <Geometry/Geometry.h>
 #include <Entity/Color.h>
+#include <Geometry/Geometry.h>
 
 namespace rl {
 namespace compositor {

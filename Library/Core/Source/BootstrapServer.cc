@@ -3,12 +3,10 @@
 // found in the LICENSE file.
 
 #include <Core/BootstrapServer.h>
-
 #include "BootstrapClient.h"
-
-#include "SocketBootstrapServerProvider.h"
-#include "MachBootstrapServerProvider.h"
 #include "InProcessBootstrapServerProvider.h"
+#include "MachBootstrapServerProvider.h"
+#include "SocketBootstrapServerProvider.h"
 
 namespace rl {
 namespace core {

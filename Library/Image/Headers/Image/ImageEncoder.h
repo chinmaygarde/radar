@@ -5,10 +5,10 @@
 #ifndef RADAR_IMAGE_IMAGEENCODER_H_
 #define RADAR_IMAGE_IMAGEENCODER_H_
 
-#include <Core/Macros.h>
-#include <Image/ImageResult.h>
 #include <Core/FileIOAdapter.h>
+#include <Core/Macros.h>
 #include <Geometry/Size.h>
+#include <Image/ImageResult.h>
 
 namespace rl {
 namespace image {

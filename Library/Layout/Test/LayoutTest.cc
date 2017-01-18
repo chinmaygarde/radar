@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/Core.h>
 #include <Entity/Entity.h>
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(LayoutTest, SimpleOperatorOverloadedConstruction) {
   rl::layout::Expression expr({}, 1.0);

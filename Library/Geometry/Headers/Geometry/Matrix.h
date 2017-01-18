@@ -5,12 +5,11 @@
 #ifndef RADARLOVE_GEOMETRY_MATRIX_
 #define RADARLOVE_GEOMETRY_MATRIX_
 
-#include <Geometry/Vector.h>
-#include <Geometry/Size.h>
 #include <Geometry/Point.h>
-#include <Geometry/Shear.h>
 #include <Geometry/Quaternion.h>
-
+#include <Geometry/Shear.h>
+#include <Geometry/Size.h>
+#include <Geometry/Vector.h>
 #include <cmath>
 #include <utility>
 
@@ -31,7 +30,7 @@ struct Matrix {
     Vector4 perspective;
     Quaternion rotation;
 
-    enum class Component  {
+    enum class Component {
       Translation = 1 << 0,
       Scale = 1 << 1,
       Shear = 1 << 2,

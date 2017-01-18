@@ -4,13 +4,13 @@
 
 #include "App.h"
 
-#include <Core/Core.h>
-#include <Shell/Shell.h>
-#include <Interface/Entity.h>
 #include <Coordinator/RenderSurface.h>
+#include <Core/Core.h>
+#include <Interface/Entity.h>
+#include <Shell/Shell.h>
 
-#include "../RadarLoveWindows.Shared/SimpleRenderer.h"
 #include "../../../../Samples/Sample.h"
+#include "../RadarLoveWindows.Shared/SimpleRenderer.h"
 
 using namespace Windows::ApplicationModel::Core;        // NOLINT
 using namespace Windows::ApplicationModel::Activation;  // NOLINT

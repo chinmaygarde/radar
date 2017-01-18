@@ -3,10 +3,9 @@
 // found in the LICENSE file.
 
 #include "ArchiveClassRegistration.h"
+#include <sstream>
 #include "ArchiveDatabase.h"
 #include "ArchiveStatement.h"
-
-#include <sstream>
 
 namespace rl {
 namespace core {

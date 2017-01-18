@@ -7,10 +7,8 @@
 
 #include <Core/Macros.h>
 #include <Typography/Types.h>
-
 #include <hb.h>
 #include <string>
-
 #include "HBFont.h"
 
 namespace rl {

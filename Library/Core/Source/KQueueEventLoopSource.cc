@@ -10,11 +10,9 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 #include <Core/WaitSet.h>
-
-#include "MachTrivialSource.h"
-
 #include <sys/event.h>
 #include <unistd.h>
+#include "MachTrivialSource.h"
 
 #define HANDLE_CAST(x) static_cast<int>((x))
 

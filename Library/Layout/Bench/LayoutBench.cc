@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 #include <BenchmarkRunner/BenchmarkRunner.h>
-#include <Layout/Solver.h>
 #include <Layout/ConstraintCreation.h>
+#include <Layout/Solver.h>
 
 static void SolverCreation(benchmark::State& state) {
   rl::core::Namespace ns;

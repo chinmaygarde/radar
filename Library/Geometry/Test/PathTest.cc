@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
+#include <Core/Message.h>
 #include <Geometry/Path.h>
 #include <Geometry/PathBuilder.h>
-#include <Core/Message.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(PathTest, SimplePath) {
   rl::geom::Path path;

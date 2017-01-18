@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/Macros.h>
 #include <Core/Trace.h>
 #include <Core/TraceEvent.h>
+#include <TestRunner/TestRunner.h>
 #include <sstream>
 #include <thread>
 

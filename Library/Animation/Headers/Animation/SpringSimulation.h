@@ -5,10 +5,9 @@
 #ifndef RADARLOVE_ANIMATION_SPRINGSIMULATION_
 #define RADARLOVE_ANIMATION_SPRINGSIMULATION_
 
-#include <Core/Core.h>
 #include <Animation/Simulation.h>
 #include <Animation/SpringSolution.h>
-
+#include <Core/Core.h>
 #include <cmath>
 
 namespace rl {

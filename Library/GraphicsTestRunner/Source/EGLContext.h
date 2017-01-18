@@ -6,9 +6,7 @@
 #define RADAR_GRAPHICSTESTRUNNER_EGLCONTEXT_H_
 
 #include <Core/Macros.h>
-
 #include <EGL/egl.h>
-
 #include "EGLSurface.h"
 
 namespace rl {

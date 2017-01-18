@@ -5,7 +5,6 @@
 #include <Core/EventLoop.h>
 #include <Core/ThreadLocal.h>
 #include <Core/Utilities.h>
-
 #include <mutex>
 
 namespace rl {

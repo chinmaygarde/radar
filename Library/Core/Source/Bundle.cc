@@ -4,9 +4,8 @@
 
 #include <Core/Bundle.h>
 #include <Core/Utilities.h>
-
-#include <string>
 #include <sstream>
+#include <string>
 
 namespace rl {
 namespace core {

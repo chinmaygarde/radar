@@ -5,9 +5,9 @@
 #ifndef RADAR_COMPOSITOR_CONTEXT_H_
 #define RADAR_COMPOSITOR_CONTEXT_H_
 
-#include <Core/Macros.h>
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/ThreadBinding.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace compositor {

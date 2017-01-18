@@ -2,10 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/Core.h>
-
+#include <TestRunner/TestRunner.h>
 #include <thread>
 
 #if !RL_OS_BSD && !RL_OS_WINDOWS && !RL_OS_NACL

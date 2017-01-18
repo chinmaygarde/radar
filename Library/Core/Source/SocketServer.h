@@ -9,14 +9,12 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include <Core/Macros.h>
-#include <Core/EventLoopSource.h>
-#include <Core/URI.h>
 #include <Core/Channel.h>
-
-#include "SocketPair.h"
-
+#include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
+#include <Core/URI.h>
 #include <string>
+#include "SocketPair.h"
 
 namespace rl {
 namespace core {

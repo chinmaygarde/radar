@@ -5,8 +5,8 @@
 #ifndef RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 #define RADARLOVE_COMPOSITOR_PROGRAMCATALOG_
 
-#include "Program/Program.h"
 #include "Program/ColorProgram.h"
+#include "Program/Program.h"
 #include "Program/TextureProgram.h"
 
 namespace rl {

@@ -6,11 +6,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
-#include "SocketServer.h"
-
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
+#include "SocketServer.h"
 
 namespace rl {
 namespace core {

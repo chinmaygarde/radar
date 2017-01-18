@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
 #include <TestRunner/InterfaceTest.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(InterfaceBuilderTest, Init) {
   ASSERT_TRUE(true);

@@ -48,10 +48,10 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include "stack.hh"
-#include "location.hh"
 #include <typeinfo>
+#include <vector>
+#include "location.hh"
+#include "stack.hh"
 #ifndef YYASSERT
 #include <cassert>
 #define YYASSERT assert

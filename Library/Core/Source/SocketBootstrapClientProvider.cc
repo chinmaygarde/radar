@@ -7,7 +7,6 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/Channel.h>
-
 #include "SocketBootstrapClientProvider.h"
 #include "SocketBootstrapServerProvider.h"
 

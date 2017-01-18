@@ -10,7 +10,6 @@
 #include <Core/Macros.h>
 #include <Core/Utilities.h>
 #include <Core/WaitSet.h>
-
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <sys/timerfd.h>

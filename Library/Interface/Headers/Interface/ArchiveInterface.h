@@ -6,7 +6,6 @@
 #define RADARLOVE_INTERFACE_ARCHIVEINTERFACE_H_
 
 #include <Core/Core.h>
-
 #include <Interface/Interface.h>
 
 namespace rl {

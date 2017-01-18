@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "ArchiveVector.h"
-
 #include <sstream>
 
 namespace rl {

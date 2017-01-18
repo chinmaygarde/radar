@@ -5,9 +5,9 @@
 #ifndef RADAR_IMAGE_IMAGERESULT_H_
 #define RADAR_IMAGE_IMAGERESULT_H_
 
+#include <Core/Allocation.h>
 #include <Core/Macros.h>
 #include <Geometry/Size.h>
-#include <Core/Allocation.h>
 
 namespace rl {
 namespace image {

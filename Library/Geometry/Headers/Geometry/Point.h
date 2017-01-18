@@ -6,7 +6,6 @@
 #define RADARLOVE_GEOMETRY_POINT_
 
 #include <Geometry/Size.h>
-
 #include <string>
 
 namespace rl {

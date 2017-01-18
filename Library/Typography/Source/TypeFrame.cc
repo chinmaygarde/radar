@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Typography/TypeFrame.h>
-
 #include <hb.h>
 
 namespace rl {

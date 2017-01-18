@@ -6,9 +6,8 @@
 
 #if RL_SHMEM != RL_SHMEM_DISABLED
 
-#include <TestRunner/TestRunner.h>
-
 #include <Core/SharedMemory.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(SharedMemoryTest, SimpleInitialization) {
   rl::core::SharedMemory memory(1024);

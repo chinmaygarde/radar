@@ -11,7 +11,6 @@
 
 #include <Core/Channel.h>
 #include <Core/ChannelProvider.h>
-
 #include "MachPort.h"
 
 namespace rl {

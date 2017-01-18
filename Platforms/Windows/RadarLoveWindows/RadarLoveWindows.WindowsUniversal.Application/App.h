@@ -18,8 +18,8 @@
 // ANGLE include for Windows Store
 #include <angle_windowsstore.h>
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace RadarLoveWindows {
 ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView {

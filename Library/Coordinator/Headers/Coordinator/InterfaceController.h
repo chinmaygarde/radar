@@ -5,12 +5,12 @@
 #ifndef RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 #define RADARLOVE_COORDINATOR_INTERFACECONTROLLER_H_
 
-#include <Coordinator/PresentationGraph.h>
-#include <Compositor/InterfaceStatistics.h>
 #include <Compositor/FrontendPass.h>
+#include <Compositor/InterfaceStatistics.h>
+#include <Coordinator/PresentationGraph.h>
 #include <Core/Core.h>
-#include <Event/TouchEvent.h>
 #include <Core/Mutexed.h>
+#include <Event/TouchEvent.h>
 
 namespace rl {
 namespace coordinator {

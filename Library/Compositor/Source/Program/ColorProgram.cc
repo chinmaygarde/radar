@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "ColorProgram.h"
-
 #include <string>
 
 namespace rl {

@@ -2,16 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Archive.h>
-
 #include "ArchiveDatabase.h"
-#include "ArchiveStatement.h"
-#include "ArchiveClassRegistration.h"
-
+#include <Core/Archive.h>
 #include <sqlite3/sqlite3.h>
-
-#include <string>
 #include <sstream>
+#include <string>
+#include "ArchiveClassRegistration.h"
+#include "ArchiveStatement.h"
 
 namespace rl {
 namespace core {

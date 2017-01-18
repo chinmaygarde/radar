@@ -4,9 +4,8 @@
 
 #include <Layout/Priority.h>
 #include <Layout/Solver.h>
-
-#include "Row.h"
 #include "LayoutUtilities.h"
+#include "Row.h"
 
 namespace rl {
 namespace layout {

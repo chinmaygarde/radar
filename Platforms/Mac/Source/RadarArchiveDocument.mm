@@ -4,8 +4,8 @@
 
 #import "RadarArchiveDocument.h"
 #include <Core/Allocation.h>
-#include <InterfaceBuilder/InterfaceBuilderInterface.h>
 #include <Core/EventLoopThread.h>
+#include <InterfaceBuilder/InterfaceBuilderInterface.h>
 
 @implementation RadarArchiveDocument {
   rl::core::EventLoopThread _interfaceThread;

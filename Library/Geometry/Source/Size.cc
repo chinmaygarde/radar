@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Geometry/Size.h>
-
 #include <sstream>
 
 namespace rl {

@@ -10,12 +10,11 @@
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
 #include <Core/Macros.h>
-#include "WaitSetProvider.h"
-
 #include <condition_variable>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include "WaitSetProvider.h"
 
 namespace rl {
 namespace core {

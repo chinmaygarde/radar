@@ -6,7 +6,6 @@
 #define RADARLOVE_INTERFACE_INTERFACEDELEGATE_
 
 #include <Core/Macros.h>
-
 #include <functional>
 
 namespace rl {

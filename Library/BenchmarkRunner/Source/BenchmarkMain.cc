@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <BenchmarkRunner/BenchmarkRunner.h>
-
 #include <DevSupport/DevSupport.h>
 
 int main(int argc, char** argv) {

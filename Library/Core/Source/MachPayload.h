@@ -9,11 +9,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
+#include <Core/Allocation.h>
+#include <Core/IOResult.h>
 #include <Core/Macros.h>
 #include <Core/Message.h>
-#include <Core/IOResult.h>
-#include <Core/Allocation.h>
-
 #include <mach/mach.h>
 
 namespace rl {

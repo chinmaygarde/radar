@@ -5,9 +5,8 @@
 #ifndef RADARLOVE_INTERFACE_ACTION_
 #define RADARLOVE_INTERFACE_ACTION_
 
-#include <Core/Core.h>
-
 #include <Animation/TimingCurve.h>
+#include <Core/Core.h>
 #include <Entity/Entity.h>
 
 namespace rl {

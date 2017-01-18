@@ -10,7 +10,6 @@
 #if RL_CHANNELS == RL_CHANNELS_SOCKET
 
 #include <Core/Macros.h>
-
 #include "BootstrapClientProvider.h"
 
 namespace rl {

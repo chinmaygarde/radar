@@ -6,10 +6,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include "MachFilePort.h"
-
 #include <sys/syscall.h>
 #include <unistd.h>
+#include "MachFilePort.h"
 
 #ifndef SYS_fileport_makeport
 #error SYS_fileport_makeport not defined.

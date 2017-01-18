@@ -4,9 +4,7 @@
 
 #define GL_GLEXT_PROTOTYPES
 #include <GLES2/gl2.h>
-
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
-
 #include "GraphicsConnection.h"
 
 TEST(GraphicsTestRunnerTest, SimpleConnectionIsValid) {

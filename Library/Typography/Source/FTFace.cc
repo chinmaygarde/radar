@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include "FTFace.h"
-
 #include <hb-ft.h>
 
 namespace rl {

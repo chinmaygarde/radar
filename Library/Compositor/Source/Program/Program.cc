@@ -3,10 +3,8 @@
 // found in the LICENSE file.
 
 #include "Program.h"
-
-#include "OpenGL.h"
-
 #include <algorithm>
+#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

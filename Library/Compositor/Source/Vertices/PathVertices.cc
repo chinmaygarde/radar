@@ -3,10 +3,8 @@
 // found in the LICENSE file.
 
 #include "Vertices/PathVertices.h"
-
-#include <algorithm>
-
 #include <libtess2/tesselator.h>
+#include <algorithm>
 
 namespace rl {
 namespace compositor {

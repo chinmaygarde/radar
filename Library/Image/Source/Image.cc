@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 #include <Image/Image.h>
-
 #include <stb_image.h>
-
 #include "ImageSource.h"
 
 namespace rl {

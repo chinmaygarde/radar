@@ -6,12 +6,10 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include "MachChannel.h"
-
 #include <Core/Message.h>
 #include <Core/Utilities.h>
-
 #include <sys/event.h>
+#include "MachChannel.h"
 
 namespace rl {
 namespace core {

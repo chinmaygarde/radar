@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Compositor/FrontendPass.h>
-
 #include "Primitive/Primitive.h"
 
 namespace rl {

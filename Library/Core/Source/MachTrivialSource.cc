@@ -6,10 +6,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include "MachTrivialSource.h"
-
 #include <mach/mach.h>
 #include <sys/event.h>
+#include "MachTrivialSource.h"
 
 namespace rl {
 namespace core {

@@ -6,7 +6,6 @@
 #define RADARLOVE_CORE_GUARD_
 
 #include <Core/Macros.h>
-
 #include <functional>
 
 namespace rl {

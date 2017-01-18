@@ -3,11 +3,11 @@
 // found in the LICENSE file.
 
 #include "SVGDecoder.h"
-#include "SVGColorParser/SVGColor.h"
-#include "SVGXFormParser/SVGXFormString.h"
 #include <Core/Base64.h>
 #include <Entity/Entity.h>
 #include <sstream>
+#include "SVGColorParser/SVGColor.h"
+#include "SVGXFormParser/SVGXFormString.h"
 
 namespace rl {
 namespace ib {

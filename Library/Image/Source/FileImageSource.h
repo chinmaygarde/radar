@@ -5,9 +5,8 @@
 #ifndef RADAR_IMAGE_FILEIMAGESOURCE_H_
 #define RADAR_IMAGE_FILEIMAGESOURCE_H_
 
-#include <Core/Macros.h>
 #include <Core/FileMapping.h>
-
+#include <Core/Macros.h>
 #include "ImageSource.h"
 
 namespace rl {

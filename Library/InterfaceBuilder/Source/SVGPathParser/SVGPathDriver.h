@@ -6,8 +6,8 @@
 #define RL_SVGPATHPARSER_SVGPATHDRIVER_H_
 
 #include <Core/Core.h>
-#include <Geometry/Point.h>
 #include <Geometry/PathBuilder.h>
+#include <Geometry/Point.h>
 #include <string>
 #include "SVGElement.h"
 #include "location.hh"

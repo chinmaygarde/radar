@@ -6,8 +6,8 @@
 #define RADARLOVE_CORE_WORKQUEUE_H_
 
 #include <Core/EventLoop.h>
-#include <Core/Latch.h>
 #include <Core/EventLoopThread.h>
+#include <Core/Latch.h>
 
 namespace rl {
 namespace core {

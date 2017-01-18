@@ -2,10 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Namespace.h>
-
 #include <Core/Message.h>
-
+#include <Core/Namespace.h>
 #include <sstream>
 
 namespace rl {

@@ -6,9 +6,7 @@
 #include <Core/ChannelProvider.h>
 #include <Core/Message.h>
 #include <Core/Utilities.h>
-
 #include "Config.h"
-
 #include "InProcessChannel.h"
 #include "MachChannel.h"
 #include "SocketChannel.h"

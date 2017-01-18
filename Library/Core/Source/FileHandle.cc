@@ -4,10 +4,8 @@
 
 #include <Core/FileHandle.h>
 #include <Core/Utilities.h>
-
 #include <fcntl.h>
 #include <unistd.h>
-
 #include "Config.h"
 
 #if RL_CHANNELS == RL_CHANNELS_MACH

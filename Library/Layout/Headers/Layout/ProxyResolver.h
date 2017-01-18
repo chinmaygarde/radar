@@ -6,8 +6,8 @@
 #define RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
 
 #include <Core/Core.h>
-#include <Event/TouchEvent.h>
 #include <Entity/Entity.h>
+#include <Event/TouchEvent.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
 

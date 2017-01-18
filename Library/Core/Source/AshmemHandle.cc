@@ -6,15 +6,14 @@
 
 #if RL_SHMEM == RL_SHMEM_ASHMEM
 
-#include "SharedMemoryHandle.h"
-
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
 #include <fcntl.h>
 #include <linux/ashmem.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include "SharedMemoryHandle.h"
 
 namespace rl {
 namespace core {

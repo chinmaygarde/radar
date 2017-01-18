@@ -5,8 +5,8 @@
 #ifndef RADAR_CORE_BASE64_H_
 #define RADAR_CORE_BASE64_H_
 
-#include <Core/Macros.h>
 #include <Core/Allocation.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace core {

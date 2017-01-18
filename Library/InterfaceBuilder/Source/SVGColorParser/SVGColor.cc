@@ -28,10 +28,10 @@
 // IN THE SOFTWARE.
 
 #include "SVGColor.h"
-#include <map>
 #include <cmath>
-#include <vector>
+#include <map>
 #include <sstream>
+#include <vector>
 
 namespace rl {
 namespace ib {

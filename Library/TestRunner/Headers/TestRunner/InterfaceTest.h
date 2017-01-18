@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <gtest/gtest.h>
 #include <Core/Macros.h>
 #include <Shell/Shell.h>
+#include <gtest/gtest.h>
 
 /**
  * In the global namespace because this class is meant to be used as a gtest

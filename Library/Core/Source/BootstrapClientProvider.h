@@ -5,9 +5,8 @@
 #ifndef RADAR_CORE_BOOTSTRAPCLIENTPROVIDER_H_
 #define RADAR_CORE_BOOTSTRAPCLIENTPROVIDER_H_
 
-#include <Core/Macros.h>
 #include <Core/Channel.h>
-
+#include <Core/Macros.h>
 #include <string>
 
 namespace rl {

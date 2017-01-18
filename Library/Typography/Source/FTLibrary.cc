@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 #include "FTLibrary.h"
-
 #include <Core/Utilities.h>
-
 #include "FTFace.h"
 
 namespace rl {

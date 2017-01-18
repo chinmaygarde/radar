@@ -5,9 +5,9 @@
 #ifndef RADARLOVE_ANIMATION_SCROLLSIMULATION_
 #define RADARLOVE_ANIMATION_SCROLLSIMULATION_
 
-#include <Core/Core.h>
 #include <Animation/SimulationGroup.h>
 #include <Animation/SpringSimulation.h>
+#include <Core/Core.h>
 
 namespace rl {
 namespace animation {

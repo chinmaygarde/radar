@@ -2,13 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/WaitSet.h>
-
 #include <Core/EventLoopSource.h>
 #include <Core/Utilities.h>
-
+#include <Core/WaitSet.h>
 #include <algorithm>
-
 #include "Config.h"
 #include "EPollWaitSet.h"
 #include "InProcessWaitSet.h"

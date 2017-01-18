@@ -5,9 +5,9 @@
 #ifndef RL_TEST_RUNNER_H_
 #define RL_TEST_RUNNER_H_
 
-#include <gtest/gtest.h>
 #include <Geometry/Matrix.h>
 #include <Geometry/Rect.h>
+#include <gtest/gtest.h>
 
 #define TEST_SLOW(className, testName) TEST(className, RLSlowTest##testName)
 

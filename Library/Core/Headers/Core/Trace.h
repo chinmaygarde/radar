@@ -7,10 +7,9 @@
 
 #include <Core/Core.h>
 #include <Core/TraceEvent.h>
-
-#include <thread>
-#include <mutex>
 #include <atomic>
+#include <mutex>
+#include <thread>
 
 namespace rl {
 namespace instrumentation {

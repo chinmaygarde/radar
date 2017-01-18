@@ -7,13 +7,11 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
-
-#include "HBFont.h"
-#include "FTFace.h"
-
 #include <hb-ft.h>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
+#include "FTFace.h"
+#include "HBFont.h"
 
 namespace rl {
 namespace type {
@@ -27,7 +25,7 @@ class FTLibrary {
   ~FTLibrary();
 
   bool registerFont(const core::URI& uri);
-  
+
   HBFont fontForTypeface(const std::string& postscriptName);
 
  private:

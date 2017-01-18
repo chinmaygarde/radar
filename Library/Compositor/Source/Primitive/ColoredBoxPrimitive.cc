@@ -3,11 +3,9 @@
 // found in the LICENSE file.
 
 #include "ColoredBoxPrimitive.h"
-
 #include <Compositor/Frame.h>
-
-#include "Uniform.h"
 #include "ProgramCatalog.h"
+#include "Uniform.h"
 #include "Vertices/BoxVertices.h"
 
 namespace rl {

@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 #include <Layout/ProxyResolver.h>
-
 #include <algorithm>
 #include <iterator>
 

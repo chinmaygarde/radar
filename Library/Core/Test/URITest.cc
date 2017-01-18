@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <TestRunner/TestRunner.h>
-
+#include <Core/Bundle.h>
 #include <Core/URI.h>
 #include <Core/Utilities.h>
-#include <Core/Bundle.h>
+#include <TestRunner/TestRunner.h>
 
 TEST(URITest, Simple) {
   rl::core::URI uri("file://hello/world.txt");

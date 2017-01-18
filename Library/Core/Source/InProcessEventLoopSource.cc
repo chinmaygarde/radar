@@ -6,11 +6,11 @@
 
 #if RL_WAITSET == RL_WAITSET_INPROCESS
 
-#include <Core/Macros.h>
 #include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
 #include <Core/Utilities.h>
-#include "InProcessWaitSet.h"
 #include "InProcessTrivialSource.h"
+#include "InProcessWaitSet.h"
 
 namespace rl {
 namespace core {
