@@ -6,6 +6,7 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
+#include <Core/WaitSet.h>
 #include <mach/mach.h>
 #include <sys/event.h>
 #include "MachTrivialSource.h"

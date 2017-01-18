@@ -5,10 +5,8 @@
 #ifndef RL_RIDL_DRIVER_H_
 #define RL_RIDL_DRIVER_H_
 
-#include <Core/Core.h>
-
+#include <Core/Macros.h>
 #include <string>
-
 #include "location.hh"
 
 namespace rl {

@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_SUGGESTION_H_
 #define RADAR_LAYOUT_SUGGESTION_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Priority.h>
 #include <Layout/Variable.h>
 

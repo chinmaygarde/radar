@@ -5,7 +5,7 @@
 #ifndef RADAR_STATE_MACHINE_
 #define RADAR_STATE_MACHINE_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <functional>
 #include <map>
 #include <set>

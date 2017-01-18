@@ -7,7 +7,7 @@
 
 #include <Animation/SimulationGroup.h>
 #include <Animation/SpringSimulation.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace animation {

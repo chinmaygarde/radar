@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/TransferEntity.h>
+#include <Core/Message.h>
 
 namespace rl {
 namespace coordinator {

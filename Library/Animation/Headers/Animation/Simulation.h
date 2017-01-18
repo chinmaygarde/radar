@@ -5,7 +5,7 @@
 #ifndef RADAR_ANIMATION_SIMULATION_
 #define RADAR_ANIMATION_SIMULATION_
 
-#include <Core/Core.h>
+#include <Core/Timing.h>
 
 namespace rl {
 namespace animation {

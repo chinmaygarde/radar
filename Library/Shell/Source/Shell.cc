@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/Coordinator.h>
+#include <Core/Thread.h>
 #include <Core/TraceEvent.h>
 #include <Interface/Interface.h>
 #include <Shell/Host.h>

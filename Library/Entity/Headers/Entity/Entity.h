@@ -5,7 +5,8 @@
 #ifndef RADAR_INTERFACE_ENTITY_
 #define RADAR_INTERFACE_ENTITY_
 
-#include <Core/Core.h>
+#include <Core/Archive.h>
+#include <Core/Macros.h>
 #include <Entity/Color.h>
 #include <Geometry/Geometry.h>
 #include <Image/Image.h>

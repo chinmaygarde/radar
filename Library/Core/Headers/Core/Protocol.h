@@ -5,7 +5,8 @@
 #ifndef RADAR_CORE_PROTOCOL_H_
 #define RADAR_CORE_PROTOCOL_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
+#include <Core/Message.h>
 #include <unordered_map>
 
 namespace rl {

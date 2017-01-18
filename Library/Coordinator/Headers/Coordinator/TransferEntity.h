@@ -5,7 +5,7 @@
 #ifndef RADAR_COORDINATOR_TRANSFERENTITY_H_
 #define RADAR_COORDINATOR_TRANSFERENTITY_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Entity/Entity.h>
 
 namespace rl {

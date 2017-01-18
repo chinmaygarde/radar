@@ -5,11 +5,12 @@
 #ifndef RADAR_RECOGNITION_PROXYRESOLVER_H_
 #define RADAR_RECOGNITION_PROXYRESOLVER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Entity/Entity.h>
 #include <Event/TouchEvent.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
+#include <set>
 
 namespace rl {
 namespace layout {

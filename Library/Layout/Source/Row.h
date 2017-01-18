@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_ROW_H_
 #define RADAR_LAYOUT_ROW_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Symbol.h>
 #include <map>
 

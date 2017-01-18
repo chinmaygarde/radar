@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_SYMBOL_H_
 #define RADAR_LAYOUT_SYMBOL_H_
 
-#include <Core/Core.h>
+#include <cstdint>
 
 namespace rl {
 namespace layout {

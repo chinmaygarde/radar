@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Animation/Action.h>
+#include <Core/Message.h>
 
 namespace rl {
 namespace animation {

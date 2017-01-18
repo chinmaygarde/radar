@@ -6,7 +6,7 @@
 #define RADAR_COMPOSITOR_FRAME_
 
 #include <Compositor/Context.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Geometry/Geometry.h>
 
 namespace rl {

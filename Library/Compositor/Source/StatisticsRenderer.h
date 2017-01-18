@@ -8,7 +8,7 @@
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/Frame.h>
 #include <Compositor/InterfaceStatistics.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace compositor {

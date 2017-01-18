@@ -6,7 +6,7 @@
 #define RADAR_ANIMATION_INTERPOLATOR_
 
 #include <Animation/Action.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace animation {

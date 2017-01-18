@@ -5,8 +5,9 @@
 #ifndef RADAR_INSTRUMENTATION_TRACEEVENT_H_
 #define RADAR_INSTRUMENTATION_TRACEEVENT_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <map>
+#include <string>
 #include <thread>
 
 /*

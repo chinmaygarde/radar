@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_CONSTRAINT_H_
 #define RADAR_LAYOUT_CONSTRAINT_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Expression.h>
 #include <Layout/Priority.h>
 

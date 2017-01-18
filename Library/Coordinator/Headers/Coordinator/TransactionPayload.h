@@ -7,7 +7,7 @@
 
 #include <Animation/Action.h>
 #include <Coordinator/TransferEntity.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Constraint.h>
 #include <Layout/Suggestion.h>
 #include <map>

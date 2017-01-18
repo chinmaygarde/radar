@@ -7,7 +7,7 @@
 
 #include <Animation/Simulation.h>
 #include <Animation/SpringSolution.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <cmath>
 
 namespace rl {

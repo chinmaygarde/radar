@@ -5,10 +5,9 @@
 #ifndef RL_RIDL_SCANNER_H_
 #define RL_RIDL_SCANNER_H_
 
-#include <Core/Core.h>
-
-#include "RLDecls.h"
+#include <Core/Macros.h>
 #include "Lexer.h"
+#include "RLDecls.h"
 
 namespace rl {
 

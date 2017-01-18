@@ -5,7 +5,6 @@
 #ifndef RADAR_LAYOUT_VARIABLE_H_
 #define RADAR_LAYOUT_VARIABLE_H_
 
-#include <Core/Core.h>
 #include <Core/Utilities.h>
 #include <Entity/Entity.h>
 

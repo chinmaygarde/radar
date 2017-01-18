@@ -8,6 +8,7 @@
 #include <Compositor/Frame.h>
 #include <Compositor/FrontendPass.h>
 #include <Core/Macros.h>
+#include <Core/WorkQueue.h>
 #include <Image/Image.h>
 #include <vector>
 

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <Core/BootstrapServer.h>
+#include <Core/Channel.h>
 #include <Core/Protocol.h>
 #include <Core/RawAttachment.h>
 

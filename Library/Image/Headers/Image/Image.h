@@ -5,7 +5,8 @@
 #ifndef RADAR_IMAGE_IMAGE_H_
 #define RADAR_IMAGE_IMAGE_H_
 
-#include <Core/Core.h>
+#include <Core/File.h>
+#include <Core/MessageSerializable.h>
 #include <Geometry/Size.h>
 #include <Image/ImageResult.h>
 

@@ -8,7 +8,8 @@
 #include <Compositor/FrontendPass.h>
 #include <Compositor/InterfaceStatistics.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Core/Core.h>
+#include <Core/Channel.h>
+#include <Core/Macros.h>
 #include <Core/Mutexed.h>
 #include <Event/TouchEvent.h>
 

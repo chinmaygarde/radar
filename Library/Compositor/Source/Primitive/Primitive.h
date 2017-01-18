@@ -5,7 +5,7 @@
 #ifndef RADAR_COMPOSITOR_PRIMITIVE_
 #define RADAR_COMPOSITOR_PRIMITIVE_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
 #include <Entity/Color.h>
 #include <Geometry/Geometry.h>

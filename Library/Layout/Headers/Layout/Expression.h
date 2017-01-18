@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_EXPRESSION_H_
 #define RADAR_LAYOUT_EXPRESSION_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Term.h>
 #include <vector>
 

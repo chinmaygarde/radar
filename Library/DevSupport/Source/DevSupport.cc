@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Core.h>
+#include <Core/File.h>
+#include <Core/Utilities.h>
 #include <DevSupport/DevSupport.h>
 
 namespace rl {

@@ -6,8 +6,8 @@
 #define RADAR_ANIMATION_SPRINGSOLUTION_
 
 #include <Animation/Simulation.h>
-#include <Core/Core.h>
 #include <cmath>
+#include <memory>
 
 namespace rl {
 namespace animation {

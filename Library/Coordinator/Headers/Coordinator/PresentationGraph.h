@@ -13,7 +13,7 @@
 #include <Compositor/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
 #include <Coordinator/TransferEntity.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/ProxyResolver.h>
 #include <Layout/Solver.h>
 #include <Layout/Suggestion.h>

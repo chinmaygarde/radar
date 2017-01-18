@@ -5,7 +5,7 @@
 #ifndef RL_SVGXFORMPARSER_SVGXFORMSCANNER_H_
 #define RL_SVGXFORMPARSER_SVGXFORMSCANNER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include "RLDecls.h"
 #include "SVGXFormLexer.h"
 

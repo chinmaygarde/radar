@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_EDITINFO_H_
 #define RADAR_LAYOUT_EDITINFO_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Constraint.h>
 #include "Tag.h"
 

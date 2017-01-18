@@ -5,7 +5,6 @@
 #ifndef RADAR_ANIMATION_TIMINGCURVE_
 #define RADAR_ANIMATION_TIMINGCURVE_
 
-#include <Core/Core.h>
 #include <Geometry/Geometry.h>
 
 namespace rl {

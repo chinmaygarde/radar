@@ -5,6 +5,7 @@
 #define _USE_MATH_DEFINES
 
 #include <Animation/SpringSolution.h>
+#include <Core/Utilities.h>
 
 namespace rl {
 namespace animation {

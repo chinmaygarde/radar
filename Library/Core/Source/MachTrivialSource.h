@@ -9,7 +9,8 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
-#include <Core/Core.h>
+#include <Core/EventLoopSource.h>
+#include <Core/Macros.h>
 #include "MachPort.h"
 
 namespace rl {

@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_SOLVER_H_
 #define RADAR_LAYOUT_SOLVER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Constraint.h>
 #include <Layout/EditInfo.h>
 #include <Layout/Result.h>
@@ -14,6 +14,7 @@
 #include <Layout/Tag.h>
 #include <Layout/Variable.h>
 #include <functional>
+#include <list>
 #include <map>
 #include <unordered_map>
 #include <vector>

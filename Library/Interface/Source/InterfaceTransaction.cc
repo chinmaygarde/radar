@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <Coordinator/TransactionPayload.h>
+#include <Core/Message.h>
 #include <Interface/InterfaceTransaction.h>
 
 namespace rl {

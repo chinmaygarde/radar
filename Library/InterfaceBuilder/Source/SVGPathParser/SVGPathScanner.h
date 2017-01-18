@@ -5,7 +5,7 @@
 #ifndef RL_SVGPATHPARSER_SVGPATHSCANNER_H_
 #define RL_SVGPATHPARSER_SVGPATHSCANNER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include "RLDecls.h"
 #include "SVGPathLexer.h"
 

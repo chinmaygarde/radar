@@ -6,7 +6,7 @@
 #define RADAR_COMPOSITOR_PRESENTATIONENTITY_
 
 #include <Compositor/FrontendPass.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Entity/Entity.h>
 #include <Geometry/Geometry.h>
 #include <map>

@@ -6,7 +6,6 @@
 #define RADAR_ANIMATION_SIMULATIONGROUP_
 
 #include <Animation/Simulation.h>
-#include <Core/Core.h>
 
 namespace rl {
 namespace animation {

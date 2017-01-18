@@ -5,7 +5,9 @@
 #ifndef RADAR_COORDINATOR_COORDINATORACQUISITIONPROTOCOL_H_
 #define RADAR_COORDINATOR_COORDINATORACQUISITIONPROTOCOL_H_
 
-#include <Core/Core.h>
+#include <Core/Channel.h>
+#include <Core/Macros.h>
+#include <Core/Protocol.h>
 
 namespace rl {
 namespace coordinator {

@@ -5,8 +5,8 @@
 #ifndef RADAR_COMPOSITOR_COMPOSITORSTATISTICS_H_
 #define RADAR_COMPOSITOR_COMPOSITORSTATISTICS_H_
 
-#include <Core/Core.h>
 #include <Core/Instrumentation.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace compositor {

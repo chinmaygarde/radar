@@ -5,7 +5,7 @@
 #ifndef RADAR_LAYOUT_TERM_H_
 #define RADAR_LAYOUT_TERM_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Layout/Variable.h>
 
 namespace rl {

@@ -6,7 +6,7 @@
 #define RADAR_SHELL_HOST_
 
 #include <Core/BootstrapServer.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Event/TouchEventChannel.h>
 
 namespace rl {

@@ -4,7 +4,6 @@
 
 #include <TestRunner/TestRunner.h>
 
-#include <Core/Core.h>
-#include <thread>
-
-TEST(ParserTest, Simple) {}
+TEST(ParserTest, Simple) {
+  //
+}

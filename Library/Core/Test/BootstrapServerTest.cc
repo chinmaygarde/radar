@@ -3,7 +3,8 @@
 // found in the LICENSE file.
 
 #include <Core/BootstrapServer.h>
-#include <Core/Core.h>
+#include <Core/Latch.h>
+#include <Core/Thread.h>
 #include <TestRunner/TestRunner.h>
 #include <thread>
 

@@ -5,9 +5,10 @@
 #ifndef RADAR_INSTRUMENTATION_TRACE_H_
 #define RADAR_INSTRUMENTATION_TRACE_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Core/TraceEvent.h>
 #include <atomic>
+#include <list>
 #include <mutex>
 #include <thread>
 

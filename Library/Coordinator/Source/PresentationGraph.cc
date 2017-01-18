@@ -4,6 +4,7 @@
 
 #include <Coordinator/PresentationGraph.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Core/Message.h>
 
 namespace rl {
 namespace coordinator {

@@ -5,7 +5,7 @@
 #ifndef RADAR_COMPOSITOR_PROGRAM_PROGRAM_
 #define RADAR_COMPOSITOR_PROGRAM_PROGRAM_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
 #include <memory>
 #include <string>

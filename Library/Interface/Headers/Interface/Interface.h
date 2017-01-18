@@ -6,7 +6,7 @@
 #define RADAR_INTERFACE_INTERFACE_
 
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/ModelEntity.h>

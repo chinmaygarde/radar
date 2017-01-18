@@ -5,7 +5,6 @@
 #ifndef RADAR_LAYOUT_PRIORITY_H_
 #define RADAR_LAYOUT_PRIORITY_H_
 
-#include <Core/Core.h>
 #include <algorithm>
 
 namespace rl {

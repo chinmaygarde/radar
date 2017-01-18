@@ -9,9 +9,9 @@
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
-#include <Core/Core.h>
 #include <Core/DebugTagGenerator.h>
 #include <Core/Mutexed.h>
+#include <Core/WorkQueue.h>
 #include <Event/TouchEventChannel.h>
 #include <Geometry/Geometry.h>
 #include <list>

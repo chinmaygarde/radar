@@ -4,6 +4,7 @@
 
 #include <Compositor/PresentationEntity.h>
 #include <Coordinator/TransactionPayload.h>
+#include <Core/Message.h>
 #include <Core/TraceEvent.h>
 
 namespace rl {

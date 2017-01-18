@@ -5,7 +5,7 @@
 #ifndef RADAR_INSTRUMENTATION_COUNTER_H_
 #define RADAR_INSTRUMENTATION_COUNTER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace instrumentation {

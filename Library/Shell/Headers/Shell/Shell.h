@@ -7,7 +7,7 @@
 
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Core/Mutexed.h>
 #include <Interface/Interface.h>
 #include <Shell/Host.h>

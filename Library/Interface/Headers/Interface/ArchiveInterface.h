@@ -5,7 +5,7 @@
 #ifndef RADAR_INTERFACE_ARCHIVEINTERFACE_H_
 #define RADAR_INTERFACE_ARCHIVEINTERFACE_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Interface/Interface.h>
 
 namespace rl {

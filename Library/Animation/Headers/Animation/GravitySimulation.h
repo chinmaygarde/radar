@@ -6,7 +6,7 @@
 #define RADAR_ANIMATION_GRAVITYSIMULATION_
 
 #include <Animation/Simulation.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 
 namespace rl {
 namespace animation {

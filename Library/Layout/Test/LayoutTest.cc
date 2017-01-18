@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <Core/Core.h>
+#include <Core/Channel.h>
+#include <Core/Message.h>
 #include <Entity/Entity.h>
 #include <Layout/ConstraintCreation.h>
 #include <Layout/Solver.h>

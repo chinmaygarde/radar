@@ -5,7 +5,7 @@
 #ifndef RL_SVGPATHPARSER_SVGPATHDRIVER_H_
 #define RL_SVGPATHPARSER_SVGPATHDRIVER_H_
 
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Geometry/PathBuilder.h>
 #include <Geometry/Point.h>
 #include <string>

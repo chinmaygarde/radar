@@ -5,7 +5,7 @@
 #ifndef RADAR_EVENT_EVENT_
 #define RADAR_EVENT_EVENT_
 
-#include <Core/Core.h>
+#include <Core/MessageSerializable.h>
 
 namespace rl {
 namespace event {

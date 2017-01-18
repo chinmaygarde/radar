@@ -4,6 +4,7 @@
 
 #include <Animation/FrictionSimulation.h>
 #include <Animation/ScrollSimulation.h>
+#include <Core/Utilities.h>
 
 namespace rl {
 namespace animation {

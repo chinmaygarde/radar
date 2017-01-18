@@ -6,7 +6,7 @@
 #define RADAR_INTERFACE_ACTION_
 
 #include <Animation/TimingCurve.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Entity/Entity.h>
 
 namespace rl {

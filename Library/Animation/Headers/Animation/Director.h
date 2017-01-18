@@ -6,7 +6,7 @@
 #define RADAR_ANIMATION_DIRECTOR_H_
 
 #include <Animation/Interpolator.h>
-#include <Core/Core.h>
+#include <Core/Macros.h>
 #include <Core/Stopwatch.h>
 #include <unordered_map>
 
