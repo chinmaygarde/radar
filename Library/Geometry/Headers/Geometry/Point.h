@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_GEOMETRY_POINT_
-#define RADARLOVE_GEOMETRY_POINT_
+#ifndef RADAR_GEOMETRY_POINT_
+#define RADAR_GEOMETRY_POINT_
 
 #include <Geometry/Size.h>
 #include <string>
@@ -54,4 +54,4 @@ struct Point {
 }  // namespace geom
 }  // namespace rl
 
-#endif  // RADARLOVE_GEOMETRY_POINT_
+#endif  // RADAR_GEOMETRY_POINT_

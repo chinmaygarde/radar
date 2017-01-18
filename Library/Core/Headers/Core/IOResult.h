@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_IORESULT_H_
-#define RADARLOVE_CORE_IORESULT_H_
+#ifndef RADAR_CORE_IORESULT_H_
+#define RADAR_CORE_IORESULT_H_
 
 #include <Core/Message.h>
 
@@ -36,4 +36,4 @@ using IOReadResult = std::pair<IOResult, Message>;
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_IORESULT_H_
+#endif  // RADAR_CORE_IORESULT_H_

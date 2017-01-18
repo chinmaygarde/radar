@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_WAITSET_
-#define RADARLOVE_CORE_WAITSET_
+#ifndef RADAR_CORE_WAITSET_
+#define RADAR_CORE_WAITSET_
 
 #include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
@@ -78,4 +78,4 @@ class WaitSet {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_WAITSET_
+#endif  // RADAR_CORE_WAITSET_

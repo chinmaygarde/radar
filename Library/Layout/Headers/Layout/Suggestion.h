@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_LAYOUT_SUGGESTION_H_
-#define RADARLOVE_LAYOUT_SUGGESTION_H_
+#ifndef RADAR_LAYOUT_SUGGESTION_H_
+#define RADAR_LAYOUT_SUGGESTION_H_
 
 #include <Core/Core.h>
 #include <Layout/Priority.h>
@@ -55,4 +55,4 @@ class Suggestion : public core::ArchiveSerializable,
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_LAYOUT_SUGGESTION_H_
+#endif  // RADAR_LAYOUT_SUGGESTION_H_

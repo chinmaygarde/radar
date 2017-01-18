@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ENTITY_COLOR_
-#define RADARLOVE_ENTITY_COLOR_
+#ifndef RADAR_ENTITY_COLOR_
+#define RADAR_ENTITY_COLOR_
 
 #include <stdint.h>
 #include <string>
@@ -101,4 +101,4 @@ static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
 }  // namespace entity
 }  // namespace rl
 
-#endif  // RADARLOVE_ENTITY_COLOR_
+#endif  // RADAR_ENTITY_COLOR_

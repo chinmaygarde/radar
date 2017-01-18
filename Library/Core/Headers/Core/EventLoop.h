@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_EVENTLOOP_
-#define RADARLOVE_CORE_EVENTLOOP_
+#ifndef RADAR_CORE_EVENTLOOP_
+#define RADAR_CORE_EVENTLOOP_
 
 #include <Core/EventLoopObserver.h>
 #include <Core/EventLoopSource.h>
@@ -110,4 +110,4 @@ class EventLoop {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_EVENTLOOP_
+#endif  // RADAR_CORE_EVENTLOOP_

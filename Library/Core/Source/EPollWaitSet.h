@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_EPOLLWAITSET_H_
-#define RADARLOVE_CORE_EPOLLWAITSET_H_
+#ifndef RADAR_CORE_EPOLLWAITSET_H_
+#define RADAR_CORE_EPOLLWAITSET_H_
 
 #include "Config.h"
 
@@ -38,4 +38,4 @@ class EPollWaitSet : public WaitSetProvider {
 
 #endif  // RL_WAITSET == RL_WAITSET_EPOLL
 
-#endif  // RADARLOVE_CORE_EPOLLWAITSET_H_
+#endif  // RADAR_CORE_EPOLLWAITSET_H_

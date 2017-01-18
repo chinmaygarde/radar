@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_LAYOUT_SYMBOL_H_
-#define RADARLOVE_LAYOUT_SYMBOL_H_
+#ifndef RADAR_LAYOUT_SYMBOL_H_
+#define RADAR_LAYOUT_SYMBOL_H_
 
 #include <Core/Core.h>
 
@@ -46,4 +46,4 @@ class Symbol {
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_LAYOUT_SYMBOL_H_
+#endif  // RADAR_LAYOUT_SYMBOL_H_

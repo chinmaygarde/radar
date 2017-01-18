@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_
-#define RADARLOVE_CORE_
+#ifndef RADAR_CORE_
+#define RADAR_CORE_
 
 /*
  *  General Utilities
@@ -58,4 +58,4 @@
  */
 #include <Core/WorkQueue.h>
 
-#endif  // RADARLOVE_CORE_
+#endif  // RADAR_CORE_

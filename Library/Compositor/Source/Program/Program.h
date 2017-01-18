@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_PROGRAM_PROGRAM_
-#define RADARLOVE_COMPOSITOR_PROGRAM_PROGRAM_
+#ifndef RADAR_COMPOSITOR_PROGRAM_PROGRAM_
+#define RADAR_COMPOSITOR_PROGRAM_PROGRAM_
 
 #include <Core/Core.h>
 #include <Core/ThreadGuard.h>
@@ -72,4 +72,4 @@ class Program {
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_PROGRAM_PROGRAM_
+#endif  // RADAR_COMPOSITOR_PROGRAM_PROGRAM_

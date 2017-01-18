@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_FRICTION_SIMULATION_
-#define RADARLOVE_ANIMATION_FRICTION_SIMULATION_
+#ifndef RADAR_ANIMATION_FRICTION_SIMULATION_
+#define RADAR_ANIMATION_FRICTION_SIMULATION_
 
 #include <Animation/Simulation.h>
 #include <Core/Core.h>
@@ -31,4 +31,4 @@ class FrictionSimulation : public Simulation {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_FRICTION_SIMULATION_
+#endif  // RADAR_ANIMATION_FRICTION_SIMULATION_

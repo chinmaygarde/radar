@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_INTERFACE_
-#define RADARLOVE_INTERFACE_INTERFACE_
+#ifndef RADAR_INTERFACE_INTERFACE_
+#define RADAR_INTERFACE_INTERFACE_
 
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Core/Core.h>
@@ -150,4 +150,4 @@ class Interface {
 }  // namespace interface
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_INTERFACE_
+#endif  // RADAR_INTERFACE_INTERFACE_

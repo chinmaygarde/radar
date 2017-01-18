@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_LAYOUT_TAG_H_
-#define RADARLOVE_LAYOUT_TAG_H_
+#ifndef RADAR_LAYOUT_TAG_H_
+#define RADAR_LAYOUT_TAG_H_
 
 #include <Core/Core.h>
 #include <Layout/Symbol.h>
@@ -31,4 +31,4 @@ class Tag {
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_LAYOUT_TAG_H_
+#endif  // RADAR_LAYOUT_TAG_H_

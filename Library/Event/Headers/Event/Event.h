@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_EVENT_EVENT_
-#define RADARLOVE_EVENT_EVENT_
+#ifndef RADAR_EVENT_EVENT_
+#define RADAR_EVENT_EVENT_
 
 #include <Core/Core.h>
 
@@ -37,4 +37,4 @@ class Event : public core::MessageSerializable {
 }  // namespace event
 }  // namespace rl
 
-#endif  // RADARLOVE_EVENT_EVENT_
+#endif  // RADAR_EVENT_EVENT_

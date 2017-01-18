@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_ENTITY_
-#define RADARLOVE_INTERFACE_ENTITY_
+#ifndef RADAR_INTERFACE_ENTITY_
+#define RADAR_INTERFACE_ENTITY_
 
 #include <Core/Core.h>
 #include <Entity/Color.h>
@@ -229,4 +229,4 @@ class Entity : public core::ArchiveSerializable {
 }  // namespace entity
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_ENTITY_
+#endif  // RADAR_INTERFACE_ENTITY_

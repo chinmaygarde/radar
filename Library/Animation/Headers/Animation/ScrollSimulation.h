@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_SCROLLSIMULATION_
-#define RADARLOVE_ANIMATION_SCROLLSIMULATION_
+#ifndef RADAR_ANIMATION_SCROLLSIMULATION_
+#define RADAR_ANIMATION_SCROLLSIMULATION_
 
 #include <Animation/SimulationGroup.h>
 #include <Animation/SpringSimulation.h>
@@ -52,4 +52,4 @@ class ScrollSimulation : public SimulationGroup {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_SCROLLSIMULATION_
+#endif  // RADAR_ANIMATION_SCROLLSIMULATION_

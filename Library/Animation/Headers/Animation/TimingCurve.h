@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_TIMINGCURVE_
-#define RADARLOVE_ANIMATION_TIMINGCURVE_
+#ifndef RADAR_ANIMATION_TIMINGCURVE_
+#define RADAR_ANIMATION_TIMINGCURVE_
 
 #include <Core/Core.h>
 #include <Geometry/Geometry.h>
@@ -39,4 +39,4 @@ class TimingCurve {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_TIMINGCURVE_
+#endif  // RADAR_ANIMATION_TIMINGCURVE_

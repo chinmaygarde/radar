@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_ARCHIVEVECTOR_H_
-#define RADARLOVE_CORE_ARCHIVEVECTOR_H_
+#ifndef RADAR_CORE_ARCHIVEVECTOR_H_
+#define RADAR_CORE_ARCHIVEVECTOR_H_
 
 #include <Core/Archive.h>
 
@@ -36,4 +36,4 @@ class ArchiveVector : public ArchiveSerializable {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_ARCHIVEVECTOR_H_
+#endif  // RADAR_CORE_ARCHIVEVECTOR_H_

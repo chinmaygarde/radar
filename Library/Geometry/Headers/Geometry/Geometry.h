@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_GEOMETRY_GEOMETRY_
-#define RADARLOVE_GEOMETRY_GEOMETRY_
+#ifndef RADAR_GEOMETRY_GEOMETRY_
+#define RADAR_GEOMETRY_GEOMETRY_
 
 #include <Geometry/Matrix.h>
 #include <Geometry/Path.h>
@@ -12,4 +12,4 @@
 #include <Geometry/Size.h>
 #include <Geometry/Vector.h>
 
-#endif  // RADARLOVE_GEOMETRY_GEOMETRY_
+#endif  // RADAR_GEOMETRY_GEOMETRY_

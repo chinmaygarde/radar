@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_INTERPOLATOR_
-#define RADARLOVE_ANIMATION_INTERPOLATOR_
+#ifndef RADAR_ANIMATION_INTERPOLATOR_
+#define RADAR_ANIMATION_INTERPOLATOR_
 
 #include <Animation/Action.h>
 #include <Core/Core.h>
@@ -41,4 +41,4 @@ class Interpolator {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_INTERPOLATOR_
+#endif  // RADAR_ANIMATION_INTERPOLATOR_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_LATCH_
-#define RADARLOVE_CORE_LATCH_
+#ifndef RADAR_CORE_LATCH_
+#define RADAR_CORE_LATCH_
 
 #include <Core/Macros.h>
 #include <atomic>
@@ -68,4 +68,4 @@ class AutoCountdown {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_LATCH_
+#endif  // RADAR_CORE_LATCH_

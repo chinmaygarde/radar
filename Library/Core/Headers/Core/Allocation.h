@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_ALLOCATION_H_
-#define RADARLOVE_CORE_ALLOCATION_H_
+#ifndef RADAR_CORE_ALLOCATION_H_
+#define RADAR_CORE_ALLOCATION_H_
 
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
@@ -96,4 +96,4 @@ class Allocation : public MessageSerializable {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_ALLOCATION_H_
+#endif  // RADAR_CORE_ALLOCATION_H_

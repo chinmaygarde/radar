@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_LAYOUT_PRIORITY_H_
-#define RADARLOVE_LAYOUT_PRIORITY_H_
+#ifndef RADAR_LAYOUT_PRIORITY_H_
+#define RADAR_LAYOUT_PRIORITY_H_
 
 #include <Core/Core.h>
 #include <algorithm>
@@ -31,4 +31,4 @@ static const double Weak = Create(0.0, 0.0, 1.0);
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_LAYOUT_PRIORITY_H_
+#endif  // RADAR_LAYOUT_PRIORITY_H_

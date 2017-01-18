@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
-#define RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
+#ifndef RADAR_COMPOSITOR_PRESENTATIONENTITY_
+#define RADAR_COMPOSITOR_PRESENTATIONENTITY_
 
 #include <Compositor/FrontendPass.h>
 #include <Core/Core.h>
@@ -49,4 +49,4 @@ class PresentationEntity : public entity::Entity {
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_PRESENTATIONENTITY_
+#endif  // RADAR_COMPOSITOR_PRESENTATIONENTITY_

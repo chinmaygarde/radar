@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_GUARD_
-#define RADARLOVE_CORE_GUARD_
+#ifndef RADAR_CORE_GUARD_
+#define RADAR_CORE_GUARD_
 
 #include <Core/Macros.h>
 #include <functional>
@@ -36,4 +36,4 @@ class Guard {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_GUARD_
+#endif  // RADAR_CORE_GUARD_

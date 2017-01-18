@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_MESSAGESERIALIZABLE_H_
-#define RADARLOVE_CORE_MESSAGESERIALIZABLE_H_
+#ifndef RADAR_CORE_MESSAGESERIALIZABLE_H_
+#define RADAR_CORE_MESSAGESERIALIZABLE_H_
 
 #include <Core/Utilities.h>
 
@@ -25,4 +25,4 @@ class MessageSerializable {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_MESSAGESERIALIZABLE_H_
+#endif  // RADAR_CORE_MESSAGESERIALIZABLE_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
-#define RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
+#ifndef RADAR_LAYOUT_CONSTRAINTCREATION_H_
+#define RADAR_LAYOUT_CONSTRAINTCREATION_H_
 
 #include <Entity/Entity.h>
 #include <Layout/Constraint.h>
@@ -153,4 +153,4 @@ inline Variable operator|(const entity::Entity& entity,
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_LAYOUT_CONSTRAINTCREATION_H_
+#endif  // RADAR_LAYOUT_CONSTRAINTCREATION_H_

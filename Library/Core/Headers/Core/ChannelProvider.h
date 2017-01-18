@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_CHANNELPROVIDER_
-#define RADARLOVE_CORE_CHANNELPROVIDER_
+#ifndef RADAR_CORE_CHANNELPROVIDER_
+#define RADAR_CORE_CHANNELPROVIDER_
 
 #include <Core/EventLoopSource.h>
 #include <Core/IOResult.h>
@@ -64,4 +64,4 @@ class ChannelProvider {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_CHANNELPROVIDER_
+#endif  // RADAR_CORE_CHANNELPROVIDER_

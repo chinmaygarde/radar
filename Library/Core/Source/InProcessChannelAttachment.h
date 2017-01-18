@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
-#define RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
+#ifndef RADAR_CORE_INPROCESSCHANNELATTACHMENT_H_
+#define RADAR_CORE_INPROCESSCHANNELATTACHMENT_H_
 
 #include <Core/Config.h>
 
@@ -61,4 +61,4 @@ class InProcessChannelAttachment : public InProcessAttachment {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
 
-#endif  // RADARLOVE_CORE_INPROCESSCHANNELATTACHMENT_H_
+#endif  // RADAR_CORE_INPROCESSCHANNELATTACHMENT_H_

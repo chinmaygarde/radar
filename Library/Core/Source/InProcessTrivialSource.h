@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H_
-#define RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H_
+#ifndef RADAR_CORE_INPROCESSTRIVIALSOURCE_H_
+#define RADAR_CORE_INPROCESSTRIVIALSOURCE_H_
 
 #include <Core/Config.h>
 
@@ -36,4 +36,4 @@ class InProcessTrivialSource : public EventLoopSource {
 
 #endif  // RL_WAITSET == RL_WAITSET_INPROCESS
 
-#endif  // RADARLOVE_CORE_INPROCESSTRIVIALSOURCE_H_
+#endif  // RADAR_CORE_INPROCESSTRIVIALSOURCE_H_

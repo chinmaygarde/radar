@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_MODELENTITY_H_
-#define RADARLOVE_INTERFACE_MODELENTITY_H_
+#ifndef RADAR_INTERFACE_MODELENTITY_H_
+#define RADAR_INTERFACE_MODELENTITY_H_
 
 #include <Entity/Entity.h>
 
@@ -35,4 +35,4 @@ class ModelEntity : public entity::Entity {
 }  // namespace interface
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_MODELENTITY_H_
+#endif  // RADAR_INTERFACE_MODELENTITY_H_

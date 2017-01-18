@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_SHELL_SHELL_
-#define RADARLOVE_SHELL_SHELL_
+#ifndef RADAR_SHELL_SHELL_
+#define RADAR_SHELL_SHELL_
 
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
@@ -83,4 +83,4 @@ class Shell {
 }  // namespace shell
 }  // namespace rl
 
-#endif  // RADARLOVE_SHELL_SHELL_
+#endif  // RADAR_SHELL_SHELL_

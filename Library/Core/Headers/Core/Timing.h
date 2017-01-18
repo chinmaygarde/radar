@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_TIME_
-#define RADARLOVE_CORE_TIME_
+#ifndef RADAR_CORE_TIME_
+#define RADAR_CORE_TIME_
 
 #include <chrono>
 
@@ -34,4 +34,4 @@ ClockDurationSeconds LoggingClockDuration(void);
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_TIME_
+#endif  // RADAR_CORE_TIME_

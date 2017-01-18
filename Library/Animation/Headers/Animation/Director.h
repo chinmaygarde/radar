@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_DIRECTOR_H_
-#define RADARLOVE_ANIMATION_DIRECTOR_H_
+#ifndef RADAR_ANIMATION_DIRECTOR_H_
+#define RADAR_ANIMATION_DIRECTOR_H_
 
 #include <Animation/Interpolator.h>
 #include <Core/Core.h>
@@ -84,4 +84,4 @@ class Director {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_DIRECTOR_H_
+#endif  // RADAR_ANIMATION_DIRECTOR_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INSTRUMENTATION_TRACEEVENT_H_
-#define RADARLOVE_INSTRUMENTATION_TRACEEVENT_H_
+#ifndef RADAR_INSTRUMENTATION_TRACEEVENT_H_
+#define RADAR_INSTRUMENTATION_TRACEEVENT_H_
 
 #include <Core/Core.h>
 #include <map>
@@ -119,4 +119,4 @@ class AutoDurationEvent {
 }  // namespace instrumentation
 }  // namespace rl
 
-#endif  // RADARLOVE_INSTRUMENTATION_TRACEEVENT_H_
+#endif  // RADAR_INSTRUMENTATION_TRACEEVENT_H_

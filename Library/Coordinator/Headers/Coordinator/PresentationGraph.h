@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
-#define RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
+#ifndef RADAR_COORDINATOR_PRESENTATIONGRAPH_H_
+#define RADAR_COORDINATOR_PRESENTATIONGRAPH_H_
 
 #include <Animation/Action.h>
 #include <Animation/Director.h>
@@ -110,4 +110,4 @@ class PresentationGraph {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_PRESENTATIONGRAPH_H_
+#endif  // RADAR_COORDINATOR_PRESENTATIONGRAPH_H_

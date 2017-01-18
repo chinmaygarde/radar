@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_INPROCESSWAITSET_H_
-#define RADARLOVE_CORE_INPROCESSWAITSET_H_
+#ifndef RADAR_CORE_INPROCESSWAITSET_H_
+#define RADAR_CORE_INPROCESSWAITSET_H_
 
 #include "Config.h"
 
@@ -96,4 +96,4 @@ class InProcessWaitSet : public WaitSetProvider {
 
 #endif  // RL_WAITSET == RL_WAITSET_INPROCESS
 
-#endif  // RADARLOVE_CORE_INPROCESSWAITSET_H_
+#endif  // RADAR_CORE_INPROCESSWAITSET_H_

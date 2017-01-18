@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_ARCHIVESTATEMENT_H_
-#define RADARLOVE_CORE_ARCHIVESTATEMENT_H_
+#ifndef RADAR_CORE_ARCHIVESTATEMENT_H_
+#define RADAR_CORE_ARCHIVESTATEMENT_H_
 
 #include <Core/Allocation.h>
 #include <Core/Macros.h>
@@ -69,4 +69,4 @@ class ArchiveStatement {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_ARCHIVESTATEMENT_H_
+#endif  // RADAR_CORE_ARCHIVESTATEMENT_H_

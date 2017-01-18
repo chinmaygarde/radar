@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_RENDERSURFACE_
-#define RADARLOVE_COORDINATOR_RENDERSURFACE_
+#ifndef RADAR_COORDINATOR_RENDERSURFACE_
+#define RADAR_COORDINATOR_RENDERSURFACE_
 
 #include <Core/Macros.h>
 #include <Geometry/Geometry.h>
@@ -60,4 +60,4 @@ class ScopedRenderSurfaceAccess {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_RENDERSURFACE_
+#endif  // RADAR_COORDINATOR_RENDERSURFACE_

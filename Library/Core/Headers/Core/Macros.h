@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_MACROS_
-#define RADARLOVE_CORE_MACROS_
+#ifndef RADAR_CORE_MACROS_
+#define RADAR_CORE_MACROS_
 
 #include <Core/Timing.h>
 #include <cerrno>
@@ -218,4 +218,4 @@ static inline void _RL_AssertLog(const char* file,
     return false;               \
   }
 
-#endif  // RADARLOVE_CORE_MACROS_
+#endif  // RADAR_CORE_MACROS_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_ARCHIVEINTERFACE_H_
-#define RADARLOVE_INTERFACE_ARCHIVEINTERFACE_H_
+#ifndef RADAR_INTERFACE_ARCHIVEINTERFACE_H_
+#define RADAR_INTERFACE_ARCHIVEINTERFACE_H_
 
 #include <Core/Core.h>
 #include <Interface/Interface.h>
@@ -27,4 +27,4 @@ class ArchiveInterface : public Interface {
 }  // namespace interface
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_ARCHIVEINTERFACE_H_
+#endif  // RADAR_INTERFACE_ARCHIVEINTERFACE_H_

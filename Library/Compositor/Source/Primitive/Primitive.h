@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_PRIMITIVE_
-#define RADARLOVE_COMPOSITOR_PRIMITIVE_
+#ifndef RADAR_COMPOSITOR_PRIMITIVE_
+#define RADAR_COMPOSITOR_PRIMITIVE_
 
 #include <Core/Core.h>
 #include <Core/ThreadGuard.h>
@@ -49,4 +49,4 @@ class Primitive {
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_PRIMITIVE_
+#endif  // RADAR_COMPOSITOR_PRIMITIVE_

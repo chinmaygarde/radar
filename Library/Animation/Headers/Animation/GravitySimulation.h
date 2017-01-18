@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_ANIMATION_GRAVITYSIMULATION_
-#define RADARLOVE_ANIMATION_GRAVITYSIMULATION_
+#ifndef RADAR_ANIMATION_GRAVITYSIMULATION_
+#define RADAR_ANIMATION_GRAVITYSIMULATION_
 
 #include <Animation/Simulation.h>
 #include <Core/Core.h>
@@ -34,4 +34,4 @@ class GravitySimulation : public Simulation {
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_ANIMATION_GRAVITYSIMULATION_
+#endif  // RADAR_ANIMATION_GRAVITYSIMULATION_

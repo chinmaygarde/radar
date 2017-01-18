@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_CONFIG_
-#define RADARLOVE_CORE_CONFIG_
+#ifndef RADAR_CORE_CONFIG_
+#define RADAR_CORE_CONFIG_
 
 #include <Core/Platform.h>
 
@@ -146,4 +146,4 @@
 #error in-process waitsets require in-process channels
 #endif
 
-#endif  // RADARLOVE_CORE_CONFIG_
+#endif  // RADAR_CORE_CONFIG_

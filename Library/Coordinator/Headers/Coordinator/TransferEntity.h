@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_TRANSFERENTITY_H_
-#define RADARLOVE_COORDINATOR_TRANSFERENTITY_H_
+#ifndef RADAR_COORDINATOR_TRANSFERENTITY_H_
+#define RADAR_COORDINATOR_TRANSFERENTITY_H_
 
 #include <Core/Core.h>
 #include <Entity/Entity.h>
@@ -60,4 +60,4 @@ class TransferEntity : public entity::Entity, public core::MessageSerializable {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_TRANSFERENTITY_H_
+#endif  // RADAR_COORDINATOR_TRANSFERENTITY_H_

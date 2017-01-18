@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_PROTOCOL_H_
-#define RADARLOVE_CORE_PROTOCOL_H_
+#ifndef RADAR_CORE_PROTOCOL_H_
+#define RADAR_CORE_PROTOCOL_H_
 
 #include <Core/Core.h>
 #include <unordered_map>
@@ -60,4 +60,4 @@ class Protocol {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_PROTOCOL_H_
+#endif  // RADAR_CORE_PROTOCOL_H_

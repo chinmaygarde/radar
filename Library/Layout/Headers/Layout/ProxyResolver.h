@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
-#define RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
+#ifndef RADAR_RECOGNITION_PROXYRESOLVER_H_
+#define RADAR_RECOGNITION_PROXYRESOLVER_H_
 
 #include <Core/Core.h>
 #include <Entity/Entity.h>
@@ -87,4 +87,4 @@ class ProxyResolver {
 }  // namespace layout
 }  // namespace rl
 
-#endif  // RADARLOVE_RECOGNITION_PROXYRESOLVER_H_
+#endif  // RADAR_RECOGNITION_PROXYRESOLVER_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
-#define RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
+#ifndef RADAR_COMPOSITOR_STATISTICSRENDERER_H_
+#define RADAR_COMPOSITOR_STATISTICSRENDERER_H_
 
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/Frame.h>
@@ -38,4 +38,4 @@ class StatisticsRenderer {
 }  // namespace compositor
 }  // namespace rl
 
-#endif  // RADARLOVE_COMPOSITOR_STATISTICSRENDERER_H_
+#endif  // RADAR_COMPOSITOR_STATISTICSRENDERER_H_

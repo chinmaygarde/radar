@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INSTRUMENTATION_STOPWATCH_H_
-#define RADARLOVE_INSTRUMENTATION_STOPWATCH_H_
+#ifndef RADAR_INSTRUMENTATION_STOPWATCH_H_
+#define RADAR_INSTRUMENTATION_STOPWATCH_H_
 
 #include <Core/Core.h>
 
@@ -44,4 +44,4 @@ class AutoStopwatchLap {
 }  // namespace instrumentation
 }  // namespace rl
 
-#endif  // RADARLOVE_INSTRUMENTATION_STOPWATCH_H_
+#endif  // RADAR_INSTRUMENTATION_STOPWATCH_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_GEOMETRY_VECTOR_
-#define RADARLOVE_GEOMETRY_VECTOR_
+#ifndef RADAR_GEOMETRY_VECTOR_
+#define RADAR_GEOMETRY_VECTOR_
 
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
@@ -125,4 +125,4 @@ struct Vector4 {
 }  // namespace geom
 }  // namespace rl
 
-#endif  // RADARLOVE_GEOMETRY_VECTOR_
+#endif  // RADAR_GEOMETRY_VECTOR_

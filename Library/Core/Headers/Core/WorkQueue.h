@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_WORKQUEUE_H_
-#define RADARLOVE_CORE_WORKQUEUE_H_
+#ifndef RADAR_CORE_WORKQUEUE_H_
+#define RADAR_CORE_WORKQUEUE_H_
 
 #include <Core/EventLoop.h>
 #include <Core/EventLoopThread.h>
@@ -39,4 +39,4 @@ class WorkQueue {
 }  // namespace core
 }  // namespace rl
 
-#endif  // RADARLOVE_CORE_WORKQUEUE_H_
+#endif  // RADAR_CORE_WORKQUEUE_H_

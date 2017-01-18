@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_ACTION_
-#define RADARLOVE_INTERFACE_ACTION_
+#ifndef RADAR_INTERFACE_ACTION_
+#define RADAR_INTERFACE_ACTION_
 
 #include <Animation/TimingCurve.h>
 #include <Core/Core.h>
@@ -105,4 +105,4 @@ class Action : public core::ArchiveSerializable,
 }  // namespace animation
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_ACTION_
+#endif  // RADAR_INTERFACE_ACTION_

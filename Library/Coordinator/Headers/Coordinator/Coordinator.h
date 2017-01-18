@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_COORDINATOR_COORDINATOR_
-#define RADARLOVE_COORDINATOR_COORDINATOR_
+#ifndef RADAR_COORDINATOR_COORDINATOR_
+#define RADAR_COORDINATOR_COORDINATOR_
 
 #include <Compositor/Context.h>
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
@@ -92,4 +92,4 @@ class Coordinator {
 }  // namespace coordinator
 }  // namespace rl
 
-#endif  // RADARLOVE_COORDINATOR_COORDINATOR_
+#endif  // RADAR_COORDINATOR_COORDINATOR_

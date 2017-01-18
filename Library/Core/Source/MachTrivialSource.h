@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_CORE_MACHTRIVIALSOURCE_H_
-#define RADARLOVE_CORE_MACHTRIVIALSOURCE_H_
+#ifndef RADAR_CORE_MACHTRIVIALSOURCE_H_
+#define RADAR_CORE_MACHTRIVIALSOURCE_H_
 
 #include "Config.h"
 
@@ -32,4 +32,4 @@ class MachTrivialSource : public EventLoopSource {
 
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
-#endif  // RADARLOVE_CORE_MACHTRIVIALSOURCE_H_
+#endif  // RADAR_CORE_MACHTRIVIALSOURCE_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVE_INTERFACE_INTERFACEDELEGATE_
-#define RADARLOVE_INTERFACE_INTERFACEDELEGATE_
+#ifndef RADAR_INTERFACE_INTERFACEDELEGATE_
+#define RADAR_INTERFACE_INTERFACEDELEGATE_
 
 #include <Core/Macros.h>
 #include <functional>
@@ -85,4 +85,4 @@ class DefaultInterfaceDelegate : public InterfaceDelegate {
 }  // namespace interface
 }  // namespace rl
 
-#endif  // RADARLOVE_INTERFACE_INTERFACEDELEGATE_
+#endif  // RADAR_INTERFACE_INTERFACEDELEGATE_
