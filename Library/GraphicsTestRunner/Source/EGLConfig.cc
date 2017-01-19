@@ -36,6 +36,8 @@ EGLConfig::EGLConfig(::EGLDisplay display,
   EGLint attributes[] = {
       EGL_RENDERABLE_TYPE,
       EGL_OPENGL_ES2_BIT,
+      EGL_CONFORMANT,
+      EGL_OPENGL_ES2_BIT,
       EGL_SURFACE_TYPE,
       type == EGLSurface::Type::Window ? EGL_WINDOW_BIT : EGL_PBUFFER_BIT,
       EGL_RED_SIZE,
