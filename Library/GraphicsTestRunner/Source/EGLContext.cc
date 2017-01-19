@@ -62,7 +62,8 @@ bool EGLContext::makeCurrent(const EGLSurface& surface) const {
 
   auto surfaceHandle = surface.handle();
 
-  return eglMakeCurrent(_display, surfaceHandle, surfaceHandle, _context);
+  return eglMakeCurrent(_display, surfaceHandle, surfaceHandle, _context) ==
+         EGL_TRUE;
 }
 
 bool EGLContext::clearCurrent() const {
