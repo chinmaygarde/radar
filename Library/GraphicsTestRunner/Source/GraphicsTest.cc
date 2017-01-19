@@ -29,6 +29,10 @@ void GraphicsTest::TearDown() {
 
 rl::image::ImageResult GraphicsTest::snapshot(
     const rl::geom::Rect& viewport) const {
+  if (glGetError() != GL_NO_ERROR) {
+    return {};
+  }
+
   if (viewport.size.width <= 0.0 || viewport.size.height <= 0.0) {
     return {};
   }

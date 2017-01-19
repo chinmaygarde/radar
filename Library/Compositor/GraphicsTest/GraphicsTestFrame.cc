@@ -4,21 +4,22 @@
 
 #include "GraphicsTestFrame.h"
 
-GraphicsTestFrame::GraphicsTestFrame() : _frame({320, 480}, _context) {}
+GraphicsTestFrame::GraphicsTestFrame()
+    : _frame({320, 480}, _context), _snapshotsTaken(0) {}
 
 GraphicsTestFrame::~GraphicsTestFrame() {
   bool success = _context.dispose();
   RL_ASSERT(success);
 }
 
-bool GraphicsTestFrame::snapshot(size_t number) {
+bool GraphicsTestFrame::snapshot() {
   const auto& testInfo =
       ::testing::UnitTest::GetInstance()->current_test_info();
 
   std::stringstream stream;
 
   stream << testInfo->test_case_name() << "_" << testInfo->name();
-  stream << "_" << number << ".png";
+  stream << "_" << ++_snapshotsTaken << ".png";
 
   return GraphicsTest::snapshot({_frame.size()}, rl::core::URI{stream.str()});
 }
