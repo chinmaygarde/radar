@@ -53,7 +53,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     /*
      *  Create and arm the timer file descriptor
      */
-    Handle desc = timerfd_create(CLOCK_MONOTONIC, 0);
+    Handle desc = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 
     const uint64_t nano_secs = repeatInterval.count();
 
