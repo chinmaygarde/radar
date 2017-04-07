@@ -6,10 +6,10 @@
 #define RADAR_INSTRUMENTATION_TRACE_H_
 
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <Core/TraceEvent.h>
 #include <atomic>
 #include <list>
-#include <mutex>
 #include <thread>
 
 namespace rl {
@@ -26,7 +26,7 @@ class ThreadTrace {
  private:
   std::thread::id _threadID;
   std::list<TraceEvent> _events;
-  std::mutex _eventsLock;
+  core::Mutex _eventsLock;
 
   friend class TraceEvent;
   friend class ProcessTrace;
@@ -37,7 +37,7 @@ class ThreadTrace {
 
   template <class... T>
   void recordEvent(T&&... args) {
-    std::lock_guard<std::mutex> lock(_eventsLock);
+    core::MutexLocker lock(_eventsLock);
     _events.emplace_back(std::forward<T>(args)...);
   }
 
@@ -59,7 +59,7 @@ class ProcessTrace {
   void recordToStream(std::stringstream& stream);
 
  private:
-  std::mutex _threadTracesMutex;
+  core::Mutex _threadTracesMutex;
   std::list<ThreadTrace*> _threadTraces;
 
   friend class ThreadTrace;

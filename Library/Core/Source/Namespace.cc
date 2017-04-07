@@ -93,7 +93,7 @@ void HandleCollector::operator()(Name::Handle* handle) const {
 Namespace::Namespace() : _last(DeadHandle) {}
 
 Namespace::~Namespace() {
-  std::lock_guard<std::mutex> lock(_mapsMutex);
+  MutexLocker lock(_mapsMutex);
   RL_ASSERT_MSG(_counterpartToLocalMap.size() == 0,
                 "The namespace is being collected but some members still have "
                 "pending references. Names from this namespace are being "
@@ -117,7 +117,7 @@ Name::HandleRef Namespace::createHandle(Name::Handle counterpart) {
     return std::make_shared<Name::Handle>(++_last);
   }
 
-  std::lock_guard<std::mutex> lock(_mapsMutex);
+  MutexLocker lock(_mapsMutex);
 
   /*
    *  Create or return a new shared reference to a local handle that is mapped
@@ -152,7 +152,7 @@ Name::HandleRef Namespace::createHandle(Name::Handle counterpart) {
 void Namespace::destroy(Name::Handle local) {
   RL_ASSERT(local != DeadHandle);
 
-  std::lock_guard<std::mutex> lock(_mapsMutex);
+  MutexLocker lock(_mapsMutex);
 
   auto mappingFound = _localToCounterpartMap.find(local);
 
@@ -170,7 +170,7 @@ void Namespace::destroy(Name::Handle local) {
 }
 
 size_t Namespace::mappedNamesCount() const {
-  std::lock_guard<std::mutex> lock(_mapsMutex);
+  MutexLocker lock(_mapsMutex);
   return _localToCounterpartMap.size();
 }
 

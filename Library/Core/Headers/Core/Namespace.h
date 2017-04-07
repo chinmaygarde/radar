@@ -7,8 +7,8 @@
 
 #include <Core/Macros.h>
 #include <Core/MessageSerializable.h>
+#include <Core/Mutex.h>
 #include <atomic>
-#include <mutex>
 #include <string>
 #include <unordered_map>
 
@@ -104,12 +104,12 @@ class Namespace {
   friend class HandleCollector;
 
   std::atomic<Name::Handle> _last;
-
-  mutable std::mutex _mapsMutex;
-  HandleRefMap _counterpartToLocalMap;
-  HandleMap _localToCounterpartMap;
+  mutable Mutex _mapsMutex;
+  HandleRefMap _counterpartToLocalMap RL_GUARDED_BY(_mapsMutex);
+  HandleMap _localToCounterpartMap RL_GUARDED_BY(_mapsMutex);
 
   Name::HandleRef createHandle(Name::Handle counterpart);
+
   void destroy(Name::Handle name);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Namespace);

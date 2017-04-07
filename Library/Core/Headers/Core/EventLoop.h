@@ -8,11 +8,11 @@
 #include <Core/EventLoopObserver.h>
 #include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <Core/WaitSet.h>
 #include <atomic>
 #include <functional>
 #include <list>
-#include <mutex>
 
 namespace rl {
 namespace core {
@@ -93,8 +93,9 @@ class EventLoop {
   WaitSet _waitSet;
   std::shared_ptr<EventLoopSource> _trivialSource;
   std::atomic_bool _shouldTerminate;
-  std::mutex _pendingDispatchesMutex;
-  std::unique_ptr<PendingBlocks> _pendingDispatches;
+  Mutex _pendingDispatchesMutex;
+  std::unique_ptr<PendingBlocks> _pendingDispatches
+      RL_GUARDED_BY(_pendingDispatchesMutex);
   EventLoopObserverCollection _beforeSleepObservers;
   EventLoopObserverCollection _afterSleepObservers;
 

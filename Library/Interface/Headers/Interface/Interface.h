@@ -7,12 +7,12 @@
 
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <Interface/InterfaceDelegate.h>
 #include <Interface/InterfaceTransaction.h>
 #include <Interface/ModelEntity.h>
 #include <Layout/Constraint.h>
 #include <Toolbox/StateMachine.h>
-#include <mutex>
 #include <vector>
 
 namespace rl {
@@ -112,8 +112,9 @@ class Interface {
   core::Namespace _localNS;
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
-  std::mutex _transactionStackMutex;
-  std::vector<std::unique_ptr<InterfaceTransaction>> _transactionStack;
+  core::Mutex _transactionStackMutex;
+  std::vector<std::unique_ptr<InterfaceTransaction>> _transactionStack
+      RL_GUARDED_BY(_transactionStackMutex);
   std::vector<std::unique_ptr<InterfaceTransaction>> _committedTransactions;
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::shared_ptr<InterfaceDelegate> _delegate;

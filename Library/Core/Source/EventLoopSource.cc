@@ -44,10 +44,11 @@ EventLoopSource::WakeFunction EventLoopSource::wakeFunction() const {
 
 EventLoopSource::Handles EventLoopSource::handles() {
   /*
-   *  Handles are allocated lazily
+   *  Handles are allocated lazily.
+   *  TODO: Allocate these eagerly.
    */
   if (!_handlesAllocated) {
-    std::lock_guard<std::mutex> lock(_handlesAllocationMutex);
+    MutexLocker lock(_handlesAllocationMutex);
 
     if (_handlesAllocated) {
       return _handles;

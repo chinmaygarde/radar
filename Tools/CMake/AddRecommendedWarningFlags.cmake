@@ -44,9 +44,10 @@ if (WINDOWS)
 endif()
 
 AddCXXWarningIfSupported("-Werror"            HAVE_ERRORS)
+AddCXXWarningIfSupported("-Wloop-analysis"    HAVE_LOOP_ANALYSIS)
 AddCXXWarningIfSupported("-Wpessimizing-move" HAVE_PESSIMIZING_MOVE)
 AddCXXWarningIfSupported("-Wredundant-move"   HAVE_REDUNDANT_MOVE)
-AddCXXWarningIfSupported("-Wloop-analysis"    HAVE_LOOP_ANALYSIS)
+AddCXXWarningIfSupported("-Wthread-safety"    HAVE_THREAD_SAFETY_ANALYSIS)
 
 # Temporarily disable to work around newly deprecated stuff in Mac OSX 10.12.
 AddCXXWarningIfSupported("-Wno-deprecated-declarations"

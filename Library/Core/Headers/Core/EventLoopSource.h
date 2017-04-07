@@ -7,10 +7,10 @@
 
 #include <Core/IOResult.h>
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <atomic>
 #include <chrono>
 #include <functional>
-#include <mutex>
 #include <utility>
 
 namespace rl {
@@ -145,7 +145,7 @@ class EventLoopSource {
   WaitSetUpdateHandler _customWaitSetUpdateHandler;
   WakeFunction _wakeFunction;
   std::atomic_bool _handlesAllocated;
-  std::mutex _handlesAllocationMutex;
+  Mutex _handlesAllocationMutex;
 
   void updateInWaitSetForSimpleRead(WaitSet& waitset, bool shouldAdd);
 

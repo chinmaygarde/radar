@@ -6,9 +6,9 @@
 #define RADARLOVER_CORE_EVENT_LOOP_OBSERVER_
 
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <functional>
 #include <memory>
-#include <mutex>
 #include <set>
 
 namespace rl {
@@ -90,8 +90,8 @@ class EventLoopObserverCollection {
   using EventLoopObserversSet =
       std::set<std::shared_ptr<EventLoopObserver>, EventLoopObserverComparer>;
   EventLoopObserver::Activity _activity;
-  std::mutex _observersMutex;
-  EventLoopObserversSet _observers;
+  Mutex _observersMutex;
+  EventLoopObserversSet _observers RL_GUARDED_BY(_observersMutex);
 
   RL_DISALLOW_COPY_AND_ASSIGN(EventLoopObserverCollection);
 };

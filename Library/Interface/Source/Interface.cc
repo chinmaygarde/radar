@@ -158,7 +158,7 @@ void Interface::entityDidRecordUpdateUpdate(const entity::Entity& entity,
 }
 
 InterfaceTransaction& Interface::transaction() {
-  std::lock_guard<std::mutex> lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionStackMutex);
 
   if (_transactionStack.size() == 0) {
     /*
@@ -174,13 +174,13 @@ InterfaceTransaction& Interface::transaction() {
 }
 
 void Interface::pushTransaction(animation::Action&& action) {
-  std::lock_guard<std::mutex> lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionStackMutex);
   _transactionStack.emplace_back(
       core::make_unique<InterfaceTransaction>(std::move(action)));
 }
 
 void Interface::popTransaction() {
-  std::lock_guard<std::mutex> lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionStackMutex);
 
   if (_transactionStack.size() == 0) {
     return;
@@ -207,7 +207,7 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
-  if (_transactionStack.size() == 0 || _coordinatorChannel == nullptr) {
+  if (_coordinatorChannel == nullptr) {
     return;
   }
 
@@ -221,7 +221,11 @@ void Interface::flushTransactions() {
    */
   core::Message arena;
 
-  std::lock_guard<std::mutex> lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionStackMutex);
+
+  if (_transactionStack.size() == 0) {
+    return;
+  }
 
   /*
    *  Commit all explicitly committed transactions.

@@ -5,7 +5,6 @@
 #include <Core/EventLoop.h>
 #include <Core/ThreadLocal.h>
 #include <Core/Utilities.h>
-#include <mutex>
 
 namespace rl {
 namespace core {
@@ -157,7 +156,7 @@ void EventLoop::flushPendingDispatches() {
      *  Hold the lock for as short of a time as possible. Release the lock while
      *  flushing dispatches
      */
-    std::lock_guard<std::mutex> lock(_pendingDispatchesMutex);
+    MutexLocker lock(_pendingDispatchesMutex);
     if (_pendingDispatches->size() != 0) {
       pending.swap(_pendingDispatches);
       _pendingDispatches = make_unique<PendingBlocks>();
@@ -177,7 +176,7 @@ void EventLoop::flushPendingDispatches() {
 void EventLoop::dispatchAsync(std::function<void()> block) {
   RL_ASSERT_MSG(_trivialSource, "A trivial source must be present");
 
-  std::lock_guard<std::mutex> lock(_pendingDispatchesMutex);
+  MutexLocker lock(_pendingDispatchesMutex);
   _pendingDispatches->push_back(block);
   _trivialSource->writer()(_trivialSource->handles().writeHandle);
 }
