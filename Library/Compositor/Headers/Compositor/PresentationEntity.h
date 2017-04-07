@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_PRESENTATIONENTITY_
-#define RADAR_COMPOSITOR_PRESENTATIONENTITY_
+#pragma once
 
 #include <Compositor/FrontendPass.h>
 #include <Core/Macros.h>
@@ -48,5 +47,3 @@ class PresentationEntity : public entity::Entity {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_PRESENTATIONENTITY_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_LAYOUT_VARIABLE_H_
-#define RADAR_LAYOUT_VARIABLE_H_
+#pragma once
 
 #include <Core/Utilities.h>
 #include <Entity/Entity.h>
@@ -97,5 +96,3 @@ class Variable : public core::ArchiveSerializable,
 
 }  // namespace layout
 }  // namespace rl
-
-#endif  // RADAR_LAYOUT_VARIABLE_H_

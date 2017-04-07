@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_CHANNEL_SOCKETCHANNEL_
-#define RADAR_CORE_CHANNEL_SOCKETCHANNEL_
+#pragma once
 
 #include "Config.h"
 
@@ -58,5 +57,3 @@ class SocketChannel : public ChannelProvider {
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_SOCKET
-
-#endif  // RADAR_CORE_CHANNEL_SOCKETCHANNEL_

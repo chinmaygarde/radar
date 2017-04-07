@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_SHAREDMEMORY_
-#define RADAR_CORE_SHAREDMEMORY_
+#pragma once
 
 #include <Core/Macros.h>
 #include <string>
@@ -71,5 +70,3 @@ class SharedMemory {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_SHAREDMEMORY_

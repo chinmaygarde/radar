@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GEOMETRY_QUATERNION_H_
-#define RADAR_GEOMETRY_QUATERNION_H_
+#pragma once
 
 #include <Geometry/Vector.h>
 
@@ -79,5 +78,3 @@ struct Quaternion {
 
 }  // namespace geom
 }  // namespace rl
-
-#endif  // RADAR_GEOMETRY_QUATERNION_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_CONTEXT_H_
-#define RADAR_COMPOSITOR_CONTEXT_H_
+#pragma once
 
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/ThreadBinding.h>
@@ -53,5 +52,3 @@ class Context {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_CONTEXT_H_

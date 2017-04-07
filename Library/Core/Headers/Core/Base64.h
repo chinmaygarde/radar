@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_BASE64_H_
-#define RADAR_CORE_BASE64_H_
+#pragma once
 
 #include <Core/Allocation.h>
 #include <Core/Macros.h>
@@ -15,5 +14,3 @@ Allocation Base64Decode(const uint8_t* data);
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_BASE64_H_

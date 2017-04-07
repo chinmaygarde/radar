@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACE_MODELENTITY_H_
-#define RADAR_INTERFACE_MODELENTITY_H_
+#pragma once
 
 #include <Entity/Entity.h>
 
@@ -34,5 +33,3 @@ class ModelEntity : public entity::Entity {
 
 }  // namespace interface
 }  // namespace rl
-
-#endif  // RADAR_INTERFACE_MODELENTITY_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_TYPOGRAPHY_HBFONT_H_
-#define RADAR_TYPOGRAPHY_HBFONT_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
@@ -40,5 +39,3 @@ class HBFont {
 
 }  // namespace type
 }  // namespace rl
-
-#endif  // RADAR_TYPOGRAPHY_HBFONT_H_

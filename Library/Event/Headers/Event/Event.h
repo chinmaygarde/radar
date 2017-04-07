@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_EVENT_EVENT_
-#define RADAR_EVENT_EVENT_
+#pragma once
 
 #include <Core/MessageSerializable.h>
 
@@ -36,5 +35,3 @@ class Event : public core::MessageSerializable {
 
 }  // namespace event
 }  // namespace rl
-
-#endif  // RADAR_EVENT_EVENT_

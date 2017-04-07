@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADARLOVER_CORE_EVENT_LOOP_OBSERVER_
-#define RADARLOVER_CORE_EVENT_LOOP_OBSERVER_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/Mutex.h>
@@ -98,5 +97,3 @@ class EventLoopObserverCollection {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADARLOVER_CORE_EVENT_LOOP_OBSERVER_

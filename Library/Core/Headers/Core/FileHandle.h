@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_FILEHANDLE_H_
-#define RADAR_CORE_FILEHANDLE_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/RawAttachment.h>
@@ -48,5 +47,3 @@ class FileHandle : public Attachment {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_FILEHANDLE_H_

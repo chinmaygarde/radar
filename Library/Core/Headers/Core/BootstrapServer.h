@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_BOOTSTRAP_SERVER_H_
-#define RADAR_CORE_BOOTSTRAP_SERVER_H_
+#pragma once
 
 #include <Core/Channel.h>
 
@@ -56,5 +55,3 @@ class BootstrapServer {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_BOOTSTRAP_SERVER_H_

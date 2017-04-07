@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_COMPOSITORSTATISTICS_H_
-#define RADAR_COMPOSITOR_COMPOSITORSTATISTICS_H_
+#pragma once
 
 #include <Core/Instrumentation.h>
 #include <Core/Macros.h>
@@ -38,5 +37,3 @@ class CompositorStatistics {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_COMPOSITORSTATISTICS_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACEBUILDER_SVGCOLOR_H_
-#define RADAR_INTERFACEBUILDER_SVGCOLOR_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Entity/Color.h>
@@ -15,5 +14,3 @@ entity::Color ColorFromString(const char* color);
 
 }  // namespace ib
 }  // namespace rl
-
-#endif  // RADAR_INTERFACEBUILDER_SVGCOLOR_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_EVENT_LOOP_SOURCE_
-#define RADAR_CORE_EVENT_LOOP_SOURCE_
+#pragma once
 
 #include <Core/IOResult.h>
 #include <Core/Macros.h>
@@ -154,5 +153,3 @@ class EventLoopSource {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_EVENT_LOOP_SOURCE_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GRAPHICSTESTRUNNER_EGLCONFIG_H_
-#define RADAR_GRAPHICSTESTRUNNER_EGLCONFIG_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include "EGLSurface.h"
@@ -58,5 +57,3 @@ class EGLConfig {
 
 }  // namespace testrunner
 }  // namespace rl
-
-#endif  // RADAR_GRAPHICSTESTRUNNER_EGLCONFIG_H_

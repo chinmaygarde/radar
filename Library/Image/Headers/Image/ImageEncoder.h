@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_IMAGE_IMAGEENCODER_H_
-#define RADAR_IMAGE_IMAGEENCODER_H_
+#pragma once
 
 #include <Core/FileIOAdapter.h>
 #include <Core/Macros.h>
@@ -41,5 +40,3 @@ class ImageEncoder {
 
 }  // namespace image
 }  // namespace rl
-
-#endif  // RADAR_IMAGE_IMAGEENCODER_H_

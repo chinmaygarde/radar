@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_INPROCESSATTACHMENT_H_
-#define RADAR_CORE_INPROCESSATTACHMENT_H_
+#pragma once
 
 #include <Core/Config.h>
 
@@ -28,5 +27,3 @@ class InProcessAttachment {
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
-
-#endif  // RADAR_CORE_INPROCESSATTACHMENT_H_

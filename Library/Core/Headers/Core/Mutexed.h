@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_MUTEXED_H_
-#define RADAR_CORE_MUTEXED_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <mutex>
@@ -53,5 +52,3 @@ class Mutexed {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_MUTEXED_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GEOMETRY_MATRIX_
-#define RADAR_GEOMETRY_MATRIX_
+#pragma once
 
 #include <Geometry/Point.h>
 #include <Geometry/Quaternion.h>
@@ -295,5 +294,3 @@ static inline Vector4 operator*(const Vector4& v, const Matrix& m) {
 
 }  // namespace geom
 }  // namespace rl
-
-#endif  // RADAR_GEOMETRY_MATRIX_

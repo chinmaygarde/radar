@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_MACROS_
-#define RADAR_CORE_MACROS_
+#pragma once
 
 #include <Core/Timing.h>
 #include <cerrno>
@@ -217,5 +216,3 @@ static inline void _RL_AssertLog(const char* file,
     DEBUG_BREAK();              \
     return false;               \
   }
-
-#endif  // RADAR_CORE_MACROS_

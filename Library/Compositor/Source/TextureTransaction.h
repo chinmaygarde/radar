@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_TEXTURETRANSACTION_H_
-#define RADAR_COMPOSITOR_TEXTURETRANSACTION_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/WorkQueue.h>
@@ -34,5 +33,3 @@ class TextureTransaction {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_TEXTURETRANSACTION_H_

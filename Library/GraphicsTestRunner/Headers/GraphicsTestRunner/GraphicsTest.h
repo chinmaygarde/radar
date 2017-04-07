@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GRAPHICSTESTRUNNER_GRAPHICSTEST_H_
-#define RADAR_GRAPHICSTESTRUNNER_GRAPHICSTEST_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
@@ -39,5 +38,3 @@ class GraphicsTest : public ::testing::Test {
 
   RL_DISALLOW_COPY_AND_ASSIGN(GraphicsTest);
 };
-
-#endif  // RADAR_GRAPHICSTESTRUNNER_GRAPHICSTEST_H_

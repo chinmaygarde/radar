@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_EVENTLOOPTHREAD_H_
-#define RADAR_CORE_EVENTLOOPTHREAD_H_
+#pragma once
 
 #include <Core/EventLoop.h>
 #include <Core/Latch.h>
@@ -16,13 +15,13 @@ namespace core {
 
 class EventLoopThread {
  public:
+  using MutexedLoop = Mutexed<EventLoop*>;
+
   EventLoopThread();
 
   EventLoopThread(Latch& ready);
 
   ~EventLoopThread();
-
-  using MutexedLoop = Mutexed<EventLoop*>;
 
   MutexedLoop::Access loop();
 
@@ -37,5 +36,3 @@ class EventLoopThread {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_EVENTLOOPTHREAD_H_

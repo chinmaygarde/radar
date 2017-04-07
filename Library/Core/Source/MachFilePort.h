@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_MACHFILEPORT_H_
-#define RADAR_CORE_MACHFILEPORT_H_
+#pragma once
 
 #include "Config.h"
 
@@ -25,5 +24,3 @@ mach_port_name_t MachPortFromFileDescriptor(int descriptor);
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH
-
-#endif  // RADAR_CORE_MACHFILEPORT_H_

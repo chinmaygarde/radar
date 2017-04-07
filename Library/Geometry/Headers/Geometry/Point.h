@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GEOMETRY_POINT_
-#define RADAR_GEOMETRY_POINT_
+#pragma once
 
 #include <Geometry/Size.h>
 #include <string>
@@ -53,5 +52,3 @@ struct Point {
 
 }  // namespace geom
 }  // namespace rl
-
-#endif  // RADAR_GEOMETRY_POINT_

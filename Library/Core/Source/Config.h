@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_CONFIG_
-#define RADAR_CORE_CONFIG_
+#pragma once
 
 #include <Core/Platform.h>
 
@@ -145,5 +144,3 @@
 #if RL_WAITSET == RL_WAITSET_INPROCESS && RL_CHANNELS != RL_CHANNELS_INPROCESS
 #error in-process waitsets require in-process channels
 #endif
-
-#endif  // RADAR_CORE_CONFIG_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACE_ENTITY_
-#define RADAR_INTERFACE_ENTITY_
+#pragma once
 
 #include <Core/Archive.h>
 #include <Core/Macros.h>
@@ -231,5 +230,3 @@ class Entity : public core::ArchiveSerializable {
 
 }  // namespace entity
 }  // namespace rl
-
-#endif  // RADAR_INTERFACE_ENTITY_

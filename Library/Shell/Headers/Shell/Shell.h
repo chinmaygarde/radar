@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_SHELL_SHELL_
-#define RADAR_SHELL_SHELL_
+#pragma once
 
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
@@ -82,5 +81,3 @@ class Shell {
 
 }  // namespace shell
 }  // namespace rl
-
-#endif  // RADAR_SHELL_SHELL_

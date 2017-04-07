@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_PROGRAMCATALOG_
-#define RADAR_COMPOSITOR_PROGRAMCATALOG_
+#pragma once
 
 #include "Program/ColorProgram.h"
 #include "Program/Program.h"
@@ -31,5 +30,3 @@ class ProgramCatalog {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_PROGRAMCATALOG_

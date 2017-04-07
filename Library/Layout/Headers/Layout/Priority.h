@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_LAYOUT_PRIORITY_H_
-#define RADAR_LAYOUT_PRIORITY_H_
+#pragma once
 
 #include <algorithm>
 
@@ -29,5 +28,3 @@ static const double Weak = Create(0.0, 0.0, 1.0);
 
 }  // namespace layout
 }  // namespace rl
-
-#endif  // RADAR_LAYOUT_PRIORITY_H_

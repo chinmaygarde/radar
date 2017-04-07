@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COORDINATOR_INTERFACECONTROLLER_H_
-#define RADAR_COORDINATOR_INTERFACECONTROLLER_H_
+#pragma once
 
 #include <Compositor/FrontendPass.h>
 #include <Compositor/InterfaceStatistics.h>
@@ -52,5 +51,3 @@ class InterfaceController {
 
 }  // namespace coordinator
 }  // namespace rl
-
-#endif  // RADAR_COORDINATOR_INTERFACECONTROLLER_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_COLOREDBOXPRIMITIVE_H_
-#define RADAR_COMPOSITOR_COLOREDBOXPRIMITIVE_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include "Primitive.h"
@@ -29,5 +28,3 @@ class ColoredBoxPrimitive : public Primitive {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_COLOREDBOXPRIMITIVE_H_

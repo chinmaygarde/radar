@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_UNIFORM_H_
-#define RADAR_COMPOSITOR_UNIFORM_H_
+#pragma once
 
 #include <Entity/Color.h>
 #include <Geometry/Matrix.h>
@@ -24,5 +23,3 @@ void SetUniform(GLint index, const geom::Size& size);
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_UNIFORM_H_

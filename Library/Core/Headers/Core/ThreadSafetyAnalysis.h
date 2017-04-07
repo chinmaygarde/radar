@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_THREADSAFETYANALYSIS_H_
-#define RADAR_CORE_THREADSAFETYANALYSIS_H_
+#pragma once
 
 /*
  *  Thread safety analysis macros from:
@@ -11,24 +10,20 @@
  */
 
 #if defined(__clang__) && (!defined(SWIG))
-#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x)   __attribute__((x))
+#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x) __attribute__((x))
 #else
-#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x)   // no-op
+#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x)  // no-op
 #endif
 
-#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x)   __attribute__((x))
+#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x) __attribute__((x))
 
-#define RL_CAPABILITY(x) \
-  RL_THREAD_ANNOTATION_ATTRIBUTE__(capability(x))
+#define RL_CAPABILITY(x) RL_THREAD_ANNOTATION_ATTRIBUTE__(capability(x))
 
-#define RL_SCOPED_CAPABILITY \
-  RL_THREAD_ANNOTATION_ATTRIBUTE__(scoped_lockable)
+#define RL_SCOPED_CAPABILITY RL_THREAD_ANNOTATION_ATTRIBUTE__(scoped_lockable)
 
-#define RL_GUARDED_BY(x) \
-  RL_THREAD_ANNOTATION_ATTRIBUTE__(guarded_by(x))
+#define RL_GUARDED_BY(x) RL_THREAD_ANNOTATION_ATTRIBUTE__(guarded_by(x))
 
-#define RL_PT_GUARDED_BY(x) \
-  RL_THREAD_ANNOTATION_ATTRIBUTE__(pt_guarded_by(x))
+#define RL_PT_GUARDED_BY(x) RL_THREAD_ANNOTATION_ATTRIBUTE__(pt_guarded_by(x))
 
 #define RL_ACQUIRED_BEFORE(...) \
   RL_THREAD_ANNOTATION_ATTRIBUTE__(acquired_before(__VA_ARGS__))
@@ -74,6 +69,3 @@
 
 #define RL_NO_THREAD_SAFETY_ANALYSIS \
   RL_THREAD_ANNOTATION_ATTRIBUTE__(no_thread_safety_analysis)
-
-
-#endif // RADAR_CORE_THREADSAFETYANALYSIS_H_

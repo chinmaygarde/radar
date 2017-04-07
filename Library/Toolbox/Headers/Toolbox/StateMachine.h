@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_STATE_MACHINE_
-#define RADAR_STATE_MACHINE_
+#pragma once
 
 #include <Core/Macros.h>
 #include <functional>
@@ -55,5 +54,3 @@ class StateMachine {
 
 }  // namespace toolbox
 }  // namespace rl
-
-#endif  // RADAR_STATE_MACHINE_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_TYPOGRAPHY_TYPEFRAME_H_
-#define RADAR_TYPOGRAPHY_TYPEFRAME_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <string>
@@ -23,5 +22,3 @@ class TypeFrame {
 
 }  // namespace type
 }  // namespace rl
-
-#endif  // RADAR_TYPOGRAPHY_TYPEFRAME_H_

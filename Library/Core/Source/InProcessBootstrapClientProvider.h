@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_INPROCESSBOOTSTRAPCLIENTPROVIDER_H_
-#define RADAR_CORE_INPROCESSBOOTSTRAPCLIENTPROVIDER_H_
+#pragma once
 
 #include "Config.h"
 
@@ -41,5 +40,3 @@ class InProcessBootstrapClientProvider : public BootstrapClientProvider {
 }  // namespace rl
 
 #endif  // RL_CHANNELS == RL_CHANNELS_INPROCESS
-
-#endif  // RADAR_CORE_INPROCESSBOOTSTRAPCLIENTPROVIDER_H_

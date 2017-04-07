@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACE_ARCHIVEINTERFACE_H_
-#define RADAR_INTERFACE_ARCHIVEINTERFACE_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Interface/Interface.h>
@@ -26,5 +25,3 @@ class ArchiveInterface : public Interface {
 
 }  // namespace interface
 }  // namespace rl
-
-#endif  // RADAR_INTERFACE_ARCHIVEINTERFACE_H_

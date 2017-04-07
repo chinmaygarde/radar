@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_GRAPHICSTESTFRAME_H_
-#define RADAR_COMPOSITOR_GRAPHICSTESTFRAME_H_
+#pragma once
 
 #include <Compositor/Frame.h>
 #include <Core/Macros.h>
@@ -31,5 +30,3 @@ class GraphicsTestFrame : public GraphicsTest {
 
   RL_DISALLOW_COPY_AND_ASSIGN(GraphicsTestFrame);
 };
-
-#endif  // RADAR_COMPOSITOR_GRAPHICSTESTFRAME_H_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_EVENT_TOUCHEVENT_
-#define RADAR_EVENT_TOUCHEVENT_
+#pragma once
 
 #include <Event/Event.h>
 #include <Geometry/Point.h>
@@ -71,5 +70,3 @@ class TouchEvent : public Event {
 
 }  // namespace event
 }  // namespace rl
-
-#endif  // RADAR_EVENT_TOUCHEVENT_

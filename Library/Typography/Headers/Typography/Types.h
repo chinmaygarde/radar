@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_TYPOGRAPHY_TYPES_H_
-#define RADAR_TYPOGRAPHY_TYPES_H_
+#pragma once
 
 namespace rl {
 namespace type {
@@ -23,5 +22,3 @@ struct Coordinate {
 
 }  // namespace type
 }  // namespace rl
-
-#endif  // RADAR_TYPOGRAPHY_TYPES_H_

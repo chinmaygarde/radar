@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INSTRUMENTATION_TRACEEVENT_H_
-#define RADAR_INSTRUMENTATION_TRACEEVENT_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <map>
@@ -119,5 +118,3 @@ class AutoDurationEvent {
 
 }  // namespace instrumentation
 }  // namespace rl
-
-#endif  // RADAR_INSTRUMENTATION_TRACEEVENT_H_

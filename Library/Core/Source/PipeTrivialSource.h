@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_PIPETRIVIALSOURCE_H_
-#define RADAR_CORE_PIPETRIVIALSOURCE_H_
+#pragma once
 
 #include "Config.h"
 
@@ -30,5 +29,3 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource();
 }  // namespace rl
 
 #endif  // !RL_OS_WINDOWS
-
-#endif  // RADAR_CORE_PIPETRIVIALSOURCE_H_

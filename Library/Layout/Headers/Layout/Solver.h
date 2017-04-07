@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_LAYOUT_SOLVER_H_
-#define RADAR_LAYOUT_SOLVER_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Layout/Constraint.h>
@@ -125,5 +124,3 @@ class Solver {
 
 }  // namespace layout
 }  // namespace rl
-
-#endif  // RADAR_LAYOUT_SOLVER_H_

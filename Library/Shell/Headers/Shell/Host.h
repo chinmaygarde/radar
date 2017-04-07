@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_SHELL_HOST_
-#define RADAR_SHELL_HOST_
+#pragma once
 
 #include <Core/BootstrapServer.h>
 #include <Core/Macros.h>
@@ -41,5 +40,3 @@ class Host {
 
 }  // namespace shell
 }  // namespace rl
-
-#endif  // RADAR_SHELL_HOST_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RadarLove_Core_DebugTagGenerator_h_
-#define RadarLove_Core_DebugTagGenerator_h_
+#pragma once
 
 #include <Core/Macros.h>
 #include <atomic>
@@ -29,5 +28,3 @@ class DebugTagGenerator {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RadarLove_Core_DebugTagGenerator_h_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACE_INTERFACETRANSACTION_
-#define RADAR_INTERFACE_INTERFACETRANSACTION_
+#pragma once
 
 #include <Animation/Action.h>
 #include <Coordinator/TransactionPayload.h>
@@ -44,5 +43,3 @@ class InterfaceTransaction {
 
 }  // namespace interface
 }  // namespace rl
-
-#endif  // RADAR_INTERFACE_INTERFACETRANSACTION_

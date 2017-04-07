@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_BOXVERTICES_H_
-#define RADAR_COMPOSITOR_BOXVERTICES_H_
+#pragma once
 
 #include <Geometry/Rect.h>
 #include "Vertices/Vertices.h"
@@ -26,5 +25,3 @@ class BoxVertices : public Vertices {
 
 }  // namespace compositor
 }  // namespace rl
-
-#endif  // RADAR_COMPOSITOR_BOXVERTICES_H_

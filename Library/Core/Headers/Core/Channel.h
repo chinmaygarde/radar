@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_CHANNEL_
-#define RADAR_CORE_CHANNEL_
+#pragma once
 
 #include <Core/EventLoop.h>
 #include <Core/IOResult.h>
@@ -141,5 +140,3 @@ class Channel {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_CHANNEL_

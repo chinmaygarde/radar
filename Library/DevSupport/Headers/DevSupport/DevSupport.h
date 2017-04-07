@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_DEVSUPPORT_DEVSUPPORT_H_
-#define RADAR_DEVSUPPORT_DEVSUPPORT_H_
+#pragma once
 
 namespace rl {
 namespace dev {
@@ -12,5 +11,3 @@ bool UpdateWorkingDirectoryForFixtures();
 
 }  // namespace dev
 }  // namespace rl
-
-#endif  // RADAR_DEVSUPPORT_DEVSUPPORT_H_

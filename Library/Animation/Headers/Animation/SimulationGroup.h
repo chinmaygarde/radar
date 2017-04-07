@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_ANIMATION_SIMULATIONGROUP_
-#define RADAR_ANIMATION_SIMULATIONGROUP_
+#pragma once
 
 #include <Animation/Simulation.h>
 
@@ -54,5 +53,3 @@ class SimulationGroup : public Simulation {
 
 }  // namespace animation
 }  // namespace rl
-
-#endif  // RADAR_ANIMATION_SIMULATIONGROUP_

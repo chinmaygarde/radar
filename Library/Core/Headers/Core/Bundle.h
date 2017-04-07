@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_BUNDLE_H_
-#define RADAR_CORE_BUNDLE_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
@@ -29,5 +28,3 @@ class Bundle {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_BUNDLE_H_

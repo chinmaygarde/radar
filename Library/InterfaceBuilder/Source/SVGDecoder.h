@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACEBUILDER_SVGDECODER_H_
-#define RADAR_INTERFACEBUILDER_SVGDECODER_H_
+#pragma once
 
 #include <Core/Macros.h>
 #include <pugixml.hpp>
@@ -17,5 +16,3 @@ T Decode(const pugi::xml_node& node, const char* name, bool* present = nullptr);
 
 }  // namespace ib
 }  // namespace rl
-
-#endif  // RADAR_INTERFACEBUILDER_SVGDECODER_H_

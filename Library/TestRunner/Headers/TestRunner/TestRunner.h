@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RL_TEST_RUNNER_H_
-#define RL_TEST_RUNNER_H_
+#pragma once
 
 #include <Geometry/Matrix.h>
 #include <Geometry/Rect.h>
@@ -108,5 +107,3 @@ inline ::testing::AssertionResult SizeNear(rl::geom::Size a, rl::geom::Size b) {
 #define ASSERT_RECT_NEAR(a, b) ASSERT_PRED2(&::RectNear, a, b)
 #define ASSERT_POINT_NEAR(a, b) ASSERT_PRED2(&::PointNear, a, b)
 #define ASSERT_SIZE_NEAR(a, b) ASSERT_PRED2(&::SizeNear, a, b)
-
-#endif  // RL_TEST_RUNNER_H_

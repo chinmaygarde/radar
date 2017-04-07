@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_FILE_H_
-#define RADAR_CORE_FILE_H_
+#pragma once
 
 #include <Core/FileHandle.h>
 #include <Core/FileMapping.h>
@@ -52,5 +51,3 @@ class File {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_FILE_H_

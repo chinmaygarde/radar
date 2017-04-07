@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_CORE_BOOTSTRAPCLIENT_H_
-#define RADAR_CORE_BOOTSTRAPCLIENT_H_
+#pragma once
 
 #include <Core/Channel.h>
 #include <Core/IOResult.h>
@@ -31,5 +30,3 @@ class BootstrapClient {
 
 }  // namespace core
 }  // namespace rl
-
-#endif  // RADAR_CORE_BOOTSTRAPCLIENT_H_

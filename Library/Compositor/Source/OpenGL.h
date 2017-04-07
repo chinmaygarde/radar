@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COMPOSITOR_OPENGL_
-#define RADAR_COMPOSITOR_OPENGL_
+#pragma once
 
 #include <Core/Platform.h>
 
@@ -65,5 +64,3 @@ static_assert(sizeof(rl::compositor::GLMatrix) == 16 * sizeof(GLfloat),
 
 #define RL_GLAssert(x, ...) \
   rl::compositor::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);
-
-#endif  // RADAR_COMPOSITOR_OPENGL_

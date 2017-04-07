@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_INTERFACE_INTERFACE_
-#define RADAR_INTERFACE_INTERFACE_
+#pragma once
 
 #include <Coordinator/CoordinatorAcquisitionProtocol.h>
 #include <Core/Macros.h>
@@ -150,5 +149,3 @@ class Interface {
 
 }  // namespace interface
 }  // namespace rl
-
-#endif  // RADAR_INTERFACE_INTERFACE_

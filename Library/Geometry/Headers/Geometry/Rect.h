@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GEOMETRY_RECT_
-#define RADAR_GEOMETRY_RECT_
+#pragma once
 
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
@@ -68,5 +67,3 @@ struct Rect {
 
 }  // namespace geom
 }  // namespace rl
-
-#endif  // RADAR_GEOMETRY_RECT_

@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_GEOMETRY_SHEAR_H_
-#define RADAR_GEOMETRY_SHEAR_H_
+#pragma once
 
 namespace rl {
 namespace geom {
@@ -31,5 +30,3 @@ struct Shear {
 
 }  // namespace geom
 }  // namespace rl
-
-#endif  // RADAR_GEOMETRY_SHEAR_H_

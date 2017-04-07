@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_ANIMATION_TIMINGCURVE_
-#define RADAR_ANIMATION_TIMINGCURVE_
+#pragma once
 
 #include <Geometry/Point.h>
 
@@ -37,5 +36,3 @@ class TimingCurve {
 
 }  // namespace animation
 }  // namespace rl
-
-#endif  // RADAR_ANIMATION_TIMINGCURVE_

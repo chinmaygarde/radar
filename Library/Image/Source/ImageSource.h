@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_IMAGE_IMAGESOURCE_H_
-#define RADAR_IMAGE_IMAGESOURCE_H_
+#pragma once
 
 #include <Core/Allocation.h>
 #include <Core/File.h>
@@ -52,5 +51,3 @@ class ImageSource : public core::MessageSerializable {
 
 }  // namespace image
 }  // namespace rl
-
-#endif  // RADAR_IMAGE_IMAGESOURCE_H_

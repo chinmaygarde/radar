@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef RADAR_COORDINATOR_TRANSACTIONPAYLOAD_H_
-#define RADAR_COORDINATOR_TRANSACTIONPAYLOAD_H_
+#pragma once
 
 #include <Animation/Action.h>
 #include <Coordinator/TransferEntity.h>
@@ -78,5 +77,3 @@ class TransactionPayload : public core::ArchiveSerializable,
 
 }  // namespace coordinator
 }  // namespace rl
-
-#endif  // RADAR_COORDINATOR_TRANSACTIONPAYLOAD_H_
