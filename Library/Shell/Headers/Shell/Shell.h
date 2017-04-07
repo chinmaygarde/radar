@@ -8,7 +8,6 @@
 #include <Coordinator/Coordinator.h>
 #include <Coordinator/RenderSurface.h>
 #include <Core/Macros.h>
-#include <Core/Mutexed.h>
 #include <Interface/Interface.h>
 #include <Shell/Host.h>
 #include <thread>
@@ -55,7 +54,8 @@ class Shell {
   void renderSurfaceWasTornDown();
 
  private:
-  Shell(std::shared_ptr<coordinator::RenderSurface> surface);
+  using ManagedInterfaces =
+      std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>;
 
   std::thread _hostThread;
   std::thread _compositorThread;
@@ -68,12 +68,13 @@ class Shell {
    *  A guarded map between unique pointers to the interface and the threads
    *  these interfaces are being serviced on.
    */
-  core::Mutexed<
-      std::unordered_map<std::unique_ptr<interface::Interface>, std::thread>,
-      std::mutex>
-      _managedInterfaces;
+  core::Mutex _managedInterfacesMutex;
+  ManagedInterfaces _managedInterfaces RL_GUARDED_BY(_managedInterfacesMutex);
+
+  Shell(std::shared_ptr<coordinator::RenderSurface> surface);
 
   void attachHostOnCurrentThread();
+
   void teardownManagedInterfaces();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Shell);
