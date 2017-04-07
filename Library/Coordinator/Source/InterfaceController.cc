@@ -40,68 +40,67 @@ void InterfaceController::scheduleChannel(core::EventLoop& loop,
 
 void InterfaceController::onChannelMessage(core::Message message) {
   RL_TRACE_AUTO(__function__);
-  auto graphAccess = _graph.access();
-  graphAccess.get().applyTransactions(message);
+  core::MutexLocker lock(_graphMutex);
+  _graph.applyTransactions(message);
 }
 
 void InterfaceController::setSize(const geom::Size& size) {
   RL_TRACE_AUTO(__function__);
-  auto graphAccess = _graph.access();
-  graphAccess.get().updateSize(size);
+  core::MutexLocker lock(_graphMutex);
+  _graph.updateSize(size);
 }
 
 bool InterfaceController::update(const event::TouchEvent::PhaseMap& touches) {
   RL_TRACE_AUTO(__function__);
 
-  auto graphAccess = _graph.access();
+  core::MutexLocker lock(_graphMutex);
 
   /*
    *  Step 1: Apply animations
    */
-  bool animationsUpdated = applyAnimations(graphAccess);
+  bool animationsUpdated = applyAnimations();
 
   /*
    *  Step 2: Flush pending touches on the current state of the graph
    */
-  bool touchesUpdated = applyPendingTouchEvents(graphAccess, touches);
+  bool touchesUpdated = applyPendingTouchEvents(touches);
 
   /*
    *  Step 3: Enforce constraints
    */
-  bool constraintsEnforced = enforceConstraints(graphAccess);
+  bool constraintsEnforced = enforceConstraints();
 
   /*
    *  Step 4: Resolve any other visual updates not covered by any of the above
    *  cases.
    */
-  bool hasVisualUpdates = graphAccess.get().resolveVisualUpdates();
+  bool hasVisualUpdates = _graph.resolveVisualUpdates();
 
   return (animationsUpdated || touchesUpdated || constraintsEnforced ||
           hasVisualUpdates);
 }
 
 bool InterfaceController::applyPendingTouchEvents(
-    Graph::Access& access,
     const event::TouchEvent::PhaseMap& touches) {
   RL_TRACE_AUTO(__function__);
-  return access.get().applyTouchMap(touches);
+  return _graph.applyTouchMap(touches);
 }
 
-bool InterfaceController::applyAnimations(Graph::Access& access) {
+bool InterfaceController::applyAnimations() {
   RL_TRACE_AUTO(__function__);
-  return access.get().stepInterpolations();
+  return _graph.stepInterpolations();
 }
 
-bool InterfaceController::enforceConstraints(Graph::Access& access) {
+bool InterfaceController::enforceConstraints() {
   RL_TRACE_AUTO(__function__);
-  return access.get().applyConstraints() > 0;
+  return _graph.applyConstraints() > 0;
 }
 
 compositor::FrontEndPass InterfaceController::render() {
   RL_TRACE_AUTO(__function__);
   compositor::FrontEndPass pass;
-  auto access = _graph.access();
-  access.get().render(pass);
+  core::MutexLocker lock(_graphMutex);
+  _graph.render(pass);
   return pass;
 }
 

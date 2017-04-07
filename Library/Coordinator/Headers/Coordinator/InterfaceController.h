@@ -10,7 +10,6 @@
 #include <Coordinator/PresentationGraph.h>
 #include <Core/Channel.h>
 #include <Core/Macros.h>
-#include <Core/Mutexed.h>
 #include <Event/TouchEvent.h>
 
 namespace rl {
@@ -34,20 +33,19 @@ class InterfaceController {
   const std::string& debugTag() const;
 
  private:
-  using Graph = core::Mutexed<PresentationGraph>;
-
   std::string _debugTag;
   core::Namespace _localNS;
   std::shared_ptr<core::Channel> _channel;
-  Graph _graph;
+  core::Mutex _graphMutex;
+  PresentationGraph _graph RL_GUARDED_BY(_graphMutex);
 
   void onChannelMessage(core::Message message);
   void setNeedsUpdate();
 
-  bool applyPendingTouchEvents(Graph::Access& access,
-                               const event::TouchEvent::PhaseMap& touches);
-  bool applyAnimations(Graph::Access& access);
-  bool enforceConstraints(Graph::Access& access);
+  bool applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches)
+      RL_REQUIRES(_graphMutex);
+  bool applyAnimations() RL_REQUIRES(_graphMutex);
+  bool enforceConstraints() RL_REQUIRES(_graphMutex);
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceController);
 };

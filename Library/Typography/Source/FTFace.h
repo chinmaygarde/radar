@@ -6,7 +6,6 @@
 #define RADAR_TYPOGRAPHY_FTFACE_H_
 
 #include <Core/Macros.h>
-#include <Core/Mutexed.h>
 #include <Core/URI.h>
 #include <Typography/Types.h>
 #include <hb-ft.h>
