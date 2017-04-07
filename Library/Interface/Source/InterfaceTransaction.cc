@@ -19,7 +19,7 @@ void InterfaceTransaction::mark(const entity::Entity& entity,
 
   if (!transferEntity) {
     auto transfer =
-        core::make_unique<coordinator::TransferEntity>(entity.identifier());
+        std::make_unique<coordinator::TransferEntity>(entity.identifier());
     transferEntity.swap(transfer);
   }
 

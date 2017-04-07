@@ -37,9 +37,7 @@ set(__check_compiler INCLUDED)
 
 macro(CheckCompiler)
 
-if(NOT WINDOWS)
-  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -std=c++11 ")
-endif()
+set (CMAKE_CXX_STANDARD 14)
 
 # Basic version checks. GCC >= 4.9 and Clang >= 3.6 or AppleClang.
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")

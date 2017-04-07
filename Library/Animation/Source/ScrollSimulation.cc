@@ -53,13 +53,13 @@ bool ScrollSimulation::chooseSimulation(
     if (position > _trailingExtent) {
       _isSpringing = true;
       _offset = intervalOffset;
-      _currentSimulation = core::make_unique<SpringSimulation>(
+      _currentSimulation = std::make_unique<SpringSimulation>(
           _springDesc, position, _trailingExtent, velocity);
       return true;
     } else if (position < _leadingExtent) {
       _isSpringing = true;
       _offset = intervalOffset;
-      _currentSimulation = core::make_unique<SpringSimulation>(
+      _currentSimulation = std::make_unique<SpringSimulation>(
           _springDesc, position, _leadingExtent, velocity);
       return true;
     }
@@ -67,7 +67,7 @@ bool ScrollSimulation::chooseSimulation(
 
   if (_currentSimulation == nullptr) {
     _currentSimulation =
-        core::make_unique<FrictionSimulation>(_drag, position, velocity);
+        std::make_unique<FrictionSimulation>(_drag, position, velocity);
     return true;
   }
 

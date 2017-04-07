@@ -45,7 +45,7 @@ void InterfaceTest::testOnActive(
   /*
    *  Create the interface with our custom delegate.
    */
-  auto interface = rl::core::make_unique<rl::interface::Interface>(delegate);
+  auto interface = std::make_unique<rl::interface::Interface>(delegate);
 
   /*
    *  Register the interface.

@@ -37,7 +37,7 @@ class Director {
      *  behavior is settled upon.
      */
     auto& interpolators = collection<T>();
-    auto interpolator = core::make_unique<Interpolator<T>>(
+    auto interpolator = std::make_unique<Interpolator<T>>(
         std::forward<InterpolatorArgs>(args)...);
 
     auto result = interpolators.emplace(key, std::move(interpolator));

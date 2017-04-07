@@ -23,7 +23,7 @@ using PlatformBootstrapClientProvider =
     ;
 
 BootstrapClient::BootstrapClient()
-    : _provider(core::make_unique<PlatformBootstrapClientProvider>()) {}
+    : _provider(std::make_unique<PlatformBootstrapClientProvider>()) {}
 
 BootstrapClient::~BootstrapClient() = default;
 

@@ -75,7 +75,7 @@ void Protocol::onChannelMessage(Message message, Namespace* ns) {
       return;
     }
 
-    auto replyChannel = make_unique<Channel>(std::move(attachment));
+    auto replyChannel = std::make_unique<Channel>(std::move(attachment));
 
     onRequest(std::move(message), std::move(replyChannel), header.identifier());
 

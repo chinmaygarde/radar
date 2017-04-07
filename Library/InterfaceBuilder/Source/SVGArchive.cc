@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "SVGArchive.h"
 #include <Geometry/PathBuilder.h>
 #include <sstream>
+#include "SVGArchive.h"
 #include "SVGDecoder.h"
 #include "SVGPathParser/SVGPathString.h"
 
@@ -16,7 +16,7 @@ SVGArchive::SVGArchive(const uint8_t* data, size_t size) {
     return;
   }
 
-  auto document = core::make_unique<pugi::xml_document>();
+  auto document = std::make_unique<pugi::xml_document>();
 
   auto result = document->load_buffer(data, size);
 

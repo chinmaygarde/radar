@@ -26,7 +26,7 @@ using PlatformWaitSetProvider =
 #endif
     ;
 
-WaitSet::WaitSet() : _provider(core::make_unique<PlatformWaitSetProvider>()) {}
+WaitSet::WaitSet() : _provider(std::make_unique<PlatformWaitSetProvider>()) {}
 
 WaitSet::~WaitSet() {
   auto sourcesAccess = _sources.access();

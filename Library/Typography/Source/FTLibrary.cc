@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "FTLibrary.h"
 #include <Core/Utilities.h>
 #include "FTFace.h"
+#include "FTLibrary.h"
 
 namespace rl {
 namespace type {
@@ -36,7 +36,7 @@ bool FTLibrary::registerFont(const core::URI& uri) {
 
   return _registry
       .emplace(std::move(postscriptName),
-               core::make_unique<MutexFacePair>(std::move(face)))
+               std::make_unique<MutexFacePair>(std::move(face)))
       .second;
 }
 

@@ -28,7 +28,7 @@ EventLoop::EventLoop()
     : _waitSet(),
       _trivialSource(EventLoopSource::Trivial()),
       _shouldTerminate(false),
-      _pendingDispatches(make_unique<PendingBlocks>()),
+      _pendingDispatches(std::make_unique<PendingBlocks>()),
       _beforeSleepObservers(EventLoopObserver::Activity::BeforeSleep),
       _afterSleepObservers(EventLoopObserver::Activity::AfterSleep) {
   _waitSet.addSource(_trivialSource);
@@ -159,7 +159,7 @@ void EventLoop::flushPendingDispatches() {
     MutexLocker lock(_pendingDispatchesMutex);
     if (_pendingDispatches->size() != 0) {
       pending.swap(_pendingDispatches);
-      _pendingDispatches = make_unique<PendingBlocks>();
+      _pendingDispatches = std::make_unique<PendingBlocks>();
     }
   }
 

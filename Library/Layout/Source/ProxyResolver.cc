@@ -72,7 +72,7 @@ bool ProxyResolver::addTouches(const std::vector<event::TouchEvent>& touches) {
     /*
      *  Create a new touch entity for this identifier
      */
-    auto touchEntity = core::make_unique<entity::Entity>(
+    auto touchEntity = std::make_unique<entity::Entity>(
         core::Name(_localNS), nullptr /* notifies interface */);
 
     touchEntity->setBounds({0.0, 0.0, 1.0, 1.0});

@@ -112,7 +112,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   std::vector<std::unique_ptr<rl::core::Channel>> channels;
 
   for (size_t i = 0; i < count; i++) {
-    channels.emplace_back(rl::core::make_unique<rl::core::Channel>());
+    channels.emplace_back(std::make_unique<rl::core::Channel>());
   }
 
   for (const auto& channel : channels) {

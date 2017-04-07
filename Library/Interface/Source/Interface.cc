@@ -166,7 +166,7 @@ InterfaceTransaction& Interface::transaction() {
      *  are already holding the lock, so update the stack manually.
      */
     _transactionStack.emplace_back(
-        core::make_unique<InterfaceTransaction>(animation::Action{0.0}));
+        std::make_unique<InterfaceTransaction>(animation::Action{0.0}));
     armAutoFlushTransactions(true);
   }
 
@@ -176,7 +176,7 @@ InterfaceTransaction& Interface::transaction() {
 void Interface::pushTransaction(animation::Action&& action) {
   core::MutexLocker lock(_transactionStackMutex);
   _transactionStack.emplace_back(
-      core::make_unique<InterfaceTransaction>(std::move(action)));
+      std::make_unique<InterfaceTransaction>(std::move(action)));
 }
 
 void Interface::popTransaction() {

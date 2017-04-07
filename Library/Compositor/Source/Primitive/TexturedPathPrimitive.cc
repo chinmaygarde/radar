@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "TexturedPathPrimitive.h"
 #include <Compositor/BackendPass.h>
 #include "ProgramCatalog.h"
 #include "Texture.h"
+#include "TexturedPathPrimitive.h"
 #include "Uniform.h"
 #include "Vertices/PathVertices.h"
 
@@ -15,7 +15,7 @@ namespace compositor {
 TexturedPathPrimitive::TexturedPathPrimitive(image::Image image,
                                              const geom::Path& path)
     : _texture(std::make_shared<Texture>(std::move(image))),
-      _pathVertices(core::make_unique<PathVertices>(
+      _pathVertices(std::make_unique<PathVertices>(
           path,
           PathVertices::Winding::Odd,
           PathVertices::ElementType::Polygons)) {}

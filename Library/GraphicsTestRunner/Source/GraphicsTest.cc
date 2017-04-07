@@ -12,8 +12,7 @@
 #include <GLES2/gl2.h>
 
 GraphicsTest::GraphicsTest()
-    : _connection(rl::core::make_unique<rl::testrunner::GraphicsConnection>()) {
-}
+    : _connection(std::make_unique<rl::testrunner::GraphicsConnection>()) {}
 
 GraphicsTest::~GraphicsTest() = default;
 

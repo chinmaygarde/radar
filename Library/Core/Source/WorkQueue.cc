@@ -19,7 +19,7 @@ WorkQueue::WorkQueue() : _workSource(EventLoopSource::Trivial()) {
   Latch ready(poolSize);
 
   for (size_t i = 0; i < poolSize; i++) {
-    _workers.emplace_back(core::make_unique<EventLoopThread>(ready));
+    _workers.emplace_back(std::make_unique<EventLoopThread>(ready));
   }
 
   ready.wait();

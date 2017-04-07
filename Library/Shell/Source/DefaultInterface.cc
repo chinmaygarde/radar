@@ -14,7 +14,7 @@ std::unique_ptr<interface::InterfaceDelegate> CreateDefaultInterface() {
   /*
    *  The default interface just creates a blank surface with a dark background.
    */
-  auto interface = core::make_unique<interface::DefaultInterfaceDelegate>();
+  auto interface = std::make_unique<interface::DefaultInterfaceDelegate>();
   interface->setInterfaceDidFinishLaunching(
       [](interface::Interface& interface) -> void {
         auto& root = interface.rootEntity();

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ColoredPathPrimitive.h"
 #include <Compositor/Frame.h>
+#include "ColoredPathPrimitive.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
 #include "Vertices/PathVertices.h"
@@ -14,9 +14,9 @@ namespace compositor {
 ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
                                            const geom::Path& path)
     : _pathVertices(
-          core::make_unique<PathVertices>(path,
-                                          PathVertices::Winding::Odd,
-                                          PathVertices::ElementType::Polygons)),
+          std::make_unique<PathVertices>(path,
+                                         PathVertices::Winding::Odd,
+                                         PathVertices::ElementType::Polygons)),
       _color(color) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;

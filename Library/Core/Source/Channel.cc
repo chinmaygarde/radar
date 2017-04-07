@@ -29,14 +29,14 @@ using PlatformChannelProvider =
 Channel::Channel()
     : _localNS(nullptr),
       _terminated(false),
-      _provider(core::make_unique<PlatformChannelProvider>(*this)) {}
+      _provider(std::make_unique<PlatformChannelProvider>(*this)) {}
 
 Channel::Channel(RawAttachment attachment)
     : _localNS(nullptr),
       _terminated(false),
       _provider(
-          core::make_unique<PlatformChannelProvider>(*this,
-                                                     std::move(attachment))) {}
+          std::make_unique<PlatformChannelProvider>(*this,
+                                                    std::move(attachment))) {}
 
 Channel::~Channel() {
   terminate();

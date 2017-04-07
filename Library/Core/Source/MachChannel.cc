@@ -33,7 +33,7 @@ bool MachChannel::setupPortSetMemberships() {
     return false;
   }
 
-  _set = core::make_unique<MachPort>(MachPort::Type::PortSet);
+  _set = std::make_unique<MachPort>(MachPort::Type::PortSet);
 
   if (!_set->isValid()) {
     /*

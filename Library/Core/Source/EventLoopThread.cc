@@ -9,13 +9,13 @@ namespace core {
 
 EventLoopThread::EventLoopThread() : _loop(nullptr) {
   core::Latch ready(1);
-  _thread = core::make_unique<std::thread>(
+  _thread = std::make_unique<std::thread>(
       std::bind(&EventLoopThread::main, this, std::ref(ready)));
   ready.wait();
 }
 
 EventLoopThread::EventLoopThread(Latch& ready) : _loop(nullptr) {
-  _thread = core::make_unique<std::thread>(
+  _thread = std::make_unique<std::thread>(
       std::bind(&EventLoopThread::main, this, std::ref(ready)));
 }
 

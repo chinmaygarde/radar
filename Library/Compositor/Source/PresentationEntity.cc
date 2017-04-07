@@ -11,7 +11,7 @@ namespace compositor {
 
 PresentationEntity::PresentationEntity(core::Name identifier)
     : Entity(identifier, nullptr),
-      _primitivesCache(core::make_unique<PrimitivesCache>()) {}
+      _primitivesCache(std::make_unique<PrimitivesCache>()) {}
 
 PresentationEntity::~PresentationEntity() = default;
 

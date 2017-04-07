@@ -19,7 +19,7 @@ std::unique_ptr<InterfaceBuilderArchive> InterfaceBuilderArchive::Make(
   /*
    *  In fallback order, check for recognized archive formats.
    */
-  auto svgArchive = core::make_unique<SVGArchive>(data, size);
+  auto svgArchive = std::make_unique<SVGArchive>(data, size);
 
   if (svgArchive->isValid()) {
     return std::move(svgArchive);

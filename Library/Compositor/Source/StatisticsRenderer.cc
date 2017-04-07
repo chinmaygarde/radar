@@ -202,7 +202,7 @@ void StatisticsRenderer::performSetupIfNecessary() {
   /*
    *  Create and initialize the shader program
    */
-  _program = core::make_unique<StatisticsRendererProgram>();
+  _program = std::make_unique<StatisticsRendererProgram>();
 
   RL_GLAssert("There must be no errors prior to stat renderer setup");
 

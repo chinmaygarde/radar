@@ -132,7 +132,7 @@ compositor::PresentationEntity& PresentationGraph::presentationEntityForName(
    *        a transaction update.
    */
   if (!entity) {
-    entity = core::make_unique<compositor::PresentationEntity>(name);
+    entity = std::make_unique<compositor::PresentationEntity>(name);
   }
 
   return *entity;

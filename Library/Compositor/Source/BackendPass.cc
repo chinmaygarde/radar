@@ -9,7 +9,7 @@ namespace rl {
 namespace compositor {
 
 BackEndPass::BackEndPass()
-    : _textureTransaction(core::make_unique<TextureTransaction>()) {}
+    : _textureTransaction(std::make_unique<TextureTransaction>()) {}
 
 BackEndPass::~BackEndPass() = default;
 

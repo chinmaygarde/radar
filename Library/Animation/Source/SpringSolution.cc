@@ -20,7 +20,7 @@ class CriticalSolution : public SpringSolution {
     const double r = -desc.damping / (2.0 * desc.mass);
     const double c1 = distance;
     const double c2 = velocity / (r * distance);
-    return core::make_unique<CriticalSolution>(r, c1, c2);
+    return std::make_unique<CriticalSolution>(r, c1, c2);
   }
 
   double x(const core::ClockDuration& time) override {
@@ -58,7 +58,7 @@ class OverdampedSolution : public SpringSolution {
     const double c2 = (velocity - r1 * distance) / (r2 - r1);
     const double c1 = distance - c2;
 
-    return core::make_unique<OverdampedSolution>(r1, r2, c1, c2);
+    return std::make_unique<OverdampedSolution>(r1, r2, c1, c2);
   }
 
   double x(const core::ClockDuration& time) override {
@@ -98,7 +98,7 @@ class UnderdampedSolution : public SpringSolution {
     const double c1 = distance;
     const double c2 = (velocity - r * distance) / w;
 
-    return core::make_unique<UnderdampedSolution>(w, r, c1, c2);
+    return std::make_unique<UnderdampedSolution>(w, r, c1, c2);
   }
 
   double x(const core::ClockDuration& time) override {

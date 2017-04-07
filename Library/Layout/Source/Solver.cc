@@ -12,8 +12,8 @@ namespace layout {
 
 Solver::Solver(core::Namespace& localNS)
     : _localNS(localNS),
-      _objective(core::make_unique<Row>(0.0)),
-      _artificial(core::make_unique<Row>(0.0)) {}
+      _objective(std::make_unique<Row>(0.0)),
+      _artificial(std::make_unique<Row>(0.0)) {}
 
 Solver::~Solver() {}
 
@@ -198,7 +198,7 @@ Symbol Solver::symbolForVariable(const Variable& variable) {
 
 std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
   auto const& expression = constraint.expression();
-  auto row = core::make_unique<Row>(expression.constant());
+  auto row = std::make_unique<Row>(expression.constant());
 
   for (const auto& term : expression.terms()) {
     if (NearZero(term.coefficient())) {
@@ -308,8 +308,8 @@ bool Solver::allDummiesInRow(const Row& row) const {
 
 bool Solver::addWithArtificialVariableOnRow(const Row& row) {
   auto artificial = Symbol{Symbol::Type::Slack};
-  _rows.emplace(artificial, core::make_unique<Row>(row));
-  _artificial = core::make_unique<Row>(row);
+  _rows.emplace(artificial, std::make_unique<Row>(row));
+  _artificial = std::make_unique<Row>(row);
 
   const auto& result = optimizeObjectiveRow(*_artificial);
 

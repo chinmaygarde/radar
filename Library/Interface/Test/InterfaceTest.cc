@@ -20,7 +20,7 @@ CreateRegisteredInterface(
     rl::shell::Shell& shell,
     std::shared_ptr<rl::interface::DefaultInterfaceDelegate> delegate =
         std::make_shared<rl::interface::DefaultInterfaceDelegate>()) {
-  auto interface = rl::core::make_unique<rl::interface::Interface>(delegate);
+  auto interface = std::make_unique<rl::interface::Interface>(delegate);
 
   if (shell.registerManagedInterface(std::move(interface))) {
     return delegate;

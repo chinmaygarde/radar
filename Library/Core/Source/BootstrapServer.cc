@@ -24,7 +24,7 @@ using PlatformBootstrapServerProvider =
     ;
 
 BootstrapServer::BootstrapServer()
-    : _provider(core::make_unique<PlatformBootstrapServerProvider>()) {}
+    : _provider(std::make_unique<PlatformBootstrapServerProvider>()) {}
 
 BootstrapServer::~BootstrapServer() = default;
 

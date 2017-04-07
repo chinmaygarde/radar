@@ -13,7 +13,7 @@ namespace rl {
 namespace core {
 
 Archive::Archive(const std::string& path, bool recreate)
-    : _db(core::make_unique<ArchiveDatabase>(path, recreate)),
+    : _db(std::make_unique<ArchiveDatabase>(path, recreate)),
       _transactionCount(0) {}
 
 Archive::~Archive() {

@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "FileImageSource.h"
 #include <Core/Message.h>
 #include <Core/RawAttachment.h>
+#include "FileImageSource.h"
 
 namespace rl {
 namespace image {
@@ -27,7 +27,7 @@ void FileImageSource::onPrepareForUse() {
     return;
   }
 
-  _mapping = core::make_unique<core::FileMapping>(*_handle);
+  _mapping = std::make_unique<core::FileMapping>(*_handle);
 }
 
 void FileImageSource::onDoneUsing() {

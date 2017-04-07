@@ -164,7 +164,7 @@ bool TransactionPayload::deserialize(core::ArchiveItem& item,
 
   for (auto& entity : entities) {
     _entities.emplace(entity.identifier(),
-                      core::make_unique<TransferEntity>(std::move(entity)));
+                      std::make_unique<TransferEntity>(std::move(entity)));
   }
 
   return true;
