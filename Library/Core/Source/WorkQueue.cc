@@ -51,11 +51,8 @@ WorkQueue::WorkItem WorkQueue::acquireWork() {
    *  Only hold the lock long enough to dequeue the work item. Holding the
    *  lock is not necessary while actually performing the work.
    */
-  auto workItemsAccess = _workItems.access();
-  auto& workItems = workItemsAccess.get();
-
-  auto workItemsCount = workItems.size();
-
+  MutexLocker lock(_workItemsMutex);
+  auto workItemsCount = _workItems.size();
   if (workItemsCount == 0) {
     /*
      *  No more work to do.
@@ -66,11 +63,8 @@ WorkQueue::WorkItem WorkQueue::acquireWork() {
   /*
    *  There are one or more work items in the queue.
    */
-
-  auto item = workItems.front();
-
-  workItems.pop_front();
-
+  auto item = _workItems.front();
+  _workItems.pop_front();
   return item;
 }
 
@@ -90,12 +84,9 @@ bool WorkQueue::dispatch(WorkItem work) {
      *  Enqueue pending work. Don't hold to lock for the write to the trivial
      *  source.
      */
-    auto workItemsAccess = _workItems.access();
-    auto& workItems = workItemsAccess.get();
-
-    initialCount = workItems.size();
-
-    workItems.push_back(work);
+    MutexLocker lock(_workItemsMutex);
+    initialCount = _workItems.size();
+    _workItems.push_back(work);
   }
 
   if (initialCount == 0) {

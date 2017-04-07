@@ -28,7 +28,8 @@ class WorkQueue {
  private:
   std::shared_ptr<EventLoopSource> _workSource;
   std::vector<std::unique_ptr<EventLoopThread>> _workers;
-  Mutexed<std::list<WorkItem>> _workItems;
+  Mutex _workItemsMutex;
+  std::list<WorkItem> _workItems RL_GUARDED_BY(_workItemsMutex);
 
   void work();
   WorkItem acquireWork();
