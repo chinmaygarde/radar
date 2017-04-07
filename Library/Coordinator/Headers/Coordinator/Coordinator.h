@@ -10,7 +10,6 @@
 #include <Coordinator/InterfaceController.h>
 #include <Coordinator/PresentationGraph.h>
 #include <Core/DebugTagGenerator.h>
-#include <Core/Mutexed.h>
 #include <Core/WorkQueue.h>
 #include <Event/TouchEventChannel.h>
 #include <Geometry/Size.h>
@@ -63,26 +62,28 @@ class Coordinator {
   void redrawCurrentFrameNow();
 
  private:
-  using InterfaceControllers = core::Mutexed<std::list<InterfaceController>>;
-
   std::shared_ptr<RenderSurface> _surface;
   core::EventLoop* _loop;
   geom::Size _surfaceSize;
   compositor::Context _context;
   core::DebugTagGenerator _interfaceTagGenerator;
   core::WorkQueue _workQueue;
-  InterfaceControllers _interfaceControllers;
+  core::Mutex _interfaceControllersMutex;
+  std::list<InterfaceController> _interfaceControllers
+      RL_GUARDED_BY(_interfaceControllersMutex);
   std::shared_ptr<core::EventLoopSource> _animationsSource;
   event::TouchEventChannel& _touchEventChannel;
   CoordinatorAcquisitionProtocol _coordinatorAcquisitionProtocol;
   bool _forceAnotherFrame;
 
   CoordinatorAcquisitionProtocol::VendorResult acquireFreshCoordinatorChannel();
-  void setupOrTeardownChannels(bool setup);
-  void scheduleInterfaceChannels(bool schedule,
-                                 InterfaceControllers::Access& controllers);
 
-  bool renderSingleFrame(InterfaceControllers::Access& controllers);
+  void setupOrTeardownChannels(bool setup);
+
+  void scheduleInterfaceChannels(bool schedule)
+      RL_REQUIRES(_interfaceControllersMutex);
+
+  bool renderSingleFrame() RL_REQUIRES(_interfaceControllersMutex);
 
   void updateAndRenderInterfaceControllers(bool force);
 

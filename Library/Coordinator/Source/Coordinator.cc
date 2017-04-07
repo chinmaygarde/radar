@@ -76,15 +76,14 @@ void Coordinator::renderSurfaceWasSetup() {
 }
 
 void Coordinator::renderSurfaceSizeUpdated(const geom::Size& size) {
-  auto controllersAccess = _interfaceControllers.access();
-
   if (_surfaceSize == size) {
     return;
   }
 
   _surfaceSize = size;
 
-  for (auto& controller : controllersAccess.get()) {
+  core::MutexLocker lock(_interfaceControllersMutex);
+  for (auto& controller : _interfaceControllers) {
     controller.setSize(_surfaceSize);
   }
 }
@@ -96,13 +95,13 @@ void Coordinator::renderSurfaceWasTornDown() {
 }
 
 void Coordinator::setupOrTeardownChannels(bool setup) {
-  auto controllers = _interfaceControllers.access();
+  core::MutexLocker lock(_interfaceControllersMutex);
   if (setup) {
-    scheduleInterfaceChannels(true, controllers);
+    scheduleInterfaceChannels(true);
     _loop->addSource(_animationsSource);
     _loop->addSource(_coordinatorAcquisitionProtocol.source());
   } else {
-    scheduleInterfaceChannels(false, controllers);
+    scheduleInterfaceChannels(false);
     _loop->removeSource(_animationsSource);
     _loop->removeSource(_coordinatorAcquisitionProtocol.source());
   }
@@ -110,35 +109,32 @@ void Coordinator::setupOrTeardownChannels(bool setup) {
 
 CoordinatorAcquisitionProtocol::VendorResult
 Coordinator::acquireFreshCoordinatorChannel() {
-  auto controllersAccess = _interfaceControllers.access();
-
+  core::MutexLocker lock(_interfaceControllersMutex);
   /*
    *  Create a new interface controller for this reques
    */
-  controllersAccess.get().emplace_back(_interfaceTagGenerator.acquire(),
-                                       _surfaceSize);
+  _interfaceControllers.emplace_back(_interfaceTagGenerator.acquire(),
+                                     _surfaceSize);
 
   /*
    *  Schedule all channels
    */
-  scheduleInterfaceChannels(true, controllersAccess);
+  scheduleInterfaceChannels(true);
 
   /*
    *  Return the vendor result to the protocol
    */
-  auto& controller = controllersAccess.get().back();
+  auto& controller = _interfaceControllers.back();
   return CoordinatorAcquisitionProtocol::VendorResult(controller.channel(),
                                                       controller.debugTag());
 }
 
-void Coordinator::scheduleInterfaceChannels(
-    bool schedule,
-    InterfaceControllers::Access& controllers) {
+void Coordinator::scheduleInterfaceChannels(bool schedule) {
   if (_loop == nullptr) {
     return;
   }
 
-  for (auto& controller : controllers.get()) {
+  for (auto& controller : _interfaceControllers) {
     controller.scheduleChannel(*_loop, schedule);
   }
 }
@@ -147,13 +143,12 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
   RL_TRACE_INSTANT(__function__);
   RL_TRACE_AUTO(__function__);
 
-  auto controllersAccess = _interfaceControllers.access();
-
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
-
   auto wasUpdated = false;
 
-  for (auto& controller : controllersAccess.get()) {
+  core::MutexLocker lock(_interfaceControllersMutex);
+
+  for (auto& controller : _interfaceControllers) {
     wasUpdated |= controller.update(touchesIfAny);
   }
 
@@ -162,7 +157,7 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
      *  If the scene was updated but the frame could not be rendered (for
      *  whatever reason), force the next frame.
      */
-    _forceAnotherFrame = !renderSingleFrame(controllersAccess);
+    _forceAnotherFrame = !renderSingleFrame();
   }
 }
 
@@ -170,7 +165,7 @@ void Coordinator::redrawCurrentFrameNow() {
   updateAndRenderInterfaceControllers(true);
 }
 
-bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
+bool Coordinator::renderSingleFrame() {
   RL_TRACE_AUTO(__function__);
 
   if (_surfaceSize.width <= 0.0 || _surfaceSize.height <= 0.0) {
@@ -187,7 +182,7 @@ bool Coordinator::renderSingleFrame(InterfaceControllers::Access& controllers) {
    */
   compositor::BackEndPass backEndPass;
 
-  for (auto& interface : controllers.get()) {
+  for (auto& interface : _interfaceControllers) {
     backEndPass.addFrontEndPass(interface.render());
   }
 
