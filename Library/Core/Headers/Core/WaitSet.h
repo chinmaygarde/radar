@@ -7,7 +7,6 @@
 
 #include <Core/EventLoopSource.h>
 #include <Core/Macros.h>
-#include <Core/Mutexed.h>
 #include <unordered_set>
 
 namespace rl {
@@ -70,7 +69,8 @@ class WaitSet {
   using EventLoopSourceRef = std::shared_ptr<EventLoopSource>;
 
   std::unique_ptr<WaitSetProvider> _provider;
-  Mutexed<std::unordered_set<EventLoopSourceRef>> _sources;
+  Mutex _sourcesMutex;
+  std::unordered_set<EventLoopSourceRef> _sources RL_GUARDED_BY(_sourcesMutex);
 
   RL_DISALLOW_COPY_AND_ASSIGN(WaitSet);
 };

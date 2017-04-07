@@ -29,10 +29,7 @@ using PlatformWaitSetProvider =
 WaitSet::WaitSet() : _provider(std::make_unique<PlatformWaitSetProvider>()) {}
 
 WaitSet::~WaitSet() {
-  auto sourcesAccess = _sources.access();
-  auto& sources = sourcesAccess.get();
-
-  for (auto const& source : sources) {
+  for (auto const& source : _sources) {
     _provider->updateSource(*this, *source, false);
   }
 }
@@ -42,10 +39,8 @@ bool WaitSet::addSource(std::shared_ptr<EventLoopSource> source) {
     return false;
   }
 
-  auto sourcesAccess = _sources.access();
-  auto& sources = sourcesAccess.get();
-
-  if (sources.emplace(source).second) {
+  core::MutexLocker lock(_sourcesMutex);
+  if (_sources.emplace(source).second) {
     _provider->updateSource(*this, *source, true);
     return true;
   }
@@ -58,10 +53,8 @@ bool WaitSet::removeSource(std::shared_ptr<EventLoopSource> source) {
     return false;
   }
 
-  auto sourcesAccess = _sources.access();
-  auto& sources = sourcesAccess.get();
-
-  if (sources.erase(source) != 0) {
+  core::MutexLocker lock(_sourcesMutex);
+  if (_sources.erase(source) != 0) {
     _provider->updateSource(*this, *source, false);
     return true;
   }
@@ -77,12 +70,11 @@ WaitSet::Result WaitSet::wait(ClockDurationNano timeout) {
    *  our collection of sources.
    */
   if (result.first == WaitSet::WakeReason::Error && result.second != nullptr) {
-    auto sourcesAccess = _sources.access();
-    auto& sources = sourcesAccess.get();
-
     EventLoopSourceRef found;
 
-    for (const auto& source : sources) {
+    core::MutexLocker lock(_sourcesMutex);
+
+    for (const auto& source : _sources) {
       if (source.get() == result.second) {
         found = source;
         break;
@@ -90,7 +82,7 @@ WaitSet::Result WaitSet::wait(ClockDurationNano timeout) {
     }
 
     if (found != nullptr) {
-      sources.erase(found);
+      _sources.erase(found);
     }
   }
 
