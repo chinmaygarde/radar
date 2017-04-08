@@ -19,9 +19,8 @@ MachBootstrapClientProvider::MachBootstrapClientProvider() = default;
 
 MachBootstrapClientProvider::~MachBootstrapClientProvider() = default;
 
-IOResult MachBootstrapClientProvider::doAdvertise(
-    const std::string& name,
-    std::shared_ptr<Channel> channel) {
+IOResult MachBootstrapClientProvider::doAdvertise(const std::string& name,
+                                                  std::shared_ptr<Channel> channel) {
   @autoreleasepool {
     auto portName = static_cast<uint32_t>(channel->attachment()->handle());
 
@@ -43,8 +42,7 @@ IOResult MachBootstrapClientProvider::doAdvertise(
   return IOResult::Failure;
 }
 
-std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(
-    const std::string& name) {
+std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(const std::string& name) {
   @autoreleasepool {
     auto portName = [NSString stringWithUTF8String:name.c_str()];
 

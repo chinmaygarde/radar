@@ -6,11 +6,8 @@
 #include <ppapi/cpp/graphics_3d.h>
 #include <ppapi/cpp/input_event.h>
 #include <ppapi/cpp/instance.h>
-#include <ppapi/cpp/instance.h>
 #include <ppapi/cpp/message_loop.h>
 #include <ppapi/cpp/module.h>
-#include <ppapi/cpp/module.h>
-#include <ppapi/cpp/var.h>
 #include <ppapi/cpp/var.h>
 #include <ppapi/cpp/var_array.h>
 #include <ppapi/lib/gl/gles2/gl2ext_ppapi.h>

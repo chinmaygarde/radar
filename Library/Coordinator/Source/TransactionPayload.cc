@@ -124,7 +124,8 @@ const core::ArchiveDef TransactionPayload::ArchiveDefinition = {
     /* .superClass = */ nullptr,
     /* .className = */ "TransactionPayload",
     /* .autoAssignName = */ true,
-    /* .members = */ {
+    /* .members = */
+    {
         TransactionArchiveKey::Action,       //
         TransactionArchiveKey::Constraints,  //
         TransactionArchiveKey::Suggestions,  //

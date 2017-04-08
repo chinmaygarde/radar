@@ -22,30 +22,24 @@
 
 - (NSData*)dataOfType:(NSString*)typeName error:(NSError**)outError {
   if (outError) {
-    *outError =
-        [NSError errorWithDomain:NSCocoaErrorDomain code:unimpErr userInfo:nil];
+    *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:unimpErr userInfo:nil];
   }
   return nil;
 }
 
-- (BOOL)readFromData:(NSData*)data
-              ofType:(NSString*)typeName
-               error:(NSError**)outError {
+- (BOOL)readFromData:(NSData*)data ofType:(NSString*)typeName error:(NSError**)outError {
   if (outError) {
-    *outError = [NSError errorWithDomain:NSOSStatusErrorDomain
-                                    code:unimpErr
-                                userInfo:nil];
+    *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:nil];
   }
 
-  auto archive = rl::ib::InterfaceBuilderArchive::Make(
-      static_cast<const uint8_t*>(data.bytes), data.length);
+  auto archive =
+      rl::ib::InterfaceBuilderArchive::Make(static_cast<const uint8_t*>(data.bytes), data.length);
 
   if (archive == nullptr) {
     return NO;
   }
 
-  auto interfaceDelegate =
-      std::make_shared<rl::ib::InterfaceBuilderInterface>(std::move(archive));
+  auto interfaceDelegate = std::make_shared<rl::ib::InterfaceBuilderInterface>(std::move(archive));
 
   if (interfaceDelegate == nullptr) {
     return NO;

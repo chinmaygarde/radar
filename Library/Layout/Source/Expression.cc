@@ -82,7 +82,8 @@ const core::ArchiveDef Expression::ArchiveDefinition = {
     /* .superClass = */ nullptr,
     /* .className = */ "Expression",
     /* .autoAssignName = */ true,
-    /* .members = */ {
+    /* .members = */
+    {
         ArchiveKey::Terms,    //
         ArchiveKey::Constant  //
     }};

@@ -46,10 +46,11 @@ URI GetExecutablePath() {
   uriString << "file://";
 
 #if RL_OS_MAC
-  uriString << [[[NSBundle mainBundle] executablePath]
-                   stringByAddingPercentEncodingWithAllowedCharacters:
-                       [NSCharacterSet URLQueryAllowedCharacterSet]]
-                   .UTF8String;
+  uriString <<
+      [[[NSBundle mainBundle] executablePath]
+          stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                 URLQueryAllowedCharacterSet]]
+          .UTF8String;
 #elif RL_OS_LINUX
   const int pathSize = 256;
   char path[pathSize] = {0};
@@ -76,10 +77,11 @@ URI GetResourcesPath() {
 
   uriString << "file://";
 
-  uriString << [[[NSBundle mainBundle] resourcePath]
-                   stringByAddingPercentEncodingWithAllowedCharacters:
-                       [NSCharacterSet URLQueryAllowedCharacterSet]]
-                   .UTF8String;
+  uriString <<
+      [[[NSBundle mainBundle] resourcePath]
+          stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                 URLQueryAllowedCharacterSet]]
+          .UTF8String;
   uriString << "/Resources";
 
   URI uri(uriString.str());

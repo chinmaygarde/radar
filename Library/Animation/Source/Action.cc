@@ -108,7 +108,8 @@ const core::ArchiveDef Action::ArchiveDefinition = {
     /* .superClass = */ nullptr,
     /* .className = */ "Action",
     /* .autoAssignName = */ true,
-    /* .members = */ {
+    /* .members = */
+    {
         ActionArchiveKey::Duration,        //
         ActionArchiveKey::RepeatCount,     //
         ActionArchiveKey::AutoReverses,    //

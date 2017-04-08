@@ -11,7 +11,6 @@
 
 @interface RadarSurface : NSOpenGLView
 
-- (void)launchInterfaceDelegate:
-    (std::shared_ptr<rl::interface::InterfaceDelegate>)delegate;
+- (void)launchInterfaceDelegate:(std::shared_ptr<rl::interface::InterfaceDelegate>)delegate;
 
 @end

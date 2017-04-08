@@ -20,20 +20,16 @@
 @implementation RadarAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification*)notification {
-  _windowController =
-      [[NSWindowController alloc] initWithWindowNibName:@"RadarWindow"];
+  _windowController = [[NSWindowController alloc] initWithWindowNibName:@"RadarWindow"];
 
   if ([_windowController.window isKindOfClass:[RadarWindow class]]) {
-    RadarWindow* window =
-        reinterpret_cast<RadarWindow*>(_windowController.window);
-    [window.surface
-        launchInterfaceDelegate:rl::shell::CreateDefaultInterface()];
+    RadarWindow* window = reinterpret_cast<RadarWindow*>(_windowController.window);
+    [window.surface launchInterfaceDelegate:rl::shell::CreateDefaultInterface()];
   }
 }
 
 - (IBAction)onCaptureTraceSelected:(id)sender {
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory,
-                                                       NSUserDomainMask, YES);
+  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
 
   if (paths.count == 0) {
     RL_LOG("Could not find desktop path for writing trace");
@@ -42,13 +38,12 @@
 
   NSString* desktopPath = paths.firstObject;
 
-  NSURL* traceURL = [[NSURL URLWithString:desktopPath]
-      URLByAppendingPathComponent:@"RadarTrace.json"
-                      isDirectory:NO];
+  NSURL* traceURL =
+      [[NSURL URLWithString:desktopPath] URLByAppendingPathComponent:@"RadarTrace.json"
+                                                         isDirectory:NO];
 
   std::ofstream traceFile;
-  traceFile.open([traceURL absoluteString].UTF8String,
-                 std::ios::out | std::ios::trunc);
+  traceFile.open([traceURL absoluteString].UTF8String, std::ios::out | std::ios::trunc);
 
   if (traceFile.is_open()) {
     std::stringstream stream;
