@@ -5,7 +5,7 @@
 
 #include <TestRunner/TestRunner.h>
 #include <thread>
-#include "SVGXFormParser/SVGXformDriver.h"
+#include "SVGXFormParser/SVGXFormDriver.h"
 
 TEST(SVGXFormParserTest, Invalid) {
   auto invalid = "This is invalid!";
