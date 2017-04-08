@@ -1,10 +1,11 @@
-// Copyright 2016 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+/*
+ *  This source file is part of the Radar project.
+ *  Licensed under the MIT License. See LICENSE file for details.
+ */
 
+#include "FileImageSource.h"
 #include <Core/Message.h>
 #include <Core/RawAttachment.h>
-#include "FileImageSource.h"
 
 namespace rl {
 namespace image {

@@ -1,14 +1,15 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+/*
+ *  This source file is part of the Radar project.
+ *  Licensed under the MIT License. See LICENSE file for details.
+ */
 
 #define _USE_MATH_DEFINES
 
 #include "Sample.h"
 
-#include <Layout/ConstraintCreation.h>
-#include <InterfaceBuilder/InterfaceBuilderArchive.h>
 #include <Geometry/PathBuilder.h>
+#include <InterfaceBuilder/InterfaceBuilderArchive.h>
+#include <Layout/ConstraintCreation.h>
 #include <stdlib.h>
 
 #define RND ((rand() % 100) / 100.0)

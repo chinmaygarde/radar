@@ -1,6 +1,7 @@
-// Copyright 2016 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+/*
+ *  This source file is part of the Radar project.
+ *  Licensed under the MIT License. See LICENSE file for details.
+ */
 //
 // (c) Dean McNamee <dean@gmail.com>, 2012.
 // (c) C++ port by Konstantin Käfer <mail@kkaefer.com>, 2014.
