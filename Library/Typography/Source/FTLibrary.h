@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <Core/URI.h>
 #include <hb-ft.h>
 #include <memory>
@@ -30,8 +31,8 @@ class FTLibrary {
 
  private:
   struct MutexFacePair {
-    std::mutex mutex;
-    FTFace face;
+    core::Mutex mutex;
+    FTFace face RL_GUARDED_BY(mutex);
 
     MutexFacePair(FTFace aFace);
   };

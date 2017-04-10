@@ -6,10 +6,10 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
 #include <Core/URI.h>
 #include <Typography/Types.h>
 #include <hb-ft.h>
-#include <mutex>
 
 namespace rl {
 namespace type {
@@ -38,11 +38,11 @@ class FTFace {
   RL_DISALLOW_COPY_AND_ASSIGN(FTFace);
 };
 
-class FTFaceAccess {
+class RL_SCOPED_CAPABILITY FTFaceAccess {
  public:
-  FTFaceAccess(std::mutex& mutex, FTFace& face);
+  FTFaceAccess(core::Mutex& mutex, FTFace& face) RL_ACQUIRE(mutex);
 
-  ~FTFaceAccess();
+  ~FTFaceAccess() RL_RELEASE();
 
   bool setPointSize(Point size);
 
@@ -50,7 +50,7 @@ class FTFaceAccess {
   hb_font_t* createHBFont() const;
 
  private:
-  std::mutex& _mutex;
+  core::Mutex& _mutex;
   FTFace& _face;
 
   RL_DISALLOW_COPY_AND_ASSIGN(FTFaceAccess);

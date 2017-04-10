@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "FTFace.h"
 #include <hb-ft.h>
+#include "FTFace.h"
 
 namespace rl {
 namespace type {
@@ -57,13 +57,13 @@ const std::string& FTFace::postscriptName() const {
   return _postscriptName;
 }
 
-FTFaceAccess::FTFaceAccess(std::mutex& mutex, FTFace& face)
+FTFaceAccess::FTFaceAccess(core::Mutex& mutex, FTFace& face)
     : _mutex(mutex), _face(face) {
-  _mutex.lock();
+  _mutex.Lock();
 }
 
 FTFaceAccess::~FTFaceAccess() {
-  _mutex.unlock();
+  _mutex.Unlock();
 }
 
 bool FTFaceAccess::setPointSize(Point size) {

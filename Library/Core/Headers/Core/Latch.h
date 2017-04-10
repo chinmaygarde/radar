@@ -47,6 +47,7 @@ class Latch {
 class AutoLatch : public Latch {
  public:
   AutoLatch(size_t count);
+
   ~AutoLatch();
 
  private:

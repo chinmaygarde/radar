@@ -9,7 +9,7 @@
 #include <string>
 
 TEST(MutexedTest, Compiles) {
-  rl::core::Mutexed<std::string, std::mutex> string("Oh hai!");
+  rl::core::Mutexed<std::string, rl::core::Mutex> string("Oh hai!");
   ASSERT_EQ(string.access().get(), "Oh hai!");
 }
 

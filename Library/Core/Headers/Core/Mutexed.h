@@ -6,12 +6,12 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <mutex>
+#include <Core/Mutex.h>
 
 namespace rl {
 namespace core {
 
-template <class Resource, class BasicLockable = std::mutex>
+template <class Resource, class BasicLockable = Mutex>
 class Mutexed {
  public:
   using ResourceType = Resource;
@@ -21,7 +21,7 @@ class Mutexed {
    public:
     Access(Access&&) = default;
 
-    ~Access() { _mutex.unlock(); }
+    ~Access() { _mutex.Unlock(); }
 
     Resource& get() { return _resource; }
 
@@ -33,7 +33,7 @@ class Mutexed {
 
     Access(BasicLockable& mutex, Resource& resource)
         : _mutex(mutex), _resource(resource) {
-      _mutex.lock();
+      _mutex.Lock();
     }
 
     RL_DISALLOW_COPY_AND_ASSIGN(Access);
@@ -46,7 +46,7 @@ class Mutexed {
 
  private:
   BasicLockable _mutex;
-  Resource _resource;
+  Resource _resource RL_GUARDED_BY(_mutex);
 
   RL_DISALLOW_COPY_AND_ASSIGN(Mutexed);
 };
