@@ -82,7 +82,7 @@ FileHandle::FileHandle(FileHandle&& other) : _handle(other._handle) {
 
 FileHandle::~FileHandle() {
   if (_handle != kInvalidFileHandle) {
-    RL_TEMP_FAILURE_RETRY_AND_CHECK(::close(_handle));
+    RL_UNUSED(RL_TEMP_FAILURE_RETRY_AND_CHECK(::close(_handle)));
     _handle = kInvalidFileHandle;
   }
 }

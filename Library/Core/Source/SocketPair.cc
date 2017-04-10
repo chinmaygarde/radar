@@ -91,12 +91,12 @@ SocketPair::SocketPair(SocketPair&& o)
 
 SocketPair::~SocketPair() {
   if (_readHandle != kInvalidHandle) {
-    RL_TEMP_FAILURE_RETRY(::close(_readHandle));
+    RL_UNUSED(RL_TEMP_FAILURE_RETRY(::close(_readHandle)));
     _readHandle = kInvalidHandle;
   }
 
   if (_writeHandle != kInvalidHandle) {
-    RL_TEMP_FAILURE_RETRY(::close(_writeHandle));
+    RL_UNUSED(RL_TEMP_FAILURE_RETRY(::close(_writeHandle)));
     _writeHandle = kInvalidHandle;
   }
 }

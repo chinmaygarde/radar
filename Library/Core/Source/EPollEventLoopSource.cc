@@ -35,7 +35,9 @@ static inline void EPollInvoke(int eventsMask,
   event.events = eventsMask;
   event.data.ptr = data; /* union */
 
-  RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
+  int result =
+      RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
+  RL_ASSERT(result == 0);
 }
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,

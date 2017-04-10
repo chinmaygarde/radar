@@ -8,6 +8,7 @@
 
 #include <Core/Macros.h>
 #include <Core/ThreadSafetyAnalysis.h>
+#include <mutex>
 #include <thread>
 
 namespace rl {

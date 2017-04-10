@@ -36,10 +36,10 @@ std::shared_ptr<EventLoopSource> MakePipeBasedTrivialSource() {
 
   EventLoopSource::RWHandlesCollector collector =
       [](EventLoopSource::Handles handles) {
-        RL_TEMP_FAILURE_RETRY_AND_CHECK(
-            ::close(static_cast<int>(handles.readHandle)));
-        RL_TEMP_FAILURE_RETRY_AND_CHECK(
-            ::close(static_cast<int>(handles.writeHandle)));
+        RL_UNUSED(RL_TEMP_FAILURE_RETRY_AND_CHECK(
+            ::close(static_cast<int>(handles.readHandle))));
+        RL_UNUSED(RL_TEMP_FAILURE_RETRY_AND_CHECK(
+            ::close(static_cast<int>(handles.writeHandle))));
       };
 
   static const char payload[] = {'W'};

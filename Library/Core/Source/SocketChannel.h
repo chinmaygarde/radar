@@ -46,7 +46,8 @@ class SocketChannel : public ChannelProvider {
   Allocation _inlineMessageBuffer;
   Allocation _controlBuffer;
 
-  void setup();
+  RL_WARN_UNUSED_RESULT
+  bool setup();
 
   IOResult writeMessageSingle(const Message& message,
                               ClockDurationNano timeout);

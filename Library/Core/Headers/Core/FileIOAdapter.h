@@ -8,6 +8,7 @@
 #include <Core/Allocation.h>
 #include <Core/FileHandle.h>
 #include <Core/Macros.h>
+#include <cstddef>
 
 namespace rl {
 namespace core {

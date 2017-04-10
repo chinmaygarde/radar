@@ -59,22 +59,24 @@ static_assert(rl_trivially_copyable(SocketPayloadHeader),
 SocketChannel::SocketChannel(Channel& channel)
     : _channel(channel),
       _pair(std::make_shared<SocketPair>(kMaxInlineBufferSize)) {
-  setup();
+  bool success = setup();
+  RL_ASSERT(success);
 }
 
 SocketChannel::SocketChannel(Channel& channel, RawAttachment attachment)
     : _channel(channel),
       _pair(std::make_shared<SocketPair>(std::move(attachment),
                                          kMaxInlineBufferSize)) {
-  setup();
+  bool success = setup();
+  RL_ASSERT(success);
 }
 
-void SocketChannel::setup() {
+bool SocketChannel::setup() {
   /*
    *  Setup the channel message buffers.
    */
-  _inlineMessageBuffer.resize(kMaxInlineBufferSize);
-  _controlBuffer.resize(kMaxControlBufferSize);
+  return _inlineMessageBuffer.resize(kMaxInlineBufferSize) &&
+         _controlBuffer.resize(kMaxControlBufferSize);
 }
 
 SocketChannel::~SocketChannel() = default;
@@ -191,7 +193,7 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
    *  instead of the message.
    */
   if (!isDataInline) {
-    oolMemoryArena = make_unique<SharedMemory>(message.size());
+    oolMemoryArena = std::make_unique<SharedMemory>(message.size());
 
     if (!oolMemoryArena->isReady() ||
         oolMemoryArena->size() != message.size()) {
@@ -525,16 +527,15 @@ IOReadResult SocketChannel::readMessage(ClockDurationNano timeout) {
          *  This way, there are no copies and we can get rid of descriptor
          *  entirely.
          */
-        oolMemoryArena = make_unique<SharedMemory>(
+        oolMemoryArena = std::make_unique<SharedMemory>(
             handle, false /* does not own its handle or mapping */);
         RL_CHECK(::close(handle));
       } else {
         /*
          *  This is a regular channel attachment
          */
-
         attachments.emplace_back(handle, [](RawAttachment::Handle handle) {
-          RL_TEMP_FAILURE_RETRY(::close(handle));
+          RL_UNUSED(RL_TEMP_FAILURE_RETRY(::close(handle)));
         });
       }
     }

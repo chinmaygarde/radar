@@ -6,10 +6,13 @@
 #include <Core/Platform.h>
 #include <Core/TempFileHandle.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sstream>
 
 #if RL_OS_MAC
 #import <Foundation/Foundation.h>
+#elif RL_OS_LINUX
+// Nothing.
 #else  // RL_OS_MAC
 #error Unsupported Platform.
 #endif  // RL_OS_MAC
@@ -20,6 +23,8 @@ namespace core {
 core::URI TemporaryFileDirectory() {
 #if RL_OS_MAC
   return {NSTemporaryDirectory().UTF8String};
+#elif RL_OS_LINUX
+  return {"/tmp"};
 #else
 #error Unsupported Platform.
 #endif

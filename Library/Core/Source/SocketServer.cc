@@ -32,7 +32,7 @@ SocketServer::SocketServer()
 
 static void CollectServerSocket(Attachment::Handle handle) {
   if (handle != SocketPair::kInvalidHandle) {
-    RL_TEMP_FAILURE_RETRY(::close(handle));
+    RL_UNUSED(RL_TEMP_FAILURE_RETRY(::close(handle)));
   }
 }
 
@@ -52,7 +52,7 @@ std::unique_ptr<Channel> SocketServer::ConnectedChannel(URI uri) {
     return nullptr;
   }
 
-  return core::make_unique<Channel>(remoteServer.takeHandle());
+  return std::make_unique<Channel>(remoteServer.takeHandle());
 }
 
 RawAttachment SocketServer::takeHandle() {
@@ -185,7 +185,7 @@ RawAttachment SocketServer::accept() const {
   }
 
   RawAttachment::Collector collector = [](Attachment::Handle handle) {
-    RL_TEMP_FAILURE_RETRY(::close(handle));
+    RL_UNUSED(RL_TEMP_FAILURE_RETRY(::close(handle)));
   };
 
   return RawAttachment{accepted, collector};

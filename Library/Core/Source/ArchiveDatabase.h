@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <map>
+#include <memory>
 #include "ArchiveTransaction.h"
 
 namespace rl {
