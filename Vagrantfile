@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
       wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.9 main"
       sudo apt-get update
-      sudo apt-get install -y build-essential cmake libgles2-mesa-dev libsdl2-dev ninja-build gdb clang-3.9 lldb-3.9
+      sudo apt-get install -y build-essential cmake libgles2-mesa-dev libsdl2-dev ninja-build gdb clang-3.9 lldb-3.9 ccache
     SHELL
     linux.vm.provider :virtualbox do |vb|
       vb.memory = GUEST_MEMORY
