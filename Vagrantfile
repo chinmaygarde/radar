@@ -9,15 +9,12 @@ Vagrant.configure(2) do |config|
   #  Define a Linux VM
   #
   config.vm.define "linux" do |linux|
-    linux.vm.box = "ubuntu/wily64"
+    linux.vm.box = "ubuntu/xenial64"
     linux.vm.provision "shell", inline: <<-SHELL
+      wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+      sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.9 main"
       sudo apt-get update
-      sudo apt-get install -y build-essential
-      sudo apt-get install -y cmake
-      sudo apt-get install -y libgles2-mesa-dev
-      sudo apt-get install -y libsdl2-dev
-      sudo apt-get install -y ninja-build
-      sudo apt-get install -y gdb
+      sudo apt-get install -y build-essential cmake libgles2-mesa-dev libsdl2-dev ninja-build gdb clang-3.9 lldb-3.9
     SHELL
     linux.vm.provider :virtualbox do |vb|
       vb.memory = GUEST_MEMORY
