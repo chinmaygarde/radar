@@ -1,3 +1,0 @@
-[submodule "ThirdParty/SwiftShader"]
-	path = ThirdParty/SwiftShader
-	url = git@github.com:chinmaygarde/swiftshader.git

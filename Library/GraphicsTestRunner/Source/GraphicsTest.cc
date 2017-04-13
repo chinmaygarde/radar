@@ -4,16 +4,21 @@
  */
 
 #include <Core/FileIOAdapter.h>
+#include <Core/Platform.h>
 #include <Core/Utilities.h>
 #include <GraphicsTestRunner/GraphicsTest.h>
 #include <Image/ImageEncoder.h>
 #include <sstream>
 #include "GraphicsConnection.h"
-#define GL_GLEXT_PROTOTYPES
-#include <GLES2/gl2.h>
+
+#if RL_OS_MAC
+#include <OpenGL/gl.h>
+#else
+#error Unknown Platform.
+#endif
 
 GraphicsTest::GraphicsTest()
-    : _connection(std::make_unique<rl::testrunner::GraphicsConnection>()) {}
+    : _connection(rl::testrunner::GraphicsConnection::Create()) {}
 
 GraphicsTest::~GraphicsTest() = default;
 

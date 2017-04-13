@@ -8,9 +8,6 @@
 StandardRadarLibrary(GraphicsTestRunner)
 
 target_link_libraries(GraphicsTestRunner
-  PRIVATE
-    libGLESv2
-    libEGL
   PUBLIC
     TestRunner
     Core
@@ -23,8 +20,17 @@ target_link_libraries(GraphicsTestRunner
 target_include_directories(GraphicsTestRunner
   PUBLIC
     "../../ThirdParty/gtest/include"
-    "../../ThirdParty/SwiftShader/include"
 )
+
+if (APPLE)
+  find_library(APPKIT AppKit)
+  find_library(OPENGL OpenGL)
+  target_link_libraries(GraphicsTestRunner
+    PRIVATE
+      ${APPKIT}
+      ${OPENGL}
+  )
+endif()
 
 ################################################################################
 # Test

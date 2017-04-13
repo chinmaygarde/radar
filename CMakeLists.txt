@@ -177,9 +177,6 @@ add_subdirectory("ThirdParty/sqlite3")
 add_subdirectory("ThirdParty/stb")
 add_subdirectory("ThirdParty/uriparser")
 
-set(BUILD_EXTRA_PROGRAMS OFF CACHE BOOL "Disable extra programs." FORCE)
-add_subdirectory("ThirdParty/SwiftShader")
-
 ################################################################################
 ################################################################################
 ############    ______ _       _    __                             #############

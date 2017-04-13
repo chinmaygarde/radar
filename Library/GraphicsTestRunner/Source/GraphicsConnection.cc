@@ -3,52 +3,41 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <Core/Platform.h>
 #include "GraphicsConnection.h"
+
+#if RL_OS_MAC
+
+#include "GraphicsConnectionMac.h"
+using PlatformGraphicsConnection = rl::testrunner::GraphicsConnectionMac;
+
+#else
+
+#error Unsupported Platform.
+
+#endif
 
 namespace rl {
 namespace testrunner {
 
-GraphicsConnection::GraphicsConnection() : _isValid(false) {
-  if (!_connection.isValid()) {
-    return;
-  }
-
-  const auto type(EGLSurface::Type::PBuffer);
-  const EGLConfig::BufferComponents components(8, 8, 8, 8, 0, 0);
-
-  _config = _connection.createConfig(type, components);
-
-  if (!_config.isValid()) {
-    return;
-  }
-
-  _surface = _connection.createSurface(type, _config, {1, 1});
-
-  if (!_surface.isValid()) {
-    return;
-  }
-
-  _context = _connection.createContext(_config);
-
-  if (!_context.isValid()) {
-    return;
-  }
-
-  _isValid = true;
+std::unique_ptr<GraphicsConnection> GraphicsConnection::Create() {
+  return std::make_unique<PlatformGraphicsConnection>();
 }
+
+GraphicsConnection::GraphicsConnection() = default;
 
 GraphicsConnection::~GraphicsConnection() = default;
 
 bool GraphicsConnection::isValid() const {
-  return _isValid;
+  return _impl != nullptr && _impl->isValid();
 }
 
-bool GraphicsConnection::activate() const {
-  return _context.makeCurrent(_surface);
+bool GraphicsConnection::activate() {
+  return _impl != nullptr && _impl->activate();
 }
 
-bool GraphicsConnection::deactivate() const {
-  return _context.clearCurrent();
+bool GraphicsConnection::deactivate() {
+  return _impl != nullptr && _impl->deactivate();
 }
 
 }  // namespace testrunner

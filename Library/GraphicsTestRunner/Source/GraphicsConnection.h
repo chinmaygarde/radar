@@ -6,30 +6,28 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include "EGLConnection.h"
+#include <memory>
 
 namespace rl {
 namespace testrunner {
 
 class GraphicsConnection {
  public:
+  static std::unique_ptr<GraphicsConnection> Create();
+
+  virtual ~GraphicsConnection();
+
+  virtual bool isValid() const;
+
+  virtual bool activate();
+
+  virtual bool deactivate();
+
+ protected:
   GraphicsConnection();
 
-  ~GraphicsConnection();
-
-  bool isValid() const;
-
-  bool activate() const;
-
-  bool deactivate() const;
-
  private:
-  bool _isValid;
-
-  EGLConnection _connection;
-  EGLConfig _config;
-  EGLSurface _surface;
-  EGLContext _context;
+  std::unique_ptr<GraphicsConnection> _impl;
 
   RL_DISALLOW_COPY_AND_ASSIGN(GraphicsConnection);
 };
