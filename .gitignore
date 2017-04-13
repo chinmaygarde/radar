@@ -30,3 +30,5 @@ xcuserdata
 *sync/
 Icon?
 .tags*
+
+*.sublime-workspace
