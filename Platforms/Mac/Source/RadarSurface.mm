@@ -3,17 +3,18 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#import "RadarSurface.h"
 #include <Coordinator/RenderSurface.h>
-#include <Core/Core.h>
 #include <Shell/Shell.h>
 #include <atomic>
+#import "RadarSurface.h"
+#include "Sample.h"
 
 namespace rl {
 
 class RenderSurfaceMac : public coordinator::RenderSurface {
  public:
-  RenderSurfaceMac(NSOpenGLContext* context) : RenderSurface(), _context(context) {}
+  RenderSurfaceMac(NSOpenGLContext* context)
+      : RenderSurface(), _context(context) {}
 
   virtual bool makeCurrent() override {
     [_context makeCurrentContext];
@@ -46,7 +47,9 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
     RL_ASSERT(error == kCGLNoError);
   }
 
-  void setRejectsNonMainThreadPresents(bool rejects) { _rejectNonMainThreadPresents = rejects; }
+  void setRejectsNonMainThreadPresents(bool rejects) {
+    _rejectNonMainThreadPresents = rejects;
+  }
 
  private:
   NSOpenGLContext* _context;
@@ -88,9 +91,15 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   [self launchInterfaceDelegate:_pendingApplicationLaunch];
 }
 
-- (void)launchInterfaceDelegate:(std::shared_ptr<rl::interface::InterfaceDelegate>)delegate {
+- (void)launchInterfaceDelegate:
+    (std::shared_ptr<rl::interface::InterfaceDelegate>)delegate {
   if (delegate == nullptr) {
     _pendingApplicationLaunch = nullptr;
+    /*
+     *  Fallback to rendering the sample.
+     */
+    [self
+        launchInterfaceDelegate:std::make_shared<sample::SampleApplication>()];
     return;
   }
 
@@ -102,7 +111,7 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
     return;
   }
 
-  auto interface = rl::core::make_unique<rl::interface::Interface>(delegate);
+  auto interface = std::make_unique<rl::interface::Interface>(delegate);
   _shell->registerManagedInterface(std::move(interface));
   _pendingApplicationLaunch = nullptr;
 }
@@ -139,7 +148,8 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   return YES;
 }
 
-- (void)dispatchEvent:(NSEvent*)event phase:(rl::event::TouchEvent::Phase)phase {
+- (void)dispatchEvent:(NSEvent*)event
+                phase:(rl::event::TouchEvent::Phase)phase {
   NSPoint loc = [self convertPoint:event.locationInWindow fromView:nil];
 
   using Event = rl::event::TouchEvent;

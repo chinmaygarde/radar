@@ -20,8 +20,9 @@ using PlatformGraphicsConnection = rl::testrunner::GraphicsConnectionMac;
 namespace rl {
 namespace testrunner {
 
-std::unique_ptr<GraphicsConnection> GraphicsConnection::Create() {
-  return std::make_unique<PlatformGraphicsConnection>();
+std::unique_ptr<GraphicsConnection> GraphicsConnection::Create(
+    const geom::Size& size) {
+  return std::make_unique<PlatformGraphicsConnection>(size);
 }
 
 GraphicsConnection::GraphicsConnection() = default;

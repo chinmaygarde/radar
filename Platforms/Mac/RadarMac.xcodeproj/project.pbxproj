@@ -22,6 +22,7 @@
 		9E5E9D601E08C84600A12541 /* libbase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5E9D5F1E08C84600A12541 /* libbase64.a */; };
 		9EA495EB1D3964EB00CB103D /* MonaLisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9EA495EA1D3964EB00CB103D /* MonaLisa.jpg */; };
 		9EA6744D1B742C4900C8A8B4 /* RadarSurface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6744C1B742C4900C8A8B4 /* RadarSurface.mm */; };
+		9ECB733A1EA03BC800FD9F57 /* libGLFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ECB73071EA03B6A00FD9F57 /* libGLFoundation.a */; };
 		9ED38F2C1CF678AB00D40928 /* Beachball.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ED38F2B1CF678AB00D40928 /* Beachball.png */; };
 		9EE9312B1CA4C31E00CDBF07 /* libShell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE931181CA4C2C500CDBF07 /* libShell.a */; };
 		9EE9312C1CA4C3FE00CDBF07 /* libCoordinator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE9310A1CA4C2C500CDBF07 /* libCoordinator.a */; };
@@ -76,6 +77,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 69EE25E39EF64E64A73D418E;
 			remoteInfo = base64;
+		};
+		9ECB73061EA03B6A00FD9F57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 501923A2A4194A9C88407FD6;
+			remoteInfo = GLFoundation;
 		};
 		9ED38F4C1CF678AC00D40928 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -186,7 +194,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 3BC860C363CF4C4A898A898C;
+			remoteGlobalIDString = F6D5D87A9F0B46318F2C5A04;
 			remoteInfo = Shell;
 		};
 		9EF068E71CB48CD8000DF505 /* PBXContainerItemProxy */ = {
@@ -322,55 +330,6 @@
 			remoteGlobalIDString = A90FF8EE4BA040E4821515E5;
 			remoteInfo = pugixml;
 		};
-		EA93DB671DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9B08D78006EE42E2BDBD4299;
-			remoteInfo = GLCompiler;
-		};
-		EA93DB691DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F9EC57F9D6E248D49221D2C6;
-			remoteInfo = Reactor;
-		};
-		EA93DB6B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9AD850F789C748959B6C53E7;
-			remoteInfo = SwiftShader;
-		};
-		EA93DB6D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 15304C8CF85D431DAAE48DD8;
-			remoteInfo = libEGL;
-		};
-		EA93DB6F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9787BB31959749758F948ADC;
-			remoteInfo = libGLES_CM;
-		};
-		EA93DB711DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FB274BC6B3F2493EA23D6EBE;
-			remoteInfo = libGLESv2;
-		};
-		EA93DB731DEAF2FF00FEA8C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C89C9B09E9D84BA6B52FD823;
-			remoteInfo = llvm;
-		};
 		EADACF131D332EDA00B30BED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EE930ED1CA4C2C500CDBF07 /* Radar.xcodeproj */;
@@ -438,6 +397,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ECB733A1EA03BC800FD9F57 /* libGLFoundation.a in Frameworks */,
 				9E5E9D601E08C84600A12541 /* libbase64.a in Frameworks */,
 				EA93DB761DEAF47800FEA8C3 /* libpugixml.a in Frameworks */,
 				EA93DB751DEAF39E00FEA8C3 /* libInterfaceBuilder.a in Frameworks */,
@@ -547,6 +507,7 @@
 				9EE931101CA4C2C500CDBF07 /* libEvent.a */,
 				9EE931121CA4C2C500CDBF07 /* libGeometry.a */,
 				EADACF181D332EDA00B30BED /* GeometryTest */,
+				9ECB73071EA03B6A00FD9F57 /* libGLFoundation.a */,
 				EA93DB561DEAF2FF00FEA8C3 /* libGraphicsTestRunner.a */,
 				EA93DB581DEAF2FF00FEA8C3 /* GraphicsTestRunnerTest */,
 				9E309CF51D00C3130059BD07 /* libImage.a */,
@@ -576,13 +537,6 @@
 				9EF068FD1CB48D2D000DF505 /* libsqlite3.a */,
 				9ED38F4F1CF678AC00D40928 /* libstb.a */,
 				9ED38F4D1CF678AC00D40928 /* liburiparser.a */,
-				EA93DB681DEAF2FF00FEA8C3 /* libGLCompiler.a */,
-				EA93DB6A1DEAF2FF00FEA8C3 /* libReactor.a */,
-				EA93DB6C1DEAF2FF00FEA8C3 /* libSwiftShader.a */,
-				EA93DB6E1DEAF2FF00FEA8C3 /* libEGL.dylib */,
-				EA93DB701DEAF2FF00FEA8C3 /* libGLES_CM.dylib */,
-				EA93DB721DEAF2FF00FEA8C3 /* libGLESv2.dylib */,
-				EA93DB741DEAF2FF00FEA8C3 /* libllvm.a */,
 				9EE931261CA4C2C500CDBF07 /* libRIDL.a */,
 				9EE931281CA4C2C500CDBF07 /* RIDLTest */,
 			);
@@ -692,6 +646,13 @@
 			fileType = archive.ar;
 			path = libbase64.a;
 			remoteRef = 9E5E9D5E1E08C84600A12541 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9ECB73071EA03B6A00FD9F57 /* libGLFoundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGLFoundation.a;
+			remoteRef = 9ECB73061EA03B6A00FD9F57 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9ED38F4D1CF678AC00D40928 /* liburiparser.a */ = {
@@ -932,55 +893,6 @@
 			remoteRef = EA93DB651DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EA93DB681DEAF2FF00FEA8C3 /* libGLCompiler.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libGLCompiler.a;
-			remoteRef = EA93DB671DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB6A1DEAF2FF00FEA8C3 /* libReactor.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReactor.a;
-			remoteRef = EA93DB691DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB6C1DEAF2FF00FEA8C3 /* libSwiftShader.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSwiftShader.a;
-			remoteRef = EA93DB6B1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB6E1DEAF2FF00FEA8C3 /* libEGL.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libEGL.dylib;
-			remoteRef = EA93DB6D1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB701DEAF2FF00FEA8C3 /* libGLES_CM.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libGLES_CM.dylib;
-			remoteRef = EA93DB6F1DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB721DEAF2FF00FEA8C3 /* libGLESv2.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libGLESv2.dylib;
-			remoteRef = EA93DB711DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA93DB741DEAF2FF00FEA8C3 /* libllvm.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libllvm.a;
-			remoteRef = EA93DB731DEAF2FF00FEA8C3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		EADACF141D332EDA00B30BED /* liblibtess2.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1074,8 +986,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1134,8 +1045,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;

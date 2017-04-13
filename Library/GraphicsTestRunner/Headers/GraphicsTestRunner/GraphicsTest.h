@@ -20,6 +20,8 @@ class GraphicsConnection;
 
 class GraphicsTest : public ::testing::Test {
  public:
+  static const rl::geom::Size kSurfaceSize;
+
   GraphicsTest();
 
   ~GraphicsTest();

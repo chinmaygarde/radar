@@ -13,7 +13,19 @@
 namespace rl {
 namespace testrunner {
 
-GraphicsConnectionMac::GraphicsConnectionMac() {
+GraphicsConnectionMac::GraphicsConnectionMac(const geom::Size& size) {
+  if (!setupContext()) {
+    return;
+  }
+
+  if (!setupFramebuffer(size)) {
+    return;
+  }
+}
+
+GraphicsConnectionMac::~GraphicsConnectionMac() = default;
+
+bool GraphicsConnectionMac::setupContext() {
   const NSOpenGLPixelFormatAttribute attributes[] = {
       NSOpenGLPFAColorSize, 32, 0,
   };
@@ -22,7 +34,7 @@ GraphicsConnectionMac::GraphicsConnectionMac() {
       [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes]);
 
   if (!pixelFormat) {
-    return;
+    return false;
   }
 
   core::ScopedNSObject<NSOpenGLContext> context([[NSOpenGLContext alloc]
@@ -30,16 +42,53 @@ GraphicsConnectionMac::GraphicsConnectionMac() {
         shareContext:nullptr]);
 
   if (!context) {
-    return;
+    return false;
   }
 
   _context = std::move(context);
+  return true;
 }
 
-GraphicsConnectionMac::~GraphicsConnectionMac() {}
+bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
+  if (!activate()) {
+    return false;
+  }
+
+  /*
+   *  Generate the framebuffer.
+   */
+  GLuint framebuffer = GL_NONE;
+  glGenFramebuffers(1, &framebuffer);
+  if (framebuffer == GL_NONE) {
+    return false;
+  }
+  _framebuffer.reset(framebuffer);
+
+  /*
+   *  Generate the renderbuffer.
+   */
+  GLuint renderbuffer = GL_NONE;
+  glGenRenderbuffers(1, &renderbuffer);
+  if (renderbuffer == GL_NONE) {
+    return false;
+  }
+  _renderbuffer.reset(renderbuffer);
+
+  /*
+   *  Setup the framebuffer.
+   */
+  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+  glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                            GL_RENDERBUFFER, _renderbuffer);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA4, size.width, size.height);
+
+  RL_GLAssert("There must be no errors post framebuffer setup.");
+  return true;
+}
 
 bool GraphicsConnectionMac::isValid() const {
-  return _context;
+  return _context && _framebuffer != GL_NONE && _renderbuffer != GL_NONE;
 }
 
 bool GraphicsConnectionMac::activate() {

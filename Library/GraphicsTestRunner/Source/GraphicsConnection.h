@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Geometry/Size.h>
 #include <memory>
 
 namespace rl {
@@ -13,7 +14,7 @@ namespace testrunner {
 
 class GraphicsConnection {
  public:
-  static std::unique_ptr<GraphicsConnection> Create();
+  static std::unique_ptr<GraphicsConnection> Create(const geom::Size& size);
 
   virtual ~GraphicsConnection();
 

@@ -17,8 +17,12 @@
 #error Unknown Platform.
 #endif
 
+const rl::geom::Size GraphicsTest::kSurfaceSize = {320, 480};
+
 GraphicsTest::GraphicsTest()
-    : _connection(rl::testrunner::GraphicsConnection::Create()) {}
+    : _connection(rl::testrunner::GraphicsConnection::Create(kSurfaceSize)) {
+  RL_ASSERT(_connection->isValid());
+}
 
 GraphicsTest::~GraphicsTest() = default;
 

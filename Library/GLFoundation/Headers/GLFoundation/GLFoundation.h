@@ -10,4 +10,5 @@
 #include <GLFoundation/OpenGL.h>
 
 #include <GLFoundation/GLGeometry.h>
+#include <GLFoundation/GLObject.h>
 #include <GLFoundation/GLUtilities.h>

@@ -12,6 +12,7 @@
 
 #include <Core/ObjectiveCMacros.h>
 #include <Core/ScopedNSObject.h>
+#include <GLFoundation/GLFoundation.h>
 
 RL_OBJC_CLASS(NSOpenGLContext);
 
@@ -20,7 +21,7 @@ namespace testrunner {
 
 class GraphicsConnectionMac : public GraphicsConnection {
  public:
-  GraphicsConnectionMac();
+  GraphicsConnectionMac(const geom::Size& size);
 
   ~GraphicsConnectionMac() override;
 
@@ -32,6 +33,12 @@ class GraphicsConnectionMac : public GraphicsConnection {
 
  private:
   core::ScopedNSObject<NSOpenGLContext> _context;
+  gl::GLFramebuffer _framebuffer;
+  gl::GLRenderbuffer _renderbuffer;
+
+  bool setupContext();
+
+  bool setupFramebuffer(const geom::Size& size);
 
   RL_DISALLOW_COPY_AND_ASSIGN(GraphicsConnectionMac);
 };

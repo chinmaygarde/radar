@@ -6,7 +6,7 @@
 #include "GraphicsTestFrame.h"
 
 GraphicsTestFrame::GraphicsTestFrame()
-    : _frame({320, 480}, _context), _snapshotsTaken(0) {}
+    : _frame(kSurfaceSize, _context), _snapshotsTaken(0) {}
 
 GraphicsTestFrame::~GraphicsTestFrame() {
   bool success = _context.dispose();
