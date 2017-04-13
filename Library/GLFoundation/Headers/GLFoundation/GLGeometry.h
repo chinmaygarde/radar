@@ -5,26 +5,18 @@
 
 #pragma once
 
-#include <Core/Platform.h>
-
-#if RL_OS_MAC
-#include <OpenGL/gl.h>
-#elif RL_OS_LINUX || RL_OS_NACL || RL_OS_BSD
-#include <GLES2/gl2.h>
-#else
-#error Unsupported OS
-#endif
-
+#include <Core/Macros.h>
+#include <GLFoundation/OpenGL.h>
 #include <Geometry/Matrix.h>
-#include <stdio.h>
-#include <sstream>
-#include <string>
 
 namespace rl {
-namespace compositor {
+namespace gl {
 
-void GLAssertError(const char* file, int line, const char* fmt...);
-void GLDescribeFramebuffer(void);
+enum class GLResourceState {
+  NotReady,
+  Failed,
+  Ready,
+};
 
 struct GLPoint {
   GLfloat x;
@@ -51,17 +43,8 @@ struct GLMatrix {
         } {};
 };
 
-enum class ResourceState {
-  NotReady,
-  Failed,
-  Ready,
-};
-
-}  // namespace compositor
+}  // namespace gl
 }  // namespace rl
 
-static_assert(sizeof(rl::compositor::GLMatrix) == 16 * sizeof(GLfloat),
+static_assert(sizeof(rl::gl::GLMatrix) == 16 * sizeof(GLfloat),
               "GLMatrix must have the expected size");
-
-#define RL_GLAssert(x, ...) \
-  rl::compositor::GLAssertError(__FILE__, __LINE__, (x), ##__VA_ARGS__);

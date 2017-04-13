@@ -9,12 +9,13 @@ StandardRadarLibrary(GraphicsTestRunner)
 
 target_link_libraries(GraphicsTestRunner
   PUBLIC
-    TestRunner
     Core
     Image
+    TestRunner
   PRIVATE
-    gtest
     DevSupport
+    GLFoundation
+    gtest
 )
 
 target_include_directories(GraphicsTestRunner
@@ -23,14 +24,13 @@ target_include_directories(GraphicsTestRunner
 )
 
 if (APPLE)
-  find_library(APPKIT AppKit)
-  find_library(OPENGL OpenGL)
+  find_library(APPKIT_FRAMEWORK AppKit)
   target_link_libraries(GraphicsTestRunner
     PRIVATE
-      ${APPKIT}
-      ${OPENGL}
+      ${APPKIT_FRAMEWORK}
   )
 endif()
+
 
 ################################################################################
 # Test

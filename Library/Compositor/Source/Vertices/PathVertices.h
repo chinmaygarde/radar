@@ -6,8 +6,8 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <GLFoundation/GLFoundation.h>
 #include <Geometry/Path.h>
-#include "OpenGL.h"
 #include "Vertices/Vertices.h"
 
 namespace rl {
@@ -42,7 +42,7 @@ class PathVertices : public Vertices {
  private:
   geom::Size _size;
 
-  std::vector<GLPoint> _vertices;
+  std::vector<gl::GLPoint> _vertices;
   std::vector<GLshort> _elements;
 
   bool doDraw(size_t index) override;

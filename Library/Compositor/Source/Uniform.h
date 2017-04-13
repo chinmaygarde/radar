@@ -6,8 +6,8 @@
 #pragma once
 
 #include <Entity/Color.h>
+#include <GLFoundation/GLFoundation.h>
 #include <Geometry/Matrix.h>
-#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

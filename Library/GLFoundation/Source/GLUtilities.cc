@@ -3,15 +3,16 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "OpenGL.h"
-#include <cassert>
-#include <cstdarg>
-#include <cstring>
+#include <Core/Macros.h>
+#include <GLFoundation/GLUtilities.h>
+#include <GLFoundation/OpenGL.h>
+#include <sstream>
+#include <string>
 
 namespace rl {
-namespace compositor {
+namespace gl {
 
-void GLAssertError(const char* file, int line, const char* fmt...) {
+void AssertError(const char* file, int line, const char* fmt...) {
   GLenum res = glGetError();
   if (res == GL_NO_ERROR) {
     return;
@@ -48,12 +49,12 @@ void GLAssertError(const char* file, int line, const char* fmt...) {
 
   const char* basename = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
-  printf("OpenGL Error (%s:%d): %s (%x) '%s'\n", basename, line,
+  RL_LOG("OpenGL Error (%s:%d): %s (%x) '%s'\n", basename, line,
          message.c_str(), res, userMessage);
-  assert(false);
+  RL_ASSERT(false);
 }
 
-static const char* RL_GLDescribeFramebufferStatus(GLenum status) {
+static const char* DescribeFramebufferStatus(GLenum status) {
   switch (status) {
     case GL_FRAMEBUFFER_COMPLETE:
       return "GL_FRAMEBUFFER_COMPLETE";
@@ -74,7 +75,7 @@ static const char* RL_GLDescribeFramebufferStatus(GLenum status) {
   return "Unknown FBO Status";
 }
 
-static const char* RL_GLAttachmentTypeString(GLint type) {
+static const char* AttachmentTypeString(GLint type) {
   switch (type) {
     case GL_RENDERBUFFER:
       return "GL_RENDERBUFFER";
@@ -87,14 +88,14 @@ static const char* RL_GLAttachmentTypeString(GLint type) {
   return "Unknown Type";
 }
 
-static std::string RL_GLDescribeFramebufferAttachment(GLenum attachment) {
+static std::string DescribeFramebufferAttachment(GLenum attachment) {
   GLint param = GL_NONE;
   glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, attachment,
                                         GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
                                         &param);
 
   if (param != GL_NONE) {
-    const char* type = RL_GLAttachmentTypeString(param);
+    const char* type = AttachmentTypeString(param);
 
     param = GL_NONE;
     glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, attachment,
@@ -109,9 +110,9 @@ static std::string RL_GLDescribeFramebufferAttachment(GLenum attachment) {
   return "No Attachment";
 }
 
-void GLDescribeFramebuffer(void) {
+void DescribeFramebuffer(void) {
   if (glGetError() != GL_NO_ERROR) {
-    printf("WARNING: There were already GL errors at this point...\n");
+    RL_LOG("WARNING: There were already GL errors at this point...\n");
   }
 
   GLint framebuffer = GL_NONE;
@@ -123,25 +124,25 @@ void GLDescribeFramebuffer(void) {
 
   snprintf(description, sizeof(description), "FBO %d%s %s", framebuffer,
            framebuffer == GL_NONE ? " (Default)" : "",
-           RL_GLDescribeFramebufferStatus(status));
+           DescribeFramebufferStatus(status));
 
-  printf("Describing %s\n", description);
+  RL_LOG("Describing %s\n", description);
 
   // Color Attachment
-  printf("%s : Color Attachment : %s\n", description,
-         RL_GLDescribeFramebufferAttachment(GL_COLOR_ATTACHMENT0).c_str());
+  RL_LOG("%s : Color Attachment : %s\n", description,
+         DescribeFramebufferAttachment(GL_COLOR_ATTACHMENT0).c_str());
 
   // Depth Attachment
-  printf("%s : Depth Attachment : %s\n", description,
-         RL_GLDescribeFramebufferAttachment(GL_DEPTH_ATTACHMENT).c_str());
+  RL_LOG("%s : Depth Attachment : %s\n", description,
+         DescribeFramebufferAttachment(GL_DEPTH_ATTACHMENT).c_str());
 
   // Stencil Attachment
-  printf("%s : Stencil Attachment : %s\n", description,
-         RL_GLDescribeFramebufferAttachment(GL_STENCIL_ATTACHMENT).c_str());
+  RL_LOG("%s : Stencil Attachment : %s\n", description,
+         DescribeFramebufferAttachment(GL_STENCIL_ATTACHMENT).c_str());
 
   // Clear any GL errors that we introduced as part of logging
   glGetError();
 }
 
-}  // namespace compositor
+}  // namespace gl
 }  // namespace rl

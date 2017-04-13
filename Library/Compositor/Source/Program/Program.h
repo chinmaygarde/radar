@@ -7,10 +7,10 @@
 
 #include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
+#include <GLFoundation/GLFoundation.h>
 #include <memory>
 #include <string>
 #include <vector>
-#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

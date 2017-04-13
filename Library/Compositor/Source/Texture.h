@@ -7,8 +7,8 @@
 
 #include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
+#include <GLFoundation/GLFoundation.h>
 #include <Image/Image.h>
-#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

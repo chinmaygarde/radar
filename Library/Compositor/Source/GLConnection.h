@@ -6,9 +6,9 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <GLFoundation/GLFoundation.h>
 #include <set>
 #include <string>
-#include "OpenGL.h"
 
 namespace rl {
 namespace compositor {

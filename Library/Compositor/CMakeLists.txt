@@ -14,24 +14,12 @@ target_link_libraries(Compositor
     Entity
     Image
     Typography
+    GLFoundation
   PRIVATE
     imgui
     libtess2
 )
 
-if (APPLE)
-  find_library(OPENGL_FRAMEWORK OpenGL)
-  target_link_libraries(Compositor PRIVATE ${OPENGL_FRAMEWORK})
-endif()
-
-if (LINUX)
-  find_library(GLES_LIBRARY GLESv2)
-  target_link_libraries(Compositor PRIVATE ${GLES_LIBRARY})
-endif()
-
-if (NACL)
-  target_link_libraries(Compositor PRIVATE ppapi_gles2)
-endif()
 
 ################################################################################
 # Graphics Test

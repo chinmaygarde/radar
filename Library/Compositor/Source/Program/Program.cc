@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "Program.h"
+#include <GLFoundation/GLFoundation.h>
 #include <algorithm>
-#include "OpenGL.h"
+#include "Program.h"
 
 namespace rl {
 namespace compositor {

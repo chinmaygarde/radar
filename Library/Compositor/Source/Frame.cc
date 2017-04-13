@@ -6,7 +6,7 @@
 #include <Compositor/Context.h>
 #include <Compositor/Frame.h>
 #include <Core/Utilities.h>
-#include "OpenGL.h"
+#include <GLFoundation/GLFoundation.h>
 #include "Primitive/Primitive.h"
 
 namespace rl {

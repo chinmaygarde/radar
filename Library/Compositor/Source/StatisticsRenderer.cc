@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "StatisticsRenderer.h"
 #include <Core/Utilities.h>
+#include <GLFoundation/GLFoundation.h>
 #include <imgui/imgui.h>
-#include "OpenGL.h"
 #include "Program/Program.h"
+#include "StatisticsRenderer.h"
 
 namespace rl {
 namespace compositor {

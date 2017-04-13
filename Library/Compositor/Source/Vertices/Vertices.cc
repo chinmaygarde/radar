@@ -10,7 +10,7 @@ namespace compositor {
 
 Vertices::Vertices(Type type)
     : _type(type),
-      _state(ResourceState::NotReady),
+      _state(gl::GLResourceState::NotReady),
       _vbo(GL_NONE),
       _ibo(GL_NONE) {}
 
@@ -34,16 +34,16 @@ static GLuint CreateBuffer() {
 
 bool Vertices::prepare() {
   switch (_state) {
-    case ResourceState::Ready:
+    case gl::GLResourceState::Ready:
       return true;
-    case ResourceState::Failed:
+    case gl::GLResourceState::Failed:
       return false;
-    case ResourceState::NotReady:
+    case gl::GLResourceState::NotReady:
       if (prepareBuffers()) {
-        _state = ResourceState::Ready;
+        _state = gl::GLResourceState::Ready;
         return true;
       } else {
-        _state = ResourceState::Failed;
+        _state = gl::GLResourceState::Failed;
         return false;
       }
   }

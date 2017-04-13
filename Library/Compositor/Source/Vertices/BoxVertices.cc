@@ -12,9 +12,9 @@ BoxVertices::BoxVertices(geom::Rect boxRect)
     : Vertices(Vertices::Type::Array), _boxRect(boxRect) {}
 
 bool BoxVertices::uploadVertexData() {
-  const GLPoint topLeft = _boxRect.origin;
-  const GLPoint bottomRight = {_boxRect.origin.x + _boxRect.size.width,
-                               _boxRect.origin.y + _boxRect.size.height};
+  const gl::GLPoint topLeft = _boxRect.origin;
+  const gl::GLPoint bottomRight = {_boxRect.origin.x + _boxRect.size.width,
+                                   _boxRect.origin.y + _boxRect.size.height};
 
   GLfloat coords[] = {
       topLeft.x,     bottomRight.y,  // Vertex 0

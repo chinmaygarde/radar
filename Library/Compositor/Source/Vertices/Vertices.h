@@ -7,7 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/ThreadGuard.h>
-#include "OpenGL.h"
+#include <GLFoundation/GLFoundation.h>
 
 namespace rl {
 namespace compositor {
@@ -29,7 +29,7 @@ class Vertices {
 
  private:
   const Type _type;
-  ResourceState _state;
+  gl::GLResourceState _state;
   GLuint _vbo;
   GLuint _ibo;
 

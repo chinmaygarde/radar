@@ -3,21 +3,20 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#define GL_GLEXT_PROTOTYPES
-#include <GLES2/gl2.h>
+#include <GLFoundation/GLFoundation.h>
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include "GraphicsConnection.h"
 
 TEST(GraphicsTestRunnerTest, SimpleConnectionIsValid) {
-  rl::testrunner::GraphicsConnection connection;
-  ASSERT_TRUE(connection.isValid());
+  auto connection = rl::testrunner::GraphicsConnection::Create();
+  ASSERT_TRUE(connection->isValid());
 }
 
 TEST(GraphicsTestRunnerTest, SimpleConnectionActivateDeactivate) {
-  rl::testrunner::GraphicsConnection connection;
-  ASSERT_TRUE(connection.isValid());
-  ASSERT_TRUE(connection.activate());
-  ASSERT_TRUE(connection.deactivate());
+  auto connection = rl::testrunner::GraphicsConnection::Create();
+  ASSERT_TRUE(connection->isValid());
+  ASSERT_TRUE(connection->activate());
+  ASSERT_TRUE(connection->deactivate());
 }
 
 TEST_F(GraphicsTest, SimpleSetup) {

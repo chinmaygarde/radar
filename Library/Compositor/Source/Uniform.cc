@@ -9,7 +9,7 @@ namespace rl {
 namespace compositor {
 
 void SetUniform(GLint index, const geom::Matrix& matrix) {
-  GLMatrix floatMatrix = matrix;
+  gl::GLMatrix floatMatrix = matrix;
   glUniformMatrix4fv(index, 1, GL_FALSE,
                      reinterpret_cast<const GLfloat*>(&floatMatrix));
 }

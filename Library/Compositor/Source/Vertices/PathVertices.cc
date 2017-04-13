@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "Vertices/PathVertices.h"
 #include <libtess2/tesselator.h>
 #include <algorithm>
+#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -70,14 +70,14 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
     return {false, {}};
   }
 
-  std::vector<GLPoint> contours;
+  std::vector<gl::GLPoint> contours;
   contours.reserve(tessellatedPoints.size());
   for (const auto& point : tessellatedPoints) {
     contours.emplace_back(point.x / boundingBox.size.width,
                           point.y / boundingBox.size.height);
   }
 
-  tessAddContour(tessellator, kVertexSize, contours.data(), sizeof(GLPoint),
+  tessAddContour(tessellator, kVertexSize, contours.data(), sizeof(gl::GLPoint),
                  contours.size());
 
   return {true, boundingBox.size};
