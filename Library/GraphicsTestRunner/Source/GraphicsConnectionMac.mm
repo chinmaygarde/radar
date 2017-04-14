@@ -147,7 +147,7 @@ bool GraphicsConnectionMac::deactivate() {
     return false;
   }
 
-  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+  glBindFramebuffer(GL_FRAMEBUFFER, GL_NONE);
   return true;
 }
 
