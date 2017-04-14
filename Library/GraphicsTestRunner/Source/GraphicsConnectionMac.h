@@ -40,6 +40,10 @@ class GraphicsConnectionMac : public GraphicsConnection {
 
   bool setupFramebuffer(const geom::Size& size);
 
+  bool makeCurrent();
+
+  bool clearCurrent();
+
   RL_DISALLOW_COPY_AND_ASSIGN(GraphicsConnectionMac);
 };
 

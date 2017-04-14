@@ -50,7 +50,7 @@ bool GraphicsConnectionMac::setupContext() {
 }
 
 bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
-  if (!activate()) {
+  if (!makeCurrent()) {
     return false;
   }
 
@@ -84,6 +84,9 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
   glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA4, size.width, size.height);
 
   RL_GLAssert("There must be no errors post framebuffer setup.");
+
+  clearCurrent();
+
   return true;
 }
 
@@ -91,7 +94,7 @@ bool GraphicsConnectionMac::isValid() const {
   return _context && _framebuffer != GL_NONE && _renderbuffer != GL_NONE;
 }
 
-bool GraphicsConnectionMac::activate() {
+bool GraphicsConnectionMac::makeCurrent() {
   if (!_context) {
     return false;
   }
@@ -100,12 +103,38 @@ bool GraphicsConnectionMac::activate() {
   return true;
 }
 
-bool GraphicsConnectionMac::deactivate() {
+bool GraphicsConnectionMac::clearCurrent() {
   if ([NSOpenGLContext currentContext] != _context) {
     return false;
   }
 
   [NSOpenGLContext clearCurrentContext];
+  return true;
+}
+
+bool GraphicsConnectionMac::activate() {
+  if (!isValid()) {
+    return false;
+  }
+
+  if (!makeCurrent()) {
+    return false;
+  }
+
+  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+  return true;
+}
+
+bool GraphicsConnectionMac::deactivate() {
+  if (!isValid()) {
+    return false;
+  }
+
+  if (!clearCurrent()) {
+    return false;
+  }
+
+  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
   return true;
 }
 
