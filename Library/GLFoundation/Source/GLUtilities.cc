@@ -72,7 +72,7 @@ static const char* DescribeFramebufferStatus(GLenum status) {
       return "GL_INVALID_ENUM";
   }
 
-  return "Unknown FBO Status";
+  return "Unknown FBO Error Status";
 }
 
 static const char* AttachmentTypeString(GLint type) {
@@ -108,6 +108,16 @@ static std::string DescribeFramebufferAttachment(GLenum attachment) {
   }
 
   return "No Attachment";
+}
+
+bool IsFramebufferComplete(void) {
+  GLint framebuffer = GL_NONE;
+  glGetIntegerv(GL_FRAMEBUFFER_BINDING, &framebuffer);
+  if (framebuffer == GL_NONE) {
+    return false;
+  }
+  GLenum status = glCheckFramebufferStatus(framebuffer);
+  return status == GL_FRAMEBUFFER_COMPLETE;
 }
 
 void DescribeFramebuffer(void) {

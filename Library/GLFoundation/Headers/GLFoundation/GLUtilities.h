@@ -11,6 +11,8 @@
 namespace rl {
 namespace gl {
 
+bool IsFramebufferComplete(void);
+
 void AssertError(const char* file, int line, const char* fmt...);
 
 void DescribeFramebuffer(void);
