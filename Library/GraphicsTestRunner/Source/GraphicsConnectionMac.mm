@@ -57,31 +57,44 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
   /*
    *  Generate the framebuffer.
    */
-  GLuint framebuffer = GL_NONE;
-  glGenFramebuffers(1, &framebuffer);
-  if (framebuffer == GL_NONE) {
-    return false;
+  {
+    GLuint framebuffer = GL_NONE;
+    glGenFramebuffers(1, &framebuffer);
+    if (framebuffer == GL_NONE) {
+      return false;
+    }
+    _framebuffer.reset(framebuffer);
   }
-  _framebuffer.reset(framebuffer);
 
   /*
-   *  Generate the renderbuffer.
+   *  Generate the texture.
    */
-  GLuint renderbuffer = GL_NONE;
-  glGenRenderbuffers(1, &renderbuffer);
-  if (renderbuffer == GL_NONE) {
-    return false;
+  {
+    GLuint texture = GL_NONE;
+    glGenTextures(1, &texture);
+    if (texture == GL_NONE) {
+      return false;
+    }
+    _texture.reset(texture);
   }
-  _renderbuffer.reset(renderbuffer);
 
   /*
-   *  Setup the framebuffer.
+   *  Configure the texture.
+   */
+  glBindTexture(GL_TEXTURE_2D, _texture);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.width, size.height, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, nullptr);
+
+  /*
+   *  Set the texture as the color attachment of the framebuffer.
    */
   glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-  glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                            GL_RENDERBUFFER, _renderbuffer);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA4, size.width, size.height);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                         _texture, 0);
 
   RL_GLAssert("There must be no errors post framebuffer setup.");
 
@@ -91,7 +104,7 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
 }
 
 bool GraphicsConnectionMac::isValid() const {
-  return _context && _framebuffer != GL_NONE && _renderbuffer != GL_NONE;
+  return _context && _framebuffer != GL_NONE && _texture != GL_NONE;
 }
 
 bool GraphicsConnectionMac::makeCurrent() {

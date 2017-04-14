@@ -34,7 +34,7 @@ class GraphicsConnectionMac : public GraphicsConnection {
  private:
   core::ScopedNSObject<NSOpenGLContext> _context;
   gl::GLFramebuffer _framebuffer;
-  gl::GLRenderbuffer _renderbuffer;
+  gl::GLTexture _texture;
 
   bool setupContext();
 

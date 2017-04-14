@@ -43,8 +43,13 @@ struct GLRenderbufferTraits {
   static void Destroy(GLuint handle) { ::glDeleteRenderbuffers(1, &handle); }
 };
 
+struct GLTextureTraits {
+  static void Destroy(GLuint handle) { ::glDeleteTextures(1, &handle); }
+};
+
 using GLFramebuffer = GLObject<GLFramebufferTraits>;
 using GLRenderbuffer = GLObject<GLRenderbufferTraits>;
+using GLTexture = GLObject<GLTextureTraits>;
 
 }  // namespace gl
 }  // namespace rl
