@@ -113,9 +113,6 @@ static std::string DescribeFramebufferAttachment(GLenum attachment) {
 bool IsFramebufferComplete(void) {
   GLint framebuffer = GL_NONE;
   glGetIntegerv(GL_FRAMEBUFFER_BINDING, &framebuffer);
-  if (framebuffer == GL_NONE) {
-    return false;
-  }
   GLenum status = glCheckFramebufferStatus(framebuffer);
   return status == GL_FRAMEBUFFER_COMPLETE;
 }
