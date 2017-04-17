@@ -7,13 +7,15 @@
 #include <GraphicsTestRunner/GraphicsTestRunner.h>
 #include "GraphicsConnection.h"
 
+static const rl::geom::Size kSurfaceSize = {320, 480};
+
 TEST(GraphicsTestRunnerTest, SimpleConnectionIsValid) {
-  auto connection = rl::testrunner::GraphicsConnection::Create();
+  auto connection = rl::testrunner::GraphicsConnection::Create(kSurfaceSize);
   ASSERT_TRUE(connection->isValid());
 }
 
 TEST(GraphicsTestRunnerTest, SimpleConnectionActivateDeactivate) {
-  auto connection = rl::testrunner::GraphicsConnection::Create();
+  auto connection = rl::testrunner::GraphicsConnection::Create(kSurfaceSize);
   ASSERT_TRUE(connection->isValid());
   ASSERT_TRUE(connection->activate());
   ASSERT_TRUE(connection->deactivate());

@@ -237,7 +237,7 @@ TEST_F(InterfaceTest, TestTransformation) {
   });
 }
 
-TEST_F(InterfaceTest, Quad01) {
+TEST_F(InterfaceTest, DISABLED_Quad01) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://quad01.svg");
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
@@ -250,7 +250,7 @@ TEST_F(InterfaceTest, Quad01) {
   });
 }
 
-TEST_F(InterfaceTest, SharedDialog) {
+TEST_F(InterfaceTest, DISABLED_SharedDialog) {
   testOnActive([](rl::interface::Interface& interface) {
     rl::core::URI fileURI("file://shareddialog.svg");
     auto archive = rl::ib::InterfaceBuilderArchive::Make(std::move(fileURI));
