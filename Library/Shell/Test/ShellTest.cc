@@ -24,8 +24,31 @@ class NullRenderSurface : public rl::coordinator::RenderSurface {
 };
 
 TEST(ShellTest, SimpleInitialization) {
-  auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(
-      std::make_shared<NullRenderSurface>());
-  ASSERT_NE(shell, nullptr);
-  shell->shutdown();
+  std::thread thread([]() {
+    auto shell = rl::shell::Shell::CreateWithCurrentThreadAsHost(
+        std::make_shared<NullRenderSurface>());
+    ASSERT_NE(shell, nullptr);
+    shell->shutdown();
+  });
+  thread.join();
+}
+
+TEST(ShellTest, InitializeMutlipleShells) {
+  std::thread thread1([]() {
+    auto shell1 = rl::shell::Shell::CreateWithCurrentThreadAsHost(
+        std::make_shared<NullRenderSurface>());
+    ASSERT_NE(shell1, nullptr);
+    rl::core ::Latch latch(1);
+    std::thread thread2([&latch]() {
+      auto shell2 = rl::shell::Shell::CreateWithCurrentThreadAsHost(
+          std::make_shared<NullRenderSurface>());
+      ASSERT_NE(shell2, nullptr);
+      latch.countDown();
+      shell2->shutdown();
+    });
+    latch.wait();
+    shell1->shutdown();
+    thread2.join();
+  });
+  thread1.join();
 }
