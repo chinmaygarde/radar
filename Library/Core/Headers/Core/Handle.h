@@ -27,7 +27,7 @@ class Handle {
 
   Handle() : _handle(Traits::NullHandle()) {}
 
-  Handle(HandleType handle) : _handle(handle) {}
+  explicit Handle(HandleType handle) : _handle(handle) {}
 
   Handle(Handle&& other) : _handle(Traits::NullHandle()) { swap(other); }
 
@@ -35,7 +35,7 @@ class Handle {
 
   bool isValid() const { return Traits::IsValid(_handle); }
 
-  operator HandleType() const { return _handle; }
+  HandleType get() const { return _handle; }
 
   Handle& operator=(Handle&& other) {
     if (_handle == other._handle) {
@@ -44,6 +44,14 @@ class Handle {
       swap(other);
     }
     return *this;
+  }
+
+  bool operator==(const Handle& other) const {
+    return _handle == other._handle;
+  }
+
+  bool operator!=(const Handle& other) const {
+    return _handle != other._handle;
   }
 
   void swap(Handle& other) {

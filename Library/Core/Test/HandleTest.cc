@@ -24,10 +24,10 @@ TEST(HandleTest, SimpleValidity) {
   {
     CustomIntHandle valid(22);
     ASSERT_TRUE(valid.isValid());
-    ASSERT_EQ(valid, 22);
+    ASSERT_EQ(valid.get(), 22);
     CustomIntHandle invalid;
     ASSERT_FALSE(invalid.isValid());
-    ASSERT_EQ(invalid, -1);
+    ASSERT_EQ(invalid.get(), -1);
   }
   ASSERT_EQ(GDestructions, destructions + 1);
 }
@@ -37,10 +37,10 @@ TEST(HandleTest, HandleCanRest) {
   {
     CustomIntHandle handle(22);
     ASSERT_TRUE(handle.isValid());
-    ASSERT_EQ(handle, 22);
+    ASSERT_EQ(handle.get(), 22);
     ASSERT_TRUE(handle.reset());
     ASSERT_FALSE(handle.isValid());
-    ASSERT_EQ(handle, -1);
+    ASSERT_EQ(handle.get(), -1);
   }
   ASSERT_EQ(GDestructions, destructions + 1);
 }
@@ -51,8 +51,8 @@ TEST(HandleTest, CanBeSwapped) {
     CustomIntHandle a(22);
     CustomIntHandle b(33);
     a.swap(b);
-    ASSERT_EQ(a, 33);
-    ASSERT_EQ(b, 22);
+    ASSERT_EQ(a.get(), 33);
+    ASSERT_EQ(b.get(), 22);
   }
   ASSERT_EQ(GDestructions, destructions + 2);
 }
@@ -63,8 +63,8 @@ TEST(HandleTest, CanBeAssigned) {
     CustomIntHandle a(22);
     CustomIntHandle b(33);
     a = std::move(b);
-    ASSERT_EQ(a, 33);
-    ASSERT_EQ(b, 22);
+    ASSERT_EQ(a.get(), 33);
+    ASSERT_EQ(b.get(), 22);
   }
   ASSERT_EQ(GDestructions, destructions + 2);
 }
@@ -75,8 +75,8 @@ TEST(HandleTest, CanBeAssignedToSame) {
     CustomIntHandle a(22);
     CustomIntHandle b(22);
     a = std::move(b);
-    ASSERT_EQ(a, 22);
-    ASSERT_EQ(b, -1);
+    ASSERT_EQ(a.get(), 22);
+    ASSERT_EQ(b.get(), -1);
   }
   ASSERT_EQ(GDestructions, destructions + 1);
 }
@@ -86,8 +86,8 @@ TEST(HandleTest, CanBeMoved) {
   {
     CustomIntHandle a(22);
     CustomIntHandle b(std::move(a));
-    ASSERT_EQ(a, -1);
-    ASSERT_EQ(b, 22);
+    ASSERT_EQ(a.get(), -1);
+    ASSERT_EQ(b.get(), 22);
   }
   ASSERT_EQ(GDestructions, destructions + 1);
 }
