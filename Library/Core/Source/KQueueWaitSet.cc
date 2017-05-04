@@ -18,19 +18,14 @@
 namespace rl {
 namespace core {
 
-KQueueWaitSet::KQueueWaitSet() : _handle(-1) {
-  _handle = RL_TEMP_FAILURE_RETRY(::kqueue());
-
-  if (_handle == -1) {
+KQueueWaitSet::KQueueWaitSet() : _handle(RL_TEMP_FAILURE_RETRY(::kqueue())) {
+  if (!_handle.isValid()) {
     RL_LOG_ERRNO();
     RL_ASSERT_MSG(false, "Could not create kqueue handle.");
   }
 }
 
-KQueueWaitSet::~KQueueWaitSet() {
-  RL_CHECK(::close(_handle));
-  _handle = -1;
-}
+KQueueWaitSet::~KQueueWaitSet() = default;
 
 WaitSet::Result KQueueWaitSet::wait(ClockDurationNano timeout) {
   struct kevent event = {};
@@ -43,7 +38,8 @@ WaitSet::Result KQueueWaitSet::wait(ClockDurationNano timeout) {
   const struct timespec* ts =
       timeout == ClockDurationNano::max() ? nullptr : &timeoutTS;
 
-  int val = RL_TEMP_FAILURE_RETRY(::kevent(_handle, nullptr, 0, &event, 1, ts));
+  int val =
+      RL_TEMP_FAILURE_RETRY(::kevent(_handle.get(), nullptr, 0, &event, 1, ts));
 
   RL_ASSERT(val != -1);
 
@@ -67,7 +63,7 @@ WaitSet::Result KQueueWaitSet::wait(ClockDurationNano timeout) {
 }
 
 WaitSet::Handle KQueueWaitSet::handle() const {
-  return _handle;
+  return _handle.get();
 }
 
 }  // namespace core

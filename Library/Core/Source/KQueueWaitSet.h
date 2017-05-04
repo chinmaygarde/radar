@@ -9,6 +9,7 @@
 
 #if RL_WAITSET == RL_WAITSET_KQUEUE
 
+#include <Core/UNIXHandle.h>
 #include "WaitSetProvider.h"
 
 namespace rl {
@@ -17,6 +18,7 @@ namespace core {
 class KQueueWaitSet : public WaitSetProvider {
  public:
   KQueueWaitSet();
+
   ~KQueueWaitSet();
 
   WaitSet::Result wait(ClockDurationNano timeout) override;
@@ -24,9 +26,7 @@ class KQueueWaitSet : public WaitSetProvider {
   WaitSet::Handle handle() const override;
 
  private:
-  using Handle = int;
-
-  Handle _handle;
+  UNIXHandle _handle;
 
   RL_DISALLOW_COPY_AND_ASSIGN(KQueueWaitSet);
 };
