@@ -10,6 +10,6 @@
 
 @interface RadarWindow : NSWindow
 
-@property(weak) IBOutlet RadarSurface* surface;
+@property(assign) IBOutlet RadarSurface* surface;
 
 @end

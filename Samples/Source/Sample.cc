@@ -5,7 +5,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include "Sample.h"
+#include <Samples/Sample.h>
 
 #include <Geometry/PathBuilder.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
@@ -85,8 +85,6 @@ static void AddGridToRoot(rl::interface::Interface& interface) {
 }
 
 static void AddDraggableEntity(rl::interface::Interface& interface) {
-  using Property = rl::layout::Variable::Property;
-
   auto& root = interface.rootEntity();
 
   auto sub1 = interface.createEntity();

@@ -8,24 +8,29 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#import "RadarAppDelegate.h"
+#include "RadarAppDelegate.h"
 #include "RadarWindow.h"
 
 @interface RadarAppDelegate ()
 
-@property(strong) NSWindowController* windowController;
+@property(nonatomic, retain) NSWindowController* windowController;
 
 @end
 
 @implementation RadarAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification*)notification {
-  _windowController =
-      [[NSWindowController alloc] initWithWindowNibName:@"RadarWindow"];
+- (void)dealloc {
+  [_windowController release];
+  [super dealloc];
+}
 
-  if ([_windowController.window isKindOfClass:[RadarWindow class]]) {
+- (void)applicationDidFinishLaunching:(NSNotification*)notification {
+  self.windowController = [[[NSWindowController alloc]
+      initWithWindowNibName:@"RadarWindow"] autorelease];
+
+  if ([self.windowController.window isKindOfClass:[RadarWindow class]]) {
     RadarWindow* window =
-        reinterpret_cast<RadarWindow*>(_windowController.window);
+        reinterpret_cast<RadarWindow*>(self.windowController.window);
     [window.surface
         launchInterfaceDelegate:rl::shell::CreateDefaultInterface()];
   }

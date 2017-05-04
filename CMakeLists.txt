@@ -1,7 +1,7 @@
 # This source file is part of the Radar project.
 # Licensed under the MIT License. See LICENSE file for details.
 
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.5.2)
 
 ################################################################################
 ################################################################################
@@ -167,6 +167,8 @@ add_subdirectory("Library/TestRunner")
 add_subdirectory("Library/Toolbox")
 add_subdirectory("Library/Typography")
 
+add_subdirectory("Samples")
+
 add_subdirectory("ThirdParty/base64")
 add_subdirectory("ThirdParty/freetype")
 add_subdirectory("ThirdParty/gtest")
@@ -194,12 +196,9 @@ add_subdirectory("ThirdParty/uriparser")
 # Mac OSX
 ################################################################################
 
-# 1: `mkdir build`
-# 2: `cd build`
-# 3: `cmake ../ -G Xcode`
-# 4: `open ../Platforms/Mac/RadarMac.xcodeproj`
-#
-# Xcode is your friend.
+if(APPLE)
+  add_subdirectory("Platforms/Mac")
+endif()
 
 ################################################################################
 # Linux Desktop Shell

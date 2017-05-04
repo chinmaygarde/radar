@@ -32,6 +32,7 @@ file(GLOB_RECURSE LIBRARY_SRC_CC
 )
 
 file(GLOB_RECURSE LIBRARY_SRC_MM
+  "Source/*.m"
   "Source/*.mm"
 )
 

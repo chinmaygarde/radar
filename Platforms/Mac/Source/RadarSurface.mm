@@ -4,10 +4,10 @@
  */
 
 #include <Coordinator/RenderSurface.h>
+#include <Samples/Sample.h>
 #include <Shell/Shell.h>
 #include <atomic>
-#import "RadarSurface.h"
-#include "Sample.h"
+#include "RadarSurface.h"
 
 namespace rl {
 
@@ -168,6 +168,8 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 
 - (void)dealloc {
   [self teardownShell];
+
+  [super dealloc];
 }
 
 @end
