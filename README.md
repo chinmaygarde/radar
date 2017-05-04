@@ -41,10 +41,7 @@ Build Instructions
   * `mkdir build; cd build;`
 * Generate the `Xcode` project for all targets.
   * `cmake ../ -G Xcode; cd ../`
-* Open `Platforms/Mac/RadarMac.xcodeproj` and run the scheme you want.
-  * The desktop shell has the `RadarMac` application scheme.
-
-Note: Though the application target on Mac can be run via the `Platforms/Mac/RadarMac.xcodeproj` target, the test target must be launched via `Radar.xcodeproj` in `build`.
+* Open `build/Radar.xcodeproj` and run the scheme you want.
 
 #### Building on Linux
 * Create a directory and move into it.
