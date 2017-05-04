@@ -6,16 +6,11 @@
 #include <Core/FileIOAdapter.h>
 #include <Core/Platform.h>
 #include <Core/Utilities.h>
+#include <GLFoundation/OpenGL.h>
 #include <GraphicsTestRunner/GraphicsTest.h>
 #include <Image/ImageEncoder.h>
 #include <sstream>
 #include "GraphicsConnection.h"
-
-#if RL_OS_MAC
-#include <OpenGL/gl.h>
-#else
-#error Unknown Platform.
-#endif
 
 const rl::geom::Size GraphicsTest::kSurfaceSize = {320, 480};
 
