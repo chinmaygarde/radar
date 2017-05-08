@@ -9,6 +9,7 @@
 #if RL_OS_MAC
 
 #import <AppKit/AppKit.h>
+#import <GLFoundation/GLUtilities.h>
 
 namespace rl {
 namespace testrunner {
@@ -27,7 +28,18 @@ GraphicsConnectionMac::~GraphicsConnectionMac() = default;
 
 bool GraphicsConnectionMac::setupContext() {
   const NSOpenGLPixelFormatAttribute attributes[] = {
-      NSOpenGLPFAColorSize, 32, 0,
+      NSOpenGLPFADoubleBuffer,       //
+      NSOpenGLPFAColorSize,          //
+      32,                            //
+      NSOpenGLPFAAlphaSize,          //
+      8,                             //
+      NSOpenGLPFAStencilSize,        //
+      8,                             //
+      NSOpenGLPFADepthSize,          //
+      24,                            //
+      NSOpenGLPFAOpenGLProfile,      //
+      NSOpenGLProfileVersionLegacy,  //
+      0,                             //
   };
 
   core::ScopedNSObject<NSOpenGLPixelFormat> pixelFormat(
@@ -63,7 +75,7 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
     if (framebuffer == GL_NONE) {
       return false;
     }
-    _framebuffer.reset(framebuffer);
+    _framebuffer = gl::GLFramebuffer{framebuffer};
   }
 
   /*
@@ -75,13 +87,13 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
     if (texture == GL_NONE) {
       return false;
     }
-    _texture.reset(texture);
+    _texture = gl::GLTexture{texture};
   }
 
   /*
    *  Configure the texture.
    */
-  glBindTexture(GL_TEXTURE_2D, _texture);
+  glBindTexture(GL_TEXTURE_2D, _texture.get());
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -92,9 +104,9 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
   /*
    *  Set the texture as the color attachment of the framebuffer.
    */
-  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer.get());
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                         _texture, 0);
+                         _texture.get(), 0);
 
   RL_GLAssert("There must be no errors post framebuffer setup.");
 
@@ -104,7 +116,7 @@ bool GraphicsConnectionMac::setupFramebuffer(const geom::Size& size) {
 }
 
 bool GraphicsConnectionMac::isValid() const {
-  return _context && _framebuffer != GL_NONE && _texture != GL_NONE;
+  return _context && _framebuffer.isValid() && _texture.isValid();
 }
 
 bool GraphicsConnectionMac::makeCurrent() {
@@ -113,7 +125,8 @@ bool GraphicsConnectionMac::makeCurrent() {
   }
 
   [_context makeCurrentContext];
-  return true;
+
+  return [NSOpenGLContext currentContext] == _context;
 }
 
 bool GraphicsConnectionMac::clearCurrent() {
@@ -134,7 +147,7 @@ bool GraphicsConnectionMac::activate() {
     return false;
   }
 
-  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer.get());
   return true;
 }
 

@@ -5,51 +5,42 @@
 
 #pragma once
 
-#include <Core/Macros.h>
+#include <Core/Handle.h>
 #include <GLFoundation/OpenGL.h>
 
 namespace rl {
 namespace gl {
 
-template <class Traits>
-class GLObject {
- public:
-  GLObject() : _handle(GL_NONE) {}
-
-  GLObject(GLuint handle) : _handle(handle) {}
-
-  ~GLObject() { reset(); }
-
-  void reset(GLuint other = GL_NONE) {
-    if (_handle != GL_NONE) {
-      Traits::Destroy(_handle);
-    }
-    _handle = other;
-  }
-
-  operator GLuint() const { return _handle; }
-
- private:
-  GLuint _handle;
-
-  RL_DISALLOW_COPY_AND_ASSIGN(GLObject);
-};
-
 struct GLFramebufferTraits {
-  static void Destroy(GLuint handle) { ::glDeleteFramebuffers(1, &handle); }
+  static GLuint NullHandle() { return GL_NONE; };
+  static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
+  static bool CollectHandle(GLuint handle) {
+    ::glDeleteFramebuffers(1, &handle);
+    return true;
+  }
 };
 
 struct GLRenderbufferTraits {
-  static void Destroy(GLuint handle) { ::glDeleteRenderbuffers(1, &handle); }
+  static GLuint NullHandle() { return GL_NONE; };
+  static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
+  static bool CollectHandle(GLuint handle) {
+    ::glDeleteRenderbuffers(1, &handle);
+    return true;
+  }
 };
 
 struct GLTextureTraits {
-  static void Destroy(GLuint handle) { ::glDeleteTextures(1, &handle); }
+  static GLuint NullHandle() { return GL_NONE; };
+  static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
+  static bool CollectHandle(GLuint handle) {
+    ::glDeleteTextures(1, &handle);
+    return true;
+  }
 };
 
-using GLFramebuffer = GLObject<GLFramebufferTraits>;
-using GLRenderbuffer = GLObject<GLRenderbufferTraits>;
-using GLTexture = GLObject<GLTextureTraits>;
+using GLFramebuffer = core::Handle<GLuint, GLFramebufferTraits>;
+using GLRenderbuffer = core::Handle<GLuint, GLRenderbufferTraits>;
+using GLTexture = core::Handle<GLuint, GLTextureTraits>;
 
 }  // namespace gl
 }  // namespace rl

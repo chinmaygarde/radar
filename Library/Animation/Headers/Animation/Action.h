@@ -94,8 +94,8 @@ class Action : public core::ArchiveSerializable,
   uint64_t _repeatCount;
   bool _autoReverses;
   entity::Entity::PropertyMaskType _propertyMask;
-  animation::TimingCurve::Type _timingCurveType;
-  animation::TimingCurve _resolvedCurve;
+  TimingCurve::Type _timingCurveType;
+  TimingCurve _resolvedCurve;
 
   void resolveCurve();
 
