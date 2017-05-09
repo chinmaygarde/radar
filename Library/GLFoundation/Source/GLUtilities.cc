@@ -49,8 +49,8 @@ void AssertError(const char* file, int line, const char* fmt...) {
 
   const char* basename = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
-  RL_LOG("OpenGL Error (%s:%d): %s (%x) '%s'\n", basename, line,
-         message.c_str(), res, userMessage);
+  RL_LOG("OpenGL Error (%s:%d): %s (%x) '%s'", basename, line, message.c_str(),
+         res, userMessage);
   RL_ASSERT(false);
 }
 
@@ -119,7 +119,7 @@ bool IsFramebufferComplete(void) {
 
 void DescribeFramebuffer(void) {
   if (glGetError() != GL_NO_ERROR) {
-    RL_LOG("WARNING: There were already GL errors at this point...\n");
+    RL_LOG("WARNING: There were already GL errors at this point...");
   }
 
   GLint framebuffer = GL_NONE;
@@ -133,18 +133,18 @@ void DescribeFramebuffer(void) {
            framebuffer == GL_NONE ? " (Default)" : "",
            DescribeFramebufferStatus(status));
 
-  RL_LOG("Describing %s\n", description);
+  RL_LOG("Describing %s", description);
 
   // Color Attachment
-  RL_LOG("%s : Color Attachment : %s\n", description,
+  RL_LOG("%s : Color Attachment : %s", description,
          DescribeFramebufferAttachment(GL_COLOR_ATTACHMENT0).c_str());
 
   // Depth Attachment
-  RL_LOG("%s : Depth Attachment : %s\n", description,
+  RL_LOG("%s : Depth Attachment : %s", description,
          DescribeFramebufferAttachment(GL_DEPTH_ATTACHMENT).c_str());
 
   // Stencil Attachment
-  RL_LOG("%s : Stencil Attachment : %s\n", description,
+  RL_LOG("%s : Stencil Attachment : %s", description,
          DescribeFramebufferAttachment(GL_STENCIL_ATTACHMENT).c_str());
 
   // Clear any GL errors that we introduced as part of logging
