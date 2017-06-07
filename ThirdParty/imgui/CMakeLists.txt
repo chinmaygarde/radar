@@ -6,8 +6,9 @@
 ################################################################################
 
 file(GLOB IMGUI_SRC
-  Source/imgui_draw.cpp
   Source/imgui.cpp
+  Source/imgui_demo.cpp
+  Source/imgui_draw.cpp
 )
 
 add_library(imgui ${IMGUI_SRC})
