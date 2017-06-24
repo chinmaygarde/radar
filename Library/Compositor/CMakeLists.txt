@@ -10,11 +10,12 @@ StandardRadarLibrary(Compositor)
 target_link_libraries(Compositor
   PUBLIC
     Core
-    Geometry
     Entity
+    Event
+    Geometry
+    GLFoundation
     Image
     Typography
-    GLFoundation
   PRIVATE
     imgui
     libtess2

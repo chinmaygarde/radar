@@ -46,7 +46,7 @@ bool Frame::begin() {
 }
 
 bool Frame::end() {
-  renderStatistics();
+  _context.renderStatistics(*this);
 
   return _context.endUsing();
 }
@@ -66,10 +66,6 @@ void Frame::prepareFrame() {
 
   glClearColor(0.2, 0.2, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
-
-void Frame::renderStatistics() {
-  _context.renderStatistics(*this);
 }
 
 Context& Frame::context() {

@@ -4,11 +4,14 @@
  */
 
 #include <Compositor/CompositorStatistics.h>
+#include "Console.h"
 
 namespace rl {
 namespace compositor {
 
-CompositorStatistics::CompositorStatistics() {}
+CompositorStatistics::CompositorStatistics() = default;
+
+CompositorStatistics::~CompositorStatistics() = default;
 
 instrumentation::Stopwatch& CompositorStatistics::frameTimer() {
   return _frameTimer;
@@ -32,9 +35,20 @@ void CompositorStatistics::start() {
 }
 
 void CompositorStatistics::stop() {
+  displayCurrentStatisticsToConsole();
+
   _frameTimer.stop();
   _entityCount.reset();
   _primitiveCount.reset();
+}
+
+void CompositorStatistics::displayCurrentStatisticsToConsole() const {
+  auto frameMs = _frameTimer.currentLap().count() * 1e3;
+  RL_CONSOLE_DISPLAY_VALUE("FPS: %.2f ms (%.0f FPS)", frameMs,
+                           1000.0 / frameMs);
+  RL_CONSOLE_DISPLAY_VALUE("Entities: %zu", _entityCount.count());
+  RL_CONSOLE_DISPLAY_VALUE("Primitives: %zu", _primitiveCount.count());
+  RL_CONSOLE_DISPLAY_VALUE("Frame Count: %zu", _frameCount.count());
 }
 
 }  // namespace compositor

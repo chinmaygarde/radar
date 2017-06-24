@@ -8,6 +8,7 @@
 #include <Compositor/CompositorStatistics.h>
 #include <Compositor/ThreadBinding.h>
 #include <Core/Macros.h>
+#include <Event/TouchEvent.h>
 
 namespace rl {
 namespace compositor {
@@ -38,7 +39,10 @@ class Context {
   RL_WARN_UNUSED_RESULT
   bool dispose();
 
-  void renderStatistics(Frame& frame);
+  void renderStatistics(const Frame& frame);
+
+  RL_WARN_UNUSED_RESULT
+  bool applyTouchesToConsole(const event::TouchEvent::PhaseMap& touches);
 
  private:
   bool _beingUsed;

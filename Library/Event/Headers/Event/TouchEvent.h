@@ -8,6 +8,7 @@
 #include <Event/Event.h>
 #include <Geometry/Point.h>
 #include <map>
+#include <vector>
 
 namespace rl {
 namespace event {

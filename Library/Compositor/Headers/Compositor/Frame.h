@@ -7,6 +7,7 @@
 
 #include <Compositor/Context.h>
 #include <Core/Macros.h>
+#include <Event/TouchEvent.h>
 #include <Geometry/Matrix.h>
 #include <Geometry/Size.h>
 
@@ -72,7 +73,6 @@ class Frame {
   Context& _context;
 
   void prepareFrame();
-  void renderStatistics();
 
   RL_DISALLOW_COPY_AND_ASSIGN(Frame);
 };

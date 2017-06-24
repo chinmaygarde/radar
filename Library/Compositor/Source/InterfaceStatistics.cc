@@ -4,6 +4,7 @@
  */
 
 #include <Compositor/InterfaceStatistics.h>
+#include "Console.h"
 
 namespace rl {
 namespace compositor {
@@ -41,6 +42,17 @@ void InterfaceStatistics::start() {
 
 void InterfaceStatistics::stop() {
   _interpolations.stop();
+}
+
+void InterfaceStatistics::present() const {
+  RL_CONSOLE_SECTION(_tag.c_str());
+  RL_CONSOLE_DISPLAY_VALUE("Interpolations (%zu): %.2f ms",
+                           _interpolationsCount.count(),
+                           _interpolations.lastLap().count() * 1e3);
+  RL_CONSOLE_DISPLAY_VALUE("Last Transaction: %.2f ms",
+                           _transactionUpdateTimer.lastLap().count() * 1e3);
+  RL_CONSOLE_DISPLAY_VALUE("Constraints: %zu", _constraintsCount.count());
+  RL_CONSOLE_DISPLAY_VALUE("Edit Vars: %zu", _editVariablesCount.count());
 }
 
 InterfaceStatisticsFrame::InterfaceStatisticsFrame(InterfaceStatistics& stats)

@@ -6,73 +6,160 @@
 #include <Core/Utilities.h>
 #include <GLFoundation/GLFoundation.h>
 #include <imgui/imgui.h>
+#include "Console.h"
 #include "Program/Program.h"
 #include "StatisticsRenderer.h"
 
 namespace rl {
 namespace compositor {
 
-static const char RendererVertexShader[] = R"--(
-  uniform mat4 ProjMtx;
+static StatisticsRenderer* GStatisticsRenderer = nullptr;
 
-  attribute vec2 Position;
-  attribute vec2 UV;
-  attribute vec4 Color;
-
-  varying vec2 Frag_UV;
-  varying vec4 Frag_Color;
-
-  void main() {
-    Frag_UV = UV;
-    Frag_Color = Color;
-    gl_Position = ProjMtx * vec4(Position.xy, 0, 1);
-  }
-)--";
-
-static const char RendererFragmentShader[] = R"--(
-
-#ifdef GL_ES
-  precision mediump float;
-#endif
-
-  uniform sampler2D Texture;
-
-  varying vec2 Frag_UV;
-  varying vec4 Frag_Color;
-
-  void main() {
-    gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);
-  }
-)--";
-
-class StatisticsRendererProgram : public Program {
- public:
-  StatisticsRendererProgram()
-      : Program(RendererVertexShader, RendererFragmentShader) {}
-
-  unsigned int textureUniform;
-  unsigned int projMtxUniform;
-  unsigned int positionAttribute;
-  unsigned int uvAttribute;
-  unsigned int colorAttribute;
-
- protected:
-  void onLinkSuccess() override {
-    textureUniform = indexForUniform("Texture");
-    projMtxUniform = indexForUniform("ProjMtx");
-
-    positionAttribute = indexForAttribute("Position");
-    uvAttribute = indexForAttribute("UV");
-    colorAttribute = indexForAttribute("Color");
+StatisticsRenderer* StatisticsRenderer::GetCurrent() {
+  if (GStatisticsRenderer == nullptr) {
+    return nullptr;
   }
 
-  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRendererProgram);
-};
+  return GStatisticsRenderer->ensureFrameStarted() ? GStatisticsRenderer
+                                                   : nullptr;
+}
 
-static StatisticsRenderer* _StatisticsRenderer = nullptr;
+void StatisticsRenderer::SetCurrent(StatisticsRenderer* renderer) {
+  GStatisticsRenderer = renderer;
+}
+
+StatisticsRenderer::StatisticsRenderer()
+    : _setupComplete(false),
+      _io(ImGui::GetIO()),
+      _program(nullptr),
+      _vbo(GL_NONE),
+      _fontAtlas(GL_NONE),
+      _framePending(false) {
+  _io.UserData = this;
+  _io.IniFilename = nullptr;
+  _io.LogFilename = nullptr;
+  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+      &StatisticsRenderer::drawLists);
+  SetCurrent(this);
+}
+
+StatisticsRenderer::~StatisticsRenderer() {
+  SetCurrent(nullptr);
+
+  _io.UserData = nullptr;
+
+  /*
+   *  GL_NONEs are ignored but we don't even want to make the OpenGL call in
+   *  case initialization has not yet taken place.
+   */
+  if (_vbo != GL_NONE) {
+    glDeleteBuffers(1, &_vbo);
+  }
+
+  if (_fontAtlas != GL_NONE) {
+    glDeleteTextures(1, &_fontAtlas);
+  }
+}
+
+bool StatisticsRenderer::performRenderingSetupIfNecessary() {
+  if (_setupComplete) {
+    return false;
+  }
+
+  _setupComplete = true;
+
+  /*
+   *  Create and initialize the shader program
+   */
+  _program = std::make_unique<StatisticsRendererProgram>();
+
+  RL_GLAssert("There must be no errors prior to stat renderer setup");
+
+  /*
+   *  Create the vertex buffer. No VAOs will be used
+   */
+  glGenBuffers(1, &_vbo);
+
+  /*
+   *  Create and initialize font atlases
+   */
+  glGenTextures(1, &_fontAtlas);
+  glBindTexture(GL_TEXTURE_2D, _fontAtlas);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  GLvoid* pixels = nullptr;
+  int fontAtlasWidth = 0;
+  int fontAtlasHeight = 0;
+
+  _io.Fonts->GetTexDataAsRGBA32(reinterpret_cast<unsigned char**>(&pixels),
+                                &fontAtlasWidth, &fontAtlasHeight);
+
+  RL_ASSERT(pixels != nullptr && fontAtlasWidth != 0 && fontAtlasHeight != 0);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fontAtlasWidth, fontAtlasHeight, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+  _io.Fonts->TexID = reinterpret_cast<void*>((intptr_t)_fontAtlas);
+  _io.Fonts->ClearInputData();
+  _io.Fonts->ClearTexData();
+
+  RL_GLAssert("There must be no errors post stat renderer setup");
+
+  return true;
+}
+
+bool StatisticsRenderer::applyTouches(
+    const event::TouchEvent::PhaseMap& touches) {
+  bool touchesUpdated = false;
+
+  for (auto phaseTouches : touches) {
+    for (auto touch : phaseTouches.second) {
+      switch (touch.phase()) {
+        case event::TouchEvent::Phase::Began:
+        case event::TouchEvent::Phase::Moved:
+          _touches[touch.identifier()] = touch.location();
+          touchesUpdated = true;
+          break;
+        case event::TouchEvent::Phase::Ended:
+        case event::TouchEvent::Phase::Cancelled:
+          _touches.erase(touch.identifier());
+          touchesUpdated = true;
+          break;
+      }
+    }
+  }
+
+  if (!touchesUpdated) {
+    return false;
+  }
+
+  _io.MouseDown[0] = false;
+
+  /*
+   *  Just grab the first touch for now.
+   */
+  for (const auto& identifierTouch : _touches) {
+    _io.MousePos.x = identifierTouch.second.x;
+    _io.MousePos.y = identifierTouch.second.y;
+    _io.MouseDown[0] = true;
+    break;
+  }
+
+  if (!ensureFrameStarted()) {
+    return false;
+  }
+
+  return _io.WantCaptureMouse || _io.WantCaptureKeyboard;
+}
+
 void StatisticsRenderer::drawLists(void* data) {
-  RL_ASSERT(_StatisticsRenderer != nullptr);
-  StatisticsRenderer& renderer = *_StatisticsRenderer;
+  if (data == nullptr) {
+    return;
+  }
+
+  StatisticsRenderer& renderer =
+      *reinterpret_cast<StatisticsRenderer*>(ImGui::GetIO().UserData);
 
   /*
    *  Setup program and update uniforms and vertices
@@ -106,7 +193,7 @@ void StatisticsRenderer::drawLists(void* data) {
   const GLfloat height = io.DisplaySize.y;
 
   // clang-format off
-  const GLfloat orthoProjection[4][4] = {
+    const GLfloat orthoProjection[4][4] = {
       { 2.0f / width, 0.0f,            0.0f, 0.0f },
       { 0.0f,         2.0f / -height,  0.0f, 0.0f },
       { 0.0f,         0.0f,           -1.0f, 0.0f },
@@ -169,139 +256,64 @@ void StatisticsRenderer::drawLists(void* data) {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-StatisticsRenderer::StatisticsRenderer()
-    : _setupComplete(false),
-      _program(nullptr),
-      _vbo(GL_NONE),
-      _fontAtlas(GL_NONE) {
-  auto& io = ImGui::GetIO();
-  io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
-      &StatisticsRenderer::drawLists);
-}
-
-StatisticsRenderer::~StatisticsRenderer() {
-  /*
-   *  GL_NONEs are ignored but we don't even want to make the OpenGL call in
-   *  case initialization has not yet taken place.
-   */
-  if (_vbo != GL_NONE) {
-    glDeleteBuffers(1, &_vbo);
-  }
-
-  if (_fontAtlas != GL_NONE) {
-    glDeleteTextures(1, &_fontAtlas);
-  }
-}
-
-void StatisticsRenderer::performSetupIfNecessary() {
-  if (_setupComplete) {
-    return;
-  }
-
-  _setupComplete = true;
-
-  /*
-   *  Create and initialize the shader program
-   */
-  _program = std::make_unique<StatisticsRendererProgram>();
-
-  RL_GLAssert("There must be no errors prior to stat renderer setup");
-
-  /*
-   *  Create the vertex buffer. No VAOs will be used
-   */
-  glGenBuffers(1, &_vbo);
-
-  /*
-   *  Create and initialize font atlases
-   */
-  glGenTextures(1, &_fontAtlas);
-  glBindTexture(GL_TEXTURE_2D, _fontAtlas);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  GLvoid* pixels = nullptr;
-  int fontAtlasWidth = 0;
-  int fontAtlasHeight = 0;
-  auto& io = ImGui::GetIO();
-
-  io.Fonts->GetTexDataAsRGBA32(reinterpret_cast<unsigned char**>(&pixels),
-                               &fontAtlasWidth, &fontAtlasHeight);
-
-  RL_ASSERT(pixels != nullptr && fontAtlasWidth != 0 && fontAtlasHeight != 0);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fontAtlasWidth, fontAtlasHeight, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-  io.Fonts->TexID = reinterpret_cast<void*>((intptr_t)_fontAtlas);
-  io.Fonts->ClearInputData();
-  io.Fonts->ClearTexData();
-
-  RL_GLAssert("There must be no errors post stat renderer setup");
-}
-
-static void BuildStatsUI(CompositorStatistics& compositorStats) {
-  if (ImGui::Begin("Coordinator Statistics")) {
-    ImGui::Text("Entities: %zu", compositorStats.entityCount().count());
-    ImGui::Text("Primitives: %zu", compositorStats.primitiveCount().count());
-    ImGui::Text("Frames Rendered: %zu", compositorStats.frameCount().count());
-    ImGui::Text("Frame Time (minus swap):");
-    auto frameMs = compositorStats.frameTimer().currentLap().count() * 1e3;
-    ImGui::Text("    %.2f ms (%.0f FPS)", frameMs, 1000.0 / frameMs);
-  }
-  ImGui::End();
-}
-
-#if 0
-
-static void BuildStatsUI(InterfaceStatistics& interfaceStats) {
-  if (ImGui::Begin(interfaceStats.tag().c_str())) {
-    ImGui::Text("Interpolations (%zu): %.2f ms",
-                interfaceStats.interpolationsCount().count(),
-                interfaceStats.interpolations().lastLap().count() * 1e3);
-    ImGui::Text("Last Transaction Update:");
-    ImGui::Text(
-        "    %.2f ms",
-        interfaceStats.transactionUpdateTimer().lastLap().count() * 1e3);
-    ImGui::Text("Constraints: %zu", interfaceStats.constraintsCount().count());
-    ImGui::Text("Edit Vars: %zu", interfaceStats.editVariablesCount().count());
-  }
-  ImGui::End();
-}
-
-#endif
-
-void StatisticsRenderer::render(Frame& frame,
-                                CompositorStatistics& compositorStats) {
-  performSetupIfNecessary();
-
-  auto& io = ImGui::GetIO();
+void StatisticsRenderer::render(const Frame& frame) {
+  core::MutexLocker lock(_libraryMutex);
   auto& size = frame.size();
-  io.DisplaySize.x = size.width;
-  io.DisplaySize.y = size.height;
 
   /*
-   *  The framework does not allow for passing user pointers to the draw
-   *  callback function. Since the stats renderer is a singleton anyway, we set
-   *  a static global for the duration of the call.
+   *  Update the display size.
    */
-  RL_ASSERT(_StatisticsRenderer == nullptr);
-  _StatisticsRenderer = this;
+  _io.DisplaySize.x = size.width;
+  _io.DisplaySize.y = size.height;
+
+  /*
+   *  Update display time.
+   */
+  auto now = core::Clock::now();
+  core::ClockDurationSeconds delta = now - _lastFrameTime;
+  _io.DeltaTime = delta.count();
+  _lastFrameTime = now;
+
+  /*
+   *  Perform one time rendering setup if necessary. This has to wait till we
+   *  get at least one frame size.
+   */
+  performRenderingSetupIfNecessary();
+
+  if (_framePending) {
+    ImGui::Render();
+    _framePending = false;
+  }
+}
+
+bool StatisticsRenderer::ensureFrameStarted() {
+  if (_framePending) {
+    return true;
+  }
+
+  if (!_setupComplete) {
+    return false;
+  }
 
   ImGui::NewFrame();
+  _framePending = true;
+  return true;
+}
 
-  const double leftMargin = size.width - 260.0;
-  double currentTopMargin = 20.0;
+void StatisticsRenderer::beginSection(const char* section) {
+  ImGui::Begin(section);
+}
 
-  ImGui::SetNextWindowSize(ImVec2(240, 120), ImGuiSetCond_FirstUseEver);
-  ImGui::SetNextWindowPos(ImVec2(leftMargin, currentTopMargin),
-                          ImGuiSetCond_Always);
+void StatisticsRenderer::endSection() {
+  ImGui::End();
+}
 
-  BuildStatsUI(compositorStats);
+void StatisticsRenderer::displayValue(const char* format, va_list args) {
+  ImGui::TextV(format, args);
+}
 
-  ImGui::Render();
-
-  _StatisticsRenderer = nullptr;
+void StatisticsRenderer::getValue(const char* label, bool* current) {
+  ImGui::Checkbox(label, current);
 }
 
 }  // namespace compositor

@@ -145,7 +145,11 @@ void Coordinator::updateAndRenderInterfaceControllers(bool force) {
   RL_TRACE_AUTO(__function__);
 
   auto touchesIfAny = _touchEventChannel.drainPendingTouches();
-  auto wasUpdated = false;
+
+  const bool consoleInterceptsTouches =
+      _context.applyTouchesToConsole(touchesIfAny);
+
+  bool wasUpdated = consoleInterceptsTouches;
 
   core::MutexLocker lock(_interfaceControllersMutex);
 
@@ -211,6 +215,12 @@ bool Coordinator::renderSingleFrame() {
   }
 
   if (backEndPass.render(frame, &_workQueue)) {
+    /*
+     *  Render statistics for each interface controller.
+     */
+    for (const auto& interface : _interfaceControllers) {
+      interface.presentStatistics();
+    }
     surfaceAccess.finalizeForPresentation();
   }
 

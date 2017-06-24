@@ -52,6 +52,8 @@ class PresentationGraph {
 
   void render(compositor::FrontEndPass& frontEndPass);
 
+  void presentStatistics() const;
+
  private:
   using IdentifierPresentationEntityMap =
       std::map<core::Name, std::unique_ptr<compositor::PresentationEntity>>;

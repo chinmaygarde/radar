@@ -15,6 +15,7 @@ namespace compositor {
 
 Context::Context()
     : _beingUsed(false),
+      _statsRenderer(std::make_unique<StatisticsRenderer>()),
       _unitBoxVertices(
           std::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {}
 
@@ -40,10 +41,6 @@ bool Context::beginUsing() {
     return false;
   }
 
-  if (!_statsRenderer) {
-    _statsRenderer = std::make_unique<StatisticsRenderer>();
-  }
-
   if (!_programCatalog) {
     _programCatalog = std::make_unique<ProgramCatalog>();
   }
@@ -67,9 +64,14 @@ bool Context::endUsing() {
   return true;
 }
 
-void Context::renderStatistics(Frame& frame) {
+bool Context::applyTouchesToConsole(
+    const event::TouchEvent::PhaseMap& touches) {
+  return _statsRenderer->applyTouches(touches);
+}
+
+void Context::renderStatistics(const Frame& frame) {
   RL_ASSERT(_beingUsed);
-  _statsRenderer->render(frame, _compositorStats);
+  _statsRenderer->render(frame);
 }
 
 bool Context::dispose() {

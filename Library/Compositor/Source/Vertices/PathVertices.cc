@@ -5,6 +5,7 @@
 
 #include <libtess2/tesselator.h>
 #include <algorithm>
+#include "Console.h"
 #include "Vertices/PathVertices.h"
 
 namespace rl {
@@ -176,7 +177,10 @@ bool PathVertices::doDraw(size_t index) {
 
   glEnableVertexAttribArray(index);
 
-  glDrawElements(GL_TRIANGLES, _elements.size(), GL_UNSIGNED_SHORT, nullptr);
+  auto showPathMesh = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false);
+
+  glDrawElements(showPathMesh ? GL_LINES : GL_TRIANGLES, _elements.size(),
+                 GL_UNSIGNED_SHORT, nullptr);
 
   glDisableVertexAttribArray(index);
 

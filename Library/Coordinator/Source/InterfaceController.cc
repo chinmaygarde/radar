@@ -77,8 +77,10 @@ bool InterfaceController::update(const event::TouchEvent::PhaseMap& touches) {
    */
   bool hasVisualUpdates = _graph.resolveVisualUpdates();
 
-  return (animationsUpdated || touchesUpdated || constraintsEnforced ||
-          hasVisualUpdates);
+  bool hasRenderableUpdates = (animationsUpdated || touchesUpdated ||
+                               constraintsEnforced || hasVisualUpdates);
+
+  return hasRenderableUpdates;
 }
 
 bool InterfaceController::applyPendingTouchEvents(
@@ -103,6 +105,11 @@ compositor::FrontEndPass InterfaceController::render() {
   core::MutexLocker lock(_graphMutex);
   _graph.render(pass);
   return pass;
+}
+
+void InterfaceController::presentStatistics() const {
+  core::MutexLocker lock(_graphMutex);
+  _graph.presentStatistics();
 }
 
 }  // namespace coordinator

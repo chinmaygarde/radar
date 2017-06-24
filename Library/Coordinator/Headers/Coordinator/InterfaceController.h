@@ -30,21 +30,26 @@ class InterfaceController {
   RL_WARN_UNUSED_RESULT
   compositor::FrontEndPass render();
 
+  void presentStatistics() const;
+
   const std::string& debugTag() const;
 
  private:
   std::string _debugTag;
   core::Namespace _localNS;
   std::shared_ptr<core::Channel> _channel;
-  core::Mutex _graphMutex;
+  mutable core::Mutex _graphMutex;
   PresentationGraph _graph RL_GUARDED_BY(_graphMutex);
 
   void onChannelMessage(core::Message message);
+
   void setNeedsUpdate();
 
   bool applyPendingTouchEvents(const event::TouchEvent::PhaseMap& touches)
       RL_REQUIRES(_graphMutex);
+
   bool applyAnimations() RL_REQUIRES(_graphMutex);
+
   bool enforceConstraints() RL_REQUIRES(_graphMutex);
 
   RL_DISALLOW_COPY_AND_ASSIGN(InterfaceController);

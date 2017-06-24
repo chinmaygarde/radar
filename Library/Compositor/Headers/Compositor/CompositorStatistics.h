@@ -15,6 +15,8 @@ class CompositorStatistics {
  public:
   CompositorStatistics();
 
+  ~CompositorStatistics();
+
   instrumentation::Stopwatch& frameTimer();
 
   instrumentation::Counter& entityCount();
@@ -32,6 +34,8 @@ class CompositorStatistics {
   instrumentation::Counter _entityCount;
   instrumentation::Counter _primitiveCount;
   instrumentation::Counter _frameCount;
+
+  void displayCurrentStatisticsToConsole() const;
 
   RL_DISALLOW_COPY_AND_ASSIGN(CompositorStatistics);
 };

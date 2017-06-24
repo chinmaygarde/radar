@@ -468,6 +468,10 @@ void PresentationGraph::render(compositor::FrontEndPass& frontEndPass) {
   _root->render(frontEndPass, geom::Matrix{});
 }
 
+void PresentationGraph::presentStatistics() const {
+  _stats.present();
+}
+
 bool PresentationGraph::stepInterpolations() {
   const auto count =
       _animationDirector.stepInterpolations(_stats.interpolations());

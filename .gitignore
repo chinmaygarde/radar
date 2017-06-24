@@ -32,3 +32,4 @@ Icon?
 .tags*
 
 *.sublime-workspace
+cmake-*/

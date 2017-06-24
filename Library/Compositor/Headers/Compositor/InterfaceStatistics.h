@@ -30,6 +30,8 @@ class InterfaceStatistics {
 
   void stop();
 
+  void present() const;
+
  private:
   std::string _tag;
   instrumentation::Stopwatch _interpolations;

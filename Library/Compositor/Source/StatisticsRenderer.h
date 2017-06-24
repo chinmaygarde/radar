@@ -5,32 +5,56 @@
 
 #pragma once
 
-#include <Compositor/CompositorStatistics.h>
 #include <Compositor/Frame.h>
-#include <Compositor/InterfaceStatistics.h>
 #include <Core/Macros.h>
+#include <Core/Mutex.h>
+#include <Core/Timing.h>
+#include <Event/TouchEvent.h>
+#include "StatisticsRendererProgram.h"
+
+struct ImGuiIO;
 
 namespace rl {
 namespace compositor {
 
-class StatisticsRendererProgram;
 class StatisticsRenderer {
  public:
+  static StatisticsRenderer* GetCurrent();
+
   StatisticsRenderer();
 
   ~StatisticsRenderer();
 
-  void render(Frame& frame, CompositorStatistics& compositorStats);
+  bool applyTouches(const event::TouchEvent::PhaseMap& touches);
+
+  void render(const Frame& frame);
+
+  void beginSection(const char* section);
+
+  void endSection();
+
+  void displayValue(const char* format, va_list args);
+
+  void getValue(const char* label, bool* current);
 
  private:
+  core::Mutex _libraryMutex;
   bool _setupComplete;
-
+  ImGuiIO& _io;
+  std::map<event::TouchEvent::Identifier, geom::Point> _touches;
   std::unique_ptr<StatisticsRendererProgram> _program;
   unsigned int _vbo;
   unsigned int _fontAtlas;
+  core::ClockPointSeconds _lastFrameTime;
+  bool _framePending;
 
-  void performSetupIfNecessary();
   static void drawLists(void* data);
+
+  bool performRenderingSetupIfNecessary();
+
+  static void SetCurrent(StatisticsRenderer*);
+
+  bool ensureFrameStarted();
 
   RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRenderer);
 };
