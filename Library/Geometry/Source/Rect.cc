@@ -33,7 +33,7 @@ Rect Rect::withPoint(const Point& p) const {
 }
 
 Rect Rect::withPoints(const std::vector<Point>& points) const {
-  Rect box;
+  Rect box = *this;
   for (const auto& point : points) {
     box = box.withPoint(point);
   }

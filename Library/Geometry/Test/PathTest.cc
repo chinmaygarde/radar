@@ -96,10 +96,19 @@ TEST(PathTest, PathEncodeDecode) {
       });
 }
 
-TEST(GeometryTest, BoundingBoxCubic) {
+TEST(PathTest, BoundingBoxCubic) {
   rl::geom::Path path;
   path.addCubicComponent({120, 160}, {25, 200}, {220, 260}, {220, 40});
   auto box = path.boundingBox();
   rl::geom::Rect expected(0, 0, 220, 198.862);
   ASSERT_RECT_NEAR(box, expected);
+}
+
+TEST(PathTest, BoundingBoxOfCompositePathIsCorrect) {
+  rl::geom::PathBuilder builder;
+  builder.addRoundedRect({{10, 10}, {300, 300}}, {50, 50, 50, 50});
+  auto path = builder.path();
+  auto actual = path.boundingBox();
+  rl::geom::Rect expected(0, 0, 310, 310);
+  ASSERT_RECT_NEAR(actual, expected);
 }
