@@ -18,9 +18,13 @@ class InterfaceStatistics {
 
   instrumentation::Stopwatch& interpolations();
 
+  instrumentation::Counter& interpolationsCount();
+
   instrumentation::Stopwatch& transactionUpdateTimer();
 
-  instrumentation::Counter& interpolationsCount();
+  instrumentation::Counter& transactionsCount();
+
+  instrumentation::Counter& entitiesCount();
 
   instrumentation::Counter& constraintsCount();
 
@@ -35,8 +39,10 @@ class InterfaceStatistics {
  private:
   std::string _tag;
   instrumentation::Stopwatch _interpolations;
-  instrumentation::Stopwatch _transactionUpdateTimer;
   instrumentation::Counter _interpolationsCount;
+  instrumentation::Stopwatch _transactionUpdateTimer;
+  instrumentation::Counter _transactionsCount;
+  instrumentation::Counter _entitiesCount;
   instrumentation::Counter _constraintsCount;
   instrumentation::Counter _editVariablesCount;
 

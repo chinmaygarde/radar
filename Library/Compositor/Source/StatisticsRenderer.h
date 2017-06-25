@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Compositor/Frame.h>
+#include <Core/Instrumentation.h>
 #include <Core/Macros.h>
 #include <Core/Mutex.h>
 #include <Core/Timing.h>
@@ -33,7 +34,10 @@ class StatisticsRenderer {
 
   void endSection();
 
-  void displayValue(const char* format, va_list args);
+  void displayLabel(const char* format, va_list args);
+
+  void displayValue(const char* label,
+                    const instrumentation::Stopwatch& stopwatch);
 
   void getValue(const char* label, bool* current);
 

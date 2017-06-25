@@ -36,6 +36,10 @@ core::ClockDuration Stopwatch::lastLap() const {
   return _laps[(_currentLapIndex + samples - 1) % samples];
 }
 
+core::ClockDuration Stopwatch::lapDuration(size_t lap) const {
+  return _laps[lap % _laps.size()];
+}
+
 AutoStopwatchLap::AutoStopwatchLap(Stopwatch& stopwatch)
     : _stopwatch(stopwatch) {
   _stopwatch.start();

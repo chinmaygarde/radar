@@ -9,7 +9,7 @@
 namespace rl {
 namespace compositor {
 
-CompositorStatistics::CompositorStatistics() = default;
+CompositorStatistics::CompositorStatistics() : _frameTimer(300) {}
 
 CompositorStatistics::~CompositorStatistics() = default;
 
@@ -43,12 +43,10 @@ void CompositorStatistics::stop() {
 }
 
 void CompositorStatistics::displayCurrentStatisticsToConsole() const {
-  auto frameMs = _frameTimer.currentLap().count() * 1e3;
-  RL_CONSOLE_DISPLAY_VALUE("FPS: %.2f ms (%.0f FPS)", frameMs,
-                           1000.0 / frameMs);
-  RL_CONSOLE_DISPLAY_VALUE("Entities: %zu", _entityCount.count());
-  RL_CONSOLE_DISPLAY_VALUE("Primitives: %zu", _primitiveCount.count());
-  RL_CONSOLE_DISPLAY_VALUE("Frame Count: %zu", _frameCount.count());
+  RL_CONSOLE_DISPLAY_VALUE("Frame Time", _frameTimer);
+  RL_CONSOLE_DISPLAY_LABEL("Entities: %zu", _entityCount.count());
+  RL_CONSOLE_DISPLAY_LABEL("Primitives: %zu", _primitiveCount.count());
+  RL_CONSOLE_DISPLAY_LABEL("Frame Count: %zu", _frameCount.count());
 }
 
 }  // namespace compositor

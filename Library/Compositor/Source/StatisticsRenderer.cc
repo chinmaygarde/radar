@@ -308,8 +308,33 @@ void StatisticsRenderer::endSection() {
   ImGui::End();
 }
 
-void StatisticsRenderer::displayValue(const char* format, va_list args) {
+void StatisticsRenderer::displayLabel(const char* format, va_list args) {
   ImGui::TextV(format, args);
+}
+
+void StatisticsRenderer::displayValue(
+    const char* label,
+    const instrumentation::Stopwatch& stopwatch) {
+  static const auto stopwatchValuesGetter = [](void* stopwatch,
+                                               int index) -> float {
+    auto lapTimeSeconds =
+        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)
+            ->lapDuration(index);
+    /*
+     *  Plot the values in milliseconds.
+     */
+    return lapTimeSeconds.count() * 1e3;
+  };
+
+  ImGui::PlotLines(label,                  // label
+                   stopwatchValuesGetter,  // getter
+                   const_cast<instrumentation::Stopwatch*>(&stopwatch),  // data
+                   stopwatch.samples(),     // samples size
+                   0,                       // samples offset
+                   "Range: 0.0 - 16.6 ms",  // overlay text
+                   0.0,                     // scale min
+                   1000.0 / 60.0            // scale max
+                   );
 }
 
 void StatisticsRenderer::getValue(const char* label, bool* current) {

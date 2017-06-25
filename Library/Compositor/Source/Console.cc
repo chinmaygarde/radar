@@ -34,12 +34,19 @@ bool IsFirstInFrame(FirstInFrame& once) {
   return true;
 }
 
-void DisplayValue(const char* format, ...) {
+void DisplayLabel(const char* format, ...) {
   if (auto renderer = StatisticsRenderer::GetCurrent()) {
     va_list args;
     va_start(args, format);
-    renderer->displayValue(format, args);
+    renderer->displayLabel(format, args);
     va_end(args);
+  }
+}
+
+void DisplayValue(const char* label,
+                  const instrumentation::Stopwatch& stopwatch) {
+  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+    renderer->displayValue(label, stopwatch);
   }
 }
 

@@ -17,6 +17,8 @@ class Stopwatch {
 
   core::ClockDuration lastLap() const;
 
+  core::ClockDuration lapDuration(size_t lap) const;
+
   core::ClockDuration currentLap() const;
 
   size_t samples() const;

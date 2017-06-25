@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <Core/Instrumentation.h>
 #include <Core/Macros.h>
 
 #define RL_CONSOLE_GET_VALUE_ONCE(label, defaultValue)    \
@@ -17,8 +18,11 @@
     value;                                                \
   })
 
-#define RL_CONSOLE_DISPLAY_VALUE(label, ...) \
-  ::rl::compositor::console::DisplayValue(label, ##__VA_ARGS__);
+#define RL_CONSOLE_DISPLAY_LABEL(label, ...) \
+  ::rl::compositor::console::DisplayLabel(label, ##__VA_ARGS__);
+
+#define RL_CONSOLE_DISPLAY_VALUE(label, value) \
+  ::rl::compositor::console::DisplayValue(label, value);
 
 #define RL_CONSOLE_SECTION(section)            \
   ::rl::compositor::console::AutoEndSection    \
@@ -39,7 +43,10 @@ void EndSection();
 
 bool IsFirstInFrame(FirstInFrame& once);
 
-void DisplayValue(const char* format, ...);
+void DisplayLabel(const char* format, ...);
+
+void DisplayValue(const char* label,
+                  const instrumentation::Stopwatch& stopwatch);
 
 void GetValue(const char* label, bool* current);
 

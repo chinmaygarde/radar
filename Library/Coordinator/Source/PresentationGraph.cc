@@ -141,12 +141,15 @@ compositor::PresentationEntity& PresentationGraph::presentationEntityForName(
 
 bool PresentationGraph::applyTransactions(core::Message& arena) {
   instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
+  _stats.transactionsCount().increment();
 
   auto applyTime = core::Clock::now();
 
   do {
     RL_RETURN_IF_FALSE(applyTransactionSingle(arena, applyTime))
   } while (!arena.readCompleted());
+
+  _stats.entitiesCount().reset(_entities.size());
 
   /*
    *  TODO: This must not be based on the value of the deserialization, but
