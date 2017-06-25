@@ -36,9 +36,7 @@ StatisticsRenderer::StatisticsRenderer()
       _fontAtlas(GL_NONE),
       _framePending(false) {
   _io.UserData = this;
-  _io.IniFilename = nullptr;
-  _io.LogFilename = nullptr;
-  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
       &StatisticsRenderer::drawLists);
   SetCurrent(this);
 }
@@ -281,6 +279,7 @@ void StatisticsRenderer::render(const Frame& frame) {
   performRenderingSetupIfNecessary();
 
   if (_framePending) {
+    ImGui::End();
     ImGui::Render();
     _framePending = false;
   }
@@ -296,6 +295,7 @@ bool StatisticsRenderer::ensureFrameStarted() {
   }
 
   ImGui::NewFrame();
+  ImGui::Begin("Coordinator");
   _framePending = true;
   return true;
 }
