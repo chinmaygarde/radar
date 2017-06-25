@@ -4,26 +4,36 @@
  */
 
 #include <Core/Stopwatch.h>
+#include <limits>
 
 namespace rl {
 namespace instrumentation {
 
-Stopwatch::Stopwatch() : _startPoint(core::ClockPoint::min()), _lastLap(0) {}
+Stopwatch::Stopwatch(size_t samples)
+    : _currentLapIndex(0), _currentLapStartPoint(core::ClockPoint::min()) {
+  _laps.resize(std::max<size_t>(1, samples));
+}
 
 void Stopwatch::start() {
-  _startPoint = core::Clock::now();
+  _currentLapStartPoint = core::Clock::now();
 }
 
 void Stopwatch::stop() {
-  _lastLap = core::Clock::now() - _startPoint;
+  _laps[_currentLapIndex] = core::Clock::now() - _currentLapStartPoint;
+  _currentLapIndex = (_currentLapIndex + 1) % _laps.size();
 }
 
 core::ClockDuration Stopwatch::currentLap() const {
-  return core::Clock::now() - _startPoint;
+  return core::Clock::now() - _currentLapStartPoint;
+}
+
+size_t Stopwatch::samples() const {
+  return _laps.size();
 }
 
 core::ClockDuration Stopwatch::lastLap() const {
-  return _lastLap;
+  const auto samples = _laps.size();
+  return _laps[(_currentLapIndex + samples - 1) % samples];
 }
 
 AutoStopwatchLap::AutoStopwatchLap(Stopwatch& stopwatch)

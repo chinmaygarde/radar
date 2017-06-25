@@ -6,25 +6,29 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <vector>
 
 namespace rl {
 namespace instrumentation {
 
 class Stopwatch {
  public:
-  Stopwatch();
+  Stopwatch(size_t samples = 1);
 
   core::ClockDuration lastLap() const;
 
   core::ClockDuration currentLap() const;
+
+  size_t samples() const;
 
   void start();
 
   void stop();
 
  private:
-  core::ClockPoint _startPoint;
-  core::ClockDuration _lastLap;
+  std::vector<core::ClockDuration> _laps;
+  size_t _currentLapIndex;
+  core::ClockPoint _currentLapStartPoint;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Stopwatch);
 };
