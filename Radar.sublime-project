@@ -5,7 +5,8 @@
       "name": "Radar",
       "path": ".",
       "folder_exclude_patterns": [
-        "build"
+        "build",
+        "cmake-*"
       ]
     }
   ],
