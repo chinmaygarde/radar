@@ -3,32 +3,31 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "ConsoleRenderer.h"
 #include <Core/Utilities.h>
 #include <GLFoundation/GLFoundation.h>
 #include <imgui/imgui.h>
 #include "Console.h"
-#include "Program/Program.h"
-#include "StatisticsRenderer.h"
+#include "Program/ConsoleRendererProgram.h"
 
 namespace rl {
 namespace compositor {
 
-static StatisticsRenderer* GStatisticsRenderer = nullptr;
+static ConsoleRenderer* GConsoleRenderer = nullptr;
 
-StatisticsRenderer* StatisticsRenderer::GetCurrent() {
-  if (GStatisticsRenderer == nullptr) {
+ConsoleRenderer* ConsoleRenderer::GetCurrent() {
+  if (GConsoleRenderer == nullptr) {
     return nullptr;
   }
 
-  return GStatisticsRenderer->ensureFrameStarted() ? GStatisticsRenderer
-                                                   : nullptr;
+  return GConsoleRenderer->ensureFrameStarted() ? GConsoleRenderer : nullptr;
 }
 
-void StatisticsRenderer::SetCurrent(StatisticsRenderer* renderer) {
-  GStatisticsRenderer = renderer;
+void ConsoleRenderer::SetCurrent(ConsoleRenderer* renderer) {
+  GConsoleRenderer = renderer;
 }
 
-StatisticsRenderer::StatisticsRenderer()
+ConsoleRenderer::ConsoleRenderer()
     : _setupComplete(false),
       _io(ImGui::GetIO()),
       _program(nullptr),
@@ -36,12 +35,12 @@ StatisticsRenderer::StatisticsRenderer()
       _fontAtlas(GL_NONE),
       _framePending(false) {
   _io.UserData = this;
-  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData* data)>(
-      &StatisticsRenderer::drawLists);
+  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+      &ConsoleRenderer::drawLists);
   SetCurrent(this);
 }
 
-StatisticsRenderer::~StatisticsRenderer() {
+ConsoleRenderer::~ConsoleRenderer() {
   SetCurrent(nullptr);
 
   _io.UserData = nullptr;
@@ -59,7 +58,7 @@ StatisticsRenderer::~StatisticsRenderer() {
   }
 }
 
-bool StatisticsRenderer::performRenderingSetupIfNecessary() {
+bool ConsoleRenderer::performRenderingSetupIfNecessary() {
   if (_setupComplete) {
     return false;
   }
@@ -69,7 +68,7 @@ bool StatisticsRenderer::performRenderingSetupIfNecessary() {
   /*
    *  Create and initialize the shader program
    */
-  _program = std::make_unique<StatisticsRendererProgram>();
+  _program = std::make_unique<ConsoleRendererProgram>();
 
   RL_GLAssert("There must be no errors prior to stat renderer setup");
 
@@ -107,8 +106,7 @@ bool StatisticsRenderer::performRenderingSetupIfNecessary() {
   return true;
 }
 
-bool StatisticsRenderer::applyTouches(
-    const event::TouchEvent::PhaseMap& touches) {
+bool ConsoleRenderer::applyTouches(const event::TouchEvent::PhaseMap& touches) {
   bool touchesUpdated = false;
 
   for (auto phaseTouches : touches) {
@@ -151,13 +149,13 @@ bool StatisticsRenderer::applyTouches(
   return _io.WantCaptureMouse || _io.WantCaptureKeyboard;
 }
 
-void StatisticsRenderer::drawLists(void* data) {
+void ConsoleRenderer::drawLists(void* data) {
   if (data == nullptr) {
     return;
   }
 
-  StatisticsRenderer& renderer =
-      *reinterpret_cast<StatisticsRenderer*>(ImGui::GetIO().UserData);
+  ConsoleRenderer& renderer =
+      *reinterpret_cast<ConsoleRenderer*>(ImGui::GetIO().UserData);
 
   /*
    *  Setup program and update uniforms and vertices
@@ -254,7 +252,7 @@ void StatisticsRenderer::drawLists(void* data) {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void StatisticsRenderer::render(const Frame& frame) {
+void ConsoleRenderer::render(const Frame& frame) {
   core::MutexLocker lock(_libraryMutex);
   auto& size = frame.size();
 
@@ -285,7 +283,7 @@ void StatisticsRenderer::render(const Frame& frame) {
   }
 }
 
-bool StatisticsRenderer::ensureFrameStarted() {
+bool ConsoleRenderer::ensureFrameStarted() {
   if (_framePending) {
     return true;
   }
@@ -300,26 +298,26 @@ bool StatisticsRenderer::ensureFrameStarted() {
   return true;
 }
 
-void StatisticsRenderer::beginSection(const char* section) {
+void ConsoleRenderer::beginSection(const char* section) {
   ImGui::Begin(section);
 }
 
-void StatisticsRenderer::endSection() {
+void ConsoleRenderer::endSection() {
   ImGui::End();
 }
 
-void StatisticsRenderer::displayLabel(const char* format, va_list args) {
+void ConsoleRenderer::displayLabel(const char* format, va_list args) {
   ImGui::TextV(format, args);
 }
 
-void StatisticsRenderer::displayValue(
+void ConsoleRenderer::displayValue(
     const char* label,
     const instrumentation::Stopwatch& stopwatch) {
   static const auto stopwatchValuesGetter = [](void* stopwatch,
                                                int index) -> float {
     auto lapTimeSeconds =
-        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)
-            ->lapDuration(index);
+        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)->lapDuration(
+            index);
     /*
      *  Plot the values in milliseconds.
      */
@@ -337,7 +335,7 @@ void StatisticsRenderer::displayValue(
                    );
 }
 
-void StatisticsRenderer::getValue(const char* label, bool* current) {
+void ConsoleRenderer::getValue(const char* label, bool* current) {
   ImGui::Checkbox(label, current);
 }
 

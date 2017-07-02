@@ -5,20 +5,20 @@
 
 #include <imgui/imgui.h>
 #include "Console.h"
-#include "StatisticsRenderer.h"
+#include "ConsoleRenderer.h"
 
 namespace rl {
 namespace compositor {
 namespace console {
 
 void BeginSection(const char* section) {
-  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
     renderer->beginSection(section);
   }
 }
 
 void EndSection() {
-  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
     renderer->endSection();
   }
 }
@@ -35,7 +35,7 @@ bool IsFirstInFrame(FirstInFrame& once) {
 }
 
 void DisplayLabel(const char* format, ...) {
-  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
     va_list args;
     va_start(args, format);
     renderer->displayLabel(format, args);
@@ -45,13 +45,13 @@ void DisplayLabel(const char* format, ...) {
 
 void DisplayValue(const char* label,
                   const instrumentation::Stopwatch& stopwatch) {
-  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
     renderer->displayValue(label, stopwatch);
   }
 }
 
 void GetValue(const char* label, bool* current) {
-  if (auto renderer = StatisticsRenderer::GetCurrent()) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
     renderer->getValue(label, current);
   }
 }

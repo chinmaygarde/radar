@@ -11,11 +11,11 @@
 namespace rl {
 namespace compositor {
 
-class StatisticsRendererProgram : public Program {
+class ConsoleRendererProgram : public Program {
  public:
-  StatisticsRendererProgram();
+  ConsoleRendererProgram();
 
-  ~StatisticsRendererProgram();
+  ~ConsoleRendererProgram();
 
   unsigned int textureUniform;
 
@@ -30,7 +30,7 @@ class StatisticsRendererProgram : public Program {
  protected:
   void onLinkSuccess() override;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRendererProgram);
+  RL_DISALLOW_COPY_AND_ASSIGN(ConsoleRendererProgram);
 };
 
 }  // namespace compositor

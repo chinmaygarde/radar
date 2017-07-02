@@ -46,7 +46,7 @@ bool Frame::begin() {
 }
 
 bool Frame::end() {
-  _context.renderStatistics(*this);
+  _context.renderConsole(*this);
 
   return _context.endUsing();
 }

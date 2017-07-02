@@ -6,8 +6,8 @@
 #include <Compositor/Context.h>
 #include <Core/Utilities.h>
 #include <Geometry/Rect.h>
+#include "ConsoleRenderer.h"
 #include "ProgramCatalog.h"
-#include "StatisticsRenderer.h"
 #include "Vertices/BoxVertices.h"
 
 namespace rl {
@@ -15,7 +15,7 @@ namespace compositor {
 
 Context::Context()
     : _beingUsed(false),
-      _statsRenderer(std::make_unique<StatisticsRenderer>()),
+      _consoleRenderer(std::make_unique<ConsoleRenderer>()),
       _unitBoxVertices(
           std::make_unique<BoxVertices>(geom::Rect{0.0, 0.0, 1.0, 1.0})) {}
 
@@ -66,12 +66,12 @@ bool Context::endUsing() {
 
 bool Context::applyTouchesToConsole(
     const event::TouchEvent::PhaseMap& touches) {
-  return _statsRenderer->applyTouches(touches);
+  return _consoleRenderer->applyTouches(touches);
 }
 
-void Context::renderStatistics(const Frame& frame) {
+void Context::renderConsole(const Frame& frame) {
   RL_ASSERT(_beingUsed);
-  _statsRenderer->render(frame);
+  _consoleRenderer->render(frame);
 }
 
 bool Context::dispose() {
@@ -79,7 +79,7 @@ bool Context::dispose() {
     return false;
   }
 
-  _statsRenderer = nullptr;
+  _consoleRenderer = nullptr;
   _programCatalog = nullptr;
   _unitBoxVertices = nullptr;
 

@@ -11,20 +11,21 @@
 #include <Core/Mutex.h>
 #include <Core/Timing.h>
 #include <Event/TouchEvent.h>
-#include "StatisticsRendererProgram.h"
 
 struct ImGuiIO;
 
 namespace rl {
 namespace compositor {
 
-class StatisticsRenderer {
+class ConsoleRendererProgram;
+
+class ConsoleRenderer {
  public:
-  static StatisticsRenderer* GetCurrent();
+  static ConsoleRenderer* GetCurrent();
 
-  StatisticsRenderer();
+  ConsoleRenderer();
 
-  ~StatisticsRenderer();
+  ~ConsoleRenderer();
 
   bool applyTouches(const event::TouchEvent::PhaseMap& touches);
 
@@ -46,7 +47,7 @@ class StatisticsRenderer {
   bool _setupComplete;
   ImGuiIO& _io;
   std::map<event::TouchEvent::Identifier, geom::Point> _touches;
-  std::unique_ptr<StatisticsRendererProgram> _program;
+  std::unique_ptr<ConsoleRendererProgram> _program;
   unsigned int _vbo;
   unsigned int _fontAtlas;
   core::ClockPointSeconds _lastFrameTime;
@@ -56,11 +57,11 @@ class StatisticsRenderer {
 
   bool performRenderingSetupIfNecessary();
 
-  static void SetCurrent(StatisticsRenderer*);
+  static void SetCurrent(ConsoleRenderer*);
 
   bool ensureFrameStarted();
 
-  RL_DISALLOW_COPY_AND_ASSIGN(StatisticsRenderer);
+  RL_DISALLOW_COPY_AND_ASSIGN(ConsoleRenderer);
 };
 
 }  // namespace compositor

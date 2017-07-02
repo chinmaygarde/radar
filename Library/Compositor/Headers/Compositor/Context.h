@@ -15,7 +15,7 @@ namespace compositor {
 
 class ProgramCatalog;
 class BoxVertices;
-class StatisticsRenderer;
+class ConsoleRenderer;
 class Frame;
 
 class Context {
@@ -39,7 +39,7 @@ class Context {
   RL_WARN_UNUSED_RESULT
   bool dispose();
 
-  void renderStatistics(const Frame& frame);
+  void renderConsole(const Frame& frame);
 
   RL_WARN_UNUSED_RESULT
   bool applyTouchesToConsole(const event::TouchEvent::PhaseMap& touches);
@@ -48,7 +48,7 @@ class Context {
   bool _beingUsed;
   ThreadBinding _threadBinding;
   CompositorStatistics _compositorStats;
-  std::unique_ptr<StatisticsRenderer> _statsRenderer;
+  std::unique_ptr<ConsoleRenderer> _consoleRenderer;
   std::unique_ptr<ProgramCatalog> _programCatalog;
   std::unique_ptr<BoxVertices> _unitBoxVertices;
 

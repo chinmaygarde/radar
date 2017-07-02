@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "StatisticsRendererProgram.h"
+#include "ConsoleRendererProgram.h"
 
 namespace rl {
 namespace compositor {
@@ -41,12 +41,12 @@ static const char RendererFragmentShader[] = R"--(
   }
   )--";
 
-StatisticsRendererProgram::StatisticsRendererProgram()
+ConsoleRendererProgram::ConsoleRendererProgram()
     : Program(RendererVertexShader, RendererFragmentShader) {}
 
-StatisticsRendererProgram::~StatisticsRendererProgram() = default;
+ConsoleRendererProgram::~ConsoleRendererProgram() = default;
 
-void StatisticsRendererProgram::onLinkSuccess() {
+void ConsoleRendererProgram::onLinkSuccess() {
   textureUniform = indexForUniform("Texture");
   projMtxUniform = indexForUniform("ProjMtx");
 
