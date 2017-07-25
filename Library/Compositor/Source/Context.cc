@@ -45,6 +45,10 @@ bool Context::beginUsing() {
     _programCatalog = std::make_unique<ProgramCatalog>();
   }
 
+  if (!_unitBoxVertices->prepare()) {
+    return false;
+  }
+
   _compositorStats.start();
 
   _beingUsed = true;

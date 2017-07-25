@@ -49,6 +49,8 @@ void PresentationEntity::render(FrontEndPass& frontEndPass,
 
   renderContents(frontEndPass);
 
+  renderStroke(frontEndPass);
+
   for (const auto& child : _children) {
     child->render(frontEndPass, _renderedModelViewMatrix);
   }
@@ -62,9 +64,9 @@ void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
   } else if (_contents.isValid()) {
     contentType = PrimitivesCache::ContentType::Image;
   } else {
-    contentType = _backgroundColor.alpha * _opacity >= Primitive::AlphaThreshold
-                      ? PrimitivesCache::ContentType::SolidColor
-                      : PrimitivesCache::ContentType::None;
+    contentType = _backgroundColor.alpha * _opacity < Primitive::AlphaThreshold
+                      ? PrimitivesCache::ContentType::None
+                      : PrimitivesCache::ContentType::SolidColor;
   }
 
   // Decide the primitive type.
@@ -72,10 +74,42 @@ void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
       PrimitivesCache::PrimitiveType::None;
   if (_path.componentCount() > 0) {
     primitiveType = PrimitivesCache::PrimitiveType::Path;
-  } else if (_bounds.size.width <= 0.0 || _bounds.size.height <= 0.0) {
+  } else if (_bounds.isZero()) {
     primitiveType = PrimitivesCache::PrimitiveType::None;
   } else {
     primitiveType = PrimitivesCache::PrimitiveType::Box;
+  }
+
+  if (auto primitive =
+          _primitivesCache->acquire(*this, contentType, primitiveType)) {
+    primitive->setSize(_bounds.size);
+    primitive->setOpacity(_opacity);
+    primitive->setModelViewMatrix(_renderedModelViewMatrix);
+    frontEndPass.addPrimitive(std::move(primitive));
+  }
+}
+
+void PresentationEntity::renderStroke(
+    rl::compositor::FrontEndPass& frontEndPass) const {
+  if (_strokeSize < Primitive::StrokeThreshold) {
+    return;
+  }
+
+  // Decide the content type.
+  PrimitivesCache::ContentType contentType =
+      _strokeColor.alpha * _opacity < Primitive::AlphaThreshold
+          ? PrimitivesCache::ContentType::None
+          : PrimitivesCache::ContentType::SolidColor;
+
+  // Decide the primitive type.
+  PrimitivesCache::PrimitiveType primitiveType =
+      PrimitivesCache::PrimitiveType::None;
+  if (_path.componentCount() > 0) {
+    primitiveType = PrimitivesCache::PrimitiveType::PathStroke;
+  } else if (_bounds.isZero()) {
+    primitiveType = PrimitivesCache::PrimitiveType::None;
+  } else {
+    primitiveType = PrimitivesCache::PrimitiveType::BoxStroke;
   }
 
   if (auto primitive =

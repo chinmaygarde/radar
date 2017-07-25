@@ -28,7 +28,7 @@ bool BoxVertices::uploadVertexData() {
   return true;
 }
 
-bool BoxVertices::doDraw(size_t index) {
+bool BoxVertices::doDraw(size_t index) const {
   RL_GLAssert("There must be no errors before drawing box vertices");
 
   glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, nullptr);

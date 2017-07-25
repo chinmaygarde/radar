@@ -27,10 +27,10 @@ class ColorProgram : public Program {
   GLint positionAttribute() const;
 
  private:
-  GLint _modelViewProjectionUniform;
-  GLint _contentColorUniform;
-  GLint _sizeUniform;
-  GLint _positionAttribute;
+  GLint _modelViewProjectionUniform = -1;
+  GLint _contentColorUniform = -1;
+  GLint _sizeUniform = -1;
+  GLint _positionAttribute = -1;
 
   void onLinkSuccess() override;
 

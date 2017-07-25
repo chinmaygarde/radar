@@ -20,5 +20,9 @@ TextureProgram& ProgramCatalog::textureProgram() {
   return _textureProgram;
 }
 
+StrokeProgram& ProgramCatalog::strokeProgram() {
+  return _strokeProgram;
+}
+
 }  // namespace compositor
 }  // namespace rl

@@ -8,11 +8,10 @@
 #include <Core/Macros.h>
 #include <Geometry/Path.h>
 #include "Primitive.h"
+#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
-
-class PathVertices;
 
 class ColoredPathPrimitive : public Primitive {
  public:
@@ -21,10 +20,10 @@ class ColoredPathPrimitive : public Primitive {
   ~ColoredPathPrimitive() override;
 
  private:
-  std::unique_ptr<PathVertices> _pathVertices;
+  PathVertices _vertices;
   entity::Color _color;
 
-  void prepareToRender(BackEndPass& backEndPass) override;
+  bool prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
 

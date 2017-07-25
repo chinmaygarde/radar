@@ -162,21 +162,21 @@ bool Path::updateCubicComponentAtIndex(size_t index,
   return true;
 }
 
-std::vector<Point> Path::tessellate(
-    const TessellationApproximation& approximation) const {
+std::vector<Point> Path::smoothen(
+    const SmoothingApproximation& approximation) const {
   std::vector<Point> points;
   for (const auto& component : _components) {
     switch (component.type) {
       case ComponentType::Linear: {
-        auto tess = _linears[component.index].tessellate();
+        auto tess = _linears[component.index].smoothen();
         std::move(tess.begin(), tess.end(), std::back_inserter(points));
       } break;
       case ComponentType::Quadratic: {
-        auto tess = _quads[component.index].tessellate(approximation);
+        auto tess = _quads[component.index].smoothen(approximation);
         std::move(tess.begin(), tess.end(), std::back_inserter(points));
       } break;
       case ComponentType::Cubic: {
-        auto tess = _cubics[component.index].tessellate(approximation);
+        auto tess = _cubics[component.index].smoothen(approximation);
         std::move(tess.begin(), tess.end(), std::back_inserter(points));
       } break;
     }

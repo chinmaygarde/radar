@@ -4,32 +4,29 @@
  */
 
 #include <Compositor/Frame.h>
-#include "ColoredPathPrimitive.h"
+#include "ColoredPathStrokePrimitive.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
-#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
 
-ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
-                                           const geom::Path& path)
+ColoredPathStrokePrimitive::ColoredPathStrokePrimitive(const geom::Path& path,
+                                                       entity::Color color,
+                                                       double size)
     : _vertices(path,
                 PathVertices::Winding::Odd,
-                PathVertices::ElementType::Polygons),
+                PathVertices::ElementType::BoundaryContours),
       _color(color) {}
 
-ColoredPathPrimitive::~ColoredPathPrimitive() = default;
+ColoredPathStrokePrimitive::~ColoredPathStrokePrimitive() = default;
 
-bool ColoredPathPrimitive::prepareToRender(BackEndPass& backEndPass) {
+bool ColoredPathStrokePrimitive::prepareToRender(BackEndPass& backEndPass) {
   return _vertices.prepare();
 }
 
-bool ColoredPathPrimitive::render(Frame& frame) const {
-  /*
-   *  Select the program to use
-   */
-  auto& program = frame.context().programCatalog().colorProgram();
+bool ColoredPathStrokePrimitive::render(Frame& frame) const {
+  auto& program = frame.context().programCatalog().strokeProgram();
 
   if (!program.use()) {
     return false;
@@ -46,7 +43,11 @@ bool ColoredPathPrimitive::render(Frame& frame) const {
   /**
    *  Draw vertices.
    */
-  return _vertices.draw(program.positionAttribute());
+  bool drawn = _vertices.draw(program.positionAttribute());
+
+  RL_GLAssert("No errors while rendering");
+
+  return drawn;
 }
 
 }  // namespace compositor

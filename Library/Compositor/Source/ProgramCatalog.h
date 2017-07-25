@@ -7,6 +7,7 @@
 
 #include "Program/ColorProgram.h"
 #include "Program/Program.h"
+#include "Program/StrokeProgram.h"
 #include "Program/TextureProgram.h"
 
 namespace rl {
@@ -22,9 +23,12 @@ class ProgramCatalog {
 
   TextureProgram& textureProgram();
 
+  StrokeProgram& strokeProgram();
+
  private:
   ColorProgram _colorProgram;
   TextureProgram _textureProgram;
+  StrokeProgram _strokeProgram;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ProgramCatalog);
 };

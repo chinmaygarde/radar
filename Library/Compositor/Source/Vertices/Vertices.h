@@ -25,7 +25,7 @@ class Vertices {
 
   bool prepare();
 
-  bool draw(size_t index);
+  bool draw(size_t index) const;
 
  private:
   const Type _type;
@@ -34,8 +34,11 @@ class Vertices {
   GLuint _ibo;
 
   bool prepareBuffers();
-  bool bindOrUnbind(bool bind);
-  virtual bool doDraw(size_t index) = 0;
+
+  bool bindOrUnbind(bool bind) const;
+
+  virtual bool doDraw(size_t index) const = 0;
+
   virtual bool uploadVertexData() = 0;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Vertices);

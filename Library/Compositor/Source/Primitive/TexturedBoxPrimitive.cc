@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "TexturedBoxPrimitive.h"
 #include <Compositor/BackendPass.h>
 #include "ProgramCatalog.h"
 #include "Texture.h"
+#include "TexturedBoxPrimitive.h"
 #include "Uniform.h"
 #include "Vertices/BoxVertices.h"
 
@@ -18,12 +18,9 @@ TexturedBoxPrimitive::TexturedBoxPrimitive(image::Image image)
 
 TexturedBoxPrimitive::~TexturedBoxPrimitive() = default;
 
-void TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
-  if (_texture == nullptr) {
-    return;
-  }
-
+bool TexturedBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
   _texture = backEndPass.prepareTexture(_texture);
+  return _texture != nullptr;
 }
 
 bool TexturedBoxPrimitive::render(Frame& frame) const {

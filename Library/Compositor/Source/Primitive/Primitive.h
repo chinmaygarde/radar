@@ -21,6 +21,8 @@ class Primitive {
  public:
   static const double AlphaThreshold;
 
+  static const double StrokeThreshold;
+
   Primitive();
 
   virtual ~Primitive();
@@ -33,8 +35,10 @@ class Primitive {
 
   void setOpacity(double opacity);
 
-  virtual void prepareToRender(BackEndPass& backEndPass) = 0;
+  RL_WARN_UNUSED_RESULT
+  virtual bool prepareToRender(BackEndPass& backEndPass) = 0;
 
+  RL_WARN_UNUSED_RESULT
   virtual bool render(Frame& frame) const = 0;
 
  protected:

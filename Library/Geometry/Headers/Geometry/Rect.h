@@ -57,6 +57,8 @@ struct Rect {
            p.y <= size.height;
   }
 
+  bool isZero() const { return size.isZero(); }
+
   Rect withPoint(const Point& p) const;
 
   Rect withPoints(const std::vector<Point>& points) const;

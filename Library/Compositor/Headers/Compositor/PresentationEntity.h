@@ -43,6 +43,8 @@ class PresentationEntity : public entity::Entity {
 
   void renderContents(FrontEndPass& frontEndPass) const;
 
+  void renderStroke(FrontEndPass& frontEndPass) const;
+
   RL_DISALLOW_COPY_AND_ASSIGN(PresentationEntity);
 };
 

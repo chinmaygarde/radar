@@ -86,7 +86,7 @@ bool Vertices::prepareBuffers() {
   return uploadVertexData();
 }
 
-bool Vertices::bindOrUnbind(bool bind) {
+bool Vertices::bindOrUnbind(bool bind) const {
   auto vbo = _vbo;
   auto ibo = _ibo;
 
@@ -108,10 +108,8 @@ bool Vertices::bindOrUnbind(bool bind) {
   return false;
 }
 
-bool Vertices::draw(size_t index) {
-  if (!prepare()) {
-    return false;
-  }
+bool Vertices::draw(size_t index) const {
+  RL_ASSERT(_state == gl::GLResourceState::Ready);
 
   if (!bindOrUnbind(true)) {
     return false;

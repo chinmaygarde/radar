@@ -25,7 +25,9 @@ class PrimitivesCache {
   enum class PrimitiveType {
     None,
     Box,
+    BoxStroke,
     Path,
+    PathStroke,
   };
 
   PrimitivesCache();

@@ -41,11 +41,12 @@ class PathVertices : public Vertices {
 
  private:
   geom::Size _size;
-
+  const ElementType _type;
   std::vector<gl::GLPoint> _vertices;
   std::vector<GLshort> _elements;
 
-  bool doDraw(size_t index) override;
+  bool doDraw(size_t index) const override;
+
   bool uploadVertexData() override;
 
   RL_DISALLOW_COPY_AND_ASSIGN(PathVertices);

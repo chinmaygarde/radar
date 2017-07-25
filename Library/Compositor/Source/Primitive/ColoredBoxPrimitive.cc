@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "ColoredBoxPrimitive.h"
 #include <Compositor/Frame.h>
+#include "ColoredBoxPrimitive.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
 #include "Vertices/BoxVertices.h"
@@ -16,7 +16,9 @@ ColoredBoxPrimitive::ColoredBoxPrimitive(entity::Color color) : _color(color) {}
 
 ColoredBoxPrimitive::~ColoredBoxPrimitive() = default;
 
-void ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {}
+bool ColoredBoxPrimitive::prepareToRender(BackEndPass& backEndPass) {
+  return true;
+}
 
 bool ColoredBoxPrimitive::render(Frame& frame) const {
   /*

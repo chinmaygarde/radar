@@ -17,7 +17,7 @@ class ColoredBoxPrimitive : public Primitive {
 
   ~ColoredBoxPrimitive() override;
 
-  void prepareToRender(BackEndPass& backEndPass) override;
+  bool prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
 

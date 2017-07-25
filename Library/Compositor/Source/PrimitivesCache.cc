@@ -3,11 +3,13 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "PrimitivesCache.h"
 #include "Primitive/ColoredBoxPrimitive.h"
+#include "Primitive/ColoredBoxStrokePrimitive.h"
 #include "Primitive/ColoredPathPrimitive.h"
+#include "Primitive/ColoredPathStrokePrimitive.h"
 #include "Primitive/TexturedBoxPrimitive.h"
 #include "Primitive/TexturedPathPrimitive.h"
+#include "PrimitivesCache.h"
 
 namespace rl {
 namespace compositor {
@@ -68,15 +70,18 @@ std::shared_ptr<Primitive> PrimitivesCache::createColoredPrimitive(
   switch (type) {
     case PrimitiveType::Box:
       return std::make_shared<ColoredBoxPrimitive>(entity.backgroundColor());
-
+    case PrimitiveType::BoxStroke:
+      return std::make_shared<ColoredBoxStrokePrimitive>(entity.strokeColor(),
+                                                         entity.strokeSize());
     case PrimitiveType::Path:
       return std::make_shared<ColoredPathPrimitive>(entity.backgroundColor(),
                                                     entity.path());
-
+    case PrimitiveType::PathStroke:
+      return std::make_shared<ColoredPathStrokePrimitive>(
+          entity.path(), entity.strokeColor(), entity.strokeSize());
     case PrimitiveType::None:
       return nullptr;
   }
-
   return nullptr;
 }
 
@@ -86,11 +91,15 @@ std::shared_ptr<Primitive> PrimitivesCache::createTexturedPrimitive(
   switch (type) {
     case PrimitiveType::Box:
       return std::make_shared<TexturedBoxPrimitive>(entity.contents());
-
+    case PrimitiveType::BoxStroke:
+      RL_ASSERT("Textured box strokes are not supported");
+      return nullptr;
     case PrimitiveType::Path:
       return std::make_shared<TexturedPathPrimitive>(entity.contents(),
                                                      entity.path());
-
+    case PrimitiveType::PathStroke:
+      RL_ASSERT("Textured strokes are not supported.");
+      return nullptr;
     case PrimitiveType::None:
       return nullptr;
   }

@@ -64,7 +64,7 @@ Point LinearPathComponent::solve(double time) const {
   };
 }
 
-std::vector<Point> LinearPathComponent::tessellate() const {
+std::vector<Point> LinearPathComponent::smoothen() const {
   return {p1, p2};
 }
 
@@ -86,10 +86,10 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
   };
 }
 
-std::vector<Point> QuadraticPathComponent::tessellate(
-    const TessellationApproximation& approximation) const {
+std::vector<Point> QuadraticPathComponent::smoothen(
+    const SmoothingApproximation& approximation) const {
   CubicPathComponent elevated(*this);
-  return elevated.tessellate(approximation);
+  return elevated.smoothen(approximation);
 }
 
 std::vector<Point> QuadraticPathComponent::extrema() const {
@@ -111,14 +111,13 @@ Point CubicPathComponent::solveDerivative(double time) const {
   };
 }
 
-static void CubicPathTessellateRecursive(
-    const TessellationApproximation& approx,
-    std::vector<Point>& points,
-    Point p1,
-    Point p2,
-    Point p3,
-    Point p4,
-    size_t level) {
+static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
+                                       std::vector<Point>& points,
+                                       Point p1,
+                                       Point p2,
+                                       Point p3,
+                                       Point p4,
+                                       size_t level) {
   if (level >= kRecursionLimit) {
     return;
   }
@@ -327,19 +326,19 @@ static void CubicPathTessellateRecursive(
   /*
    *  Continue subdivision
    */
-  CubicPathTessellateRecursive(approx, points, p1, p12, p123, p1234, level + 1);
-  CubicPathTessellateRecursive(approx, points, p1234, p234, p34, p4, level + 1);
+  CubicPathSmoothenRecursive(approx, points, p1, p12, p123, p1234, level + 1);
+  CubicPathSmoothenRecursive(approx, points, p1234, p234, p34, p4, level + 1);
 }
 
-std::vector<Point> CubicPathComponent::tessellate(
-    const TessellationApproximation& approximation) const {
+std::vector<Point> CubicPathComponent::smoothen(
+    const SmoothingApproximation& approximation) const {
   /*
    *  As described in
    *  http://www.antigrain.com/research/adaptive_bezier/index.html
    */
   std::vector<Point> points;
   points.emplace_back(p1);
-  CubicPathTessellateRecursive(approximation, points, p1, cp1, cp2, p2, 0);
+  CubicPathSmoothenRecursive(approximation, points, p1, cp1, cp2, p2, 0);
   points.emplace_back(p2);
   return points;
 }
@@ -352,11 +351,11 @@ static inline bool NearZero(double a) {
   return NearEqual(a, 0.0, 1e-12);
 }
 
-static void CubicPathBoundingPopulateT(std::vector<double>& values,
-                                       double p1,
-                                       double p2,
-                                       double p3,
-                                       double p4) {
+static void CubicPathBoundingPopulateValues(std::vector<double>& values,
+                                            double p1,
+                                            double p2,
+                                            double p3,
+                                            double p4) {
   const double a = 3.0 * (-p1 + 3.0 * p2 - 3.0 * p3 + p4);
   const double b = 6.0 * (p1 - 2.0 * p2 + p3);
   const double c = 3.0 * (p2 - p1);
@@ -405,8 +404,8 @@ std::vector<Point> CubicPathComponent::extrema() const {
    */
   std::vector<double> values;
 
-  CubicPathBoundingPopulateT(values, p1.x, cp1.x, cp2.x, p2.x);
-  CubicPathBoundingPopulateT(values, p1.y, cp1.y, cp2.y, p2.y);
+  CubicPathBoundingPopulateValues(values, p1.x, cp1.x, cp2.x, p2.x);
+  CubicPathBoundingPopulateValues(values, p1.y, cp1.y, cp2.y, p2.y);
 
   std::vector<Point> points;
 

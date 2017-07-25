@@ -3,32 +3,31 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "TexturedPathPrimitive.h"
 #include <Compositor/BackendPass.h>
 #include "ProgramCatalog.h"
-#include "Texture.h"
+#include "TexturedPathPrimitive.h"
 #include "Uniform.h"
-#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
 
 TexturedPathPrimitive::TexturedPathPrimitive(image::Image image,
                                              const geom::Path& path)
-    : _texture(std::make_shared<Texture>(std::move(image))),
-      _pathVertices(std::make_unique<PathVertices>(
-          path,
-          PathVertices::Winding::Odd,
-          PathVertices::ElementType::Polygons)) {}
+    : _vertices(path,
+                PathVertices::Winding::Odd,
+                PathVertices::ElementType::Polygons),
+      _texture(std::make_shared<Texture>(std::move(image))) {}
 
 TexturedPathPrimitive::~TexturedPathPrimitive() = default;
 
-void TexturedPathPrimitive::prepareToRender(BackEndPass& backEndPass) {
+bool TexturedPathPrimitive::prepareToRender(BackEndPass& backEndPass) {
+  _texture = backEndPass.prepareTexture(_texture);
+
   if (_texture == nullptr) {
-    return;
+    return false;
   }
 
-  _texture = backEndPass.prepareTexture(_texture);
+  return _vertices.prepare();
 }
 
 bool TexturedPathPrimitive::render(Frame& frame) const {
@@ -53,13 +52,13 @@ bool TexturedPathPrimitive::render(Frame& frame) const {
    */
   SetUniform(program.modelViewProjectionUniform(),
              frame.projectionMatrix() * _modelViewMatrix);
-  SetUniform(program.sizeUniform(), _pathVertices->size());
+  SetUniform(program.sizeUniform(), _vertices.size());
   SetUniform(program.alphaUniform(), _opacity);
 
   /**
    *  Draw vertices.
    */
-  return _pathVertices->draw(program.positionAttribute());
+  return _vertices.draw(program.positionAttribute());
 }
 
 }  // namespace compositor

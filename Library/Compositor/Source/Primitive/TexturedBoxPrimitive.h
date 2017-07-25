@@ -20,7 +20,7 @@ class TexturedBoxPrimitive : public Primitive {
 
   ~TexturedBoxPrimitive() override;
 
-  void prepareToRender(BackEndPass& backEndPass) override;
+  bool prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
 

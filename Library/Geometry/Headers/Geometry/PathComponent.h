@@ -12,6 +12,26 @@
 namespace rl {
 namespace geom {
 
+struct SmoothingApproximation {
+  const double scale;
+  const double angleTolerance;
+  const double cuspLimit;
+  const double distanceToleranceSquare;
+
+  SmoothingApproximation(/* default */)
+      : SmoothingApproximation(1.0 /* scale */,
+                               0.0 /* angle tolerance */,
+                               0.0 /* cusp limit */) {}
+
+  SmoothingApproximation(double pScale,
+                         double pAngleTolerance,
+                         double pCuspLimit)
+      : scale(pScale),
+        angleTolerance(pAngleTolerance),
+        cuspLimit(pCuspLimit),
+        distanceToleranceSquare(0.5 * pScale * 0.5 * pScale) {}
+};
+
 struct LinearPathComponent {
   Point p1;
   Point p2;
@@ -22,33 +42,13 @@ struct LinearPathComponent {
 
   Point solve(double time) const;
 
-  std::vector<Point> tessellate() const;
+  std::vector<Point> smoothen() const;
 
   std::vector<Point> extrema() const;
 
   bool operator==(const LinearPathComponent& other) const {
     return p1 == other.p1 && p2 == other.p2;
   };
-};
-
-struct TessellationApproximation {
-  const double scale;
-  const double angleTolerance;
-  const double cuspLimit;
-  const double distanceToleranceSquare;
-
-  TessellationApproximation(/* default */)
-      : TessellationApproximation(1.0 /* scale */,
-                                  0.0 /* angle tolerance */,
-                                  0.0 /* cusp limit */) {}
-
-  TessellationApproximation(double pScale,
-                            double pAngleTolerance,
-                            double pCuspLimit)
-      : scale(pScale),
-        angleTolerance(pAngleTolerance),
-        cuspLimit(pCuspLimit),
-        distanceToleranceSquare(0.5 * pScale * 0.5 * pScale) {}
 };
 
 struct QuadraticPathComponent {
@@ -65,8 +65,8 @@ struct QuadraticPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> tessellate(
-      const TessellationApproximation& approximation) const;
+  std::vector<Point> smoothen(
+      const SmoothingApproximation& approximation) const;
 
   std::vector<Point> extrema() const;
 
@@ -96,8 +96,8 @@ struct CubicPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> tessellate(
-      const TessellationApproximation& approximation) const;
+  std::vector<Point> smoothen(
+      const SmoothingApproximation& approximation) const;
 
   std::vector<Point> extrema() const;
 

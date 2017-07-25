@@ -41,10 +41,11 @@ struct Size {
 
   Size unionWith(const Size& o) const {
     return {
-        std::max(width, o.width),  //
-        std::max(height, o.height),
+        std::max(width, o.width), std::max(height, o.height),
     };
   }
+
+  bool isZero() const { return width * height == 0.0; }
 
   std::string toString() const;
 

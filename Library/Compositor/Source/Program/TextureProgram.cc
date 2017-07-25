@@ -42,12 +42,7 @@ static const char TextureFragmentShader[] = R"--(
   )--";
 
 TextureProgram::TextureProgram()
-    : Program::Program(TextureVertexShader, TextureFragmentShader),
-      _modelViewProjectionUniform(-1),
-      _sizeUniform(-1),
-      _alphaUniform(-1),
-      _textureUniform(-1),
-      _positionAttribute(-1) {}
+    : Program::Program(TextureVertexShader, TextureFragmentShader) {}
 
 void TextureProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");

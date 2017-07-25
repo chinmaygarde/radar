@@ -12,6 +12,7 @@ Entity::Entity(core::Name identifier, UpdateCallback updateCallback)
     : _identifier(identifier),
       _anchorPoint(geom::Point(0.5, 0.5)),
       _opacity(1.0),
+      _strokeSize(1.0),
       _updateCallback(updateCallback) {}
 
 Entity::Entity(Entity&&) = default;

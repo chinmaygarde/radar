@@ -62,10 +62,10 @@ static std::pair<bool, geom::Size> PopulateContoursWithPath(
   }
 
   /*
-   *  Tessellate path.
+   *  Smoothen path.
    */
-  geom::TessellationApproximation defaultApproximation;
-  auto tessellatedPoints = path.tessellate(defaultApproximation);
+  geom::SmoothingApproximation defaultApproximation;
+  auto tessellatedPoints = path.smoothen(defaultApproximation);
 
   if (tessellatedPoints.size() == 0) {
     return {false, {}};
@@ -93,7 +93,7 @@ static void DestroyTessellator(TESStesselator* tessellator) {
 PathVertices::PathVertices(const geom::Path& path,
                            Winding winding,
                            ElementType elementType)
-    : Vertices(Vertices::Type::ElementArray) {
+    : Vertices(Vertices::Type::ElementArray), _type(elementType) {
   if (path.componentCount() == 0) {
     return;
   }
@@ -172,14 +172,35 @@ bool PathVertices::uploadVertexData() {
   return true;
 }
 
-bool PathVertices::doDraw(size_t index) {
+static GLenum GLModeForElementType(PathVertices::ElementType type) {
+  const auto showPathMesh = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false);
+
+  if (showPathMesh) {
+    return GL_LINES;
+  }
+
+  switch (type) {
+    case PathVertices::ElementType::Polygons:
+      return GL_TRIANGLES;
+    case PathVertices::ElementType::BoundaryContours:
+      return GL_LINES;
+    case PathVertices::ElementType::ConnectedPolygons:
+      /*
+       *  Unimplemented.
+       */
+      RL_ASSERT(false);
+      break;
+  }
+
+  return GL_LINES;
+}
+
+bool PathVertices::doDraw(size_t index) const {
   glVertexAttribPointer(index, kVertexSize, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   glEnableVertexAttribArray(index);
 
-  auto showPathMesh = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false);
-
-  glDrawElements(showPathMesh ? GL_LINES : GL_TRIANGLES, _elements.size(),
+  glDrawElements(GLModeForElementType(_type), _elements.size(),
                  GL_UNSIGNED_SHORT, nullptr);
 
   glDisableVertexAttribArray(index);

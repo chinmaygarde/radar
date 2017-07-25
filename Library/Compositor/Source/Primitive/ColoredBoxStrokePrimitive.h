@@ -6,30 +6,27 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <Geometry/Path.h>
-#include <Image/Image.h>
+#include <Entity/Color.h>
 #include "Primitive.h"
-#include "Texture.h"
-#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
 
-class TexturedPathPrimitive : public Primitive {
+class ColoredBoxStrokePrimitive : public Primitive {
  public:
-  TexturedPathPrimitive(image::Image image, const geom::Path& path);
+  ColoredBoxStrokePrimitive(entity::Color color, double size);
 
-  ~TexturedPathPrimitive() override;
-
- private:
-  PathVertices _vertices;
-  std::shared_ptr<Texture> _texture;
+  ~ColoredBoxStrokePrimitive() override;
 
   bool prepareToRender(BackEndPass& backEndPass) override;
 
   bool render(Frame& frame) const override;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(TexturedPathPrimitive);
+ private:
+  const entity::Color _color;
+  const double _size;
+
+  RL_DISALLOW_COPY_AND_ASSIGN(ColoredBoxStrokePrimitive);
 };
 
 }  // namespace compositor

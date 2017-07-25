@@ -10,6 +10,8 @@ namespace compositor {
 
 const double Primitive::AlphaThreshold = 1e-3;
 
+const double Primitive::StrokeThreshold = 1e-3;
+
 Primitive::Primitive() : _opacity(1.0) {}
 
 Primitive::~Primitive() = default;

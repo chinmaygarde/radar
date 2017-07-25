@@ -31,7 +31,7 @@ void FrontEndPass::addPrimitive(std::shared_ptr<Primitive> primitive) {
 
 bool FrontEndPass::prepareInBackendPass(BackEndPass& pass) {
   for (const auto& primitive : _primitives) {
-    primitive->prepareToRender(pass);
+    RL_RETURN_IF_FALSE(primitive->prepareToRender(pass));
   }
 
   return true;

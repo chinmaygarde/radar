@@ -3,13 +3,12 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <string>
-#include "ColorProgram.h"
+#include "StrokeProgram.h"
 
 namespace rl {
 namespace compositor {
 
-static const char ColorVertexShader[] = R"--(
+static constexpr char kStrokeVertexShader[] = R"--(
 
   attribute vec2 A_Position;
 
@@ -20,9 +19,9 @@ static const char ColorVertexShader[] = R"--(
     gl_Position = U_MVP * vec4(A_Position * U_Size, 0.0, 1.0);
   }
 
-)--";
+  )--";
 
-static const char ColorFragmentShader[] = R"--(
+static constexpr char kStrokeFragmentShader[] = R"--(
 
 #ifdef GL_ES
   precision mediump float;
@@ -34,31 +33,33 @@ static const char ColorFragmentShader[] = R"--(
     gl_FragColor = U_ContentColor;
   }
   
-)--";
+  )--";
 
-ColorProgram::ColorProgram()
-    : Program::Program(ColorVertexShader, ColorFragmentShader) {}
+StrokeProgram::StrokeProgram()
+    : Program(kStrokeVertexShader, kStrokeFragmentShader) {}
 
-void ColorProgram::onLinkSuccess() {
+StrokeProgram::~StrokeProgram() = default;
+
+void StrokeProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_MVP");
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
   _positionAttribute = indexForAttribute("A_Position");
 }
 
-GLint ColorProgram::modelViewProjectionUniform() const {
+GLint StrokeProgram::modelViewProjectionUniform() const {
   return _modelViewProjectionUniform;
 }
 
-GLint ColorProgram::contentColorUniform() const {
+GLint StrokeProgram::contentColorUniform() const {
   return _contentColorUniform;
 }
 
-GLint ColorProgram::sizeUniform() const {
+GLint StrokeProgram::sizeUniform() const {
   return _sizeUniform;
 }
 
-GLint ColorProgram::positionAttribute() const {
+GLint StrokeProgram::positionAttribute() const {
   return _positionAttribute;
 }
 

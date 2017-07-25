@@ -18,7 +18,8 @@ class BoxVertices : public Vertices {
  private:
   const geom::Rect _boxRect;
 
-  bool doDraw(size_t index) override;
+  bool doDraw(size_t index) const override;
+
   bool uploadVertexData() override;
 
   RL_DISALLOW_COPY_AND_ASSIGN(BoxVertices);

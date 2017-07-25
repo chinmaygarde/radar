@@ -32,6 +32,7 @@ class Program {
    *
    *  @return if program use was successful
    */
+  RL_WARN_UNUSED_RESULT
   bool use();
 
  protected:
