@@ -17,7 +17,9 @@ class StrokeProgram : public Program {
 
   ~StrokeProgram() override;
 
-  GLint modelViewProjectionUniform() const;
+  GLint modelViewUniform() const;
+
+  GLint projectionUniform() const;
 
   GLint contentColorUniform() const;
 
@@ -26,7 +28,8 @@ class StrokeProgram : public Program {
   GLint positionAttribute() const;
 
  private:
-  GLint _modelViewProjectionUniform = -1;
+  GLint _modelViewUniform = -1;
+  GLint _projectionUniform = -1;
   GLint _contentColorUniform = -1;
   GLint _sizeUniform = -1;
   GLint _positionAttribute = -1;

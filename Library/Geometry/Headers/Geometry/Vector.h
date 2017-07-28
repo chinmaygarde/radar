@@ -37,7 +37,7 @@ struct Vector3 {
    *
    *  @return the calculated length.
    */
-  double length() const;
+  double length() const { return sqrt(x * x + y * y + z * z); }
 
   Vector3 normalize() const;
 

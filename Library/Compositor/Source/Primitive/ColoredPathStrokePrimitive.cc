@@ -35,8 +35,8 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
    */
   SetUniform(program.contentColorUniform(), _color, _opacity);
   SetUniform(program.sizeUniform(), _vertices.size());
-  SetUniform(program.modelViewProjectionUniform(),
-             frame.projectionMatrix() * _modelViewMatrix);
+  SetUniform(program.modelViewUniform(), _modelViewMatrix);
+  SetUniform(program.projectionUniform(), frame.projectionMatrix());
 
   /**
    *  Draw vertices.

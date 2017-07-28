@@ -167,7 +167,14 @@ void PathVertices::setupFill(const geom::Path& path) {
   }
 }
 
-void PathVertices::setupStroke(const geom::Path& path) {}
+void PathVertices::setupStroke(const geom::Path& path) {
+  _size = path.boundingBox().size;
+  geom::SmoothingApproximation defaultApproximation;
+  auto points = path.smoothPoints(defaultApproximation);
+  for (const auto& point : points) {
+    _vertices.emplace_back(point.x / _size.width, point.y / _size.height);
+  }
+}
 
 PathVertices::~PathVertices() = default;
 
@@ -184,28 +191,13 @@ bool PathVertices::uploadVertexData() {
                _vertices.size() * sizeof(decltype(_vertices)::value_type),
                _vertices.data(), GL_STATIC_DRAW);
 
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               _elements.size() * sizeof(decltype(_elements)::value_type),
-               _elements.data(), GL_STATIC_DRAW);
+  if (_elements.size() > 0) {
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 _elements.size() * sizeof(decltype(_elements)::value_type),
+                 _elements.data(), GL_STATIC_DRAW);
+  }
 
   return true;
-}
-
-static GLenum GLModeForElementType(PathVertices::Type type) {
-  const auto showPathMesh = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false);
-
-  if (showPathMesh) {
-    return GL_LINES;
-  }
-
-  switch (type) {
-    case PathVertices::Type::Fill:
-      return GL_TRIANGLES;
-    case PathVertices::Type::Stroke:
-      return GL_LINES;
-  }
-
-  return GL_LINES;
 }
 
 bool PathVertices::doDraw(size_t index) const {
@@ -213,8 +205,17 @@ bool PathVertices::doDraw(size_t index) const {
 
   glEnableVertexAttribArray(index);
 
-  glDrawElements(GLModeForElementType(_type), _elements.size(),
-                 GL_UNSIGNED_SHORT, nullptr);
+  switch (_type) {
+    case PathVertices::Type::Fill: {
+      GLenum mode = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false)
+                        ? GL_TRIANGLES
+                        : GL_LINES;
+      glDrawElements(mode, _elements.size(), GL_UNSIGNED_SHORT, nullptr);
+    } break;
+    case PathVertices::Type::Stroke: {
+      glDrawArrays(GL_LINE_STRIP, 0, _vertices.size());
+    } break;
+  }
 
   glDisableVertexAttribArray(index);
 
