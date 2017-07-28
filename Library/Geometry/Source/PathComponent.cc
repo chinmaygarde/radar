@@ -111,6 +111,11 @@ Point CubicPathComponent::solveDerivative(double time) const {
   };
 }
 
+/*
+ *  Paul de Casteljau's subdivision with modifications as described in
+ *  http://www.antigrain.com/research/adaptive_bezier/index.html.
+ *  Refer to the diagram on that page for a description of the points.
+ */
 static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
                                        std::vector<Point>& points,
                                        Point p1,
@@ -149,7 +154,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
           static_cast<int>(d3 > kCurveCollinearityEpsilon)) {
     case 0:
       /*
-       *  All collinear OR p1 == p4
+       *  All collinear OR p1 == p4.
        */
       k = d.x * d.x + d.y * d.y;
       if (k == 0) {
@@ -166,7 +171,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
 
         if (d2 > 0 && d2 < 1 && d3 > 0 && d3 < 1) {
           /*
-           *  Simple collinear case, 1---2---3---4. Leave just two endpoints
+           *  Simple collinear case, 1---2---3---4. Leave just two endpoints.
            */
           return;
         }
@@ -202,7 +207,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
       break;
     case 1:
       /*
-       *  p1, p2, p4 are collinear, p3 is significant
+       *  p1, p2, p4 are collinear, p3 is significant.
        */
       if (d3 * d3 <= approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
         if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
@@ -211,7 +216,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
         }
 
         /*
-         *  Angle Condition
+         *  Angle Condition.
          */
         da1 = ::fabs(::atan2(p4.y - p3.y, p4.x - p3.x) -
                      ::atan2(p3.y - p2.y, p3.x - p2.x));
@@ -237,7 +242,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
 
     case 2:
       /*
-       *  p1,p3,p4 are collinear, p2 is significant
+       *  p1,p3,p4 are collinear, p2 is significant.
        */
       if (d2 * d2 <= approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
         if (approx.angleTolerance < kCurveAngleToleranceEpsilon) {
@@ -246,7 +251,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
         }
 
         /*
-         *  Angle Condition
+         *  Angle Condition.
          */
         da1 = ::fabs(::atan2(p3.y - p2.y, p3.x - p2.x) -
                      ::atan2(p2.y - p1.y, p2.x - p1.x));
@@ -272,7 +277,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
 
     case 3:
       /*
-       *  Regular case
+       *  Regular case.
        */
       if ((d2 + d3) * (d2 + d3) <=
           approx.distanceToleranceSquare * (d.x * d.x + d.y * d.y)) {
@@ -286,7 +291,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
         }
 
         /*
-         *  Angle & Cusp Condition
+         *  Angle & Cusp Condition.
          */
         k = ::atan2(p3.y - p2.y, p3.x - p2.x);
         da1 = ::fabs(k - ::atan2(p2.y - p1.y, p2.x - p1.x));
@@ -302,7 +307,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
 
         if (da1 + da2 < approx.angleTolerance) {
           /*
-           *  Finally we can stop the recursion
+           *  Finally we can stop the recursion.
            */
           points.emplace_back(p23);
           return;
@@ -324,7 +329,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
   }
 
   /*
-   *  Continue subdivision
+   *  Continue subdivision.
    */
   CubicPathSmoothenRecursive(approx, points, p1, p12, p123, p1234, level + 1);
   CubicPathSmoothenRecursive(approx, points, p1234, p234, p34, p4, level + 1);
@@ -332,10 +337,6 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
 
 std::vector<Point> CubicPathComponent::smoothPoints(
     const SmoothingApproximation& approximation) const {
-  /*
-   *  As described in
-   *  http://www.antigrain.com/research/adaptive_bezier/index.html
-   */
   std::vector<Point> points;
   points.emplace_back(p1);
   CubicPathSmoothenRecursive(approximation, points, p1, cp1, cp2, p2, 0);
