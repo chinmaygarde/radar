@@ -14,9 +14,7 @@ namespace compositor {
 
 ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
                                            const geom::Path& path)
-    : _vertices(path,
-                PathVertices::Winding::Odd,
-                PathVertices::ElementType::Polygons),
+    : _vertices(path, PathVertices::Type::Fill, PathVertices::Winding::Odd),
       _color(color) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;

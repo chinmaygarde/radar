@@ -59,7 +59,7 @@ class Path : public core::MessageSerializable {
 
   bool updateCubicComponentAtIndex(size_t index, CubicPathComponent& cubic);
 
-  std::vector<Point> smoothen(
+  std::vector<Point> smoothPoints(
       const SmoothingApproximation& approximation) const;
 
   Rect boundingBox() const;

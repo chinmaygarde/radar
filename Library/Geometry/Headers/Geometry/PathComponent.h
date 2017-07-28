@@ -42,7 +42,7 @@ struct LinearPathComponent {
 
   Point solve(double time) const;
 
-  std::vector<Point> smoothen() const;
+  std::vector<Point> smoothPoints() const;
 
   std::vector<Point> extrema() const;
 
@@ -65,7 +65,7 @@ struct QuadraticPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> smoothen(
+  std::vector<Point> smoothPoints(
       const SmoothingApproximation& approximation) const;
 
   std::vector<Point> extrema() const;
@@ -96,7 +96,7 @@ struct CubicPathComponent {
 
   Point solveDerivative(double time) const;
 
-  std::vector<Point> smoothen(
+  std::vector<Point> smoothPoints(
       const SmoothingApproximation& approximation) const;
 
   std::vector<Point> extrema() const;

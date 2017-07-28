@@ -64,7 +64,7 @@ Point LinearPathComponent::solve(double time) const {
   };
 }
 
-std::vector<Point> LinearPathComponent::smoothen() const {
+std::vector<Point> LinearPathComponent::smoothPoints() const {
   return {p1, p2};
 }
 
@@ -86,10 +86,10 @@ Point QuadraticPathComponent::solveDerivative(double time) const {
   };
 }
 
-std::vector<Point> QuadraticPathComponent::smoothen(
+std::vector<Point> QuadraticPathComponent::smoothPoints(
     const SmoothingApproximation& approximation) const {
   CubicPathComponent elevated(*this);
-  return elevated.smoothen(approximation);
+  return elevated.smoothPoints(approximation);
 }
 
 std::vector<Point> QuadraticPathComponent::extrema() const {
@@ -330,7 +330,7 @@ static void CubicPathSmoothenRecursive(const SmoothingApproximation& approx,
   CubicPathSmoothenRecursive(approx, points, p1234, p234, p34, p4, level + 1);
 }
 
-std::vector<Point> CubicPathComponent::smoothen(
+std::vector<Point> CubicPathComponent::smoothPoints(
     const SmoothingApproximation& approximation) const {
   /*
    *  As described in

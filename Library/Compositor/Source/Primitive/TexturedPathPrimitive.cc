@@ -13,9 +13,7 @@ namespace compositor {
 
 TexturedPathPrimitive::TexturedPathPrimitive(image::Image image,
                                              const geom::Path& path)
-    : _vertices(path,
-                PathVertices::Winding::Odd,
-                PathVertices::ElementType::Polygons),
+    : _vertices(path, PathVertices::Type::Fill, PathVertices::Winding::Odd),
       _texture(std::make_shared<Texture>(std::move(image))) {}
 
 TexturedPathPrimitive::~TexturedPathPrimitive() = default;

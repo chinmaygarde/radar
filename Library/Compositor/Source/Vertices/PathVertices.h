@@ -23,15 +23,12 @@ class PathVertices : public Vertices {
     AbsGeqTwo,
   };
 
-  enum class ElementType {
-    Polygons,
-    ConnectedPolygons,
-    BoundaryContours,
+  enum class Type {
+    Fill,
+    Stroke,
   };
 
-  PathVertices(const geom::Path& path,
-               Winding winding,
-               ElementType elementType);
+  PathVertices(const geom::Path& path, Type type, Winding winding);
 
   ~PathVertices();
 
@@ -41,13 +38,18 @@ class PathVertices : public Vertices {
 
  private:
   geom::Size _size;
-  const ElementType _type;
+  const Type _type;
+  const Winding _winding;
   std::vector<gl::GLPoint> _vertices;
   std::vector<GLshort> _elements;
 
   bool doDraw(size_t index) const override;
 
   bool uploadVertexData() override;
+
+  void setupFill(const geom::Path& path);
+
+  void setupStroke(const geom::Path& path);
 
   RL_DISALLOW_COPY_AND_ASSIGN(PathVertices);
 };

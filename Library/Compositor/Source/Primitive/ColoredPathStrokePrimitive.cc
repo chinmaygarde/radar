@@ -14,9 +14,7 @@ namespace compositor {
 ColoredPathStrokePrimitive::ColoredPathStrokePrimitive(const geom::Path& path,
                                                        entity::Color color,
                                                        double size)
-    : _vertices(path,
-                PathVertices::Winding::Odd,
-                PathVertices::ElementType::BoundaryContours),
+    : _vertices(path, PathVertices::Type::Stroke, PathVertices::Winding::Odd),
       _color(color) {}
 
 ColoredPathStrokePrimitive::~ColoredPathStrokePrimitive() = default;
