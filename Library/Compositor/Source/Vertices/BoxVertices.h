@@ -15,10 +15,10 @@ class BoxVertices : public Vertices {
  public:
   BoxVertices(geom::Rect boxRect);
 
+  bool draw(size_t positionAttributeIndex) const;
+
  private:
   const geom::Rect _boxRect;
-
-  bool doDraw(size_t index) const override;
 
   bool uploadVertexData() override;
 

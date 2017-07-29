@@ -45,7 +45,7 @@ class Primitive {
   RL_DEBUG_THREAD_GUARD(_guard);
   geom::Size _size;
   geom::Matrix _modelViewMatrix;
-  double _opacity;
+  double _opacity = 1.0;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);

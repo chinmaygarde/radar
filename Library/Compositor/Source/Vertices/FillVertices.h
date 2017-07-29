@@ -6,14 +6,14 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <GLFoundation/GLFoundation.h>
 #include <Geometry/Path.h>
+#include <vector>
 #include "Vertices/Vertices.h"
 
 namespace rl {
 namespace compositor {
 
-class PathVertices : public Vertices {
+class FillVertices : public Vertices {
  public:
   enum class Winding {
     Odd,
@@ -23,35 +23,22 @@ class PathVertices : public Vertices {
     AbsGeqTwo,
   };
 
-  enum class Type {
-    Fill,
-    Stroke,
-  };
+  FillVertices(const geom::Path& path, Winding winding);
 
-  PathVertices(const geom::Path& path, Type type, Winding winding);
-
-  ~PathVertices();
+  ~FillVertices() override;
 
   const geom::Size& size() const;
 
-  bool hasVerticesAndElements() const;
+  bool draw(size_t positionAttributeIndex) const;
 
  private:
   geom::Size _size;
-  const Type _type;
-  const Winding _winding;
   std::vector<gl::GLPoint> _vertices;
   std::vector<GLshort> _elements;
 
-  bool doDraw(size_t index) const override;
-
   bool uploadVertexData() override;
 
-  void setupFill(const geom::Path& path);
-
-  void setupStroke(const geom::Path& path);
-
-  RL_DISALLOW_COPY_AND_ASSIGN(PathVertices);
+  RL_DISALLOW_COPY_AND_ASSIGN(FillVertices);
 };
 
 }  // namespace compositor

@@ -28,16 +28,16 @@ bool BoxVertices::uploadVertexData() {
   return true;
 }
 
-bool BoxVertices::doDraw(size_t index) const {
-  RL_GLAssert("There must be no errors before drawing box vertices");
+bool BoxVertices::draw(size_t positionAttributeIndex) const {
+  auto bound = bindBuffer();
 
-  glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+  if (!bound) {
+    return false;
+  }
 
-  glEnableVertexAttribArray(index);
+  auto autoDisable = enableAttribute(positionAttributeIndex, 2, GL_FLOAT, 0, 0);
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-  glDisableVertexAttribArray(index);
 
   return true;
 }

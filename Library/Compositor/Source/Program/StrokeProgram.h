@@ -17,22 +17,25 @@ class StrokeProgram : public Program {
 
   ~StrokeProgram() override;
 
-  GLint modelViewUniform() const;
-
-  GLint projectionUniform() const;
+  GLint modelViewProjectionUniform() const;
 
   GLint contentColorUniform() const;
 
   GLint sizeUniform() const;
 
+  GLint strokeSizeUniform() const;
+
   GLint positionAttribute() const;
 
+  GLint normalAttribute() const;
+
  private:
-  GLint _modelViewUniform = -1;
-  GLint _projectionUniform = -1;
+  GLint _modelViewProjectionUniform = -1;
   GLint _contentColorUniform = -1;
   GLint _sizeUniform = -1;
+  GLint _strokeSizeUniform = -1;
   GLint _positionAttribute = -1;
+  GLint _normalAttribute = -1;
 
   void onLinkSuccess() override;
 

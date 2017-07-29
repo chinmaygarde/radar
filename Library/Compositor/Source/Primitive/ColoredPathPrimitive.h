@@ -8,7 +8,7 @@
 #include <Core/Macros.h>
 #include <Geometry/Path.h>
 #include "Primitive.h"
-#include "Vertices/PathVertices.h"
+#include "Vertices/FillVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -20,7 +20,7 @@ class ColoredPathPrimitive : public Primitive {
   ~ColoredPathPrimitive() override;
 
  private:
-  PathVertices _vertices;
+  FillVertices _vertices;
   entity::Color _color;
 
   bool prepareToRender(BackEndPass& backEndPass) override;

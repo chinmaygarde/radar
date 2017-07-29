@@ -42,6 +42,8 @@ class ConsoleRenderer {
 
   void getValue(const char* label, bool* current);
 
+  void getRange(const char* label, float* value, float minimum, float maximum);
+
  private:
   core::Mutex _libraryMutex;
   bool _setupComplete;

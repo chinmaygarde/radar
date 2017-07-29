@@ -56,6 +56,12 @@ void GetValue(const char* label, bool* current) {
   }
 }
 
+void GetRange(const char* label, float* value, float min, float max) {
+  if (auto renderer = ConsoleRenderer::GetCurrent()) {
+    renderer->getRange(label, value, min, max);
+  }
+}
+
 }  // namespace console
 }  // namespace compositor
 }  // namespace rl

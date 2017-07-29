@@ -9,7 +9,7 @@
 #include <Entity/Color.h>
 #include <Geometry/Path.h>
 #include "Primitive.h"
-#include "Vertices/PathVertices.h"
+#include "Vertices/StrokeVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -27,8 +27,9 @@ class ColoredPathStrokePrimitive : public Primitive {
   bool render(Frame& frame) const override;
 
  private:
-  PathVertices _vertices;
+  StrokeVertices _vertices;
   const entity::Color _color;
+  double _strokeSize;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredPathStrokePrimitive);
 };

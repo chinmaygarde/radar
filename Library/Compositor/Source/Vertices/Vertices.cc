@@ -108,18 +108,21 @@ bool Vertices::bindOrUnbind(bool bind) const {
   return false;
 }
 
-bool Vertices::draw(size_t index) const {
+Vertices::AutoVertexBufferUnbind Vertices::bindBuffer() const {
   RL_ASSERT(_state == gl::GLResourceState::Ready);
+  return {this};
+}
 
-  if (!bindOrUnbind(true)) {
-    return false;
-  }
-
-  bool drawn = doDraw(index);
-
-  bindOrUnbind(false);
-
-  return drawn;
+Vertices::AutoVertexAttribDisable Vertices::enableAttribute(
+    size_t index,
+    GLint componentsPerVertex,
+    GLenum typeOfComponent,
+    GLsizei stride,
+    GLsizei offset) const {
+  glVertexAttribPointer(index, componentsPerVertex, typeOfComponent,
+                        GL_FALSE /* normalized */, stride,
+                        reinterpret_cast<const GLvoid*>(offset));
+  return {index};
 }
 
 }  // namespace compositor

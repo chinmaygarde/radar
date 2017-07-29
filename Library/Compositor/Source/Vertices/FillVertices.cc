@@ -4,9 +4,8 @@
  */
 
 #include <libtess2/tesselator.h>
-#include <algorithm>
 #include "Console.h"
-#include "Vertices/PathVertices.h"
+#include "FillVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -14,27 +13,17 @@ namespace compositor {
 const int kVertexSize = 2;
 const int kPolygonSize = 3;
 
-static int ToTessElementType(PathVertices::Type type) {
-  switch (type) {
-    case PathVertices::Type::Fill:
-      return TESS_POLYGONS;
-    case PathVertices::Type::Stroke:
-      return TESS_BOUNDARY_CONTOURS;
-  }
-  return TESS_POLYGONS;
-}
-
-static int ToTessWindingRule(PathVertices::Winding winding) {
+static int ToTessWindingRule(FillVertices::Winding winding) {
   switch (winding) {
-    case PathVertices::Winding::Odd:
+    case FillVertices::Winding::Odd:
       return TESS_WINDING_ODD;
-    case PathVertices::Winding::NonZero:
+    case FillVertices::Winding::NonZero:
       return TESS_WINDING_NONZERO;
-    case PathVertices::Winding::Positive:
+    case FillVertices::Winding::Positive:
       return TESS_WINDING_POSITIVE;
-    case PathVertices::Winding::Negative:
+    case FillVertices::Winding::Negative:
       return TESS_WINDING_NEGATIVE;
-    case PathVertices::Winding::AbsGeqTwo:
+    case FillVertices::Winding::AbsGeqTwo:
       return TESS_WINDING_ABS_GEQ_TWO;
   }
   return TESS_WINDING_ODD;
@@ -88,33 +77,12 @@ static void DestroyTessellator(TESStesselator* tessellator) {
   }
 }
 
-static Vertices::Type VerticesTypeForPathType(PathVertices::Type type) {
-  switch (type) {
-    case PathVertices::Type::Fill:
-      return Vertices::Type::ElementArray;
-    case PathVertices::Type::Stroke:
-      return Vertices::Type::Array;
-  }
-  return Vertices::Type::Array;
-}
-
-PathVertices::PathVertices(const geom::Path& path, Type type, Winding winding)
-    : Vertices(VerticesTypeForPathType(type)), _type(type), _winding(winding) {
+FillVertices::FillVertices(const geom::Path& path, Winding winding)
+    : Vertices(Vertices::Type::ElementArray) {
   if (path.componentCount() == 0) {
     return;
   }
 
-  switch (type) {
-    case Type::Fill:
-      setupFill(path);
-      break;
-    case Type::Stroke:
-      setupStroke(path);
-      break;
-  }
-}
-
-void PathVertices::setupFill(const geom::Path& path) {
   using Tessellator =
       std::unique_ptr<TESStesselator, decltype(&DestroyTessellator)>;
 
@@ -135,12 +103,12 @@ void PathVertices::setupFill(const geom::Path& path) {
   /*
    *  Perform tessellation.
    */
-  auto result = tessTesselate(tessellator.get(),            // tessellator
-                              ToTessWindingRule(_winding),  // winding
-                              ToTessElementType(_type),     // element type
-                              kPolygonSize,                 // polygon size
-                              kVertexSize,                  // vertex size
-                              nullptr                       // normal
+  auto result = tessTesselate(tessellator.get(),           // tessellator
+                              ToTessWindingRule(winding),  // winding
+                              TESS_POLYGONS,               // element type
+                              kPolygonSize,                // polygon size
+                              kVertexSize,                 // vertex size
+                              nullptr                      // normal
                               );
 
   if (result != 1) {
@@ -167,57 +135,39 @@ void PathVertices::setupFill(const geom::Path& path) {
   }
 }
 
-void PathVertices::setupStroke(const geom::Path& path) {
-  _size = path.boundingBox().size;
-  geom::SmoothingApproximation defaultApproximation;
-  auto points = path.smoothPoints(defaultApproximation);
-  for (const auto& point : points) {
-    _vertices.emplace_back(point.x / _size.width, point.y / _size.height);
-  }
-}
+FillVertices::~FillVertices() = default;
 
-PathVertices::~PathVertices() = default;
-
-const geom::Size& PathVertices::size() const {
+const geom::Size& FillVertices::size() const {
   return _size;
 }
 
-bool PathVertices::hasVerticesAndElements() const {
-  return _vertices.size() > 0 && _elements.size() > 0;
-}
-
-bool PathVertices::uploadVertexData() {
+bool FillVertices::uploadVertexData() {
   glBufferData(GL_ARRAY_BUFFER,
                _vertices.size() * sizeof(decltype(_vertices)::value_type),
                _vertices.data(), GL_STATIC_DRAW);
 
-  if (_elements.size() > 0) {
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 _elements.size() * sizeof(decltype(_elements)::value_type),
-                 _elements.data(), GL_STATIC_DRAW);
-  }
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+               _elements.size() * sizeof(decltype(_elements)::value_type),
+               _elements.data(), GL_STATIC_DRAW);
 
   return true;
 }
 
-bool PathVertices::doDraw(size_t index) const {
-  glVertexAttribPointer(index, kVertexSize, GL_FLOAT, GL_FALSE, 0, nullptr);
+bool FillVertices::draw(size_t positionAttributeIndex) const {
+  auto bound = bindBuffer();
 
-  glEnableVertexAttribArray(index);
-
-  switch (_type) {
-    case PathVertices::Type::Fill: {
-      GLenum mode = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false)
-                        ? GL_TRIANGLES
-                        : GL_LINES;
-      glDrawElements(mode, _elements.size(), GL_UNSIGNED_SHORT, nullptr);
-    } break;
-    case PathVertices::Type::Stroke: {
-      glDrawArrays(GL_LINE_STRIP, 0, _vertices.size());
-    } break;
+  if (!bound) {
+    return false;
   }
 
-  glDisableVertexAttribArray(index);
+  auto autoDisable =
+      enableAttribute(positionAttributeIndex, kVertexSize, GL_FLOAT, 0, 0);
+
+  const GLenum mode = RL_CONSOLE_GET_VALUE_ONCE("Show Fill Mesh", false)
+                          ? GL_LINE_LOOP
+                          : GL_TRIANGLES;
+
+  glDrawElements(mode, _elements.size(), GL_UNSIGNED_SHORT, nullptr);
 
   return true;
 }

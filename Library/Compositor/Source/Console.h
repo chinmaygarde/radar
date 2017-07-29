@@ -18,6 +18,16 @@
     value;                                                \
   })
 
+#define RL_CONSOLE_GET_RANGE_ONCE(label, defaultValue, min, max)    \
+  ({                                                                \
+    static ::rl::compositor::console::FirstInFrame once;            \
+    static __typeof__(defaultValue) value = defaultValue;           \
+    if (IsFirstInFrame(once)) {                                     \
+      ::rl::compositor::console::GetRange(label, &value, min, max); \
+    }                                                               \
+    value;                                                          \
+  })
+
 #define RL_CONSOLE_DISPLAY_LABEL(label, ...) \
   ::rl::compositor::console::DisplayLabel(label, ##__VA_ARGS__);
 
@@ -49,6 +59,8 @@ void DisplayValue(const char* label,
                   const instrumentation::Stopwatch& stopwatch);
 
 void GetValue(const char* label, bool* current);
+
+void GetRange(const char* label, float* value, float min, float max);
 
 class AutoEndSection {
  public:

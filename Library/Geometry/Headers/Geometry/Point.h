@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Geometry/Size.h>
+#include <cmath>
 #include <string>
 
 namespace rl {
@@ -45,6 +46,8 @@ struct Point {
     double dy = p.y - y;
     return dx * dx + dy * dy;
   }
+
+  double distance(const Point& p) const { return sqrt(distanceSquared(p)); }
 
   std::string toString() const;
 

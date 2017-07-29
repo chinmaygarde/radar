@@ -39,13 +39,22 @@ struct Vector3 {
    */
   double length() const { return sqrt(x * x + y * y + z * z); }
 
-  Vector3 normalize() const;
+  Vector3 normalize() const {
+    const auto len = length();
+    return {x / len, y / len, z / len};
+  }
 
   double dot(const Vector3& other) const {
     return ((x * other.x) + (y * other.y) + (z * other.z));
   }
 
-  Vector3 cross(const Vector3& other) const;
+  Vector3 cross(const Vector3& other) const {
+    return {
+        (y * other.z) - (z * other.y),  //
+        (z * other.x) - (x * other.z),  //
+        (x * other.y) - (y * other.x)   //
+    };
+  }
 
   bool operator==(const Vector3& v) const {
     return v.x == x && v.y == y && v.z == z;
@@ -75,10 +84,16 @@ struct Vector3 {
    *
    *  @return the combined vector.
    */
-  static Vector3 Combine(const Vector3& a,
-                         double aScale,
-                         const Vector3& b,
-                         double bScale);
+  static inline Vector3 Combine(const Vector3& a,
+                                double aScale,
+                                const Vector3& b,
+                                double bScale) {
+    return {
+        aScale * a.x + bScale * b.x,  //
+        aScale * a.y + bScale * b.y,  //
+        aScale * a.z + bScale * b.z,  //
+    };
+  }
 };
 
 struct Vector4 {

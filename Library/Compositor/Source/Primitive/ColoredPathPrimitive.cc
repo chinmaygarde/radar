@@ -7,15 +7,13 @@
 #include "ColoredPathPrimitive.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
-#include "Vertices/PathVertices.h"
 
 namespace rl {
 namespace compositor {
 
 ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
                                            const geom::Path& path)
-    : _vertices(path, PathVertices::Type::Fill, PathVertices::Winding::Odd),
-      _color(color) {}
+    : _vertices(path, FillVertices::Winding::Odd), _color(color) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;
 

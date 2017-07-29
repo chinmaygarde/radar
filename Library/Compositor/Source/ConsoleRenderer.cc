@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "ConsoleRenderer.h"
 #include <Core/Utilities.h>
 #include <GLFoundation/GLFoundation.h>
 #include <imgui/imgui.h>
 #include "Console.h"
+#include "ConsoleRenderer.h"
 #include "Program/ConsoleRendererProgram.h"
 
 namespace rl {
@@ -337,6 +337,13 @@ void ConsoleRenderer::displayValue(
 
 void ConsoleRenderer::getValue(const char* label, bool* current) {
   ImGui::Checkbox(label, current);
+}
+
+void ConsoleRenderer::getRange(const char* label,
+                               float* value,
+                               float minimum,
+                               float maximum) {
+  ImGui::SliderFloat(label, value, minimum, maximum);
 }
 
 }  // namespace compositor

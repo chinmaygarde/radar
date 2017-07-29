@@ -11,13 +11,18 @@ namespace compositor {
 static constexpr char kStrokeVertexShader[] = R"--(
 
   attribute vec2 A_Position;
+  attribute vec2 A_Normal;
 
-  uniform mat4 U_ModelViewMatrix;
-  uniform mat4 U_ProjectionMatrix;
+  uniform mat4 U_ModelViewProjectionMatrix;
   uniform vec2 U_Size;
+  uniform float U_StrokeSize;
 
   void main() {
-    gl_Position = U_ProjectionMatrix * U_ModelViewMatrix * vec4(A_Position * U_Size, 0.0, 1.0);
+    vec2 strokeOffset = A_Normal * vec2(U_StrokeSize);
+
+    vec2 vertexPosition = (A_Position * U_Size) + strokeOffset;
+
+    gl_Position =  U_ModelViewProjectionMatrix * vec4(vertexPosition, 0.0, 1.0);
   }
 
   )--";
@@ -42,19 +47,16 @@ StrokeProgram::StrokeProgram()
 StrokeProgram::~StrokeProgram() = default;
 
 void StrokeProgram::onLinkSuccess() {
-  _modelViewUniform = indexForUniform("U_ModelViewMatrix");
-  _projectionUniform = indexForUniform("U_ProjectionMatrix");
+  _modelViewProjectionUniform = indexForUniform("U_ModelViewProjectionMatrix");
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
+  _strokeSizeUniform = indexForUniform("U_StrokeSize");
   _positionAttribute = indexForAttribute("A_Position");
+  _normalAttribute = indexForAttribute("A_Normal");
 }
 
-GLint StrokeProgram::modelViewUniform() const {
-  return _modelViewUniform;
-}
-
-GLint StrokeProgram::projectionUniform() const {
-  return _projectionUniform;
+GLint StrokeProgram::modelViewProjectionUniform() const {
+  return _modelViewProjectionUniform;
 }
 
 GLint StrokeProgram::contentColorUniform() const {
@@ -65,8 +67,16 @@ GLint StrokeProgram::sizeUniform() const {
   return _sizeUniform;
 }
 
+GLint StrokeProgram::strokeSizeUniform() const {
+  return _strokeSizeUniform;
+}
+
 GLint StrokeProgram::positionAttribute() const {
   return _positionAttribute;
+}
+
+GLint StrokeProgram::normalAttribute() const {
+  return _normalAttribute;
 }
 
 }  // namespace compositor

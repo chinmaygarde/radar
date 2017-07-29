@@ -10,7 +10,7 @@
 #include <Image/Image.h>
 #include "Primitive.h"
 #include "Texture.h"
-#include "Vertices/PathVertices.h"
+#include "Vertices/FillVertices.h"
 
 namespace rl {
 namespace compositor {
@@ -22,7 +22,7 @@ class TexturedPathPrimitive : public Primitive {
   ~TexturedPathPrimitive() override;
 
  private:
-  PathVertices _vertices;
+  FillVertices _vertices;
   std::shared_ptr<Texture> _texture;
 
   bool prepareToRender(BackEndPass& backEndPass) override;

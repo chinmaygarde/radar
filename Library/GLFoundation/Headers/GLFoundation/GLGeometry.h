@@ -25,6 +25,8 @@ struct GLPoint {
   GLPoint(double x1, double y1) : x(x1), y(y1) {}
 
   GLPoint(const geom::Point& p) : x(p.x), y(p.y) {}
+
+  GLPoint(const geom::Vector3& p) : x(p.x), y(p.y) {}
 };
 
 struct GLMatrix {

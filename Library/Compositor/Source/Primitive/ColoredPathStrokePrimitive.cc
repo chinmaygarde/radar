@@ -5,6 +5,7 @@
 
 #include <Compositor/Frame.h>
 #include "ColoredPathStrokePrimitive.h"
+#include "Console.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
 
@@ -14,8 +15,7 @@ namespace compositor {
 ColoredPathStrokePrimitive::ColoredPathStrokePrimitive(const geom::Path& path,
                                                        entity::Color color,
                                                        double size)
-    : _vertices(path, PathVertices::Type::Stroke, PathVertices::Winding::Odd),
-      _color(color) {}
+    : _vertices(path), _color(color), _strokeSize(size) {}
 
 ColoredPathStrokePrimitive::~ColoredPathStrokePrimitive() = default;
 
@@ -35,13 +35,18 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
    */
   SetUniform(program.contentColorUniform(), _color, _opacity);
   SetUniform(program.sizeUniform(), _vertices.size());
-  SetUniform(program.modelViewUniform(), _modelViewMatrix);
-  SetUniform(program.projectionUniform(), frame.projectionMatrix());
+
+  SetUniform(program.strokeSizeUniform(),
+             RL_CONSOLE_GET_RANGE_ONCE(
+                 "Stroke Size", static_cast<float>(_strokeSize), 0.0, 100.0));
+  SetUniform(program.modelViewProjectionUniform(),
+             _modelViewMatrix * frame.projectionMatrix());
 
   /**
    *  Draw vertices.
    */
-  bool drawn = _vertices.draw(program.positionAttribute());
+  bool drawn =
+      _vertices.draw(program.positionAttribute(), program.normalAttribute());
 
   RL_GLAssert("No errors while rendering");
 
