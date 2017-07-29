@@ -13,21 +13,21 @@ file(GLOB_RECURSE SHELL_ASSETS
   "Assets/*"
 )
 
-add_executable(MacShell
+add_executable(Radar
   ${SHELL_SRC}
   ${SHELL_ASSETS}
 )
 
 find_library(APPKIT AppKit)
 
-target_link_libraries(MacShell
+target_link_libraries(Radar
   PRIVATE
     Shell
     Samples
     ${APPKIT}
 )
 
-set_target_properties(MacShell
+set_target_properties(Radar
   PROPERTIES
     MACOSX_BUNDLE               TRUE
     RESOURCE                    "${SHELL_ASSETS}"
