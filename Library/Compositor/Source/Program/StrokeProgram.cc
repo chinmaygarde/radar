@@ -17,12 +17,16 @@ static constexpr char kStrokeVertexShader[] = R"--(
   uniform vec2 U_Size;
   uniform float U_StrokeSize;
 
+  varying vec2 V_Normal;
+
   void main() {
-    vec2 strokeOffset = A_Normal * vec2(U_StrokeSize);
+    vec2 strokeOffset = A_Normal * vec2(U_StrokeSize * 0.5);
 
     vec2 vertexPosition = (A_Position * U_Size) + strokeOffset;
 
     gl_Position =  U_ModelViewProjectionMatrix * vec4(vertexPosition, 0.0, 1.0);
+
+    V_Normal = A_Normal;
   }
 
   )--";
@@ -35,7 +39,10 @@ static constexpr char kStrokeFragmentShader[] = R"--(
 
   uniform vec4 U_ContentColor;
 
+  varying vec2 V_Normal;
+
   void main() {
+    // TODO: V_Normal must be used for anti-aliasing.
     gl_FragColor = U_ContentColor;
   }
   
