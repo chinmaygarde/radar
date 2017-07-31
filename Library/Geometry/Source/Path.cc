@@ -52,8 +52,10 @@ Path& Path::addCubicComponent(Point p1, Point cp1, Point cp2, Point p2) {
 }
 
 void Path::enumerateComponents(Applier<LinearPathComponent> linearApplier,
-                               Applier<QuadraticPathComponent> quadApplier,
-                               Applier<CubicPathComponent> cubicApplier) const {
+                               Applier<QuadraticPathComponent>
+                                   quadApplier,
+                               Applier<CubicPathComponent>
+                                   cubicApplier) const {
   size_t currentIndex = 0;
   for (const auto& component : _components) {
     switch (component.type) {
@@ -162,26 +164,31 @@ bool Path::updateCubicComponentAtIndex(size_t index,
   return true;
 }
 
-std::vector<Point> Path::smoothPoints(
-    const SmoothingApproximation& approximation) const {
-  std::vector<Point> points;
+void Path::smoothPoints(SmoothPointsEnumerator enumerator,
+                        const SmoothingApproximation& approximation) const {
+  if (enumerator == nullptr) {
+    return;
+  }
+
   for (const auto& component : _components) {
     switch (component.type) {
       case ComponentType::Linear: {
-        auto tess = _linears[component.index].smoothPoints();
-        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+        if (!enumerator(_linears[component.index].smoothPoints())) {
+          return;
+        }
       } break;
       case ComponentType::Quadratic: {
-        auto tess = _quads[component.index].smoothPoints(approximation);
-        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+        if (!enumerator(_quads[component.index].smoothPoints(approximation))) {
+          return;
+        }
       } break;
       case ComponentType::Cubic: {
-        auto tess = _cubics[component.index].smoothPoints(approximation);
-        std::move(tess.begin(), tess.end(), std::back_inserter(points));
+        if (!enumerator(_cubics[component.index].smoothPoints(approximation))) {
+          return;
+        }
       } break;
     }
   }
-  return points;
 }
 
 Rect Path::boundingBox() const {

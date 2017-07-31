@@ -37,6 +37,8 @@ class StrokeVertices : public Vertices {
 
   bool uploadVertexData() override;
 
+  bool tessellatePathComponent(const std::vector<geom::Point>& points);
+
   RL_DISALLOW_COPY_AND_ASSIGN(StrokeVertices);
 };
 

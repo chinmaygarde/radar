@@ -41,8 +41,10 @@ class Path : public core::MessageSerializable {
   template <class T>
   using Applier = std::function<void(size_t index, const T& component)>;
   void enumerateComponents(Applier<LinearPathComponent> linearApplier,
-                           Applier<QuadraticPathComponent> quadApplier,
-                           Applier<CubicPathComponent> cubicApplier) const;
+                           Applier<QuadraticPathComponent>
+                               quadApplier,
+                           Applier<CubicPathComponent>
+                               cubicApplier) const;
 
   bool linearComponentAtIndex(size_t index, LinearPathComponent& linear) const;
 
@@ -59,8 +61,9 @@ class Path : public core::MessageSerializable {
 
   bool updateCubicComponentAtIndex(size_t index, CubicPathComponent& cubic);
 
-  std::vector<Point> smoothPoints(
-      const SmoothingApproximation& approximation) const;
+  using SmoothPointsEnumerator = std::function<bool(std::vector<Point> points)>;
+  void smoothPoints(SmoothPointsEnumerator enumerator,
+                    const SmoothingApproximation& approximation) const;
 
   Rect boundingBox() const;
 

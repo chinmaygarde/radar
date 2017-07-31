@@ -19,10 +19,20 @@ StrokeVertices::StrokeVertices(const geom::Path& path)
   }
 
   geom::SmoothingApproximation defaultApproximation;
-  const auto points = path.smoothPoints(defaultApproximation);
+  path.smoothPoints(std::bind(&StrokeVertices::tessellatePathComponent, this,
+                              std::placeholders::_1),
+                    defaultApproximation);
+}
 
+StrokeVertices::~StrokeVertices() = default;
+
+bool StrokeVertices::tessellatePathComponent(
+    const std::vector<geom::Point>& points) {
   if (points.size() < 2) {
-    return;
+    /*
+     *  Not a failure. We can still keep tessellating other path components.
+     */
+    return true;
   }
 
   for (size_t i = 0, length = points.size(); i < length; i++) {
@@ -44,9 +54,9 @@ StrokeVertices::StrokeVertices(const geom::Path& path)
     _vertices.emplace_back(vertex, normal);
     _vertices.emplace_back(vertex, -normal);
   }
-}
 
-StrokeVertices::~StrokeVertices() = default;
+  return true;
+}
 
 const geom::Size& StrokeVertices::size() const {
   return _size;

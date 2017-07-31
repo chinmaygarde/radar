@@ -51,18 +51,21 @@ static std::pair<bool, geom::Size> PopulateFillWithPath(
   /*
    *  Smoothen path.
    */
-  geom::SmoothingApproximation defaultApproximation;
-  auto tessellatedPoints = path.smoothPoints(defaultApproximation);
-
-  if (tessellatedPoints.size() == 0) {
-    return {false, {}};
-  }
-
   std::vector<gl::GLPoint> contours;
-  contours.reserve(tessellatedPoints.size());
-  for (const auto& point : tessellatedPoints) {
-    contours.emplace_back(point.x / boundingBox.size.width,
-                          point.y / boundingBox.size.height);
+  geom::SmoothingApproximation defaultApproximation;
+  path.smoothPoints(
+      [&contours, pathSize = boundingBox.size ](std::vector<geom::Point> points)
+          ->bool {
+            for (const auto& point : points) {
+              contours.emplace_back(point.x / pathSize.width,
+                                    point.y / pathSize.height);
+            }
+            return true;
+          },
+      defaultApproximation);
+
+  if (contours.size() == 0) {
+    return {false, {}};
   }
 
   tessAddContour(tessellator, kVertexSize, contours.data(), sizeof(gl::GLPoint),
