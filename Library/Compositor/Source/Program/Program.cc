@@ -112,7 +112,9 @@ void Program::linkIfNecessary() {
 
 GLint Program::indexForAttribute(const std::string& attribute) {
   GLint result = glGetAttribLocation(_program, attribute.c_str());
-  RL_ASSERT_MSG(result != -1, "The attribute must be found in the program.");
+  RL_ASSERT_MSG(result != -1,
+                "The attribute '%s' must be found in the program.",
+                attribute.c_str());
   return result;
 }
 
