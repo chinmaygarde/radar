@@ -19,38 +19,30 @@ StrokeVertices::StrokeVertices(const geom::Path& path)
   }
 
   geom::SmoothingApproximation defaultApproximation;
-  auto points = path.smoothPoints(defaultApproximation);
+  const auto points = path.smoothPoints(defaultApproximation);
 
   if (points.size() < 2) {
     return;
   }
 
-  //  _vertices.emplace_back(gl::GLPoint{100 - 10, 100 + 10},
-  //                         gl::GLPoint{0.0, 0.0});
-  //  _vertices.emplace_back(gl::GLPoint{100 + 10, 100 - 10},
-  //                         gl::GLPoint{0.0, 0.0});
-  //  _vertices.emplace_back(gl::GLPoint{400, 400}, gl::GLPoint{0.0, 0.0});
+  for (size_t i = 0, length = points.size(); i < length; i++) {
+    const bool lastPoint = i == length - 1;
 
-  for (size_t i = 0, length = points.size(); i < length; i += 2) {
-    const auto& p1 = points[i];
-    const auto& p2 = points[i + 1];
+    const geom::Point& p1 = points[i];
+    const geom::Point& p2 = lastPoint ? points[i - 1] : points[i + 1];
 
     double dx = p2.x - p1.x;
     double dy = p2.y - p1.y;
 
-    const gl::GLPoint vertex1(p1.x / _size.width, p1.y / _size.height);
-    const gl::GLPoint vertex2(p2.x / _size.width, p2.y / _size.height);
+    const gl::GLPoint vertex(p1.x / _size.width, p1.y / _size.height);
 
-    const gl::GLPoint normal1 = geom::Vector3{-dy, dx}.normalize();
-    const gl::GLPoint normal2 = geom::Vector3{dy, -dx}.normalize();
+    const double direction = lastPoint ? -1.0 : 1.0;
 
-    _vertices.emplace_back(vertex1, normal1);
-    _vertices.emplace_back(vertex1, normal2);
-    _vertices.emplace_back(vertex2, normal1);
+    const auto normal =
+        geom::Vector3{-dy * direction, dx * direction}.normalize();
 
-    _vertices.emplace_back(vertex2, normal1);
-    _vertices.emplace_back(vertex1, normal2);
-    _vertices.emplace_back(vertex2, normal2);
+    _vertices.emplace_back(vertex, normal);
+    _vertices.emplace_back(vertex, -normal);
   }
 }
 
@@ -85,8 +77,8 @@ bool StrokeVertices::draw(size_t positionAttributeIndex,
                       offsetof(StrokeVertex, normal));
 
   glDrawArrays(RL_CONSOLE_GET_VALUE_ONCE("Show Stroke Mesh", false)
-                   ? GL_LINE_LOOP
-                   : GL_TRIANGLES,
+                   ? GL_LINE_STRIP
+                   : GL_TRIANGLE_STRIP,
                0, _vertices.size());
 
   return true;
