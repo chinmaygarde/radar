@@ -166,7 +166,7 @@ bool FillVertices::draw(size_t positionAttributeIndex) const {
   auto autoDisable =
       enableAttribute(positionAttributeIndex, kVertexSize, GL_FLOAT, 0, 0);
 
-  const GLenum mode = RL_CONSOLE_GET_VALUE_ONCE("Show Fill Mesh", false)
+  const GLenum mode = RL_CONSOLE_GET_VALUE_ONCE("Show Path Mesh", false)
                           ? GL_LINE_LOOP
                           : GL_TRIANGLES;
 

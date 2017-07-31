@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "Console.h"
 #include "Vertices/BoxVertices.h"
 
 namespace rl {
@@ -37,7 +38,10 @@ bool BoxVertices::draw(size_t positionAttributeIndex) const {
 
   auto autoDisable = enableAttribute(positionAttributeIndex, 2, GL_FLOAT, 0, 0);
 
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  glDrawArrays(RL_CONSOLE_GET_VALUE_ONCE("Show Box Mesh", false)
+                   ? GL_LINE_LOOP
+                   : GL_TRIANGLE_STRIP,
+               0, 4);
 
   return true;
 }
