@@ -17,17 +17,23 @@ class ConsoleRendererProgram : public Program {
 
   ~ConsoleRendererProgram();
 
-  unsigned int textureUniform;
+  GLint textureUniform() const;
 
-  unsigned int projMtxUniform;
+  GLint projectionMatrixUniform() const;
 
-  unsigned int positionAttribute;
+  GLint positionAttribute() const;
 
-  unsigned int uvAttribute;
+  GLint uvAttribute() const;
 
-  unsigned int colorAttribute;
+  GLint colorAttribute() const;
 
  protected:
+  GLint _textureUniform = -1;
+  GLint _projectionMatrixUniform = -1;
+  GLint _positionAttribute = -1;
+  GLint _uvAttribute = -1;
+  GLint _colorAttribute = -1;
+
   void onLinkSuccess() override;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ConsoleRendererProgram);

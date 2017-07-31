@@ -35,8 +35,8 @@ ConsoleRenderer::ConsoleRenderer()
       _fontAtlas(GL_NONE),
       _framePending(false) {
   _io.UserData = this;
-  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
-      &ConsoleRenderer::drawLists);
+  _io.RenderDrawListsFn =
+      reinterpret_cast<void (*)(ImDrawData* data)>(&ConsoleRenderer::drawLists);
   SetCurrent(this);
 }
 
@@ -197,23 +197,23 @@ void ConsoleRenderer::drawLists(void* data) {
     };
   // clang-format on
 
-  glUniform1i(program.textureUniform, 0);
-  glUniformMatrix4fv(program.projMtxUniform, 1, GL_FALSE,
+  glUniform1i(program.textureUniform(), 0);
+  glUniformMatrix4fv(program.projectionMatrixUniform(), 1, GL_FALSE,
                      &orthoProjection[0][0]);
 
   glBindBuffer(GL_ARRAY_BUFFER, renderer._vbo);
 
-  glEnableVertexAttribArray(program.positionAttribute);
-  glEnableVertexAttribArray(program.uvAttribute);
-  glEnableVertexAttribArray(program.colorAttribute);
+  glEnableVertexAttribArray(program.positionAttribute());
+  glEnableVertexAttribArray(program.uvAttribute());
+  glEnableVertexAttribArray(program.colorAttribute());
 
-  glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, GL_FALSE,
+  glVertexAttribPointer(program.positionAttribute(), 2, GL_FLOAT, GL_FALSE,
                         sizeof(ImDrawVert),
                         reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, pos)));
-  glVertexAttribPointer(program.uvAttribute, 2, GL_FLOAT, GL_FALSE,
+  glVertexAttribPointer(program.uvAttribute(), 2, GL_FLOAT, GL_FALSE,
                         sizeof(ImDrawVert),
                         reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, uv)));
-  glVertexAttribPointer(program.colorAttribute, 4, GL_UNSIGNED_BYTE, GL_TRUE,
+  glVertexAttribPointer(program.colorAttribute(), 4, GL_UNSIGNED_BYTE, GL_TRUE,
                         sizeof(ImDrawVert),
                         reinterpret_cast<GLvoid*>(offsetof(ImDrawVert, col)));
 
@@ -245,9 +245,9 @@ void ConsoleRenderer::drawLists(void* data) {
     }
   }
 
-  glDisableVertexAttribArray(program.positionAttribute);
-  glDisableVertexAttribArray(program.uvAttribute);
-  glDisableVertexAttribArray(program.colorAttribute);
+  glDisableVertexAttribArray(program.positionAttribute());
+  glDisableVertexAttribArray(program.uvAttribute());
+  glDisableVertexAttribArray(program.colorAttribute());
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -316,8 +316,8 @@ void ConsoleRenderer::displayValue(
   static const auto stopwatchValuesGetter = [](void* stopwatch,
                                                int index) -> float {
     auto lapTimeSeconds =
-        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)->lapDuration(
-            index);
+        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)
+            ->lapDuration(index);
     /*
      *  Plot the values in milliseconds.
      */

@@ -8,51 +8,70 @@
 namespace rl {
 namespace compositor {
 
-static const char RendererVertexShader[] = R"--(
-  uniform mat4 ProjMtx;
+static constexpr char kConsoleRendererVertexShader[] = R"--(
+  uniform mat4 U_ProjectionMatrix;
 
-  attribute vec2 Position;
-  attribute vec2 UV;
-  attribute vec4 Color;
+  attribute vec2 A_Position;
+  attribute vec2 A_UV;
+  attribute vec4 A_Color;
 
-  varying vec2 Frag_UV;
-  varying vec4 Frag_Color;
+  varying vec2 V_UV;
+  varying vec4 V_Color;
 
   void main() {
-    Frag_UV = UV;
-    Frag_Color = Color;
-    gl_Position = ProjMtx * vec4(Position.xy, 0, 1);
+    V_UV = A_UV;
+    V_Color = A_Color;
+    gl_Position = U_ProjectionMatrix * vec4(A_Position.xy, 0, 1);
   }
   )--";
 
-static const char RendererFragmentShader[] = R"--(
+static constexpr char kConsoleRendererFragmentShader[] = R"--(
 
 #ifdef GL_ES
   precision mediump float;
 #endif
 
-  uniform sampler2D Texture;
+  uniform sampler2D U_Texture;
 
-  varying vec2 Frag_UV;
-  varying vec4 Frag_Color;
+  varying vec2 V_UV;
+  varying vec4 V_Color;
 
   void main() {
-    gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);
+    gl_FragColor = V_Color * texture2D(U_Texture, V_UV.st);
   }
   )--";
 
 ConsoleRendererProgram::ConsoleRendererProgram()
-    : Program(RendererVertexShader, RendererFragmentShader) {}
+    : Program(kConsoleRendererVertexShader, kConsoleRendererFragmentShader) {}
 
 ConsoleRendererProgram::~ConsoleRendererProgram() = default;
 
 void ConsoleRendererProgram::onLinkSuccess() {
-  textureUniform = indexForUniform("Texture");
-  projMtxUniform = indexForUniform("ProjMtx");
+  _textureUniform = indexForUniform("U_Texture");
+  _projectionMatrixUniform = indexForUniform("U_ProjectionMatrix");
+  _positionAttribute = indexForAttribute("A_Position");
+  _uvAttribute = indexForAttribute("A_UV");
+  _colorAttribute = indexForAttribute("A_Color");
+}
 
-  positionAttribute = indexForAttribute("Position");
-  uvAttribute = indexForAttribute("UV");
-  colorAttribute = indexForAttribute("Color");
+GLint ConsoleRendererProgram::textureUniform() const {
+  return _textureUniform;
+}
+
+GLint ConsoleRendererProgram::projectionMatrixUniform() const {
+  return _projectionMatrixUniform;
+}
+
+GLint ConsoleRendererProgram::positionAttribute() const {
+  return _positionAttribute;
+}
+
+GLint ConsoleRendererProgram::uvAttribute() const {
+  return _uvAttribute;
+}
+
+GLint ConsoleRendererProgram::colorAttribute() const {
+  return _colorAttribute;
 }
 
 }  // namespace compositor
