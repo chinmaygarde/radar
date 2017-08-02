@@ -34,6 +34,7 @@ include(StandardRadarGraphicsTest)
 include(StandardRadarLibrary)
 include(StandardRadarTest)
 include(SymbolVisibility)
+include(EnableLTO)
 include(TreatAsCXX)
 
 CheckPlatform()
@@ -43,6 +44,8 @@ CheckCompiler()
 HardenToolchain()
 
 SetRecommendedSymbolVisibility()
+
+EnableLTO()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
