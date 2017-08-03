@@ -83,7 +83,7 @@ void PresentationGraph::updateRootEntity(
    *  Add root edit variables.
    */
   const auto identifier = _root->identifier();
-  const auto priority = rl::layout::priority::Strong;
+  const auto priority = rl::layout::priority::Strong();
 
   auto boundsWidth = layout::Variable{identifier, Prop::BoundsWidth};
   auto boundsHeight = layout::Variable{identifier, Prop::BoundsHeight};
@@ -441,7 +441,8 @@ void PresentationGraph::onEditVariableUpdate(const layout::Variable& variable,
   auto result = layout::Result::InternalSolverError;
 
   if (addOrRemove) {
-    result = _layoutSolver.addEditVariable(variable, layout::priority::Strong);
+    result =
+        _layoutSolver.addEditVariable(variable, layout::priority::Strong());
   } else {
     result = _layoutSolver.removeEditVariable(variable);
   }

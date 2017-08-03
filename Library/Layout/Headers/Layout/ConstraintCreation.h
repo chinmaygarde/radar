@@ -109,21 +109,21 @@ template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator==(const A& a, const B& b) {
   auto expr = Expression{a - b};
   return {core::Name{expr.ns()}, std::move(expr), Constraint::Relation::EqualTo,
-          priority::Required};
+          priority::Required()};
 }
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator>=(const A& a, const B& b) {
   auto expr = Expression{a - b};
   return {core::Name{expr.ns()}, std::move(expr),
-          Constraint::Relation::GreaterThanOrEqualTo, priority::Required};
+          Constraint::Relation::GreaterThanOrEqualTo, priority::Required()};
 }
 
 template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
 Constraint operator<=(const A& a, const B& b) {
   auto expr = Expression{a - b};
   return {core::Name{expr.ns()}, std::move(expr),
-          Constraint::Relation::LessThanOrEqualTo, priority::Required};
+          Constraint::Relation::LessThanOrEqualTo, priority::Required()};
 }
 
 template <class A, class = core::only_if<(HoistableMember<A>::value)>>

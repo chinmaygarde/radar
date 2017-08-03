@@ -15,7 +15,7 @@ Suggestion::Suggestion() : _variable(), _value(0.0) {}
 
 Suggestion::Suggestion(const Variable& variable, double value, double priority)
     : _variable(variable), _value(value), _priority(priority) {
-  RL_ASSERT_MSG(priority != priority::Required,
+  RL_ASSERT_MSG(priority != priority::Required(),
                 "Suggestions cannot be at required priority");
 }
 

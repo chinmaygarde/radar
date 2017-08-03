@@ -100,7 +100,7 @@ bool Solver::hasConstraint(const Constraint& constraint) const {
 }
 
 static inline bool IsValidNonRequiredPriority(double priority) {
-  return (priority >= 0.0 && priority < priority::Required);
+  return (priority >= 0.0 && priority < priority::Required());
 }
 
 Result Solver::addEditVariable(const Variable& variable, double priority) {
@@ -228,7 +228,7 @@ std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
       tag.setMarker(slack);
       row->insertSymbol(slack, coeffcient);
 
-      if (constraint.priority() < priority::Required) {
+      if (constraint.priority() < priority::Required()) {
         auto error = Symbol{Symbol::Type::Error};
 
         tag.setOther(error);
@@ -239,7 +239,7 @@ std::unique_ptr<Row> Solver::createRow(const Constraint& constraint, Tag& tag) {
       }
     } break;
     case Constraint::Relation::EqualTo: {
-      if (constraint.priority() < priority::Required) {
+      if (constraint.priority() < priority::Required()) {
         auto errPlus = Symbol{Symbol::Type::Error};
         auto errMinus = Symbol{Symbol::Type::Error};
 

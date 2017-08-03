@@ -12,7 +12,7 @@ namespace layout {
 
 namespace priority {
 
-static inline double Create(double a, double b, double c) {
+inline double Create(double a, double b, double c) {
   double result = 0.0;
   result += std::max(0.0, std::min(1e3, a) * 1e6);
   result += std::max(0.0, std::min(1e3, b) * 1e3);
@@ -20,10 +20,21 @@ static inline double Create(double a, double b, double c) {
   return result;
 }
 
-static const double Required = Create(1e3, 1e3, 1e3);
-static const double Strong = Create(1.0, 0.0, 0.0);
-static const double Medium = Create(0.0, 1.0, 0.0);
-static const double Weak = Create(0.0, 0.0, 1.0);
+inline double Required() {
+  return Create(1e3, 1e3, 1e3);
+}
+
+inline double Strong() {
+  return Create(1.0, 0.0, 0.0);
+}
+
+inline double Medium() {
+  return Create(0.0, 1.0, 0.0);
+}
+
+inline double Weak() {
+  return Create(0.0, 0.0, 1.0);
+}
 
 }  // namespace priority
 

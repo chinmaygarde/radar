@@ -10,7 +10,7 @@ namespace rl {
 namespace layout {
 
 Constraint::Constraint()
-    : _relation(Relation::EqualTo), _priority(priority::Weak) {}
+    : _relation(Relation::EqualTo), _priority(priority::Weak()) {}
 
 Constraint::Constraint(core::Name name,
                        const Expression& expression,
