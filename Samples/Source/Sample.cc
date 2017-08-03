@@ -136,7 +136,7 @@ static void AddRadialArrangement(rl::interface::Interface& interface) {
 static void AddEntityWithPath(rl::interface::Interface& interface) {
   auto entity = interface.createEntity();
 
-  entity->setBackgroundColor(rl::entity::ColorWhite);
+  entity->setBackgroundColor(rl::entity::Color::White());
 
   rl::geom::PathBuilder builder;
 

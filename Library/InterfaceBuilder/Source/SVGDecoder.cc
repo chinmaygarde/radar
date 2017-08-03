@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "SVGDecoder.h"
 #include <Core/Base64.h>
 #include <Entity/Entity.h>
 #include <sstream>
 #include "SVGColorParser/SVGColor.h"
+#include "SVGDecoder.h"
 #include "SVGXFormParser/SVGXFormString.h"
 
 namespace rl {
@@ -89,7 +89,7 @@ entity::Color Decode<>(const pugi::xml_node& node,
   }
 
   if (attribute.empty()) {
-    return entity::ColorBlackTransparent;
+    return entity::Color::BlackTransparent();
   }
 
   return ColorFromString(attribute.value());

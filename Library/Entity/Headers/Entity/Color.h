@@ -54,6 +54,14 @@ struct Color {
   std::string toString() const;
 
   void fromString(const std::string& str);
+
+  static Color White() { return {1.0, 1.0, 1.0, 1.0}; }
+  static Color Black() { return {0.0, 0.0, 0.0, 1.0}; }
+  static Color WhiteTransparent() { return {1.0, 1.0, 1.0, 0.0}; }
+  static Color BlackTransparent() { return {0.0, 0.0, 0.0, 0.0}; }
+  static Color Red() { return {1.0, 0.0, 0.0, 1.0}; }
+  static Color Green() { return {0.0, 1.0, 0.0, 1.0}; }
+  static Color Blue() { return {0.0, 0.0, 1.0, 1.0}; }
 };
 
 /**
@@ -87,16 +95,6 @@ struct ColorHSB {
 
   Color ToRGBA() const;
 };
-
-static const Color ColorWhite(1.0, 1.0, 1.0, 1.0);
-static const Color ColorBlack(0.0, 0.0, 0.0, 1.0);
-
-static const Color ColorWhiteTransparent(1.0, 1.0, 1.0, 0.0);
-static const Color ColorBlackTransparent(0.0, 0.0, 0.0, 0.0);
-
-static const Color ColorRed(1.0, 0.0, 0.0, 1.0);
-static const Color ColorGreen(0.0, 1.0, 0.0, 1.0);
-static const Color ColorBlue(0.0, 0.0, 1.0, 1.0);
 
 }  // namespace entity
 }  // namespace rl
