@@ -42,7 +42,7 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
              RL_CONSOLE_GET_RANGE_ONCE(
                  "Stroke Size", static_cast<float>(_strokeSize), 0.0, 100.0));
   SetUniform(program.modelViewProjectionUniform(),
-             _modelViewMatrix * frame.projectionMatrix());
+             frame.projectionMatrix() * _modelViewMatrix);
 
   /**
    *  Draw vertices.

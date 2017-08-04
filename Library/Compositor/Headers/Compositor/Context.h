@@ -17,6 +17,7 @@ class ProgramCatalog;
 class BoxVertices;
 class ConsoleRenderer;
 class Frame;
+class StrokeVertices;
 
 class Context {
  public:
@@ -29,6 +30,8 @@ class Context {
   ProgramCatalog& programCatalog();
 
   BoxVertices& unitBoxVertices();
+
+  StrokeVertices& unitBoxStrokeVertices();
 
   RL_WARN_UNUSED_RESULT
   bool beginUsing();
@@ -51,6 +54,7 @@ class Context {
   std::unique_ptr<ConsoleRenderer> _consoleRenderer;
   std::unique_ptr<ProgramCatalog> _programCatalog;
   std::unique_ptr<BoxVertices> _unitBoxVertices;
+  std::unique_ptr<StrokeVertices> _unitBoxStrokeVertices;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Context);
 };

@@ -67,6 +67,14 @@ const geom::Size& StrokeVertices::size() const {
   return _size;
 }
 
+bool StrokeVertices::setSize(const geom::Size& size) {
+  if (size.isZero()) {
+    return false;
+  }
+  _size = size;
+  return true;
+}
+
 bool StrokeVertices::uploadVertexData() {
   glBufferData(GL_ARRAY_BUFFER,
                _vertices.size() * sizeof(decltype(_vertices)::value_type),

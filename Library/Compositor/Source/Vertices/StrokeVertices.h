@@ -20,6 +20,9 @@ class StrokeVertices : public Vertices {
 
   const geom::Size& size() const;
 
+  RL_WARN_UNUSED_RESULT
+  bool setSize(const geom::Size& size);
+
   bool draw(size_t positionAttributeIndex,
             size_t normalAttributeIndex,
             size_t opacityAttributeIndex) const;
