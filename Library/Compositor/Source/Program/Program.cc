@@ -122,7 +122,8 @@ GLint Program::indexForUniform(const std::string& uniform) {
   RL_ASSERT_MSG(_linkingComplete,
                 "May only access uniforms after linking is complete");
   GLint result = glGetUniformLocation(_program, uniform.c_str());
-  RL_ASSERT_MSG(result != -1, "The uniform must be found in the program");
+  RL_ASSERT_MSG(result != -1, "The uniform '%s' must be found in the program",
+                uniform.c_str());
   return result;
 }
 

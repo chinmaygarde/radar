@@ -17,19 +17,23 @@ static constexpr char kStrokeVertexShader[] = R"--(
   uniform mat4 U_ModelViewProjectionMatrix;
   uniform vec2 U_Size;
   uniform float U_StrokeSize;
+  uniform float U_Feather;
 
-  varying vec2 V_Normal;
   varying float V_SegmentContinuation;
+  varying vec2 V_StrokeOffset;
 
   void main() {
-    vec2 strokeOffset = A_Normal * vec2(U_StrokeSize * 0.5);
+    vec2 strokeOffset = A_Normal * vec2((U_StrokeSize * 0.5) + U_Feather);
 
     vec2 vertexPosition = (A_Position * U_Size) + strokeOffset;
 
     gl_Position =  U_ModelViewProjectionMatrix * vec4(vertexPosition, 0.0, 1.0);
 
-    V_Normal = A_Normal;
+    // For line breaks.
     V_SegmentContinuation = A_SegmentContinuation;
+
+    // For interpolation at the edges for AA.
+    V_StrokeOffset = strokeOffset;
   }
 
   )--";
@@ -41,13 +45,26 @@ static constexpr char kStrokeFragmentShader[] = R"--(
 #endif
 
   uniform vec4 U_ContentColor;
+  uniform float U_StrokeSize;
+  uniform float U_Feather;
 
-  varying vec2 V_Normal;
   varying float V_SegmentContinuation;
+  varying vec2 V_StrokeOffset;
 
   void main() {
-    // TODO: V_Normal must be used for anti-aliasing.
-    gl_FragColor = vec4(U_ContentColor.xyz, U_ContentColor.w * floor(V_SegmentContinuation));
+    float halfStroke = U_StrokeSize * 0.5;
+
+    // Smoothly interpolate between the edge of the stroke and the edge with
+    // the added feather distance.
+    float featherComponent = 1.0 -
+      smoothstep(halfStroke, halfStroke + U_Feather, length(V_StrokeOffset));
+
+    // V_SegmentContinuation is interpolated.
+    // We floor it to make the value either 0 or 1.
+    float continuation = floor(V_SegmentContinuation);
+
+    gl_FragColor = vec4(U_ContentColor.xyz,
+                        U_ContentColor.w * continuation * featherComponent);
   }
   
   )--";
@@ -61,6 +78,7 @@ void StrokeProgram::onLinkSuccess() {
   _modelViewProjectionUniform = indexForUniform("U_ModelViewProjectionMatrix");
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
+  _featherUniform = indexForUniform("U_Feather");
   _strokeSizeUniform = indexForUniform("U_StrokeSize");
   _positionAttribute = indexForAttribute("A_Position");
   _normalAttribute = indexForAttribute("A_Normal");
@@ -77,6 +95,10 @@ GLint StrokeProgram::contentColorUniform() const {
 
 GLint StrokeProgram::sizeUniform() const {
   return _sizeUniform;
+}
+
+GLint StrokeProgram::featherUniform() const {
+  return _featherUniform;
 }
 
 GLint StrokeProgram::strokeSizeUniform() const {

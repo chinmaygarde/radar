@@ -35,7 +35,9 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
    */
   SetUniform(program.contentColorUniform(), _color, _opacity);
   SetUniform(program.sizeUniform(), _vertices.size());
-
+  SetUniform(program.featherUniform(),
+             RL_CONSOLE_GET_RANGE_ONCE("Stroke Feather",
+                                       static_cast<float>(1.0), 0.0, 5.0));
   SetUniform(program.strokeSizeUniform(),
              RL_CONSOLE_GET_RANGE_ONCE(
                  "Stroke Size", static_cast<float>(_strokeSize), 0.0, 100.0));
