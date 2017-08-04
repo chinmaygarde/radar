@@ -88,6 +88,7 @@ if(RADAR_BENCHMARKING_ENABLED)
   # Build the benchmarking target with its tests disabled.
   add_custom_target(bench)
   set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
+  set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "Disable exceptions on benchmarks")
   add_subdirectory("ThirdParty/googlebenchmark")
 endif()
 

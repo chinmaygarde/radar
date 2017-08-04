@@ -1,51 +1,78 @@
 # Allow the source files to find headers in src/
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
-# Define the source files
-set(SOURCE_FILES "benchmark.cc" "colorprint.cc" "commandlineflags.cc"
-                 "console_reporter.cc" "csv_reporter.cc" "json_reporter.cc"
-                 "log.cc" "reporter.cc" "sleep.cc" "string_util.cc"
-                 "sysinfo.cc" "walltime.cc")
-# Determine the correct regular expression engine to use
-if(HAVE_STD_REGEX)
-  set(RE_FILES "re_std.cc")
-elseif(HAVE_GNU_POSIX_REGEX)
-  set(RE_FILES "re_posix.cc")
-elseif(HAVE_POSIX_REGEX)
-  set(RE_FILES "re_posix.cc")
-else()
-  message(FATAL_ERROR "Failed to determine the source files for the regular expression backend")
+if (DEFINED BENCHMARK_CXX_LINKER_FLAGS)
+  list(APPEND CMAKE_SHARED_LINKER_FLAGS ${BENCHMARK_CXX_LINKER_FLAGS})
+  list(APPEND CMAKE_MODULE_LINKER_FLAGS ${BENCHMARK_CXX_LINKER_FLAGS})
 endif()
 
-add_library(benchmark ${SOURCE_FILES} ${RE_FILES})
+file(GLOB
+  SOURCE_FILES
+    *.cc
+    ${PROJECT_SOURCE_DIR}/include/benchmark/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
-
+add_library(benchmark ${SOURCE_FILES})
 set_target_properties(benchmark PROPERTIES
   OUTPUT_NAME "benchmark"
   VERSION ${GENERIC_LIB_VERSION}
   SOVERSION ${GENERIC_LIB_SOVERSION}
 )
+target_include_directories(benchmark PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    )
 
 # Link threads.
-target_link_libraries(benchmark ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(benchmark  ${BENCHMARK_CXX_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+find_library(LIBRT rt)
+if(LIBRT)
+  target_link_libraries(benchmark ${LIBRT})
+endif()
 
 # We need extra libraries on Windows
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   target_link_libraries(benchmark Shlwapi)
 endif()
 
-# Expose public API
-target_include_directories(benchmark PUBLIC ${PROJECT_SOURCE_DIR}/include)
+set(include_install_dir "include")
+set(lib_install_dir "lib/")
+set(bin_install_dir "bin/")
+set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
+
+set(namespace "${PROJECT_NAME}::")
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${version_config}" VERSION ${GIT_VERSION} COMPATIBILITY SameMajorVersion
+)
+
+configure_file("${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in" "${project_config}" @ONLY)
 
 # Install target (will install the library to specified CMAKE_INSTALL_PREFIX variable)
 install(
   TARGETS benchmark
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-  COMPONENT library)
+  EXPORT ${targets_export_name}
+  ARCHIVE DESTINATION ${lib_install_dir}
+  LIBRARY DESTINATION ${lib_install_dir}
+  RUNTIME DESTINATION ${bin_install_dir}
+  INCLUDES DESTINATION ${include_install_dir})
 
 install(
   DIRECTORY "${PROJECT_SOURCE_DIR}/include/benchmark"
-  DESTINATION include
+  DESTINATION ${include_install_dir}
   FILES_MATCHING PATTERN "*.*h")
+
+install(
+    FILES "${project_config}" "${version_config}"
+    DESTINATION "${config_install_dir}")
+
+install(
+    EXPORT "${targets_export_name}"
+    NAMESPACE "${namespace}"
+    DESTINATION "${config_install_dir}")

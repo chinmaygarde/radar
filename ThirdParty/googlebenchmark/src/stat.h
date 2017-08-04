@@ -6,7 +6,6 @@
 #include <ostream>
 #include <type_traits>
 
-
 namespace benchmark {
 
 template <typename VType, typename NumType>
@@ -120,23 +119,27 @@ class Stat1 {
     if (numsamples_ == 0) return VType();
     VType mean = sum_ * (1.0 / numsamples_);
     if (stddev) {
-      VType avg_squares = sum_squares_ * (1.0 / numsamples_);
-      *stddev = Sqrt(avg_squares - Sqr(mean));
+      // Sample standard deviation is undefined for n = 1
+      if (numsamples_ == 1) {
+        *stddev = VType();
+      } else {
+        VType avg_squares = sum_squares_ * (1.0 / numsamples_);
+        *stddev = Sqrt(numsamples_ / (numsamples_ - 1.0) * (avg_squares - Sqr(mean)));
+      }
     }
     return mean;
   }
 
   // Return the standard deviation of the sample set
   VType StdDev() const {
-    if (numsamples_ == 0) return VType();
-    VType mean = Mean();
-    VType avg_squares = sum_squares_ * (1.0 / numsamples_);
-    return Sqrt(avg_squares - Sqr(mean));
+    VType stddev = VType();
+    Mean(&stddev);
+    return stddev;
   }
 
  private:
   static_assert(std::is_integral<NumType>::value &&
-                !std::is_same<NumType, bool>::value,
+                    !std::is_same<NumType, bool>::value,
                 "NumType must be an integral type that is not bool.");
   // Let i be the index of the samples provided (using +=)
   // and weight[i],value[i] be the data of sample #i
