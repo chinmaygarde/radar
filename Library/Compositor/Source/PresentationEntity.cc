@@ -114,6 +114,7 @@ void PresentationEntity::renderStroke(
 
   if (auto primitive =
           _primitivesCache->acquire(*this, contentType, primitiveType)) {
+    primitive->setStrokeSize(_strokeSize);
     primitive->setSize(_bounds.size);
     primitive->setOpacity(_opacity);
     primitive->setModelViewMatrix(_renderedModelViewMatrix);

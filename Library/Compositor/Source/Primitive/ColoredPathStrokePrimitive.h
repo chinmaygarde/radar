@@ -16,9 +16,7 @@ namespace compositor {
 
 class ColoredPathStrokePrimitive : public Primitive {
  public:
-  ColoredPathStrokePrimitive(const geom::Path& path,
-                             entity::Color color,
-                             double size);
+  ColoredPathStrokePrimitive(const geom::Path& path, entity::Color color);
 
   ~ColoredPathStrokePrimitive() override;
 
@@ -29,7 +27,6 @@ class ColoredPathStrokePrimitive : public Primitive {
  private:
   StrokeVertices _vertices;
   const entity::Color _color;
-  double _strokeSize;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredPathStrokePrimitive);
 };

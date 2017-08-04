@@ -221,7 +221,7 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
         updateRootEntity(&presentationEntity);
         break;
       default:
-        RL_ASSERT("Unreachable");
+        RL_ASSERT_MSG(false, "Unreachable");
         break;
     }
     return true;
@@ -357,8 +357,25 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 std::bind(&compositor::PresentationEntity::setOpacity,
                           &presentationEntity, std::placeholders::_1));
             break;
+          case Property::StrokeSize:
+            _animationDirector.setInterpolator<
+                double>(/* key */
+                        key,
+                        /* start time */
+                        time,
+                        /* action */
+                        action,
+                        /* from value */
+                        presentationEntity.strokeSize(),
+                        /* to value */
+                        transferEntity.strokeSize(),
+                        /* stepper */
+                        std::bind(
+                            &compositor::PresentationEntity::setStrokeSize,
+                            &presentationEntity, std::placeholders::_1));
+            break;
           default:
-            RL_ASSERT("Non animatable property encountered.");
+            RL_ASSERT_MSG(false, "Non animatable property encountered.");
             break;
         }
         return true;

@@ -71,14 +71,13 @@ std::shared_ptr<Primitive> PrimitivesCache::createColoredPrimitive(
     case PrimitiveType::Box:
       return std::make_shared<ColoredBoxPrimitive>(entity.backgroundColor());
     case PrimitiveType::BoxStroke:
-      return std::make_shared<ColoredBoxStrokePrimitive>(entity.strokeColor(),
-                                                         entity.strokeSize());
+      return std::make_shared<ColoredBoxStrokePrimitive>(entity.strokeColor());
     case PrimitiveType::Path:
       return std::make_shared<ColoredPathPrimitive>(entity.backgroundColor(),
                                                     entity.path());
     case PrimitiveType::PathStroke:
-      return std::make_shared<ColoredPathStrokePrimitive>(
-          entity.path(), entity.strokeColor(), entity.strokeSize());
+      return std::make_shared<ColoredPathStrokePrimitive>(entity.path(),
+                                                          entity.strokeColor());
     case PrimitiveType::None:
       return nullptr;
   }

@@ -30,5 +30,9 @@ void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
+void Primitive::setStrokeSize(double size) {
+  _strokeSize = size;
+}
+
 }  // namespace compositor
 }  // namespace rl

@@ -13,9 +13,8 @@ namespace rl {
 namespace compositor {
 
 ColoredPathStrokePrimitive::ColoredPathStrokePrimitive(const geom::Path& path,
-                                                       entity::Color color,
-                                                       double size)
-    : _vertices(path), _color(color), _strokeSize(size) {}
+                                                       entity::Color color)
+    : _vertices(path), _color(color) {}
 
 ColoredPathStrokePrimitive::~ColoredPathStrokePrimitive() = default;
 

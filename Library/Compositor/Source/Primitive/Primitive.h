@@ -35,6 +35,8 @@ class Primitive {
 
   void setOpacity(double opacity);
 
+  void setStrokeSize(double size);
+
   RL_WARN_UNUSED_RESULT
   virtual bool prepareToRender(BackEndPass& backEndPass) = 0;
 
@@ -46,6 +48,7 @@ class Primitive {
   geom::Size _size;
   geom::Matrix _modelViewMatrix;
   double _opacity = 1.0;
+  double _strokeSize = 0.0;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Primitive);

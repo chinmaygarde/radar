@@ -14,7 +14,7 @@ namespace compositor {
 
 class ColoredBoxStrokePrimitive : public Primitive {
  public:
-  ColoredBoxStrokePrimitive(entity::Color color, double strokeSize);
+  ColoredBoxStrokePrimitive(entity::Color color);
 
   ~ColoredBoxStrokePrimitive() override;
 
@@ -24,7 +24,6 @@ class ColoredBoxStrokePrimitive : public Primitive {
 
  private:
   const entity::Color _color;
-  const double _strokeSize;
 
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredBoxStrokePrimitive);
 };

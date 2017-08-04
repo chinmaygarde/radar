@@ -14,9 +14,8 @@
 namespace rl {
 namespace compositor {
 
-ColoredBoxStrokePrimitive::ColoredBoxStrokePrimitive(entity::Color color,
-                                                     double strokeSize)
-    : _color(color), _strokeSize(strokeSize) {}
+ColoredBoxStrokePrimitive::ColoredBoxStrokePrimitive(entity::Color color)
+    : _color(color) {}
 
 ColoredBoxStrokePrimitive::~ColoredBoxStrokePrimitive() = default;
 
