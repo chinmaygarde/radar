@@ -29,9 +29,9 @@ class Context {
 
   ProgramCatalog& programCatalog();
 
-  BoxVertices& unitBoxVertices();
+  const BoxVertices& unitBoxVertices();
 
-  StrokeVertices& unitBoxStrokeVertices();
+  const StrokeVertices& unitBoxStrokeVertices();
 
   RL_WARN_UNUSED_RESULT
   bool beginUsing();

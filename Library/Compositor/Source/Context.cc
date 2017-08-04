@@ -39,12 +39,12 @@ ProgramCatalog& Context::programCatalog() {
   return *_programCatalog;
 }
 
-BoxVertices& Context::unitBoxVertices() {
+const BoxVertices& Context::unitBoxVertices() {
   RL_ASSERT(_beingUsed);
   return *_unitBoxVertices;
 }
 
-StrokeVertices& Context::unitBoxStrokeVertices() {
+const StrokeVertices& Context::unitBoxStrokeVertices() {
   RL_ASSERT(_beingUsed);
   return *_unitBoxStrokeVertices;
 }
