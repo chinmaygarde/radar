@@ -46,7 +46,8 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
    *  Draw vertices.
    */
   bool drawn =
-      _vertices.draw(program.positionAttribute(), program.normalAttribute());
+      _vertices.draw(program.positionAttribute(), program.normalAttribute(),
+                     program.segmentContinuationAttribute());
 
   RL_GLAssert("No errors while rendering");
 

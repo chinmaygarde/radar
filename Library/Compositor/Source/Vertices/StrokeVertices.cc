@@ -51,8 +51,13 @@ bool StrokeVertices::tessellatePathComponent(
     const auto normal =
         geom::Vector3{-dy * direction, dx * direction}.normalize();
 
-    _vertices.emplace_back(vertex, normal);
-    _vertices.emplace_back(vertex, -normal);
+    if (i == 0) {
+      _vertices.emplace_back(vertex, -normal, 0.0);
+      _vertices.emplace_back(vertex, normal, 0.0);
+    }
+
+    _vertices.emplace_back(vertex, normal, 1.0);
+    _vertices.emplace_back(vertex, -normal, 1.0);
   }
 
   return true;
@@ -71,7 +76,8 @@ bool StrokeVertices::uploadVertexData() {
 }
 
 bool StrokeVertices::draw(size_t positionAttributeIndex,
-                          size_t normalAttributeIndex) const {
+                          size_t normalAttributeIndex,
+                          size_t segmentContinuationAttributeIndex) const {
   auto bound = bindBuffer();
 
   if (!bound) {
@@ -85,6 +91,10 @@ bool StrokeVertices::draw(size_t positionAttributeIndex,
   auto autoDisableNormal =
       enableAttribute(normalAttributeIndex, 2, GL_FLOAT, sizeof(StrokeVertex),
                       offsetof(StrokeVertex, normal));
+
+  auto autoDisableOpacity = enableAttribute(
+      segmentContinuationAttributeIndex, 1, GL_FLOAT, sizeof(StrokeVertex),
+      offsetof(StrokeVertex, segmentContinuation));
 
   glDrawArrays(RL_CONSOLE_GET_VALUE_ONCE("Show Stroke Mesh", false)
                    ? GL_LINE_STRIP

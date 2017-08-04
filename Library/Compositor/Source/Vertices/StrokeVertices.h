@@ -20,7 +20,9 @@ class StrokeVertices : public Vertices {
 
   const geom::Size& size() const;
 
-  bool draw(size_t positionAttributeIndex, size_t normalAttributeIndex) const;
+  bool draw(size_t positionAttributeIndex,
+            size_t normalAttributeIndex,
+            size_t opacityAttributeIndex) const;
 
  private:
   geom::Size _size;
@@ -28,9 +30,14 @@ class StrokeVertices : public Vertices {
   struct StrokeVertex {
     gl::GLPoint position;
     gl::GLPoint normal;
+    GLfloat segmentContinuation;
 
-    StrokeVertex(gl::GLPoint pPosition, gl::GLPoint pNormal)
-        : position(pPosition), normal(pNormal) {}
+    StrokeVertex(gl::GLPoint pPosition,
+                 gl::GLPoint pNormal,
+                 GLfloat pSegmentContinuation)
+        : position(pPosition),
+          normal(pNormal),
+          segmentContinuation(pSegmentContinuation) {}
   };
 
   std::vector<StrokeVertex> _vertices;

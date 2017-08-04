@@ -29,6 +29,8 @@ class StrokeProgram : public Program {
 
   GLint normalAttribute() const;
 
+  GLint segmentContinuationAttribute() const;
+
  private:
   GLint _modelViewProjectionUniform = -1;
   GLint _contentColorUniform = -1;
@@ -36,6 +38,7 @@ class StrokeProgram : public Program {
   GLint _strokeSizeUniform = -1;
   GLint _positionAttribute = -1;
   GLint _normalAttribute = -1;
+  GLint _segmentContinuationAttribute = -1;
 
   void onLinkSuccess() override;
 
