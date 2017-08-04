@@ -14,7 +14,7 @@ TEST_F(GraphicsTest, SimpleBoxPrimitive) {
 
   ASSERT_TRUE(frame.begin());
 
-  rl::compositor::ColoredBoxPrimitive primitive(rl::entity::ColorBlue);
+  rl::compositor::ColoredBoxPrimitive primitive(rl::entity::Color::Blue());
 
   ASSERT_TRUE(primitive.render(frame));
 
@@ -24,7 +24,7 @@ TEST_F(GraphicsTest, SimpleBoxPrimitive) {
 }
 
 TEST_F(GraphicsTestFrame, SimpleBoxPrimitiveWithFixture) {
-  rl::compositor::ColoredBoxPrimitive primitive(rl::entity::ColorBlue);
+  rl::compositor::ColoredBoxPrimitive primitive(rl::entity::Color::Blue());
 
   ASSERT_TRUE(primitive.render(frame()));
 }

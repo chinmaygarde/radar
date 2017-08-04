@@ -16,7 +16,7 @@ TEST_F(GraphicsTestFrame, ColoredBoxPrimitive) {
   rl::compositor::PresentationEntity box({});
 
   box.setFrame({10, 10, 100, 100});
-  box.setBackgroundColor(rl::entity::ColorBlue);
+  box.setBackgroundColor(rl::entity::Color::Blue());
 
   /*
    *  Setup the frontend pass.
@@ -44,7 +44,7 @@ TEST_F(GraphicsTestFrame, ColoredPathPrimitiveTest) {
 
   rl::compositor::PresentationEntity box({});
   box.setPath(builder.path());
-  box.setBackgroundColor(rl::entity::ColorWhite);
+  box.setBackgroundColor(rl::entity::Color::White());
 
   /*
    *  Setup the frontend pass.

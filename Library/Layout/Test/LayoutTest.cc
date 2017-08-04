@@ -124,28 +124,28 @@ TEST(LayoutTest, ConstraintCreation) {
   ASSERT_EQ(constraint.expression().terms().size(), 1);
   ASSERT_EQ(constraint.expression().constant(), 35);
   ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
-  ASSERT_EQ(constraint.priority(), rl::layout::priority::Required);
+  ASSERT_EQ(constraint.priority(), rl::layout::priority::Required());
 
   rl::layout::Constraint constraint2 = 2.0 * v + v * 2.5 >= 400;
   ASSERT_EQ(constraint2.expression().terms().size(), 2);
   ASSERT_EQ(constraint2.expression().constant(), -400);
   ASSERT_EQ(constraint2.relation(),
             rl::layout::Constraint::Relation::GreaterThanOrEqualTo);
-  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Required);
+  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Required());
 
   rl::layout::Constraint constraint3 = 2.0 * v + v * 2.5 <= -400;
   ASSERT_EQ(constraint3.expression().terms().size(), 2);
   ASSERT_EQ(constraint3.expression().constant(), 400);
   ASSERT_EQ(constraint3.relation(),
             rl::layout::Constraint::Relation::LessThanOrEqualTo);
-  ASSERT_EQ(constraint3.priority(), rl::layout::priority::Required);
+  ASSERT_EQ(constraint3.priority(), rl::layout::priority::Required());
 
   rl::layout::Constraint constraint4 =
       2.0 * v + v * 2.5 == 2 * (-400 + 5.0 * v);
   ASSERT_EQ(constraint4.expression().terms().size(), 3);
   ASSERT_EQ(constraint4.expression().constant(), 800);
   ASSERT_EQ(constraint4.relation(), rl::layout::Constraint::Relation::EqualTo);
-  ASSERT_EQ(constraint4.priority(), rl::layout::priority::Required);
+  ASSERT_EQ(constraint4.priority(), rl::layout::priority::Required());
   ASSERT_EQ(constraint4.expression().terms()[2].coefficient(), -10);
 }
 
@@ -155,26 +155,26 @@ TEST(LayoutTest, ConstraintCreationAtPriority) {
   rl::layout::Variable v(rl::core::Name{ns});
 
   rl::layout::Constraint constraint =
-      2.0 * v + 35 == 0 | rl::layout::priority::Strong;
+      2.0 * v + 35 == 0 | rl::layout::priority::Strong();
   ASSERT_EQ(constraint.expression().terms().size(), 1);
   ASSERT_EQ(constraint.expression().constant(), 35);
   ASSERT_EQ(constraint.relation(), rl::layout::Constraint::Relation::EqualTo);
-  ASSERT_EQ(constraint.priority(), rl::layout::priority::Strong);
+  ASSERT_EQ(constraint.priority(), rl::layout::priority::Strong());
 
   rl::layout::Constraint constraint2 =
-      rl::layout::priority::Strong | 2.0 * v + 35 == 0;
+      rl::layout::priority::Strong() | 2.0 * v + 35 == 0;
   ASSERT_EQ(constraint2.expression().terms().size(), 1);
   ASSERT_EQ(constraint2.expression().constant(), 35);
   ASSERT_EQ(constraint2.relation(), rl::layout::Constraint::Relation::EqualTo);
-  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Strong);
+  ASSERT_EQ(constraint2.priority(), rl::layout::priority::Strong());
 }
 
 TEST(LayoutTest, SerializeDeserializeConstraint) {
   rl::core::Namespace ns;
 
   rl::layout::Variable v(rl::core::Name{ns});
-  auto constraint =
-      2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) | rl::layout::priority::Strong;
+  auto constraint = 2.0 * v + v * 2.5 <= 2 * (-400 + 5.0 * v) |
+                    rl::layout::priority::Strong();
 
   rl::core::Message message;
   ASSERT_EQ(message.encode(constraint), true);
@@ -202,7 +202,7 @@ TEST(LayoutTest, SerializeDeserializeConstraint) {
   ASSERT_EQ(readMessage.sizeRead(), sizeWritten);
 
   ASSERT_EQ(decoded.expression().terms().size(), 3);
-  ASSERT_EQ(decoded.priority(), rl::layout::priority::Strong);
+  ASSERT_EQ(decoded.priority(), rl::layout::priority::Strong());
   ASSERT_EQ(decoded.relation(),
             rl::layout::Constraint::Relation::LessThanOrEqualTo);
   ASSERT_EQ(decoded.expression().terms()[2].coefficient(), -10.0);
@@ -331,10 +331,10 @@ TEST(LayoutTest, EditConstraintFlush) {
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
-  ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong),
+  ASSERT_EQ(solver.addEditVariable(mid, rl::layout::priority::Strong()),
             rl::layout::Result::Success);
 
-  ASSERT_EQ(solver.applySuggestion({mid, 300, rl::layout::priority::Strong}),
+  ASSERT_EQ(solver.applySuggestion({mid, 300, rl::layout::priority::Strong()}),
             rl::layout::Result::Success);
 
   std::map<rl::core::Name, double> updates;
@@ -359,20 +359,20 @@ TEST(LayoutTest, SolverSolutionWithOptimize) {
 
   rl::layout::Solver solver(ns);
 
-  auto res = solver.addEditVariable(container, rl::layout::priority::Strong);
+  auto res = solver.addEditVariable(container, rl::layout::priority::Strong());
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
-  res =
-      solver.applySuggestion({container, 100.0, rl::layout::priority::Strong});
+  res = solver.applySuggestion(
+      {container, 100.0, rl::layout::priority::Strong()});
 
   ASSERT_EQ(res, rl::layout::Result::Success);
 
   res = solver.addConstraints({
-      p1 >= 30.0 | rl::layout::priority::Strong,  //
-      p1 == p3 | rl::layout::priority::Medium,    //
-      p2 == 2.0 * p1,                             //
-      container == p1 + p2 + p3                   //
+      p1 >= 30.0 | rl::layout::priority::Strong(),  //
+      p1 == p3 | rl::layout::priority::Medium(),    //
+      p2 == 2.0 * p1,                               //
+      container == p1 + p2 + p3                     //
   });
 
   ASSERT_EQ(res, rl::layout::Result::Success);
