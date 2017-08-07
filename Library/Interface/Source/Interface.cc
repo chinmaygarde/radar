@@ -18,7 +18,8 @@ Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate)
     : Interface(delegate, nullptr) {}
 
 Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive> spliceArchive)
+                     std::unique_ptr<core::Archive>
+                         spliceArchive)
     : _localNS(),
       _rootEntity(_localNS,
                   std::bind(&Interface::entityDidRecordUpdateUpdate,
@@ -174,10 +175,12 @@ InterfaceTransaction& Interface::transaction() {
   return *_transactionStack.back();
 }
 
-void Interface::pushTransaction(animation::Action&& action) {
+Interface::AutoTransactionPop Interface::pushTransaction(
+    animation::Action action) {
   core::MutexLocker lock(_transactionStackMutex);
   _transactionStack.emplace_back(
       std::make_unique<InterfaceTransaction>(std::move(action)));
+  return {*this};
 }
 
 void Interface::popTransaction() {

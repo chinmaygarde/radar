@@ -44,7 +44,8 @@ class Interface {
   Interface(std::shared_ptr<InterfaceDelegate> delegate);
 
   Interface(std::shared_ptr<InterfaceDelegate> delegate,
-            std::unique_ptr<core::Archive> spliceArchive);
+            std::unique_ptr<core::Archive>
+                spliceArchive);
 
   /**
    *  Setup the interface context and invoke the callback when ready
@@ -76,24 +77,35 @@ class Interface {
    */
   const geom::Size& size() const;
 
-  /**
-   *  Get the transaction on top of the interface transaction stack
-   *
-   *  @return the top transaction
-   */
-  InterfaceTransaction& transaction();
+  class AutoTransactionPop {
+   public:
+    AutoTransactionPop(AutoTransactionPop&& o) : _interface(o._interface) {
+      o._interface = nullptr;
+    }
+
+    ~AutoTransactionPop() {
+      if (_interface != nullptr) {
+        _interface->popTransaction();
+      }
+    }
+
+   private:
+    friend class Interface;
+
+    Interface* _interface;
+
+    AutoTransactionPop(Interface& interface) : _interface(&interface) {}
+
+    RL_DISALLOW_COPY_AND_ASSIGN(AutoTransactionPop);
+  };
 
   /**
    *  Push a new transaction onto the transaction stack
    *
    *  @param action the action for the transaction
    */
-  void pushTransaction(animation::Action&& action);
-
-  /**
-   *  Pop the last transaction off the transaction stack
-   */
-  void popTransaction();
+  RL_WARN_UNUSED_RESULT
+  AutoTransactionPop pushTransaction(animation::Action action);
 
   State state() const;
 
@@ -101,6 +113,14 @@ class Interface {
 
   void setupConstraintSuggestions(
       const std::vector<layout::Suggestion>& suggestions);
+
+  /**
+   *  Get a reference to the transaction that is currently on top of the
+   *  transaction stack.
+   *
+   *  @return the transaction.
+   */
+  InterfaceTransaction& transaction();
 
  protected:
   virtual void didBecomeReady();
@@ -123,22 +143,20 @@ class Interface {
   toolbox::StateMachine _state;
   coordinator::CoordinatorAcquisitionProtocol _coordinatorAcquisition;
 
+  void popTransaction();
   void attemptCoordinatorChannelAcquisition();
   void onCoordinatorChannelAcquisition(core::IOResult result,
                                        core::Message message);
   void scheduleChannels();
   void unscheduleChannels();
-
   void autoFlushObserver(core::EventLoopObserver::Activity activity);
   void armAutoFlushTransactions(bool arm);
   void flushTransactions();
   bool sendTransactionMessage();
   void performTerminationCleanup();
-
   void entityDidRecordUpdateUpdate(const entity::Entity& entity,
                                    entity::Entity::Property property,
                                    core::Name otherIdentifier);
-
   void didFinishLaunching();
   void didBecomeActive();
   void didEnterBackground();

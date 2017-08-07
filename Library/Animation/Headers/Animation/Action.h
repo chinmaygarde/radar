@@ -98,8 +98,6 @@ class Action : public core::ArchiveSerializable,
   TimingCurve _resolvedCurve;
 
   void resolveCurve();
-
-  RL_DISALLOW_ASSIGN(Action);
 };
 
 }  // namespace animation
