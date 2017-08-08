@@ -8,6 +8,7 @@
 #include <Geometry/Point.h>
 #include <Geometry/Size.h>
 #include <cmath>
+#include <string>
 
 namespace rl {
 namespace geom {
@@ -94,6 +95,8 @@ struct Vector3 {
         aScale * a.z + bScale * b.z,  //
     };
   }
+
+  std::string toString() const;
 };
 
 struct Vector4 {
@@ -135,6 +138,8 @@ struct Vector4 {
   Vector4 operator-(const Vector4& v) const {
     return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
   }
+
+  std::string toString() const;
 };
 
 }  // namespace geom

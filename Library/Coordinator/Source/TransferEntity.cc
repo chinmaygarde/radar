@@ -66,6 +66,10 @@ void TransferEntity::record(const Entity& entity,
   mergeProperties(entity, propertyMask);
 }
 
+TransferEntity::PropertyMaskType TransferEntity::enabledProperties() const {
+  return _updateMask;
+}
+
 bool TransferEntity::walkEnabledProperties(
     PropertyMaskType extraMask,
     PropertyWalkCallback callback) const {

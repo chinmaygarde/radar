@@ -18,8 +18,7 @@ Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate)
     : Interface(delegate, nullptr) {}
 
 Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate,
-                     std::unique_ptr<core::Archive>
-                         spliceArchive)
+                     std::unique_ptr<core::Archive> spliceArchive)
     : _localNS(),
       _rootEntity(_localNS,
                   std::bind(&Interface::entityDidRecordUpdateUpdate,
@@ -94,7 +93,7 @@ ModelEntity::Ref Interface::createEntity() {
                 std::placeholders::_1,                          //
                 std::placeholders::_2,                          //
                 std::placeholders::_3                           //
-                );
+      );
   ModelEntity::Ref entity(new ModelEntity(core::Name{_localNS}, callback));
   return entity;
 }
@@ -160,38 +159,52 @@ void Interface::entityDidRecordUpdateUpdate(const entity::Entity& entity,
 }
 
 InterfaceTransaction& Interface::transaction() {
-  core::MutexLocker lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionsMutex);
 
-  if (_transactionStack.size() == 0) {
+  if (_pendingTransactions.size() == 0) {
     /*
      *  If the transaction stack is empty, push the default transaction. We
      *  are already holding the lock, so update the stack manually.
      */
-    _transactionStack.emplace_back(
+    _pendingTransactions.emplace_back(
         std::make_unique<InterfaceTransaction>(animation::Action{0.0}));
+    /*
+     *  Since we are manually pushing a transaction onto the stack, we need to
+     * pop it at the end of the current runloop callout.
+     */
     armAutoFlushTransactions(true);
   }
 
-  return *_transactionStack.back();
+  return *_pendingTransactions.back();
 }
 
 Interface::AutoTransactionPop Interface::pushTransaction(
     animation::Action action) {
-  core::MutexLocker lock(_transactionStackMutex);
-  _transactionStack.emplace_back(
+  core::MutexLocker lock(_transactionsMutex);
+  _pendingTransactions.emplace_back(
       std::make_unique<InterfaceTransaction>(std::move(action)));
-  return {*this};
+  return Interface::AutoTransactionPop{*this};
 }
 
 void Interface::popTransaction() {
-  core::MutexLocker lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionsMutex);
 
-  if (_transactionStack.size() == 0) {
+  if (_pendingTransactions.size() == 0) {
     return;
   }
 
-  _committedTransactions.emplace_back(std::move(_transactionStack.back()));
-  _transactionStack.pop_back();
+  _committedTransactions.emplace_front(std::move(_pendingTransactions.back()));
+  _pendingTransactions.pop_back();
+}
+
+void Interface::popAllTransactions() {
+  core::MutexLocker lock(_transactionsMutex);
+
+  while (_pendingTransactions.size() != 0) {
+    _committedTransactions.emplace_front(
+        std::move(_pendingTransactions.back()));
+    _pendingTransactions.pop_back();
+  }
 }
 
 void Interface::autoFlushObserver(core::EventLoopObserver::Activity activity) {
@@ -211,49 +224,42 @@ void Interface::armAutoFlushTransactions(bool arm) {
 }
 
 void Interface::flushTransactions() {
+  RL_TRACE_AUTO("Interface::FlushTransactions")
+
+  popAllTransactions();
+
   if (_coordinatorChannel == nullptr) {
     return;
   }
 
-  RL_TRACE_AUTO("Interface::FlushTransactions")
   RL_ASSERT(_coordinatorChannel != nullptr);
-
-  auto result = true;
 
   /*
    *  Create a message to encode all the transaction items into
    */
   core::Message arena;
 
-  core::MutexLocker lock(_transactionStackMutex);
+  core::MutexLocker lock(_transactionsMutex);
 
-  if (_transactionStack.size() == 0) {
-    return;
-  }
+  RL_ASSERT(_pendingTransactions.size() == 0);
+
+  auto result = true;
 
   /*
-   *  Commit all explicitly committed transactions.
+   *  Commit all transactions.
    */
+
   for (auto& transaction : _committedTransactions) {
     result &= transaction->commit(arena, _spliceArchive);
   }
 
-  /*
-   *  Commit the transactions still pending on the transaction stack.
-   */
-  for (auto i = _transactionStack.rbegin(), end = _transactionStack.rend();
-       i != end; i++) {
-    result &= (*i)->commit(arena, _spliceArchive);
-  }
+  _committedTransactions.clear();
 
   core::Messages messages;
   messages.push_back(std::move(arena));
 
   result &= _coordinatorChannel->sendMessages(std::move(messages)) ==
             core::IOResult::Success;
-
-  _committedTransactions.clear();
-  _transactionStack.clear();
 
   RL_ASSERT_MSG(result, "Must be able to flush the coordinator transaction");
 }

@@ -39,6 +39,8 @@ struct Matrix {
     };
 
     uint64_t componentsMask() const;
+
+    std::string toString() const;
   };
 
   using DecompositionResult =
@@ -217,7 +219,7 @@ struct Matrix {
         m[8]  == 0.0 && m[9]  == 0.0 && m[10] == 1.0 && m[11] == 0.0 &&
         m[12] == 0.0 && m[13] == 0.0 && m[14] == 0.0 && m[15] == 1.0
         // clang-format on
-        );
+    );
   }
 
   DecompositionResult decompose() const;

@@ -23,6 +23,8 @@ class TransferEntity : public entity::Entity, public core::MessageSerializable {
               Entity::Property property,
               core::Name other);
 
+  PropertyMaskType enabledProperties() const;
+
   bool walkEnabledProperties(PropertyMaskType extraMask,
                              PropertyWalkCallback callback) const;
 

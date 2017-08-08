@@ -121,7 +121,7 @@ Matrix Matrix::Perspective(double fov,
                 0.0, cotan, 0.0, 0.0,                                 //
                 0.0, 0.0, (farZ + nearZ) / (nearZ - farZ), -1.0,      //
                 0.0, 0.0, (2.0 * farZ * nearZ) / (nearZ - farZ), 0.0  //
-                );
+  );
 }
 
 Matrix Matrix::LookAt(const Vector3& eye,
@@ -142,7 +142,7 @@ Matrix Matrix::operator+(const Matrix& o) const {
       m[4] + o.m[4], m[5] + o.m[5], m[6] + o.m[6], m[7] + o.m[7],         //
       m[8] + o.m[8], m[9] + o.m[9], m[10] + o.m[10], m[11] + o.m[11],     //
       m[12] + o.m[12], m[13] + o.m[13], m[14] + o.m[14], m[15] + o.m[15]  //
-      );
+  );
 }
 
 std::string Matrix::toString() const {
@@ -466,6 +466,18 @@ uint64_t Matrix::Decomposition::componentsMask() const {
   }
 
   return mask;
+}
+
+std::string Matrix::Decomposition::toString() const {
+  std::stringstream stream;
+
+  stream << "Translation: " << translation.toString() << std::endl;
+  stream << "Scale: " << scale.toString() << std::endl;
+  stream << "Shear: " << shear.toString() << std::endl;
+  stream << "Perspective: " << perspective.toString() << std::endl;
+  stream << "Rotation: " << rotation.toString() << std::endl;
+
+  return stream.str();
 }
 
 }  // namespace geom

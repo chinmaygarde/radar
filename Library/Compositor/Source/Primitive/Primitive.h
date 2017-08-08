@@ -35,6 +35,8 @@ class Primitive {
 
   void setOpacity(double opacity);
 
+  void setColor(entity::Color color);
+
   void setStrokeSize(double size);
 
   RL_WARN_UNUSED_RESULT
@@ -48,6 +50,7 @@ class Primitive {
   geom::Size _size;
   geom::Matrix _modelViewMatrix;
   double _opacity = 1.0;
+  entity::Color _color;
   double _strokeSize = 0.0;
 
  private:

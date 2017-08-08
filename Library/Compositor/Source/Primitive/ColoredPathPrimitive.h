@@ -15,13 +15,12 @@ namespace compositor {
 
 class ColoredPathPrimitive : public Primitive {
  public:
-  ColoredPathPrimitive(entity::Color color, const geom::Path& path);
+  ColoredPathPrimitive(const geom::Path& path);
 
   ~ColoredPathPrimitive() override;
 
  private:
   FillVertices _vertices;
-  entity::Color _color;
 
   bool prepareToRender(BackEndPass& backEndPass) override;
 

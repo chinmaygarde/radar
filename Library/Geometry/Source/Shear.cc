@@ -4,11 +4,16 @@
  */
 
 #include <Geometry/Shear.h>
+#include <sstream>
 
 namespace rl {
 namespace geom {
 
-//
+std::string Shear::toString() const {
+  std::stringstream stream;
+  stream << "{" << xy << ", " << xz << ", " << yz << "}";
+  return stream.str();
+}
 
 }  // namespace geom
 }  // namespace rl

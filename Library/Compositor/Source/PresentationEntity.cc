@@ -82,6 +82,7 @@ void PresentationEntity::renderContents(FrontEndPass& frontEndPass) const {
 
   if (auto primitive =
           _primitivesCache->acquire(*this, contentType, primitiveType)) {
+    primitive->setColor(_backgroundColor);
     primitive->setSize(_bounds.size);
     primitive->setOpacity(_opacity);
     primitive->setModelViewMatrix(_renderedModelViewMatrix);

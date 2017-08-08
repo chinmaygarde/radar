@@ -663,7 +663,9 @@ struct ColorHSB {
 
   static ColorHSB FromRGB(Color rgb);
 
-  Color ToRGBA() const;
+  Color toRGBA() const;
+
+  std::string toString() const;
 };
 
 }  // namespace entity

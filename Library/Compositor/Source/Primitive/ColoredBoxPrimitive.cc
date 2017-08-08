@@ -12,7 +12,7 @@
 namespace rl {
 namespace compositor {
 
-ColoredBoxPrimitive::ColoredBoxPrimitive(entity::Color color) : _color(color) {}
+ColoredBoxPrimitive::ColoredBoxPrimitive() = default;
 
 ColoredBoxPrimitive::~ColoredBoxPrimitive() = default;
 

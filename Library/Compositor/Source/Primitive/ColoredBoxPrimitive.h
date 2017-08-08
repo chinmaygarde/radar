@@ -13,7 +13,7 @@ namespace compositor {
 
 class ColoredBoxPrimitive : public Primitive {
  public:
-  ColoredBoxPrimitive(entity::Color color);
+  ColoredBoxPrimitive();
 
   ~ColoredBoxPrimitive() override;
 
@@ -22,8 +22,6 @@ class ColoredBoxPrimitive : public Primitive {
   bool render(Frame& frame) const override;
 
  private:
-  entity::Color _color;
-
   RL_DISALLOW_COPY_AND_ASSIGN(ColoredBoxPrimitive);
 };
 

@@ -75,6 +75,8 @@ struct Quaternion {
   bool operator!=(const Quaternion& o) const {
     return x != o.x || y != o.y || z != o.z || w != o.w;
   }
+
+  std::string toString() const;
 };
 
 }  // namespace geom

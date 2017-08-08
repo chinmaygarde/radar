@@ -13,7 +13,7 @@
 #include <Interface/ModelEntity.h>
 #include <Layout/Constraint.h>
 #include <Toolbox/StateMachine.h>
-#include <vector>
+#include <deque>
 
 namespace rl {
 namespace interface {
@@ -44,8 +44,7 @@ class Interface {
   Interface(std::shared_ptr<InterfaceDelegate> delegate);
 
   Interface(std::shared_ptr<InterfaceDelegate> delegate,
-            std::unique_ptr<core::Archive>
-                spliceArchive);
+            std::unique_ptr<core::Archive> spliceArchive);
 
   /**
    *  Setup the interface context and invoke the callback when ready
@@ -132,10 +131,11 @@ class Interface {
   core::Namespace _localNS;
   ModelEntity _rootEntity;
   core::EventLoop* _loop;
-  core::Mutex _transactionStackMutex;
-  std::vector<std::unique_ptr<InterfaceTransaction>> _transactionStack
-      RL_GUARDED_BY(_transactionStackMutex);
-  std::vector<std::unique_ptr<InterfaceTransaction>> _committedTransactions;
+  core::Mutex _transactionsMutex;
+  std::deque<std::unique_ptr<InterfaceTransaction>> _pendingTransactions
+      RL_GUARDED_BY(_transactionsMutex);
+  std::deque<std::unique_ptr<InterfaceTransaction>> _committedTransactions
+      RL_GUARDED_BY(_transactionsMutex);
   std::shared_ptr<core::EventLoopObserver> _autoFlushObserver;
   std::shared_ptr<InterfaceDelegate> _delegate;
   std::shared_ptr<core::Channel> _coordinatorChannel;
@@ -144,6 +144,7 @@ class Interface {
   coordinator::CoordinatorAcquisitionProtocol _coordinatorAcquisition;
 
   void popTransaction();
+  void popAllTransactions();
   void attemptCoordinatorChannelAcquisition();
   void onCoordinatorChannelAcquisition(core::IOResult result,
                                        core::Message message);

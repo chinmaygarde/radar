@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace rl {
 namespace geom {
 
@@ -27,6 +29,8 @@ struct Shear {
   }
 
   bool operator!=(const Shear& o) const { return !(*this == o); }
+
+  std::string toString() const;
 };
 
 }  // namespace geom

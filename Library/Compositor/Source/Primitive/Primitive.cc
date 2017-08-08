@@ -30,6 +30,10 @@ void Primitive::setOpacity(double opacity) {
   _opacity = opacity;
 }
 
+void Primitive::setColor(entity::Color color) {
+  _color = color;
+}
+
 void Primitive::setStrokeSize(double size) {
   _strokeSize = size;
 }

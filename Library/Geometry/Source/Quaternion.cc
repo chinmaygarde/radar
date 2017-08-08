@@ -4,6 +4,7 @@
  */
 
 #include <Geometry/Quaternion.h>
+#include <sstream>
 
 namespace rl {
 namespace geom {
@@ -26,6 +27,13 @@ Quaternion Quaternion::slerp(const Quaternion& to, double time) const {
      */
     return (*this * (1.0 - time) + to * time).normalize();
   }
+}
+
+std::string Quaternion::toString() const {
+  std::stringstream stream;
+  stream << "{" << x << ", "
+         << ", " << y << ", " << z << ", " << w << "}";
+  return stream.str();
 }
 
 }  // namespace geom

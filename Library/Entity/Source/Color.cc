@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <Core/Macros.h>
 #include <Entity/Color.h>
 #include <algorithm>
 #include <cmath>
@@ -37,7 +38,7 @@ ColorHSB ColorHSB::FromRGB(Color rgb) {
   return ColorHSB(((i - f / (v - x)) / 6.0), (v - x) / v, v, rgb.alpha);
 }
 
-Color ColorHSB::ToRGBA() const {
+Color ColorHSB::toRGBA() const {
   double h = hue * 6.0;
   double s = saturation;
   double v = brightness;
@@ -82,7 +83,14 @@ Color ColorHSB::ToRGBA() const {
   return Color(0, 0, 0, alpha);
 }
 
-Color::Color(const ColorHSB& hsbColor) : Color(hsbColor.ToRGBA()) {}
+std::string ColorHSB::toString() const {
+  std::stringstream stream;
+  stream << "{" << hue << ", " << saturation << ", " << brightness << ", "
+         << alpha << "}";
+  return stream.str();
+}
+
+Color::Color(const ColorHSB& hsbColor) : Color(hsbColor.toRGBA()) {}
 
 std::string Color::toString() const {
   std::stringstream stream;

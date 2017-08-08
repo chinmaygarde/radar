@@ -11,9 +11,8 @@
 namespace rl {
 namespace compositor {
 
-ColoredPathPrimitive::ColoredPathPrimitive(entity::Color color,
-                                           const geom::Path& path)
-    : _vertices(path, FillVertices::Winding::Odd), _color(color) {}
+ColoredPathPrimitive::ColoredPathPrimitive(const geom::Path& path)
+    : _vertices(path, FillVertices::Winding::Odd) {}
 
 ColoredPathPrimitive::~ColoredPathPrimitive() = default;
 

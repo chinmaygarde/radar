@@ -201,14 +201,13 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
   using PropertyMask = entity::Entity::PropertyMask;
 
   /*
-
    *  Step 1: Resolve hierarchy updates
    */
-  const auto hierarchyMask = PropertyMask::AddedToMask |
-                             PropertyMask::RemovedFromMask |
-                             PropertyMask::MakeRootMask;
+  const auto hierarchyProperties = PropertyMask::AddedToMask |
+                                   PropertyMask::RemovedFromMask |
+                                   PropertyMask::MakeRootMask;
 
-  transferEntity.walkEnabledProperties(hierarchyMask, [&](Property prop) {
+  transferEntity.walkEnabledProperties(hierarchyProperties, [&](Property prop) {
     switch (prop) {
       case Property::AddedTo: {
         presentationEntityForName(transferEntity.addedToTarget())
@@ -228,14 +227,14 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
     return true;
   });
 
-  const auto allowedInterpolatableProperties = action.propertyMask();
+  const auto interpolatedProperties = action.propertyMask();
 
   /*
    *  Step 2: Setup interpolators on updated items and properties enabled
    *          via actions mask
    */
   transferEntity.walkEnabledProperties(
-      allowedInterpolatableProperties, [&](Property prop) {
+      interpolatedProperties, [&](Property prop) {
         /*
          *  Prepare the key for the animation in the animation director
          */
@@ -299,8 +298,12 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
              *  Matrices cannot be interpolated directly. Instead, they need
              *  to be decomposed.
              */
-            auto from = presentationEntity.transformation().decompose().second;
-            auto to = transferEntity.transformation().decompose().second;
+            auto fromDecomposition =
+                presentationEntity.transformation().decompose();
+            auto toDecomposition = transferEntity.transformation().decompose();
+
+            RL_ASSERT(fromDecomposition.first);
+            RL_ASSERT(toDecomposition.first);
 
             _animationDirector.setInterpolator<geom::Matrix::Decomposition>(
                 /* key */
@@ -310,9 +313,9 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
                 /* action */
                 action,
                 /* from value */
-                from,
+                fromDecomposition.second,
                 /* to value */
-                to,
+                toDecomposition.second,
                 /* stepper */
                 std::bind(&compositor::PresentationEntity::setTransformation,
                           &presentationEntity, std::placeholders::_1));
@@ -386,8 +389,10 @@ void PresentationGraph::onTransferEntityCommit(animation::Action& action,
    *  Step 3: Merge non interpolated properties from the transfer entity to the
    *          presentation entity.
    */
-  presentationEntity.mergeProperties(transferEntity,
-                                     ~allowedInterpolatableProperties);
+  const auto nonInterpolatedProperties = ~interpolatedProperties;
+  presentationEntity.mergeProperties(
+      transferEntity,
+      transferEntity.enabledProperties() & nonInterpolatedProperties);
 }
 
 void PresentationGraph::onConstraintsCommit(
