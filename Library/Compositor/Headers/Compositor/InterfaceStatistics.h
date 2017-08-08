@@ -24,6 +24,8 @@ class InterfaceStatistics {
 
   instrumentation::Counter& transactionsCount();
 
+  instrumentation::Counter& transactionPacksCount();
+
   instrumentation::Counter& entitiesCount();
 
   instrumentation::Counter& constraintsCount();
@@ -42,6 +44,7 @@ class InterfaceStatistics {
   instrumentation::Counter _interpolationsCount;
   instrumentation::Stopwatch _transactionUpdateTimer;
   instrumentation::Counter _transactionsCount;
+  instrumentation::Counter _transactionPacksCount;
   instrumentation::Counter _entitiesCount;
   instrumentation::Counter _constraintsCount;
   instrumentation::Counter _editVariablesCount;

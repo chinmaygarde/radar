@@ -141,12 +141,13 @@ compositor::PresentationEntity& PresentationGraph::presentationEntityForName(
 
 bool PresentationGraph::applyTransactions(core::Message& arena) {
   instrumentation::AutoStopwatchLap lap(_stats.transactionUpdateTimer());
-  _stats.transactionsCount().increment();
+  _stats.transactionPacksCount().increment();
 
   auto applyTime = core::Clock::now();
 
   do {
     RL_RETURN_IF_FALSE(applyTransactionSingle(arena, applyTime))
+    _stats.transactionsCount().increment();
   } while (!arena.readCompleted());
 
   _stats.entitiesCount().reset(_entities.size());

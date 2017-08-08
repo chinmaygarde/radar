@@ -32,6 +32,10 @@ instrumentation::Counter& InterfaceStatistics::transactionsCount() {
   return _transactionsCount;
 }
 
+instrumentation::Counter& InterfaceStatistics::transactionPacksCount() {
+  return _transactionPacksCount;
+}
+
 instrumentation::Counter& InterfaceStatistics::entitiesCount() {
   return _entitiesCount;
 }
@@ -57,6 +61,8 @@ void InterfaceStatistics::present() const {
   RL_CONSOLE_SECTION(_tag.c_str());
   RL_CONSOLE_DISPLAY_LABEL("Interpolators: %zu", _interpolationsCount.count());
   RL_CONSOLE_DISPLAY_VALUE("Animations", _interpolations);
+  RL_CONSOLE_DISPLAY_LABEL("Transactions Packs: %zu",
+                           _transactionPacksCount.count());
   RL_CONSOLE_DISPLAY_LABEL("Transactions: %zu", _transactionsCount.count());
   RL_CONSOLE_DISPLAY_VALUE("Transactions", _transactionUpdateTimer);
   RL_CONSOLE_DISPLAY_LABEL("Entities: %zu", _entitiesCount.count());
