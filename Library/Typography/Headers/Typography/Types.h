@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <limits>
+
 namespace rl {
 namespace type {
 
@@ -19,6 +21,15 @@ struct Coordinate {
   Coordinate() : x(0.0), y(0.0) {}
 
   Coordinate(Point aX, Point aY) : x(aX), y(aY) {}
+};
+
+struct TextRange {
+  size_t start = 0;
+  size_t end = std::numeric_limits<size_t>::max();
+
+  TextRange(size_t pStart, size_t pEnd) : start(pStart), end(pEnd) {}
+
+  bool isValid() const { return end >= start; }
 };
 
 }  // namespace type
