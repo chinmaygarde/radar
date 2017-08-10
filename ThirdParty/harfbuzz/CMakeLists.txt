@@ -61,7 +61,6 @@ target_include_directories(harfbuzz
 
 target_compile_definitions(harfbuzz
   PRIVATE
-    -DHB_NO_MT=1
     -DHAVE_OT=1
     -DHAVE_UCDN=1
 )
