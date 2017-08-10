@@ -22,7 +22,7 @@ FTFace::FTFace(FT_Library library, const core::URI& uri)
                   uri.filesystemRepresentation().c_str(),  // font uri
                   0,                                       // face index
                   &_handle                                 // face (out)
-                  );
+      );
 
   if (error != 0) {
     return;

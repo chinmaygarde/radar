@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "FTLibrary.h"
 #include <Core/Utilities.h>
 #include "FTFace.h"
+#include "FTLibrary.h"
 
 namespace rl {
 namespace type {
