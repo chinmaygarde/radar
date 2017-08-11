@@ -10,8 +10,10 @@ StandardRadarLibrary(Typography)
 target_link_libraries(Typography
   PUBLIC
     Core
+    Geometry
   PRIVATE
     harfbuzz
+    icu_common
 )
 
 StandardRadarTest(Typography)

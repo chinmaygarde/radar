@@ -6,17 +6,23 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Geometry/Size.h>
+#include <Typography/AttributedString.h>
 
 namespace rl {
 namespace type {
 
 class Framesetter {
  public:
-  Framesetter();
+  Framesetter(AttributedString string, geom::Size frameSize);
 
   ~Framesetter();
 
+  bool isValid() const;
+
  private:
+  bool _valid = false;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Framesetter);
 };
 
