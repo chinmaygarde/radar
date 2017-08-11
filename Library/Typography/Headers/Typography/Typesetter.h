@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 #include <Geometry/Size.h>
 #include <Typography/AttributedString.h>
+#include <Typography/TextRun.h>
 #include <Typography/TypeFrame.h>
 #include <vector>
 
@@ -24,9 +25,12 @@ class Typesetter {
 
   TypeFrame createTypeFrame(const geom::Size& size) const;
 
+  const std::vector<TextRun> runs() const;
+
  private:
   AttributedString _string;
   std::vector<size_t> _breakOpportunities;
+  std::vector<TextRun> _runs;
   bool _valid = false;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Typesetter);

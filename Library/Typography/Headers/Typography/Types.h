@@ -25,11 +25,11 @@ struct Coordinate {
 
 struct TextRange {
   size_t start = 0;
-  size_t end = std::numeric_limits<size_t>::max();
+  size_t length = 0;
 
-  TextRange(size_t pStart, size_t pEnd) : start(pStart), end(pEnd) {}
+  TextRange() {}
 
-  bool isValid() const { return end >= start; }
+  TextRange(size_t pStart, size_t pLength) : start(pStart), length(pLength) {}
 };
 
 }  // namespace type

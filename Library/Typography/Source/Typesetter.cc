@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <Typography/TextRun.h>
 #include <Typography/Typesetter.h>
 #include <Typography/TypographyContext.h>
 #include <unicode/brkiter.h>
@@ -31,10 +32,16 @@ Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
     _breakOpportunities.emplace_back(current);
   }
 
+  _runs = TextRun::SplitRuns(pString);
+
   _valid = true;
 }
 
 Typesetter::~Typesetter() = default;
+
+const std::vector<TextRun> Typesetter::runs() const {
+  return _runs;
+}
 
 bool Typesetter::isValid() const {
   return _valid;

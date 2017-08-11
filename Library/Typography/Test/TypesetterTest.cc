@@ -8,7 +8,7 @@
 #include <Typography/Typesetter.h>
 #include <Typography/TypographyContext.h>
 
-TEST(FramesetterTest, SimpleFramesetterCreate) {
+TEST(TypesetterTest, SimpleTypesetter) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello");
   builder.appendText(hello);
@@ -16,19 +16,40 @@ TEST(FramesetterTest, SimpleFramesetterCreate) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(attributedString);
   ASSERT_TRUE(typesetter.isValid());
-  rl::type::Typesetter typesetter2(attributedString);
-  ASSERT_TRUE(typesetter2.isValid());
-  rl::type::Typesetter typesetter3(attributedString);
-  ASSERT_TRUE(typesetter3.isValid());
+  ASSERT_EQ(typesetter.runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs()[0].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
 }
 
-TEST(FramesetterTest, SimpleFramesetterPerformFramesetting) {
+TEST(TypesetterTest, SimpleHebrewTypesetter) {
   rl::type::AttributedStringBuilder builder;
-  std::string hello("Hello");
+  std::string hello("ציור עסקים מדע מה. צ'ט בקלות הבאים מאמרשיחהצפה של.");
   builder.appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
-  auto frame = typesetter.createTypeFrame({1000, 1000});
-  ASSERT_TRUE(frame.isValid());
+  ASSERT_TRUE(typesetter.isValid());
+  ASSERT_EQ(typesetter.runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs()[0].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+}
+
+TEST(TypesetterTest, MixedTypesetter) {
+  rl::type::AttributedStringBuilder builder;
+  std::string hello(
+      "World ציור עסקים מדע מה. צ'ט בקלות הבאים  Hello מאמרשיחהצפה של");
+  builder.appendText(hello);
+  auto attributedString = builder.attributedString();
+  ASSERT_TRUE(attributedString.isValid());
+  rl::type::Typesetter typesetter(std::move(attributedString));
+  ASSERT_TRUE(typesetter.isValid());
+  ASSERT_EQ(typesetter.runs().size(), 4u);
+  ASSERT_EQ(typesetter.runs()[0].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs()[1].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs()[2].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs()[3].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
 }
