@@ -2,6 +2,26 @@
 # Licensed under the MIT License. See LICENSE file for details.
 
 ################################################################################
+# ICU Stub Data
+################################################################################
+
+AddRecommendedWarningFlags()
+
+file(GLOB_RECURSE ICU_STUBDATA_SRC
+  "icu/source/stubdata/*.cpp"
+  "icu/source/stubdata/*.h"
+)
+
+add_library(icu_stubdata
+  ${ICU_STUBDATA_SRC}
+)
+
+target_include_directories(icu_stubdata
+  PRIVATE
+    "icu/source/common"
+)
+
+################################################################################
 # ICU Common
 ################################################################################
 
@@ -19,13 +39,18 @@ add_library(icu_common
 )
 
 target_include_directories(icu_common
-  PRIVATE
+  PUBLIC
     "icu/source/common"
 )
 
 target_compile_definitions(icu_common
   PRIVATE
     -DU_COMMON_IMPLEMENTATION=1
+)
+
+target_link_libraries(icu_common
+  PRIVATE
+    icu_stubdata
 )
 
 ################################################################################
@@ -44,12 +69,16 @@ add_library(icu_i18n
 )
 
 target_include_directories(icu_i18n
-  PRIVATE
+  PUBLIC
     "icu/source/i18n"
-    "icu/source/common"
 )
 
 target_compile_definitions(icu_i18n
   PRIVATE
     -DU_I18N_IMPLEMENTATION=1
+)
+
+target_link_libraries(icu_i18n
+  PUBLIC
+    icu_common
 )
