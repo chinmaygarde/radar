@@ -7,27 +7,30 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Typography/Font.h>
+#include <string>
+#include "HarfbuzzHelpers.h"
 
 namespace rl {
 namespace type {
 
-class FontFace;
-
-class Font {
+class FontFace {
  public:
-  Font(const FontFace& fontFace);
+  FontFace(const core::URI& uri, size_t index);
 
-  ~Font();
+  ~FontFace();
 
   bool isValid() const;
 
-  std::string postscriptName() const;
+  hb_face_t* face() const;
+
+  size_t glyphCount() const;
 
  private:
-  void* __opaque = nullptr;
+  HBFacePtr _face;
   bool _valid = false;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Font);
+  RL_DISALLOW_COPY_AND_ASSIGN(FontFace);
 };
 
 }  // namespace type
