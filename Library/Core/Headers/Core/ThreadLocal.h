@@ -33,6 +33,8 @@ class ThreadLocal {
     Box(ThreadLocalDestroyCallback destroy, uintptr_t value)
         : _destroy(destroy), _value(value) {}
 
+    ~Box() { destroyValue(); }
+
     uintptr_t value() const { return _value; }
 
     void setValue(uintptr_t value) {
