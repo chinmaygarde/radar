@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Typography/FontDescriptor.h>
+#include <Typography/String.h>
 #include <map>
 
 namespace rl {
@@ -25,19 +26,19 @@ class AttributedString {
 
   bool isValid() const;
 
-  const std::string& string() const;
+  const String& string() const;
 
   const FontDescriptorsMap& fontDescriptorsMap() const;
 
  private:
   friend class AttributedStringBuilder;
 
-  std::string _string;
+  String _string;
   FontDescriptorsMap _fontDescriptors;
 
   AttributedString();
 
-  AttributedString(std::string string, FontDescriptorsMap map);
+  AttributedString(String string, FontDescriptorsMap map);
 
   RL_DISALLOW_COPY_AND_ASSIGN(AttributedString);
 };

@@ -44,6 +44,8 @@ target_include_directories(icu_common
 )
 
 target_compile_definitions(icu_common
+  PUBLIC
+    -DU_DISABLE_RENAMING=1
   PRIVATE
     -DU_COMMON_IMPLEMENTATION=1
 )

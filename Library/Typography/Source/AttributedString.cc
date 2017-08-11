@@ -10,7 +10,7 @@ namespace type {
 
 AttributedString::AttributedString() = default;
 
-AttributedString::AttributedString(std::string string, FontDescriptorsMap map)
+AttributedString::AttributedString(String string, FontDescriptorsMap map)
     : _string(std::move(string)), _fontDescriptors(std::move(map)) {}
 
 AttributedString::~AttributedString() = default;
@@ -18,10 +18,10 @@ AttributedString::~AttributedString() = default;
 AttributedString::AttributedString(AttributedString&&) = default;
 
 bool AttributedString::isValid() const {
-  return _string.size() > 0 && _fontDescriptors.size() > 0;
+  return _string.length() > 0 && _fontDescriptors.size() > 0;
 }
 
-const std::string& AttributedString::string() const {
+const String& AttributedString::string() const {
   return _string;
 }
 

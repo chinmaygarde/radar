@@ -7,7 +7,7 @@
 #include <Typography/AttributedStringBuilder.h>
 #include <Typography/Framesetter.h>
 
-TEST(FramesetterTest, SimpleFramesetter) {
+TEST(FramesetterTest, DISABLED_SimpleFramesetter) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello");
   builder.appendText(hello);

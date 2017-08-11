@@ -8,8 +8,8 @@
 #include <Core/Macros.h>
 #include <Typography/AttributedString.h>
 #include <Typography/FontDescriptor.h>
+#include <Typography/String.h>
 #include <Typography/Types.h>
-#include <sstream>
 #include <stack>
 #include <string>
 
@@ -31,7 +31,7 @@ class AttributedStringBuilder {
   AttributedString attributedString() const;
 
  private:
-  std::stringstream _stringBuilder;
+  String _stringBuilder;
   AttributedString::FontDescriptorsMap _fontDescriptorsMap;
   std::stack<FontDescriptor> _fontDescriptorsStack;
   size_t _currentStringIndex = 0;

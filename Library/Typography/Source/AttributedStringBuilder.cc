@@ -17,12 +17,13 @@ AttributedStringBuilder::AttributedStringBuilder() {
 AttributedStringBuilder::~AttributedStringBuilder() = default;
 
 AttributedStringBuilder& AttributedStringBuilder::appendText(
-    const std::string& string) {
-  if (string.size() == 0) {
+    const std::string& stringBuffer) {
+  String string(stringBuffer);
+  if (string.length() == 0) {
     return *this;
   }
-  _currentStringIndex += string.size();
-  _stringBuilder << string;
+  _currentStringIndex += string.length();
+  _stringBuilder.append(string);
   return *this;
 }
 
@@ -46,8 +47,7 @@ AttributedStringBuilder& AttributedStringBuilder::popFontDescriptor() {
 }
 
 AttributedString AttributedStringBuilder::attributedString() const {
-  auto string = _stringBuilder.str();
-  if (string.size() == 0) {
+  if (_stringBuilder.length() == 0) {
     return {};
   }
 
@@ -56,7 +56,7 @@ AttributedString AttributedStringBuilder::attributedString() const {
    */
   auto fontDescriptors = _fontDescriptorsMap;
   fontDescriptors.erase(_currentStringIndex);
-  return {std::move(string), std::move(fontDescriptors)};
+  return {_stringBuilder, std::move(fontDescriptors)};
 }
 
 }  // namespace type

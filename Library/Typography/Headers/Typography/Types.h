@@ -34,3 +34,9 @@ struct TextRange {
 
 }  // namespace type
 }  // namespace rl
+
+namespace icu {
+
+class UnicodeString;
+
+}  // namespace icu
