@@ -22,8 +22,10 @@ static inline TextRun::Direction ToTextRunDirection(UBiDiDirection direction) {
   return TextRun::Direction::kUnknown;
 }
 
-std::vector<TextRun> TextRun::SplitRuns(const AttributedString& string) {
-  if (string.string().length() == 0) {
+std::vector<TextRun> TextRun::SplitRuns(
+    const String& string,
+    std::vector<size_t> breakOpportunities) {
+  if (string.length() == 0) {
     return {};
   }
 
@@ -35,7 +37,7 @@ std::vector<TextRun> TextRun::SplitRuns(const AttributedString& string) {
     return {};
   }
 
-  const UnicodeString& unicodeString = string.string().unicodeString();
+  const UnicodeString& unicodeString = string.unicodeString();
 
   UErrorCode status = U_ZERO_ERROR;
   ubidi_setPara(bidi.get(),                 // bidi
@@ -73,6 +75,7 @@ std::vector<TextRun> TextRun::SplitRuns(const AttributedString& string) {
                            &logicalStart,  // logical start (out)
                            &length         // length (out)
         );
+
     if (logicalStart < 0 || length < 0) {
       continue;
     }

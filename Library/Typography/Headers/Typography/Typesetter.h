@@ -29,7 +29,6 @@ class Typesetter {
 
  private:
   AttributedString _string;
-  std::vector<size_t> _breakOpportunities;
   std::vector<TextRun> _runs;
   bool _valid = false;
 

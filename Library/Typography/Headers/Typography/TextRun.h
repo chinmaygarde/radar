@@ -21,7 +21,8 @@ class TextRun {
     RightToLeft,
   };
 
-  static std::vector<TextRun> SplitRuns(const AttributedString& string);
+  static std::vector<TextRun> SplitRuns(const String& string,
+                                        std::vector<size_t> breakOpportunities);
 
   TextRun(Direction direction, TextRange range);
 
