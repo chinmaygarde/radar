@@ -53,3 +53,16 @@ TEST(TypesetterTest, MixedTypesetter) {
   ASSERT_EQ(typesetter.runs()[3].direction(),
             rl::type::TextRun::Direction::RightToLeft);
 }
+
+TEST(TypesetterTest, EmojiTypesetter) {
+  rl::type::AttributedStringBuilder builder;
+  std::string hello("With 😀 😃 😄 😁 😆 😅 😂 🤣 Emoji");
+  builder.appendText(hello);
+  auto attributedString = builder.attributedString();
+  ASSERT_TRUE(attributedString.isValid());
+  rl::type::Typesetter typesetter(std::move(attributedString));
+  ASSERT_TRUE(typesetter.isValid());
+  ASSERT_EQ(typesetter.runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs()[0].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+}
