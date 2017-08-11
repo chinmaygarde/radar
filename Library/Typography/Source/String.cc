@@ -28,5 +28,9 @@ size_t String::length() const {
   return _string->countChar32();
 }
 
+const icu::UnicodeString& String::unicodeString() const {
+  return *_string;
+}
+
 }  // namespace type
 }  // namespace rl

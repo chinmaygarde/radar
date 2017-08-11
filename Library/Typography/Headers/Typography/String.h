@@ -27,6 +27,8 @@ class String {
 
   size_t length() const;
 
+  const icu::UnicodeString& unicodeString() const;
+
  private:
   std::unique_ptr<icu::UnicodeString> _string;
 };

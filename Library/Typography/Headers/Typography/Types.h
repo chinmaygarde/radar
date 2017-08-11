@@ -38,5 +38,6 @@ struct TextRange {
 namespace icu {
 
 class UnicodeString;
+class BreakIterator;
 
 }  // namespace icu

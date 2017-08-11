@@ -14,13 +14,14 @@ namespace type {
 
 class Framesetter {
  public:
-  Framesetter(AttributedString string, geom::Size frameSize);
+  Framesetter(AttributedString string);
 
   ~Framesetter();
 
   bool isValid() const;
 
  private:
+  AttributedString _string;
   bool _valid = false;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Framesetter);

@@ -4,26 +4,43 @@
  */
 
 #include <Typography/Framesetter.h>
+#include <Typography/TypographyContext.h>
 #include <unicode/brkiter.h>
 #include <memory>
+#include <vector>
 
 namespace rl {
 namespace type {
 
-Framesetter::Framesetter(AttributedString string, geom::Size frameSize) {
-  UErrorCode status = U_ZERO_ERROR;
-  std::unique_ptr<BreakIterator> iterator(
-      BreakIterator::createLineInstance(Locale::getDefault(), status));
-  if (U_FAILURE(status) || iterator == nullptr) {
-    RL_LOG("ICU Error: %s", u_errorName(status));
+Framesetter::Framesetter(AttributedString pString)
+    : _string(std::move(pString)) {
+  if (!_string.isValid()) {
     return;
   }
+
+  auto iterator =
+      TypographyContext::SharedContext().GetBreakIteratorForThread();
+
+  if (iterator == nullptr) {
+    return;
+  }
+
+  iterator->setText(_string.string().unicodeString());
+
+  std::vector<int32_t> breakCandidates;
+
+  for (int32_t current = iterator->first(); current != BreakIterator::DONE;
+       current = iterator->next()) {
+    breakCandidates.emplace_back(current);
+  }
+
+  _valid = true;
 }
 
-Framesetter::~Framesetter() {}
+Framesetter::~Framesetter() = default;
 
 bool Framesetter::isValid() const {
-  return false;
+  return _valid;
 }
 
 }  // namespace type

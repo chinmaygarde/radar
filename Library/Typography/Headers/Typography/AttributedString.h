@@ -22,8 +22,6 @@ class AttributedString {
 
   ~AttributedString();
 
-  AttributedString(AttributedString&&);
-
   bool isValid() const;
 
   const String& string() const;
@@ -39,8 +37,6 @@ class AttributedString {
   AttributedString();
 
   AttributedString(String string, FontDescriptorsMap map);
-
-  RL_DISALLOW_COPY_AND_ASSIGN(AttributedString);
 };
 
 }  // namespace type
