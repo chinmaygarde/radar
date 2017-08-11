@@ -27,14 +27,12 @@ Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
 
   iterator->setText(_string.string().unicodeString());
 
-  std::vector<size_t> breakOpportunities;
-
   for (int32_t current = iterator->first(); current != BreakIterator::DONE;
        current = iterator->next()) {
-    breakOpportunities.emplace_back(current);
+    _breakOpportunities.emplace_back(current);
   }
 
-  _runs = TextRun::SplitRuns(_string.string(), std::move(breakOpportunities));
+  _runs = TextRun::SplitRuns(_string.string());
 
   _valid = true;
 }

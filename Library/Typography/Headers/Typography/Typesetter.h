@@ -30,6 +30,7 @@ class Typesetter {
  private:
   AttributedString _string;
   std::vector<TextRun> _runs;
+  std::vector<size_t> _breakOpportunities;
   bool _valid = false;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Typesetter);

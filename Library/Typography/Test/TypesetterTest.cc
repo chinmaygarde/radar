@@ -81,3 +81,15 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs()[0].range().start, 0);
   ASSERT_EQ(typesetter.runs()[0].range().length, 2);
 }
+
+TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {
+  rl::type::AttributedStringBuilder builder;
+  std::string hello("Hello");
+  builder.appendText(hello);
+  auto attributedString = builder.attributedString();
+  ASSERT_TRUE(attributedString.isValid());
+  rl::type::Typesetter typesetter(attributedString);
+  ASSERT_TRUE(typesetter.isValid());
+  auto frame = typesetter.createTypeFrame({1000, 1000});
+  ASSERT_TRUE(frame.isValid());
+}
