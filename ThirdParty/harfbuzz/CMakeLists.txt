@@ -5,6 +5,8 @@
 # Library
 ################################################################################
 
+AddRecommendedWarningFlags()
+
 file(GLOB HARFBUZZ_SRC
   Source/src/hb-blob.cc
   Source/src/hb-buffer-serialize.cc
