@@ -9,9 +9,17 @@
 namespace rl {
 namespace type {
 
-TypeFrame::TypeFrame(const std::string& string) {}
+TypeFrame::TypeFrame() = default;
 
-TypeFrame::~TypeFrame() {}
+TypeFrame::TypeFrame(TypeFrame&& o) : _valid(o._valid) {
+  o._valid = false;
+}
+
+TypeFrame::~TypeFrame() = default;
+
+bool TypeFrame::isValid() const {
+  return _valid;
+}
 
 }  // namespace type
 }  // namespace rl

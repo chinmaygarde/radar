@@ -8,23 +8,28 @@
 #include <Core/Macros.h>
 #include <Geometry/Size.h>
 #include <Typography/AttributedString.h>
+#include <Typography/TypeFrame.h>
+#include <vector>
 
 namespace rl {
 namespace type {
 
-class Framesetter {
+class Typesetter {
  public:
-  Framesetter(AttributedString string);
+  Typesetter(AttributedString string);
 
-  ~Framesetter();
+  ~Typesetter();
 
   bool isValid() const;
 
+  TypeFrame createTypeFrame(const geom::Size& size) const;
+
  private:
   AttributedString _string;
+  std::vector<size_t> _breakOpportunities;
   bool _valid = false;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Framesetter);
+  RL_DISALLOW_COPY_AND_ASSIGN(Typesetter);
 };
 
 }  // namespace type

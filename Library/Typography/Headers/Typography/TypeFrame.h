@@ -6,18 +6,23 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <string>
 
 namespace rl {
 namespace type {
 
 class TypeFrame {
  public:
-  TypeFrame(const std::string& string);
+  TypeFrame();
+
+  TypeFrame(TypeFrame&&);
 
   ~TypeFrame();
 
+  bool isValid() const;
+
  private:
+  bool _valid;
+
   RL_DISALLOW_COPY_AND_ASSIGN(TypeFrame);
 };
 

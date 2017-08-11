@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Typography/Framesetter.h>
+#include <Typography/Typesetter.h>
 #include <Typography/TypographyContext.h>
 #include <unicode/brkiter.h>
 #include <memory>
@@ -12,8 +12,7 @@
 namespace rl {
 namespace type {
 
-Framesetter::Framesetter(AttributedString pString)
-    : _string(std::move(pString)) {
+Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
   if (!_string.isValid()) {
     return;
   }
@@ -27,20 +26,26 @@ Framesetter::Framesetter(AttributedString pString)
 
   iterator->setText(_string.string().unicodeString());
 
-  std::vector<int32_t> breakCandidates;
-
   for (int32_t current = iterator->first(); current != BreakIterator::DONE;
        current = iterator->next()) {
-    breakCandidates.emplace_back(current);
+    _breakOpportunities.emplace_back(current);
   }
 
   _valid = true;
 }
 
-Framesetter::~Framesetter() = default;
+Typesetter::~Typesetter() = default;
 
-bool Framesetter::isValid() const {
+bool Typesetter::isValid() const {
   return _valid;
+}
+
+TypeFrame Typesetter::createTypeFrame(const geom::Size& size) const {
+  if (!_valid || !size.isPositive()) {
+    return {};
+  }
+
+  return {};
 }
 
 }  // namespace type
