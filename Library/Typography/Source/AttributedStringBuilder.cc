@@ -19,10 +19,10 @@ AttributedStringBuilder::~AttributedStringBuilder() = default;
 AttributedStringBuilder& AttributedStringBuilder::appendText(
     const std::string& stringBuffer) {
   String string(stringBuffer);
-  if (string.length() == 0) {
+  if (string.lengthOfCharacters() == 0) {
     return *this;
   }
-  _currentStringIndex += string.length();
+  _currentStringIndex += string.size();
   _stringBuilder.append(string);
   return *this;
 }
@@ -47,7 +47,7 @@ AttributedStringBuilder& AttributedStringBuilder::popFontDescriptor() {
 }
 
 AttributedString AttributedStringBuilder::attributedString() const {
-  if (_stringBuilder.length() == 0) {
+  if (_stringBuilder.lengthOfCharacters() == 0) {
     return {};
   }
 

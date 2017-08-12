@@ -25,7 +25,9 @@ class String {
 
   void append(const String& other);
 
-  size_t length() const;
+  size_t size() const;
+
+  size_t lengthOfCharacters() const;
 
   const icu::UnicodeString& unicodeString() const;
 

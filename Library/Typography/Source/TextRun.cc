@@ -23,7 +23,7 @@ static inline TextRun::Direction ToTextRunDirection(UBiDiDirection direction) {
 }
 
 std::vector<TextRun> TextRun::SplitRuns(const AttributedString& string) {
-  if (string.string().length() == 0) {
+  if (string.string().lengthOfCharacters() == 0) {
     return {};
   }
 

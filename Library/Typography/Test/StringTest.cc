@@ -8,33 +8,33 @@
 
 TEST(StringTest, SimpleString) {
   rl::type::String string("Hello");
-  ASSERT_EQ(string.length(), 5);
+  ASSERT_EQ(string.lengthOfCharacters(), 5);
 }
 
 TEST(StringTest, SingleEmoji) {
   rl::type::String string("😀");
-  ASSERT_EQ(string.length(), 1);
+  ASSERT_EQ(string.lengthOfCharacters(), 1);
 }
 
 TEST(StringTest, EmojiString) {
   rl::type::String string("😀 Hello 😀");
-  ASSERT_EQ(string.length(), 9);
+  ASSERT_EQ(string.lengthOfCharacters(), 9);
 }
 
 TEST(StringTest, MoreEmoji) {
   rl::type::String string(
       "😙😚😋😜😝😛🤑🤗🤓😎🤡🤠😏😒😞😔😟"
       "😕");
-  ASSERT_EQ(string.length(), 18);
+  ASSERT_EQ(string.lengthOfCharacters(), 18);
 }
 
 TEST(StringTest, StrignAppend) {
   rl::type::String string;
-  ASSERT_EQ(string.length(), 0);
+  ASSERT_EQ(string.lengthOfCharacters(), 0);
   string.append(std::string{"😀"});
-  ASSERT_EQ(string.length(), 1);
+  ASSERT_EQ(string.lengthOfCharacters(), 1);
   string.append(std::string{"Hello"});
-  ASSERT_EQ(string.length(), 6);
+  ASSERT_EQ(string.lengthOfCharacters(), 6);
   string.append(std::string{"😀"});
-  ASSERT_EQ(string.length(), 7);
+  ASSERT_EQ(string.lengthOfCharacters(), 7);
 }

@@ -13,7 +13,7 @@ TEST(AttributedStringTest, SimpleString) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
-  ASSERT_EQ(attributedString.string().length(), hello.size());
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
 TEST(AttributedStringTest, PushDescriptor) {
@@ -24,7 +24,7 @@ TEST(AttributedStringTest, PushDescriptor) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
-  ASSERT_EQ(attributedString.string().length(), hello.size());
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
 TEST(AttributedStringTest, PushDescriptorEnd) {
@@ -35,7 +35,7 @@ TEST(AttributedStringTest, PushDescriptorEnd) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
-  ASSERT_EQ(attributedString.string().length(), hello.size());
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
 TEST(AttributedStringTest, PushDescriptorSame) {
@@ -49,7 +49,7 @@ TEST(AttributedStringTest, PushDescriptorSame) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
-  ASSERT_EQ(attributedString.string().length(), hello.size() * 2);
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
 TEST(AttributedStringTest, PopDescriptor) {
@@ -63,7 +63,7 @@ TEST(AttributedStringTest, PopDescriptor) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
-  ASSERT_EQ(attributedString.string().length(), hello.size() * 2);
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
 TEST(AttributedStringTest, TooManyPopDescriptor) {
@@ -78,7 +78,7 @@ TEST(AttributedStringTest, TooManyPopDescriptor) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
-  ASSERT_EQ(attributedString.string().length(), hello.size() * 2);
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
 TEST(AttributedStringTest, TooManyPushDescriptor) {
@@ -96,5 +96,5 @@ TEST(AttributedStringTest, TooManyPushDescriptor) {
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
-  ASSERT_EQ(attributedString.string().length(), hello.size() * 2);
+  ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }

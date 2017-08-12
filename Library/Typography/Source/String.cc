@@ -24,7 +24,11 @@ void String::append(const String& other) {
   _string->append(*other._string.get());
 }
 
-size_t String::length() const {
+size_t String::size() const {
+  return _string->length();
+}
+
+size_t String::lengthOfCharacters() const {
   return _string->countChar32();
 }
 

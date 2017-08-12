@@ -16,7 +16,7 @@ AttributedString::AttributedString(String string, FontDescriptorsMap map)
 AttributedString::~AttributedString() = default;
 
 bool AttributedString::isValid() const {
-  return _string.length() > 0 && _fontDescriptors.size() > 0;
+  return _string.lengthOfCharacters() > 0 && _fontDescriptors.size() > 0;
 }
 
 const String& AttributedString::string() const {
