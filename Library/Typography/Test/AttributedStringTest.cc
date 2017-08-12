@@ -16,6 +16,23 @@ TEST(AttributedStringTest, SimpleString) {
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
+TEST(AttributedStringTest, SizeInDescriptorsMapIsBufferSize) {
+  rl::type::FontDescriptor desc("Foo", 12);
+  rl::type::AttributedStringBuilder builder;
+  builder.pushFontDescriptor(desc)
+      .appendText("😄")
+      .popFontDescriptor()
+      .appendText("World");
+  auto attributedString = builder.attributedString();
+  ASSERT_TRUE(attributedString.isValid());
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
+  /*
+   *  The first character is an emoji that takes two bytes.
+   */
+  ASSERT_NE(attributedString.fontDescriptorsMap().find(2),
+            attributedString.fontDescriptorsMap().end());
+}
+
 TEST(AttributedStringTest, PushDescriptor) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello");
