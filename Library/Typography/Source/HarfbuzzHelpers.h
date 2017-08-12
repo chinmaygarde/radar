@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <memory>
 #include <hb.h>
 
 namespace rl {
