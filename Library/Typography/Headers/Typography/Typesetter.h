@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 #include <Geometry/Size.h>
 #include <Typography/AttributedString.h>
+#include <Typography/FontLibrary.h>
 #include <Typography/TextRun.h>
 #include <Typography/TypeFrame.h>
 #include <vector>
@@ -23,7 +24,8 @@ class Typesetter {
 
   bool isValid() const;
 
-  TypeFrame createTypeFrame(const geom::Size& size) const;
+  TypeFrame createTypeFrame(const geom::Size& size,
+                            const FontLibrary& library) const;
 
   const std::vector<TextRun> runs() const;
 

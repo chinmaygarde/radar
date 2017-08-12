@@ -10,9 +10,9 @@
 namespace rl {
 namespace type {
 
-FontLibrary::FontLibrary() {}
+FontLibrary::FontLibrary() = default;
 
-FontLibrary::~FontLibrary() {}
+FontLibrary::~FontLibrary() = default;
 
 bool FontLibrary::registerFont(const core::URI& fontFileName, size_t index) {
   /*
@@ -26,7 +26,7 @@ bool FontLibrary::registerFont(const core::URI& fontFileName, size_t index) {
   /*
    *  Create a font to query the postscript name.
    */
-  Font font(*face);
+  Font font(*face, 14.0);
 
   if (!font.isValid()) {
     return false;
@@ -49,8 +49,26 @@ bool FontLibrary::registerFont(const core::URI& fontFileName, size_t index) {
   return true;
 }
 
+bool FontLibrary::isValid() const {
+  return _registeredFonts.size() > 0;
+}
+
 size_t FontLibrary::registeredFonts() const {
   return _registeredFonts.size();
+}
+
+Font FontLibrary::fontForName(const std::string& postscriptName,
+                              double size) const {
+  if (size <= 0.0) {
+    return {};
+  }
+
+  auto found = _registeredFonts.find(postscriptName);
+  if (found == _registeredFonts.end()) {
+    return {};
+  }
+
+  return Font{*(found->second.get()), size};
 }
 
 }  // namespace type

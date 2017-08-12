@@ -12,8 +12,10 @@ namespace type {
 
 #define _font reinterpret_cast<hb_font_t*>(__opaque)
 
-Font::Font(const FontFace& fontFace) {
-  if (!fontFace.isValid()) {
+Font::Font() = default;
+
+Font::Font(const FontFace& fontFace, double size) {
+  if (size <= 0.0 || !fontFace.isValid()) {
     return;
   }
 
@@ -23,10 +25,19 @@ Font::Font(const FontFace& fontFace) {
     return;
   }
 
+  hb_font_set_scale(font, size, size);
+
   hb_ft_font_set_funcs(font);
+
+  hb_font_make_immutable(font);
 
   __opaque = font;
   _valid = true;
+}
+
+Font::Font(Font&& other) : __opaque(other.__opaque), _valid(other._valid) {
+  other.__opaque = nullptr;
+  other._valid = false;
 }
 
 Font::~Font() {
@@ -51,6 +62,14 @@ std::string Font::postscriptName() const {
   }
 
   return name;
+}
+
+double Font::size() const {
+  int xScale = 0;
+  if (_valid) {
+    hb_font_get_scale(_font, &xScale, nullptr);
+  }
+  return xScale;
 }
 
 }  // namespace type

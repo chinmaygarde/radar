@@ -15,9 +15,15 @@ class FontFace;
 
 class Font {
  public:
-  Font(const FontFace& fontFace);
+  Font();
+
+  Font(const FontFace& fontFace, double size);
+
+  Font(Font&&);
 
   ~Font();
+
+  double size() const;
 
   bool isValid() const;
 

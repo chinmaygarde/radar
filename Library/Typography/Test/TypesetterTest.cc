@@ -82,7 +82,7 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs()[0].range().length, 2);
 }
 
-TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {
+TEST(TypesetterTest, SimpleTypesetterCreateFrame) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello");
   builder.appendText(hello);
@@ -90,6 +90,8 @@ TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(attributedString);
   ASSERT_TRUE(typesetter.isValid());
-  auto frame = typesetter.createTypeFrame({1000, 1000});
+  rl::type::FontLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}, 0));
+  auto frame = typesetter.createTypeFrame({1000, 1000}, library);
   ASSERT_TRUE(frame.isValid());
 }

@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Typography/Font.h>
 #include <map>
 #include <memory>
 
@@ -20,6 +21,10 @@ class FontLibrary {
   FontLibrary();
 
   ~FontLibrary();
+
+  bool isValid() const;
+
+  Font fontForName(const std::string& postscriptName, double size) const;
 
   bool registerFont(const core::URI& fontFileName, size_t index);
 

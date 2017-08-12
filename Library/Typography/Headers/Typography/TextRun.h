@@ -21,11 +21,13 @@ class TextRun {
     RightToLeft,
   };
 
-  static std::vector<TextRun> SplitRuns(const String& string);
+  static std::vector<TextRun> SplitRuns(const AttributedString& string);
 
   TextRun(Direction direction, TextRange range);
 
   ~TextRun();
+
+  FontDescriptor descriptor() const;
 
   Direction direction() const;
 
@@ -34,6 +36,7 @@ class TextRun {
  private:
   Direction _direction = Direction::kUnknown;
   TextRange _range;
+
 };
 
 }  // namespace type

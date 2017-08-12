@@ -32,7 +32,7 @@ Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
     _breakOpportunities.emplace_back(current);
   }
 
-  _runs = TextRun::SplitRuns(_string.string());
+  _runs = TextRun::SplitRuns(_string);
 
   _valid = true;
 }
@@ -47,8 +47,9 @@ bool Typesetter::isValid() const {
   return _valid;
 }
 
-TypeFrame Typesetter::createTypeFrame(const geom::Size& size) const {
-  if (!_valid || !size.isPositive()) {
+TypeFrame Typesetter::createTypeFrame(const geom::Size& size,
+                                      const FontLibrary& library) const {
+  if (!_valid || !size.isPositive() || !library.isValid()) {
     return {};
   }
 
