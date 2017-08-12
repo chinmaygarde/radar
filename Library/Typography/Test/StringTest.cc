@@ -14,6 +14,7 @@ TEST(StringTest, SimpleString) {
 TEST(StringTest, SingleEmoji) {
   rl::type::String string("😀");
   ASSERT_EQ(string.lengthOfCharacters(), 1);
+  ASSERT_EQ(string.size(), 2);
 }
 
 TEST(StringTest, EmojiString) {
