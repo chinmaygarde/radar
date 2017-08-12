@@ -16,7 +16,7 @@ namespace type {
 class TextRun {
  public:
   enum class Direction {
-    kUnknown,
+    Unknown,
     LeftToRight,
     RightToLeft,
   };
@@ -34,9 +34,8 @@ class TextRun {
   TextRange range() const;
 
  private:
-  Direction _direction = Direction::kUnknown;
+  Direction _direction = Direction::Unknown;
   TextRange _range;
-
 };
 
 }  // namespace type

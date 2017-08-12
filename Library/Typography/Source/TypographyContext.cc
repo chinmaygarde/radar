@@ -57,7 +57,7 @@ bool TypographyContext::isValid() const {
   return _valid;
 }
 
-icu::BreakIterator* TypographyContext::GetBreakIteratorForThread() {
+icu::BreakIterator* TypographyContext::breakIteratorForThread() {
   if (!_valid) {
     RL_LOG(
         "Could not get the ICU break iterator for the thread because the "

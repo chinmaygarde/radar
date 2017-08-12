@@ -18,8 +18,7 @@ Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
     return;
   }
 
-  auto iterator =
-      TypographyContext::SharedContext().GetBreakIteratorForThread();
+  auto iterator = TypographyContext::SharedContext().breakIteratorForThread();
 
   if (iterator == nullptr) {
     return;

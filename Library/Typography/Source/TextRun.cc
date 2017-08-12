@@ -17,9 +17,9 @@ static inline TextRun::Direction ToTextRunDirection(UBiDiDirection direction) {
     case UBIDI_RTL:
       return TextRun::Direction::RightToLeft;
     default:
-      return TextRun::Direction::kUnknown;
+      return TextRun::Direction::Unknown;
   }
-  return TextRun::Direction::kUnknown;
+  return TextRun::Direction::Unknown;
 }
 
 std::vector<TextRun> TextRun::SplitRuns(const AttributedString& string) {

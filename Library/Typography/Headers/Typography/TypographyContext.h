@@ -8,6 +8,7 @@
 #include <Core/FileMapping.h>
 #include <Core/Macros.h>
 #include <Typography/Types.h>
+#include <atomic>
 
 namespace rl {
 namespace type {
@@ -18,11 +19,11 @@ class TypographyContext {
 
   bool isValid() const;
 
-  icu::BreakIterator* GetBreakIteratorForThread();
+  icu::BreakIterator* breakIteratorForThread();
 
  private:
   core::FileMapping _icuDataMapping;
-  bool _valid = false;
+  std::atomic_bool _valid;
 
   TypographyContext();
 
