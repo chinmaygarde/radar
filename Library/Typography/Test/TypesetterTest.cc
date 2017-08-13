@@ -16,8 +16,8 @@ TEST(TypesetterTest, SimpleTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(attributedString);
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().size(), 1u);
-  ASSERT_EQ(typesetter.runs()[0].direction(),
+  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
 }
 
@@ -29,8 +29,8 @@ TEST(TypesetterTest, SimpleHebrewTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().size(), 1u);
-  ASSERT_EQ(typesetter.runs()[0].direction(),
+  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::RightToLeft);
 }
 
@@ -43,14 +43,14 @@ TEST(TypesetterTest, MixedTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().size(), 4u);
-  ASSERT_EQ(typesetter.runs()[0].direction(),
+  ASSERT_EQ(typesetter.runs().runs().size(), 4u);
+  ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
-  ASSERT_EQ(typesetter.runs()[1].direction(),
+  ASSERT_EQ(typesetter.runs().runs()[1].direction(),
             rl::type::TextRun::Direction::RightToLeft);
-  ASSERT_EQ(typesetter.runs()[2].direction(),
+  ASSERT_EQ(typesetter.runs().runs()[2].direction(),
             rl::type::TextRun::Direction::LeftToRight);
-  ASSERT_EQ(typesetter.runs()[3].direction(),
+  ASSERT_EQ(typesetter.runs().runs()[3].direction(),
             rl::type::TextRun::Direction::RightToLeft);
 }
 
@@ -62,8 +62,8 @@ TEST(TypesetterTest, EmojiTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().size(), 1u);
-  ASSERT_EQ(typesetter.runs()[0].direction(),
+  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
 }
 
@@ -75,11 +75,11 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(attributedString);
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().size(), 1u);
-  ASSERT_EQ(typesetter.runs()[0].direction(),
+  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
-  ASSERT_EQ(typesetter.runs()[0].range().start, 0);
-  ASSERT_EQ(typesetter.runs()[0].range().length, 2);
+  ASSERT_EQ(typesetter.runs().runs()[0].range().start, 0);
+  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 2);
 }
 
 TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {

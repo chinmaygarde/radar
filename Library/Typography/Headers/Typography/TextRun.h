@@ -21,8 +21,6 @@ class TextRun {
     RightToLeft,
   };
 
-  static std::vector<TextRun> SplitRuns(const AttributedString& string);
-
   TextRun(Direction direction, TextRange range);
 
   ~TextRun();
@@ -36,6 +34,29 @@ class TextRun {
  private:
   Direction _direction = Direction::Unknown;
   TextRange _range;
+};
+
+class TextRuns {
+ public:
+  TextRuns(const AttributedString& string);
+
+  TextRuns(TextRuns&&);
+
+  ~TextRuns();
+
+  bool isValid() const;
+
+  const std::vector<TextRun>& runs() const;
+
+  TextRuns splitAtBreaks(const std::vector<size_t>& breaks) const;
+
+ private:
+  std::vector<TextRun> _runs;
+  bool _valid = false;
+
+  TextRuns();
+
+  RL_DISALLOW_COPY_AND_ASSIGN(TextRuns);
 };
 
 }  // namespace type

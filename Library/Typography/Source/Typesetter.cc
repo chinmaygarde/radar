@@ -13,8 +13,9 @@
 namespace rl {
 namespace type {
 
-Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
-  if (!_string.isValid()) {
+Typesetter::Typesetter(AttributedString pString)
+    : _string(std::move(pString)), _runs(_string) {
+  if (!_runs.isValid()) {
     return;
   }
 
@@ -31,14 +32,12 @@ Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
     _breakOpportunities.emplace_back(current);
   }
 
-  _runs = TextRun::SplitRuns(_string);
-
   _valid = true;
 }
 
 Typesetter::~Typesetter() = default;
 
-const std::vector<TextRun> Typesetter::runs() const {
+const TextRuns& Typesetter::runs() const {
   return _runs;
 }
 
@@ -49,6 +48,15 @@ bool Typesetter::isValid() const {
 TypeFrame Typesetter::createTypeFrame(const geom::Size& size,
                                       const FontLibrary& library) const {
   if (!_valid || !size.isPositive() || !library.isValid()) {
+    return {};
+  }
+
+  /*
+   *  Break apart the runs at each break opportunity.
+   */
+  auto runs = _runs.splitAtBreaks(_breakOpportunities);
+
+  if (!runs.isValid()) {
     return {};
   }
 

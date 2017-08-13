@@ -27,11 +27,11 @@ class Typesetter {
   TypeFrame createTypeFrame(const geom::Size& size,
                             const FontLibrary& library) const;
 
-  const std::vector<TextRun> runs() const;
+  const TextRuns& runs() const;
 
  private:
   AttributedString _string;
-  std::vector<TextRun> _runs;
+  TextRuns _runs;
   std::vector<size_t> _breakOpportunities;
   bool _valid = false;
 
