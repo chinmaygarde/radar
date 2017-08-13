@@ -8,6 +8,7 @@
 #include <Typography/TypographyContext.h>
 #include <unicode/brkiter.h>
 #include <unicode/udata.h>
+#include <unicode/utypes.h>
 
 namespace rl {
 namespace type {
@@ -15,9 +16,7 @@ namespace type {
 /*
  *  TODO: Figure out packaging situation and get rid of this hack.
  */
-static constexpr const char* kICUDataFileName =
-    "/Users/chinmaygarde/Dropbox/Projects/radar/ThirdParty/icu/icu/source/data/"
-    "in/icudt59l.dat";
+static constexpr const char* kICUDataFileName = U_ICUDATA_NAME ".dat";
 
 TypographyContext::TypographyContext()
     : _icuDataMapping(core::URI{kICUDataFileName}) {

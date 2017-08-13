@@ -80,4 +80,15 @@ file(COPY ${TEST_FIXTURES}
   USE_SOURCE_PERMISSIONS
 )
 
+# Copy the ICU Data file.
+
+file(GLOB TEST_ICU_DATA
+  "${PROJECT_SOURCE_DIR}/ThirdParty/icu/icu/source/data/in/icudt59l.dat"
+)
+
+file(COPY ${TEST_ICU_DATA}
+  DESTINATION "Fixtures"
+  USE_SOURCE_PERMISSIONS
+)
+
 endmacro()
