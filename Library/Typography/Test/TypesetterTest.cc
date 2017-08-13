@@ -82,7 +82,7 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs()[0].range().length, 2);
 }
 
-TEST(TypesetterTest, SimpleTypesetterCreateFrame) {
+TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello");
   builder.appendText(hello);
