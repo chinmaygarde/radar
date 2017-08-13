@@ -13,9 +13,6 @@
 namespace rl {
 namespace type {
 
-/*
- *  TODO: Figure out packaging situation and get rid of this hack.
- */
 static constexpr const char* kICUDataFileName = U_ICUDATA_NAME ".dat";
 
 TypographyContext::TypographyContext()
