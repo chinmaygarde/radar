@@ -67,7 +67,7 @@ TextRuns::TextRuns(const AttributedString& string) {
                 UBIDI_DEFAULT_LTR,          // paragraph level
                 nullptr,                    // embedding levels
                 &status                     // error code
-                );
+  );
   if (U_FAILURE(status)) {
     RL_LOG("Could not set the paragraph to split text runs: %s",
            u_errorName(status));
@@ -94,7 +94,7 @@ TextRuns::TextRuns(const AttributedString& string) {
                            i,              // run index
                            &logicalStart,  // logical start (out)
                            &length         // length (out)
-                           );
+        );
 
     if (logicalStart < 0 || length < 0) {
       continue;
@@ -135,34 +135,79 @@ const std::vector<TextRun>& TextRuns::runs() const {
 }
 
 TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
-  if (breaks.size() == 0 || _runs.size() == 0) {
+  if (_runs.size() == 0) {
+    /*
+     *  If there are no runs, there is nothing to break.
+     */
     return {};
   }
 
-  auto currentBreakIterator = breaks.begin();
-  std::vector<TextRun> newRuns;
-  size_t lastStart = _runs.front().range().start;
+  if (breaks.size() == 0) {
+    /*
+     *  If there are no breaks, the current runs are valid.
+     */
+    return {runs()};
+  }
+
+  std::vector<TextRun> splitRuns;
+  size_t breakIndex = 0;
   for (const auto& run : _runs) {
-    for (; currentBreakIterator != breaks.end(); currentBreakIterator++) {
-      size_t currentBreak = *currentBreakIterator;
-      if (!run.range().isIndexInRange(currentBreak)) {
+    if (!run.range().isIndexInRange(breaks[breakIndex])) {
+      /*
+       *  There was no break in this run, add it as-is.
+       */
+      splitRuns.emplace_back(run);
+      continue;
+    }
+
+    /*
+     *  This run needs to be split at the breaks. n + 1 where n is the number of
+     *  breaks that lie within this run.
+     */
+    size_t lastStart = run.range().start;
+    for (; breakIndex < breaks.size(); breakIndex++) {
+      size_t currentBreak = breaks[breakIndex];
+      if (run.range().isIndexInRange(currentBreak)) {
+        /*
+         *  Keep looping till we find break in this range. These are the n
+         *  entries described in the comment above.
+         */
+        TextRange range(lastStart, currentBreak - lastStart);
+        lastStart += range.length;
+        if (range.length != 0) {
+          TextRun splitRun = run;
+          splitRun.setRange(range);
+          splitRuns.emplace_back(std::move(splitRun));
+        }
+      } else {
+        /*
+         *  Break out of the loop and look at the next run.
+         */
         break;
       }
-      auto splitRangeLength = currentBreak - lastStart;
-      if (splitRangeLength == 0) {
-        continue;
-      }
-      TextRange splitRange;
-      splitRange.start = lastStart;
-      splitRange.length = splitRangeLength;
-      lastStart += splitRangeLength;
-      TextRun newRun = run;
-      newRun.setRange(splitRange);
-      newRuns.emplace_back(std::move(newRun));
+    }
+    /*
+     *  Add the final entry and we are done with this run. This is the + 1
+     *  described in the comment above.
+     */
+    TextRange range(lastStart,
+                    run.range().start + run.range().length - lastStart);
+    if (range.length != 0) {
+      TextRun splitRun = run;
+      splitRun.setRange(range);
+      splitRuns.emplace_back(std::move(splitRun));
     }
   }
 
-  return {std::move(newRuns)};
+  return {std::move(splitRuns)};
+}
+
+size_t TextRuns::totalLength() const {
+  size_t length = 0;
+  for (const auto& run : _runs) {
+    length += run.range().length;
+  }
+  return length;
 }
 
 }  // namespace type

@@ -42,6 +42,11 @@ class TextRuns {
  public:
   TextRuns(const AttributedString& string);
 
+  /*
+   *  For Tests Only.
+   */
+  TextRuns(std::vector<TextRun> runs);
+
   TextRuns(TextRuns&&);
 
   ~TextRuns();
@@ -50,15 +55,16 @@ class TextRuns {
 
   const std::vector<TextRun>& runs() const;
 
+  RL_WARN_UNUSED_RESULT
   TextRuns splitAtBreaks(const std::vector<size_t>& breaks) const;
+
+  size_t totalLength() const;
 
  private:
   std::vector<TextRun> _runs;
   bool _valid = false;
 
   TextRuns();
-
-  TextRuns(std::vector<TextRun> runs);
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextRuns);
 };

@@ -34,6 +34,10 @@ struct TextRange {
   bool isIndexInRange(size_t index) {
     return index >= start && index < start + length;
   }
+
+  bool operator==(const TextRange& other) const {
+    return start == other.start && length == other.length;
+  }
 };
 
 }  // namespace type
