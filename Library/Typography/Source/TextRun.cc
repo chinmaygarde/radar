@@ -156,7 +156,9 @@ TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
       /*
        *  There was no break in this run, add it as-is.
        */
-      splitRuns.emplace_back(run);
+      if (run.range().length != 0) {
+        splitRuns.emplace_back(run);
+      }
       continue;
     }
 
