@@ -31,6 +31,8 @@ class TextRun {
 
   TextRange range() const;
 
+  void setRange(TextRange range);
+
  private:
   Direction _direction = Direction::Unknown;
   TextRange _range;
@@ -55,6 +57,8 @@ class TextRuns {
   bool _valid = false;
 
   TextRuns();
+
+  TextRuns(std::vector<TextRun> runs);
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextRuns);
 };

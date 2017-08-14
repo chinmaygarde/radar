@@ -30,6 +30,10 @@ struct TextRange {
   TextRange() {}
 
   TextRange(size_t pStart, size_t pLength) : start(pStart), length(pLength) {}
+
+  bool isIndexInRange(size_t index) {
+    return index >= start && index < start + length;
+  }
 };
 
 }  // namespace type

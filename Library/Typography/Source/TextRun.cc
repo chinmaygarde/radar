@@ -35,6 +35,10 @@ TextRange TextRun::range() const {
   return _range;
 }
 
+void TextRun::setRange(rl::type::TextRange range) {
+  _range = std::move(range);
+}
+
 /*
  *  ----------------------------------------------------------------------------
  *  Text Runs
@@ -111,6 +115,9 @@ TextRuns::TextRuns(const AttributedString& string) {
 
 TextRuns::TextRuns() = default;
 
+TextRuns::TextRuns(std::vector<TextRun> runs)
+    : _runs(std::move(runs)), _valid(true) {}
+
 TextRuns::TextRuns(TextRuns&& o) {
   _runs = std::move(o._runs);
   _valid = o._valid;
@@ -128,7 +135,34 @@ const std::vector<TextRun>& TextRuns::runs() const {
 }
 
 TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
-  return {};
+  if (breaks.size() == 0 || _runs.size() == 0) {
+    return {};
+  }
+
+  auto currentBreakIterator = breaks.begin();
+  std::vector<TextRun> newRuns;
+  size_t lastStart = _runs.front().range().start;
+  for (const auto& run : _runs) {
+    for (; currentBreakIterator != breaks.end(); currentBreakIterator++) {
+      size_t currentBreak = *currentBreakIterator;
+      if (!run.range().isIndexInRange(currentBreak)) {
+        break;
+      }
+      auto splitRangeLength = currentBreak - lastStart;
+      if (splitRangeLength == 0) {
+        continue;
+      }
+      TextRange splitRange;
+      splitRange.start = lastStart;
+      splitRange.length = splitRangeLength;
+      lastStart += splitRangeLength;
+      TextRun newRun = run;
+      newRun.setRange(splitRange);
+      newRuns.emplace_back(std::move(newRun));
+    }
+  }
+
+  return {std::move(newRuns)};
 }
 
 }  // namespace type

@@ -29,7 +29,7 @@ TEST(StringTest, MoreEmoji) {
   ASSERT_EQ(string.lengthOfCharacters(), 18);
 }
 
-TEST(StringTest, StrignAppend) {
+TEST(StringTest, StringAppend) {
   rl::type::String string;
   ASSERT_EQ(string.lengthOfCharacters(), 0);
   string.append(std::string{"😀"});
