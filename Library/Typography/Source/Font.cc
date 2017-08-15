@@ -40,6 +40,12 @@ Font::Font(Font&& other) : __opaque(other.__opaque), _valid(other._valid) {
   other._valid = false;
 }
 
+Font& Font::operator=(Font&& other) {
+  std::swap(__opaque, other.__opaque);
+  std::swap(_valid, other._valid);
+  return *this;
+}
+
 Font::~Font() {
   if (_font != nullptr) {
     hb_font_destroy(_font);

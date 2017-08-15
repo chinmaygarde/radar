@@ -23,6 +23,8 @@ class Font {
 
   ~Font();
 
+  Font& operator=(Font&&);
+
   double size() const;
 
   bool isValid() const;

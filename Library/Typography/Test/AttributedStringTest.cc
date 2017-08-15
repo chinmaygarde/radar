@@ -115,3 +115,60 @@ TEST(AttributedStringTest, TooManyPushDescriptor) {
   ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
+
+TEST(AttributedStringTest, DescriptorAtIndex) {
+  rl::type::FontDescriptor fooDesc("Foo", 100);
+  rl::type::FontDescriptor barDesc("Bar", 200);
+  rl::type::AttributedStringBuilder builder;
+  builder.pushFontDescriptor(fooDesc)
+      .appendText("😄")
+      .pushFontDescriptor(barDesc)
+      .appendText("hello")
+      .popFontDescriptor()
+      .appendText("Again");
+  auto attributedString = builder.attributedString();
+  ASSERT_TRUE(attributedString.isValid());
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 3);
+  ASSERT_NE(attributedString.fontDescriptorsMap().find(0),
+            attributedString.fontDescriptorsMap().end());
+  ASSERT_NE(attributedString.fontDescriptorsMap().find(2),
+            attributedString.fontDescriptorsMap().end());
+  ASSERT_NE(attributedString.fontDescriptorsMap().find(7),
+            attributedString.fontDescriptorsMap().end());
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(0).pointSize(),
+                   100);  // smiley 0
+  ASSERT_EQ(attributedString.descriptorForIndex(0).postscriptName(),
+            "Foo");  // smiley 0
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(1).pointSize(),
+                   100);  // smiley 1
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(2).pointSize(),
+                   200);  // h
+  ASSERT_EQ(attributedString.descriptorForIndex(2).postscriptName(),
+            "Bar");  // h
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(3).pointSize(),
+                   200);  // e
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(4).pointSize(),
+                   200);  // l
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(5).pointSize(),
+                   200);  // l
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(6).pointSize(),
+                   200);  // o
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(7).pointSize(),
+                   100);  // A
+  ASSERT_EQ(attributedString.descriptorForIndex(7).postscriptName(),
+            "Foo");  // h
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(8).pointSize(),
+                   100);  // g
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(9).pointSize(),
+                   100);  // a
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(10).pointSize(),
+                   100);  // i
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(11).pointSize(),
+                   100);  // n
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(12).pointSize(),
+                   100);  // <past>
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(13).pointSize(),
+                   100);  // <past>
+  ASSERT_DOUBLE_EQ(attributedString.descriptorForIndex(14).pointSize(),
+                   100);  // <past>
+}

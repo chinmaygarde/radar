@@ -18,7 +18,7 @@ class AtrributedStringBuilder;
 class AttributedString {
  public:
   using FontDescriptorsMap =
-      std::map<size_t, FontDescriptor, std::less<size_t>>;
+      std::map<size_t, FontDescriptor, std::greater<size_t>>;
 
   ~AttributedString();
 
@@ -27,6 +27,8 @@ class AttributedString {
   const String& string() const;
 
   const FontDescriptorsMap& fontDescriptorsMap() const;
+
+  FontDescriptor descriptorForIndex(size_t index) const;
 
  private:
   friend class AttributedStringBuilder;

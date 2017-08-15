@@ -35,6 +35,15 @@ struct TextRange {
     return index >= start && index < start + length;
   }
 
+  bool containsRange(const TextRange& other) const {
+    if (length == 0 || other.length == 0) {
+      return false;
+    }
+
+    return other.start >= start &&
+           (other.length <= length - (other.start - start));
+  }
+
   bool operator==(const TextRange& other) const {
     return start == other.start && length == other.length;
   }

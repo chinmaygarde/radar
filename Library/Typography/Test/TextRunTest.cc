@@ -70,7 +70,7 @@ TEST(TextRunTest, SimpleSplitNoRuns) {
 TEST(TextRunTest, SimpleSplitNoBreaks) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 100}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 100}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({});
   ASSERT_EQ(splitRuns.runs().size(), 1);
@@ -88,7 +88,7 @@ TEST(TextRunTest, SimpleSplitNoRunsOrBreaks) {
 TEST(TextRunTest, SimpleSplit1) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 100}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 100}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({50});
   ASSERT_EQ(splitRuns.runs().size(), 2);
@@ -102,8 +102,8 @@ TEST(TextRunTest, SimpleSplit1) {
 TEST(TextRunTest, SimpleSplit2) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
   ASSERT_EQ(splitRuns.runs().size(), 3);
@@ -118,10 +118,10 @@ TEST(TextRunTest, SimpleSplit2) {
 
 TEST(TextRunTest, SimpleSplit2Direction) {
   std::vector<rl::type::TextRun> runs;
-  runs.emplace_back(
-      rl::type::TextRun{rl::type::TextRun::Direction::LeftToRight, {0, 50}});
-  runs.emplace_back(
-      rl::type::TextRun{rl::type::TextRun::Direction::RightToLeft, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{
+      {}, rl::type::TextRun::Direction::LeftToRight, {0, 50}});
+  runs.emplace_back(rl::type::TextRun{
+      {}, rl::type::TextRun::Direction::RightToLeft, {50, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
   ASSERT_EQ(splitRuns.runs().size(), 3);
@@ -143,9 +143,9 @@ TEST(TextRunTest, SimpleSplit2Direction) {
 TEST(TextRunTest, SimpleSplit3) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {100, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
   ASSERT_EQ(splitRuns.runs().size(), 4);
@@ -163,10 +163,10 @@ TEST(TextRunTest, SimpleSplit3) {
 TEST(TextRunTest, SimpleSplit4) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {25, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {100, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {25, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
   ASSERT_EQ(splitRuns.runs().size(), 5);
@@ -186,10 +186,10 @@ TEST(TextRunTest, SimpleSplit4) {
 TEST(TextRunTest, SimpleSplit5) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {25, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {100, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {25, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 125});
   ASSERT_EQ(splitRuns.runs().size(), 6);
@@ -211,10 +211,10 @@ TEST(TextRunTest, SimpleSplit5) {
 TEST(TextRunTest, SimpleSplit6) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {25, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {100, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {25, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 80, 125});
   ASSERT_EQ(splitRuns.runs().size(), 7);
@@ -238,10 +238,10 @@ TEST(TextRunTest, SimpleSplit6) {
 TEST(TextRunTest, SimpleSplit6RepeatsDontCount) {
   std::vector<rl::type::TextRun> runs;
   auto direction = rl::type::TextRun::Direction::LeftToRight;
-  runs.emplace_back(rl::type::TextRun{direction, {0, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {25, 25}});
-  runs.emplace_back(rl::type::TextRun{direction, {50, 50}});
-  runs.emplace_back(rl::type::TextRun{direction, {100, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {0, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {25, 25}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
+  runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 80, 80, 125});
   ASSERT_EQ(splitRuns.runs().size(), 7);

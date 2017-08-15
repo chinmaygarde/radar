@@ -9,6 +9,7 @@
 #include <unicode/brkiter.h>
 #include <memory>
 #include <vector>
+#include "ShapedTextRun.h"
 
 namespace rl {
 namespace type {
@@ -58,6 +59,18 @@ TypeFrame Typesetter::createTypeFrame(const geom::Size& size,
 
   if (!runs.isValid()) {
     return {};
+  }
+
+  /*
+   *  Shape each run.
+   */
+  std::vector<ShapedTextRun> shapedRuns;
+  for (const auto& run : runs.runs()) {
+    ShapedTextRun shapedRun(_string.string(), run, library);
+    RL_ASSERT_MSG(
+        shapedRun.isValid(),
+        "Shaping fallbacks are not implemented this run could not be shaped.");
+    shapedRuns.emplace_back(std::move(shapedRun));
   }
 
   return {};

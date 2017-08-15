@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Typography/AttributedString.h>
+#include <Typography/FontLibrary.h>
 #include <Typography/Types.h>
 #include <vector>
 
@@ -21,7 +22,7 @@ class TextRun {
     RightToLeft,
   };
 
-  TextRun(Direction direction, TextRange range);
+  TextRun(FontDescriptor descriptor, Direction direction, TextRange range);
 
   ~TextRun();
 
@@ -34,6 +35,7 @@ class TextRun {
   void setRange(TextRange range);
 
  private:
+  FontDescriptor _descriptor;
   Direction _direction = Direction::Unknown;
   TextRange _range;
 };

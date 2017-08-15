@@ -28,5 +28,13 @@ AttributedString::fontDescriptorsMap() const {
   return _fontDescriptors;
 }
 
+FontDescriptor AttributedString::descriptorForIndex(size_t index) const {
+  if (_fontDescriptors.size() == 0) {
+    return {};
+  }
+
+  return _fontDescriptors.lower_bound(index)->second;
+}
+
 }  // namespace type
 }  // namespace rl

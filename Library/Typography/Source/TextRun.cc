@@ -6,6 +6,7 @@
 #include <Typography/TextRun.h>
 #include <unicode/ubidi.h>
 #include <unicode/unistr.h>
+#include <algorithm>
 
 namespace rl {
 namespace type {
@@ -22,10 +23,18 @@ static inline TextRun::Direction ToTextRunDirection(UBiDiDirection direction) {
   return TextRun::Direction::Unknown;
 }
 
-TextRun::TextRun(Direction direction, TextRange range)
-    : _direction(direction), _range(range) {}
+TextRun::TextRun(FontDescriptor descriptor,
+                 Direction direction,
+                 TextRange range)
+    : _descriptor(std::move(descriptor)),
+      _direction(direction),
+      _range(range) {}
 
 TextRun::~TextRun() = default;
+
+FontDescriptor TextRun::descriptor() const {
+  return _descriptor;
+}
 
 TextRun::Direction TextRun::direction() const {
   return _direction;
@@ -102,13 +111,14 @@ TextRuns::TextRuns(const AttributedString& string) {
     const bool isRunValid =
         direction != UBIDI_MIXED && direction != UBIDI_NEUTRAL;
     RL_ASSERT_MSG(isRunValid, "Encountered mixed or unknown run.");
-    if (!isRunValid) {
-      continue;
-    }
-    _runs.emplace_back(ToTextRunDirection(direction),
-                       TextRange{static_cast<size_t>(logicalStart),
-                                 static_cast<size_t>(length)});
+    _runs.emplace_back(
+        string.descriptorForIndex(static_cast<size_t>(logicalStart)),
+        ToTextRunDirection(direction),
+        TextRange{static_cast<size_t>(logicalStart),
+                  static_cast<size_t>(length)});
   }
+
+  RL_ASSERT(totalLength() == string.string().size());
 
   _valid = true;
 }
@@ -135,6 +145,8 @@ const std::vector<TextRun>& TextRuns::runs() const {
 }
 
 TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
+  RL_ASSERT(std::is_sorted(breaks.begin(), breaks.end()));
+
   if (_runs.size() == 0) {
     /*
      *  If there are no runs, there is nothing to break.

@@ -57,18 +57,17 @@ size_t FontLibrary::registeredFonts() const {
   return _registeredFonts.size();
 }
 
-Font FontLibrary::fontForName(const std::string& postscriptName,
-                              double size) const {
-  if (size <= 0.0) {
+Font FontLibrary::fontForDescriptor(const FontDescriptor& descriptor) const {
+  if (descriptor.pointSize() <= 0.0) {
     return {};
   }
 
-  auto found = _registeredFonts.find(postscriptName);
+  auto found = _registeredFonts.find(descriptor.postscriptName());
   if (found == _registeredFonts.end()) {
     return {};
   }
 
-  return Font{*(found->second.get()), size};
+  return Font{*(found->second.get()), descriptor.pointSize()};
 }
 
 }  // namespace type
