@@ -78,5 +78,9 @@ double Font::size() const {
   return xScale;
 }
 
+void* Font::handle() const {
+  return _valid ? _font : nullptr;
+}
+
 }  // namespace type
 }  // namespace rl

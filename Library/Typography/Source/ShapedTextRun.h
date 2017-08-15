@@ -6,10 +6,12 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Geometry/Size.h>
 #include <Typography/AttributedString.h>
 #include <Typography/Font.h>
 #include <Typography/FontLibrary.h>
 #include <Typography/TextRun.h>
+#include "HarfbuzzHelpers.h"
 
 namespace rl {
 namespace type {
@@ -28,7 +30,10 @@ class ShapedTextRun {
 
   bool isValid() const;
 
+  geom::Size size() const;
+
  private:
+  HBBufferPtr _buffer = {nullptr, hb_buffer_destroy};
   Font _font;
   bool _valid = false;
 

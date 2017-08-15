@@ -67,9 +67,12 @@ TypeFrame Typesetter::createTypeFrame(const geom::Size& size,
   std::vector<ShapedTextRun> shapedRuns;
   for (const auto& run : runs.runs()) {
     ShapedTextRun shapedRun(_string.string(), run, library);
-    RL_ASSERT_MSG(
-        shapedRun.isValid(),
-        "Shaping fallbacks are not implemented this run could not be shaped.");
+
+    if (!shapedRun.isValid()) {
+      RL_ASSERT_MSG(false, "Run could not be shaped.");
+      return {};
+    }
+
     shapedRuns.emplace_back(std::move(shapedRun));
   }
 

@@ -82,10 +82,10 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs().runs()[0].range().length, 2);
 }
 
-TEST(TypesetterTest, DISABLED_SimpleTypesetterCreateFrame) {
+TEST(TypesetterTest, SimpleTypesetterCreateFrame) {
   rl::type::AttributedStringBuilder builder;
-  std::string hello("Hello");
-  builder.appendText(hello);
+  std::string hello("Hello World");
+  builder.pushFontDescriptor({"Roboto-Regular", 22.0}).appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(attributedString);

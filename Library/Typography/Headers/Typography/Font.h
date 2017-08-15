@@ -31,6 +31,8 @@ class Font {
 
   std::string postscriptName() const;
 
+  void* handle() const;
+
  private:
   void* __opaque = nullptr;
   bool _valid = false;
