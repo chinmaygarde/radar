@@ -169,8 +169,10 @@ TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
 
   std::vector<TextRun> splitRuns;
   size_t breakIndex = 0;
+  size_t breaksSize = breaks.size();
   for (const auto& run : _runs) {
-    if (!run.range().isIndexInRange(breaks[breakIndex])) {
+    if (breakIndex < breaksSize &&
+        !run.range().isIndexInRange(breaks[breakIndex])) {
       /*
        *  There was no break in this run, add it as-is.
        */
