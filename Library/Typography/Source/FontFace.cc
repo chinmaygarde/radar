@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include "FontFace.h"
 #include <Core/FileMapping.h>
+#include <Typography/FontFace.h>
 #include <memory>
 
 namespace rl {

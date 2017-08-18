@@ -4,7 +4,7 @@
  */
 
 #include <Typography/Font.h>
-#include "FontFace.h"
+#include <Typography/FontFace.h>
 
 namespace rl {
 namespace type {

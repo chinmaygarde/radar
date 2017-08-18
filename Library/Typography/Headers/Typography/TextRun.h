@@ -42,6 +42,8 @@ class TextRun {
 
 class TextRuns {
  public:
+  TextRuns();
+
   TextRuns(const AttributedString& string);
 
   /*
@@ -50,6 +52,8 @@ class TextRuns {
   TextRuns(std::vector<TextRun> runs);
 
   TextRuns(TextRuns&&);
+
+  TextRuns& operator=(TextRuns&&);
 
   ~TextRuns();
 
@@ -65,8 +69,6 @@ class TextRuns {
  private:
   std::vector<TextRun> _runs;
   bool _valid = false;
-
-  TextRuns();
 
   RL_DISALLOW_COPY_AND_ASSIGN(TextRuns);
 };

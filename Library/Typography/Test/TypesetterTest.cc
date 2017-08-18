@@ -29,28 +29,61 @@ TEST(TypesetterTest, SimpleHebrewTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs().size(), 9u);
   ASSERT_EQ(typesetter.runs().runs()[0].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[1].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[2].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[3].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[4].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[5].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[6].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[7].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[8].direction(),
             rl::type::TextRun::Direction::RightToLeft);
 }
 
 TEST(TypesetterTest, MixedTypesetter) {
   rl::type::AttributedStringBuilder builder;
   std::string hello(
-      "World ציור עסקים מדע מה. צ'ט בקלות הבאים  Hello מאמרשיחהצפה של");
+      "World ציור עסקים מדע מה. צ'ט בקלות הבאים Hello מאמרשיחהצפה של");
   builder.appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().runs().size(), 4u);
+  ASSERT_EQ(typesetter.runs().runs().size(), 12u);
   ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 6);  // "World "
   ASSERT_EQ(typesetter.runs().runs()[1].direction(),
-            rl::type::TextRun::Direction::RightToLeft);
+            rl::type::TextRun::Direction::RightToLeft);  //  "הבאים "
   ASSERT_EQ(typesetter.runs().runs()[2].direction(),
-            rl::type::TextRun::Direction::LeftToRight);
+            rl::type::TextRun::Direction::RightToLeft);  //  "בקלות "
   ASSERT_EQ(typesetter.runs().runs()[3].direction(),
+            rl::type::TextRun::Direction::RightToLeft);  //  "צ'ט "
+  ASSERT_EQ(typesetter.runs().runs()[4].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[5].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[6].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[7].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[8].direction(),
+            rl::type::TextRun::Direction::LeftToRight);  // <whitespace>
+  ASSERT_EQ(typesetter.runs().runs()[9].direction(),
+            rl::type::TextRun::Direction::LeftToRight);  // "Hello "
+  ASSERT_EQ(typesetter.runs().runs()[10].direction(),
+            rl::type::TextRun::Direction::RightToLeft);
+  ASSERT_EQ(typesetter.runs().runs()[11].direction(),
             rl::type::TextRun::Direction::RightToLeft);
 }
 
@@ -62,8 +95,26 @@ TEST(TypesetterTest, EmojiTypesetter) {
   ASSERT_TRUE(attributedString.isValid());
   rl::type::Typesetter typesetter(std::move(attributedString));
   ASSERT_TRUE(typesetter.isValid());
-  ASSERT_EQ(typesetter.runs().runs().size(), 1u);
+  ASSERT_EQ(typesetter.runs().runs().size(), 10u);
   ASSERT_EQ(typesetter.runs().runs()[0].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[1].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[2].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[3].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[4].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[5].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[6].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[7].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[8].direction(),
+            rl::type::TextRun::Direction::LeftToRight);
+  ASSERT_EQ(typesetter.runs().runs()[9].direction(),
             rl::type::TextRun::Direction::LeftToRight);
 }
 
@@ -82,7 +133,7 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs().runs()[0].range().length, 2);
 }
 
-TEST(TypesetterTest, SimpleTypesetterCreateFrame) {
+TEST(TypesetterTest, SimpleTypesetterCreateShapedRuns) {
   rl::type::AttributedStringBuilder builder;
   std::string hello("Hello World");
   builder.pushFontDescriptor({"Roboto-Regular", 22.0}).appendText(hello);
@@ -92,6 +143,6 @@ TEST(TypesetterTest, SimpleTypesetterCreateFrame) {
   ASSERT_TRUE(typesetter.isValid());
   rl::type::FontLibrary library;
   ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}, 0));
-  auto frame = typesetter.createTypeFrame({1000, 1000}, library);
-  ASSERT_TRUE(frame.isValid());
+  auto shapedRuns = typesetter.createShapedRuns(library);
+  ASSERT_EQ(shapedRuns.size(), 2);
 }

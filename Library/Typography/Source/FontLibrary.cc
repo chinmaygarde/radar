@@ -4,8 +4,8 @@
  */
 
 #include <Typography/Font.h>
+#include <Typography/FontFace.h>
 #include <Typography/FontLibrary.h>
-#include "FontFace.h"
 
 namespace rl {
 namespace type {

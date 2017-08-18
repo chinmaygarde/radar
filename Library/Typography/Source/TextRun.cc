@@ -134,6 +134,12 @@ TextRuns::TextRuns(TextRuns&& o) {
   o._valid = false;
 }
 
+TextRuns& TextRuns::operator=(TextRuns&& o) {
+  std::swap(_runs, o._runs);
+  o._valid = false;
+  return *this;
+}
+
 TextRuns::~TextRuns() = default;
 
 bool TextRuns::isValid() const {
@@ -151,7 +157,7 @@ TextRuns TextRuns::splitAtBreaks(const std::vector<size_t>& breaks) const {
     /*
      *  If there are no runs, there is nothing to break.
      */
-    return {};
+    return {std::vector<TextRun>{}};
   }
 
   if (breaks.size() == 0) {

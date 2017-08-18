@@ -9,17 +9,22 @@
 #include <unicode/brkiter.h>
 #include <memory>
 #include <vector>
-#include "ShapedTextRun.h"
 
 namespace rl {
 namespace type {
 
-Typesetter::Typesetter(AttributedString pString)
-    : _string(std::move(pString)), _runs(_string) {
-  if (!_runs.isValid()) {
+Typesetter::Typesetter(AttributedString pString) : _string(std::move(pString)) {
+  /*
+   *  Break the attributed string into runs based on content and styling.
+   */
+  TextRuns runs(_string);
+  if (!runs.isValid()) {
     return;
   }
 
+  /*
+   *  Divide the runs along line break opportunities.
+   */
   auto iterator = TypographyContext::SharedContext().breakIteratorForThread();
 
   if (iterator == nullptr) {
@@ -28,11 +33,20 @@ Typesetter::Typesetter(AttributedString pString)
 
   iterator->setText(_string.string().unicodeString());
 
-  for (int32_t current = iterator->first(); current != BreakIterator::DONE;
+  std::vector<size_t> breakOpportunities;
+  for (int32_t current = iterator->first();  //
+       current != BreakIterator::DONE;       //
        current = iterator->next()) {
-    _breakOpportunities.emplace_back(current);
+    breakOpportunities.emplace_back(current);
   }
 
+  auto brokenRuns = runs.splitAtBreaks(std::move(breakOpportunities));
+
+  if (!brokenRuns.isValid()) {
+    return;
+  }
+
+  _runs = std::move(brokenRuns);
   _valid = true;
 }
 
@@ -46,37 +60,18 @@ bool Typesetter::isValid() const {
   return _valid;
 }
 
-TypeFrame Typesetter::createTypeFrame(const geom::Size& size,
-                                      const FontLibrary& library) const {
-  if (!_valid || !size.isPositive() || !library.isValid()) {
-    return {};
-  }
-
-  /*
-   *  Break apart the runs at each break opportunity.
-   */
-  auto runs = _runs.splitAtBreaks(_breakOpportunities);
-
-  if (!runs.isValid()) {
-    return {};
-  }
-
-  /*
-   *  Shape each run.
-   */
+std::vector<ShapedTextRun> Typesetter::createShapedRuns(
+    const FontLibrary& library) const {
   std::vector<ShapedTextRun> shapedRuns;
-  for (const auto& run : runs.runs()) {
+  for (const auto& run : _runs.runs()) {
     ShapedTextRun shapedRun(_string.string(), run, library);
-
     if (!shapedRun.isValid()) {
-      RL_ASSERT_MSG(false, "Run could not be shaped.");
+      RL_LOG("Could not create shaped run.");
       return {};
     }
-
     shapedRuns.emplace_back(std::move(shapedRun));
   }
-
-  return {};
+  return shapedRuns;
 }
 
 }  // namespace type

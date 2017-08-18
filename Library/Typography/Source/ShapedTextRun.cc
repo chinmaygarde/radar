@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <Typography/ShapedTextRun.h>
 #include <unicode/unistr.h>
-#include "ShapedTextRun.h"
 
 namespace rl {
 namespace type {

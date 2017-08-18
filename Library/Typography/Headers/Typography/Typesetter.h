@@ -9,6 +9,7 @@
 #include <Geometry/Size.h>
 #include <Typography/AttributedString.h>
 #include <Typography/FontLibrary.h>
+#include <Typography/ShapedTextRun.h>
 #include <Typography/TextRun.h>
 #include <Typography/TypeFrame.h>
 #include <vector>
@@ -24,15 +25,13 @@ class Typesetter {
 
   bool isValid() const;
 
-  TypeFrame createTypeFrame(const geom::Size& size,
-                            const FontLibrary& library) const;
+  std::vector<ShapedTextRun> createShapedRuns(const FontLibrary& library) const;
 
   const TextRuns& runs() const;
 
  private:
   AttributedString _string;
   TextRuns _runs;
-  std::vector<size_t> _breakOpportunities;
   bool _valid = false;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Typesetter);
