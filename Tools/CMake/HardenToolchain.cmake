@@ -19,7 +19,12 @@ endif()
 ################################################################################
 # Fortify Source
 ################################################################################
-add_definitions(-D_FORTIFY_SOURCE=2)
+if(NOT CMAKE_GENERATOR STREQUAL "Xcode")
+  # Xcode can enable the address sanitizer on its own which causes a duplicate
+  # definition of this macro.
+  add_definitions(-D_FORTIFY_SOURCE=2)
+endif()
+
 
 ################################################################################
 # Stack Smashing Protection
