@@ -4,7 +4,6 @@
  */
 
 #include <Typography/TypeFrame.h>
-#include <hb.h>
 
 namespace rl {
 namespace type {

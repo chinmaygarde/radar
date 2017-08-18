@@ -4,13 +4,10 @@
  */
 
 #include <Typography/Font.h>
-#include <hb-ft.h>
 #include "FontFace.h"
 
 namespace rl {
 namespace type {
-
-#define _font reinterpret_cast<hb_font_t*>(__opaque)
 
 Font::Font() = default;
 
@@ -19,49 +16,37 @@ Font::Font(const FontFace& fontFace, double size) {
     return;
   }
 
-  auto font = hb_font_create(fontFace.face());
+  HBRef<hb_font_t> font(hb_font_create(fontFace.handle()), hb_font_destroy);
 
   if (font == nullptr) {
     return;
   }
 
-  hb_font_set_scale(font, size, size);
+  hb_font_set_scale(font.get(), size, size);
 
-  hb_ft_font_set_funcs(font);
+  hb_ft_font_set_funcs(font.get());
 
-  hb_font_make_immutable(font);
+  hb_font_make_immutable(font.get());
 
-  __opaque = font;
-  _valid = true;
+  _handle = std::move(font);
 }
 
-Font::Font(Font&& other) : __opaque(other.__opaque), _valid(other._valid) {
-  other.__opaque = nullptr;
-  other._valid = false;
-}
+Font::Font(Font&& other) = default;
 
-Font& Font::operator=(Font&& other) {
-  std::swap(__opaque, other.__opaque);
-  std::swap(_valid, other._valid);
-  return *this;
-}
+Font& Font::operator=(Font&& other) = default;
 
-Font::~Font() {
-  if (_font != nullptr) {
-    hb_font_destroy(_font);
-  }
-}
+Font::~Font() = default;
 
 bool Font::isValid() const {
-  return _valid;
+  return _handle != nullptr;
 }
 
 std::string Font::postscriptName() const {
-  if (!_valid) {
+  if (_handle == nullptr) {
     return "";
   }
 
-  const char* name = FT_Get_Postscript_Name(hb_ft_font_get_face(_font));
+  const char* name = FT_Get_Postscript_Name(hb_ft_font_get_face(_handle.get()));
 
   if (name == nullptr) {
     return "";
@@ -72,14 +57,14 @@ std::string Font::postscriptName() const {
 
 double Font::size() const {
   int xScale = 0;
-  if (_valid) {
-    hb_font_get_scale(_font, &xScale, nullptr);
+  if (_handle != nullptr) {
+    hb_font_get_scale(_handle.get(), &xScale, nullptr);
   }
   return xScale;
 }
 
-void* Font::handle() const {
-  return _valid ? _font : nullptr;
+hb_font_t* Font::handle() const {
+  return _handle.get();
 }
 
 }  // namespace type

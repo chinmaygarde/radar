@@ -16,6 +16,11 @@ target_link_libraries(Typography
     icu_common
 )
 
+target_compile_definitions(Typography
+  PRIVATE
+    -DTYPOGRAPHY_INTERNAL=1
+)
+
 StandardRadarTest(Typography)
 
 # Since we are going to test library internals thats directly import PRIVATE

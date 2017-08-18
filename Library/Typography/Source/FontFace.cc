@@ -3,17 +3,17 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "FontFace.h"
 #include <Core/FileMapping.h>
 #include <memory>
-#include "FontFace.h"
 
 namespace rl {
 namespace type {
 
-static HBBlobPtr CreateFontFileBlob(const core::URI& uri) {
+static HBRef<hb_blob_t> CreateFontFileBlob(const core::URI& uri) {
   auto mapping = std::make_unique<core::FileMapping>(uri);
   if (mapping->size() == 0) {
-    return {nullptr, hb_blob_destroy};
+    return {nullptr, HBRefDeleterNull};
   }
 
   static hb_destroy_func_t onBlobDelete = [](void* userData) {
@@ -38,28 +38,27 @@ FontFace::FontFace(const core::URI& uri, size_t index)
     return;
   }
 
-  HBFacePtr face(hb_face_create(blob.get(), index), hb_face_destroy);
+  HBRef<hb_face_t> face(hb_face_create(blob.get(), index), hb_face_destroy);
 
   if (face == nullptr) {
     return;
   }
 
   _face = std::move(face);
-  _valid = true;
 }
 
 FontFace::~FontFace() = default;
 
 bool FontFace::isValid() const {
-  return _valid;
+  return _face != nullptr;
 }
 
-hb_face_t* FontFace::face() const {
+hb_face_t* FontFace::handle() const {
   return _face.get();
 }
 
 size_t FontFace::glyphCount() const {
-  return _valid ? hb_face_get_glyph_count(_face.get()) : 0;
+  return _face != nullptr ? hb_face_get_glyph_count(_face.get()) : 0;
 }
 
 }  // namespace type

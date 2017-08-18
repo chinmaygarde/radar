@@ -7,6 +7,7 @@
 
 #include <Core/Macros.h>
 #include <Core/URI.h>
+#include <Typography/Types.h>
 
 namespace rl {
 namespace type {
@@ -31,11 +32,10 @@ class Font {
 
   std::string postscriptName() const;
 
-  void* handle() const;
+  hb_font_t* handle() const;
 
  private:
-  void* __opaque = nullptr;
-  bool _valid = false;
+  HBRef<hb_font_t> _handle{nullptr, HBRefDeleterNull};
 
   RL_DISALLOW_COPY_AND_ASSIGN(Font);
 };

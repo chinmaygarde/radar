@@ -11,7 +11,7 @@
 #include <Typography/Font.h>
 #include <Typography/FontLibrary.h>
 #include <Typography/TextRun.h>
-#include "HarfbuzzHelpers.h"
+#include <Typography/Types.h>
 
 namespace rl {
 namespace type {
@@ -33,7 +33,7 @@ class ShapedTextRun {
   geom::Size size() const;
 
  private:
-  HBBufferPtr _buffer = {nullptr, hb_buffer_destroy};
+  HBRef<hb_buffer_t> _buffer = {nullptr, HBRefDeleterNull};
   Font _font;
   bool _valid = false;
 

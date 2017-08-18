@@ -6,6 +6,7 @@
 #pragma once
 
 #include <limits>
+#include <memory>
 
 namespace rl {
 namespace type {
@@ -49,6 +50,15 @@ struct TextRange {
   }
 };
 
+template <class T>
+using HBRefDeleter = void (*)(T*);
+
+template <class T>
+using HBRef = std::unique_ptr<T, HBRefDeleter<T>>;
+
+template <class T>
+void HBRefDeleterNull(T*) {}
+
 }  // namespace type
 }  // namespace rl
 
@@ -58,3 +68,21 @@ class UnicodeString;
 class BreakIterator;
 
 }  // namespace icu
+
+#ifndef TYPOGRAPHY_INTERNAL
+
+namespace {
+
+struct hb_font_t;
+struct hb_face_t;
+struct hb_blob_t;
+struct hb_buffer_t;
+
+}  // namespace
+
+#else  // TYPOGRAPHY_INTERNAL
+
+#include <hb-ft.h>
+#include <hb.h>
+
+#endif  // TYPOGRAPHY_INTERNAL
