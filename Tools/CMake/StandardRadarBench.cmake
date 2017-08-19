@@ -40,6 +40,8 @@ TreatAsCXX("${BENCH_SRC_MM}")
 
 add_executable(${BENCH_TARGET_NAME} ${BENCH_SRC_CC} ${BENCH_SRC_MM})
 
+add_test(${BENCH_TARGET_NAME} ${BENCH_TARGET_NAME})
+
 AddRecommendedWarningFlags()
 
 include_directories("Headers" "Source" "Bench")

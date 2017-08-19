@@ -86,6 +86,7 @@ option(RADAR_BENCHMARKING_ENABLED "Enable benchmarking." ON)
 
 if(RADAR_BENCHMARKING_ENABLED)
   # Build the benchmarking target with its tests disabled.
+  enable_testing()
   add_custom_target(bench)
   set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests on benchmarks")
   set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "Disable exceptions on benchmarks")

@@ -67,7 +67,7 @@ endif()
 
 # Add the target to CTest
 
-add_test(${TEST_NAME_ARG} ${TEST_TARGET_NAME})
+add_test(${TEST_TARGET_NAME} ${TEST_TARGET_NAME})
 
 # Copy fixtures, if any.
 
