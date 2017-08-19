@@ -14,7 +14,7 @@ static void SolverCreation(benchmark::State& state) {
   }
 }
 
-BENCHMARK(SolverCreation);
+BENCHMARK(SolverCreation)->Unit(benchmark::TimeUnit::kMicrosecond);
 
 static void SolverAdd(benchmark::State& state) {
   rl::core::Namespace ns;
@@ -34,7 +34,7 @@ static void SolverAdd(benchmark::State& state) {
   }
 }
 
-BENCHMARK(SolverAdd);
+BENCHMARK(SolverAdd)->Unit(benchmark::TimeUnit::kMicrosecond);
 
 static void SolverRemove(benchmark::State& state) {
   rl::core::Namespace ns;
@@ -54,7 +54,7 @@ static void SolverRemove(benchmark::State& state) {
   }
 }
 
-BENCHMARK(SolverRemove);
+BENCHMARK(SolverRemove)->Unit(benchmark::TimeUnit::kMicrosecond);
 
 static void SolverAddRemove(benchmark::State& state) {
   rl::core::Namespace ns;
@@ -72,23 +72,60 @@ static void SolverAddRemove(benchmark::State& state) {
   }
 }
 
-BENCHMARK(SolverAddRemove);
+BENCHMARK(SolverAddRemove)->Unit(benchmark::TimeUnit::kMicrosecond);
 
 static void SolverAddMany(benchmark::State& state) {
+  state.SetComplexityN(state.range(0));
+
   rl::core::Namespace ns;
   rl::layout::Solver solver(ns);
 
   while (state.KeepRunning()) {
-    for (auto i = 0, count = state.range_x(); i < count; i++) {
-      state.PauseTiming();
+    for (auto i = 0, count = state.range(0); i < count; i++) {
       rl::layout::Variable something(
           ns, rl::layout::Variable::Property::BoundsWidth);
       auto constraintX = something == 200.0;
-      state.ResumeTiming();
       auto res = solver.addConstraints({constraintX});
       RL_ASSERT(res == rl::layout::Result::Success);
     }
   }
 }
 
-BENCHMARK(SolverAddMany)->Arg(1)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
+BENCHMARK(SolverAddMany)
+    ->Unit(benchmark::TimeUnit::kMillisecond)
+    ->RangeMultiplier(10)
+    ->Range(1, 10000)
+    ->Complexity();
+
+static void SolverAddSingleToMany(benchmark::State& state) {
+  state.SetComplexityN(state.range(0));
+
+  rl::core::Namespace ns;
+  rl::layout::Solver solver(ns);
+
+  for (auto i = 0, count = state.range(0); i < count; i++) {
+    rl::layout::Variable something(ns,
+                                   rl::layout::Variable::Property::BoundsWidth);
+    auto constraintX = something == 200.0;
+    auto res = solver.addConstraints({constraintX});
+    RL_ASSERT(res == rl::layout::Result::Success);
+  }
+
+  while (state.KeepRunning()) {
+    rl::layout::Variable final(ns, rl::layout::Variable::Property::BoundsWidth);
+    auto constraintX = final == 200.0;
+    auto res = solver.addConstraints({constraintX});
+    RL_ASSERT(res == rl::layout::Result::Success);
+
+    state.PauseTiming();
+    res = solver.removeConstraint({constraintX});
+    RL_ASSERT(res == rl::layout::Result::Success);
+    state.ResumeTiming();
+  }
+}
+
+BENCHMARK(SolverAddSingleToMany)
+    ->Unit(benchmark::TimeUnit::kMicrosecond)
+    ->RangeMultiplier(10)
+    ->Range(1, 10000)
+    ->Complexity();
