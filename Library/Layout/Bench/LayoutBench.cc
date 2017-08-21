@@ -20,8 +20,8 @@ static void SolverAdd(benchmark::State& state) {
   rl::core::Namespace ns;
   rl::layout::Solver solver(ns);
 
-  rl::layout::Variable width(ns, rl::layout::Variable::Property::BoundsWidth);
-  rl::layout::Variable height(ns, rl::layout::Variable::Property::BoundsHeight);
+  rl::expr::Variable width(ns, rl::expr::Variable::Property::BoundsWidth);
+  rl::expr::Variable height(ns, rl::expr::Variable::Property::BoundsHeight);
 
   auto constraintX = width == 200.0;
   auto constraintY = height == 900.0;
@@ -40,8 +40,8 @@ static void SolverRemove(benchmark::State& state) {
   rl::core::Namespace ns;
   rl::layout::Solver solver(ns);
 
-  rl::layout::Variable width(ns, rl::layout::Variable::Property::BoundsWidth);
-  rl::layout::Variable height(ns, rl::layout::Variable::Property::BoundsHeight);
+  rl::expr::Variable width(ns, rl::expr::Variable::Property::BoundsWidth);
+  rl::expr::Variable height(ns, rl::expr::Variable::Property::BoundsHeight);
 
   auto constraintX = width == 200.0;
   auto constraintY = height == 900.0;
@@ -60,8 +60,8 @@ static void SolverAddRemove(benchmark::State& state) {
   rl::core::Namespace ns;
   rl::layout::Solver solver(ns);
 
-  rl::layout::Variable width(ns, rl::layout::Variable::Property::BoundsWidth);
-  rl::layout::Variable height(ns, rl::layout::Variable::Property::BoundsHeight);
+  rl::expr::Variable width(ns, rl::expr::Variable::Property::BoundsWidth);
+  rl::expr::Variable height(ns, rl::expr::Variable::Property::BoundsHeight);
 
   auto constraintX = width == 200.0;
   auto constraintY = height == 900.0;
@@ -82,8 +82,8 @@ static void SolverAddMany(benchmark::State& state) {
 
   while (state.KeepRunning()) {
     for (auto i = 0, count = state.range(0); i < count; i++) {
-      rl::layout::Variable something(
-          ns, rl::layout::Variable::Property::BoundsWidth);
+      rl::expr::Variable something(ns,
+                                   rl::expr::Variable::Property::BoundsWidth);
       auto constraintX = something == 200.0;
       auto res = solver.addConstraints({constraintX});
       RL_ASSERT(res == rl::layout::Result::Success);
@@ -104,15 +104,14 @@ static void SolverAddSingleToMany(benchmark::State& state) {
   rl::layout::Solver solver(ns);
 
   for (auto i = 0, count = state.range(0); i < count; i++) {
-    rl::layout::Variable something(ns,
-                                   rl::layout::Variable::Property::BoundsWidth);
+    rl::expr::Variable something(ns, rl::expr::Variable::Property::BoundsWidth);
     auto constraintX = something == 200.0;
     auto res = solver.addConstraints({constraintX});
     RL_ASSERT(res == rl::layout::Result::Success);
   }
 
   while (state.KeepRunning()) {
-    rl::layout::Variable final(ns, rl::layout::Variable::Property::BoundsWidth);
+    rl::expr::Variable final(ns, rl::expr::Variable::Property::BoundsWidth);
     auto constraintX = final == 200.0;
     auto res = solver.addConstraints({constraintX});
     RL_ASSERT(res == rl::layout::Result::Success);

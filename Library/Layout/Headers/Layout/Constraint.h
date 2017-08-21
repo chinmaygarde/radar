@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <Layout/Expression.h>
+#include <Expression/Expression.h>
 #include <Layout/Priority.h>
 
 namespace rl {
@@ -24,7 +24,7 @@ class Constraint : public core::ArchiveSerializable,
   Constraint();
 
   Constraint(core::Name name,
-             const Expression& expression,
+             const expr::Expression& expression,
              Relation relation,
              double priority);
 
@@ -32,7 +32,7 @@ class Constraint : public core::ArchiveSerializable,
 
   Relation relation() const;
 
-  const Expression& expression() const;
+  const expr::Expression& expression() const;
 
   double priority() const;
 
@@ -55,8 +55,9 @@ class Constraint : public core::ArchiveSerializable,
   core::Namespace* ns() const;
 
   using ProxyVariableReplacementCallback =
-      std::function<Variable(const Variable&)>;
-  using ConstantResolutionCallback = std::function<double(const Variable&)>;
+      std::function<expr::Variable(const expr::Variable&)>;
+  using ConstantResolutionCallback =
+      std::function<double(const expr::Variable&)>;
   Constraint resolveProxies(
       core::Namespace& ns,
       ProxyVariableReplacementCallback replacement,
@@ -71,7 +72,7 @@ class Constraint : public core::ArchiveSerializable,
  private:
   core::Name _identifier;
   Relation _relation;
-  Expression _expression;
+  expr::Expression _expression;
   double _priority;
 
   RL_DISALLOW_ASSIGN(Constraint);

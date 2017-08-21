@@ -39,7 +39,8 @@ size_t ProxyResolver::size() const {
  *  to check if any of the entities inflated as a result of proxy resolution
  *  can take part in constants resolution
  */
-double ProxyResolver::constantResolutionCallback(const Variable& variable) {
+double ProxyResolver::constantResolutionCallback(
+    const expr::Variable& variable) {
   /*
    *  Try to resolve the entity in the set of proxy resolved entities.
    */
@@ -50,7 +51,7 @@ double ProxyResolver::constantResolutionCallback(const Variable& variable) {
      *  std::find
      */
     if (entity.second->identifier() == variable.identifier()) {
-      return Variable::GetProperty(*entity.second, variable.property());
+      return expr::Variable::GetProperty(*entity.second, variable.property());
     }
   }
 
@@ -172,8 +173,10 @@ bool ProxyResolver::updateTouches(
 
 void ProxyResolver::reportTouchEditsToDelegate(const core::Name& identifier,
                                                bool addOrRemove) {
-  _editUpdateCallback({identifier, Variable::Property::PositionX}, addOrRemove);
-  _editUpdateCallback({identifier, Variable::Property::PositionY}, addOrRemove);
+  _editUpdateCallback({identifier, expr::Variable::Property::PositionX},
+                      addOrRemove);
+  _editUpdateCallback({identifier, expr::Variable::Property::PositionY},
+                      addOrRemove);
 }
 
 void ProxyResolver::updateEntityPosition(entity::Entity& entity,
@@ -183,16 +186,19 @@ void ProxyResolver::updateEntityPosition(entity::Entity& entity,
    */
   entity.setPosition(position);
 
-  Variable positionX = {entity.identifier(), Variable::Property::PositionX};
-  Variable positionY = {entity.identifier(), Variable::Property::PositionY};
+  expr::Variable positionX = {entity.identifier(),
+                              expr::Variable::Property::PositionX};
+  expr::Variable positionY = {entity.identifier(),
+                              expr::Variable::Property::PositionY};
 
   _editSuggestCallback(positionX, position.x);
   _editSuggestCallback(positionY, position.y);
 }
 
 entity::Entity* ProxyResolver::touchEntityForProxy(
-    Variable::Proxy proxy) const {
-  return touchEntityForTouchNumber(static_cast<Variable::ProxyType>(proxy));
+    expr::Variable::Proxy proxy) const {
+  return touchEntityForTouchNumber(
+      static_cast<expr::Variable::ProxyType>(proxy));
 }
 
 entity::Entity* ProxyResolver::touchEntityForTouchNumber(size_t number) const {
@@ -214,11 +220,11 @@ entity::Entity* ProxyResolver::touchEntityForTouchNumber(size_t number) const {
 }
 
 void ProxyResolver::registerProxyConstraint(Constraint&& constraint) {
-  std::set<Variable::Proxy> proxies;
+  std::set<expr::Variable::Proxy> proxies;
 
   for (const auto& term : constraint.expression().terms()) {
     auto proxy = term.variable().proxy();
-    if (proxy != Variable::Proxy::None) {
+    if (proxy != expr::Variable::Proxy::None) {
       proxies.insert(proxy);
     }
   }
@@ -234,8 +240,9 @@ void ProxyResolver::registerProxyConstraint(Constraint&& constraint) {
                 "constraints managed for this interface");
 }
 
-static bool ProxyConditionsSatisfied(const std::set<Variable::Proxy>& proxies,
-                                     size_t touchCount) {
+static bool ProxyConditionsSatisfied(
+    const std::set<expr::Variable::Proxy>& proxies,
+    size_t touchCount) {
   return proxies.size() == touchCount;
 }
 
@@ -253,7 +260,8 @@ void ProxyResolver::performOperationOnProxiesSatisfyingCurrentCondition(
   }
 }
 
-Variable ProxyResolver::resolvedVariableForProxy(const Variable& variable) {
+expr::Variable ProxyResolver::resolvedVariableForProxy(
+    const expr::Variable& variable) {
   auto result = touchEntityForProxy(variable.proxy());
   RL_ASSERT(result != nullptr);
   return {result->identifier(), variable.property()};
@@ -265,32 +273,34 @@ void ProxyResolver::setupConstraintsForProxies() {
    *  Perform proxy resolution on each constraint for which all conditions are
    *  satisfied
    */
-  performOperationOnProxiesSatisfyingCurrentCondition([&](
-      const Constraint& proxyConstraint,
-      const std::set<Variable::Proxy>& conditions) {
-    /*
-     *  Resolve the proxy constraint
-     */
-    Constraint::ProxyVariableReplacementCallback replacement = std::bind(
-        &ProxyResolver::resolvedVariableForProxy, this, std::placeholders::_1);
-    Constraint::ConstantResolutionCallback constResolution =
-        std::bind(&ProxyResolver::constantResolutionCallback, this,
-                  std::placeholders::_1);
-    auto resolvedConstraint =
-        proxyConstraint.resolveProxies(_localNS, replacement, constResolution);
+  performOperationOnProxiesSatisfyingCurrentCondition(
+      [&](const Constraint& proxyConstraint,
+          const std::set<expr::Variable::Proxy>& conditions) {
+        /*
+         *  Resolve the proxy constraint
+         */
+        Constraint::ProxyVariableReplacementCallback replacement =
+            std::bind(&ProxyResolver::resolvedVariableForProxy, this,
+                      std::placeholders::_1);
+        Constraint::ConstantResolutionCallback constResolution =
+            std::bind(&ProxyResolver::constantResolutionCallback, this,
+                      std::placeholders::_1);
+        auto resolvedConstraint = proxyConstraint.resolveProxies(
+            _localNS, replacement, constResolution);
 
-    /*
-     *  Register the resolved constraint for later deletion and notify the
-     *  delegate
-     */
-    _activeConstraintsByCondition[conditions].emplace_back(resolvedConstraint);
+        /*
+         *  Register the resolved constraint for later deletion and notify the
+         *  delegate
+         */
+        _activeConstraintsByCondition[conditions].emplace_back(
+            resolvedConstraint);
 
-    /*
-     *  The solver is hosted by the delegate and is responsible for adding
-     *  this constraint
-     */
-    constraintsToAdd.emplace_back(resolvedConstraint);
-  });
+        /*
+         *  The solver is hosted by the delegate and is responsible for adding
+         *  this constraint
+         */
+        constraintsToAdd.emplace_back(resolvedConstraint);
+      });
 
   if (constraintsToAdd.size() > 0) {
     _addConstraintCallback(std::move(constraintsToAdd));
@@ -305,7 +315,8 @@ void ProxyResolver::setupConstraintsForProxies() {
 void ProxyResolver::clearConstraintsForProxies() {
   std::vector<Constraint> constraintsToRemove;
   performOperationOnProxiesSatisfyingCurrentCondition(
-      [&](const Constraint&, const std::set<Variable::Proxy>& conditions) {
+      [&](const Constraint&,
+          const std::set<expr::Variable::Proxy>& conditions) {
         /*
          *  Find all the constraints that were previously added for the given
          *  condition and attempt to remove the same from the solver hosted by

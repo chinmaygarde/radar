@@ -23,16 +23,16 @@ void SampleApplication::didFinishLaunching(
 
 static void AddPanRecognizer(rl::interface::Interface& interface,
                              rl::interface::ModelEntity& layer) {
-  using Variable = rl::layout::Variable;
+  using Variable = rl::expr::Variable;
 
   Variable touchX(Variable::Proxy::Touch1, Variable::Property::PositionX);
   Variable touchY(Variable::Proxy::Touch1, Variable::Property::PositionY);
 
-  auto layerX = layer | Variable::Property::PositionX;
-  auto layerY = layer | Variable::Property::PositionY;
+  Variable layerX(layer.identifier(), Variable::Property::PositionX);
+  Variable layerY(layer.identifier(), Variable::Property::PositionY);
 
-  auto constOffsetX = rl::layout::MakeConst(layerX - touchX);
-  auto constOffsetY = rl::layout::MakeConst(layerY - touchY);
+  auto constOffsetX = MakeConst(layerX - touchX);
+  auto constOffsetY = MakeConst(layerY - touchY);
 
   interface.setupConstraints({
       layerX == touchX + constOffsetX,  //
@@ -42,7 +42,7 @@ static void AddPanRecognizer(rl::interface::Interface& interface,
 
 std::set<rl::interface::ModelEntity::Ref> AddLayers(
     rl::interface::Interface& interface) {
-  using Property = rl::layout::Variable::Property;
+  using Property = rl::expr::Variable::Property;
   auto& root = interface.rootEntity();
 
   auto rootWidth = root | Property::BoundsWidth;
@@ -136,7 +136,7 @@ void AddDraggableEntity(rl::interface::Interface& interface) {
 }
 
 void AddRadialArrangement(rl::interface::Interface& interface) {
-  using Property = rl::layout::Variable::Property;
+  using Property = rl::expr::Variable::Property;
 
   auto& root = interface.rootEntity();
 

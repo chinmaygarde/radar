@@ -4,11 +4,10 @@
  */
 
 #include <Core/Message.h>
-#include <Layout/Variable.h>
-#include "LayoutUtilities.h"
+#include <Expression/Variable.h>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 Variable::Variable() : _property(Property::None), _proxy(Proxy::None) {}
 
@@ -169,5 +168,5 @@ bool Variable::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   return true;
 }
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

@@ -6,8 +6,8 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Expression/Variable.h>
 #include <Layout/Priority.h>
-#include <Layout/Variable.h>
 
 namespace rl {
 namespace layout {
@@ -17,9 +17,9 @@ class Suggestion : public core::ArchiveSerializable,
  public:
   Suggestion();
 
-  Suggestion(const Variable& variable, double value, double priority);
+  Suggestion(const expr::Variable& variable, double value, double priority);
 
-  const Variable& variable() const;
+  const expr::Variable& variable() const;
 
   double value() const;
 
@@ -45,7 +45,7 @@ class Suggestion : public core::ArchiveSerializable,
                                         double priority);
 
  private:
-  Variable _variable;
+  expr::Variable _variable;
   double _value;
   double _priority;
 

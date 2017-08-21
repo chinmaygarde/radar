@@ -62,7 +62,7 @@ void PresentationGraph::updateRootEntity(
   /*
    *  Cleanup the old entity if there is one.
    */
-  using Prop = layout::Variable::Property;
+  using Prop = expr::Variable::Property;
   if (_root != nullptr) {
     const auto identifier = _root->identifier();
     _layoutSolver.removeEditVariable({identifier, Prop::BoundsWidth});
@@ -85,10 +85,10 @@ void PresentationGraph::updateRootEntity(
   const auto identifier = _root->identifier();
   const auto priority = rl::layout::priority::Strong();
 
-  auto boundsWidth = layout::Variable{identifier, Prop::BoundsWidth};
-  auto boundsHeight = layout::Variable{identifier, Prop::BoundsHeight};
-  auto positionX = layout::Variable{identifier, Prop::PositionX};
-  auto positionY = layout::Variable{identifier, Prop::PositionY};
+  auto boundsWidth = expr::Variable{identifier, Prop::BoundsWidth};
+  auto boundsHeight = expr::Variable{identifier, Prop::BoundsHeight};
+  auto positionX = expr::Variable{identifier, Prop::PositionX};
+  auto positionY = expr::Variable{identifier, Prop::PositionY};
 
   _layoutSolver.addEditVariable(boundsWidth, priority);
   _layoutSolver.addEditVariable(boundsHeight, priority);
@@ -105,13 +105,13 @@ void PresentationGraph::updateRootSizeSuggestions() {
     return;
   }
 
-  using Prop = layout::Variable::Property;
+  using Prop = expr::Variable::Property;
   const auto identifier = _root->identifier();
 
-  auto boundsWidth = layout::Variable{identifier, Prop::BoundsWidth};
-  auto boundsHeight = layout::Variable{identifier, Prop::BoundsHeight};
-  auto positionX = layout::Variable{identifier, Prop::PositionX};
-  auto positionY = layout::Variable{identifier, Prop::PositionY};
+  auto boundsWidth = expr::Variable{identifier, Prop::BoundsWidth};
+  auto boundsHeight = expr::Variable{identifier, Prop::BoundsHeight};
+  auto positionX = expr::Variable{identifier, Prop::PositionX};
+  auto positionY = expr::Variable{identifier, Prop::PositionY};
 
   auto bounds = _root->bounds();
   auto position = _root->position();
@@ -459,7 +459,7 @@ void PresentationGraph::onSuggestionsCommit(
   syncSolverStats();
 }
 
-void PresentationGraph::onEditVariableUpdate(const layout::Variable& variable,
+void PresentationGraph::onEditVariableUpdate(const expr::Variable& variable,
                                              bool addOrRemove) {
   auto result = layout::Result::InternalSolverError;
 
@@ -475,7 +475,7 @@ void PresentationGraph::onEditVariableUpdate(const layout::Variable& variable,
   syncSolverStats();
 }
 
-void PresentationGraph::onEditVariableSuggest(const layout::Variable& variable,
+void PresentationGraph::onEditVariableSuggest(const expr::Variable& variable,
                                               double value) {
   auto result = _layoutSolver.suggestValueForVariable(variable, value);
   RL_ASSERT(result == layout::Result::Success);
@@ -524,7 +524,7 @@ size_t PresentationGraph::applyConstraints() {
 }
 
 layout::Solver::FlushResult PresentationGraph::resolveConstraintUpdate(
-    const layout::Variable& variable,
+    const expr::Variable& variable,
     double value) {
   auto found = _entities.find(variable.identifier());
   if (found == _entities.end()) {
@@ -540,15 +540,15 @@ layout::Solver::FlushResult PresentationGraph::resolveConstraintUpdate(
   /*
    *  Actually update the property.
    */
-  layout::Variable::SetProperty(*found->second, variable.property(), value);
+  expr::Variable::SetProperty(*found->second, variable.property(), value);
   return layout::Solver::FlushResult::Updated;
 }
 
 double PresentationGraph::resolveConstraintConstant(
-    const layout::Variable& variable) const {
+    const expr::Variable& variable) const {
   auto found = _entities.find(variable.identifier());
   RL_ASSERT(found != _entities.end());
-  return layout::Variable::GetProperty(*found->second, variable.property());
+  return expr::Variable::GetProperty(*found->second, variable.property());
 }
 
 }  // namespace coordinator

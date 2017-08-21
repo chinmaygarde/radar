@@ -13,7 +13,7 @@ Constraint::Constraint()
     : _relation(Relation::EqualTo), _priority(priority::Weak()) {}
 
 Constraint::Constraint(core::Name name,
-                       const Expression& expression,
+                       const expr::Expression& expression,
                        Relation relation,
                        double priority)
     : _identifier(name),
@@ -31,7 +31,7 @@ Constraint::Relation Constraint::relation() const {
   return _relation;
 }
 
-const Expression& Constraint::expression() const {
+const expr::Expression& Constraint::expression() const {
   return _expression;
 }
 
@@ -63,7 +63,7 @@ Constraint Constraint::resolveProxies(
     ConstantResolutionCallback constantResolution) const {
   double accumulatedConstant = 0.0;
 
-  Expression::Terms terms;
+  expr::Expression::Terms terms;
   for (auto term : _expression.terms()) {
     /*
      *  Perform proxy replacement over all variables

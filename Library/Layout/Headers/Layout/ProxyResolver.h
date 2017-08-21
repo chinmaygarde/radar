@@ -20,10 +20,11 @@ class ProxyResolver {
   using ProxyConstraintCallback =
       std::function<void(const std::vector<Constraint>&)>;
   using ProxyEditUpdateCallback =
-      std::function<void(const Variable& /* variable */,
+      std::function<void(const expr::Variable& /* variable */,
                          bool /* addOrRemove */)>;
   using ProxyEditSuggestCallback =
-      std::function<void(const Variable& /* variable */, double /* value */)>;
+      std::function<void(const expr::Variable& /* variable */,
+                         double /* value */)>;
 
   ProxyResolver(
       core::Namespace& localNS,
@@ -38,14 +39,15 @@ class ProxyResolver {
   bool applyTouchMap(const event::TouchEvent::PhaseMap& map);
 
  private:
-  using ConstraintConditionsMap =
-      std::map<Constraint, std::set<Variable::Proxy>, Constraint::Compare>;
+  using ConstraintConditionsMap = std::
+      map<Constraint, std::set<expr::Variable::Proxy>, Constraint::Compare>;
   using ConditionConstraintsMap =
-      std::map<std::set<Variable::Proxy>, std::vector<Constraint>>;
+      std::map<std::set<expr::Variable::Proxy>, std::vector<Constraint>>;
   using IdentifierEntityMap =
       std::map<event::TouchEvent::Identifier, std::unique_ptr<entity::Entity>>;
   using ConstraintOperation =
-      std::function<void(const Constraint&, const std::set<Variable::Proxy>&)>;
+      std::function<void(const Constraint&,
+                         const std::set<expr::Variable::Proxy>&)>;
 
   core::Namespace& _localNS;
   ProxyConstraintCallback _addConstraintCallback;
@@ -70,14 +72,14 @@ class ProxyResolver {
   void performOperationOnProxiesSatisfyingCurrentCondition(
       ConstraintOperation operation);
 
-  Variable resolvedVariableForProxy(const Variable& variable);
+  expr::Variable resolvedVariableForProxy(const expr::Variable& variable);
 
-  double constantResolutionCallback(const Variable& variable);
+  double constantResolutionCallback(const expr::Variable& variable);
 
   void reportTouchEditsToDelegate(const core::Name& identifier,
                                   bool addOrRemove);
 
-  entity::Entity* touchEntityForProxy(Variable::Proxy proxy) const;
+  entity::Entity* touchEntityForProxy(expr::Variable::Proxy proxy) const;
   entity::Entity* touchEntityForTouchNumber(size_t index) const;
 
   size_t size() const;

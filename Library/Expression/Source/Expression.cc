@@ -4,10 +4,10 @@
  */
 
 #include <Core/Message.h>
-#include <Layout/Expression.h>
+#include <Expression/Expression.h>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 Expression::Expression() : _constant(0.0), _inferredNamespace(nullptr) {
   inferNamespace();
@@ -106,5 +106,5 @@ bool Expression::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   return true;
 }
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

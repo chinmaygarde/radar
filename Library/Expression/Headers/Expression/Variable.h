@@ -9,7 +9,7 @@
 #include <Entity/Entity.h>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 class Variable : public core::ArchiveSerializable,
                  public core::MessageSerializable {
@@ -95,5 +95,5 @@ class Variable : public core::ArchiveSerializable,
   Proxy _proxy;
 };
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

@@ -6,10 +6,10 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <Layout/Variable.h>
+#include <Expression/Variable.h>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 class Term : public core::ArchiveSerializable,
              public core::MessageSerializable {
@@ -42,5 +42,5 @@ class Term : public core::ArchiveSerializable,
   bool _constant;
 };
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

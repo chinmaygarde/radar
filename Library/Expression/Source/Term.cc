@@ -4,10 +4,10 @@
  */
 
 #include <Core/Message.h>
-#include <Layout/Term.h>
+#include <Expression/Term.h>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 Term::Term() : _coefficient(1.0) {}
 
@@ -81,5 +81,5 @@ bool Term::deserialize(core::ArchiveItem& item, core::Namespace* ns) {
   return true;
 }
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

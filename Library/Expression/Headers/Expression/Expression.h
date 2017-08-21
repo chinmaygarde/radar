@@ -6,11 +6,11 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <Layout/Term.h>
+#include <Expression/Term.h>
 #include <vector>
 
 namespace rl {
-namespace layout {
+namespace expr {
 
 class Expression : public core::ArchiveSerializable,
                    public core::MessageSerializable {
@@ -55,5 +55,5 @@ class Expression : public core::ArchiveSerializable,
   RL_DISALLOW_ASSIGN(Expression);
 };
 
-}  // namespace layout
+}  // namespace expr
 }  // namespace rl

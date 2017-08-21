@@ -94,15 +94,15 @@ class PresentationGraph {
 
   void onSuggestionsCommit(std::vector<layout::Suggestion>&& suggestions);
 
-  void onEditVariableUpdate(const layout::Variable& variable, bool addOrRemove);
+  void onEditVariableUpdate(const expr::Variable& variable, bool addOrRemove);
 
-  void onEditVariableSuggest(const layout::Variable& variable, double value);
+  void onEditVariableSuggest(const expr::Variable& variable, double value);
 
   layout::Solver::FlushResult resolveConstraintUpdate(
-      const layout::Variable& variable,
+      const expr::Variable& variable,
       double value);
 
-  double resolveConstraintConstant(const layout::Variable& variable) const;
+  double resolveConstraintConstant(const expr::Variable& variable) const;
 
   void syncSolverStats();
 

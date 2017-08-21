@@ -6,13 +6,10 @@
 #pragma once
 
 #include <Entity/Entity.h>
+#include <Expression/Expression.h>
+#include <Expression/Term.h>
+#include <Expression/Variable.h>
 #include <Layout/Constraint.h>
-#include <Layout/Expression.h>
-#include <Layout/Term.h>
-#include <Layout/Variable.h>
-
-namespace rl {
-namespace layout {
 
 // clang-format off
 
@@ -22,9 +19,9 @@ namespace layout {
 template <class T>
 struct ExpressionMember : public std::integral_constant<
     bool,
-    std::is_base_of<Variable, T>::value   ||
-    std::is_base_of<Term, T>::value       ||
-    std::is_base_of<Expression, T>::value> {
+    std::is_base_of<rl::expr::Variable, T>::value   ||
+    std::is_base_of<rl::expr::Term, T>::value       ||
+    std::is_base_of<rl::expr::Expression, T>::value> {
 };
 
 /**
@@ -55,100 +52,106 @@ struct Hoistable : public std::integral_constant<
 };
 // clang-format on
 
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Expression operator+(const A& a, const B& b) {
-  Expression exprA(a);
-  Expression exprB(b);
+template <class A, class B, class = rl::core::only_if<(Hoistable<A, B>::value)>>
+rl::expr::Expression operator+(const A& a, const B& b) {
+  rl::expr::Expression exprA(a);
+  rl::expr::Expression exprB(b);
   auto terms = exprA.terms();
   for (const auto& term : exprB.terms()) {
     terms.push_back(term);
   }
-  return Expression{std::move(terms), exprA.constant() + exprB.constant()};
+  return rl::expr::Expression{std::move(terms),
+                              exprA.constant() + exprB.constant()};
 }
 
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Expression operator-(const A& a, const B& b) {
-  Expression exprA(a);
-  Expression exprB(b);
+template <class A, class B, class = rl::core::only_if<(Hoistable<A, B>::value)>>
+rl::expr::Expression operator-(const A& a, const B& b) {
+  rl::expr::Expression exprA(a);
+  rl::expr::Expression exprB(b);
   auto terms = exprA.terms();
   for (const auto& term : exprB.terms()) {
-    terms.push_back(
-        Term{term.variable(), -term.coefficient(), term.isConstant()});
+    terms.push_back(rl::expr::Term{term.variable(), -term.coefficient(),
+                                   term.isConstant()});
   }
-  return Expression{std::move(terms), exprA.constant() - exprB.constant()};
+  return rl::expr::Expression{std::move(terms),
+                              exprA.constant() - exprB.constant()};
 }
 
-template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
-Expression operator*(const A& a, double m) {
-  Expression expr(a);
-  Expression::Terms terms;
+template <class A, class = rl::core::only_if<(ExpressionMember<A>::value)>>
+rl::expr::Expression operator*(const A& a, double m) {
+  rl::expr::Expression expr(a);
+  rl::expr::Expression::Terms terms;
   for (const auto& term : expr.terms()) {
-    terms.push_back(
-        Term{term.variable(), term.coefficient() * m, term.isConstant()});
+    terms.push_back(rl::expr::Term{term.variable(), term.coefficient() * m,
+                                   term.isConstant()});
   }
-  return Expression{std::move(terms), expr.constant() * m};
+  return rl::expr::Expression{std::move(terms), expr.constant() * m};
 }
 
-template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
-Expression operator*(double m, const A& a) {
+template <class A, class = rl::core::only_if<(ExpressionMember<A>::value)>>
+rl::expr::Expression operator*(double m, const A& a) {
   return a * m;
 }
 
-template <class A, class = core::only_if<(ExpressionMember<A>::value)>>
-Expression operator/(const A& a, double m) {
-  Expression expr(a);
-  Expression::Terms terms;
+template <class A, class = rl::core::only_if<(ExpressionMember<A>::value)>>
+rl::expr::Expression operator/(const A& a, double m) {
+  rl::expr::Expression expr(a);
+  rl::expr::Expression::Terms terms;
   for (const auto& term : expr.terms()) {
-    terms.push_back(
-        Term{term.variable(), term.coefficient() / m, term.isConstant()});
+    terms.push_back(rl::expr::Term{term.variable(), term.coefficient() / m,
+                                   term.isConstant()});
   }
-  return Expression{std::move(terms), expr.constant() / m};
+  return rl::expr::Expression{std::move(terms), expr.constant() / m};
 }
 
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Constraint operator==(const A& a, const B& b) {
-  auto expr = Expression{a - b};
-  return {core::Name{expr.ns()}, std::move(expr), Constraint::Relation::EqualTo,
-          priority::Required()};
+template <class A, class B, class = rl::core::only_if<(Hoistable<A, B>::value)>>
+rl::layout::Constraint operator==(const A& a, const B& b) {
+  auto expr = rl::expr::Expression{a - b};
+  return {rl::core::Name{expr.ns()}, std::move(expr),
+          rl::layout::Constraint::Relation::EqualTo,
+          rl::layout::priority::Required()};
 }
 
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Constraint operator>=(const A& a, const B& b) {
-  auto expr = Expression{a - b};
-  return {core::Name{expr.ns()}, std::move(expr),
-          Constraint::Relation::GreaterThanOrEqualTo, priority::Required()};
+template <class A, class B, class = rl::core::only_if<(Hoistable<A, B>::value)>>
+rl::layout::Constraint operator>=(const A& a, const B& b) {
+  auto expr = rl::expr::Expression{a - b};
+  return {rl::core::Name{expr.ns()}, std::move(expr),
+          rl::layout::Constraint::Relation::GreaterThanOrEqualTo,
+          rl::layout::priority::Required()};
 }
 
-template <class A, class B, class = core::only_if<(Hoistable<A, B>::value)>>
-Constraint operator<=(const A& a, const B& b) {
-  auto expr = Expression{a - b};
-  return {core::Name{expr.ns()}, std::move(expr),
-          Constraint::Relation::LessThanOrEqualTo, priority::Required()};
+template <class A, class B, class = rl::core::only_if<(Hoistable<A, B>::value)>>
+rl::layout::Constraint operator<=(const A& a, const B& b) {
+  auto expr = rl::expr::Expression{a - b};
+  return {rl::core::Name{expr.ns()}, std::move(expr),
+          rl::layout::Constraint::Relation::LessThanOrEqualTo,
+          rl::layout::priority::Required()};
 }
 
-template <class A, class = core::only_if<(HoistableMember<A>::value)>>
-Expression MakeConst(const A& a) {
-  Expression expr(a);
-  Expression::Terms terms;
+template <class A, class = rl::core::only_if<(HoistableMember<A>::value)>>
+rl::expr::Expression MakeConst(const A& a) {
+  rl::expr::Expression expr(a);
+  rl::expr::Expression::Terms terms;
   for (const auto& term : expr.terms()) {
-    terms.push_back(Term{term.variable(), term.coefficient(), true});
+    terms.push_back(rl::expr::Term{term.variable(), term.coefficient(), true});
   }
-  return Expression{std::move(terms), expr.constant()};
+  return rl::expr::Expression{std::move(terms), expr.constant()};
 }
 
-inline Constraint operator|(const Constraint& constraint, double priority) {
-  return {core::Name{constraint.ns()}, constraint.expression(),
+inline rl::layout::Constraint operator|(
+    const rl::layout::Constraint& constraint,
+    double priority) {
+  return {rl::core::Name{constraint.ns()}, constraint.expression(),
           constraint.relation(), priority};
 }
 
-inline Constraint operator|(double priority, const Constraint& constraint) {
+inline rl::layout::Constraint operator|(
+    double priority,
+    const rl::layout::Constraint& constraint) {
   return constraint | priority;
 }
 
-inline Variable operator|(const entity::Entity& entity,
-                          Variable::Property property) {
+inline rl::expr::Variable operator|(const rl::entity::Entity& entity,
+                                    rl::expr::Variable::Property property) {
   return {entity.identifier(), property};
 }
-
-}  // namespace layout
-}  // namespace rl

@@ -13,13 +13,15 @@ namespace layout {
 
 Suggestion::Suggestion() : _variable(), _value(0.0) {}
 
-Suggestion::Suggestion(const Variable& variable, double value, double priority)
+Suggestion::Suggestion(const expr::Variable& variable,
+                       double value,
+                       double priority)
     : _variable(variable), _value(value), _priority(priority) {
   RL_ASSERT_MSG(priority != priority::Required(),
                 "Suggestions cannot be at required priority");
 }
 
-const Variable& Suggestion::variable() const {
+const expr::Variable& Suggestion::variable() const {
   return _variable;
 }
 
@@ -65,7 +67,7 @@ std::vector<Suggestion> Suggestion::Anchor(entity::Entity& entity,
                                            entity::Entity::Property property,
                                            double priority) {
   using Entity = entity::Entity;
-  using Property = layout::Variable::Property;
+  using Property = expr::Variable::Property;
 
   std::vector<Suggestion> suggestions;
   auto identifier = entity.identifier();

@@ -5,13 +5,11 @@
 # Library
 ################################################################################
 
-StandardRadarLibrary(Layout)
+StandardRadarLibrary(Expression)
 
-target_link_libraries(Layout
+target_link_libraries(Expression
   PUBLIC
     Core
-    Event
-    Expression
     Entity
 )
 
@@ -19,10 +17,4 @@ target_link_libraries(Layout
 # Test
 ################################################################################
 
-StandardRadarTest(Layout)
-
-################################################################################
-# Benchmark
-################################################################################
-
-StandardRadarBench(Layout)
+StandardRadarTest(Expression)

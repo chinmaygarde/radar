@@ -103,7 +103,8 @@ static inline bool IsValidNonRequiredPriority(double priority) {
   return (priority >= 0.0 && priority < priority::Required());
 }
 
-Result Solver::addEditVariable(const Variable& variable, double priority) {
+Result Solver::addEditVariable(const expr::Variable& variable,
+                               double priority) {
   if (_edits.find(variable) != _edits.end()) {
     return Result::DuplicateEditVariable;
   }
@@ -112,9 +113,10 @@ Result Solver::addEditVariable(const Variable& variable, double priority) {
     return Result::BadRequiredStrength;
   }
 
-  Constraint constraint(core::Name(_localNS),
-                        Expression{{Term{variable, 1.0, false}}, 0.0},
-                        Constraint::Relation::EqualTo, priority);
+  Constraint constraint(
+      core::Name(_localNS),
+      expr::Expression{{expr::Term{variable, 1.0, false}}, 0.0},
+      Constraint::Relation::EqualTo, priority);
 
   if (addConstraint(constraint) != Result::Success) {
     return Result::InternalSolverError;
@@ -127,7 +129,7 @@ Result Solver::addEditVariable(const Variable& variable, double priority) {
   return Result::Success;
 }
 
-Result Solver::removeEditVariable(const Variable& variable) {
+Result Solver::removeEditVariable(const expr::Variable& variable) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
@@ -142,7 +144,7 @@ Result Solver::removeEditVariable(const Variable& variable) {
   return Result::Success;
 }
 
-bool Solver::hasEditVariable(const Variable& variable) const {
+bool Solver::hasEditVariable(const expr::Variable& variable) const {
   return _edits.find(variable) != _edits.end();
 }
 
@@ -150,7 +152,8 @@ Result Solver::applySuggestion(const Suggestion& suggestion) {
   return suggestValueForVariable(suggestion.variable(), suggestion.value());
 }
 
-Result Solver::suggestValueForVariable(const Variable& variable, double value) {
+Result Solver::suggestValueForVariable(const expr::Variable& variable,
+                                       double value) {
   auto foundEdit = _edits.find(variable);
 
   if (foundEdit == _edits.end()) {
@@ -185,7 +188,7 @@ size_t Solver::flushUpdates(SolverUpdateCallback callback) const {
   return updateCount;
 }
 
-Symbol Solver::symbolForVariable(const Variable& variable) {
+Symbol Solver::symbolForVariable(const expr::Variable& variable) {
   auto foundSymbol = _vars.find(variable);
 
   if (foundSymbol != _vars.end()) {
@@ -623,21 +626,23 @@ Result Solver::removeConstraints(const std::vector<Constraint>& constraints) {
   return bulkEdit(constraints, applier, undoer);
 }
 
-Result Solver::addEditVariables(const std::vector<Variable> variables,
+Result Solver::addEditVariables(const std::vector<expr::Variable> variables,
                                 double priority) {
-  UpdateCallback<Variable> applier = [&, priority](const Variable& variable) {
-    return addEditVariable(variable, priority);
-  };
-  UpdateCallback<Variable> undoer =
+  UpdateCallback<expr::Variable> applier =
+      [&, priority](const expr::Variable& variable) {
+        return addEditVariable(variable, priority);
+      };
+  UpdateCallback<expr::Variable> undoer =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
 
   return bulkEdit(variables, applier, undoer);
 }
 
-Result Solver::removeEditVariables(const std::vector<Variable> variables) {
-  UpdateCallback<Variable> applier =
+Result Solver::removeEditVariables(
+    const std::vector<expr::Variable> variables) {
+  UpdateCallback<expr::Variable> applier =
       std::bind(&Solver::removeEditVariable, this, std::placeholders::_1);
-  UpdateCallback<Variable> undoer = [&](const Variable& variable) {
+  UpdateCallback<expr::Variable> undoer = [&](const expr::Variable& variable) {
     return addEditVariable(variable,
                            _edits.at(variable).constraint().priority());
   };

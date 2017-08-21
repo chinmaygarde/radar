@@ -6,13 +6,13 @@
 #pragma once
 
 #include <Core/Macros.h>
+#include <Expression/Variable.h>
 #include <Layout/Constraint.h>
 #include <Layout/EditInfo.h>
 #include <Layout/Result.h>
 #include <Layout/Suggestion.h>
 #include <Layout/Symbol.h>
 #include <Layout/Tag.h>
-#include <Layout/Variable.h>
 #include <functional>
 #include <list>
 #include <map>
@@ -40,20 +40,20 @@ class Solver {
 
   bool hasConstraint(const Constraint& constraint) const;
 
-  Result addEditVariables(const std::vector<Variable> variables,
+  Result addEditVariables(const std::vector<expr::Variable> variables,
                           double priority);
 
-  Result addEditVariable(const Variable& variable, double priority);
+  Result addEditVariable(const expr::Variable& variable, double priority);
 
-  Result removeEditVariables(const std::vector<Variable> variables);
+  Result removeEditVariables(const std::vector<expr::Variable> variables);
 
-  Result removeEditVariable(const Variable& variable);
+  Result removeEditVariable(const expr::Variable& variable);
 
-  bool hasEditVariable(const Variable& variable) const;
+  bool hasEditVariable(const expr::Variable& variable) const;
 
   Result applySuggestion(const Suggestion& suggestion);
 
-  Result suggestValueForVariable(const Variable& variable, double value);
+  Result suggestValueForVariable(const expr::Variable& variable, double value);
 
   size_t constraintsCount() const;
 
@@ -65,15 +65,22 @@ class Solver {
   };
 
   using SolverUpdateCallback =
-      std::function<FlushResult(const Variable&, double value)>;
+      std::function<FlushResult(const expr::Variable&, double value)>;
   size_t flushUpdates(SolverUpdateCallback callback) const;
 
  private:
   core::Namespace& _localNS;
   std::map<Constraint, Tag, Constraint::Compare> _constraints;
   std::map<Symbol, std::unique_ptr<Row>, Symbol::Compare> _rows;
-  std::unordered_map<Variable, Symbol, Variable::Hash, Variable::Equal> _vars;
-  std::unordered_map<Variable, EditInfo, Variable::Hash, Variable::Equal>
+  std::unordered_map<expr::Variable,
+                     Symbol,
+                     expr::Variable::Hash,
+                     expr::Variable::Equal>
+      _vars;
+  std::unordered_map<expr::Variable,
+                     EditInfo,
+                     expr::Variable::Hash,
+                     expr::Variable::Equal>
       _edits;
   std::list<Symbol> _infeasibleRows;
   std::unique_ptr<Row> _objective;
@@ -87,7 +94,7 @@ class Solver {
                   UpdateCallback<T> applier,
                   UpdateCallback<T> undoer);
 
-  Symbol symbolForVariable(const Variable& variable);
+  Symbol symbolForVariable(const expr::Variable& variable);
 
   std::unique_ptr<Row> createRow(const Constraint& constraint, Tag& tag);
 
