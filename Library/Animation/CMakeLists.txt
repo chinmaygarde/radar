@@ -12,4 +12,5 @@ target_link_libraries(Animation
     Core
     Geometry
     Entity
+    Expression
 )
