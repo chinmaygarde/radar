@@ -9,13 +9,12 @@
 #include <Core/URI.h>
 #include <Typography/Font.h>
 #include <Typography/FontDescriptor.h>
+#include <Typography/FontFace.h>
 #include <map>
 #include <memory>
 
 namespace rl {
 namespace type {
-
-class FontFace;
 
 class FontLibrary {
  public:
@@ -26,6 +25,8 @@ class FontLibrary {
   bool isValid() const;
 
   Font fontForDescriptor(const FontDescriptor& descriptor) const;
+
+  const FontFace* faceForDescriptor(const FontDescriptor& descriptor) const;
 
   bool registerFont(const core::URI& fontFileName, size_t index);
 

@@ -125,5 +125,15 @@ geom::Size ShapedTextRun::size() const {
   return size;
 }
 
+size_t ShapedTextRun::glyphCount() const {
+  if (!_valid) {
+    return 0;
+  }
+
+  uint32_t length = 0;
+  hb_buffer_get_glyph_positions(_buffer.get(), &length);
+  return length;
+}
+
 }  // namespace type
 }  // namespace rl

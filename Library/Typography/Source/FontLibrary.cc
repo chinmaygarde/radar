@@ -4,7 +4,6 @@
  */
 
 #include <Typography/Font.h>
-#include <Typography/FontFace.h>
 #include <Typography/FontLibrary.h>
 
 namespace rl {
@@ -58,6 +57,15 @@ size_t FontLibrary::registeredFonts() const {
 }
 
 Font FontLibrary::fontForDescriptor(const FontDescriptor& descriptor) const {
+  auto face = faceForDescriptor(descriptor);
+  if (face == nullptr) {
+    return {};
+  }
+  return Font{*face, descriptor.pointSize()};
+}
+
+const FontFace* FontLibrary::faceForDescriptor(
+    const FontDescriptor& descriptor) const {
   if (descriptor.pointSize() <= 0.0) {
     return {};
   }
@@ -67,7 +75,7 @@ Font FontLibrary::fontForDescriptor(const FontDescriptor& descriptor) const {
     return {};
   }
 
-  return Font{*(found->second.get()), descriptor.pointSize()};
+  return found->second.get();
 }
 
 }  // namespace type

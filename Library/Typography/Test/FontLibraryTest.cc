@@ -29,3 +29,12 @@ TEST(FontLibraryTest, FindByName) {
   ASSERT_EQ(font.postscriptName(), "Roboto-Regular");
   ASSERT_DOUBLE_EQ(font.size(), 14.0);
 }
+
+TEST(FontLibraryTest, FaceHasGlyphs) {
+  rl::type::FontLibrary library;
+  ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}, 0));
+  ASSERT_EQ(library.registeredFonts(), 1u);
+  auto face = library.faceForDescriptor({"Roboto-Regular", 14.0});
+  ASSERT_NE(face, nullptr);
+  ASSERT_EQ(face->glyphCount(), 1250u);
+}

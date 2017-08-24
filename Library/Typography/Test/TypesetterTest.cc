@@ -145,4 +145,6 @@ TEST(TypesetterTest, SimpleTypesetterCreateShapedRuns) {
   ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}, 0));
   auto shapedRuns = typesetter.createShapedRuns(library);
   ASSERT_EQ(shapedRuns.size(), 2);
+  ASSERT_EQ(shapedRuns[0].glyphCount(), 6);
+  ASSERT_EQ(shapedRuns[1].glyphCount(), 5);
 }

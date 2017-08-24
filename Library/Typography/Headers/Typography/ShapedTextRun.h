@@ -32,6 +32,8 @@ class ShapedTextRun {
 
   geom::Size size() const;
 
+  size_t glyphCount() const;
+
  private:
   HBRef<hb_buffer_t> _buffer = {nullptr, HBRefDeleterNull};
   Font _font;
