@@ -57,7 +57,9 @@ template <class T>
 using HBRef = std::unique_ptr<T, HBRefDeleter<T>>;
 
 template <class T>
-void HBRefDeleterNull(T*) {}
+void HBRefDeleterNull(T* obj) {
+  RL_ASSERT(obj == nullptr);
+}
 
 }  // namespace type
 }  // namespace rl
