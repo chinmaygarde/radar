@@ -15,9 +15,11 @@ class FrictionSimulation : public Simulation {
  public:
   FrictionSimulation(double drag, double position, double velocity);
 
-  double x(const core::ClockDuration& time) override;
-  double dx(const core::ClockDuration& time) override;
-  bool isDone(const core::ClockDuration& time) override;
+  double x(const core::ClockDuration& time) const override;
+
+  double dx(const core::ClockDuration& time) const override;
+
+  bool isDone(const core::ClockDuration& time) const override;
 
  private:
   const double _drag;

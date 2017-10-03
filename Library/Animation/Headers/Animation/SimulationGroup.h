@@ -17,7 +17,7 @@ namespace animation {
  *  method at appropriate intervals. If more fine grained control over the the
  *  step is necessary, subclasses may override `Simulatable` methods.
  */
-class SimulationGroup : public Simulation {
+class SimulationGroup {
  public:
   /**
    *  The currently active simulation
@@ -40,11 +40,11 @@ class SimulationGroup : public Simulation {
    */
   virtual bool step(const core::ClockDuration& time) = 0;
 
-  double x(const core::ClockDuration& time) override;
+  double x(const core::ClockDuration& time);
 
-  double dx(const core::ClockDuration& time) override;
+  double dx(const core::ClockDuration& time);
 
-  bool isDone(const core::ClockDuration& time) override;
+  bool isDone(const core::ClockDuration& time);
 
  private:
   core::ClockDuration _lastStep;

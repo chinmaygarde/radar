@@ -15,15 +15,15 @@ FrictionSimulation::FrictionSimulation(double drag,
                                        double velocity)
     : _drag(drag), _dragLog(log(drag)), _x(position), _v(velocity) {}
 
-double FrictionSimulation::x(const core::ClockDuration& time) {
+double FrictionSimulation::x(const core::ClockDuration& time) const {
   return _x + _v * pow(_drag, time.count()) / _dragLog - _v / _dragLog;
 }
 
-double FrictionSimulation::dx(const core::ClockDuration& time) {
+double FrictionSimulation::dx(const core::ClockDuration& time) const {
   return _v * pow(_drag, time.count());
 }
 
-bool FrictionSimulation::isDone(const core::ClockDuration& time) {
+bool FrictionSimulation::isDone(const core::ClockDuration& time) const {
   return fabs(dx(time)) < VelocityTolerance;
 }
 
