@@ -154,6 +154,7 @@ endif()
 
 add_subdirectory("Library/Animation")
 add_subdirectory("Library/BenchmarkRunner")
+add_subdirectory("Library/BodymovinParser")
 add_subdirectory("Library/Compositor")
 add_subdirectory("Library/Coordinator")
 add_subdirectory("Library/Core")
