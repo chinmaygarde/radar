@@ -34,9 +34,7 @@ TypographyContext::TypographyContext()
 }
 
 TypographyContext& TypographyContext::SharedContext() {
-  static auto leakyDeleter = [](TypographyContext*) {};
-  static std::unique_ptr<TypographyContext, decltype(leakyDeleter)> gContext = {
-      nullptr, leakyDeleter};
+  static TypographyContext* gContext = nullptr;
   if (gContext != nullptr) {
     return *gContext;
   }
@@ -45,7 +43,7 @@ TypographyContext& TypographyContext::SharedContext() {
   if (gContext != nullptr) {
     return *gContext;
   }
-  gContext = {new TypographyContext(), leakyDeleter};
+  gContext = new TypographyContext();
   return *gContext;
 }
 
