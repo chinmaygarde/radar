@@ -14,49 +14,94 @@ namespace bodymovin {
 
 class ValueBase {
  public:
-  ValueBase();
+  ValueBase() = default;
 
-  virtual ~ValueBase();
+  virtual ~ValueBase() = default;
 
-  double value() const;
+  const std::string& expression() const { return _expression; }
 
-  const std::string& expression() const;
+  uint64_t index() const { return _index; }
 
-  const std::string& index() const;
+  bool isAnimated() const { return _isAnimated; }
 
-  bool isAnimated() const;
+  void setExpression(std::string expression) {
+    _expression = std::move(expression);
+  }
+
+  void setIndex(uint64_t index) { _index = index; }
+
+  void setIsAnimated(bool isAnimated) { _isAnimated = isAnimated; }
 
  private:
+  std::string _expression;
+  uint64_t _index = 0;
+  bool _isAnimated = false;
+
   RL_DISALLOW_COPY_AND_ASSIGN(ValueBase);
 };
 
 class Value : public ValueBase {
  public:
-  double value() const;
+  Value() = default;
+
+  ~Value() override = default;
+
+  double value() const { return _value; }
+
+  void setValue(double value) { _value = value; }
 
  private:
+  double _value = 0.0;
+
   RL_DISALLOW_COPY_AND_ASSIGN(Value);
 };
 
 class KeyframedValue : public ValueBase {
  public:
-  KeyframedValue();
+  KeyframedValue() = default;
 
-  ~KeyframedValue();
+  ~KeyframedValue() override = default;
 
-  double keyframeEnd() const;
+  double keyframeEnd() const { return _keyframeEnd; }
 
-  double keyframeStart() const;
+  double keyframeStart() const { return _keyframeStart; }
 
-  double startTime() const;
+  double startTime() const { return _startTime; }
 
-  const geom::Point& bezierCurveIn() const;
+  const geom::Point& bezierCurveIn() const { return _bezierCurveIn; }
 
-  const geom::Point& bezierCurveOut() const;
+  const geom::Point& bezierCurveOut() const { return _bezierCurveOut; }
 
-  const std::string& bezierCurveName() const;
+  const std::string& bezierCurveName() const { return _bezierCurveName; }
+
+  void setKeyframeEnd(double keyframeEnd) { _keyframeEnd = keyframeEnd; }
+
+  void setKeyframeStart(double keyframeStart) {
+    _keyframeStart = keyframeStart;
+  }
+
+  void setStartTime(double startTime) { _startTime = startTime; }
+
+  void setBezierCurveIn(const geom::Point& bezierCurveIn) {
+    _bezierCurveIn = bezierCurveIn;
+  }
+
+  void setBezierCurveOut(const geom::Point& bezierCurveOut) {
+    _bezierCurveOut = bezierCurveOut;
+  }
+
+  void setBezierCurveName(std::string bezierCurveName) {
+    _bezierCurveName = std::move(bezierCurveName);
+  }
 
  private:
+  double _keyframeEnd = 0.0;
+  double _keyframeStart = 0.0;
+  double _startTime = 0.0;
+  geom::Point _bezierCurveIn;
+  geom::Point _bezierCurveOut;
+  std::string _bezierCurveName;
+
   RL_DISALLOW_COPY_AND_ASSIGN(KeyframedValue);
 };
 

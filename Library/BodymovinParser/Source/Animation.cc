@@ -11,6 +11,144 @@
 namespace rl {
 namespace bodymovin {
 
+static std::unique_ptr<ValueBase> ParseValue(
+    const rapidjson::GenericValue<rapidjson::UTF8<>>& json) {
+  if (!json.IsObject()) {
+    return nullptr;
+  }
+
+  auto valueMember = json.FindMember("k");
+  if (valueMember == json.MemberEnd()) {
+    return nullptr;
+  }
+
+  std::unique_ptr<ValueBase> value;
+
+  if (valueMember->value.IsNumber()) {
+    /*
+     *  Single Value.
+     */
+    auto singleValue = std::make_unique<Value>();
+
+    double number = 0.0;
+    if (ReadMember(json, "k", number)) {
+      singleValue->setValue(number);
+    }
+
+    value = std::move(singleValue);
+  } else if (valueMember->value.IsArray()) {
+    /*
+     *  Keyframed value.
+     */
+    auto keyframedValue = std::make_unique<KeyframedValue>();
+    auto array = valueMember->value.GetArray();
+
+    for (size_t i = 0, length = array.Size(); i < length; i++) {
+      switch (i) {
+        case 0:
+          if (array[i].IsNumber()) {
+            keyframedValue->setKeyframeEnd(array[i].GetDouble());
+          }
+          break;
+        case 1:
+          if (array[i].IsNumber()) {
+            keyframedValue->setKeyframeStart(array[i].GetDouble());
+          }
+          break;
+        case 2:
+          if (array[i].IsNumber()) {
+            keyframedValue->setStartTime(array[i].GetDouble());
+          }
+          break;
+        case 3:
+          // TODO: Read bezier curve in value.
+          break;
+        case 4:
+          // TODO: Read bezier curve out value.
+          break;
+        default:
+          break;
+      }
+    }
+
+    value = std::move(keyframedValue);
+  } else {
+    return nullptr;
+  }
+
+  if (!value) {
+    return nullptr;
+  }
+
+  std::string expression;
+  if (ReadMember(json, "x", expression)) {
+    value->setExpression(std::move(expression));
+  }
+
+  uint64_t propertyIndex = 0;
+  if (ReadMember(json, "ix", propertyIndex)) {
+    value->setIndex(propertyIndex);
+  }
+
+  bool isAnimated = false;
+  if (ReadMember(json, "a", isAnimated)) {
+    value->setIsAnimated(isAnimated);
+  }
+
+  return value;
+}
+
+static std::unique_ptr<ValueBase> FindValueNamed(
+    const char* name,
+    const rapidjson::GenericValue<rapidjson::UTF8<>>& value) {
+  auto member = value.FindMember(name);
+
+  if (member == value.MemberEnd() || !member->value.IsObject()) {
+    return nullptr;
+  }
+
+  return ParseValue(member->value);
+}
+
+static std::unique_ptr<Transform> ParseTransform(
+    const rapidjson::GenericValue<rapidjson::UTF8<>>& value) {
+  if (!value.IsObject()) {
+    return nullptr;
+  }
+
+  auto transform = std::make_unique<Transform>();
+
+  if (auto anchor = FindValueNamed("a", value)) {
+    transform->setAnchorPoint(std::move(anchor));
+  }
+
+  if (auto position = FindValueNamed("p", value)) {
+    transform->setPosition(std::move(position));
+  }
+
+  if (auto scale = FindValueNamed("s", value)) {
+    transform->setScale(std::move(scale));
+  }
+
+  if (auto rotation = FindValueNamed("r", value)) {
+    transform->setRotation(std::move(rotation));
+  }
+
+  if (auto opacity = FindValueNamed("o", value)) {
+    transform->setOpacity(std::move(opacity));
+  }
+
+  if (auto xPosition = FindValueNamed("px", value)) {
+    transform->setPositionX(std::move(xPosition));
+  }
+
+  if (auto yPosition = FindValueNamed("py", value)) {
+    transform->setPositionX(std::move(yPosition));
+  }
+
+  return transform;
+}
+
 static void ReadBasicLayerProperties(
     Layer& layer,
     const rapidjson::GenericValue<rapidjson::UTF8<>>& value) {
@@ -18,9 +156,11 @@ static void ReadBasicLayerProperties(
     return;
   }
 
-  const auto& transform = value.FindMember("ks");
-  if (transform != value.MemberEnd() && transform->value.IsObject()) {
-    RL_LOG_HERE;
+  auto transformNode = value.FindMember("ks");
+  if (transformNode != value.MemberEnd()) {
+    if (auto transform = ParseTransform(transformNode->value)) {
+      layer.setTransform(std::move(transform));
+    }
   }
 
   bool autoOrient = false;

@@ -61,6 +61,20 @@ void __ReadValue<int64_t>(const rapidjson::Value& value, int64_t& dest) {
 }
 
 /*
+ *  uint64_t
+ */
+
+template <>
+bool __IsCorrectType<uint64_t>(const rapidjson::Value& value) {
+  return value.IsNumber();
+}
+
+template <>
+void __ReadValue<uint64_t>(const rapidjson::Value& value, uint64_t& dest) {
+  dest = value.GetUint64();
+}
+
+/*
  *  std::string
  */
 
