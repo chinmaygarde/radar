@@ -8,7 +8,9 @@
 namespace rl {
 namespace bodymovin {
 
-//
+Character::Character() = default;
+
+Character::~Character() = default;
 
 }  // namespace bodymovin
 }  // namespace rl

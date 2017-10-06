@@ -19,9 +19,11 @@ namespace bodymovin {
 
 class Animation {
  public:
-  static std::unique_ptr<Animation> Create(const core::FileMapping& mapping);
+  Animation(const core::FileMapping& mapping);
 
   ~Animation();
+
+  bool isValid() const;
 
   double inPoint() const;
 
@@ -33,14 +35,22 @@ class Animation {
 
   const std::string& bodymovinVersion() const;
 
-  const std::vector<Layer> layers() const;
+  const std::vector<std::unique_ptr<Layer>>& layers() const;
 
-  const std::vector<Asset> assets() const;
+  const std::vector<Asset>& assets() const;
 
-  const std::vector<Character> characters() const;
+  const std::vector<Character>& characters() const;
 
  private:
-  Animation();
+  bool _valid = false;
+  double _inPoint = 0.0;
+  double _outPoint = 0.0;
+  double _frameRate = 0.0;
+  geom::Size _compositionSize;
+  std::string _bodymovinVersion;
+  std::vector<std::unique_ptr<Layer>> _layers;
+  std::vector<Asset> _assets;
+  std::vector<Character> _characters;
 
   RL_DISALLOW_COPY_AND_ASSIGN(Animation);
 };

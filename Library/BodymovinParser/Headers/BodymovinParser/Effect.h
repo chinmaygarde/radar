@@ -12,9 +12,9 @@ namespace bodymovin {
 
 class Effect {
  public:
-  Effect();
+  Effect() = default;
 
-  ~Effect();
+  ~Effect() = default;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Effect);

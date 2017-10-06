@@ -11,6 +11,8 @@ target_link_libraries(BodymovinParser
   PUBLIC
     Core
     Geometry
+  PRIVATE
+    rapidjson
 )
 
 ################################################################################

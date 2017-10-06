@@ -12,9 +12,9 @@ namespace bodymovin {
 
 class Transform {
  public:
-  Transform();
+  Transform() = default;
 
-  ~Transform();
+  ~Transform() = default;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Transform);

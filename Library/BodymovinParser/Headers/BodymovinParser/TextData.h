@@ -12,9 +12,9 @@ namespace bodymovin {
 
 class TextData {
  public:
-  TextData();
+  TextData() = default;
 
-  ~TextData();
+  ~TextData() = default;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(TextData);

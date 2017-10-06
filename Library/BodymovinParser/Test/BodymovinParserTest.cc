@@ -9,12 +9,12 @@
 
 TEST(BodymovinParserTest, Invalid) {
   rl::core::FileMapping mapping;
-  auto invalid = rl::bodymovin::Animation::Create(mapping);
-  ASSERT_FALSE(invalid);
+  rl::bodymovin::Animation invalid(mapping);
+  ASSERT_FALSE(invalid.isValid());
 }
 
 TEST(BodymovinParserTest, Valid) {
   rl::core::FileMapping mapping(rl::core::URI{"Watermelon.json"});
-  auto valid = rl::bodymovin::Animation::Create(mapping);
-  ASSERT_TRUE(valid);
+  rl::bodymovin::Animation valid(mapping);
+  ASSERT_TRUE(valid.isValid());
 }

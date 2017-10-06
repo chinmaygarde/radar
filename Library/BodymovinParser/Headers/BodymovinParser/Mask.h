@@ -12,9 +12,9 @@ namespace bodymovin {
 
 class Mask {
  public:
-  Mask();
+  Mask() = default;
 
-  ~Mask();
+  ~Mask() = default;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Mask);

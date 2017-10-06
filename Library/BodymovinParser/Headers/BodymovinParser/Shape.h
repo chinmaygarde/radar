@@ -12,9 +12,9 @@ namespace bodymovin {
 
 class Shape {
  public:
-  Shape();
+  Shape() = default;
 
-  ~Shape();
+  ~Shape() = default;
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(Shape);
