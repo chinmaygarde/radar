@@ -11,6 +11,86 @@
 namespace rl {
 namespace bodymovin {
 
+static std::unique_ptr<Shape> ParseShape(
+    const rapidjson::GenericValue<rapidjson::UTF8<>>& json) {
+  if (!json.IsObject()) {
+    return nullptr;
+  }
+
+  std::string shapeTypeString;
+  if (!ReadMember(json, "ty", shapeTypeString)) {
+    return nullptr;
+  }
+
+  std::unique_ptr<Shape> shape;
+
+  if (shapeTypeString == "el") {
+    auto actual = std::make_unique<EllipseShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "fl") {
+    auto actual = std::make_unique<FillShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "gf") {
+    auto actual = std::make_unique<GradientFillShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "gr") {
+    auto actual = std::make_unique<GroupShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "gs") {
+    auto actual = std::make_unique<GradientStrokeShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "tm") {
+    auto actual = std::make_unique<MergeShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "rc") {
+    auto actual = std::make_unique<RectShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "rd") {
+    auto actual = std::make_unique<RoundShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "sh") {
+    auto actual = std::make_unique<VertexShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "sr") {
+    auto actual = std::make_unique<StarShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "st") {
+    auto actual = std::make_unique<StrokeShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "tm") {
+    auto actual = std::make_unique<TrimShape>();
+    // TODO
+    shape = std::move(actual);
+  } else {
+    RL_LOG("Warning: Unknown shape type '%s'.", shapeTypeString.c_str());
+  }
+
+  if (shape == nullptr) {
+    return;
+  }
+
+  /*
+   *  Read common shape properties.
+   */
+  std::string matchName;
+  if (!ReadMember(json, "mn", matchName)) {
+    shape->set
+  }
+
+  return shape;
+}
+
 static std::unique_ptr<ValueBase> ParseValue(
     const rapidjson::GenericValue<rapidjson::UTF8<>>& json) {
   if (!json.IsObject()) {
@@ -284,7 +364,20 @@ static std::unique_ptr<Layer> ParseLayer(
     case 4: {
       auto shape = std::make_unique<ShapeLayer>();
 
-      // TODO: Read shape items "it"
+      auto shapeItemsMember = value.FindMember("shapes");
+      if (shapeItemsMember != value.MemberEnd() &&
+          shapeItemsMember->value.IsArray()) {
+        auto shapeItems = shapeItemsMember->value.GetArray();
+        std::vector<std::unique_ptr<Shape>> shapes;
+        auto shapeCount = shapeItems.Size();
+        shapes.reserve(shapeCount);
+        for (size_t i = 0; i < shapeCount; i++) {
+          if (auto shapeItem = ParseShape(shapeItems[i])) {
+            shapes.emplace_back(std::move(shapeItem));
+          }
+        }
+        shape->setShapeItems(std::move(shapes));
+      }
 
       layer = std::move(shape);
     } break;
@@ -353,6 +446,8 @@ Animation::Animation(const core::FileMapping& mapping) {
       }
     }
   }
+
+  // TODO: Read assets.
 
   _valid = true;
 }
