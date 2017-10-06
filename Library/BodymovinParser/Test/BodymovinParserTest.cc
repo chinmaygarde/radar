@@ -15,6 +15,15 @@ TEST(BodymovinParserTest, Invalid) {
 
 TEST(BodymovinParserTest, Valid) {
   rl::core::FileMapping mapping(rl::core::URI{"Watermelon.json"});
-  rl::bodymovin::Animation valid(mapping);
-  ASSERT_TRUE(valid.isValid());
+  rl::bodymovin::Animation animation(mapping);
+  ASSERT_TRUE(animation.isValid());
+  ASSERT_EQ(animation.layers().size(), 12);
+  rl::geom::Size size(100, 100);
+  ASSERT_SIZE_NEAR(animation.compositionSize(), size);
+  ASSERT_EQ(animation.bodymovinVersion(), "4.4.26");
+  ASSERT_EQ(animation.layers()[3]->name(), "W3");
+  ASSERT_EQ(animation.layers()[3]->parentIndex(), 10);
+  ASSERT_EQ(animation.layers()[3]->startTime(), -18);
+  ASSERT_EQ(animation.layers()[3]->inPoint(), 312);
+  ASSERT_EQ(animation.layers()[3]->outPoint(), 354);
 }
