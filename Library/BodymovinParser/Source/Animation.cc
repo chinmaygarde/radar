@@ -77,15 +77,25 @@ static std::unique_ptr<Shape> ParseShape(
   }
 
   if (shape == nullptr) {
-    return;
+    return nullptr;
   }
 
   /*
    *  Read common shape properties.
    */
   std::string matchName;
-  if (!ReadMember(json, "mn", matchName)) {
-    shape->set
+  if (ReadMember(json, "mn", matchName)) {
+    shape->setMatchName(std::move(matchName));
+  }
+
+  std::string name;
+  if (ReadMember(json, "nm", name)) {
+    shape->setName(std::move(name));
+  }
+
+  double direction = 0.0;
+  if (ReadMember(json, "d", direction)) {
+    shape->setDirection(direction);
   }
 
   return shape;
