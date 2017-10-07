@@ -26,4 +26,11 @@ TEST(BodymovinParserTest, Valid) {
   ASSERT_EQ(animation.layers()[3]->startTime(), -18);
   ASSERT_EQ(animation.layers()[3]->inPoint(), 312);
   ASSERT_EQ(animation.layers()[3]->outPoint(), 354);
+  ASSERT_EQ(animation.layers()[1]->name(), "W1");
+  auto shapeLayer =
+      reinterpret_cast<rl::bodymovin::ShapeLayer*>(animation.layers()[1].get());
+  ASSERT_EQ(shapeLayer->shapeItems().size(), 1);
+  auto groupShape = reinterpret_cast<rl::bodymovin::GroupShape*>(
+      shapeLayer->shapeItems()[0].get());
+  ASSERT_EQ(groupShape->shapeItems().size(), 3);
 }

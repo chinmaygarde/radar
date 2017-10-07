@@ -38,7 +38,32 @@ static std::unique_ptr<Shape> ParseShape(
     shape = std::move(actual);
   } else if (shapeTypeString == "gr") {
     auto actual = std::make_unique<GroupShape>();
-    // TODO
+
+    /*
+     *  Properties Count.
+     */
+    uint64_t propertiesCount = 0;
+    if (ReadMember(json, "np", propertiesCount)) {
+      actual->setPropertiesCount(propertiesCount);
+    }
+
+    /*
+     *  Recursively parse shape item members.
+     */
+    auto shapeItemsMember = json.FindMember("it");
+    if (shapeItemsMember != json.MemberEnd()) {
+      auto shapeItems = shapeItemsMember->value.GetArray();
+      auto shapeItemsCount = shapeItems.Size();
+      std::vector<std::unique_ptr<Shape>> shapes;
+      shapes.reserve(shapeItemsCount);
+      for (size_t i = 0; i < shapeItemsCount; i++) {
+        if (auto shape = ParseShape(shapeItems[i])) {
+          shapes.emplace_back(std::move(shape));
+        }
+      }
+      actual->setShapeItems(std::move(shapes));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "gs") {
     auto actual = std::make_unique<GradientStrokeShape>();
@@ -70,6 +95,10 @@ static std::unique_ptr<Shape> ParseShape(
     shape = std::move(actual);
   } else if (shapeTypeString == "tm") {
     auto actual = std::make_unique<TrimShape>();
+    // TODO
+    shape = std::move(actual);
+  } else if (shapeTypeString == "tr") {
+    auto actual = std::make_unique<TransformShape>();
     // TODO
     shape = std::move(actual);
   } else {

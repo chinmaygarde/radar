@@ -7,15 +7,34 @@
 
 #include <Core/Macros.h>
 #include <string>
+#include <vector>
 
 namespace rl {
 namespace bodymovin {
 
 class Shape {
  public:
+  enum class Type {
+    Ellipse,
+    Fill,
+    GradientFill,
+    Group,
+    GradientStroke,
+    Merge,
+    Rect,
+    Round,
+    Vertex,
+    Star,
+    Stroke,
+    Transform,
+    Trim,
+  };
+
   Shape() = default;
 
   ~Shape() = default;
+
+  virtual Type type() const = 0;
 
   const std::string& matchName() const { return _matchName; }
 
@@ -45,6 +64,8 @@ class EllipseShape : public Shape {
 
   ~EllipseShape() = default;
 
+  Type type() const override { return Type::Ellipse; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(EllipseShape);
 };
@@ -54,6 +75,8 @@ class FillShape : public Shape {
   FillShape() = default;
 
   ~FillShape() = default;
+
+  Type type() const override { return Type::Fill; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(FillShape);
@@ -65,6 +88,8 @@ class GradientFillShape : public Shape {
 
   ~GradientFillShape() = default;
 
+  Type type() const override { return Type::GradientFill; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(GradientFillShape);
 };
@@ -75,7 +100,24 @@ class GroupShape : public Shape {
 
   ~GroupShape() = default;
 
+  Type type() const override { return Type::Group; }
+
+  uint64_t propertiesCount() const { return _propertiesCount; }
+
+  void setPropertiesCount(uint64_t count) { _propertiesCount = count; }
+
+  const std::vector<std::unique_ptr<Shape>>& shapeItems() const {
+    return _shapeItems;
+  }
+
+  void setShapeItems(std::vector<std::unique_ptr<Shape>> shapeItems) {
+    _shapeItems = std::move(shapeItems);
+  }
+
  private:
+  uint64_t _propertiesCount = 0;
+  std::vector<std::unique_ptr<Shape>> _shapeItems;
+
   RL_DISALLOW_COPY_AND_ASSIGN(GroupShape);
 };
 
@@ -84,6 +126,8 @@ class GradientStrokeShape : public Shape {
   GradientStrokeShape() = default;
 
   ~GradientStrokeShape() = default;
+
+  Type type() const override { return Type::GradientStroke; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(GradientStrokeShape);
@@ -95,6 +139,8 @@ class MergeShape : public Shape {
 
   ~MergeShape() = default;
 
+  Type type() const override { return Type::Merge; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(MergeShape);
 };
@@ -104,6 +150,8 @@ class RectShape : public Shape {
   RectShape() = default;
 
   ~RectShape() = default;
+
+  Type type() const override { return Type::Rect; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(RectShape);
@@ -115,6 +163,8 @@ class RoundShape : public Shape {
 
   ~RoundShape() = default;
 
+  Type type() const override { return Type::Round; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(RoundShape);
 };
@@ -124,6 +174,8 @@ class StarShape : public Shape {
   StarShape() = default;
 
   ~StarShape() = default;
+
+  Type type() const override { return Type::Star; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(StarShape);
@@ -135,6 +187,8 @@ class VertexShape : public Shape {
 
   ~VertexShape() = default;
 
+  Type type() const override { return Type::Vertex; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(VertexShape);
 };
@@ -145,8 +199,22 @@ class StrokeShape : public Shape {
 
   ~StrokeShape() = default;
 
+  Type type() const override { return Type::Stroke; }
+
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(StrokeShape);
+};
+
+class TransformShape : public Shape {
+ public:
+  TransformShape() = default;
+
+  ~TransformShape() = default;
+
+  Type type() const override { return Type::Transform; }
+
+ private:
+  RL_DISALLOW_COPY_AND_ASSIGN(TransformShape);
 };
 
 class TrimShape : public Shape {
@@ -154,6 +222,8 @@ class TrimShape : public Shape {
   TrimShape() = default;
 
   ~TrimShape() = default;
+
+  Type type() const override { return Type::Trim; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(TrimShape);
