@@ -8,6 +8,7 @@
 #include <Core/Macros.h>
 #include <Geometry/Point.h>
 #include <string>
+#include <vector>
 
 namespace rl {
 namespace bodymovin {
@@ -40,54 +41,78 @@ class ValueBase {
   RL_DISALLOW_COPY_AND_ASSIGN(ValueBase);
 };
 
-class Value : public ValueBase {
+template <class T>
+class ValueT : public ValueBase {
  public:
-  Value() = default;
+  using Type = T;
 
-  ~Value() override = default;
+  ValueT() = default;
 
-  double value() const { return _value; }
+  ~ValueT() override = default;
 
-  void setValue(double value) { _value = value; }
+  Type value() const { return _value; }
+
+  void setValue(Type value) { _value = std::move(value); }
 
  private:
-  double _value = 0.0;
+  Type _value = 0.0;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(Value);
+  RL_DISALLOW_COPY_AND_ASSIGN(ValueT);
 };
 
-class KeyframedValue : public ValueBase {
+using Value = ValueT<double>;
+
+using MultidimensionalValue = ValueT<std::vector<double>>;
+
+template <class T>
+class KeyframedValueT : public ValueBase {
  public:
-  KeyframedValue() = default;
+  using Type = T;
 
-  ~KeyframedValue() override = default;
+  KeyframedValueT() = default;
 
-  double keyframeEnd() const { return _keyframeEnd; }
+  ~KeyframedValueT() override = default;
 
-  double keyframeStart() const { return _keyframeStart; }
+  Type keyframeEnd() const { return _keyframeEnd; }
 
-  double startTime() const { return _startTime; }
+  Type keyframeStart() const { return _keyframeStart; }
 
-  const geom::Point& bezierCurveIn() const { return _bezierCurveIn; }
+  Type startTime() const { return _startTime; }
 
-  const geom::Point& bezierCurveOut() const { return _bezierCurveOut; }
+  const Type& bezierCurveInX() const { return _bezierCurveInX; }
+
+  const Type& bezierCurveInY() const { return _bezierCurveInY; }
+
+  const Type& bezierCurveOutX() const { return _bezierCurveOutX; }
+
+  const Type& bezierCurveOutY() const { return _bezierCurveOutY; }
 
   const std::string& bezierCurveName() const { return _bezierCurveName; }
 
-  void setKeyframeEnd(double keyframeEnd) { _keyframeEnd = keyframeEnd; }
-
-  void setKeyframeStart(double keyframeStart) {
-    _keyframeStart = keyframeStart;
+  void setKeyframeEnd(Type keyframeEnd) {
+    _keyframeEnd = std::move(keyframeEnd);
   }
 
-  void setStartTime(double startTime) { _startTime = startTime; }
-
-  void setBezierCurveIn(const geom::Point& bezierCurveIn) {
-    _bezierCurveIn = bezierCurveIn;
+  void setKeyframeStart(Type keyframeStart) {
+    _keyframeStart = std::move(keyframeStart);
   }
 
-  void setBezierCurveOut(const geom::Point& bezierCurveOut) {
-    _bezierCurveOut = bezierCurveOut;
+  void setStartTime(Type startTime) { _startTime = std::move(startTime); }
+
+  void setBezierCurveInX(Type bezierCurveInX) {
+    _bezierCurveInX = std::move(bezierCurveInX);
+  }
+
+  void setBezierCurveInY(Type bezierCurveInY) {
+    _bezierCurveInY = std::move(bezierCurveInY);
+  }
+
+  void setBezierCurveOutX(Type bezierCurveOutX) {
+    _bezierCurveOutX = std::move(bezierCurveOutX);
+  }
+
+  void setBezierCurveOutY(Type bezierCurveOutY) {
+    _bezierCurveOutY = std::move(bezierCurveOutY);
   }
 
   void setBezierCurveName(std::string bezierCurveName) {
@@ -95,15 +120,21 @@ class KeyframedValue : public ValueBase {
   }
 
  private:
-  double _keyframeEnd = 0.0;
-  double _keyframeStart = 0.0;
-  double _startTime = 0.0;
-  geom::Point _bezierCurveIn;
-  geom::Point _bezierCurveOut;
+  Type _keyframeEnd = 0.0;
+  Type _keyframeStart = 0.0;
+  Type _startTime = 0.0;
+  Type _bezierCurveInX;
+  Type _bezierCurveInY;
+  Type _bezierCurveOutX;
+  Type _bezierCurveOutY;
   std::string _bezierCurveName;
 
-  RL_DISALLOW_COPY_AND_ASSIGN(KeyframedValue);
+  RL_DISALLOW_COPY_AND_ASSIGN(KeyframedValueT);
 };
+
+using KeyframedValue = KeyframedValueT<double>;
+
+using MultidimensionalKeyframedValue = KeyframedValueT<std::vector<double>>;
 
 }  // namespace bodymovin
 }  // namespace rl
