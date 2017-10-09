@@ -19,30 +19,54 @@ namespace bodymovin {
 
 class Animation {
  public:
-  Animation(const core::FileMapping& mapping);
+  static std::unique_ptr<Animation> ParseManifest(
+      const core::FileMapping& mapping);
 
-  ~Animation();
+  Animation() = default;
 
-  bool isValid() const;
+  ~Animation() = default;
 
-  double inPoint() const;
+  double inPoint() const { return _inPoint; }
 
-  double outPoint() const;
+  double outPoint() const { return _outPoint; }
 
-  double frameRate() const;
+  double frameRate() const { return _frameRate; }
 
-  geom::Size compositionSize() const;
+  geom::Size compositionSize() const { return _compositionSize; }
 
-  const std::string& bodymovinVersion() const;
+  const std::string& bodymovinVersion() const { return _bodymovinVersion; }
 
-  const std::vector<std::unique_ptr<Layer>>& layers() const;
+  const std::vector<std::unique_ptr<Layer>>& layers() const { return _layers; }
 
-  const std::vector<Asset>& assets() const;
+  const std::vector<Asset>& assets() const { return _assets; }
 
-  const std::vector<Character>& characters() const;
+  const std::vector<Character>& characters() const { return _characters; }
+
+  void setInPoint(double inPoint) { _inPoint = inPoint; }
+
+  void setOutPoint(double outPoint) { _outPoint = outPoint; }
+
+  void setFrameRate(double frameRate) { _frameRate = frameRate; }
+
+  void setCompositionSize(geom::Size compositionSize) {
+    _compositionSize = compositionSize;
+  }
+
+  void setBodymovinVersion(std::string bodymovinVersion) {
+    _bodymovinVersion = std::move(bodymovinVersion);
+  }
+
+  void setLayers(std::vector<std::unique_ptr<Layer>> layers) {
+    _layers = std::move(layers);
+  }
+
+  void setAssets(std::vector<Asset> assets) { _assets = std::move(assets); }
+
+  void setCharacters(std::vector<Character> characters) {
+    _characters = std::move(characters);
+  }
 
  private:
-  bool _valid = false;
   double _inPoint = 0.0;
   double _outPoint = 0.0;
   double _frameRate = 0.0;

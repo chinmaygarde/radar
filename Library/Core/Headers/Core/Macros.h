@@ -98,6 +98,11 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_WIP RL_ASSERT_MSG(false, "WIP")
 
 /*
+ *  Denotes that this code path is unexpected.
+ */
+#define RL_UNEXPECTED RL_LOG("Did not expect %s:%d", __FILE__, __LINE__)
+
+/*
  *  Error Checking.
  */
 
