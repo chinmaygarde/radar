@@ -407,7 +407,17 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
 
   if (shapeTypeString == "el") {
     auto actual = std::make_unique<EllipseShape>();
-    RL_WIP;
+
+    std::unique_ptr<ValueBase> value;
+
+    if (ReadMember(json, "p", value)) {
+      actual->setPosition(std::move(value));
+    }
+
+    if (ReadMember(json, "s", value)) {
+      actual->setSize(std::move(value));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "fl") {
     auto actual = std::make_unique<FillShape>();
@@ -453,7 +463,12 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "tm") {
     auto actual = std::make_unique<MergeShape>();
-    RL_WIP;
+
+    double mergeMode = 0.0;
+    if (ReadMember(json, "mm", mergeMode)) {
+      actual->setMergeMode(mergeMode);
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "rc") {
     auto actual = std::make_unique<RectShape>();
@@ -474,7 +489,33 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "sr") {
     auto actual = std::make_unique<StarShape>();
-    RL_WIP;
+
+    int64_t starType = 0;
+    if (ReadMember(json, "sy", starType)) {
+      actual->setStarType(static_cast<StarShape::StarType>(starType));
+    }
+
+    std::unique_ptr<ValueBase> value;
+    if (ReadMember(json, "p", value)) {
+      actual->setPosition(std::move(value));
+    }
+
+    if (ReadMember(json, "ir", value)) {
+      actual->setInnerRadius(std::move(value));
+    }
+
+    if (ReadMember(json, "is", value)) {
+      actual->setOuterRoundness(std::move(value));
+    }
+
+    if (ReadMember(json, "r", value)) {
+      actual->setRotation(std::move(value));
+    }
+
+    if (ReadMember(json, "pt", value)) {
+      actual->setPoints(std::move(value));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "st") {
     auto actual = std::make_unique<StrokeShape>();

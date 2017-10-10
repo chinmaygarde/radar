@@ -69,7 +69,20 @@ class EllipseShape : public Shape {
 
   Type type() const override { return Type::Ellipse; }
 
+  const std::unique_ptr<ValueBase>& position() const { return _position; }
+
+  const std::unique_ptr<ValueBase>& size() const { return _size; }
+
+  void setPosition(std::unique_ptr<ValueBase> position) {
+    _position = std::move(position);
+  }
+
+  void setSize(std::unique_ptr<ValueBase> size) { _size = std::move(size); }
+
  private:
+  std::unique_ptr<ValueBase> _position;
+  std::unique_ptr<ValueBase> _size;
+
   RL_DISALLOW_COPY_AND_ASSIGN(EllipseShape);
 };
 
@@ -157,7 +170,12 @@ class MergeShape : public Shape {
 
   Type type() const override { return Type::Merge; }
 
+  double mergeMode() const { return _mergeMode; }
+
+  void setMergeMode(double mergeMode) { _mergeMode = mergeMode; }
+
  private:
+  double _mergeMode = 0.0;
   RL_DISALLOW_COPY_AND_ASSIGN(MergeShape);
 };
 
@@ -187,13 +205,61 @@ class RoundShape : public Shape {
 
 class StarShape : public Shape {
  public:
+  enum class StarType {
+    Star,
+    Polygon,
+  };
+
   StarShape() = default;
 
   ~StarShape() = default;
 
   Type type() const override { return Type::Star; }
 
+  StarType starType() const { return _starType; }
+
+  const std::unique_ptr<ValueBase>& position() const { return _position; }
+
+  const std::unique_ptr<ValueBase>& innerRadius() const { return _innerRadius; }
+
+  const std::unique_ptr<ValueBase>& outerRoundness() const {
+    return _outerRoundness;
+  }
+
+  const std::unique_ptr<ValueBase>& rotation() const { return _rotation; }
+
+  const std::unique_ptr<ValueBase>& points() const { return _points; }
+
+  void setStarType(StarType type) { _starType = type; }
+
+  void setPosition(std::unique_ptr<ValueBase> position) {
+    _position = std::move(position);
+  }
+
+  void setInnerRadius(std::unique_ptr<ValueBase> innerRadius) {
+    _innerRadius = std::move(innerRadius);
+  }
+
+  void setOuterRoundness(std::unique_ptr<ValueBase> outerRoundness) {
+    _outerRoundness = std::move(outerRoundness);
+  }
+
+  void setRotation(std::unique_ptr<ValueBase> rotation) {
+    _rotation = std::move(rotation);
+  }
+
+  void setPoints(std::unique_ptr<ValueBase> points) {
+    _points = std::move(points);
+  }
+
  private:
+  StarType _starType = StarType::Star;
+  std::unique_ptr<ValueBase> _position;
+  std::unique_ptr<ValueBase> _innerRadius;
+  std::unique_ptr<ValueBase> _outerRoundness;
+  std::unique_ptr<ValueBase> _rotation;
+  std::unique_ptr<ValueBase> _points;
+
   RL_DISALLOW_COPY_AND_ASSIGN(StarShape);
 };
 
