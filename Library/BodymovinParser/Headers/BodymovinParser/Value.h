@@ -120,13 +120,13 @@ class KeyframedValueT : public ValueBase {
   }
 
  private:
-  Type _keyframeEnd = 0.0;
-  Type _keyframeStart = 0.0;
-  Type _startTime = 0.0;
-  Type _bezierCurveInX;
-  Type _bezierCurveInY;
-  Type _bezierCurveOutX;
-  Type _bezierCurveOutY;
+  Type _keyframeEnd = 0;
+  Type _keyframeStart = 0;
+  Type _startTime = 0;
+  Type _bezierCurveInX = 0;
+  Type _bezierCurveInY = 0;
+  Type _bezierCurveOutX = 0;
+  Type _bezierCurveOutY = 0;
   std::string _bezierCurveName;
 
   RL_DISALLOW_COPY_AND_ASSIGN(KeyframedValueT);
