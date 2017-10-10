@@ -180,7 +180,6 @@ void __ReadValue<Animation>(const rapidjson::Value& json,
   }
 
   // TODO: Read assets.
-  RL_WIP;
 }
 
 /*
@@ -412,7 +411,17 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "fl") {
     auto actual = std::make_unique<FillShape>();
-    RL_WIP;
+
+    std::unique_ptr<ValueBase> value;
+
+    if (ReadMember(json, "o", value)) {
+      actual->setOpacity(std::move(value));
+    }
+
+    if (ReadMember(json, "c", value)) {
+      actual->setColor(std::move(value));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "gf") {
     auto actual = std::make_unique<GradientFillShape>();
@@ -456,7 +465,12 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "sh") {
     auto actual = std::make_unique<VertexShape>();
-    RL_WIP;
+
+    std::unique_ptr<ValueBase> shapeVertices;
+    if (!ReadMember(json, "ks", shapeVertices)) {
+      actual->setShapeVertices(std::move(shapeVertices));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "sr") {
     auto actual = std::make_unique<StarShape>();
@@ -464,7 +478,36 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "st") {
     auto actual = std::make_unique<StrokeShape>();
-    RL_WIP;
+
+    int64_t cap = 0;
+    if (ReadMember(json, "lc", cap)) {
+      actual->setLineCap(static_cast<LineCap>(cap));
+    }
+
+    int64_t join = 0;
+    if (ReadMember(json, "lj", join)) {
+      actual->setLineJoin(static_cast<LineJoin>(join));
+    }
+
+    double miterLimit = 0;
+    if (ReadMember(json, "ml", miterLimit)) {
+      actual->setMiterLimit(miterLimit);
+    }
+
+    std::unique_ptr<ValueBase> value;
+
+    if (ReadMember(json, "o", value)) {
+      actual->setOpacity(std::move(value));
+    }
+
+    if (ReadMember(json, "w", value)) {
+      actual->setWidth(std::move(value));
+    }
+
+    if (ReadMember(json, "c", value)) {
+      actual->setColor(std::move(value));
+    }
+
     shape = std::move(actual);
   } else if (shapeTypeString == "tm") {
     auto actual = std::make_unique<TrimShape>();
@@ -472,7 +515,37 @@ void __ReadValue<std::unique_ptr<Shape>>(const rapidjson::Value& json,
     shape = std::move(actual);
   } else if (shapeTypeString == "tr") {
     auto actual = std::make_unique<TransformShape>();
-    RL_WIP;
+
+    std::unique_ptr<ValueBase> value;
+
+    if (ReadMember(json, "a", value)) {
+      actual->setAnchorPoint(std::move(value));
+    }
+
+    if (ReadMember(json, "p", value)) {
+      actual->setPosition(std::move(value));
+    }
+
+    if (ReadMember(json, "s", value)) {
+      actual->setScale(std::move(value));
+    }
+
+    if (ReadMember(json, "r", value)) {
+      actual->setRotation(std::move(value));
+    }
+
+    if (ReadMember(json, "o", value)) {
+      actual->setOpacity(std::move(value));
+    }
+
+    if (ReadMember(json, "sk", value)) {
+      actual->setSkew(std::move(value));
+    }
+
+    if (ReadMember(json, "sa", value)) {
+      actual->setSkewAxis(std::move(value));
+    }
+
     shape = std::move(actual);
   } else {
     RL_LOG("Warning: Unknown shape type '%s'.", shapeTypeString.c_str());
@@ -563,13 +636,14 @@ void __ReadValue<std::unique_ptr<ValueBase>>(
           // TODO: Read bezier curve out value.
           break;
         default:
-          RL_WIP;
+          // TODO: Handle more of these.
           break;
       }
     }
 
     value = std::move(keyframedValue);
   } else {
+    // TODO: Handle shape and shape keyframed values.
     return;
   }
 

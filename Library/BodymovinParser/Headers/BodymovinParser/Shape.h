@@ -5,7 +5,10 @@
 
 #pragma once
 
+#include <BodymovinParser/Types.h>
+#include <BodymovinParser/Value.h>
 #include <Core/Macros.h>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -78,7 +81,20 @@ class FillShape : public Shape {
 
   Type type() const override { return Type::Fill; }
 
+  const std::unique_ptr<ValueBase>& opacity() const { return _opacity; }
+
+  const std::unique_ptr<ValueBase>& color() const { return _color; }
+
+  void setOpacity(std::unique_ptr<ValueBase> opacity) {
+    _opacity = std::move(opacity);
+  }
+
+  void setColor(std::unique_ptr<ValueBase> color) { _color = std::move(color); }
+
  private:
+  std::unique_ptr<ValueBase> _opacity;
+  std::unique_ptr<ValueBase> _color;
+
   RL_DISALLOW_COPY_AND_ASSIGN(FillShape);
 };
 
@@ -189,7 +205,17 @@ class VertexShape : public Shape {
 
   Type type() const override { return Type::Vertex; }
 
+  void setShapeVertices(std::unique_ptr<ValueBase> vertices) {
+    _shapeVertices = std::move(vertices);
+  }
+
+  const std::unique_ptr<ValueBase>& shapeVertices() const {
+    return _shapeVertices;
+  }
+
  private:
+  std::unique_ptr<ValueBase> _shapeVertices;
+
   RL_DISALLOW_COPY_AND_ASSIGN(VertexShape);
 };
 
@@ -199,9 +225,42 @@ class StrokeShape : public Shape {
 
   ~StrokeShape() = default;
 
+  LineCap lineCap() const { return _lineCap; }
+
+  LineJoin lineJoin() const { return _lineJoin; }
+
+  double miterLimit() const { return _miterLimit; }
+
+  const std::unique_ptr<ValueBase>& opacity() const { return _opacity; }
+
+  const std::unique_ptr<ValueBase>& width() const { return _width; }
+
+  const std::unique_ptr<ValueBase>& color() const { return _color; }
+
   Type type() const override { return Type::Stroke; }
 
+  void setLineCap(LineCap lineCap) { _lineCap = lineCap; }
+
+  void setLineJoin(LineJoin lineJoin) { _lineJoin = lineJoin; }
+
+  void setMiterLimit(double miterLimit) { _miterLimit = miterLimit; }
+
+  void setOpacity(std::unique_ptr<ValueBase> opacity) {
+    _opacity = std::move(opacity);
+  }
+
+  void setWidth(std::unique_ptr<ValueBase> width) { _width = std::move(width); }
+
+  void setColor(std::unique_ptr<ValueBase> color) { _color = std::move(color); }
+
  private:
+  LineCap _lineCap = LineCap::Butt;
+  LineJoin _lineJoin = LineJoin::Miter;
+  double _miterLimit = 0;
+  std::unique_ptr<ValueBase> _opacity;
+  std::unique_ptr<ValueBase> _width;
+  std::unique_ptr<ValueBase> _color;
+
   RL_DISALLOW_COPY_AND_ASSIGN(StrokeShape);
 };
 
@@ -213,7 +272,55 @@ class TransformShape : public Shape {
 
   Type type() const override { return Type::Transform; }
 
+  const std::unique_ptr<ValueBase>& anchorPoint() const { return _anchorPoint; }
+
+  const std::unique_ptr<ValueBase>& position() const { return _position; }
+
+  const std::unique_ptr<ValueBase>& scale() const { return _scale; }
+
+  const std::unique_ptr<ValueBase>& rotation() const { return _rotation; }
+
+  const std::unique_ptr<ValueBase>& opacity() const { return _opacity; }
+
+  const std::unique_ptr<ValueBase>& skew() const { return _skew; }
+
+  const std::unique_ptr<ValueBase>& skewAxis() const { return _skewAxis; }
+
+  void setAnchorPoint(std::unique_ptr<ValueBase> anchorPoint) {
+    _anchorPoint = std::move(anchorPoint);
+  };
+
+  void setPosition(std::unique_ptr<ValueBase> position) {
+    _position = std::move(position);
+  };
+
+  void setScale(std::unique_ptr<ValueBase> scale) {
+    _scale = std::move(scale);
+  };
+
+  void setRotation(std::unique_ptr<ValueBase> rotation) {
+    _rotation = std::move(rotation);
+  };
+
+  void setOpacity(std::unique_ptr<ValueBase> opacity) {
+    _opacity = std::move(opacity);
+  };
+
+  void setSkew(std::unique_ptr<ValueBase> skew) { _skew = std::move(skew); };
+
+  void setSkewAxis(std::unique_ptr<ValueBase> skewAxis) {
+    _skewAxis = std::move(skewAxis);
+  };
+
  private:
+  std::unique_ptr<ValueBase> _anchorPoint;
+  std::unique_ptr<ValueBase> _position;
+  std::unique_ptr<ValueBase> _scale;
+  std::unique_ptr<ValueBase> _rotation;
+  std::unique_ptr<ValueBase> _opacity;
+  std::unique_ptr<ValueBase> _skew;
+  std::unique_ptr<ValueBase> _skewAxis;
+
   RL_DISALLOW_COPY_AND_ASSIGN(TransformShape);
 };
 

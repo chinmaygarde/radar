@@ -29,5 +29,16 @@ enum class BlendMode {
   Luminosity = 15,
 };
 
+enum class LineCap {
+  Butt = 1,
+  Round = 2,
+};
+
+enum class LineJoin {
+  Miter = 1,
+  Round = 2,
+  Butt = 3,
+};
+
 }  // namespace bodymovin
 }  // namespace rl
