@@ -34,3 +34,60 @@ TEST(BodymovinParserTest, Valid) {
       shapeLayer->shapeItems()[0].get());
   ASSERT_EQ(groupShape->shapeItems().size(), 3);
 }
+
+TEST(BodymovinParserTest, CanParseAllFixtures) {
+  std::vector<std::string> fixtures = {
+      "A.json",
+      "B.json",
+      "C.json",
+      "D.json",
+      "E.json",
+      "F.json",
+      "G.json",
+      "H.json",
+      "I.json",
+      "J.json",
+      "K.json",
+      "L.json",
+      "M.json",
+      "N.json",
+      "O.json",
+      "P.json",
+      "Q.json",
+      "R.json",
+      "S.json",
+      "T.json",
+      "U.json",
+      "V.json",
+      "W.json",
+      "X.json",
+      "Y.json",
+      "Z.json",
+      "9squares-AlBoardman.json",
+      "Apostrophe.json",
+      "BlinkingCursor.json",
+      "Colon.json",
+      "Comma.json",
+      "HamburgerArrow.json",
+      "IconTransitions.json",
+      "LottieLogo1.json",
+      "LottieLogo1_masked.json",
+      "LottieLogo2.json",
+      "MotionCorpse-Jrcanest.json",
+      "PinJump.json",
+      "Switch.json",
+      "Switch_States.json",
+      "TwitterHeart.json",
+      "vcTransition1.json",
+      "vcTransition2.json",
+      "Watermelon.json",
+  };
+
+  for (const auto& file : fixtures) {
+    RL_LOG("Parsing '%s'...", file.c_str());
+    rl::core::FileMapping mapping(rl::core::URI{file});
+    auto animation =
+        rl::bodymovin::Animation::Animation::ParseManifest(mapping);
+    ASSERT_TRUE(animation);
+  }
+}

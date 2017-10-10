@@ -673,14 +673,48 @@ void __ReadValue<std::unique_ptr<ValueBase>>(
 
 template <>
 bool __IsCorrectType<std::unique_ptr<Effect>>(const rapidjson::Value& value) {
-  RL_WIP;
   return value.IsObject();
 }
 
 template <>
 void __ReadValue<std::unique_ptr<Effect>>(const rapidjson::Value& json,
                                           std::unique_ptr<Effect>& effect) {
-  RL_WIP;
+  int64_t type = 0;
+  if (!ReadMember(json, "ty", type)) {
+    /*
+     *  Types must be valid (or at least present).
+     */
+    return;
+  }
+
+  effect = std::make_unique<Effect>();
+
+  effect->setType(static_cast<Effect::Type>(type));
+
+  int64_t index = 0;
+  if (ReadMember(json, "ix", index)) {
+    effect->setIndex(index);
+  }
+
+  std::string matchName;
+  if (ReadMember(json, "mn", matchName)) {
+    effect->setMatchName(std::move(matchName));
+  }
+
+  std::string name;
+  if (ReadMember(json, "nm", name)) {
+    effect->setName(std::move(name));
+  }
+
+  std::unique_ptr<ValueBase> value;
+  if (ReadMember(json, "v", value)) {
+    effect->setValue(std::move(value));
+  }
+
+  std::vector<std::unique_ptr<Effect>> effects;
+  if (ReadMembers(json, "ef", effects)) {
+    effect->setEffects(std::move(effects));
+  }
 }
 
 }  // namespace bodymovin
