@@ -10,13 +10,11 @@
  *  https://clang.llvm.org/docs/ThreadSafetyAnalysis.html#mutex-h
  */
 
-#if defined(__clang__) && (!defined(SWIG))
+#if defined(__clang__)
 #define RL_THREAD_ANNOTATION_ATTRIBUTE__(x) __attribute__((x))
 #else
 #define RL_THREAD_ANNOTATION_ATTRIBUTE__(x)  // no-op
 #endif
-
-#define RL_THREAD_ANNOTATION_ATTRIBUTE__(x) __attribute__((x))
 
 #define RL_CAPABILITY(x) RL_THREAD_ANNOTATION_ATTRIBUTE__(capability(x))
 

@@ -83,16 +83,6 @@ static inline void _RL_AssertLog(const char* file,
   RL_ASSERT_MSG((condition), "Condition Failed: (" #condition ")")
 
 /*
- *  Mark an expression as unused.
- *
- *  @param expr the expression to be marked as unused.
- */
-#define RL_UNUSED(expr) \
-  do {                  \
-    (void)(expr);       \
-  } while (0)
-
-/*
  *  Denotes that this code path is a work-in-progress.
  */
 #define RL_WIP RL_ASSERT_MSG(false, "WIP")
@@ -203,11 +193,25 @@ static inline void _RL_AssertLog(const char* file,
 /*
  *  Extra Warnings.
  */
-#if defined(__GNUC__)
+#if defined(__clang__)
 #define RL_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-#else
+#else  // defined(__clang__)
 #define RL_WARN_UNUSED_RESULT
-#endif
+#endif  // defined(__clang__)
+
+/*
+ *  Mark an expression as unused.
+ *
+ *  @param expr the expression to be marked as unused.
+ */
+#if defined(__clang__)
+#define RL_UNUSED(expr) \
+  do {                  \
+    (void)(expr);       \
+  } while (0)
+#else  // defined(__clang__)
+#define RL_UNUSED(expr) expr
+#endif  // defined(__clang__)
 
 /*
  *  Debugging Macros.

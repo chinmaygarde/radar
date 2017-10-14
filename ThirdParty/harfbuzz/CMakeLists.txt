@@ -65,4 +65,5 @@ target_compile_definitions(harfbuzz
   PRIVATE
     -DHAVE_OT=1
     -DHAVE_UCDN=1
+    -DHB_NO_MT=1
 )
