@@ -18,9 +18,9 @@ class GLConnection {
   struct Version {
     union {
       struct {
-        size_t major;
-        size_t minor;
-        size_t release;
+        size_t majorVersion;
+        size_t minorVersion;
+        size_t releaseVersion;
       };
       size_t items[3];
     };
@@ -29,10 +29,16 @@ class GLConnection {
 
     bool isES;
 
-    Version() : major(0), minor(0), release(0), isES(false) {}
+    Version()
+        : majorVersion(0), minorVersion(0), releaseVersion(0), isES(false) {}
 
-    Version(size_t theMajor, size_t theMinor, size_t theRelease)
-        : major(theMajor), minor(theMinor), release(theRelease), isES(false) {}
+    Version(size_t theMajorVersion,
+            size_t theMinorVersion,
+            size_t theReleaseVersion)
+        : majorVersion(theMajorVersion),
+          minorVersion(theMinorVersion),
+          releaseVersion(theReleaseVersion),
+          isES(false) {}
   };
 
   GLConnection();

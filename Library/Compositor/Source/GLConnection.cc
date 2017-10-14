@@ -67,16 +67,17 @@ static GLConnection::Version GLGetVersion(GLenum name) {
 }
 
 static std::string VersionToString(GLConnection::Version version) {
-  if (version.major == 0 && version.minor == 0 && version.release == 0) {
+  if (version.majorVersion == 0 && version.minorVersion == 0 &&
+      version.releaseVersion == 0) {
     return "Unknown";
   }
 
   std::stringstream stream;
 
-  stream << version.major << "." << version.minor;
+  stream << version.majorVersion << "." << version.minorVersion;
 
-  if (version.release != 0) {
-    stream << "." << version.release;
+  if (version.releaseVersion != 0) {
+    stream << "." << version.releaseVersion;
   }
 
   if (version.vendorString.size() != 0) {
