@@ -3,9 +3,10 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Geometry/Vector.h>
-#include "Console.h"
 #include "StrokeVertices.h"
+#include <Geometry/Vector.h>
+#include <stddef.h>
+#include "Console.h"
 
 namespace rl {
 namespace compositor {

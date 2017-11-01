@@ -29,6 +29,7 @@
 // IN THE SOFTWARE.
 
 #include "SVGColor.h"
+#include <algorithm>
 #include <cmath>
 #include <map>
 #include <sstream>
