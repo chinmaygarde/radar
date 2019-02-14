@@ -13,7 +13,7 @@
 namespace rl {
 namespace event {
 
-class TouchEvent : public Event {
+class TouchEvent final : public Event {
  public:
   enum Phase {
     Began,

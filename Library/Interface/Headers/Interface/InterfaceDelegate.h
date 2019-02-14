@@ -14,6 +14,7 @@ namespace interface {
 class Interface;
 class InterfaceDelegate {
  public:
+  virtual ~InterfaceDelegate();
   /**
    *  The interface has finished launching and and may become active soon
    *
@@ -50,7 +51,7 @@ class InterfaceDelegate {
   virtual void didBecomeInactive(Interface& interface) = 0;
 };
 
-class DefaultInterfaceDelegate : public InterfaceDelegate {
+class DefaultInterfaceDelegate final : public InterfaceDelegate {
  public:
   using InterfaceCallback = std::function<void(Interface&)>;
 

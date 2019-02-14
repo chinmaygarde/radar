@@ -17,7 +17,7 @@
 namespace rl {
 namespace core {
 
-class MachPort : public Attachment {
+class MachPort final : public Attachment {
  public:
   enum class Type {
     None,

@@ -11,8 +11,8 @@
 namespace rl {
 namespace expr {
 
-class Term : public core::ArchiveSerializable,
-             public core::MessageSerializable {
+class Term final : public core::ArchiveSerializable,
+                   public core::MessageSerializable {
  public:
   Term();
 

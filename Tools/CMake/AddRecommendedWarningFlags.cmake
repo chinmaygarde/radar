@@ -28,10 +28,6 @@ AddCXXWarningIfSupported("-Wthread-safety"           HAVE_THREAD_SAFETY_ANALYSIS
 AddCXXWarningIfSupported("-Wno-unused-private-field" HAVE_UNUSED_PRIVATE_FIELD)
 AddCXXWarningIfSupported("-Wdelete-non-virtual-dtor" HAVE_DELETE_NON_VIRTUAL_DTOR)
 
-# Temporarily disable to work around newly deprecated stuff in Mac OSX 10.12.
-AddCXXWarningIfSupported("-Wno-deprecated-declarations"
-    HAVE_NO_DEPRECATED_DECLARATIONS)
-
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Work around bug with -Werror on older GCC
   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=36750

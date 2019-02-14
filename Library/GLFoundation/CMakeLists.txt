@@ -16,6 +16,13 @@ target_link_libraries(GLFoundation
 if (APPLE)
   find_library(OPENGL_FRAMEWORK OpenGL)
   target_link_libraries(GLFoundation PUBLIC ${OPENGL_FRAMEWORK})
+
+  # OpenGL is Deprecated on Apple platforms.
+  target_compile_definitions(GLFoundation
+    PUBLIC
+      GL_SILENCE_DEPRECATION=1
+  )
+
 endif()
 
 if (LINUX)

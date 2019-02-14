@@ -3,11 +3,14 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "RadarSurface.h"
 #include <Coordinator/RenderSurface.h>
 #include <Samples/Sample.h>
 #include <Shell/Shell.h>
 #include <atomic>
-#include "RadarSurface.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 namespace rl {
 
@@ -173,3 +176,5 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
 }
 
 @end
+
+#pragma clang diagnostic pop

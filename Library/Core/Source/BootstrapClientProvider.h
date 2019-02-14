@@ -14,6 +14,8 @@ namespace core {
 
 class BootstrapClientProvider {
  public:
+  virtual ~BootstrapClientProvider();
+
   virtual IOResult doAdvertise(const std::string& name,
                                std::shared_ptr<Channel> channel) = 0;
 

@@ -7,6 +7,9 @@
 
 #if RL_CHANNELS == RL_CHANNELS_MACH
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 #include <Core/RawAttachment.h>
 #include <Foundation/Foundation.h>
 #include "MachBootstrapClientProvider.h"
@@ -19,8 +22,9 @@ MachBootstrapClientProvider::MachBootstrapClientProvider() = default;
 
 MachBootstrapClientProvider::~MachBootstrapClientProvider() = default;
 
-IOResult MachBootstrapClientProvider::doAdvertise(const std::string& name,
-                                                  std::shared_ptr<Channel> channel) {
+IOResult MachBootstrapClientProvider::doAdvertise(
+    const std::string& name,
+    std::shared_ptr<Channel> channel) {
   @autoreleasepool {
     auto portName = static_cast<uint32_t>(channel->attachment()->handle());
 
@@ -42,7 +46,8 @@ IOResult MachBootstrapClientProvider::doAdvertise(const std::string& name,
   return IOResult::Failure;
 }
 
-std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(const std::string& name) {
+std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(
+    const std::string& name) {
   @autoreleasepool {
     auto portName = [NSString stringWithUTF8String:name.c_str()];
 
@@ -65,5 +70,7 @@ std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(const std::strin
 
 }  // namespace core
 }  // namespace rl
+
+#pragma clang diagnostic pop
 
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH

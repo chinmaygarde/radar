@@ -27,6 +27,8 @@ target_include_directories(icu_stubdata
 
 AddRecommendedWarningFlags()
 
+AddCXXWarningIfSupported("-Wno-deprecated-declarations" HAVE_DEPRECATED_DECLARATIONS)
+
 file(GLOB_RECURSE ICU_COMMON_SRC
   "icu/source/common/*.cpp"
   "icu/source/common/*.h"

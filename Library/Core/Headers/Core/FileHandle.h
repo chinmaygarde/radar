@@ -12,7 +12,7 @@
 namespace rl {
 namespace core {
 
-class FileHandle : public Attachment {
+class FileHandle final : public Attachment {
  public:
   enum class AccessType {
     Read,

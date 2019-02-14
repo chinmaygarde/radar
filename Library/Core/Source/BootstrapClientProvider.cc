@@ -3,12 +3,12 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Animation/Simulation.h>
+#include "BootstrapClientProvider.h"
 
 namespace rl {
-namespace animation {
+namespace core {
 
-Simulation::~Simulation() = default;
+BootstrapClientProvider::~BootstrapClientProvider() = default;
 
-}  // namespace animation
+}  // namespace core
 }  // namespace rl

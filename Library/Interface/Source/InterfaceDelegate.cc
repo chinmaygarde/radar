@@ -8,7 +8,9 @@
 namespace rl {
 namespace interface {
 
-DefaultInterfaceDelegate::DefaultInterfaceDelegate() {}
+InterfaceDelegate::~InterfaceDelegate() = default;
+
+DefaultInterfaceDelegate::DefaultInterfaceDelegate() = default;
 
 void DefaultInterfaceDelegate::setInterfaceDidFinishLaunching(
     InterfaceCallback callback) {

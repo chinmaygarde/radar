@@ -12,8 +12,8 @@
 namespace rl {
 namespace layout {
 
-class Constraint : public core::ArchiveSerializable,
-                   public core::MessageSerializable {
+class Constraint final : public core::ArchiveSerializable,
+                         public core::MessageSerializable {
  public:
   enum Relation {
     EqualTo,

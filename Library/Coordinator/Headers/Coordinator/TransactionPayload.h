@@ -15,8 +15,8 @@
 namespace rl {
 namespace coordinator {
 
-class TransactionPayload : public core::ArchiveSerializable,
-                           public core::MessageSerializable {
+class TransactionPayload final : public core::ArchiveSerializable,
+                                 public core::MessageSerializable {
  public:
   using EntityMap = std::map<core::Name, std::unique_ptr<TransferEntity>>;
 

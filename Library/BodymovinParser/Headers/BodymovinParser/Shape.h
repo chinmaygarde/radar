@@ -35,7 +35,7 @@ class Shape {
 
   Shape() = default;
 
-  ~Shape() = default;
+  virtual ~Shape() = default;
 
   virtual Type type() const = 0;
 

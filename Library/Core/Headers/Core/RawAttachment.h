@@ -12,7 +12,7 @@
 namespace rl {
 namespace core {
 
-class RawAttachment : public Attachment {
+class RawAttachment final : public Attachment {
  public:
   using Collector = std::function<void(Attachment::Handle handle)>;
 

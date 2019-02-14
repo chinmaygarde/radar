@@ -53,6 +53,8 @@ Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate,
       std::numeric_limits<int64_t>::max());
 }
 
+Interface::~Interface() = default;
+
 void Interface::run(std::function<void()> onReady) {
   if (_loop != nullptr) {
     if (onReady) {

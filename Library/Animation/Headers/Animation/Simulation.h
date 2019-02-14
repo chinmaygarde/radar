@@ -17,6 +17,8 @@ namespace animation {
  */
 class Simulation {
  public:
+  virtual ~Simulation();
+
   /**
    *  The current position of the object in the simulation
    *

@@ -9,8 +9,12 @@
 #include <Interface/InterfaceDelegate.h>
 #include <memory>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @interface RadarSurface : NSOpenGLView
+#pragma clang diagnostic pop
 
-- (void)launchInterfaceDelegate:(std::shared_ptr<rl::interface::InterfaceDelegate>)delegate;
+- (void)launchInterfaceDelegate:
+    (std::shared_ptr<rl::interface::InterfaceDelegate>)delegate;
 
 @end

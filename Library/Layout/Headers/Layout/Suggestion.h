@@ -12,8 +12,8 @@
 namespace rl {
 namespace layout {
 
-class Suggestion : public core::ArchiveSerializable,
-                   public core::MessageSerializable {
+class Suggestion final : public core::ArchiveSerializable,
+                         public core::MessageSerializable {
  public:
   Suggestion();
 

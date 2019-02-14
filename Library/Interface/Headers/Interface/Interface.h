@@ -46,6 +46,8 @@ class Interface {
   Interface(std::shared_ptr<InterfaceDelegate> delegate,
             std::unique_ptr<core::Archive> spliceArchive);
 
+  virtual ~Interface();
+
   /**
    *  Setup the interface context and invoke the callback when ready
    *
