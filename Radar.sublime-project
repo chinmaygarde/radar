@@ -15,7 +15,7 @@
       "name": "Radar Build All",
       "shell_cmd": "(mkdir -p build/sublime_build && cd build/sublime_build && cmake ../../ -G Ninja && ninja)",
       "working_dir": "${project_path}",
-      "file_regex": "^(?:\\.\\.\\/)*(.*):([0-9]*):([0-9]*): error",
+      "file_regex": "^(?:..\\/..\\/)*([^:]+):([0-9]+):([0-9]+): (.*)",
       "shell": true
     }
   ]
