@@ -19,11 +19,14 @@ if (WINDOWS)
 endif()
 
 AddCXXWarningIfSupported("-Werror"                   HAVE_ERRORS)
+AddCXXWarningIfSupported("-Wall"                     HAVE_ALL_ERRORS)
+AddCXXWarningIfSupported("-Wmost"                    HAVE_MOST)
 AddCXXWarningIfSupported("-Wloop-analysis"           HAVE_LOOP_ANALYSIS)
 AddCXXWarningIfSupported("-Wpessimizing-move"        HAVE_PESSIMIZING_MOVE)
 AddCXXWarningIfSupported("-Wredundant-move"          HAVE_REDUNDANT_MOVE)
 AddCXXWarningIfSupported("-Wthread-safety"           HAVE_THREAD_SAFETY_ANALYSIS)
 AddCXXWarningIfSupported("-Wno-unused-private-field" HAVE_UNUSED_PRIVATE_FIELD)
+AddCXXWarningIfSupported("-Wdelete-non-virtual-dtor" HAVE_DELETE_NON_VIRTUAL_DTOR)
 
 # Temporarily disable to work around newly deprecated stuff in Mac OSX 10.12.
 AddCXXWarningIfSupported("-Wno-deprecated-declarations"
