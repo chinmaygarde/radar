@@ -1,4 +1,4 @@
-Radar [![Documentation](https://img.shields.io/badge/documentation-latest-green.svg)](http://radar.run) [![Trello Board](https://img.shields.io/badge/trello-board-green.svg)](https://trello.com/b/9BYQ00JW/radar)
+Radar [![Trello Board](https://img.shields.io/badge/trello-board-green.svg)](https://trello.com/b/9BYQ00JW/radar)
 =================
 
 Prerequisites
