@@ -72,7 +72,7 @@ CommandLine CommandLine::Parse(std::vector<std::string> arguments) {
   return CommandLine(std::move(values));
 }
 
-bool CommandLine::hasOption(const std::string& option) const {
+bool CommandLine::hasValue(const std::string& option) const {
   if (option.size() == 0) {
     // The zero length string is reserved for unnamed list of arguments.
     return false;
@@ -80,33 +80,47 @@ bool CommandLine::hasOption(const std::string& option) const {
   return _values.count(option) > 0;
 }
 
-bool CommandLine::hasListOfOptions(const std::string& option) const {
-  if (!hasOption(option)) {
+bool CommandLine::hasListOfValues(const std::string& option) const {
+  if (!hasValue(option)) {
     return false;
   }
 
   return _values.at(option).size() > 1;
 }
 
-std::vector<std::string> CommandLine::optionList(
+std::vector<std::string> CommandLine::listOfValues(
     const std::string& option) const {
-  if (!hasListOfOptions(option)) {
+  if (!hasListOfValues(option)) {
     return {};
   }
 
   return _values.at(option);
 }
 
-std::vector<std::string> CommandLine::unnamedOptionsList() const {
-  if (!hasUnnamedOptionsList()) {
+std::vector<std::string> CommandLine::unnamedListOfValues() const {
+  if (!hasUnnamedListOfValues()) {
     return {};
   }
 
   return _values.at("");
 }
 
-bool CommandLine::hasUnnamedOptionsList() const {
+bool CommandLine::hasUnnamedListOfValues() const {
   return _values.count("") != 0;
+}
+
+std::string CommandLine::value(const std::string& option) const {
+  if (!hasValue(option)) {
+    return "";
+  }
+
+  const auto& values = _values.at(option);
+
+  if (values.size() != 1) {
+    return "";
+  }
+
+  return values[0];
 }
 
 }  // namespace toolbox

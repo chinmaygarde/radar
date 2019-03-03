@@ -23,15 +23,17 @@ class CommandLine {
 
   ~CommandLine();
 
-  bool hasOption(const std::string& option) const;
+  std::string value(const std::string& option) const;
 
-  bool hasListOfOptions(const std::string& option) const;
+  bool hasValue(const std::string& option) const;
 
-  std::vector<std::string> optionList(const std::string& option) const;
+  bool hasListOfValues(const std::string& option) const;
 
-  std::vector<std::string> unnamedOptionsList() const;
+  std::vector<std::string> listOfValues(const std::string& option) const;
 
-  bool hasUnnamedOptionsList() const;
+  std::vector<std::string> unnamedListOfValues() const;
+
+  bool hasUnnamedListOfValues() const;
 
  private:
   using Values = std::unordered_map<std::string, std::vector<std::string>>;
