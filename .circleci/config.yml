@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: chinmaygarde:radar
+
+    steps:
+      - checkout
+
+      - run:
+          name: CMake
+          command: mkdir build && cd build && cmake .. -G Ninja
+
+      - run:
+          name: Build with Ninja
+          command: ninja -C build
