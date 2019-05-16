@@ -5,6 +5,12 @@ jobs:
       - image: chinmaygarde/radar
 
     steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+
       - checkout
 
       - run:
@@ -14,3 +20,8 @@ jobs:
       - run:
           name: Build with Ninja
           command: ninja -C build
+
+      - save_cache:
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - "build"
