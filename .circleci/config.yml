@@ -16,7 +16,7 @@ jobs:
 
       - run:
           name: CMake
-          command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake /root/project -G Ninja
+          command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake /root/project -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - run:
           name: Build with Ninja
