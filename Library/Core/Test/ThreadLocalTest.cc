@@ -22,74 +22,74 @@ TEST(ThreadLocalTest, SimpleInitialization) {
 
 TEST(ThreadLocalTest, DestroyCallback) {
   std::thread thread([&] {
-    int destroys = 0;
+    size_t destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
-    auto value = 100;
+    const size_t value = 100;
     local.set(value);
     ASSERT_EQ(local.get(), value);
-    ASSERT_EQ(destroys, 0);
+    ASSERT_EQ(destroys, 0u);
   });
   thread.join();
 }
 
 TEST(ThreadLocalTest, DestroyCallback2) {
   std::thread thread([&] {
-    int destroys = 0;
+    size_t destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
     local.set(100);
-    ASSERT_EQ(local.get(), 100);
-    ASSERT_EQ(destroys, 0);
+    ASSERT_EQ(local.get(), 100u);
+    ASSERT_EQ(destroys, 0u);
     local.set(200);
-    ASSERT_EQ(local.get(), 200);
-    ASSERT_EQ(destroys, 1);
+    ASSERT_EQ(local.get(), 200u);
+    ASSERT_EQ(destroys, 1u);
   });
   thread.join();
 }
 
 TEST(ThreadLocalTest, DestroyThreadTimeline) {
   std::thread thread([&] {
-    int destroys = 0;
+    size_t destroys = 0;
     rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
     std::thread thread([&]() {
       local.set(100);
-      ASSERT_EQ(local.get(), 100);
-      ASSERT_EQ(destroys, 0);
+      ASSERT_EQ(local.get(), 100u);
+      ASSERT_EQ(destroys, 0u);
       local.set(200);
-      ASSERT_EQ(local.get(), 200);
-      ASSERT_EQ(destroys, 1);
+      ASSERT_EQ(local.get(), 200u);
+      ASSERT_EQ(destroys, 1u);
     });
-    ASSERT_EQ(local.get(), 0);
+    ASSERT_EQ(local.get(), 0u);
     thread.join();
-    ASSERT_EQ(local.get(), 0);
-    ASSERT_EQ(destroys, 2);
+    ASSERT_EQ(local.get(), 0u);
+    ASSERT_EQ(destroys, 2u);
   });
   thread.join();
 }
 
 TEST(ThreadLocalTest, SettingSameValue) {
   std::thread thread([&] {
-    int destroys = 0;
+    size_t destroys = 0;
     {
       rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
       local.set(100);
-      ASSERT_EQ(destroys, 0);
+      ASSERT_EQ(destroys, 0u);
       local.set(100);
       local.set(100);
       local.set(100);
-      ASSERT_EQ(local.get(), 100);
+      ASSERT_EQ(local.get(), 100u);
       local.set(100);
       local.set(100);
-      ASSERT_EQ(destroys, 0);
+      ASSERT_EQ(destroys, 0u);
       local.set(200);
-      ASSERT_EQ(destroys, 1);
-      ASSERT_EQ(local.get(), 200);
+      ASSERT_EQ(destroys, 1u);
+      ASSERT_EQ(local.get(), 200u);
     }
 
-    ASSERT_EQ(destroys, 1);
+    ASSERT_EQ(destroys, 1u);
   });
   thread.join();
 }
