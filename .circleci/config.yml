@@ -16,7 +16,7 @@ jobs:
 
       - run:
           name: CMake
-          command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake .. -G Ninja
+          command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake /root/project -G Ninja
 
       - run:
           name: Build with Ninja
