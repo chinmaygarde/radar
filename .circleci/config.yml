@@ -8,9 +8,9 @@ jobs:
       - restore_cache:
           name: Restore Old Build Artifacts
           keys:
-            - source-v1-{{ .Branch }}-{{ .Revision }}
-            - source-v1-{{ .Branch }}-
-            - source-v1-
+            - source-v2-{{ .Branch }}-{{ .Revision }}
+            - source-v2-{{ .Branch }}-
+            - source-v2-
 
       - checkout
 
@@ -24,6 +24,6 @@ jobs:
 
       - save_cache:
           name: Save Build Artifacts
-          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          key: source-v2-{{ .Branch }}-{{ .Revision }}
           paths:
             - "/tmp/radar/build"
