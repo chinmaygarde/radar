@@ -6,6 +6,7 @@ jobs:
 
     steps:
       - restore_cache:
+          name: Restore Old Build Artifacts
           keys:
             - source-v1-{{ .Branch }}-{{ .Revision }}
             - source-v1-{{ .Branch }}-
@@ -15,13 +16,14 @@ jobs:
 
       - run:
           name: CMake
-          command: mkdir build && cd build && cmake .. -G Ninja
+          command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake .. -G Ninja
 
       - run:
           name: Build with Ninja
-          command: ninja -C build
+          command: ninja -C /tmp/radar/build
 
       - save_cache:
+          name: Save Build Artifacts
           key: source-v1-{{ .Branch }}-{{ .Revision }}
           paths:
-            - "build"
+            - "/tmp/radar/build"
