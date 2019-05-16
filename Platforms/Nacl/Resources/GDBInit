@@ -1,5 +1,0 @@
-target remote localhost:4014
-remote get nexe RadarLoveNacl_GDB.nexe
-file RadarLoveNacl_GDB.nexe
-remote get irt RadarLoveNacl_GDB.irt
-nacl-irt RadarLoveNacl_GDB.irt
