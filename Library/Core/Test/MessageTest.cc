@@ -131,7 +131,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
 
   auto messagesRead = pipe.drainPendingMessages(rl::core::ClockDurationNano{0});
 
-  ASSERT_EQ(messagesRead.size(), 1);
+  ASSERT_EQ(messagesRead.size(), 1u);
 
   auto& messageRead = messagesRead[0];
 

@@ -82,6 +82,11 @@ static inline void _RL_AssertLog(const char* file,
 #define RL_ASSERT(condition) \
   RL_ASSERT_MSG((condition), "Condition Failed: (" #condition ")")
 
+/**
+ * A situaltion that should not happen.
+ */
+#define RL_UNREACHABLE RL_ASSERT(false)
+
 /*
  *  Denotes that this code path is a work-in-progress.
  */

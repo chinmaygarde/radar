@@ -12,7 +12,7 @@ TEST(AttributedStringTest, SimpleString) {
   builder.appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
@@ -25,7 +25,7 @@ TEST(AttributedStringTest, SizeInDescriptorsMapIsBufferSize) {
       .appendText("World");
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2u);
   /*
    *  The first character is an emoji that takes two bytes.
    */
@@ -40,7 +40,7 @@ TEST(AttributedStringTest, PushDescriptor) {
   builder.pushFontDescriptor(desc).appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
@@ -51,7 +51,7 @@ TEST(AttributedStringTest, PushDescriptorEnd) {
   builder.appendText(hello).pushFontDescriptor(desc);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size());
 }
 
@@ -65,7 +65,7 @@ TEST(AttributedStringTest, PushDescriptorSame) {
       .appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 1u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
@@ -79,7 +79,7 @@ TEST(AttributedStringTest, PopDescriptor) {
       .appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
@@ -94,7 +94,7 @@ TEST(AttributedStringTest, TooManyPopDescriptor) {
       .appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
@@ -112,7 +112,7 @@ TEST(AttributedStringTest, TooManyPushDescriptor) {
       .appendText(hello);
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 2u);
   ASSERT_EQ(attributedString.string().lengthOfCharacters(), hello.size() * 2);
 }
 
@@ -128,7 +128,7 @@ TEST(AttributedStringTest, DescriptorAtIndex) {
       .appendText("Again");
   auto attributedString = builder.attributedString();
   ASSERT_TRUE(attributedString.isValid());
-  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 3);
+  ASSERT_EQ(attributedString.fontDescriptorsMap().size(), 3u);
   ASSERT_NE(attributedString.fontDescriptorsMap().find(0),
             attributedString.fontDescriptorsMap().end());
   ASSERT_NE(attributedString.fontDescriptorsMap().find(2),

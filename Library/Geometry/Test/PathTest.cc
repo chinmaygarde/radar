@@ -15,13 +15,13 @@ TEST(PathTest, SimplePath) {
       .addQuadraticComponent({100, 100}, {200, 200}, {300, 300})
       .addCubicComponent({300, 300}, {400, 400}, {500, 500}, {600, 600});
 
-  ASSERT_EQ(path.componentCount(), 3);
+  ASSERT_EQ(path.componentCount(), 3u);
 
   path.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         rl::geom::Point p1(0, 0);
         rl::geom::Point p2(100, 100);
-        ASSERT_EQ(index, 0);
+        ASSERT_EQ(index, 0u);
         ASSERT_EQ(linear.p1, p1);
         ASSERT_EQ(linear.p2, p2);
       },
@@ -29,7 +29,7 @@ TEST(PathTest, SimplePath) {
         rl::geom::Point p1(100, 100);
         rl::geom::Point cp(200, 200);
         rl::geom::Point p2(300, 300);
-        ASSERT_EQ(index, 1);
+        ASSERT_EQ(index, 1u);
         ASSERT_EQ(quad.p1, p1);
         ASSERT_EQ(quad.cp, cp);
         ASSERT_EQ(quad.p2, p2);
@@ -39,7 +39,7 @@ TEST(PathTest, SimplePath) {
         rl::geom::Point cp1(400, 400);
         rl::geom::Point cp2(500, 500);
         rl::geom::Point p2(600, 600);
-        ASSERT_EQ(index, 2);
+        ASSERT_EQ(index, 2u);
         ASSERT_EQ(cubic.p1, p1);
         ASSERT_EQ(cubic.cp1, cp1);
         ASSERT_EQ(cubic.cp2, cp2);
@@ -64,13 +64,13 @@ TEST(PathTest, PathEncodeDecode) {
 
   ASSERT_TRUE(message.decode(decoded, nullptr));
 
-  ASSERT_EQ(decoded.componentCount(), 3);
+  ASSERT_EQ(decoded.componentCount(), 3u);
 
   decoded.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         rl::geom::Point p1(0, 0);
         rl::geom::Point p2(100, 100);
-        ASSERT_EQ(index, 0);
+        ASSERT_EQ(index, 0u);
         ASSERT_EQ(linear.p1, p1);
         ASSERT_EQ(linear.p2, p2);
       },
@@ -78,7 +78,7 @@ TEST(PathTest, PathEncodeDecode) {
         rl::geom::Point p1(100, 100);
         rl::geom::Point cp(200, 200);
         rl::geom::Point p2(300, 300);
-        ASSERT_EQ(index, 1);
+        ASSERT_EQ(index, 1u);
         ASSERT_EQ(quad.p1, p1);
         ASSERT_EQ(quad.cp, cp);
         ASSERT_EQ(quad.p2, p2);
@@ -88,7 +88,7 @@ TEST(PathTest, PathEncodeDecode) {
         rl::geom::Point cp1(400, 400);
         rl::geom::Point cp2(500, 500);
         rl::geom::Point p2(600, 600);
-        ASSERT_EQ(index, 2);
+        ASSERT_EQ(index, 2u);
         ASSERT_EQ(cubic.p1, p1);
         ASSERT_EQ(cubic.cp1, cp1);
         ASSERT_EQ(cubic.cp2, cp2);

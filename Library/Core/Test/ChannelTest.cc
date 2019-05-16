@@ -147,7 +147,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWrite) {
 
   rl::core::Latch latch(1);
 
-  const auto rawSize = 50000003;
+  const size_t rawSize = 50000003;
 
   std::thread thread([&] {
     auto loop = rl::core::EventLoop::Current();
@@ -190,8 +190,6 @@ TEST(ChannelTest, TestSimpleReadContents) {
 
   rl::core::Latch latch(1);
 
-  size_t sendSize = 0;
-
   std::thread thread([&] {
     auto loop = rl::core::EventLoop::Current();
     ASSERT_TRUE(loop != nullptr);
@@ -227,8 +225,6 @@ TEST(ChannelTest, TestSimpleReadContents) {
   ASSERT_TRUE(m.encode(c));
   ASSERT_TRUE(m.encode(d));
 
-  sendSize = m.size();
-
   messages.emplace_back(std::move(m));
   ASSERT_EQ(channel.sendMessages(std::move(messages)),
             rl::core::IOResult::Success);
@@ -240,7 +236,7 @@ TEST(ChannelTest, ZeroTimeoutReadsDontHang) {
   rl::core::Channel channel;
   rl::core::Messages messages =
       channel.drainPendingMessages(rl::core::ClockDurationNano{0});
-  ASSERT_EQ(messages.size(), 0);
+  ASSERT_EQ(messages.size(), 0u);
 }
 
 TEST(ChannelTest, SendAttachmentsOverChannels) {
@@ -300,7 +296,6 @@ TEST(ChannelTest, AliasingChannels) {
   rl::core::Latch aliasLatch(1);
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-
         rl::core::RawAttachment attachment;
 
         ASSERT_EQ(message.decode(attachment), true);
@@ -375,7 +370,6 @@ TEST(ChannelTest, SendAttachmentAndDataOverChannels) {
 
   chan.setMessageCallback(
       [&](rl::core::Message message, rl::core::Namespace* ns) {
-
         rl::core::RawAttachment attachment;
 
         ASSERT_EQ(message.decode(attachment), true);
@@ -435,7 +429,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
             break;
           }
         }
-        ASSERT_EQ(count, 7);
+        ASSERT_EQ(count, 7u);
 
         auto character = 'a';
         ASSERT_EQ(message.decode(character, nullptr), true);
@@ -488,7 +482,7 @@ TEST(ChannelTest, SendMultipleAttachmentsAndDataOverChannels) {
  *  a concern on Socket channels
  */
 TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
-  const auto rawSize = 20000009;
+  const size_t rawSize = 20000009;
 
   rl::core::Channel channel;
 
@@ -521,7 +515,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
             }
           }
 
-          ASSERT_EQ(count, 7);
+          ASSERT_EQ(count, 7u);
 
           ASSERT_TRUE(loop == rl::core::EventLoop::Current());
           loop->terminate();
@@ -576,7 +570,7 @@ TEST_SLOW(ChannelTest, TestLargeReadWriteWithAttachments) {
  *  they are sent with. Only a concern on Socket channels
  */
 TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
-  const auto rawSize = 27;
+  const size_t rawSize = 27;
 
   rl::core::Channel channel;
 
@@ -609,7 +603,7 @@ TEST(ChannelTest, TestSmallReadWriteWithAttachments) {
             }
           }
 
-          ASSERT_EQ(count, 3);
+          ASSERT_EQ(count, 3u);
 
           ASSERT_TRUE(loop == rl::core::EventLoop::Current());
           loop->terminate();

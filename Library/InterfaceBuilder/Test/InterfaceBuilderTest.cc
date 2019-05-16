@@ -60,7 +60,7 @@ TEST_F(InterfaceTest, Ellipse01) {
     ASSERT_TRUE(inflated != nullptr);
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(inflated->frame(), expectedBounds);
-    ASSERT_EQ(inflated->children().size(), 3);
+    ASSERT_EQ(inflated->children().size(), 3u);
   });
 }
 
@@ -75,7 +75,7 @@ TEST_F(InterfaceTest, Circle01) {
     ASSERT_TRUE(inflated != nullptr);
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(inflated->frame(), expectedBounds);
-    ASSERT_EQ(inflated->children().size(), 2);
+    ASSERT_EQ(inflated->children().size(), 2u);
   });
 }
 
@@ -90,7 +90,7 @@ TEST_F(InterfaceTest, Polygon01) {
     ASSERT_TRUE(inflated != nullptr);
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(inflated->frame(), expectedBounds);
-    ASSERT_EQ(inflated->children().size(), 3);
+    ASSERT_EQ(inflated->children().size(), 3u);
   });
 }
 
@@ -105,9 +105,9 @@ TEST_F(InterfaceTest, Line01) {
     ASSERT_TRUE(inflated != nullptr);
     rl::geom::Rect expectedBounds(0, 0, 1200, 400);
     ASSERT_EQ(inflated->frame(), expectedBounds);
-    ASSERT_EQ(inflated->children().size(), 2);
+    ASSERT_EQ(inflated->children().size(), 2u);
     auto gElement = inflated->children()[1];
-    ASSERT_EQ(gElement->children().size(), 5);
+    ASSERT_EQ(gElement->children().size(), 5u);
   });
 }
 
@@ -129,7 +129,7 @@ TEST_F(InterfaceTest, Line01CountAllChildren) {
       return true;
     });
 
-    ASSERT_EQ(count, 8);
+    ASSERT_EQ(count, 8u);
   });
 }
 
@@ -144,7 +144,7 @@ TEST_F(InterfaceTest, Use01) {
     ASSERT_TRUE(inflated != nullptr);
     rl::geom::Rect expectedBounds(0, 0, 100, 30);
     ASSERT_EQ(inflated->frame(), expectedBounds);
-    ASSERT_EQ(inflated->children().size(), 2);
+    ASSERT_EQ(inflated->children().size(), 2u);
 
     /*
      *  The frame is constructed from the values of multiple nodes. So it is
@@ -175,10 +175,10 @@ TEST_F(InterfaceTest, Polyline01) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_EQ(inflated->children().size(), 2);
+    ASSERT_EQ(inflated->children().size(), 2u);
     auto polylineEntity = inflated->children()[1];
-    ASSERT_NE(polylineEntity->path().componentCount(), 0);
-    ASSERT_EQ(polylineEntity->path().componentCount(), 22);
+    ASSERT_NE(polylineEntity->path().componentCount(), 0u);
+    ASSERT_EQ(polylineEntity->path().componentCount(), 22u);
     rl::geom::LinearPathComponent linear;
     ASSERT_TRUE(polylineEntity->path().linearComponentAtIndex(20, linear));
     rl::geom::Point expected(1050, 375);
@@ -195,10 +195,10 @@ TEST_F(InterfaceTest, StarPolygon) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_EQ(inflated->children().size(), 1);
+    ASSERT_EQ(inflated->children().size(), 1u);
     auto polylineEntity = inflated->children()[0];
-    ASSERT_NE(polylineEntity->path().componentCount(), 0);
-    ASSERT_EQ(polylineEntity->path().componentCount(), 76);
+    ASSERT_NE(polylineEntity->path().componentCount(), 0u);
+    ASSERT_EQ(polylineEntity->path().componentCount(), 76u);
     rl::geom::LinearPathComponent linear;
     ASSERT_TRUE(polylineEntity->path().linearComponentAtIndex(75, linear));
     rl::geom::Point expected(156, 225);
@@ -215,7 +215,7 @@ TEST_F(InterfaceTest, Nighthawks) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_EQ(inflated->children().size(), 1);
+    ASSERT_EQ(inflated->children().size(), 1u);
   });
 }
 
@@ -228,7 +228,7 @@ TEST_F(InterfaceTest, TestTransformation) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_EQ(inflated->children().size(), 1);
+    ASSERT_EQ(inflated->children().size(), 1u);
     rl::geom::Matrix expected =
         rl::geom::Matrix::Translation({140.5, 102, 0.0}) *
         rl::geom::Matrix::RotationZ(36.0 * M_PI / 180.0) *
@@ -246,7 +246,7 @@ TEST_F(InterfaceTest, DISABLED_Quad01) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_EQ(inflated->children().size(), 4);
+    ASSERT_EQ(inflated->children().size(), 4u);
   });
 }
 
@@ -259,7 +259,7 @@ TEST_F(InterfaceTest, DISABLED_SharedDialog) {
     rl::ib::InterfaceBuilderArchive::EntityMap map;
     auto inflated = archive->inflate(interface, map);
     ASSERT_TRUE(inflated != nullptr);
-    ASSERT_NE(map.size(), 0);
+    ASSERT_NE(map.size(), 0u);
 
     auto expected = rl::geom::Rect{0, 0, 375, 667};
     ASSERT_RECT_NEAR(inflated->frame(), expected);

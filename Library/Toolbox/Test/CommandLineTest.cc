@@ -23,16 +23,16 @@ TEST(CommandLineTest, CanParseArgs) {
   ASSERT_FALSE(commandLine.hasListOfValues("fast"));
 
   auto list = commandLine.listOfValues("values");
-  ASSERT_EQ(list.size(), 2);
+  ASSERT_EQ(list.size(), 2u);
   ASSERT_EQ(list[0], "1");
   ASSERT_EQ(list[1], "2");
-  ASSERT_NE(list.size(), 5);
+  ASSERT_NE(list.size(), 5u);
 
   auto not_exist = commandLine.listOfValues("slow");
-  ASSERT_EQ(not_exist.size(), 0);
+  ASSERT_EQ(not_exist.size(), 0u);
 
   ASSERT_FALSE(commandLine.hasUnnamedListOfValues());
-  ASSERT_EQ(commandLine.unnamedListOfValues().size(), 0);
+  ASSERT_EQ(commandLine.unnamedListOfValues().size(), 0u);
 }
 
 TEST(CommandLineTest, CanParseUnnamedListOfValues) {
@@ -42,7 +42,7 @@ TEST(CommandLineTest, CanParseUnnamedListOfValues) {
        "unnamed5"});
   ASSERT_TRUE(commandLine.hasUnnamedListOfValues());
   auto list = commandLine.unnamedListOfValues();
-  ASSERT_EQ(list.size(), 5);
+  ASSERT_EQ(list.size(), 5u);
   ASSERT_EQ(list[0], "unnamed1");
   ASSERT_EQ(list[1], "unnamed2");
   ASSERT_EQ(list[2], "unnamed3");

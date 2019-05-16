@@ -38,7 +38,7 @@ TEST(FileTest, TestFileSendsOverChannel) {
 
           rl::core::FileMapping mapping(fileHandle);
 
-          ASSERT_EQ(mapping.size(), 13);
+          ASSERT_EQ(mapping.size(), 13u);
 
           rl::core::EventLoop::Current()->terminate();
         });

@@ -20,7 +20,7 @@ TEST(SVGPathParserTest, Triangle01) {
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
   auto finalPath = driver.pathBuilder().path();
-  ASSERT_EQ(finalPath.componentCount(), 3);
+  ASSERT_EQ(finalPath.componentCount(), 3u);
   finalPath.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         switch (index) {
@@ -55,7 +55,7 @@ TEST(SVGPathParserTest, MoreLines) {
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
   auto finalPath = driver.pathBuilder().path();
-  ASSERT_EQ(finalPath.componentCount(), 4);
+  ASSERT_EQ(finalPath.componentCount(), 4u);
   finalPath.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         switch (index) {
@@ -94,7 +94,7 @@ TEST(SVGPathParserTest, MoreLinesWithNoCommandRepetition) {
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
   auto finalPath = driver.pathBuilder().path();
-  ASSERT_EQ(finalPath.componentCount(), 4);
+  ASSERT_EQ(finalPath.componentCount(), 4u);
   finalPath.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         switch (index) {
@@ -134,7 +134,7 @@ TEST(SVGPathParserTest, Cubic01) {
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
   auto finalPath = driver.pathBuilder().path();
-  ASSERT_EQ(finalPath.componentCount(), 2);
+  ASSERT_EQ(finalPath.componentCount(), 2u);
   finalPath.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         switch (index) {
@@ -176,7 +176,7 @@ TEST(SVGPathParserTest, Quad01) {
   auto result = driver.parse(path);
   ASSERT_EQ(result, rl::SVGPathDriver::ParserResult::Success);
   auto finalPath = driver.pathBuilder().path();
-  ASSERT_EQ(finalPath.componentCount(), 2);
+  ASSERT_EQ(finalPath.componentCount(), 2u);
   finalPath.enumerateComponents(
       [](size_t index, const rl::geom::LinearPathComponent& linear) {
         switch (index) {

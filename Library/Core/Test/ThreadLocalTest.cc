@@ -13,7 +13,7 @@
 TEST(ThreadLocalTest, SimpleInitialization) {
   std::thread thread([&] {
     rl::core::ThreadLocal local;
-    auto value = 100;
+    const size_t value = 100;
     local.set(value);
     ASSERT_EQ(local.get(), value);
   });

@@ -63,7 +63,7 @@ TEST(TextRunTest, SimpleSplitNoRuns) {
   std::vector<rl::type::TextRun> runs;
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({50});
-  ASSERT_EQ(splitRuns.runs().size(), 0);
+  ASSERT_EQ(splitRuns.runs().size(), 0u);
   ASSERT_EQ(textRuns.totalLength(), splitRuns.totalLength());
 }
 
@@ -73,7 +73,7 @@ TEST(TextRunTest, SimpleSplitNoBreaks) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {0, 100}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({});
-  ASSERT_EQ(splitRuns.runs().size(), 1);
+  ASSERT_EQ(splitRuns.runs().size(), 1u);
   ASSERT_EQ(textRuns.totalLength(), splitRuns.totalLength());
 }
 
@@ -81,7 +81,7 @@ TEST(TextRunTest, SimpleSplitNoRunsOrBreaks) {
   std::vector<rl::type::TextRun> runs;
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({});
-  ASSERT_EQ(splitRuns.runs().size(), 0);
+  ASSERT_EQ(splitRuns.runs().size(), 0u);
   ASSERT_EQ(textRuns.totalLength(), splitRuns.totalLength());
 }
 
@@ -91,7 +91,7 @@ TEST(TextRunTest, SimpleSplit1) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {0, 100}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({50});
-  ASSERT_EQ(splitRuns.runs().size(), 2);
+  ASSERT_EQ(splitRuns.runs().size(), 2u);
   rl::type::TextRange expected(0, 50);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected);
   rl::type::TextRange expected2(50, 50);
@@ -106,7 +106,7 @@ TEST(TextRunTest, SimpleSplit2) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {50, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
-  ASSERT_EQ(splitRuns.runs().size(), 3);
+  ASSERT_EQ(splitRuns.runs().size(), 3u);
   rl::type::TextRange expected(0, 50);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected);
   rl::type::TextRange expected2(50, 25);
@@ -124,7 +124,7 @@ TEST(TextRunTest, SimpleSplit2Direction) {
       {}, rl::type::TextRun::Direction::RightToLeft, {50, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
-  ASSERT_EQ(splitRuns.runs().size(), 3);
+  ASSERT_EQ(splitRuns.runs().size(), 3u);
   rl::type::TextRange expected(0, 50);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected);
   ASSERT_EQ(splitRuns.runs()[0].direction(),
@@ -148,7 +148,7 @@ TEST(TextRunTest, SimpleSplit3) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
-  ASSERT_EQ(splitRuns.runs().size(), 4);
+  ASSERT_EQ(splitRuns.runs().size(), 4u);
   rl::type::TextRange expected(0, 50);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected);
   rl::type::TextRange expected2(50, 25);
@@ -169,7 +169,7 @@ TEST(TextRunTest, SimpleSplit4) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75});
-  ASSERT_EQ(splitRuns.runs().size(), 5);
+  ASSERT_EQ(splitRuns.runs().size(), 5u);
   rl::type::TextRange expected0(0, 25);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected0);
   rl::type::TextRange expected1(25, 25);
@@ -192,7 +192,7 @@ TEST(TextRunTest, SimpleSplit5) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 125});
-  ASSERT_EQ(splitRuns.runs().size(), 6);
+  ASSERT_EQ(splitRuns.runs().size(), 6u);
   rl::type::TextRange expected0(0, 25);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected0);
   rl::type::TextRange expected1(25, 25);
@@ -217,7 +217,7 @@ TEST(TextRunTest, SimpleSplit6) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 80, 125});
-  ASSERT_EQ(splitRuns.runs().size(), 7);
+  ASSERT_EQ(splitRuns.runs().size(), 7u);
   rl::type::TextRange expected0(0, 25);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected0);
   rl::type::TextRange expected1(25, 25);
@@ -244,7 +244,7 @@ TEST(TextRunTest, SimpleSplit6RepeatsDontCount) {
   runs.emplace_back(rl::type::TextRun{{}, direction, {100, 50}});
   rl::type::TextRuns textRuns(std::move(runs));
   auto splitRuns = textRuns.splitAtBreaks({75, 80, 80, 125});
-  ASSERT_EQ(splitRuns.runs().size(), 7);
+  ASSERT_EQ(splitRuns.runs().size(), 7u);
   rl::type::TextRange expected0(0, 25);
   ASSERT_EQ(splitRuns.runs()[0].range(), expected0);
   rl::type::TextRange expected1(25, 25);

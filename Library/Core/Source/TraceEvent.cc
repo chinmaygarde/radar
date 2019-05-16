@@ -85,6 +85,8 @@ static std::string NameForCategory(TraceEvent::Category category) {
     case TraceEvent::Category::Default:
       return "Default";
   }
+  RL_UNREACHABLE;
+  return "";
 }
 
 void TraceEvent::recordToStream(int pid,

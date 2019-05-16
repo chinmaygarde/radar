@@ -28,7 +28,7 @@ TEST(TraceTest, SimpleTraceCapture) {
   auto& trace = rl::instrumentation::ProcessTrace::Current();
   std::stringstream stream;
   trace.recordToStream(stream);
-  ASSERT_GE(stream.str().size(), 0);
+  ASSERT_GE(stream.str().size(), 0u);
 }
 
 TEST(TraceTest, TraceUsingMacros) {
@@ -50,5 +50,5 @@ TEST(TraceTest, TraceUsingMacros) {
   auto& trace = rl::instrumentation::ProcessTrace::Current();
   std::stringstream stream;
   trace.recordToStream(stream);
-  ASSERT_GE(stream.str().size(), 0);
+  ASSERT_GE(stream.str().size(), 0u);
 }

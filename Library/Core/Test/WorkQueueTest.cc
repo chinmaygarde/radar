@@ -9,7 +9,7 @@
 
 TEST(WorkQueue, SimpleInitialization) {
   rl::core::WorkQueue queue;
-  ASSERT_GE(queue.workerCount(), 0);
+  ASSERT_GE(queue.workerCount(), 0u);
 }
 
 TEST_SLOW(WorkQueue, SimpleWork) {
@@ -18,7 +18,7 @@ TEST_SLOW(WorkQueue, SimpleWork) {
 
   {
     rl::core::WorkQueue queue;
-    ASSERT_GE(queue.workerCount(), 0);
+    ASSERT_GE(queue.workerCount(), 0u);
 
     for (int i = 0; i < size; i++) {
       ASSERT_TRUE(queue.dispatch([&count]() { count++; }));

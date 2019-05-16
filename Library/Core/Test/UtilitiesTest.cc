@@ -7,9 +7,9 @@
 #include <TestRunner/TestRunner.h>
 
 TEST(UtilitiesTest, Simple) {
-  ASSERT_EQ(rl::core::NextPowerOfTwoSize(0), 1);
-  ASSERT_EQ(rl::core::NextPowerOfTwoSize(1), 1);
-  ASSERT_EQ(rl::core::NextPowerOfTwoSize(2), 2);
-  ASSERT_EQ(rl::core::NextPowerOfTwoSize(3), 4);
-  ASSERT_EQ(rl::core::NextPowerOfTwoSize(14), 16);
+  ASSERT_EQ(rl::core::NextPowerOfTwoSize(0), 1u);
+  ASSERT_EQ(rl::core::NextPowerOfTwoSize(1), 1u);
+  ASSERT_EQ(rl::core::NextPowerOfTwoSize(2), 2u);
+  ASSERT_EQ(rl::core::NextPowerOfTwoSize(3), 4u);
+  ASSERT_EQ(rl::core::NextPowerOfTwoSize(14), 16u);
 }

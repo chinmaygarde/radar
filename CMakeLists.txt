@@ -111,7 +111,7 @@ endif()
 # Graphics Testing
 ################################################################################
 
-if(NOT (APPLE OR LINUX OR WINDOWS))
+if(NOT APPLE)
   set(RADAR_GRAPHICS_TESTING_ENABLED OFF CACHE BOOL "Disable graphics testing")
 endif()
 
@@ -164,7 +164,6 @@ add_subdirectory("Library/Event")
 add_subdirectory("Library/Expression")
 add_subdirectory("Library/Geometry")
 add_subdirectory("Library/GLFoundation")
-add_subdirectory("Library/GraphicsTestRunner")
 add_subdirectory("Library/Image")
 add_subdirectory("Library/Interface")
 add_subdirectory("Library/InterfaceBuilder")
@@ -174,7 +173,13 @@ add_subdirectory("Library/TestRunner")
 add_subdirectory("Library/Toolbox")
 add_subdirectory("Library/Typography")
 
-add_subdirectory("Samples")
+if(RADAR_GRAPHICS_TESTING_ENABLED)
+  add_subdirectory("Library/GraphicsTestRunner")
+endif()
+
+if(APPLE)
+  add_subdirectory("Samples")
+endif(APPLE)
 
 add_subdirectory("ThirdParty/base64")
 add_subdirectory("ThirdParty/freetype")
@@ -213,7 +218,7 @@ endif()
 # Linux Desktop Shell
 ################################################################################
 
-if(LINUX)
+if(LINUX AND FALSE)
   add_subdirectory("Platforms/Linux")
 endif()
 

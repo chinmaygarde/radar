@@ -16,7 +16,7 @@ TEST(NamespaceTest, OnlyHandlesLocal) {
   ASSERT_NE(h1, h2);
   ASSERT_NE(h2, h3);
   ASSERT_NE(h3, h1);
-  ASSERT_EQ(ns.mappedNamesCount(), 0);
+  ASSERT_EQ(ns.mappedNamesCount(), 0u);
 }
 
 TEST(NamespaceTest, FullNamesLocal) {
@@ -32,7 +32,7 @@ TEST(NamespaceTest, FullNamesLocal) {
     ASSERT_NE(h3, h1);
   }
 
-  ASSERT_EQ(ns.mappedNamesCount(), 0);
+  ASSERT_EQ(ns.mappedNamesCount(), 0u);
 }
 
 TEST(NamespaceTest, NamesWithCounterparts) {
@@ -46,7 +46,7 @@ TEST(NamespaceTest, NamesWithCounterparts) {
   auto local2 = rl::core::Name{*cp2.handle(), ns};
   auto local3 = rl::core::Name{*cp3.handle(), ns};
 
-  ASSERT_EQ(ns.mappedNamesCount(), 3);
+  ASSERT_EQ(ns.mappedNamesCount(), 3u);
 }
 
 TEST(NamespaceTest, NamesWithCounterpartsWithRepeat) {
@@ -60,13 +60,13 @@ TEST(NamespaceTest, NamesWithCounterpartsWithRepeat) {
   auto local2 = rl::core::Name{*cp2.handle(), ns};
   auto local3 = rl::core::Name{*cp3.handle(), ns};
 
-  ASSERT_EQ(ns.mappedNamesCount(), 3);
+  ASSERT_EQ(ns.mappedNamesCount(), 3u);
 
   auto local4 = rl::core::Name{*cp1.handle(), ns};
   auto local5 = rl::core::Name{*cp2.handle(), ns};
   auto local6 = rl::core::Name{*cp3.handle(), ns};
 
-  ASSERT_EQ(ns.mappedNamesCount(), 3);
+  ASSERT_EQ(ns.mappedNamesCount(), 3u);
 
   ASSERT_EQ(local1, local4);
   ASSERT_EQ(local2, local5);
@@ -89,7 +89,7 @@ TEST(NamespaceTest, NamesWithCounterpartsWithRepeatSame) {
   auto local9 = rl::core::Name{*cp1.handle(), ns};
   auto local10 = rl::core::Name{*cp1.handle(), ns};
 
-  ASSERT_EQ(ns.mappedNamesCount(), 1);
+  ASSERT_EQ(ns.mappedNamesCount(), 1u);
   ASSERT_EQ(local1.handle(), local10.handle());
 }
 
@@ -113,7 +113,7 @@ TEST(NamespaceTest, NamesWithCounterpartsWithDeaths) {
   auto local4 = rl::core::Name{*cp4.handle(), ns};
   auto local5 = rl::core::Name{*cp5.handle(), ns};
 
-  ASSERT_EQ(ns.mappedNamesCount(), 5);
+  ASSERT_EQ(ns.mappedNamesCount(), 5u);
 
   {
     auto local6 = rl::core::Name{*cp6.handle(), ns};
@@ -122,10 +122,10 @@ TEST(NamespaceTest, NamesWithCounterpartsWithDeaths) {
     auto local9 = rl::core::Name{*cp9.handle(), ns};
     auto local10 = rl::core::Name{*cp10.handle(), ns};
 
-    ASSERT_EQ(ns.mappedNamesCount(), 10);
+    ASSERT_EQ(ns.mappedNamesCount(), 10u);
   }
 
-  ASSERT_EQ(ns.mappedNamesCount(), 5);
+  ASSERT_EQ(ns.mappedNamesCount(), 5u);
 }
 
 TEST(NamespaceTest, AliasedHandleDies) {

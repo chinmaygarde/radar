@@ -62,7 +62,7 @@ TEST(TypesetterTest, MixedTypesetter) {
   ASSERT_EQ(typesetter.runs().runs().size(), 12u);
   ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
-  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 6);  // "World "
+  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 6u);  // "World "
   ASSERT_EQ(typesetter.runs().runs()[1].direction(),
             rl::type::TextRun::Direction::RightToLeft);  //  "הבאים "
   ASSERT_EQ(typesetter.runs().runs()[2].direction(),
@@ -129,8 +129,8 @@ TEST(TypesetterTest, TestRunLengths) {
   ASSERT_EQ(typesetter.runs().runs().size(), 1u);
   ASSERT_EQ(typesetter.runs().runs()[0].direction(),
             rl::type::TextRun::Direction::LeftToRight);
-  ASSERT_EQ(typesetter.runs().runs()[0].range().start, 0);
-  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 2);
+  ASSERT_EQ(typesetter.runs().runs()[0].range().start, 0u);
+  ASSERT_EQ(typesetter.runs().runs()[0].range().length, 2u);
 }
 
 TEST(TypesetterTest, SimpleTypesetterCreateShapedRuns) {
@@ -144,7 +144,7 @@ TEST(TypesetterTest, SimpleTypesetterCreateShapedRuns) {
   rl::type::FontLibrary library;
   ASSERT_TRUE(library.registerFont(rl::core::URI{"Roboto-Regular.ttf"}, 0));
   auto shapedRuns = typesetter.createShapedRuns(library);
-  ASSERT_EQ(shapedRuns.size(), 2);
-  ASSERT_EQ(shapedRuns[0].glyphCount(), 6);
-  ASSERT_EQ(shapedRuns[1].glyphCount(), 5);
+  ASSERT_EQ(shapedRuns.size(), 2u);
+  ASSERT_EQ(shapedRuns[0].glyphCount(), 6u);
+  ASSERT_EQ(shapedRuns[1].glyphCount(), 5u);
 }

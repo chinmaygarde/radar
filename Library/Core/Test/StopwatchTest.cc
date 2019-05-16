@@ -18,7 +18,7 @@ TEST_SLOW(StopwatchTest, SimpleStopwatch) {
 
 TEST_SLOW(StopwatchTest, SimpleStopwatchWithLaps) {
   rl::instrumentation::Stopwatch stopwatch(3);
-  ASSERT_EQ(stopwatch.samples(), 3);
+  ASSERT_EQ(stopwatch.samples(), 3u);
 
   stopwatch.start();
   std::this_thread::sleep_for(rl::core::ClockDurationSeconds(.1));

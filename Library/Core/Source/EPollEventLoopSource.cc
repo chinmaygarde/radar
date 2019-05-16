@@ -47,7 +47,7 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
               HANDLE_CAST(waitset.handle()),              // epoll descriptor
               shouldAdd ? EPOLL_CTL_ADD : EPOLL_CTL_DEL,  // operation
               handles().readHandle                        // desc
-              );
+  );
 }
 
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
@@ -117,6 +117,7 @@ std::shared_ptr<EventLoopSource> EventLoopSource::Trivial() {
         ::read(HANDLE_CAST(r), &signalCount, sizeof(signalCount)));
 
     RL_ASSERT(signalCount > 0);
+    RL_ASSERT(size > 0);
 
     return IOResult::Success;
   };

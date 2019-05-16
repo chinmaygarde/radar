@@ -1,4 +1,5 @@
 .idea/
+.circleci/
 .vagrant/
 .sconsign.dblite
 .svn/

@@ -79,7 +79,7 @@ TEST_SLOW(ArchiveTest, AddDataMultiple) {
     rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
-    for (auto i = 0; i < 100; i++) {
+    for (size_t i = 0; i < 100; i++) {
       Sample sample(i + 1);
       ASSERT_TRUE(archive.archive(sample));
     }
@@ -101,14 +101,14 @@ TEST_SLOW(ArchiveTest, ReadData) {
     keys.reserve(count);
     values.reserve(count);
 
-    for (auto i = 0; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
       Sample sample(i + 1);
       keys.push_back(sample.archiveName());
       values.push_back(sample.someData());
       ASSERT_TRUE(archive.archive(sample));
     }
 
-    for (auto i = 0; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
       Sample sample;
       ASSERT_TRUE(archive.unarchive(keys[i], sample, nullptr));
       ASSERT_EQ(values[i], sample.someData());
@@ -134,14 +134,14 @@ TEST_SLOW(ArchiveTest, ReadDataWithNames) {
     keys.reserve(count);
     values.reserve(count);
 
-    for (auto i = 0; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
       Sample sample(i + 1);
       keys.push_back(sample.archiveName());
       values.push_back(sample.someData());
       ASSERT_TRUE(archive.archive(sample));
     }
 
-    for (auto i = 0; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
       Sample sample;
       ASSERT_TRUE(archive.unarchive(keys[i], sample, nullptr));
       ASSERT_EQ(values[i], sample.someData());

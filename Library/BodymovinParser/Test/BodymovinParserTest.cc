@@ -17,7 +17,7 @@ TEST(BodymovinParserTest, Valid) {
   rl::core::FileMapping mapping(rl::core::URI{"Watermelon.json"});
   auto animation = rl::bodymovin::Animation::Animation::ParseManifest(mapping);
   ASSERT_TRUE(animation);
-  ASSERT_EQ(animation->layers().size(), 12);
+  ASSERT_EQ(animation->layers().size(), 12u);
   rl::geom::Size size(100, 100);
   ASSERT_SIZE_NEAR(animation->compositionSize(), size);
   ASSERT_EQ(animation->bodymovinVersion(), "4.4.26");
@@ -29,10 +29,10 @@ TEST(BodymovinParserTest, Valid) {
   ASSERT_EQ(animation->layers()[1]->name(), "W1");
   auto shapeLayer = reinterpret_cast<rl::bodymovin::ShapeLayer*>(
       animation->layers()[1].get());
-  ASSERT_EQ(shapeLayer->shapeItems().size(), 1);
+  ASSERT_EQ(shapeLayer->shapeItems().size(), 1u);
   auto groupShape = reinterpret_cast<rl::bodymovin::GroupShape*>(
       shapeLayer->shapeItems()[0].get());
-  ASSERT_EQ(groupShape->shapeItems().size(), 3);
+  ASSERT_EQ(groupShape->shapeItems().size(), 3u);
 }
 
 TEST(BodymovinParserTest, CanParseAllFixtures) {

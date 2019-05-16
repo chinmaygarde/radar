@@ -202,6 +202,8 @@ bool EventLoop::removeObserver(std::shared_ptr<EventLoopObserver> observer,
     case EventLoopObserver::Activity::AfterSleep:
       return _afterSleepObservers.removeObserver(observer);
   }
+
+  return false;
 }
 
 }  // namespace core
