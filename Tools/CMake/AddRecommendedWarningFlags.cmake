@@ -38,6 +38,7 @@ AddCXXWarningIfSupported("-Wno-suggest-override"           HAVE_NO_SUGGEST_OVERR
 AddCXXWarningIfSupported("-Wno-subobject-linkage"          HAVE_NO_SUBOBJECT_LINKAGE)
 AddCXXWarningIfSupported("-Wno-unused-but-set-variable"    HAVE_NO_UNUSED_BUT_SET_VARIABLE)
 AddCXXWarningIfSupported("-Wno-misleading-indentation"     HAVE_NO_MISLEADING_INDENTATION)
+AddCXXWarningIfSupported("-Wno-odr"                        HAVE_NO_ODR)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # Work around bug with -Werror on older GCC

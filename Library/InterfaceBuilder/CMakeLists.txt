@@ -7,6 +7,9 @@
 
 StandardRadarLibrary(InterfaceBuilder)
 
+# The Flex/Bison generated sources are dodgy.
+AddCXXWarningIfSupported("-Wno-maybe-uninitialized" HAVE_NO_MAYBE_UNINITIALIZED)
+
 target_link_libraries(InterfaceBuilder
   PUBLIC
     Interface

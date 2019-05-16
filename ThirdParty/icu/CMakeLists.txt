@@ -72,6 +72,9 @@ add_library(icu_i18n
   ${ICU_I18N_SRC}
 )
 
+AddCXXWarningIfSupported("-Wno-strict-overflow"     HAVE_NO_STRICT_OVERFLOW)
+AddCXXWarningIfSupported("-Wno-maybe-uninitialized" HAVE_NO_MAYBE_UNINITIALIZED)
+
 target_include_directories(icu_i18n
   PUBLIC
     "icu/source/i18n"

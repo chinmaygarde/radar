@@ -45,7 +45,9 @@ HardenToolchain()
 
 SetRecommendedSymbolVisibility()
 
-EnableLTO()
+if(FALSE)
+  EnableLTO()
+endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
