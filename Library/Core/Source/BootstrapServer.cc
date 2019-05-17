@@ -14,15 +14,14 @@ namespace core {
 
 using PlatformBootstrapServerProvider =
 #if RL_CHANNELS == RL_CHANNELS_MACH
-    MachBootstrapServerProvider
+    MachBootstrapServerProvider;
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
-    SocketBootstrapServerProvider
+    SocketBootstrapServerProvider;
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS
-    InProcessBootstrapServerProvider
+    InProcessBootstrapServerProvider;
 #else
 #error Unknown Channels Implementation
 #endif
-    ;
 
 BootstrapServer::BootstrapServer()
     : _provider(std::make_unique<PlatformBootstrapServerProvider>()) {}

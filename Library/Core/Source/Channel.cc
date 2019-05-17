@@ -17,15 +17,14 @@ namespace core {
 
 using PlatformChannelProvider =
 #if RL_CHANNELS == RL_CHANNELS_MACH
-    MachChannel
+    MachChannel;
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
-    SocketChannel
+    SocketChannel;
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS
-    InProcessChannel
+    InProcessChannel;
 #else
 #error Unknown Channels Implementation
 #endif
-    ;
 
 Channel::Channel()
     : _localNS(nullptr),

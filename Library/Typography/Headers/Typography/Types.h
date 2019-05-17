@@ -73,7 +73,7 @@ class BreakIterator;
 
 #ifndef TYPOGRAPHY_INTERNAL
 
-namespace {
+namespace {  // NOLINT
 
 struct hb_font_t;
 struct hb_face_t;

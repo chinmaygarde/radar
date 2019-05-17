@@ -13,15 +13,14 @@ namespace core {
 
 using PlatformBootstrapClientProvider =
 #if RL_CHANNELS == RL_CHANNELS_MACH
-    MachBootstrapClientProvider
+    MachBootstrapClientProvider;
 #elif RL_CHANNELS == RL_CHANNELS_SOCKET
-    SocketBootstrapClientProvider
+    SocketBootstrapClientProvider;
 #elif RL_CHANNELS == RL_CHANNELS_INPROCESS
-    InProcessBootstrapClientProvider
+    InProcessBootstrapClientProvider;
 #else
 #error Unknown Channels Implementation
 #endif
-    ;
 
 BootstrapClient::BootstrapClient()
     : _provider(std::make_unique<PlatformBootstrapClientProvider>()) {}

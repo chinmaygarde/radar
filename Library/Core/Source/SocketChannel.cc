@@ -142,7 +142,9 @@ static IOResult SocketSendMessage(SocketPair::Handle writer,
        *  We definitely need to poll for write, setup the poll structure
        */
       struct pollfd pollFd = {
-          .fd = writer, .events = POLLOUT, .revents = 0,
+          .fd = writer,
+          .events = POLLOUT,
+          .revents = 0,
       };
 
       auto timeoutMS = ToUnixTimeoutMS(timeout);
@@ -287,7 +289,8 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     }
 
     auto descCount = 0;
-    SocketPair::Handle handles[oolDescriptors];
+    std::vector<SocketPair::Handle> handles;
+    handles.resize(oolDescriptors);
 
     for (const auto& attachment : message.attachments()) {
       if (attachment == nullptr) {
@@ -310,7 +313,8 @@ IOResult SocketChannel::writeMessageSingle(const Message& message,
     cmsg->cmsg_type = SCM_RIGHTS;
     cmsg->cmsg_len = static_cast<socklen_t>(
         CMSG_LEN(oolDescriptors * sizeof(SocketPair::Handle)));
-    memcpy(CMSG_DATA(cmsg), handles, sizeof(handles));
+    memcpy(CMSG_DATA(cmsg), handles.data(),
+           handles.size() * sizeof(SocketPair::Handle));
   }
 
   const auto expectedSendSize =
@@ -357,7 +361,9 @@ static RecvResult SocketChannelRecvMsg(int handle,
        *  Poll on the socket for the given timeout
        */
       struct pollfd pollFd = {
-          .fd = handle, .events = POLLIN, .revents = 0,
+          .fd = handle,
+          .events = POLLIN,
+          .revents = 0,
       };
 
       auto timeoutMS = ToUnixTimeoutMS(timeout);

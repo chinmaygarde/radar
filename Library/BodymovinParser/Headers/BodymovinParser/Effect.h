@@ -43,7 +43,7 @@ class Effect {
 
   const std::string& matchName() const { return _matchName; }
 
-  const std::string& name() const { return _name; };
+  const std::string& name() const { return _name; }
 
   const std::unique_ptr<ValueBase>& value() const { return _value; }
 

@@ -9,7 +9,7 @@
 static size_t GDestructions = 0;
 
 struct CustomIntHandleTraits {
-  static int NullHandle() { return -1; };
+  static int NullHandle() { return -1; }
   static bool IsValid(int handle) { return handle >= 0; }
   static bool CollectHandle(int handle) {
     GDestructions++;

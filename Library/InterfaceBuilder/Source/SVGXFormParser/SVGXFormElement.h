@@ -38,7 +38,7 @@ class SVGXFormMatrix {
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
             // clang-format on
-            ) {}
+        ) {}
 
   geom::Matrix effectiveTransformation() const { return _matrix; }
 
@@ -113,7 +113,6 @@ class SVGXFormSkewX {
         ::tan(_skew), 1.0, 0.0, 0.0,  //
         0.0,          0.0, 1.0, 0.0,  //
         0.0,          0.0, 0.0, 1.0,  //
-
     };
   }
 

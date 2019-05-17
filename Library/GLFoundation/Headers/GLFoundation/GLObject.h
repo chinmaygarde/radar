@@ -12,7 +12,7 @@ namespace rl {
 namespace gl {
 
 struct GLFramebufferTraits {
-  static GLuint NullHandle() { return GL_NONE; };
+  static GLuint NullHandle() { return GL_NONE; }
   static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
   static bool CollectHandle(GLuint handle) {
     ::glDeleteFramebuffers(1, &handle);
@@ -21,7 +21,7 @@ struct GLFramebufferTraits {
 };
 
 struct GLRenderbufferTraits {
-  static GLuint NullHandle() { return GL_NONE; };
+  static GLuint NullHandle() { return GL_NONE; }
   static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
   static bool CollectHandle(GLuint handle) {
     ::glDeleteRenderbuffers(1, &handle);
@@ -30,7 +30,7 @@ struct GLRenderbufferTraits {
 };
 
 struct GLTextureTraits {
-  static GLuint NullHandle() { return GL_NONE; };
+  static GLuint NullHandle() { return GL_NONE; }
   static bool IsValid(GLuint handle) { return handle >= GL_NONE; }
   static bool CollectHandle(GLuint handle) {
     ::glDeleteTextures(1, &handle);

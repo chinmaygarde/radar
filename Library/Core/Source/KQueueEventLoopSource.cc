@@ -46,11 +46,10 @@ void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,
 std::shared_ptr<EventLoopSource> EventLoopSource::Timer(
     ClockDurationNano repeatInterval) {
   WaitSetUpdateHandler updateHandler = [repeatInterval](
-      EventLoopSource& source,  //
-      WaitSet& waitset,         //
-      Handle readHandle,        //
-      bool adding) {
-
+                                           EventLoopSource& source,  //
+                                           WaitSet& waitset,         //
+                                           Handle readHandle,        //
+                                           bool adding) {
     KEventInvoke(HANDLE_CAST(waitset.handle()), /* queue */
                  readHandle,                    /* ident */
                  EVFILT_TIMER,                  /* filter */

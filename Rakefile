@@ -53,8 +53,21 @@ def call_system_check(command)
   end
 end
 
+def filter_generated(files)
+  generated = [
+    "Lexer.h",
+    "Lexer.cc",
+    "Parser.h",
+    "Parser.cc",
+  ]
+
+  files.delete_if do |file|
+    file.end_with?(*generated)
+  end
+end
+
 def all_sources
-  header_files + source_files
+  filter_generated(header_files + source_files)
 end
 
 def header_files
@@ -62,7 +75,7 @@ def header_files
 end
 
 def source_files
-  Dir["{#{source_folders.join(',')}}/**/*.{c,cc,cpp,c++,mm,m}"]
+  Dir["{#{source_folders.join(',')}}/**/*.{c,cc,cpp}"]
 end
 
 def source_folders

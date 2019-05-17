@@ -6,8 +6,10 @@
 #pragma once
 
 #include <Core/Macros.h>
-#include <pugixml.hpp>
+
 #include <string>
+
+#include <pugixml.hpp>
 
 namespace rl {
 namespace ib {

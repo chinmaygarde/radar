@@ -156,7 +156,6 @@ TEST(SVGPathParserTest, Cubic01) {
             rl::geom::CubicPathComponent expected({100, 200}, {100, 100},
                                                   {250, 100}, {250, 200});
             ASSERT_EQ(cubic, expected);
-
           } break;
           case 1: {
             rl::geom::CubicPathComponent expected({250, 200}, {250, 300},
@@ -191,7 +190,6 @@ TEST(SVGPathParserTest, Quad01) {
             rl::geom::QuadraticPathComponent expected({200, 300}, {400, 50},
                                                       {600, 300});
             ASSERT_EQ(quad, expected);
-
           } break;
           case 1: {
             rl::geom::QuadraticPathComponent expected({600, 300}, {800, 550},

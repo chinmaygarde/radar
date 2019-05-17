@@ -14,7 +14,7 @@ TEST(SharedMemoryTest, SimpleInitialization) {
   rl::core::SharedMemory memory(1024);
 
   ASSERT_TRUE(memory.isReady());
-  ASSERT_TRUE(memory.size() == 1024);
+  ASSERT_EQ(memory.size(), 1024u);
 }
 
 #endif  // RL_SHMEM != RL_SHMEM_DISABLED

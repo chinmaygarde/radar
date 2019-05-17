@@ -17,15 +17,14 @@ namespace core {
 
 using PlatformWaitSetProvider =
 #if RL_WAITSET == RL_WAITSET_KQUEUE
-    KQueueWaitSet
+    KQueueWaitSet;
 #elif RL_WAITSET == RL_WAITSET_EPOLL
-    EPollWaitSet
+    EPollWaitSet;
 #elif RL_WAITSET == RL_WAITSET_INPROCESS
-    InProcessWaitSet
+    InProcessWaitSet;
 #else
 #error Unknown WaitSet Implementation
 #endif
-    ;
 
 WaitSet::WaitSet() : _provider(std::make_unique<PlatformWaitSetProvider>()) {}
 

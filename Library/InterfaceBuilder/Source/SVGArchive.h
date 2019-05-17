@@ -7,8 +7,10 @@
 
 #include <Core/Macros.h>
 #include <InterfaceBuilder/InterfaceBuilderArchive.h>
-#include <pugixml.hpp>
+
 #include <unordered_map>
+
+#include <pugixml.hpp>
 
 namespace rl {
 namespace ib {

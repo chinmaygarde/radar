@@ -47,7 +47,7 @@ TEST(MessageTest, SimpleDecode) {
   rl::core::Message decoder(message.data(), message.size(), false);
 
   ASSERT_TRUE(decoder.decode(val, nullptr));
-  ASSERT_TRUE(val == 40);
+  ASSERT_EQ(val, 40u);
 }
 
 TEST(MessageTest, MutltipleDecode) {
@@ -81,11 +81,11 @@ TEST(MessageTest, MutltipleDecode) {
 
   ASSERT_FALSE(decoder.decode(val, nullptr));
 
-  ASSERT_TRUE(val == 40);
-  ASSERT_TRUE(foo == true);
-  ASSERT_TRUE(a == 3.0f);
-  ASSERT_TRUE(b == 20.0);
-  ASSERT_TRUE(c == 'c');
+  ASSERT_EQ(val, 40u);
+  ASSERT_TRUE(foo);
+  ASSERT_EQ(a, 3.0f);
+  ASSERT_EQ(b, 20.0);
+  ASSERT_EQ(c, 'c');
 }
 
 TEST(MessageTest, EncodeAttachment) {

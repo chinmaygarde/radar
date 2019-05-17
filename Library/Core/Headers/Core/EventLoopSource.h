@@ -33,7 +33,7 @@ class EventLoopSource {
     Handle writeHandle;
 
     Handles(Handle aReadHandle, Handle aWriteHandle)
-        : readHandle(aReadHandle), writeHandle(aWriteHandle){};
+        : readHandle(aReadHandle), writeHandle(aWriteHandle) {}
   };
 
   using RWHandlesProvider = std::function<Handles(void)>;

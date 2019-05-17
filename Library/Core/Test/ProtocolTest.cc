@@ -13,7 +13,7 @@
 
 class EchoProtocol : public rl::core::Protocol {
  public:
-  EchoProtocol(bool isServer) : Protocol(isServer){};
+  EchoProtocol(bool isServer) : Protocol(isServer) {}
 
  protected:
   std::string advertisementName() const override {

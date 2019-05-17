@@ -53,7 +53,6 @@ TEST(EventLoopTest, SimpleLoop) {
 
 TEST_SLOW(EventLoopTest, Timer) {
   std::thread timerThread([&] {
-
     auto loop = rl::core::EventLoop::Current();
 
     rl::core::Clock clock;
@@ -76,7 +75,6 @@ TEST_SLOW(EventLoopTest, Timer) {
     loop->addSource(timer);
 
     loop->loop();
-
   });
 
   timerThread.join();
@@ -86,14 +84,12 @@ TEST_SLOW(EventLoopTest, TimerRepetition) {
   int count = 0;
 
   std::thread timerThread([&count] {
-
     auto loop = rl::core::EventLoop::Current();
 
     auto timer =
         rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(1));
 
     timer->setWakeFunction([&count, loop](rl::core::IOResult cause) {
-
       count++;
 
       if (count == 5) {
@@ -104,12 +100,11 @@ TEST_SLOW(EventLoopTest, TimerRepetition) {
     loop->addSource(timer);
 
     loop->loop();
-
   });
 
   timerThread.join();
 
-  ASSERT_TRUE(count == 5);
+  ASSERT_EQ(count, 5u);
 }
 
 TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
@@ -142,5 +137,5 @@ TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
     loop->loop();
   });
   trivialThread.join();
-  ASSERT_TRUE(count == 1);
+  ASSERT_EQ(count, 1u);
 }

@@ -14,7 +14,7 @@ class Sample : public rl::core::ArchiveSerializable {
  public:
   Sample(uint64_t count = 42) : _someData(count), _name(++LastSample) {}
 
-  uint64_t someData() const { return _someData; };
+  uint64_t someData() const { return _someData; }
 
   ArchiveName archiveName() const override { return _name; }
 
@@ -50,7 +50,7 @@ TEST(ArchiveTest, SimpleInitialization) {
     rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }
 
 TEST(ArchiveTest, AddStorageClass) {
@@ -59,7 +59,7 @@ TEST(ArchiveTest, AddStorageClass) {
     rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }
 
 TEST(ArchiveTest, AddData) {
@@ -70,7 +70,7 @@ TEST(ArchiveTest, AddData) {
     Sample sample;
     ASSERT_TRUE(archive.archive(sample));
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }
 
 TEST_SLOW(ArchiveTest, AddDataMultiple) {
@@ -84,7 +84,7 @@ TEST_SLOW(ArchiveTest, AddDataMultiple) {
       ASSERT_TRUE(archive.archive(sample));
     }
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }
 
 TEST_SLOW(ArchiveTest, ReadData) {
@@ -114,7 +114,7 @@ TEST_SLOW(ArchiveTest, ReadData) {
       ASSERT_EQ(values[i], sample.someData());
     }
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }
 
 /*
@@ -148,5 +148,5 @@ TEST_SLOW(ArchiveTest, ReadDataWithNames) {
       ASSERT_EQ(keys[i], sample.archiveName());
     }
   }
-  ASSERT_TRUE(::remove(name) == 0);
+  ASSERT_EQ(::remove(name), 0u);
 }

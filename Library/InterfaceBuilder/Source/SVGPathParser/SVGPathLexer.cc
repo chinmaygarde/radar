@@ -707,8 +707,8 @@ static int input(yyscan_t yyscanner);
     }                                                                       \
   }                                                                         \
                                                                             \
-/* %if-c++-only C++ definition \ */                                         \
-/* %endif */
+  /* %if-c++-only C++ definition \ */                                       \
+  /* %endif */
 
 #endif
 
@@ -861,7 +861,7 @@ YY_DECL {
 
       YY_DO_BEFORE_ACTION;
 
-    /* %% [11.0] code for yylineno update goes here */
+      /* %% [11.0] code for yylineno update goes here */
 
     do_action: /* This label is used only to access EOF actions. */
 
@@ -1383,7 +1383,7 @@ static int input(yyscan_t yyscanner)
           /* Reset buffer status. */
           RLSVGPath_restart(yyin, yyscanner);
 
-        /*FALLTHROUGH*/
+          /*FALLTHROUGH*/
 
         case EOB_ACT_END_OF_FILE: {
           if (RLSVGPath_wrap(yyscanner))
@@ -1459,7 +1459,7 @@ void RLSVGPath__switch_to_buffer(YY_BUFFER_STATE new_buffer, yyscan_t yyscanner)
    * with
    *		RLSVGPath_pop_buffer_state();
    *		RLSVGPath_push_buffer_state(new_buffer);
-*/
+   */
   RLSVGPath_ensure_buffer_stack(yyscanner);
   if (YY_CURRENT_BUFFER == new_buffer)
     return;
@@ -1723,7 +1723,7 @@ static void RLSVGPath_ensure_buffer_stack(yyscan_t yyscanner)
     /* First allocation is just for 2 elements, since we don't know if this
      * scanner will even need a stack. We use 2 instead of 1 to avoid an
      * immediate realloc on the next call.
-*/
+     */
     num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
     yyg->yy_buffer_stack = (struct yy_buffer_state**)RLSVGPath_alloc(
         num_to_alloc * sizeof(struct yy_buffer_state*), yyscanner);

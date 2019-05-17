@@ -354,29 +354,27 @@ class TransformShape : public Shape {
 
   void setAnchorPoint(std::unique_ptr<ValueBase> anchorPoint) {
     _anchorPoint = std::move(anchorPoint);
-  };
+  }
 
   void setPosition(std::unique_ptr<ValueBase> position) {
     _position = std::move(position);
-  };
+  }
 
-  void setScale(std::unique_ptr<ValueBase> scale) {
-    _scale = std::move(scale);
-  };
+  void setScale(std::unique_ptr<ValueBase> scale) { _scale = std::move(scale); }
 
   void setRotation(std::unique_ptr<ValueBase> rotation) {
     _rotation = std::move(rotation);
-  };
+  }
 
   void setOpacity(std::unique_ptr<ValueBase> opacity) {
     _opacity = std::move(opacity);
-  };
+  }
 
-  void setSkew(std::unique_ptr<ValueBase> skew) { _skew = std::move(skew); };
+  void setSkew(std::unique_ptr<ValueBase> skew) { _skew = std::move(skew); }
 
   void setSkewAxis(std::unique_ptr<ValueBase> skewAxis) {
     _skewAxis = std::move(skewAxis);
-  };
+  }
 
  private:
   std::unique_ptr<ValueBase> _anchorPoint;

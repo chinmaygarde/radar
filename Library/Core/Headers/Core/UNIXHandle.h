@@ -12,7 +12,7 @@ namespace rl {
 namespace core {
 
 struct UNIXHandleTraits {
-  static int NullHandle() { return -1; };
+  static int NullHandle() { return -1; }
 
   static bool IsValid(int handle) { return handle >= 0; }
 

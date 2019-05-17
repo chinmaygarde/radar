@@ -48,7 +48,7 @@ struct LinearPathComponent {
 
   bool operator==(const LinearPathComponent& other) const {
     return p1 == other.p1 && p2 == other.p2;
-  };
+  }
 };
 
 struct QuadraticPathComponent {

@@ -42,7 +42,6 @@ Interface::Interface(std::shared_ptr<InterfaceDelegate> delegate,
 #undef C
           // clang-format on
       }) {
-
   /*
    *  Implicit interface transactions are flushed at the maximum available
    *  priority. This is so that loop observers setup by application code can
