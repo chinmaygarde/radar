@@ -2,10 +2,17 @@
 # =======================================
 #
 # Launch using:
-# docker run --rm -it -v `pwd`:/Radar -w /Radar chinmaygarde/radar /bin/bash
+# docker run --rm -it -v `pwd`:/Radar -w /Radar chinmaygarde/radar:v2 /bin/bash
 #
+# Build new Docker image using:
+# docker build -t chinmaygarde/radar:v3 .
+#
+# Publish to Docker Hub using:
+# docker push chinmaygarde/radar:v3
+#
+# Dont forget to update the CI endpoints.
 
-FROM ubuntu:rolling
+FROM ubuntu:latest
 MAINTAINER Chinmay Garde <chinmaygarde@gmail.com>
 
 # Update dependencies.
@@ -29,7 +36,11 @@ RUN apt-get install -y       \
         ssh                  \
         unzip                \
         valgrind             \
-        wget
+        wget                 \
+        ruby-full
+
+# Install CPP Lint
+RUN pip install cpplint
 
 # Fix locale.
 RUN rm -rf /var/lib/apt/lists/*
