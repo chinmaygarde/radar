@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: chinmaygarde/radar:v2
+      - image: chinmaygarde/radar:v3
 
     steps:
       - checkout

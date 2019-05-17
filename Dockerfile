@@ -2,13 +2,13 @@
 # =======================================
 #
 # Launch using:
-# docker run --rm -it -v `pwd`:/Radar -w /Radar chinmaygarde/radar:v2 /bin/bash
+# docker run --rm -it -v `pwd`:/Radar -w /Radar chinmaygarde/radar:v3 /bin/bash
 #
 # Build new Docker image using:
-# docker build -t chinmaygarde/radar:v3 .
+# docker build -t chinmaygarde/radar:v4 .
 #
 # Publish to Docker Hub using:
-# docker push chinmaygarde/radar:v3
+# docker push chinmaygarde/radar:v4
 #
 # Dont forget to update the CI endpoints.
 
@@ -21,7 +21,6 @@ RUN apt-get update
 # Install dependencies.
 RUN apt-get install -y       \
         build-essential      \
-        ccache               \
         cmake                \
         gdb                  \
         git                  \

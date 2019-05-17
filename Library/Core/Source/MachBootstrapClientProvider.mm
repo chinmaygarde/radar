@@ -71,6 +71,6 @@ std::shared_ptr<Channel> MachBootstrapClientProvider::doAcquire(
 }  // namespace core
 }  // namespace rl
 
-#pragma clang diagnostic pop
-
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH
+
+#pragma clang diagnostic pop
