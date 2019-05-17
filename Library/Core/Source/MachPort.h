@@ -57,11 +57,15 @@ class MachPort final : public Attachment {
 
   Handle handle() const override;
 
-  static void Dereference(mach_port_name_t name, Type type);
-
  private:
+  friend class FileHandle;
+  friend class MachPayload;
+  friend class MachBootstrapClientProvider;
+
   mach_port_name_t _name;
   Type _type;
+
+  static void Dereference(mach_port_name_t name, Type type);
 
   RL_DISALLOW_COPY_AND_ASSIGN(MachPort);
 };

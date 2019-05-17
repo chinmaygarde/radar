@@ -113,7 +113,7 @@ bool MachPort::setQueueLimit(size_t limit) {
                                MACH_PORT_LIMITS_INFO,       // key
                                (mach_port_info_t)&limits,   // value
                                MACH_PORT_LIMITS_INFO_COUNT  // count
-                               );
+      );
 
   if (res != KERN_SUCCESS) {
     RL_LOG_MACHERROR(res);
