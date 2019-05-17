@@ -129,6 +129,8 @@ class RenderSurfaceMac : public coordinator::RenderSurface {
   _shell->redrawCurrentFrameNow();
 
   _renderSurface->setRejectsNonMainThreadPresents(false);
+
+  [super reshape];
 }
 
 - (void)mouseDown:(NSEvent*)theEvent {
