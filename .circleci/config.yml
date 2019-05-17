@@ -5,13 +5,6 @@ jobs:
       - image: chinmaygarde/radar:v2
 
     steps:
-      - restore_cache:
-          name: Restore Old Build Artifacts
-          keys:
-            - source-v2-{{ .Branch }}-{{ .Revision }}
-            - source-v2-{{ .Branch }}-
-            - source-v2-
-
       - checkout
 
       - run:
@@ -21,9 +14,3 @@ jobs:
       - run:
           name: Build with Ninja
           command: ninja -C /tmp/radar/build
-
-      - save_cache:
-          name: Save Build Artifacts
-          key: source-v2-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - "/tmp/radar/build"
