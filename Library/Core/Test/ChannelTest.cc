@@ -207,7 +207,7 @@ TEST(ChannelTest, TestSimpleReadContents) {
           ASSERT_TRUE(m.decode(d, nullptr));
           ASSERT_EQ(m.size(), m.sizeRead());
           ASSERT_EQ(c, 'c');
-          ASSERT_EQ(d, 222u);
+          ASSERT_EQ(d, 222);
 
           loop->terminate();
         });

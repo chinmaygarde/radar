@@ -81,7 +81,7 @@ TEST_SLOW(EventLoopTest, Timer) {
 }
 
 TEST_SLOW(EventLoopTest, TimerRepetition) {
-  int count = 0;
+  size_t count = 0;
 
   std::thread timerThread([&count] {
     auto loop = rl::core::EventLoop::Current();
@@ -108,7 +108,7 @@ TEST_SLOW(EventLoopTest, TimerRepetition) {
 }
 
 TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
-  int count = 0;
+  size_t count = 0;
   std::thread trivialThread([&count] {
     auto loop = rl::core::EventLoop::Current();
     auto trivial = rl::core::EventLoopSource::Trivial();

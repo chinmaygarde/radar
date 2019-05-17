@@ -50,7 +50,7 @@ TEST(ArchiveTest, SimpleInitialization) {
     rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
 
 TEST(ArchiveTest, AddStorageClass) {
@@ -59,7 +59,7 @@ TEST(ArchiveTest, AddStorageClass) {
     rl::core::Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
 
 TEST(ArchiveTest, AddData) {
@@ -70,7 +70,7 @@ TEST(ArchiveTest, AddData) {
     Sample sample;
     ASSERT_TRUE(archive.archive(sample));
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
 
 TEST_SLOW(ArchiveTest, AddDataMultiple) {
@@ -84,7 +84,7 @@ TEST_SLOW(ArchiveTest, AddDataMultiple) {
       ASSERT_TRUE(archive.archive(sample));
     }
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
 
 TEST_SLOW(ArchiveTest, ReadData) {
@@ -114,7 +114,7 @@ TEST_SLOW(ArchiveTest, ReadData) {
       ASSERT_EQ(values[i], sample.someData());
     }
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
 
 /*
@@ -148,5 +148,5 @@ TEST_SLOW(ArchiveTest, ReadDataWithNames) {
       ASSERT_EQ(keys[i], sample.archiveName());
     }
   }
-  ASSERT_EQ(::remove(name), 0u);
+  ASSERT_EQ(::remove(name), 0);
 }
