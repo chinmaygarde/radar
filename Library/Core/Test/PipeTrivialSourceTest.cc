@@ -3,20 +3,26 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <thread>
+
 #include <Core/EventLoop.h>
 #include <Core/Latch.h>
 #include <TestRunner/TestRunner.h>
-#include <thread>
+
 #include "PipeTrivialSource.h"
+
+namespace rl {
+namespace core {
+namespace testing {
 
 #if RL_CHANNELS != RL_CHANNELS_INPROCESS
 
 TEST(PipeTrivialSourceTest, SimpleInitialization) {
-  auto pipeSource = rl::core::MakePipeBasedTrivialSource();
-  rl::core::Latch ready(1);
+  auto pipeSource = MakePipeBasedTrivialSource();
+  Latch ready(1);
 
   std::thread thread([&]() {
-    auto loop = rl::core::EventLoop::Current();
+    auto loop = EventLoop::Current();
     loop->addSource(pipeSource);
     loop->loop([&]() { ready.countDown(); });
   });
@@ -24,14 +30,14 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
   ready.wait();
 
   auto readOnPipe = 0;
-  pipeSource->setWakeFunction([&](rl::core::IOResult) {
+  pipeSource->setWakeFunction([&](IOResult) {
     readOnPipe++;
-    rl::core::EventLoop::Current()->terminate();
+    EventLoop::Current()->terminate();
   });
 
   for (int i = 0; i < 10; i++) {
     ASSERT_EQ(pipeSource->writer()(pipeSource->handles().writeHandle),
-              rl::core::IOResult::Success);
+              IOResult::Success);
   }
 
   thread.join();
@@ -40,3 +46,7 @@ TEST(PipeTrivialSourceTest, SimpleInitialization) {
 }
 
 #endif  // RL_CHANNELS != RL_CHANNELS_INPROCESS
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

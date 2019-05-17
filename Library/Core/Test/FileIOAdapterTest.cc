@@ -7,11 +7,19 @@
 #include <Core/TempFileHandle.h>
 #include <TestRunner/TestRunner.h>
 
-TEST(FileIOAdapterTest, SimpleWrite) {
-  rl::core::FileIOAdapter adapter(rl::core::TemporaryFileCreate(false));
+namespace rl {
+namespace core {
+namespace testing {
 
-  ASSERT_TRUE(adapter.seek(rl::core::FileIOAdapter::Whence::Set, 0));
+TEST(FileIOAdapterTest, SimpleWrite) {
+  FileIOAdapter adapter(TemporaryFileCreate(false));
+
+  ASSERT_TRUE(adapter.seek(FileIOAdapter::Whence::Set, 0));
 
   const uint8_t data[] = "Hello";
   ASSERT_EQ(adapter.write(data, sizeof(data)), sizeof(data));
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

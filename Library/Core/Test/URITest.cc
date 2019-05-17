@@ -8,32 +8,36 @@
 #include <Core/Utilities.h>
 #include <TestRunner/TestRunner.h>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(URITest, Simple) {
-  rl::core::URI uri("file://hello/world.txt");
+  URI uri("file://hello/world.txt");
   ASSERT_EQ(uri.toString(), "file://hello/world.txt");
 }
 
 TEST(URITest, FileSystemRepresentation) {
-  rl::core::URI uri("file://hello/world.txt");
+  URI uri("file://hello/world.txt");
   ASSERT_EQ(uri.filesystemRepresentation(), "hello/world.txt");
 }
 
 TEST(URITest, ExecutablePath) {
-  auto exePath = rl::core::GetExecutablePath();
+  auto exePath = GetExecutablePath();
   ASSERT_TRUE(exePath.isValid());
 }
 
 TEST(URITest, AppendToURI) {
-  rl::core::URI uri("file:///one/two/three");
+  URI uri("file:///one/two/three");
 
-  rl::core::URI directory = uri.append(rl::core::URI{"../TWO"});
+  URI directory = uri.append(URI{"../TWO"});
 
   ASSERT_EQ(directory.isValid(), true);
   ASSERT_EQ(directory.toString(), "file:///one/TWO");
 }
 
 TEST(URITest, NormalizeURI) {
-  rl::core::URI uri("file:///one/../three");
+  URI uri("file:///one/../three");
 
   ASSERT_TRUE(uri.isValid());
 
@@ -43,8 +47,12 @@ TEST(URITest, NormalizeURI) {
 }
 
 TEST(URITest, SimpleBundle) {
-  rl::core::Bundle bundle;
+  Bundle bundle;
 
-  auto uri = bundle.uriForResource(rl::core::URI{"file://hello.txt"});
+  auto uri = bundle.uriForResource(URI{"file://hello.txt"});
   ASSERT_TRUE(uri.isValid());
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

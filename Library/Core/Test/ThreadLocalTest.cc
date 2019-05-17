@@ -3,16 +3,20 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <thread>
+
 #include <Core/ThreadLocal.h>
 #include <TestRunner/TestRunner.h>
 
-#if RL_THREAD_LOCAL_PTHREADS
+namespace rl {
+namespace core {
+namespace testing {
 
-#include <thread>
+#if RL_THREAD_LOCAL_PTHREADS
 
 TEST(ThreadLocalTest, SimpleInitialization) {
   std::thread thread([&] {
-    rl::core::ThreadLocal local;
+    ThreadLocal local;
     const size_t value = 100;
     local.set(value);
     ASSERT_EQ(local.get(), value);
@@ -23,7 +27,7 @@ TEST(ThreadLocalTest, SimpleInitialization) {
 TEST(ThreadLocalTest, DestroyCallback) {
   std::thread thread([&] {
     size_t destroys = 0;
-    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+    ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
     const size_t value = 100;
     local.set(value);
@@ -36,7 +40,7 @@ TEST(ThreadLocalTest, DestroyCallback) {
 TEST(ThreadLocalTest, DestroyCallback2) {
   std::thread thread([&] {
     size_t destroys = 0;
-    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+    ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
     local.set(100);
     ASSERT_EQ(local.get(), 100u);
@@ -51,7 +55,7 @@ TEST(ThreadLocalTest, DestroyCallback2) {
 TEST(ThreadLocalTest, DestroyThreadTimeline) {
   std::thread thread([&] {
     size_t destroys = 0;
-    rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+    ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
     std::thread thread([&]() {
       local.set(100);
@@ -73,7 +77,7 @@ TEST(ThreadLocalTest, SettingSameValue) {
   std::thread thread([&] {
     size_t destroys = 0;
     {
-      rl::core::ThreadLocal local([&destroys](uintptr_t) { destroys++; });
+      ThreadLocal local([&destroys](uintptr_t) { destroys++; });
 
       local.set(100);
       ASSERT_EQ(destroys, 0u);
@@ -95,3 +99,7 @@ TEST(ThreadLocalTest, SettingSameValue) {
 }
 
 #endif  // RL_THREAD_LOCAL_PTHREADS
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

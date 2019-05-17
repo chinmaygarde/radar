@@ -3,12 +3,17 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Core/WorkQueue.h>
-#include <TestRunner/TestRunner.h>
 #include <atomic>
 
+#include <Core/WorkQueue.h>
+#include <TestRunner/TestRunner.h>
+
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(WorkQueue, SimpleInitialization) {
-  rl::core::WorkQueue queue;
+  WorkQueue queue;
   ASSERT_GE(queue.workerCount(), 0u);
 }
 
@@ -17,7 +22,7 @@ TEST_SLOW(WorkQueue, SimpleWork) {
   std::atomic<int> count(0);
 
   {
-    rl::core::WorkQueue queue;
+    WorkQueue queue;
     ASSERT_GE(queue.workerCount(), 0u);
 
     for (int i = 0; i < size; i++) {
@@ -27,3 +32,7 @@ TEST_SLOW(WorkQueue, SimpleWork) {
 
   ASSERT_EQ(size, count.load());
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

@@ -7,8 +7,12 @@
 #include <Core/Message.h>
 #include <TestRunner/TestRunner.h>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(MessageTest, SimpleEncode) {
-  rl::core::Message message;
+  Message message;
 
   ASSERT_TRUE(message.encode(30.0));
 
@@ -16,7 +20,7 @@ TEST(MessageTest, SimpleEncode) {
 }
 
 TEST(MessageTest, MultipleEncode) {
-  rl::core::Message message;
+  Message message;
 
   size_t s = 0;
   ASSERT_TRUE(message.encode(30.0));
@@ -36,7 +40,7 @@ TEST(MessageTest, MultipleEncode) {
 }
 
 TEST(MessageTest, SimpleDecode) {
-  rl::core::Message message;
+  Message message;
 
   uint32_t val = 40;
 
@@ -44,14 +48,14 @@ TEST(MessageTest, SimpleDecode) {
 
   val = 222;
 
-  rl::core::Message decoder(message.data(), message.size(), false);
+  Message decoder(message.data(), message.size(), false);
 
   ASSERT_TRUE(decoder.decode(val, nullptr));
   ASSERT_EQ(val, 40u);
 }
 
 TEST(MessageTest, MutltipleDecode) {
-  rl::core::Message message;
+  Message message;
 
   uint32_t val = 40;
   bool foo = true;
@@ -71,7 +75,7 @@ TEST(MessageTest, MutltipleDecode) {
   b = 0.0;
   c = 'd';
 
-  rl::core::Message decoder(message.data(), message.size(), false);
+  Message decoder(message.data(), message.size(), false);
 
   ASSERT_TRUE(decoder.decode(val, nullptr));
   ASSERT_TRUE(decoder.decode(foo, nullptr));
@@ -89,47 +93,46 @@ TEST(MessageTest, MutltipleDecode) {
 }
 
 TEST(MessageTest, EncodeAttachment) {
-  rl::core::Channel channel;
+  Channel channel;
 
-  rl::core::Message message;
+  Message message;
 
   ASSERT_EQ(message.encode(channel.attachment()), true);
 }
 
 TEST(MessageTest, EncodeMultipleValidAttachment) {
-  rl::core::Message message;
+  Message message;
 
   for (size_t i = 0; i < 10; i++) {
-    rl::core::Channel channel;
+    Channel channel;
     ASSERT_EQ(message.encode(channel.attachment()), true);
   }
 }
 
 TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
-  rl::core::Message message;
+  Message message;
 
   const size_t count = 16;
 
-  std::vector<std::unique_ptr<rl::core::Channel>> channels;
+  std::vector<std::unique_ptr<Channel>> channels;
 
   for (size_t i = 0; i < count; i++) {
-    channels.emplace_back(std::make_unique<rl::core::Channel>());
+    channels.emplace_back(std::make_unique<Channel>());
   }
 
   for (const auto& channel : channels) {
     ASSERT_EQ(message.encode(channel->attachment()), true);
   }
 
-  rl::core::Channel pipe;
+  Channel pipe;
 
-  rl::core::Messages messages;
+  Messages messages;
 
   messages.emplace_back(std::move(message));
 
-  ASSERT_EQ(pipe.sendMessages(std::move(messages)),
-            rl::core::IOResult::Success);
+  ASSERT_EQ(pipe.sendMessages(std::move(messages)), IOResult::Success);
 
-  auto messagesRead = pipe.drainPendingMessages(rl::core::ClockDurationNano{0});
+  auto messagesRead = pipe.drainPendingMessages(ClockDurationNano{0});
 
   ASSERT_EQ(messagesRead.size(), 1u);
 
@@ -138,17 +141,17 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
   size_t initialRead = 0;
 
   for (size_t i = 0; i < count / 2; i++) {
-    rl::core::RawAttachment attachment;
+    RawAttachment attachment;
     ASSERT_EQ(messageRead.decode(attachment), true);
-    rl::core::Channel consumer(std::move(attachment));
+    Channel consumer(std::move(attachment));
     initialRead++;
   }
 
   size_t secondaryRead = 0;
   while (true) {
-    rl::core::RawAttachment attachment;
+    RawAttachment attachment;
     if (messageRead.decode(attachment)) {
-      rl::core::Channel consumer(std::move(attachment));
+      Channel consumer(std::move(attachment));
       secondaryRead++;
       continue;
     }
@@ -157,3 +160,7 @@ TEST(MessageTest, EncodeDecodeMultipleValidAttachment) {
 
   ASSERT_EQ(initialRead, secondaryRead);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

@@ -3,14 +3,19 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Core/Archive.h>
-#include <TestRunner/TestRunner.h>
 #include <cstdio>
 #include <thread>
 
-static rl::core::ArchiveSerializable::ArchiveName LastSample = 0;
+#include <Core/Archive.h>
+#include <TestRunner/TestRunner.h>
 
-class Sample : public rl::core::ArchiveSerializable {
+namespace rl {
+namespace core {
+namespace testing {
+
+static ArchiveSerializable::ArchiveName LastSample = 0;
+
+class Sample : public ArchiveSerializable {
  public:
   Sample(uint64_t count = 42) : _someData(count), _name(++LastSample) {}
 
@@ -18,17 +23,16 @@ class Sample : public rl::core::ArchiveSerializable {
 
   ArchiveName archiveName() const override { return _name; }
 
-  bool serialize(rl::core::ArchiveItem& item) const override {
+  bool serialize(ArchiveItem& item) const override {
     return item.encode(999, _someData);
   };
 
-  bool deserialize(rl::core::ArchiveItem& item,
-                   rl::core::Namespace* ns) override {
+  bool deserialize(ArchiveItem& item, Namespace* ns) override {
     _name = item.name();
     return item.decode(999, _someData);
   };
 
-  static const rl::core::ArchiveDef ArchiveDefinition;
+  static const ArchiveDef ArchiveDefinition;
 
  private:
   uint64_t _someData;
@@ -37,7 +41,7 @@ class Sample : public rl::core::ArchiveSerializable {
   RL_DISALLOW_COPY_AND_ASSIGN(Sample);
 };
 
-const rl::core::ArchiveDef Sample::ArchiveDefinition = {
+const ArchiveDef Sample::ArchiveDefinition = {
     .superClass = nullptr,
     .className = "Sample",
     .autoAssignName = false,
@@ -47,7 +51,7 @@ const rl::core::ArchiveDef Sample::ArchiveDefinition = {
 TEST(ArchiveTest, SimpleInitialization) {
   auto name = "/tmp/sample.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
   ASSERT_EQ(::remove(name), 0);
@@ -56,7 +60,7 @@ TEST(ArchiveTest, SimpleInitialization) {
 TEST(ArchiveTest, AddStorageClass) {
   auto name = "/tmp/sample2.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
   }
   ASSERT_EQ(::remove(name), 0);
@@ -65,7 +69,7 @@ TEST(ArchiveTest, AddStorageClass) {
 TEST(ArchiveTest, AddData) {
   auto name = "/tmp/sample3.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
     Sample sample;
     ASSERT_TRUE(archive.archive(sample));
@@ -76,7 +80,7 @@ TEST(ArchiveTest, AddData) {
 TEST_SLOW(ArchiveTest, AddDataMultiple) {
   auto name = "/tmp/sample4.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     for (size_t i = 0; i < 100; i++) {
@@ -90,12 +94,12 @@ TEST_SLOW(ArchiveTest, AddDataMultiple) {
 TEST_SLOW(ArchiveTest, ReadData) {
   auto name = "/tmp/sample5.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     size_t count = 50;
 
-    std::vector<rl::core::ArchiveSerializable::ArchiveName> keys;
+    std::vector<ArchiveSerializable::ArchiveName> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);
@@ -123,12 +127,12 @@ TEST_SLOW(ArchiveTest, ReadData) {
 TEST_SLOW(ArchiveTest, ReadDataWithNames) {
   auto name = "/tmp/sample6.db";
   {
-    rl::core::Archive archive(name, true);
+    Archive archive(name, true);
     ASSERT_TRUE(archive.isReady());
 
     size_t count = 8;
 
-    std::vector<rl::core::ArchiveSerializable::ArchiveName> keys;
+    std::vector<ArchiveSerializable::ArchiveName> keys;
     std::vector<uint64_t> values;
 
     keys.reserve(count);
@@ -150,3 +154,7 @@ TEST_SLOW(ArchiveTest, ReadDataWithNames) {
   }
   ASSERT_EQ(::remove(name), 0);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

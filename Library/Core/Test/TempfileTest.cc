@@ -6,12 +6,20 @@
 #include <Core/TempFileHandle.h>
 #include <TestRunner/TestRunner.h>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(TempFileTest, TempFileCreate) {
-  auto handle = rl::core::TemporaryFileCreate();
+  auto handle = TemporaryFileCreate();
   ASSERT_TRUE(handle.isValid());
 }
 
 TEST(TempFileTest, TempDirectoryGet) {
-  auto uri = rl::core::TemporaryFileDirectory();
+  auto uri = TemporaryFileDirectory();
   ASSERT_TRUE(uri.isValid());
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

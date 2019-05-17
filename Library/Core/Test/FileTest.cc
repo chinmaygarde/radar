@@ -8,61 +8,66 @@
 #include <TestRunner/TestRunner.h>
 #include <thread>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(FileTest, SimpleFail) {
-  rl::core::File file(std::string{"file://no/such/file/exists.txt"});
+  File file(std::string{"file://no/such/file/exists.txt"});
   ASSERT_FALSE(file.isValid());
 }
 
 TEST(FileTest, SimpleSuccess) {
-  rl::core::File file(std::string{"file://Hello.txt"});
+  File file(std::string{"file://Hello.txt"});
   ASSERT_TRUE(file.isValid());
 }
 
 TEST(FileTest, TestFileSendsOverChannel) {
-  rl::core::Channel channel;
+  Channel channel;
 
   std::thread thread([&]() {
-    auto loop = rl::core::EventLoop::Current();
+    auto loop = EventLoop::Current();
 
     auto source = channel.source();
 
-    channel.setMessageCallback(
-        [&](rl::core::Message message, rl::core::Namespace*) {
-          rl::core::RawAttachment attachment;
+    channel.setMessageCallback([&](Message message, Namespace*) {
+      RawAttachment attachment;
 
-          ASSERT_TRUE(message.decode(attachment));
+      ASSERT_TRUE(message.decode(attachment));
 
-          rl::core::FileHandle fileHandle(std::move(attachment));
+      FileHandle fileHandle(std::move(attachment));
 
-          ASSERT_TRUE(fileHandle.isValid());
+      ASSERT_TRUE(fileHandle.isValid());
 
-          rl::core::FileMapping mapping(fileHandle);
+      FileMapping mapping(fileHandle);
 
-          ASSERT_EQ(mapping.size(), 13u);
+      ASSERT_EQ(mapping.size(), 13u);
 
-          rl::core::EventLoop::Current()->terminate();
-        });
+      EventLoop::Current()->terminate();
+    });
 
     ASSERT_TRUE(loop->addSource(source));
 
     loop->loop();
   });
 
-  auto file =
-      std::make_shared<rl::core::FileHandle>(std::string{"file://Hello.txt"});
+  auto file = std::make_shared<FileHandle>(std::string{"file://Hello.txt"});
 
   ASSERT_TRUE(file->isValid());
 
-  rl::core::Messages messages;
+  Messages messages;
 
-  rl::core::Message message;
+  Message message;
 
   ASSERT_TRUE(message.encode(std::move(file)));
 
   messages.emplace_back(std::move(message));
 
-  ASSERT_EQ(channel.sendMessages(std::move(messages)),
-            rl::core::IOResult::Success);
+  ASSERT_EQ(channel.sendMessages(std::move(messages)), IOResult::Success);
 
   thread.join();
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

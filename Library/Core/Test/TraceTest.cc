@@ -3,14 +3,19 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <sstream>
+#include <thread>
+
 #include <Core/Macros.h>
 #include <Core/Trace.h>
 #include <Core/TraceEvent.h>
 #include <TestRunner/TestRunner.h>
-#include <sstream>
-#include <thread>
 
-using Event = rl::instrumentation::TraceEvent;
+namespace rl {
+namespace core {
+namespace testing {
+
+using Event = instrumentation::TraceEvent;
 
 TEST(TraceTest, SimpleTraceCapture) {
   Event::MarkDurationBegin(Event::Category::Default, "trace");
@@ -25,7 +30,7 @@ TEST(TraceTest, SimpleTraceCapture) {
   Event::MarkCounter(Event::Category::Default, "counter4", 2);
   Event::MarkDurationEnd(Event::Category::Default, "trace");
 
-  auto& trace = rl::instrumentation::ProcessTrace::Current();
+  auto& trace = instrumentation::ProcessTrace::Current();
   std::stringstream stream;
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0u);
@@ -47,8 +52,12 @@ TEST(TraceTest, TraceUsingMacros) {
     }
   }
 
-  auto& trace = rl::instrumentation::ProcessTrace::Current();
+  auto& trace = instrumentation::ProcessTrace::Current();
   std::stringstream stream;
   trace.recordToStream(stream);
   ASSERT_GE(stream.str().size(), 0u);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

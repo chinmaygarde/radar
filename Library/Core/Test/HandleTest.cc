@@ -6,6 +6,10 @@
 #include <Core/Handle.h>
 #include <TestRunner/TestRunner.h>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 static size_t GDestructions = 0;
 
 struct CustomIntHandleTraits {
@@ -17,7 +21,7 @@ struct CustomIntHandleTraits {
   }
 };
 
-using CustomIntHandle = rl::core::Handle<int, CustomIntHandleTraits>;
+using CustomIntHandle = Handle<int, CustomIntHandleTraits>;
 
 TEST(HandleTest, SimpleValidity) {
   size_t destructions = GDestructions;
@@ -107,3 +111,7 @@ TEST(HandleTest, Equality) {
   }
   ASSERT_EQ(GDestructions, destructions + 3);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

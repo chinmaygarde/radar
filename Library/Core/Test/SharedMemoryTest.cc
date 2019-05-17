@@ -5,10 +5,14 @@
 
 #include "Config.h"
 
-#if RL_SHMEM != RL_SHMEM_DISABLED
-
 #include <Core/SharedMemory.h>
 #include <TestRunner/TestRunner.h>
+
+namespace rl {
+namespace core {
+namespace testing {
+
+#if RL_SHMEM != RL_SHMEM_DISABLED
 
 TEST(SharedMemoryTest, SimpleInitialization) {
   rl::core::SharedMemory memory(1024);
@@ -18,3 +22,7 @@ TEST(SharedMemoryTest, SimpleInitialization) {
 }
 
 #endif  // RL_SHMEM != RL_SHMEM_DISABLED
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

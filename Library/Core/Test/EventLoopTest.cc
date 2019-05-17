@@ -7,17 +7,21 @@
 #include <TestRunner/TestRunner.h>
 #include <thread>
 
+namespace rl {
+namespace core {
+namespace testing {
+
 TEST(EventLoopTest, CurrentEventLoopAccess) {
-  auto loop = rl::core::EventLoop::Current();
+  auto loop = EventLoop::Current();
   ASSERT_TRUE(loop != nullptr);
-  ASSERT_TRUE(rl::core::EventLoop::Current() == loop);
+  ASSERT_TRUE(EventLoop::Current() == loop);
 }
 
 TEST(EventLoopTest, EventLoopOnAnotherThread) {
-  rl::core::EventLoop* loop1 = rl::core::EventLoop::Current();
-  rl::core::EventLoop* loop2 = nullptr;
+  EventLoop* loop1 = EventLoop::Current();
+  EventLoop* loop2 = nullptr;
 
-  std::thread thread([&] { loop2 = rl::core::EventLoop::Current(); });
+  std::thread thread([&] { loop2 = EventLoop::Current(); });
 
   thread.join();
 
@@ -26,12 +30,12 @@ TEST(EventLoopTest, EventLoopOnAnotherThread) {
 
 TEST(EventLoopTest, SimpleLoop) {
   std::thread thread([&] {
-    auto outer = rl::core::EventLoop::Current();
+    auto outer = EventLoop::Current();
 
     bool terminatedFromInner = false;
 
     std::thread innerThread([&] {
-      std::this_thread::sleep_for(rl::core::ClockDurationMilli(1));
+      std::this_thread::sleep_for(ClockDurationMilli(1));
       terminatedFromInner = true;
       outer->terminate();
       ASSERT_TRUE(true);
@@ -53,22 +57,21 @@ TEST(EventLoopTest, SimpleLoop) {
 
 TEST_SLOW(EventLoopTest, Timer) {
   std::thread timerThread([&] {
-    auto loop = rl::core::EventLoop::Current();
+    auto loop = EventLoop::Current();
 
-    rl::core::Clock clock;
+    Clock clock;
 
     const auto start = clock.now();
 
-    auto timer =
-        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
+    auto timer = EventLoopSource::Timer(ClockDurationMilli(5));
 
     /*
      *  This test is extremely brittle :/
      */
-    timer->setWakeFunction([&](rl::core::IOResult cause) {
-      auto duration = std::chrono::duration_cast<rl::core::ClockDurationMilli>(
-          clock.now() - start);
-      rl::core::EventLoop::Current()->terminate();
+    timer->setWakeFunction([&](IOResult cause) {
+      auto duration =
+          std::chrono::duration_cast<ClockDurationMilli>(clock.now() - start);
+      EventLoop::Current()->terminate();
       ASSERT_TRUE(duration.count() >= 4 && duration.count() <= 6);
     });
 
@@ -84,12 +87,11 @@ TEST_SLOW(EventLoopTest, TimerRepetition) {
   size_t count = 0;
 
   std::thread timerThread([&count] {
-    auto loop = rl::core::EventLoop::Current();
+    auto loop = EventLoop::Current();
 
-    auto timer =
-        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(1));
+    auto timer = EventLoopSource::Timer(ClockDurationMilli(1));
 
-    timer->setWakeFunction([&count, loop](rl::core::IOResult cause) {
+    timer->setWakeFunction([&count, loop](IOResult cause) {
       count++;
 
       if (count == 5) {
@@ -110,9 +112,9 @@ TEST_SLOW(EventLoopTest, TimerRepetition) {
 TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
   size_t count = 0;
   std::thread trivialThread([&count] {
-    auto loop = rl::core::EventLoop::Current();
-    auto trivial = rl::core::EventLoopSource::Trivial();
-    trivial->setWakeFunction([&count](rl::core::IOResult cause) { count++; });
+    auto loop = EventLoop::Current();
+    auto trivial = EventLoopSource::Trivial();
+    trivial->setWakeFunction([&count](IOResult cause) { count++; });
 
     /**
      *  Fire the trivial source multiple times. We need to assert that the
@@ -125,12 +127,10 @@ TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
     trivial->writer()(trivial->handles().writeHandle);
     trivial->writer()(trivial->handles().writeHandle);
 
-    auto timer =
-        rl::core::EventLoopSource::Timer(rl::core::ClockDurationMilli(5));
+    auto timer = EventLoopSource::Timer(ClockDurationMilli(5));
 
-    timer->setWakeFunction([](rl::core::IOResult cause) {
-      rl::core::EventLoop::Current()->terminate();
-    });
+    timer->setWakeFunction(
+        [](IOResult cause) { EventLoop::Current()->terminate(); });
 
     loop->addSource(trivial);
     loop->addSource(timer);
@@ -139,3 +139,7 @@ TEST_SLOW(EventLoopTest, TrivialTriggerFiresOnces) {
   trivialThread.join();
   ASSERT_EQ(count, 1u);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

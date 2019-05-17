@@ -3,15 +3,20 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <thread>
+
 #include <Core/Channel.h>
 #include <Core/Latch.h>
 #include <Core/Macros.h>
 #include <Core/Protocol.h>
 #include <Core/Thread.h>
 #include <TestRunner/TestRunner.h>
-#include <thread>
 
-class EchoProtocol : public rl::core::Protocol {
+namespace rl {
+namespace core {
+namespace testing {
+
+class EchoProtocol : public Protocol {
  public:
   EchoProtocol(bool isServer) : Protocol(isServer) {}
 
@@ -20,41 +25,39 @@ class EchoProtocol : public rl::core::Protocol {
     return "rl.test.protocoltest.echo";
   }
 
-  void onRequest(rl::core::Message requestMessage,
-                 std::unique_ptr<rl::core::Channel> replyChannel,
-                 rl::core::ProtocolPayloadIdentifier identifier) override {
+  void onRequest(Message requestMessage,
+                 std::unique_ptr<Channel> replyChannel,
+                 ProtocolPayloadIdentifier identifier) override {
     /*
      *  The sender sends nothing
      */
     RL_ASSERT(requestMessage.readCompleted());
 
     fulfillRequest(identifier, std::move(replyChannel),
-                   [](rl::core::Message& responseMessage) {
+                   [](Message& responseMessage) {
                      std::string echo = "echo";
                      return responseMessage.encode(echo);
                    });
   }
 
-  bool populateRequestPayload(rl::core::Message& message) override {
-    return true;
-  }
+  bool populateRequestPayload(Message& message) override { return true; }
 
  private:
   RL_DISALLOW_COPY_AND_ASSIGN(EchoProtocol);
 };
 
 TEST(Protocol, SimpleEcho) {
-  auto serverTermination = rl::core::EventLoopSource::Trivial();
-  serverTermination->setWakeFunction([&](rl::core::IOResult res) {
-    ASSERT_EQ(res, rl::core::IOResult::Success);
-    rl::core::EventLoop::Current()->terminate();
+  auto serverTermination = EventLoopSource::Trivial();
+  serverTermination->setWakeFunction([&](IOResult res) {
+    ASSERT_EQ(res, IOResult::Success);
+    EventLoop::Current()->terminate();
   });
 
-  rl::core::Latch serverLatch(1);
+  Latch serverLatch(1);
 
   auto server = std::thread([&]() {
-    rl::core::thread::SetName("server");
-    auto loop = rl::core::EventLoop::Current();
+    thread::SetName("server");
+    auto loop = EventLoop::Current();
     EchoProtocol echoServer(true);
     loop->addSource(echoServer.source());
     loop->addSource(serverTermination);
@@ -62,8 +65,8 @@ TEST(Protocol, SimpleEcho) {
   });
 
   auto client = std::thread([&]() {
-    rl::core::thread::SetName("client");
-    auto loop = rl::core::EventLoop::Current();
+    thread::SetName("client");
+    auto loop = EventLoop::Current();
     EchoProtocol echoClient(false);
 
     /*
@@ -71,15 +74,14 @@ TEST(Protocol, SimpleEcho) {
      */
     serverLatch.wait();
 
-    echoClient.sendRequest(
-        [&](rl::core::IOResult result, rl::core::Message message) {
-          ASSERT_EQ(result, rl::core::IOResult::Success);
-          std::string response;
-          ASSERT_TRUE(message.decode(response));
-          ASSERT_EQ(response, "echo");
-          serverTermination->writer()(serverTermination->handles().writeHandle);
-          rl::core::EventLoop::Current()->terminate();
-        });
+    echoClient.sendRequest([&](IOResult result, Message message) {
+      ASSERT_EQ(result, IOResult::Success);
+      std::string response;
+      ASSERT_TRUE(message.decode(response));
+      ASSERT_EQ(response, "echo");
+      serverTermination->writer()(serverTermination->handles().writeHandle);
+      EventLoop::Current()->terminate();
+    });
 
     loop->addSource(echoClient.source());
     loop->loop();
@@ -88,3 +90,7 @@ TEST(Protocol, SimpleEcho) {
   server.join();
   client.join();
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl

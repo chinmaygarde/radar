@@ -3,28 +3,33 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include <string>
+
 #include <Core/Mutexed.h>
 #include <Core/WorkQueue.h>
 #include <TestRunner/TestRunner.h>
-#include <string>
+
+namespace rl {
+namespace core {
+namespace testing {
 
 TEST(MutexedTest, Compiles) {
-  rl::core::Mutexed<std::string, rl::core::Mutex> string("Oh hai!");
+  Mutexed<std::string, Mutex> string("Oh hai!");
   ASSERT_EQ(string.access().get(), "Oh hai!");
 }
 
 TEST(MutexedTest, DefaultsToMutex) {
-  rl::core::Mutexed<std::string> string("Oh hai");
+  Mutexed<std::string> string("Oh hai");
   ASSERT_EQ(string.access().get(), "Oh hai");
 }
 
 TEST_SLOW(MutexedTest, SillyCounter) {
   const size_t limit = 5;
 
-  rl::core::Mutexed<size_t> actual(0);
+  Mutexed<size_t> actual(0);
 
   {
-    rl::core::WorkQueue wq;
+    WorkQueue wq;
 
     for (size_t i = 0; i < limit; i++) {
       auto dispatched = wq.dispatch([&actual]() {
@@ -40,3 +45,7 @@ TEST_SLOW(MutexedTest, SillyCounter) {
 
   ASSERT_EQ(actual.access().get(), limit);
 }
+
+}  // namespace testing
+}  // namespace core
+}  // namespace rl
