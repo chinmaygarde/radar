@@ -8,6 +8,10 @@ jobs:
       - checkout
 
       - run:
+          name: Run CPPLINT
+          command: rake lint
+
+      - run:
           name: CMake
           command: mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake /root/project -G Ninja -DCMAKE_BUILD_TYPE=Release
 
