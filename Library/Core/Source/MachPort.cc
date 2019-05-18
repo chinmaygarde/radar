@@ -56,9 +56,9 @@ MachPort::MachPort(Type type) : _name(MACH_PORT_NULL), _type(type) {
 
     case Type::Send:
       /*
-       *  Not needed by Radar. So unsupported.
+       *  Not supported.
        */
-      RL_ASSERT(false);
+      _type = MachPort::Type::None;
       break;
   }
 }

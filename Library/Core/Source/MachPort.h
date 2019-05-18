@@ -62,8 +62,8 @@ class MachPort final : public Attachment {
   friend class MachPayload;
   friend class MachBootstrapClientProvider;
 
-  mach_port_name_t _name;
-  Type _type;
+  mach_port_name_t _name = MACH_PORT_NULL;
+  Type _type = Type::None;
 
   static void Dereference(mach_port_name_t name, Type type);
 

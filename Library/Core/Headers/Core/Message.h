@@ -119,7 +119,7 @@ class Message {
    *  @return if the value was successfully decoded
    */
   template <typename T, typename = only_if<rl_trivially_copyable(T)>>
-  RL_WARN_UNUSED_RESULT bool decode(T& value, core::Namespace*) {
+  RL_WARN_UNUSED_RESULT bool decode(T& value, core::Namespace* = nullptr) {
     if (auto buffer = decodeRawUnsafe(sizeof(T))) {
       memcpy(&value, buffer, sizeof(T));
       return true;
