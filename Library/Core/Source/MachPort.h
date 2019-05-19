@@ -30,7 +30,7 @@ class MachPort final : public Attachment {
 
   MachPort(RawAttachment attachment);
 
-  ~MachPort();
+  ~MachPort() override;
 
   bool insertMember(const MachPort& member);
 

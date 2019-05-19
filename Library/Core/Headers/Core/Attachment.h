@@ -37,6 +37,8 @@ class Attachment {
     RL_DISALLOW_COPY_AND_ASSIGN(MessageHandle);
   };
 
+  virtual ~Attachment();
+
   virtual Handle handle() const = 0;
 
   virtual MessageHandle messageHandle() const;

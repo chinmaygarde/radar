@@ -8,6 +8,8 @@
 namespace rl {
 namespace core {
 
+Attachment::~Attachment() = default;
+
 Attachment::MessageHandle::MessageHandle(Handle handle) : _handle(handle) {}
 
 Attachment::MessageHandle::MessageHandle(Handle handle, Collector collector)

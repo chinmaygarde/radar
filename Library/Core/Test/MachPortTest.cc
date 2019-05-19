@@ -111,6 +111,46 @@ TEST(MachPortTest, CanInsertAndExtractPortMembers) {
   }
 }
 
+// TODO: A variant of this test that sends attachments to a child process is
+// required.
+TEST(MachPortTest, CanSendAndReceiveAttachments) {
+  MachPort port(MachPort::Type::SendReceive);
+
+  // The port needs to be alive till it is read on the other end.
+  auto portToSend = std::make_shared<MachPort>(MachPort::Type::SendReceive);
+
+  {
+    Message message;
+    char c = 'c';
+    ASSERT_TRUE(message.encode(c));
+    ASSERT_TRUE(message.encode(portToSend));
+
+    Messages messages;
+    messages.emplace_back(std::move(message));
+    ASSERT_EQ(port.sendMessages(std::move(messages), ClockDurationMilli(10)),
+              IOResult::Success);
+  }
+
+  {
+    auto result = port.receiveMessage(ClockDurationMilli(10));
+    ASSERT_EQ(result.first, IOResult::Success);
+
+    // No messages were in the kernel buffer. So this call should timeout.
+    auto no_more_messages = port.receiveMessage(ClockDurationMilli(5));
+    ASSERT_EQ(no_more_messages.first, IOResult::Timeout);
+
+    auto& message = result.second;
+    char c = '\0';
+    ASSERT_TRUE(message.decode(c));
+    ASSERT_EQ(c, 'c');
+
+    RawAttachment attachment;
+    ASSERT_TRUE(message.decode(attachment));
+    MachPort port(std::move(attachment));
+    ASSERT_TRUE(port.isValid());
+  }
+}
+
 #endif  // RL_CHANNELS == RL_CHANNELS_MACH
 
 }  // namespace testing
