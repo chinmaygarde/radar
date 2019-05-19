@@ -63,6 +63,19 @@ TEST(MachPortTest, CanSendMessage) {
   }
 }
 
+TEST(MachPortTest, CannotSendMessagesOnPortSets) {
+  MachPort portSet(MachPort::Type::PortSet);
+  Message message;
+  char c = 'c';
+  ASSERT_TRUE(message.encode(c));
+  Messages messages;
+  messages.emplace_back(std::move(message));
+
+  // Fails with "invalid destination port".
+  ASSERT_EQ(portSet.sendMessages(std::move(messages), ClockDurationMilli{10}),
+            IOResult::Failure);
+}
+
 TEST(MachPortTest, CanInsertAndExtractPortMembers) {
   {
     MachPort sendReceive(MachPort::Type::SendReceive);
