@@ -18,5 +18,5 @@ target_link_libraries(TestRunner
 
 target_include_directories(TestRunner
   PUBLIC
-    "../../ThirdParty/gtest/include"
+    "../../ThirdParty/gtest/googletest/include"
 )
