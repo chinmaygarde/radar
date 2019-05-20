@@ -77,6 +77,8 @@ MachChannel::~MachChannel() {
   /*
    *  `doTerminate()` should have already collected the port
    */
+  _port.reset();
+  _set.reset();
 }
 
 std::shared_ptr<EventLoopSource> MachChannel::createSource() const {
@@ -114,7 +116,7 @@ std::shared_ptr<EventLoopSource> MachChannel::createSource() const {
       readHandler,  /* readHandler */
       nullptr,      /* writeHandler */
       updateHandler /* waitsetUpdateHandler */
-      );
+  );
 }
 
 IOResult MachChannel::writeMessages(Messages&& messages,

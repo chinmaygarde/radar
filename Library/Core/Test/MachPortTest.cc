@@ -100,7 +100,7 @@ TEST(MachPortTest, CanInsertAndExtractPortMembers) {
     // Extraction.
     ASSERT_TRUE(portSet.extractMember(toInsert));
 
-    // Already extracted but it is apparently fine.
+    // Already extracted.
     ASSERT_TRUE(portSet.extractMember(toInsert));
 
     // Insert again.

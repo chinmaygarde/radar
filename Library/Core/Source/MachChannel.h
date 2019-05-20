@@ -37,8 +37,8 @@ class MachChannel : public ChannelProvider {
 
  private:
   Channel& _channel;
-  std::shared_ptr<MachPort> _port;
   std::unique_ptr<MachPort> _set;
+  std::shared_ptr<MachPort> _port;
 
   bool setupPortSetMemberships();
   bool teardownPortSetMemberships();
