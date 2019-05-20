@@ -37,7 +37,11 @@ static inline void EPollInvoke(int eventsMask,
 
   int result =
       RL_TEMP_FAILURE_RETRY(::epoll_ctl(epollDesc, operation, desc, &event));
-  RL_ASSERT(result == 0);
+  if (result != 0) {
+    // TODO: https://github.com/chinmaygarde/radar/issues/5
+    RL_LOG_ERRNO();
+    RL_LOG("Epoll Control Failed.");
+  }
 }
 
 void EventLoopSource::updateInWaitSetForSimpleRead(WaitSet& waitset,

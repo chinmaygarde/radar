@@ -68,6 +68,7 @@ ImageResult Image::decode() const {
   _source->prepareForUse();
 
   if (_source->sourceDataSize() == 0) {
+    RL_LOG("Source data for image decoding was zero sized.");
     return {};
   }
 
@@ -93,6 +94,7 @@ ImageResult Image::decode() const {
    */
 
   if (!destinationAllocation.isReady()) {
+    RL_LOG("Destination allocation for image decoding was null.");
     return {};
   }
 
@@ -120,6 +122,7 @@ ImageResult Image::decode() const {
   }
 
   if (components == ImageResult::Components::Invalid) {
+    RL_LOG("Could not detect image components when decoding.");
     return {};
   }
 

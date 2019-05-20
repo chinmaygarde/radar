@@ -24,6 +24,10 @@ TEST(MutexedTest, DefaultsToMutex) {
 }
 
 TEST_SLOW(MutexedTest, SillyCounter) {
+#if !RL_OS_MAC
+  GTEST_SKIP();
+#endif  //  !RL_OS_MAC
+
   const size_t limit = 5;
 
   Mutexed<size_t> actual(0);

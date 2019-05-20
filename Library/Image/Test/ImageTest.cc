@@ -8,6 +8,7 @@
 
 TEST(ImageTest, SimgeDecoderJPG) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
+  ASSERT_TRUE(file.isValid());
 
   rl::image::Image image(std::move(file));
 
@@ -22,6 +23,7 @@ TEST(ImageTest, SimgeDecoderJPG) {
 
 TEST(ImageTest, SimgeDecoderPNG) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
+  ASSERT_TRUE(file.isValid());
 
   rl::image::Image image(std::move(file));
 
@@ -36,6 +38,8 @@ TEST(ImageTest, SimgeDecoderPNG) {
 
 TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.jpg"});
+  ASSERT_TRUE(file.isValid());
+
   rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;
@@ -55,6 +59,8 @@ TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
 
 TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
+  ASSERT_TRUE(file.isValid());
+
   rl::core::FileMapping map(file);
 
   rl::core::Allocation allocation;

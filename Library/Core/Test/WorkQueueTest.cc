@@ -8,6 +8,8 @@
 #include <Core/WorkQueue.h>
 #include <TestRunner/TestRunner.h>
 
+#if RL_OS_MAC
+
 namespace rl {
 namespace core {
 namespace testing {
@@ -36,3 +38,5 @@ TEST_SLOW(WorkQueue, SimpleWork) {
 }  // namespace testing
 }  // namespace core
 }  // namespace rl
+
+#endif  //  RL_OS_MAC

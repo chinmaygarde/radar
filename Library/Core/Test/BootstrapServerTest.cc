@@ -9,6 +9,10 @@
 #include <TestRunner/TestRunner.h>
 #include <thread>
 
+#include "Config.h"
+
+#if RL_OS_MAC
+
 namespace rl {
 namespace core {
 namespace testing {
@@ -110,3 +114,5 @@ TEST(BootstrapServerTest, AcquireAndSendMessage) {
 }  // namespace testing
 }  // namespace core
 }  // namespace rl
+
+#endif  //  RL_OS_MAC

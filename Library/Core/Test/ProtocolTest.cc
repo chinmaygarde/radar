@@ -12,6 +12,8 @@
 #include <Core/Thread.h>
 #include <TestRunner/TestRunner.h>
 
+#if RL_OS_MAC
+
 namespace rl {
 namespace core {
 namespace testing {
@@ -94,3 +96,5 @@ TEST(Protocol, SimpleEcho) {
 }  // namespace testing
 }  // namespace core
 }  // namespace rl
+
+#endif  //  RL_OS_MAC
