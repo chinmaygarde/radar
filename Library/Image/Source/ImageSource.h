@@ -35,7 +35,7 @@ class ImageSource : public core::MessageSerializable {
   void doneUsing();
 
  protected:
-  bool _prepared;
+  bool _prepared = false;
 
   friend class Image;
 
