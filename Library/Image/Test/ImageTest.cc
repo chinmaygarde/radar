@@ -21,7 +21,7 @@ TEST(ImageTest, SimgeDecoderJPG) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
-TEST(ImageTest, SimgeDecoderPNG) {
+TEST(ImageTest, SimpleDecoderPNG) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
   ASSERT_TRUE(file.isValid());
 
@@ -57,7 +57,7 @@ TEST(ImageTest, SimgeDecoderJPGFromAllocation) {
   ASSERT_TRUE(res.allocation().isReady());
 }
 
-TEST(ImageTest, SimgeDecoderPNGFromAllocation) {
+TEST(ImageTest, SimpleDecoderPNGFromAllocation) {
   rl::core::FileHandle file(rl::core::URI{"file://Beachball.png"});
   ASSERT_TRUE(file.isValid());
 
