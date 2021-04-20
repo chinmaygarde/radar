@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
-#include <Compositor/Frame.h>
 #include "ColoredPathStrokePrimitive.h"
+#include <Compositor/Frame.h>
 #include "Console.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
@@ -35,9 +35,13 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
   SetUniform(program.contentColorUniform(), _color, _opacity);
   SetUniform(program.sizeUniform(), _vertices.size());
   SetUniform(program.featherUniform(),
-             RL_CONSOLE_GET_RANGE_ONCE("Stroke Feather",
-                                       static_cast<float>(1.0), 0.0, 5.0));
-  SetUniform(program.strokeSizeUniform(), _strokeSize);
+             RL_CONSOLE_GET_RANGE_ONCE("Feather", 1.0f, 0.0f, 5.0f));
+  SetUniform(program.strokeSizeUniform(),
+             _strokeSize + RL_CONSOLE_GET_RANGE_ONCE("Width Adjustment", 0.0f,
+                                                     0.0f, 100.0f));
+  SetUniform(program.totalPathDistanceUniform(),
+             _vertices.totalPathDistance() /
+                 RL_CONSOLE_GET_RANGE_ONCE("Dash Scale", 1.0f, 0.1f, 5.0f));
   SetUniform(program.modelViewProjectionUniform(),
              frame.projectionMatrix() * _modelViewMatrix);
 
@@ -46,7 +50,8 @@ bool ColoredPathStrokePrimitive::render(Frame& frame) const {
    */
   bool drawn =
       _vertices.draw(program.positionAttribute(), program.normalAttribute(),
-                     program.segmentContinuationAttribute());
+                     program.segmentContinuationAttribute(),
+                     program.completionDistanceAttribute());
 
   RL_GLAssert("No errors while rendering");
 

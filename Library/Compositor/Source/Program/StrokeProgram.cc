@@ -13,6 +13,7 @@ static constexpr char kStrokeVertexShader[] = R"--(
   attribute vec2 A_Position;
   attribute vec2 A_Normal;
   attribute float A_SegmentContinuation;
+  attribute float A_CompletionDistance;
 
   uniform mat4 U_ModelViewProjectionMatrix;
   uniform vec2 U_Size;
@@ -20,6 +21,7 @@ static constexpr char kStrokeVertexShader[] = R"--(
   uniform float U_Feather;
 
   varying float V_SegmentContinuation;
+  varying float V_CompletionDistance;
   varying vec2 V_StrokeOffset;
 
   void main() {
@@ -34,6 +36,9 @@ static constexpr char kStrokeVertexShader[] = R"--(
 
     // For interpolation at the edges for AA.
     V_StrokeOffset = strokeOffset;
+
+    // Simple passthrough of completion distance for dashed patterns.
+    V_CompletionDistance = A_CompletionDistance;
   }
 
   )--";
@@ -47,9 +52,13 @@ static constexpr char kStrokeFragmentShader[] = R"--(
   uniform vec4 U_ContentColor;
   uniform float U_StrokeSize;
   uniform float U_Feather;
+  uniform float U_TotalPathDistance;
 
   varying float V_SegmentContinuation;
+  varying float V_CompletionDistance;
   varying vec2 V_StrokeOffset;
+
+#define M_PI 3.141592653589793238
 
   void main() {
     float halfStroke = U_StrokeSize * 0.5;
@@ -63,10 +72,14 @@ static constexpr char kStrokeFragmentShader[] = R"--(
     // We floor it to make the value either 0 or 1.
     float continuation = floor(V_SegmentContinuation);
 
+    float dashX = V_CompletionDistance * U_TotalPathDistance / M_PI;
+    
+    float dashPattern = mod(ceil(tan(dashX)), 2.0);
+
     gl_FragColor = vec4(U_ContentColor.xyz,
-                        U_ContentColor.w * continuation * featherComponent);
+                        U_ContentColor.w * continuation * featherComponent * dashPattern);
   }
-  
+
   )--";
 
 StrokeProgram::StrokeProgram()
@@ -79,10 +92,12 @@ void StrokeProgram::onLinkSuccess() {
   _contentColorUniform = indexForUniform("U_ContentColor");
   _sizeUniform = indexForUniform("U_Size");
   _featherUniform = indexForUniform("U_Feather");
+  _totalPathDistanceUniform = indexForUniform("U_TotalPathDistance");
   _strokeSizeUniform = indexForUniform("U_StrokeSize");
   _positionAttribute = indexForAttribute("A_Position");
   _normalAttribute = indexForAttribute("A_Normal");
   _segmentContinuationAttribute = indexForAttribute("A_SegmentContinuation");
+  _completionDistanceAttribute = indexForAttribute("A_CompletionDistance");
 }
 
 GLint StrokeProgram::modelViewProjectionUniform() const {
@@ -101,6 +116,10 @@ GLint StrokeProgram::featherUniform() const {
   return _featherUniform;
 }
 
+GLint StrokeProgram::totalPathDistanceUniform() const {
+  return _totalPathDistanceUniform;
+}
+
 GLint StrokeProgram::strokeSizeUniform() const {
   return _strokeSizeUniform;
 }
@@ -115,6 +134,10 @@ GLint StrokeProgram::normalAttribute() const {
 
 GLint StrokeProgram::segmentContinuationAttribute() const {
   return _segmentContinuationAttribute;
+}
+
+GLint StrokeProgram::completionDistanceAttribute() const {
+  return _completionDistanceAttribute;
 }
 
 }  // namespace compositor

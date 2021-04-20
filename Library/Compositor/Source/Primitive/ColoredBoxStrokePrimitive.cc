@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "ColoredBoxStrokePrimitive.h"
 #include <Compositor/Context.h>
 #include <Compositor/Frame.h>
-#include "ColoredBoxStrokePrimitive.h"
 #include "Console.h"
 #include "ProgramCatalog.h"
 #include "Uniform.h"
@@ -53,7 +53,8 @@ bool ColoredBoxStrokePrimitive::render(Frame& frame) const {
    */
   bool drawn =
       vertices.draw(program.positionAttribute(), program.normalAttribute(),
-                    program.segmentContinuationAttribute());
+                    program.segmentContinuationAttribute(),
+                    program.completionDistanceAttribute());
 
   RL_GLAssert("No errors while rendering");
 

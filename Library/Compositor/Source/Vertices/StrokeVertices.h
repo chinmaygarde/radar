@@ -23,24 +23,31 @@ class StrokeVertices : public Vertices {
   RL_WARN_UNUSED_RESULT
   bool setSize(const geom::Size& size);
 
+  double totalPathDistance() const;
+
   bool draw(size_t positionAttributeIndex,
             size_t normalAttributeIndex,
-            size_t opacityAttributeIndex) const;
+            size_t opacityAttributeIndex,
+            size_t completionDistanceAtributeIndex) const;
 
  private:
   geom::Size _size;
+  double _totalDistance;
 
   struct StrokeVertex {
     gl::GLPoint position;
     gl::GLPoint normal;
     GLfloat segmentContinuation;
+    GLfloat completionDistance;
 
     StrokeVertex(gl::GLPoint pPosition,
                  gl::GLPoint pNormal,
-                 GLfloat pSegmentContinuation)
+                 GLfloat pSegmentContinuation,
+                 GLfloat pCompletionDistance)
         : position(pPosition),
           normal(pNormal),
-          segmentContinuation(pSegmentContinuation) {}
+          segmentContinuation(pSegmentContinuation),
+          completionDistance(pCompletionDistance) {}
   };
 
   std::vector<StrokeVertex> _vertices;

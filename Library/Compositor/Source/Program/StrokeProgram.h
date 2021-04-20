@@ -25,6 +25,8 @@ class StrokeProgram : public Program {
 
   GLint featherUniform() const;
 
+  GLint totalPathDistanceUniform() const;
+
   GLint strokeSizeUniform() const;
 
   GLint positionAttribute() const;
@@ -33,15 +35,19 @@ class StrokeProgram : public Program {
 
   GLint segmentContinuationAttribute() const;
 
+  GLint completionDistanceAttribute() const;
+
  private:
   GLint _modelViewProjectionUniform = -1;
   GLint _contentColorUniform = -1;
   GLint _sizeUniform = -1;
   GLint _featherUniform = -1;
+  GLint _totalPathDistanceUniform = -1;
   GLint _strokeSizeUniform = -1;
   GLint _positionAttribute = -1;
   GLint _normalAttribute = -1;
   GLint _segmentContinuationAttribute = -1;
+  GLint _completionDistanceAttribute = -1;
 
   void onLinkSuccess() override;
 

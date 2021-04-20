@@ -140,7 +140,7 @@ PathBuilder& PathBuilder::smoothCubicCurveTo(Point point,
                controlPoint1,  // control point 1
                controlPoint2,  // control point 2
                false           // relative since all points are already absolute
-               );
+  );
   return *this;
 }
 
@@ -171,27 +171,27 @@ PathBuilder& PathBuilder::addCircle(const Point& center, double radius) {
       {center.x + radius + magic, center.y},             //
       {center.x + diameter, center.y + radius - magic},  //
       {center.x + diameter, center.y + radius}           //
-      );
+  );
 
   _prototype.addCubicComponent(
       {center.x + diameter, center.y + radius},          //
       {center.x + diameter, center.y + radius + magic},  //
       {center.x + radius + magic, center.y + diameter},  //
       {center.x + radius, center.y + diameter}           //
-      );
+  );
 
   _prototype.addCubicComponent(
       {center.x + radius, center.y + diameter},          //
       {center.x + radius - magic, center.y + diameter},  //
       {center.x, center.y + radius + magic},             //
       {center.x, center.y + radius}                      //
-      );
+  );
 
   _prototype.addCubicComponent({center.x, center.y + radius},          //
                                {center.x, center.y + radius - magic},  //
                                {center.x + radius - magic, center.y},  //
                                {center.x + radius, center.y}           //
-                               );
+  );
 
   return *this;
 }
@@ -298,28 +298,28 @@ PathBuilder& PathBuilder::addEllipse(const Point& center, const Size& radius) {
       {center.x + radius.width + magic.width, center.y},                     //
       {center.x + diameter.width, center.y + radius.height - magic.height},  //
       {center.x + diameter.width, center.y + radius.height}                  //
-      );
+  );
 
   _prototype.addCubicComponent(
       {center.x + diameter.width, center.y + radius.height},                 //
       {center.x + diameter.width, center.y + radius.height + magic.height},  //
       {center.x + radius.width + magic.width, center.y + diameter.height},   //
       {center.x + radius.width, center.y + diameter.height}                  //
-      );
+  );
 
   _prototype.addCubicComponent(
       {center.x + radius.width, center.y + diameter.height},                //
       {center.x + radius.width - magic.width, center.y + diameter.height},  //
       {center.x, center.y + radius.height + magic.height},                  //
       {center.x, center.y + radius.height}                                  //
-      );
+  );
 
   _prototype.addCubicComponent(
       {center.x, center.y + radius.height},                 //
       {center.x, center.y + radius.height - magic.height},  //
       {center.x + radius.width - magic.width, center.y},    //
       {center.x + radius.width, center.y}                   //
-      );
+  );
 
   return *this;
 }

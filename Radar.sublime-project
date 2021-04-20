@@ -1,29 +1,48 @@
 {
+  "build_systems":
+  [
+    {
+      "file_regex": "^(?:..\\/..\\/)*([^:]+):([0-9]+):([0-9]+): (.*)",
+      "name": "Radar Build All",
+      "shell": true,
+      "shell_cmd": "(mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake ${project_path} -G Ninja && ninja)",
+      "working_dir": "${project_path}"
+    }
+  ],
   "folders":
   [
     {
-      "name": "Radar",
-      "path": ".",
-      "index_include_patterns": [
+      "folder_exclude_patterns":
+      [
+        "build",
+        "cmake-*"
+      ],
+      "index_include_patterns":
+      [
         "*.cc",
         "*.c",
         "*.h",
         "*.m",
-        "*.mm",
+        "*.mm"
       ],
-      "folder_exclude_patterns": [
-        "build",
-        "cmake-*",
-      ]
+      "name": "Radar",
+      "path": "."
     }
   ],
-  "build_systems": [
+  "settings":
+  {
+    "LSP":
     {
-      "name": "Radar Build All",
-      "shell_cmd": "(mkdir -p /tmp/radar/build && cd /tmp/radar/build && cmake ${project_path} -G Ninja && ninja)",
-      "working_dir": "${project_path}",
-      "file_regex": "^(?:..\\/..\\/)*([^:]+):([0-9]+):([0-9]+): (.*)",
-      "shell": true,
+      "clangd":
+      {
+        "enabled": false,
+        "command": [
+            "clangd",
+            "--compile-commands-dir=/tmp/radar/build/compile_commands.json",
+            "--clang-tidy",
+            "-header-insertion=never"
+        ]
+      }
     }
-  ]
+  }
 }

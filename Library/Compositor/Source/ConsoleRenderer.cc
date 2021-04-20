@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE file for details.
  */
 
+#include "ConsoleRenderer.h"
 #include <Core/Utilities.h>
 #include <GLFoundation/GLFoundation.h>
 #include <imgui/imgui.h>
 #include "Console.h"
-#include "ConsoleRenderer.h"
 #include "Program/ConsoleRendererProgram.h"
 
 namespace rl {
@@ -35,8 +35,8 @@ ConsoleRenderer::ConsoleRenderer()
       _fontAtlas(GL_NONE),
       _framePending(false) {
   _io.UserData = this;
-  _io.RenderDrawListsFn =
-      reinterpret_cast<void (*)(ImDrawData* data)>(&ConsoleRenderer::drawLists);
+  _io.RenderDrawListsFn = reinterpret_cast<void (*)(ImDrawData * data)>(
+      &ConsoleRenderer::drawLists);
   SetCurrent(this);
 }
 
@@ -293,7 +293,7 @@ bool ConsoleRenderer::ensureFrameStarted() {
   }
 
   ImGui::NewFrame();
-  ImGui::Begin("Coordinator");
+  ImGui::Begin("rl.coordinator.0.tinker");
   _framePending = true;
   return true;
 }
@@ -316,8 +316,8 @@ void ConsoleRenderer::displayValue(
   static const auto stopwatchValuesGetter = [](void* stopwatch,
                                                int index) -> float {
     auto lapTimeSeconds =
-        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)
-            ->lapDuration(index);
+        reinterpret_cast<instrumentation::Stopwatch*>(stopwatch)->lapDuration(
+            index);
     /*
      *  Plot the values in milliseconds.
      */
@@ -332,7 +332,7 @@ void ConsoleRenderer::displayValue(
                    "Range: 0.0 - 16.6 ms",  // overlay text
                    0.0,                     // scale min
                    1000.0 / 60.0            // scale max
-                   );
+  );
 }
 
 void ConsoleRenderer::getValue(const char* label, bool* current) {

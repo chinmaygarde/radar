@@ -58,6 +58,7 @@ void InterfaceStatistics::stop() {
 }
 
 void InterfaceStatistics::present() const {
+  return;
   RL_CONSOLE_SECTION(_tag.c_str());
   RL_CONSOLE_DISPLAY_LABEL("Interpolators: %zu", _interpolationsCount.count());
   RL_CONSOLE_DISPLAY_VALUE("Animations", _interpolations);

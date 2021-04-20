@@ -27,6 +27,19 @@ StrokeVertices::StrokeVertices(const geom::Path& path)
 
 StrokeVertices::~StrokeVertices() = default;
 
+static double DistanceBetweenPoints(const std::vector<geom::Point>& points) {
+  if (points.empty()) {
+    return 0.0;
+  }
+  double distance = 0.0;
+  geom::Point lastPoint(*points.begin());
+  for (const auto& point : points) {
+    distance += lastPoint.distance(point);
+    lastPoint = point;
+  }
+  return distance;
+}
+
 bool StrokeVertices::tessellatePathComponent(
     const std::vector<geom::Point>& points) {
   if (points.size() < 2) {
@@ -35,6 +48,15 @@ bool StrokeVertices::tessellatePathComponent(
      */
     return true;
   }
+
+  _totalDistance = DistanceBetweenPoints(points);
+
+  if (_totalDistance == 0.0) {
+    return true;
+  }
+
+  auto travelledDistance = 0.0;
+  geom::Point lastGeomPoint(*points.begin());
 
   for (size_t i = 0, length = points.size(); i < length; i++) {
     const bool lastPoint = i == length - 1;
@@ -53,12 +75,17 @@ bool StrokeVertices::tessellatePathComponent(
         geom::Vector3{-dy * direction, dx * direction}.normalize();
 
     if (i == 0) {
-      _vertices.emplace_back(vertex, -normal, 0.0);
-      _vertices.emplace_back(vertex, normal, 0.0);
+      _vertices.emplace_back(vertex, -normal, 0.0, 0.0);
+      _vertices.emplace_back(vertex, normal, 0.0, 0.0);
     }
 
-    _vertices.emplace_back(vertex, normal, 1.0);
-    _vertices.emplace_back(vertex, -normal, 1.0);
+    travelledDistance += lastGeomPoint.distance(points[i]);
+    lastGeomPoint = points[i];
+
+    _vertices.emplace_back(vertex, normal, 1.0,
+                           travelledDistance / _totalDistance);
+    _vertices.emplace_back(vertex, -normal, 1.0,
+                           travelledDistance / _totalDistance);
   }
 
   return true;
@@ -76,6 +103,10 @@ bool StrokeVertices::setSize(const geom::Size& size) {
   return true;
 }
 
+double StrokeVertices::totalPathDistance() const {
+  return _totalDistance;
+}
+
 bool StrokeVertices::uploadVertexData() {
   glBufferData(GL_ARRAY_BUFFER,
                _vertices.size() * sizeof(decltype(_vertices)::value_type),
@@ -86,7 +117,8 @@ bool StrokeVertices::uploadVertexData() {
 
 bool StrokeVertices::draw(size_t positionAttributeIndex,
                           size_t normalAttributeIndex,
-                          size_t segmentContinuationAttributeIndex) const {
+                          size_t segmentContinuationAttributeIndex,
+                          size_t completionDistanceAtributeIndex) const {
   auto bound = bindBuffer();
 
   if (!bound) {
@@ -104,6 +136,10 @@ bool StrokeVertices::draw(size_t positionAttributeIndex,
   auto autoDisableOpacity = enableAttribute(
       segmentContinuationAttributeIndex, 1, GL_FLOAT, sizeof(StrokeVertex),
       offsetof(StrokeVertex, segmentContinuation));
+
+  auto autoDisableCompletionDistance = enableAttribute(
+      completionDistanceAtributeIndex, 1, GL_FLOAT, sizeof(StrokeVertex),
+      offsetof(StrokeVertex, completionDistance));
 
   glDrawArrays(RL_CONSOLE_GET_VALUE_ONCE("Show Stroke Mesh", false)
                    ? GL_LINE_STRIP

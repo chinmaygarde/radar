@@ -196,22 +196,24 @@ void AddSVG(rl::interface::Interface& interface,
 void AddStrokedPath(rl::interface::Interface& interface) {
   rl::geom::PathBuilder builder;
 
-  builder.moveTo({200, 200});
-  builder.lineTo({400, 400});
+  builder.moveTo({10, 10});
 
-  builder.moveTo({200, 400});
-  builder.lineTo({400, 200});
+   auto genRandomPoint = []() {
+     return rl::geom::Point{static_cast<double>(std::rand() % 800) + 150,
+                            static_cast<double>(std::rand() % 600) + 150};
+   };
 
-  builder.addRoundedRect({100, 100, 400, 400}, 50);
-
-  builder.moveTo({60, 10});
-  builder.cubicCurveTo({1200, 700}, {100, 1200}, {1600, 100});
+   for (size_t i = 0; i < 50; i++) {
+     builder.smoothCubicCurveTo(genRandomPoint(), genRandomPoint());
+   }
+    
+//    builder.lineTo({400, 400});
 
   auto entity = interface.createEntity();
   entity->setFrame({100.00, 100.00, 100, 100});
   entity->setPath(builder.path());
   entity->setStrokeColor({1.0, 1.0, 1.0, 1.0});
-  entity->setStrokeSize(4);
+  entity->setStrokeSize(5);
   interface.rootEntity().addChild(entity);
 }
 
@@ -276,19 +278,19 @@ void SampleApplication::didBecomeActive(rl::interface::Interface& interface) {
   auto& root = interface.rootEntity();
   root.setBackgroundColor({0.2, 0.2, 0.2, 1.0});
 
-  AddGridToRoot(interface);
-
-  AddDraggableEntity(interface);
-
-  AddRadialArrangement(interface);
-
-  AddEntityWithImage(interface);
-
-  AddEntityWithPath(interface);
-
-  AddImageWithRoundedRect(interface);
-
-  AddSVG(interface, _bundle);
+  //  AddGridToRoot(interface);
+  //
+  //  AddDraggableEntity(interface);
+  //
+  //  AddRadialArrangement(interface);
+  //
+  //  AddEntityWithImage(interface);
+  //
+  //  AddEntityWithPath(interface);
+  //
+  //  AddImageWithRoundedRect(interface);
+  //
+  //  AddSVG(interface, _bundle);
 
   AddStrokedPath(interface);
 }

@@ -182,7 +182,8 @@ static inline void _RL_AssertLog(const char* file,
  *
  *  @param TypeName the type to disable assignement operator on.
  */
-#define RL_DISALLOW_ASSIGN(TypeName) void operator=(const TypeName&) = delete;
+#define RL_DISALLOW_ASSIGN(TypeName) \
+  TypeName& operator=(const TypeName&) = delete;
 
 /**
  *  Disable the copy constructor and the assignement operator on the given type.
