@@ -1,5 +1,5 @@
-Radar [![CircleCI](https://circleci.com/gh/chinmaygarde/radar.svg?style=svg&circle-token=5df84d6f43aa1ed0e7b0299e21a4bbdc5872133c)](https://circleci.com/gh/chinmaygarde/radar)
-=================
+Radar
+=====
 
 Prerequisites
 -------------
